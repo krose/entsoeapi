@@ -1,6 +1,6 @@
 Package: entsoeapi
 Type: Package
-Title: What the Package Does (Title Case)
+Title: An R Wrapper for the Entso-E API.
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
@@ -9,3 +9,5 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/krose/entsoeapi
+BugReports: https://github.com/krose/entsoeapi/issues
