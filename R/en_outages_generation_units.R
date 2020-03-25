@@ -1,10 +1,61 @@
 
+#' Get outages for Generation units.
+#'
+#' @param eic Energy Identification Code
+#' @param period_start POSIXct
+#' @param period_end POSIXct
+#' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param security_token Security token
+#'
+#' @export
+#'
+#' @examples
+#'
+#'  library(tidyverse)
+#'  library(entsoeapi)
+#'
+#'  france <- en_outages(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
+#'
+en_outages <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"), doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+
+  en_df_gen <- try(en_outages_generation_units(eic = eic, period_start = period_start, period_end = period_end))
+  en_df_pro <- try(en_outages_production_units(eic = eic, period_start = period_start, period_end = period_end))
+
+  if(inherits(en_df_gen, "try-error")){
+    message(paste("Outages Generation unit error. Try calling the function en_outages_generation_units() to see the error message."))
+    if(inherits(en_df_pro, "try-error")){
+      message(paste("Outages Production unit error. Try calling the function en_outages_production_units() to see the error message."))
+      stop("Probably no data.")
+    } else {
+      en_df <- en_df_pro
+      return(en_df)
+    }
+  }
+
+  if(inherits(en_df_pro, "try-error")){
+    message(paste("Outages Production unit error. Try calling the function en_outages_production_units() to see the error message."))
+    if(inherits(en_df_gen, "try-error")){
+      message(paste("Outages Generation unit error. Try calling the function en_outages_generation_units() to see the error message."))
+      stop("Probably no data.")
+    } else {
+      en_df <- en_df_gen
+      return(en_df)
+    }
+  }
+
+  en_df <- dplyr::bind_rows(en_df_gen, en_df_pro)
+
+  en_df
+}
+
+
 
 #' Get outages for Generation units.
 #'
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
+#' @param doc_status Document status. A05 for active or A09 for Cancelled.
 #' @param security_token Security token
 #'
 #' @export
@@ -16,7 +67,7 @@
 #'
 #'  france <- en_outages_generation_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
-en_outages_generation_units <- function(eic, period_start, period_end, doc_status = "A05", security_token = NULL){
+en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"), doc_status = "A05", tidy_output = TRUE, security_token = NULL){
   on.exit(try(unlink(xml_path, recursive = TRUE)))
 
   period_start <- url_posixct_format(period_start)
@@ -54,9 +105,161 @@ en_outages_generation_units <- function(eic, period_start, period_end, doc_statu
 
   en_content <- dplyr::bind_rows(lapply(en_content, outages_gen_helper))
 
+  if(tidy_output){
+    en_content <- outages_gen_helper_tidy(en_content)
+    en_content$type <- "generation units"
+  }
+
   en_content
 }
 
+
+#' Get outages for production units.
+#'
+#' @param eic Energy Identification Code
+#' @param period_start POSIXct
+#' @param period_end POSIXct
+#' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param security_token Security token
+#'
+#' @export
+#'
+#' @examples
+#'
+#'  library(tidyverse)
+#'  library(entsoeapi)
+#'
+#'  france <- en_outages_production_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
+#'
+en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"), doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+  on.exit(try(unlink(xml_path, recursive = TRUE)))
+
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  if(is.null(security_token)){
+    security_token <- Sys.getenv("ENTSOE_PAT")
+  }
+
+  if(length(eic) > 1){
+    stop("This wrapper only supports one EIC per request.")
+  }
+
+  url <- paste0(
+    "https://transparency.entsoe.eu/api",
+    "?documentType=A77",
+    "&businessType=A53",
+    "&biddingZone_Domain=", eic,
+    "&periodStart=",period_start,
+    "&periodEnd=", period_end,
+    "&securityToken=", security_token
+  )
+  if(!is.null(doc_status)){
+    url <- paste0(url, "&docStatus=", doc_status)
+  }
+
+  xml_path <- api_req_zip(url)
+
+  en_content <- lapply(dir(xml_path, full.names = TRUE),
+                       function(x){
+                         xml_file <- xml2::read_xml(x)
+                         xml_file <- xml2::as_list(xml_file)
+                         xml_file
+                       })
+
+  en_content <- dplyr::bind_rows(lapply(en_content, outages_gen_helper))
+
+  if(tidy_output){
+    en_content <- outages_prod_helper_tidy(en_content)
+    en_content$type <- "production units"
+  }
+
+  en_content
+}
+
+outages_gen_helper_tidy <- function(out_gen_df){
+
+  out_gen_df <-
+    out_gen_df %>%
+    dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::select(-start_DateAndOrTime.time) %>%
+    dplyr::mutate(dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::select(-end_DateAndOrTime.time, -start_DateAndOrTime.date, -end_DateAndOrTime.date) %>%
+    dplyr::rename(bidding_zone_mrid = biddingZone_Domain.mRID,
+                  quantity_measure_unit = quantity_Measure_Unit.name,
+                  curve_type = curveType,
+                  resource_location_name = production_RegisteredResource.location.name,
+                  resource_mrid = production_RegisteredResource.mRID,
+                  resource_name = production_RegisteredResource.name,
+                  resource_psr_type = production_RegisteredResource.pSRType.psrType,
+                  resource_psr_type_mrid = production_RegisteredResource.pSRType.powerSystemResources.mRID,
+                  resource_psr_type_name = production_RegisteredResource.pSRType.powerSystemResources.name,
+                  resource_psr_type_capacity = production_RegisteredResource.pSRType.powerSystemResources.nominalP,
+                  revision_number = revisionNumber,
+                  dt_created = createdDateTime) %>%
+    dplyr::mutate(revision_number = as.integer(revision_number)) %>%
+    dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
+    tidyr::unnest(available_period) %>%
+    dplyr::mutate(quantity = as.numeric(quantity),
+                  start = lubridate::ymd_hm(start, tz = "UTC"),
+                  end = lubridate::ymd_hm(end, tz = "UTC"))
+
+  out_gen_df
+}
+
+outages_prod_helper_tidy <- function(out_gen_df){
+
+  out_gen_df <-
+    out_gen_df %>%
+    dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::select(-start_DateAndOrTime.time, -start_DateAndOrTime.date) %>%
+    dplyr::mutate(dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::select(-end_DateAndOrTime.time, -end_DateAndOrTime.date) %>%
+    dplyr::rename(bidding_zone_mrid = biddingZone_Domain.mRID,
+                  quantity_measure_unit = quantity_Measure_Unit.name,
+                  curve_type = curveType,
+                  resource_location_name = production_RegisteredResource.location.name,
+                  resource_mrid = production_RegisteredResource.mRID,
+                  resource_name = production_RegisteredResource.name,
+                  resource_psr_type = production_RegisteredResource.pSRType.psrType,
+                  resource_psr_type_capacity = production_RegisteredResource.pSRType.powerSystemResources.nominalP,
+                  revision_number = revisionNumber,
+                  dt_created = createdDateTime) %>%
+    dplyr::mutate(revision_number = as.integer(revision_number)) %>%
+    dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
+    tidyr::unnest(available_period) %>%
+    dplyr::mutate(quantity = as.numeric(quantity),
+                  start = lubridate::ymd_hm(start, tz = "UTC"),
+                  end = lubridate::ymd_hm(end, tz = "UTC"))
+
+  out_gen_df
+}
+
+#' Convert the outages to an hourly timeseries.
+#'
+#' The function removes tidy observations less than 59 minutes.
+#'
+#' @param out_gen_df Tidy data.frame of outages.
+#'
+#' @export
+#'
+en_outages_tidy_to_ts <- function(out_gen_df){
+
+  # filtrer mindre end 15 minutters beskeder
+  out_gen_df <-
+    out_gen_df %>%
+    dplyr::filter((end - start) > 59) %>%
+    dplyr::select(resource_psr_type, resource_psr_type_mrid, resource_psr_type_name, resource_psr_type_capacity, revision_number, resolution, dt_created, start, end, quantity)
+
+  out_gen_df$ts <- lapply(seq_along(out_gen_df$resource_psr_type),
+                          function(x){dt_seq_helper(out_gen_df$start[x], out_gen_df$end[x], out_gen_df$resolution[x], out_gen_df$quantity[x])})
+
+  out_gen_df <-
+    out_gen_df %>%
+    tidyr::unnest(ts)
+
+  out_gen_df
+}
 
 outages_gen_helper <- function(x){
 
