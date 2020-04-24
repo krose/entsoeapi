@@ -44,6 +44,7 @@ en_outages <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"
   }
 
   en_df <- dplyr::bind_rows(en_df_gen, en_df_pro)
+  en_df <- dplyr::mutate(en_df, dt_created = lubridate::ymd_hms(dt_created, tz = "UTC"))
 
   en_df
 }
@@ -280,3 +281,25 @@ outages_gen_helper <- function(x){
 
   ap_not
 }
+
+
+#' Clean data for outages
+#'
+#' @param out_df Outages data.frame
+#'
+#' @export
+#'
+en_outages_clean <- function(out_df){
+
+  out_df <-
+    out_df %>%
+    dplyr::group_by(resource_mrid, resource_name, resource_location_name, resource_psr_type,
+                    resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
+                    revision_number, resource_psr_type_capacity, dt_created, dt_start, dt_end) %>%
+    dplyr::summarise_all(dplyr::last) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(dplyr::desc(dt_created))
+
+  out_df
+}
+
