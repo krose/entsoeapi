@@ -90,12 +90,10 @@ en_gen_inst_agg_gen_cap_api_req_helper <- function(psr_type, eic, period_start, 
 #' library(tidyverse)
 #' library(entsoeapi)
 #'
-#' fr_2020 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C", year = 2020)
+#' fr_2020 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
 #'
-en_generation_agg_gen_per_type <- function(eic, year, security_token = NULL){
+en_generation_agg_gen_per_type <- function(eic, period_start, period_end, security_token = NULL){
 
-  period_start <- lubridate::ymd(paste0(year, "-01-01"), tz = "CET")
-  period_end <- lubridate::ymd_hm(paste0(year, "-12-01 23:00"), tz = "CET")
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
 
@@ -124,6 +122,7 @@ en_generation_agg_gen_per_type <- function(eic, year, security_token = NULL){
   en_cont <- lapply(en_cont, ts_agg_gen_helper)
 
   en_cont <- dplyr::bind_rows(en_cont)
+  en_cont <- dplyr::select(en_cont, -mRID, -businessType, -objectAggregation, -curveType, -position)
 
   en_cont
 }

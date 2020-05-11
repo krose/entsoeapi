@@ -60,9 +60,8 @@ en_load_actual_total_load <- function(eic, period_start, period_end, security_to
   en_out_bidding_zone <- unlist(en_cont$GL_MarketDocument$TimeSeries$outBiddingZone_Domain.mRID)
 
   en_cont <- load_actual_total_load_helper(en_cont)
-
-  attr(en_cont, "unit") <- en_unit
-  attr(en_cont, "zone") <- en_out_bidding_zone
+  en_cont$unit <- en_unit
+  en_cont$out_bidding_zone <- en_out_bidding_zone
 
   en_cont
 }
@@ -129,9 +128,8 @@ en_load_day_ahead_total_load_forecast <- function(eic, period_start, period_end,
   en_out_bidding_zone <- unlist(en_cont$GL_MarketDocument$TimeSeries$outBiddingZone_Domain.mRID)
 
   en_cont <- load_actual_total_load_helper(en_cont)
-
-  attr(en_cont, "unit") <- en_unit
-  attr(en_cont, "zone") <- en_out_bidding_zone
+  en_cont$unit <- en_unit
+  en_cont$out_bidding_zone <- en_out_bidding_zone
 
   en_cont
 }

@@ -4,16 +4,17 @@
 \alias{en_generation_agg_gen_per_type}
 \title{Get total load from Entsoe}
 \usage{
-en_generation_agg_gen_per_type(eic, year, security_token = NULL)
+en_generation_agg_gen_per_type(eic, period_start, period_end,
+  security_token = NULL)
 }
 \arguments{
 \item{eic}{Energy Identification Code}
 
-\item{security_token}{Security token}
-
 \item{period_start}{POSIXct}
 
 \item{period_end}{POSIXct}
+
+\item{security_token}{Security token}
 }
 \description{
 Get total load from Entsoe
@@ -23,6 +24,6 @@ Get total load from Entsoe
 library(tidyverse)
 library(entsoeapi)
 
-fr_2020 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C", year = 2020)
+fr_2020 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
 
 }
