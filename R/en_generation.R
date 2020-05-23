@@ -163,3 +163,141 @@ ts_agg_gen_helper <- function(ts){
   ts
 }
 
+
+
+
+#' Get total load from Entsoe
+#'
+#' @param eic Energy Identification Code
+#' @param period_start POSIXct
+#' @param period_end POSIXct
+#' @param security_token Security token
+#'
+#' @export
+#'
+#' @examples
+#'
+#' library(tidyverse)
+#' library(entsoeapi)
+#'
+#' fr_2020 <- en_generation_day_ahead_agg_gen(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+#'
+en_generation_day_ahead_agg_gen <- function(eic, period_start, period_end, security_token = NULL){
+
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  if(is.null(security_token)){
+    security_token <- Sys.getenv("ENTSOE_PAT")
+  }
+
+  if(length(eic) > 1){
+    stop("This wrapper only supports one EIC per request.")
+  }
+
+  gen_type <- as.character(c(NA))
+
+  url_list <- lapply(gen_type, en_gen_day_ahead_agg_gen_api_req_helper, eic = eic, period_start = period_start, period_end = period_end, security_token = security_token)
+
+  api_req_safe <- purrr::safely(api_req)
+
+  en_cont <- purrr::map(url_list, api_req_safe)
+  en_cont <- purrr::map(en_cont, "result")
+  #en_cont <- purrr::map(en_cont, "GL_MarketDocument")
+  en_cont[sapply(en_cont, is.null)] <- NULL
+
+  en_cont <- purrr::map(en_cont, xml2::as_list)
+  en_cont <- en_cont[[1]]$GL_MarketDocument
+  en_cont <- en_cont[names(en_cont) == "TimeSeries"]
+  en_cont <- lapply(en_cont, ts_agg_gen_helper)
+
+  en_cont <- dplyr::bind_rows(en_cont)
+  en_cont <- dplyr::select(en_cont, -mRID, -businessType, -objectAggregation, -curveType, -position)
+
+  en_cont
+}
+
+en_gen_day_ahead_agg_gen_api_req_helper <- function(psr_type, eic, period_start, period_end, security_token){
+
+  url <- paste0(
+    "https://transparency.entsoe.eu/api",
+    "?documentType=A71",
+    "&processType=A01",
+    #"&psrType=", psr_type,
+    "&in_Domain=", eic,
+    "&periodStart=",period_start,
+    "&periodEnd=", period_end,
+    "&securityToken=", security_token
+  )
+
+  url
+}
+
+
+#' Get total load from Entsoe
+#'
+#' @param eic Energy Identification Code
+#' @param period_start POSIXct
+#' @param period_end POSIXct
+#' @param security_token Security token
+#'
+#' @export
+#'
+#' @examples
+#'
+#' library(tidyverse)
+#' library(entsoeapi)
+#'
+#' fr_2020 <- en_generation_day_ahead_gen_forcast_ws(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+#'
+en_generation_day_ahead_gen_forecast_ws <- function(eic, period_start, period_end, security_token = NULL){
+
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  if(is.null(security_token)){
+    security_token <- Sys.getenv("ENTSOE_PAT")
+  }
+
+  if(length(eic) > 1){
+    stop("This wrapper only supports one EIC per request.")
+  }
+
+  gen_type <- as.character(c("B16", "B18", "B19"))
+
+  url_list <- lapply(gen_type, en_gen_day_ahead_gen_forecast_ws_api_req_helper, eic = eic, period_start = period_start, period_end = period_end, security_token = security_token)
+
+  api_req_safe <- purrr::safely(api_req)
+
+  en_cont <- purrr::map(url_list, api_req_safe)
+  en_cont <- purrr::map(en_cont, "result")
+  #en_cont <- purrr::map(en_cont, "GL_MarketDocument")
+  en_cont[sapply(en_cont, is.null)] <- NULL
+
+  en_cont <- purrr::map(en_cont, xml2::as_list)
+  en_cont <- en_cont[[1]]$GL_MarketDocument
+  en_cont <- en_cont[names(en_cont) == "TimeSeries"]
+  en_cont <- lapply(en_cont, ts_agg_gen_helper)
+
+  en_cont <- dplyr::bind_rows(en_cont)
+  en_cont <- dplyr::select(en_cont, -mRID, -businessType, -objectAggregation, -curveType, -position)
+
+  en_cont
+}
+
+en_gen_day_ahead_gen_forecast_ws_api_req_helper <- function(psr_type, eic, period_start, period_end, security_token){
+
+  url <- paste0(
+    "https://transparency.entsoe.eu/api",
+    "?documentType=A69",
+    "&processType=A01",
+    #"&psrType=", psr_type,
+    "&in_Domain=", eic,
+    "&periodStart=",period_start,
+    "&periodEnd=", period_end,
+    "&securityToken=", security_token
+  )
+
+  url
+}
+
