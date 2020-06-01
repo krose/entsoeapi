@@ -7,7 +7,7 @@
 
 <!-- badges: end -->
 
-The goal of entsoeapi is to …
+The goal of entsoeapi is to create an easy wrapper for the ENTSO-E api.
 
 ## Installation
 
@@ -32,7 +32,7 @@ a security token and call it GITHUB\_PAT.
 
 ## Example
 
-You use the eic codes to get the data. Let’s try to find the eic codes
+You use the eic codes to get the data. Let’s try to find the eic code
 for Germany.
 
 ``` r
