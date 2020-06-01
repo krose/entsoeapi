@@ -1,0 +1,87 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# entsoeapi
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of entsoeapi is to ...
+
+## Installation
+
+You can install the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("krose/entsoeapi")
+
+```
+
+You should also create a `.Renviron` file in your working directory with a security token and call it GITHUB_PAT.
+
+```
+GITHUB_PAT = "<your_security_token>"
+
+```
+
+
+## Example
+
+You use the eic codes to get the data. Let's try to find the eic codes for Germany.
+
+```{r example, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(entsoeapi)
+
+en_eic() %>% 
+  filter(AreaTypeCode == "CTY", 
+         AreaName == "Germany") %>% 
+  glimpse()
+
+```
+
+
+For some of the data you need to translate the generation codes.
+
+```{r}
+
+en_generation_codes() %>%
+  glimpse()
+
+```
+
+Let's get the demand in Germany.
+
+```{r}
+
+en_load_actual_total_load(eic = "10Y1001A1001A83F", 
+                          period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+                          period_end = lubridate::ymd_hm("2020-01-01 23:00", tz = "CET")) %>%
+  glimpse()
+
+```
+
+This is basically how all the functions work, so let's try to get the production data too.
+
+```{r}
+
+en_generation_agg_gen_per_type(eic = "10Y1001A1001A83F", 
+                               period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+                               period_end = lubridate::ymd_hm("2020-01-01 23:00", tz = "CET")) %>%
+  glimpse()
+
+
+```
