@@ -108,9 +108,12 @@ en_generation_codes <- function(){
                                                              "Fossil Peat", "Geothermal", "Hydro Pumped Storage", "Hydro Run-of-river and poundage",
                                                              "Hydro Water Reservoir", "Marine", "Nuclear", "Other renewable",
                                                              "Solar", "Waste", "Wind Offshore", "Wind Onshore", "Other", "AC Link",
-                                                             "DC Link", "Substation", "Transformer")), class = "data.frame", row.names = c(NA,
-                                                                                                                                           -27L))
-
+                                                             "DC Link", "Substation", "Transformer"), co2_g_kwh = c(NA, NA,
+                                                                                                                    NA, 390, 360, NA, 200, 340, 260, NA, 380, NA, NA, NA, NA, NA,
+                                                                                                                    NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA), efficiency = c(NA,
+                                                                                                                                                                                NA, NA, NA, 0.35, NA, 0.5, 0.38, NA, NA, NA, NA, NA, NA, NA,
+                                                                                                                                                                                NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)), row.names = c(NA,
+                                                                                                                                                                                                                                                -27L), class = "data.frame")
 }
 
 
