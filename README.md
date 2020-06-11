@@ -26,9 +26,9 @@ Read here how to get a security token.
 <https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_authentication_and_authorisation>
 
 You should also create a `.Renviron` file in your working directory with
-a security token and call it GITHUB\_PAT.
+a security token and call it ENTSOE\_PAT.
 
-    GITHUB_PAT = "<your_security_token>"
+    ENTSOE_PAT = "<your_security_token>"
 
 ## Example
 
