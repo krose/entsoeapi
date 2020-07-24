@@ -75,18 +75,17 @@ dt_seq_helper <- function(from, to, seq_resolution, qty){
     # df_dt <- data.frame(dt = seq(from, to, by = "1 mins"))
     # df_dt$dt <- df_dt$dt + lubridate::minutes(1) * (seq_along(df_dt$dt) - 1)
   # } else {
-    df_dt <- data.frame(dt = lubridate::floor_date(seq(from, to, by = "hours"), unit = "15 mins"))
+    df_dt <- data.frame(dt = lubridate::floor_date(seq(from, to, by = "hours"), unit = "hours"))
     df_dt$qty <- qty
 
-    df_dt <- dtplyr::lazy_dt(df_dt)
-
-    df_dt <-
-      df_dt %>%
-      dplyr::group_by(dt) %>%
-      dplyr::summarise(dt = min(dt),
-                       qty = mean(qty)) %>%
-      dplyr::ungroup() %>%
-      dplyr::as_tibble()
+    # df_dt <- data.table::as.data.table(df_dt)
+    #
+    # df_dt <-
+    #   df_dt %>%
+    #   dplyr::group_by(dt) %>%
+    #   dplyr::summarise(qty = mean(qty)) %>%
+    #   dplyr::ungroup() %>%
+    #   dplyr::as_tibble()
   # }
 
   df_dt

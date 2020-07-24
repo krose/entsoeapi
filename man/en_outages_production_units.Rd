@@ -7,6 +7,7 @@
 en_outages_production_units(eic,
   period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+  period_start_update = NULL, period_end_update = NULL,
   doc_status = "A05", tidy_output = TRUE, security_token = NULL)
 }
 \arguments{
@@ -15,6 +16,10 @@ en_outages_production_units(eic,
 \item{period_start}{POSIXct}
 
 \item{period_end}{POSIXct}
+
+\item{period_start_update}{Period start udpate.}
+
+\item{period_end_update}{Period end update.}
 
 \item{doc_status}{Document status. A05 for active or A09 for Cancelled.}
 

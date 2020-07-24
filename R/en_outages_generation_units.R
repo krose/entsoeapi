@@ -4,8 +4,12 @@
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
+#' @param period_start_update Period start udpate.
+#' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
 #' @param security_token Security token
+#'
+#' @importFrom dplyr %>%
 #'
 #' @export
 #'
@@ -16,35 +20,30 @@
 #'
 #'  france <- en_outages(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
-en_outages <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"), doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+en_outages <- function(eic,
+                       period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+                       period_start_update = NULL, period_end_update = NULL,
+                       doc_status = "A05", tidy_output = TRUE, security_token = NULL){
 
-  en_df_gen <- try(en_outages_generation_units(eic = eic, period_start = period_start, period_end = period_end))
-  en_df_pro <- try(en_outages_production_units(eic = eic, period_start = period_start, period_end = period_end))
+  en_df_gen <- try(en_outages_generation_units(eic = eic, period_start = period_start, period_end = period_end, period_start_update = period_start_update, period_end_update = period_end_update))
+  en_df_pro <- try(en_outages_production_units(eic = eic, period_start = period_start, period_end = period_end, period_start_update = period_start_update, period_end_update = period_end_update))
 
   if(inherits(en_df_gen, "try-error")){
     message(paste("Outages Generation unit error. Try calling the function en_outages_generation_units() to see the error message."))
-    if(inherits(en_df_pro, "try-error")){
-      message(paste("Outages Production unit error. Try calling the function en_outages_production_units() to see the error message."))
-      stop("Probably no data.")
-    } else {
-      en_df <- en_df_pro
-      return(en_df)
-    }
+    en_df_gen <- NULL
   }
 
   if(inherits(en_df_pro, "try-error")){
     message(paste("Outages Production unit error. Try calling the function en_outages_production_units() to see the error message."))
-    if(inherits(en_df_gen, "try-error")){
-      message(paste("Outages Generation unit error. Try calling the function en_outages_generation_units() to see the error message."))
-      stop("Probably no data.")
-    } else {
-      en_df <- en_df_gen
-      return(en_df)
-    }
+    en_df_pro <- NULL
   }
 
-  en_df <- dplyr::bind_rows(en_df_gen, en_df_pro)
-  en_df <- dplyr::mutate(en_df, dt_created = lubridate::ymd_hms(dt_created, tz = "UTC"))
+  if(!is.null(en_df_gen) | !is.null(en_df_pro)){
+    en_df <- dplyr::bind_rows(en_df_gen, en_df_pro)
+    en_df <- dplyr::mutate(en_df, dt_created = lubridate::ymd_hms(dt_created, tz = "UTC"))
+  } else {
+    return(NULL)
+  }
 
   en_df
 }
@@ -56,6 +55,8 @@ en_outages <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
+#' @param period_start_update Period start udpate.
+#' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
 #' @param security_token Security token
 #'
@@ -68,7 +69,10 @@ en_outages <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"
 #'
 #'  france <- en_outages_generation_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
-en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"), doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+                                        period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+                                        period_start_update = NULL, period_end_update = NULL,
+                                        doc_status = "A05", tidy_output = TRUE, security_token = NULL){
   on.exit(try(unlink(xml_path, recursive = TRUE)))
 
   period_start <- url_posixct_format(period_start)
@@ -93,6 +97,10 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
   )
   if(!is.null(doc_status)){
     url <- paste0(url, "&docStatus=", doc_status)
+  }
+  if(!is.null(period_start_update) & !is.null(period_end_update)){
+    url <- paste0(url, "&periodStartUpdate=",url_posixct_format(period_start_update),
+                  "&periodEndUpdate=", url_posixct_format(period_end_update))
   }
 
   xml_path <- api_req_zip(url)
@@ -120,6 +128,8 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
+#' @param period_start_update Period start udpate.
+#' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
 #' @param security_token Security token
 #'
@@ -132,7 +142,10 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
 #'
 #'  france <- en_outages_production_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
-en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"), doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+                                        period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+                                        period_start_update = NULL, period_end_update = NULL,
+                                        doc_status = "A05", tidy_output = TRUE, security_token = NULL){
   on.exit(try(unlink(xml_path, recursive = TRUE)))
 
   period_start <- url_posixct_format(period_start)
@@ -157,6 +170,10 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
   )
   if(!is.null(doc_status)){
     url <- paste0(url, "&docStatus=", doc_status)
+  }
+  if(!is.null(period_start_update) & !is.null(period_end_update)){
+    url <- paste0(url, "&periodStartUpdate=", url_posixct_format(period_start_update),
+                  "&periodEndUpdate=", url_posixct_format(period_end_update))
   }
 
   xml_path <- api_req_zip(url)
@@ -201,7 +218,8 @@ outages_gen_helper_tidy <- function(out_gen_df){
     dplyr::mutate(revision_number = as.integer(revision_number)) %>%
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
     tidyr::unnest(available_period) %>%
-    dplyr::mutate(quantity = as.numeric(quantity),
+    dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
+                  quantity = as.numeric(quantity),
                   start = lubridate::ymd_hm(start, tz = "UTC"),
                   end = lubridate::ymd_hm(end, tz = "UTC"))
 
@@ -229,7 +247,8 @@ outages_prod_helper_tidy <- function(out_gen_df){
     dplyr::mutate(revision_number = as.integer(revision_number)) %>%
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
     tidyr::unnest(available_period) %>%
-    dplyr::mutate(quantity = as.numeric(quantity),
+    dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
+                  quantity = as.numeric(quantity),
                   start = lubridate::ymd_hm(start, tz = "UTC"),
                   end = lubridate::ymd_hm(end, tz = "UTC"))
 
@@ -265,7 +284,8 @@ en_outages_tidy_to_ts <- function(out_gen_df){
 outages_gen_helper <- function(x){
 
   ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
-  ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE))
+  ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
+  ap_not$Reason <- NULL
   ap_not$revisionNumber <- x$Unavailability_MarketDocument$revisionNumber[[1]]
   ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
 
