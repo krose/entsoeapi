@@ -159,3 +159,41 @@ timeseries_extract_price_amount <- function(x){
 
   tibble::tibble(dt, price)
 }
+
+
+#' Get the available areas.
+#'
+#' @export
+#'
+#'
+en_transmission_day_ahead_prices_eic <- function(){
+  trans_df <- structure(list(AreaCode = c("10YCS-SERBIATSOV", "10YHU-MAVIR----U",
+                              "10YSK-SEPS-----K", "10YRO-TEL------P", "10YES-REE------0", "10Y1001A1001A46L",
+                              "10YDK-1--------W", "10YNO-1--------2", "10YFI-1--------U", "10Y1001A1001A45N",
+                              "10Y1001A1001A44P", "10YNO-3--------J", "10YLV-1001A00074", "10YDK-2--------M",
+                              "10YNO-2--------T", "10Y1001A1001A47J", "10Y1001A1001A48H", "10YNO-4--------9",
+                              "10Y1001A1001A39I", "10YLT-1001A0008Q", "10YPT-REN------W", "10YSI-ELES-----O",
+                              "10Y1001A1001A82H", "10YFR-RTE------C", "10YAT-APG------L", "10YBE----------2",
+                              "10YNL----------L", "10YGB----------A", "10YCA-BULGARIA-R", "10YHR-HEP------M",
+                              "10YPL-AREA-----S", "10YGR-HTSO-----Y", "10Y1001A1001A70O", "10Y1001A1001A73I",
+                              "10Y1001A1001A71M", "10Y1001A1001A788", "10Y1001A1001A77A", "10Y1001A1001A75E",
+                              "10Y1001A1001A893", "10Y1001A1001A74G", "10Y1001A1001A885", "10YCH-SWISSGRIDZ",
+                              "10YCZ-CEPS-----N", "10Y1001A1001A59C"), AreaTypeCode = c("BZN",
+                                                                                        "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN",
+                                                                                        "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN",
+                                                                                        "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN",
+                                                                                        "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN",
+                                                                                        "BZN", "BZN", "BZN", "BZN", "BZN", "BZN", "BZN"), AreaName = c("EMS BZ",
+                                                                                                                                                       "MAVIR BZ", "SEPS BZ", "Transelectrica BZ", "REE BZ", "SE3 BZ",
+                                                                                                                                                       "DK1  BZ", "NO1 BZ", "Fingrid BZ", "SE2 BZ", "SE1 BZ", "NO3 BZ",
+                                                                                                                                                       "AST BZ", "DK2 BZ", "NO2 BZ", "SE4 BZ", "NO5 BZ", "NO4 BZ", "Elering BZ",
+                                                                                                                                                       "Litgrid BZ", "REN BZ", "ELES BZ", "DE-LU BZ", "RTE BZ", "APG BZ",
+                                                                                                                                                       "Elia BZ", "TenneT NL BZ", "National Grid BZ", "ESO BZ", "HOPS BZ",
+                                                                                                                                                       "PSE SA BZ", "IPTO BZ", "IT-Centre-North BZ", "IT-North BZ",
+                                                                                                                                                       "IT-Centre-South BZ", "IT-South BZ", "IT-Rossano BZ", "IT-Sicily BZ",
+                                                                                                                                                       "Italy_Sacodc", "IT-Sardinia BZ", "Italy_Saco_AC", "swissgrid BZ",
+                                                                                                                                                       "CEPS BZ", "Ireland - (SEM) BZ")), class = c("tbl_df", "tbl",
+                                                                                                                                                                                                    "data.frame"), row.names = c(NA, -44L))
+
+  trans_df
+}
