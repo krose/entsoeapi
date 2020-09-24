@@ -250,6 +250,7 @@ en_transmission_day_ahead_commercial_schedules <- function(eic_in, eic_out, peri
   en_cont$quantity_measure_unit_name <- "MAW"
   en_cont$in_domain_mrid <- eic_in
   en_cont$out_domain_mrid <- eic_out
+  en_cont$quantity <- as.numeric(en_cont$quantity)
 
   en_cont <- en_cont[, c("in_domain_mrid", "out_domain_mrid", "quantity_measure_unit_name", "dt", "quantity")]
 
