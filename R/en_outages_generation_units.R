@@ -203,6 +203,8 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
   en_content
 }
 
+
+
 outages_gen_helper_tidy <- function(out_gen_df){
 
   out_gen_df <-
@@ -331,3 +333,136 @@ en_outages_clean <- function(out_df){
   out_df
 }
 
+
+#' Get outages for transmission units.
+#'
+#' @param eic Energy Identification Code
+#' @param period_start POSIXct
+#' @param period_end POSIXct
+#' @param period_start_update Period start udpate.
+#' @param period_end_update Period end update.
+#' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param security_token Security token
+#'
+#' @export
+#'
+#' @examples
+#'
+#'  library(tidyverse)
+#'  library(entsoeapi)
+#'
+#'  fr_de <- df <- en_outages_transmission_infrastructure(in_domain = "10YFR-RTE------C", out_domain = "10Y1001A1001A82H", period_start = lubridate::ymd(Sys.Date() - 300, tz = "CET"))
+#'
+en_outages_transmission_infrastructure <- function(in_domain, out_domain, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+                                        period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+                                        period_start_update = NULL, period_end_update = NULL,
+                                        doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+  on.exit(try(unlink(xml_path, recursive = TRUE)))
+
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  if(is.null(security_token)){
+    security_token <- Sys.getenv("ENTSOE_PAT")
+  }
+
+  url <- paste0(
+    "https://transparency.entsoe.eu/api",
+    "?documentType=A78",
+    "&businessType=A53",
+    "&in_Domain=", in_domain,
+    "&out_domain=", out_domain,
+    "&periodStart=",period_start,
+    "&periodEnd=", period_end,
+    "&securityToken=", security_token
+  )
+  if(!is.null(doc_status)){
+    url <- paste0(url, "&docStatus=", doc_status)
+  }
+  if(!is.null(period_start_update) & !is.null(period_end_update)){
+    url <- paste0(url, "&periodStartUpdate=", url_posixct_format(period_start_update),
+                  "&periodEndUpdate=", url_posixct_format(period_end_update))
+  }
+
+  xml_path <- api_req_zip(url)
+
+  en_content <- lapply(dir(xml_path, full.names = TRUE),
+                       function(x){
+                         xml_file <- xml2::read_xml(x)
+                         xml_file <- xml2::as_list(xml_file)
+                         xml_file
+                       })
+
+  en_content <- dplyr::bind_rows(lapply(en_content, outages_transmission_helper))
+
+  if(tidy_output){
+    en_content <- outages_transmission_helper_tidy(en_content)
+    en_content$type <- "transmission"
+
+    en_content <-
+      en_content %>%
+      dplyr::group_by(mrid, revision_number) %>%
+      dplyr::filter(dt_created == max(dt_created, na.rm = TRUE)) %>%
+      dplyr::summarise_all(dplyr::last) %>%
+      dplyr::ungroup()
+  }
+
+  en_content
+}
+
+outages_transmission_helper <- function(x){
+
+  ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
+  ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
+  ap_not$Reason <- NULL
+  ap_not$mRID <- NULL
+  ap_not$mrid <- x$Unavailability_MarketDocument$mRID[[1]]
+  ap_not$asset_registered_resource_mrid <- ap_not$Asset_RegisteredResource$mRID[[1]]
+  ap_not$asset_registered_resource_name <- ap_not$Asset_RegisteredResource$name[[1]]
+  ap_not$asset_registered_resource_psrtype <- ap_not$Asset_RegisteredResource$asset_PSRType.psrType[[1]]
+  ap_not$asset_registered_resource_location_name <- ap_not$Asset_RegisteredResource$location.name[[1]]
+  ap_not$Asset_RegisteredResource <- NULL
+  ap_not$revisionNumber <- x$Unavailability_MarketDocument$revisionNumber[[1]]
+  ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
+  ap_not$reason_code <- tryCatch(x$Unavailability_MarketDocument$Reason$code[[1]], error = function(error){return(as.character(NA))})
+  ap_not$reason_text <- tryCatch(paste(x$Unavailability_MarketDocument$Reason$text[[1]], collapse = " "), error = function(error){return(as.character(NA))})
+
+  ap <- unname(x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"])
+
+  start <- unlist(purrr::map(ap, ~.x$timeInterval$start[[1]]))
+  end <- unlist(purrr::map(ap, ~.x$timeInterval$end[[1]]))
+  resolution <- unlist(purrr::map(ap, ~.x$resolution))
+  position <- unlist(purrr::map(ap, ~.x$Point$position[[1]]))
+  quantity <- unlist(purrr::map(ap, ~.x$Point$quantity[[1]]))
+
+  ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
+
+  ap_not
+}
+
+
+outages_transmission_helper_tidy <- function(out_gen_df){
+
+  out_gen_df <-
+    out_gen_df %>%
+    dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::select(-start_DateAndOrTime.time, -start_DateAndOrTime.date) %>%
+    dplyr::mutate(dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::select(-end_DateAndOrTime.time, -end_DateAndOrTime.date) %>%
+    dplyr::rename(in_domain_mrid = in_Domain.mRID,
+                  out_domain_mrid = out_Domain.mRID,
+                  quantity_measure_unit = quantity_Measure_Unit.name,
+                  curve_type = curveType,
+                  revision_number = revisionNumber,
+                  dt_created = createdDateTime) %>%
+    dplyr::mutate(revision_number = as.integer(revision_number)) %>%
+    dplyr::arrange(asset_registered_resource_mrid, dt_start, dt_end) %>%
+    tidyr::unnest(available_period) %>%
+    dplyr::mutate(start = lubridate::ymd_hm(start, tz = "UTC"),
+                  end = lubridate::ymd_hm(end, tz = "UTC"),
+                  dt_created = lubridate::ymd_hms(dt_created, tz = "UTC"),
+                  position = as.integer(position),
+                  quantity = as.numeric(quantity))
+
+  out_gen_df
+}
