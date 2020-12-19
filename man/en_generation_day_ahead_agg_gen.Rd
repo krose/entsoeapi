@@ -4,8 +4,12 @@
 \alias{en_generation_day_ahead_agg_gen}
 \title{Get total load from Entsoe}
 \usage{
-en_generation_day_ahead_agg_gen(eic, period_start, period_end,
-  security_token = NULL)
+en_generation_day_ahead_agg_gen(
+  eic,
+  period_start,
+  period_end,
+  security_token = NULL
+)
 }
 \arguments{
 \item{eic}{Energy Identification Code}

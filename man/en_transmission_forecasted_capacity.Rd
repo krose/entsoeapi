@@ -4,8 +4,13 @@
 \alias{en_transmission_forecasted_capacity}
 \title{Get Day ahead prices from Entsoe}
 \usage{
-en_transmission_forecasted_capacity(eic_in, eic_out, period_start,
-  period_end, security_token = NULL)
+en_transmission_forecasted_capacity(
+  eic_in,
+  eic_out,
+  period_start,
+  period_end,
+  security_token = NULL
+)
 }
 \arguments{
 \item{eic_in}{Energy Identification Code}

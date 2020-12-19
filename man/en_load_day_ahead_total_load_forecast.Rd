@@ -4,8 +4,12 @@
 \alias{en_load_day_ahead_total_load_forecast}
 \title{Get total load from Entsoe}
 \usage{
-en_load_day_ahead_total_load_forecast(eic, period_start, period_end,
-  security_token = NULL)
+en_load_day_ahead_total_load_forecast(
+  eic,
+  period_start,
+  period_end,
+  security_token = NULL
+)
 }
 \arguments{
 \item{eic}{Energy Identification Code}

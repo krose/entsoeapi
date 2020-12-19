@@ -4,8 +4,13 @@
 \alias{en_transmission_day_ahead_commercial_schedules}
 \title{Get Day ahead prices from Entsoe}
 \usage{
-en_transmission_day_ahead_commercial_schedules(eic_in, eic_out,
-  period_start, period_end, security_token = NULL)
+en_transmission_day_ahead_commercial_schedules(
+  eic_in,
+  eic_out,
+  period_start,
+  period_end,
+  security_token = NULL
+)
 }
 \arguments{
 \item{eic_in}{Energy Identification Code}

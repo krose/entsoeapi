@@ -5,21 +5,25 @@
 \alias{en_transmission_day_ahead_prices}
 \title{Get Day ahead prices from Entsoe}
 \usage{
-en_transmission_day_ahead_prices(eic, period_start, period_end,
-  in_domain = NULL, out_domain = NULL, security_token = NULL)
+en_transmission_day_ahead_prices(
+  eic,
+  period_start,
+  period_end,
+  in_domain = NULL,
+  out_domain = NULL,
+  security_token = NULL
+)
 
-en_transmission_day_ahead_prices(eic, period_start, period_end,
-  in_domain = NULL, out_domain = NULL, security_token = NULL)
+en_transmission_day_ahead_prices(
+  eic,
+  period_start,
+  period_end,
+  in_domain = NULL,
+  out_domain = NULL,
+  security_token = NULL
+)
 }
 \arguments{
-\item{eic}{Energy Identification Code}
-
-\item{period_start}{POSIXct}
-
-\item{period_end}{POSIXct}
-
-\item{security_token}{Security token}
-
 \item{eic}{Energy Identification Code}
 
 \item{period_start}{POSIXct}

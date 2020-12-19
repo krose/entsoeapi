@@ -4,11 +4,16 @@
 \alias{en_outages_production_units}
 \title{Get outages for production units.}
 \usage{
-en_outages_production_units(eic,
+en_outages_production_units(
+  eic,
   period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
-  period_start_update = NULL, period_end_update = NULL,
-  doc_status = "A05", tidy_output = TRUE, security_token = NULL)
+  period_start_update = NULL,
+  period_end_update = NULL,
+  doc_status = "A05",
+  tidy_output = TRUE,
+  security_token = NULL
+)
 }
 \arguments{
 \item{eic}{Energy Identification Code}
