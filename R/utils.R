@@ -12,34 +12,6 @@ api_req <- function(url){
   en_cont
 }
 
-#' save and unzip the zip file with xml data.
-api_req_zip <- function(url){
-
-  temp_file_path <- paste0("~/temp-entsoe")
-
-  if(!dir.exists(temp_file_path)){
-    dir.create(temp_file_path)
-  } else {
-    un_res <- unlink(x = temp_file_path, recursive = TRUE)
-    if(un_res == 0){
-      dir.create(temp_file_path)
-    } else {
-      stop("Could not create dir.")
-    }
-  }
-
-  req <- httr::GET(url, httr::write_disk(path = paste0(temp_file_path, "/file.zip"), overwrite = TRUE))
-
-  if(httr::status_code(req) != "200"){
-    stop(httr::content(req, encoding = "UTF-8"))
-  }
-
-  unzip(zipfile = paste0(temp_file_path, "/file.zip"), exdir = temp_file_path)
-
-  if(file.exists(paste0(temp_file_path, "/file.zip"))){file.remove(paste0(temp_file_path, "/file.zip"))}
-
-  temp_file_path
-}
 
 url_posixct_format <- function(x){
 

@@ -81,7 +81,6 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL, period_end_update = NULL,
                                         doc_status = "A05", tidy_output = TRUE, security_token = NULL){
-  on.exit(try(unlink(xml_path, recursive = TRUE)))
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -111,16 +110,7 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
                   "&periodEndUpdate=", url_posixct_format(period_end_update))
   }
 
-  xml_path <- api_req_zip(url)
-
-  en_content <- lapply(dir(xml_path, full.names = TRUE),
-                       function(x){
-                         xml_file <- xml2::read_xml(x)
-                         xml_file <- xml2::as_list(xml_file)
-                         xml_file
-                       })
-
-  en_content <- dplyr::bind_rows(lapply(en_content, outages_gen_helper))
+  en_content <- api_req_zip(url, "generation")
 
   if(tidy_output){
     en_content <- outages_gen_helper_tidy(en_content)
@@ -154,7 +144,6 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL, period_end_update = NULL,
                                         doc_status = "A05", tidy_output = TRUE, security_token = NULL){
-  on.exit(try(unlink(xml_path, recursive = TRUE)))
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -184,16 +173,7 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
                   "&periodEndUpdate=", url_posixct_format(period_end_update))
   }
 
-  xml_path <- api_req_zip(url)
-
-  en_content <- lapply(dir(xml_path, full.names = TRUE),
-                       function(x){
-                         xml_file <- xml2::read_xml(x)
-                         xml_file <- xml2::as_list(xml_file)
-                         xml_file
-                       })
-
-  en_content <- dplyr::bind_rows(lapply(en_content, outages_gen_helper))
+  en_content <- api_req_zip(url, "generation")
 
   if(tidy_output){
     en_content <- outages_prod_helper_tidy(en_content)
@@ -357,7 +337,6 @@ en_outages_transmission_infrastructure <- function(in_domain, out_domain, period
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL, period_end_update = NULL,
                                         doc_status = "A05", tidy_output = TRUE, security_token = NULL){
-  on.exit(try(unlink(xml_path, recursive = TRUE)))
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -384,16 +363,7 @@ en_outages_transmission_infrastructure <- function(in_domain, out_domain, period
                   "&periodEndUpdate=", url_posixct_format(period_end_update))
   }
 
-  xml_path <- api_req_zip(url)
-
-  en_content <- lapply(dir(xml_path, full.names = TRUE),
-                       function(x){
-                         xml_file <- xml2::read_xml(x)
-                         xml_file <- xml2::as_list(xml_file)
-                         xml_file
-                       })
-
-  en_content <- dplyr::bind_rows(lapply(en_content, outages_transmission_helper))
+  en_content <- api_req_zip(url, "transmission")
 
   if(tidy_output){
     en_content <- outages_transmission_helper_tidy(en_content)
@@ -467,7 +437,7 @@ outages_transmission_helper_tidy <- function(out_gen_df){
   out_gen_df
 }
 
-read_xml_from_path <- function(xml_path){
+read_xml_from_path_out_gen <- function(xml_path){
 
   en_content <- lapply(dir(xml_path, full.names = TRUE),
                        function(x){
@@ -478,5 +448,115 @@ read_xml_from_path <- function(xml_path){
 
   en_content <- dplyr::bind_rows(lapply(en_content, outages_gen_helper))
 
-  en_cont
+  en_content
 }
+
+read_xml_from_path_out_tran <- function(xml_path){
+
+  en_content <- lapply(dir(xml_path, full.names = TRUE),
+                       function(x){
+                         xml_file <- xml2::read_xml(x)
+                         xml_file <- xml2::as_list(xml_file)
+                         xml_file
+                       })
+
+  en_content <- dplyr::bind_rows(lapply(en_content, outages_transmission_helper))
+
+  en_content
+}
+
+
+#' save and unzip the zip file with xml data.
+#'
+#' @param url url.
+#' @param file_type transmission or generation.
+#'
+api_req_zip <- function(url, file_type){
+  on.exit(try(unlink(temp_file_path, recursive = TRUE)))
+
+  temp_file_path <- paste0("~/temp-entsoe")
+
+  folder_res <- api_zip_folder_prep(temp_file_path)
+
+  req <- httr::GET(url, httr::write_disk(path = paste0(temp_file_path, "/file.zip"), overwrite = TRUE))
+
+  if(httr::status_code(req) != "200"){
+
+    req_cont_reason <- xml2::as_list(httr::content(req, encoding = "utf-8"))$Acknowledgement_MarketDocument$Reason$text[[1]]
+
+    if(stringr::str_detect(req_cont_reason, "The amount of requested data exceeds allowed limit.")){
+      docs_allowed <- as.integer(stringr::str_extract(stringr::str_extract(req_cont_reason, "allowed: [0-9]{1,8}"), "[0-9]{1,8}"))
+      docs_requested <- as.integer(stringr::str_extract(stringr::str_extract(req_cont_reason, "requested: [0-9]{1,8}"), "[0-9]{1,8}"))
+
+      total_api_reqs <- docs_requested %/% docs_allowed
+
+      folder_res <- api_zip_folder_prep(temp_file_path = temp_file_path)
+
+      res_list <- vector(mode = "list", total_api_reqs)
+
+      for(i in 1:(total_api_reqs + 1)){
+
+        url_offset <- paste0(url, "&offset=", (i - 1) * 200)
+
+        req <- httr::GET(url_offset, httr::write_disk(path = paste0(temp_file_path, "/file.zip"), overwrite = TRUE))
+
+        api_unzip_result <- api_unzip_res(temp_file_path)
+
+        if(file_type == "generation"){
+          res_list[[i]] <- read_xml_from_path_out_gen(xml_path = temp_file_path)
+        } else if(file_type == "transmission"){
+          res_list[[i]] <- read_xml_from_path_out_tran(xml_path = temp_file_path)
+        }
+
+        folder_res <- api_zip_folder_prep(temp_file_path = temp_file_path)
+
+      }
+
+      df <- dplyr::bind_rows(res_list)
+
+    } else {
+      stop(httr::content(req, encoding = "UTF-8"))
+    }
+  } else {
+
+    api_unzip_result <- api_unzip_res(temp_file_path)
+
+    if(file_type == "generation"){
+      df <- read_xml_from_path_out_gen(xml_path = temp_file_path)
+    } else if(file_type == "transmission"){
+      df <- read_xml_from_path_out_tran(xml_path = temp_file_path)
+    }
+  }
+
+  df
+}
+
+api_unzip_res <- function(temp_file_path){
+
+  # unzip file
+  unzip(zipfile = paste0(temp_file_path, "/file.zip"), exdir = temp_file_path)
+
+  # remove zip file so it's not read later
+  if(file.exists(paste0(temp_file_path, "/file.zip"))){
+    file.remove(paste0(temp_file_path, "/file.zip"))
+  }
+
+  TRUE
+}
+
+api_zip_folder_prep <- function(temp_file_path){
+
+  if(!dir.exists(temp_file_path)){
+    dir.create(temp_file_path)
+  } else {
+    un_res <- unlink(x = temp_file_path, recursive = TRUE)
+    if(un_res == 0){
+      dir.create(temp_file_path)
+    } else {
+      stop("Could not create dir.")
+    }
+  }
+
+  TRUE
+}
+
