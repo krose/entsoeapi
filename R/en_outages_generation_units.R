@@ -466,3 +466,17 @@ outages_transmission_helper_tidy <- function(out_gen_df){
 
   out_gen_df
 }
+
+read_xml_from_path <- function(xml_path){
+
+  en_content <- lapply(dir(xml_path, full.names = TRUE),
+                       function(x){
+                         xml_file <- xml2::read_xml(x)
+                         xml_file <- xml2::as_list(xml_file)
+                         xml_file
+                       })
+
+  en_content <- dplyr::bind_rows(lapply(en_content, outages_gen_helper))
+
+  en_cont
+}
