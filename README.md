@@ -8,6 +8,8 @@
 <!-- badges: end -->
 
 The goal of entsoeapi is to create an easy wrapper for the ENTSO-E api.
+The goal is to implement easy wrappers for most of the data available on
+the ENTSO-E [transparency](https://transparency.entsoe.eu/) platform.
 
 ## Installation
 
@@ -58,9 +60,11 @@ For some of the data you need to translate the generation codes.
 en_generation_codes() %>%
   glimpse()
 #> Observations: 27
-#> Variables: 2
-#> $ codes   <chr> "A03", "A04", "A05", "B01", "B02", "B03", "B04", "B05"...
-#> $ meaning <chr> "Mixed", "Generation", "Load", "Biomass", "Fossil Brow...
+#> Variables: 4
+#> $ codes      <chr> "A03", "A04", "A05", "B01", "B02", "B03", "B04", "B...
+#> $ meaning    <chr> "Mixed", "Generation", "Load", "Biomass", "Fossil B...
+#> $ co2_g_kwh  <dbl> NA, NA, NA, 390, 360, NA, 200, 340, 260, NA, 380, N...
+#> $ efficiency <dbl> NA, NA, NA, NA, 0.35, NA, 0.50, 0.38, NA, NA, NA, N...
 ```
 
 Let’s get the demand in Germany.

@@ -18,7 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of entsoeapi is to create an easy wrapper for the ENTSO-E api.
+The goal of entsoeapi is to create an easy wrapper for the ENTSO-E api. The goal is to implement easy wrappers for most of the data available
+on the ENTSO-E [transparency](https://transparency.entsoe.eu/) platform.
 
 ## Installation
 
