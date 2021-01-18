@@ -266,7 +266,8 @@ en_outages_tidy_to_ts <- function(out_gen_df){
 
   out_gen_df <-
     out_gen_df %>%
-    tidyr::unnest(ts)
+    tidyr::unnest(ts) %>%
+    dplyr::mutate(qty_outage = resource_psr_type_capacity - qty)
 
   out_gen_df
 }
@@ -494,7 +495,11 @@ api_req_zip <- function(url, file_type){
 
       res_list <- vector(mode = "list", total_api_reqs)
 
+      message(paste0("Requested documents: ", docs_requested, "."))
+
       for(i in 1:(total_api_reqs + 1)){
+
+        message(paste0("Request no: ", i, ". Total requests: ", total_api_reqs + 1, "."))
 
         url_offset <- paste0(url, "&offset=", (i - 1) * 200)
 
