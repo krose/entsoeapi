@@ -330,7 +330,7 @@ en_outages_clean <- function(out_df){
     out_df %>%
     dplyr::group_by(mkt_doc_mrid, resource_mrid, resource_name, resource_location_name, resource_psr_type,
                     resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
-                    revision_number, resource_psr_type_capacity, dt_created, dt_start, dt_end) %>%
+                    revision_number, dt_created, dt_start, dt_end) %>%
     dplyr::summarise_all(dplyr::last) %>%
     dplyr::ungroup() %>%
     dplyr::arrange(dplyr::desc(dt_created))
