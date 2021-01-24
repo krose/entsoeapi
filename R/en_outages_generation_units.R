@@ -7,6 +7,7 @@
 #' @param period_start_update Period start udpate.
 #' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
 #' @param security_token Security token
 #'
 #' @importFrom dplyr %>%
@@ -23,18 +24,20 @@
 en_outages <- function(eic,
                        period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                        period_start_update = NULL, period_end_update = NULL,
-                       doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+                       doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
 
   en_df_gen <- try(en_outages_generation_units(eic = eic,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
-                                               period_end_update = period_end_update, doc_status = doc_status))
+                                               period_end_update = period_end_update, doc_status = doc_status,
+                                               business_type = business_type))
   en_df_pro <- try(en_outages_production_units(eic = eic,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
-                                               period_end_update = period_end_update, doc_status = doc_status))
+                                               period_end_update = period_end_update, doc_status = doc_status,
+                                               business_type = business_type))
 
   if(inherits(en_df_gen, "try-error")){
     message(paste("Outages Generation unit error. Try calling the function en_outages_generation_units() to see the error message."))
@@ -66,6 +69,7 @@ en_outages <- function(eic,
 #' @param period_start_update Period start udpate.
 #' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
 #' @param security_token Security token
 #'
 #' @export
@@ -80,7 +84,7 @@ en_outages <- function(eic,
 en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL, period_end_update = NULL,
-                                        doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+                                        doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -96,7 +100,6 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
   url <- paste0(
     "https://transparency.entsoe.eu/api",
     "?documentType=A80",
-    "&businessType=A53",
     "&biddingZone_Domain=", eic,
     "&periodStart=",period_start,
     "&periodEnd=", period_end,
@@ -104,6 +107,9 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
   )
   if(!is.null(doc_status)){
     url <- paste0(url, "&docStatus=", doc_status)
+  }
+  if(!is.null(business_type)){
+    url <- paste0(url, "&businessType=", business_type)
   }
   if(!is.null(period_start_update) & !is.null(period_end_update)){
     url <- paste0(url, "&periodStartUpdate=",url_posixct_format(period_start_update),
@@ -129,6 +135,7 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
 #' @param period_start_update Period start udpate.
 #' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
 #' @param security_token Security token
 #'
 #' @export
@@ -143,7 +150,7 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
 en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL, period_end_update = NULL,
-                                        doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+                                        doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -159,7 +166,6 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
   url <- paste0(
     "https://transparency.entsoe.eu/api",
     "?documentType=A77",
-    "&businessType=A53",
     "&biddingZone_Domain=", eic,
     "&periodStart=",period_start,
     "&periodEnd=", period_end,
@@ -168,12 +174,15 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
   if(!is.null(doc_status)){
     url <- paste0(url, "&docStatus=", doc_status)
   }
+  if(!is.null(business_type)){
+    url <- paste0(url, "&businessType=", business_type)
+  }
   if(!is.null(period_start_update) & !is.null(period_end_update)){
     url <- paste0(url, "&periodStartUpdate=", url_posixct_format(period_start_update),
                   "&periodEndUpdate=", url_posixct_format(period_end_update))
   }
 
-  en_content <- api_req_zip(url, "generation")
+  en_content <- api_req_zip(url, "production")
 
   if(tidy_output){
     en_content <- outages_prod_helper_tidy(en_content)
@@ -205,7 +214,9 @@ outages_gen_helper_tidy <- function(out_gen_df){
                   resource_psr_type_capacity = production_RegisteredResource.pSRType.powerSystemResources.nominalP,
                   revision_number = revisionNumber,
                   dt_created = createdDateTime) %>%
-    dplyr::mutate(revision_number = as.integer(revision_number)) %>%
+    dplyr::mutate(revision_number = as.integer(revision_number),
+                  resource_psr_type_mrid = dplyr::if_else(is.na(resource_psr_type_mrid), "none", resource_psr_type_mrid),
+                  resource_psr_type_name = dplyr::if_else(is.na(resource_psr_type_name), "none", resource_psr_type_name)) %>%
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
     tidyr::unnest(available_period) %>%
     dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
@@ -241,6 +252,18 @@ outages_prod_helper_tidy <- function(out_gen_df){
                   quantity = as.numeric(quantity),
                   start = lubridate::ymd_hm(start, tz = "UTC"),
                   end = lubridate::ymd_hm(end, tz = "UTC"))
+
+  if(!"resource_psr_type_mrid" %in% names(out_gen_df)){
+    out_gen_df$resource_psr_type_mrid <- "none"
+  } else {
+    out_gen_df$resource_psr_type_mrid <- dplyr::if_else(is.na(out_gen_df$resource_psr_type_mrid), "none", out_gen_df$resource_psr_type_mrid)
+  }
+
+  if(!"resource_psr_type_name" %in% names(out_gen_df)){
+    out_gen_df$resource_psr_type_name <- "none"
+  } else {
+    out_gen_df$resource_psr_type_name <- dplyr::if_else(is.na(out_gen_df$resource_psr_type_name), "none", out_gen_df$resource_psr_type_name)
+  }
 
   out_gen_df
 }
@@ -509,6 +532,8 @@ api_req_zip <- function(url, file_type){
 
         if(file_type == "generation"){
           res_list[[i]] <- read_xml_from_path_out_gen(xml_path = temp_file_path)
+        } else if(file_type == "production"){
+          res_list[[i]] <- read_xml_from_path_out_gen(xml_path = temp_file_path)
         } else if(file_type == "transmission"){
           res_list[[i]] <- read_xml_from_path_out_tran(xml_path = temp_file_path)
         }
@@ -527,6 +552,8 @@ api_req_zip <- function(url, file_type){
     api_unzip_result <- api_unzip_res(temp_file_path)
 
     if(file_type == "generation"){
+      df <- read_xml_from_path_out_gen(xml_path = temp_file_path)
+    } else if(file_type == "production"){
       df <- read_xml_from_path_out_gen(xml_path = temp_file_path)
     } else if(file_type == "transmission"){
       df <- read_xml_from_path_out_tran(xml_path = temp_file_path)
