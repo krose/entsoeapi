@@ -12,6 +12,7 @@ en_outages_transmission_infrastructure(
   period_start_update = NULL,
   period_end_update = NULL,
   doc_status = "A05",
+  business_type = NULL,
   tidy_output = TRUE,
   security_token = NULL
 )
@@ -26,6 +27,8 @@ en_outages_transmission_infrastructure(
 \item{period_end_update}{Period end update.}
 
 \item{doc_status}{Document status. A05 for active or A09 for Cancelled.}
+
+\item{business_type}{Defaults to NULL. A53 for planned. A54 for unplanned.}
 
 \item{security_token}{Security token}
 

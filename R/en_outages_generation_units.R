@@ -282,7 +282,7 @@ en_outages_tidy_to_ts <- function(out_gen_df){
   out_gen_df <-
     out_gen_df %>%
     dplyr::filter((end - start) > 59) %>%
-    dplyr::select(resource_psr_type, resource_psr_type_mrid, resource_psr_type_name, resource_psr_type_capacity, revision_number, resolution, dt_created, start, end, quantity)
+    dplyr::select(mkt_doc_mrid, resource_psr_type, resource_psr_type_mrid, resource_psr_type_name, resource_psr_type_capacity, revision_number, resolution, dt_created, start, end, quantity)
 
   out_gen_df$ts <- lapply(seq_along(out_gen_df$resource_psr_type),
                           function(x){dt_seq_helper(out_gen_df$start[x], out_gen_df$end[x], out_gen_df$resolution[x], out_gen_df$quantity[x])})
@@ -300,6 +300,7 @@ outages_gen_helper <- function(x){
   ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
   ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
   ap_not$Reason <- NULL
+  ap_not$mkt_doc_mrid <- x$Unavailability_MarketDocument$mRID[[1]]
   ap_not$revisionNumber <- x$Unavailability_MarketDocument$revisionNumber[[1]]
   ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
 
@@ -327,7 +328,7 @@ en_outages_clean <- function(out_df){
 
   out_df <-
     out_df %>%
-    dplyr::group_by(resource_mrid, resource_name, resource_location_name, resource_psr_type,
+    dplyr::group_by(mkt_doc_mrid, resource_mrid, resource_name, resource_location_name, resource_psr_type,
                     resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
                     revision_number, resource_psr_type_capacity, dt_created, dt_start, dt_end) %>%
     dplyr::summarise_all(dplyr::last) %>%
@@ -346,6 +347,7 @@ en_outages_clean <- function(out_df){
 #' @param period_start_update Period start udpate.
 #' @param period_end_update Period end update.
 #' @param doc_status Document status. A05 for active or A09 for Cancelled.
+#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
 #' @param security_token Security token
 #'
 #' @export
@@ -360,7 +362,7 @@ en_outages_clean <- function(out_df){
 en_outages_transmission_infrastructure <- function(in_domain, out_domain, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL, period_end_update = NULL,
-                                        doc_status = "A05", tidy_output = TRUE, security_token = NULL){
+                                        doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -372,7 +374,6 @@ en_outages_transmission_infrastructure <- function(in_domain, out_domain, period
   url <- paste0(
     "https://transparency.entsoe.eu/api",
     "?documentType=A78",
-    "&businessType=A53",
     "&in_Domain=", in_domain,
     "&out_domain=", out_domain,
     "&periodStart=",period_start,
@@ -381,6 +382,9 @@ en_outages_transmission_infrastructure <- function(in_domain, out_domain, period
   )
   if(!is.null(doc_status)){
     url <- paste0(url, "&docStatus=", doc_status)
+  }
+  if(!is.null(business_type)){
+    url <- paste0(url, "&businessType=", business_type)
   }
   if(!is.null(period_start_update) & !is.null(period_end_update)){
     url <- paste0(url, "&periodStartUpdate=", url_posixct_format(period_start_update),
@@ -410,6 +414,7 @@ outages_transmission_helper <- function(x){
   ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
   ap_not$Reason <- NULL
   ap_not$mRID <- NULL
+  ap_not$mkt_doc_mrid <- x$Unavailability_MarketDocument$mRID[[1]]
   ap_not$mrid <- x$Unavailability_MarketDocument$mRID[[1]]
   ap_not$asset_registered_resource_mrid <- ap_not$Asset_RegisteredResource$mRID[[1]]
   ap_not$asset_registered_resource_name <- ap_not$Asset_RegisteredResource$name[[1]]
