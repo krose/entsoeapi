@@ -281,7 +281,7 @@ en_outages_tidy_to_ts <- function(out_gen_df){
   # filtrer mindre end 15 minutters beskeder
   out_gen_df <-
     out_gen_df %>%
-    dplyr::filter((end - start) > 59) %>%
+    dplyr::filter((end - start) > 0.25) %>%
     dplyr::select(mRID, businessType, mkt_doc_mrid, resource_psr_type, resource_psr_type_mrid,
                   resource_psr_type_name, resource_psr_type_capacity, revision_number,
                   resolution, dt_created, start, end, quantity)
