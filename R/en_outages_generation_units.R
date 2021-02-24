@@ -282,7 +282,9 @@ en_outages_tidy_to_ts <- function(out_gen_df){
   out_gen_df <-
     out_gen_df %>%
     dplyr::filter((end - start) > 59) %>%
-    dplyr::select(mkt_doc_mrid, resource_psr_type, resource_psr_type_mrid, resource_psr_type_name, resource_psr_type_capacity, revision_number, resolution, dt_created, start, end, quantity)
+    dplyr::select(mRID, businesType, mkt_doc_mrid, resource_psr_type, resource_psr_type_mrid,
+                  resource_psr_type_name, resource_psr_type_capacity, revision_number,
+                  resolution, dt_created, start, end, quantity)
 
   out_gen_df$ts <- lapply(seq_along(out_gen_df$resource_psr_type),
                           function(x){dt_seq_helper(out_gen_df$start[x], out_gen_df$end[x], out_gen_df$resolution[x], out_gen_df$quantity[x])})
