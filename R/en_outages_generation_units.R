@@ -535,7 +535,7 @@ api_req_zip <- function(url, file_type){
 
         req <- httr::GET(url_offset, httr::write_disk(path = paste0(temp_file_path, "/file.zip"), overwrite = TRUE))
 
-        if(httr:status_code(req) != 200){
+        if(httr::status_code(req) != 200){
           stop(xml2::as_list(httr::content(req, encoding = "utf-8"))$Acknowledgement_MarketDocument$Reason$text[[1]])
         }
 
