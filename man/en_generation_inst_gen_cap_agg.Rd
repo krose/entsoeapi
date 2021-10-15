@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_inst_gen_cap_agg}
 \alias{en_generation_inst_gen_cap_agg}
-\title{Get total load from Entsoe}
+\title{Get Installed generation capacity aggregated per type from Entsoe}
 \usage{
 en_generation_inst_gen_cap_agg(eic, year, security_token = NULL)
 }
@@ -16,13 +16,13 @@ en_generation_inst_gen_cap_agg(eic, year, security_token = NULL)
 \item{period_end}{POSIXct}
 }
 \description{
-Get total load from Entsoe
+Get Installed generation capacity aggregated per type from Entsoe
 }
 \examples{
 
 library(tidyverse)
 library(entsoeapi)
 
-
+fr_2020 <- en_generation_inst_gen_cap_agg(eic = "10YFR-RTE------C", year=2020)
 
 }

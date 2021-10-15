@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_agg_gen_per_type}
 \alias{en_generation_agg_gen_per_type}
-\title{Get total load from Entsoe}
+\title{Get aggregated generation per type from Entsoe}
 \usage{
 en_generation_agg_gen_per_type(
   eic,
@@ -21,7 +21,7 @@ en_generation_agg_gen_per_type(
 \item{security_token}{Security token}
 }
 \description{
-Get total load from Entsoe
+Get aggregated generation per type from Entsoe
 }
 \examples{
 
