@@ -55,13 +55,14 @@ generation_inst_gen_cap_agg_helper <- function(x){
   x <- x$GL_MarketDocument[names(x$GL_MarketDocument) == "TimeSeries"]
   x <- unname(x)
 
+  unit <- unlist(purrr::map(x, ~.x$quantity_Measure_Unit.name[[1]]))
   start <- unlist(purrr::map(x, ~.x$Period$timeInterval$start[[1]]))
   end <- unlist(purrr::map(x, ~.x$Period$timeInterval$end[[1]]))
   resolution <- unlist(purrr::map(x, ~.x$Period$resolution))
   psr_type <- unlist(purrr::map(x, ~.x$MktPSRType))
   quantity <- unlist(purrr::map(x, ~.x$Period$Point$quantity[[1]]))
 
-  tibble::tibble(dt_created, start, end, resolution, psr_type, quantity)
+  tibble::tibble(dt_created, start, end, resolution, psr_type, quantity, unit)
 }
 
 
