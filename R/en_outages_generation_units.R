@@ -219,7 +219,7 @@ outages_gen_helper_tidy <- function(out_gen_df){
                   resource_psr_type_name = dplyr::if_else(is.na(resource_psr_type_name), "none", resource_psr_type_name)) %>%
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
     tidyr::unnest( data = ., cols = vapply( ., is.list, TRUE ) %>% which() %>% names() ) %>%
-    { if( "Reason" %in% names(.) ) tidyr::unite( data = ., col = "Reason", grep( pattern = "^Reason", x = names( . ), value = TRUE ), na.rm = TRUE, sep = "|" ) else . }
+    { if( "Reason" %in% names(.) ) tidyr::unite( data = ., col = "Reason", grep( pattern = "^Reason", x = names( . ), value = TRUE ), na.rm = TRUE, sep = "|" ) else . } %>%
     dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
                   quantity = as.numeric(quantity),
                   start = lubridate::ymd_hm(start, tz = "UTC"),
