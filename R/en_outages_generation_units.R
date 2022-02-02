@@ -218,7 +218,7 @@ outages_gen_helper_tidy <- function(out_gen_df){
                   resource_psr_type_mrid = dplyr::if_else(is.na(resource_psr_type_mrid), "none", resource_psr_type_mrid),
                   resource_psr_type_name = dplyr::if_else(is.na(resource_psr_type_name), "none", resource_psr_type_name)) %>%
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
-    tidyr::unnest(available_period) %>%
+    tidyr::unnest(base::intersect(x = c("available_period", "Reason"), y = names(out_gen_df))) %>%
     dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
                   quantity = as.numeric(quantity),
                   start = lubridate::ymd_hm(start, tz = "UTC"),
@@ -247,7 +247,7 @@ outages_prod_helper_tidy <- function(out_gen_df){
                   dt_created = createdDateTime) %>%
     dplyr::mutate(revision_number = as.integer(revision_number)) %>%
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
-    tidyr::unnest(available_period) %>%
+    tidyr::unnest(base::intersect(x = c("available_period", "Reason"), y = names(out_gen_df))) %>%
     dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
                   quantity = as.numeric(quantity),
                   start = lubridate::ymd_hm(start, tz = "UTC"),
