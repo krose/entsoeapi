@@ -30,14 +30,18 @@ en_outages <- function(eic,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
-                                               period_end_update = period_end_update, doc_status = doc_status,
-                                               business_type = business_type))
+                                               period_end_update = period_end_update,
+                                               doc_status = doc_status,
+                                               business_type = business_type,
+                                               security_token = security_token))
   en_df_pro <- try(en_outages_production_units(eic = eic,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
-                                               period_end_update = period_end_update, doc_status = doc_status,
-                                               business_type = business_type))
+                                               period_end_update = period_end_update,
+                                               doc_status = doc_status,
+                                               business_type = business_type,
+                                               security_token = security_token))
 
   if(inherits(en_df_gen, "try-error")){
     message(paste("Outages Generation unit error. Try calling the function en_outages_generation_units() to see the error message."))
