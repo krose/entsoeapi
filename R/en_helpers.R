@@ -116,5 +116,106 @@ en_generation_codes <- function(){
                                                                                                                                                                                                                                                 -27L), class = "data.frame")
 }
 
+#' Get Party_X EIC codes
+#'
+#' This function downloads approved Party_X Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_party <- party_eic()
+#' @export
+#'
+party_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv" )
 
 
+#' Get Area_Y EIC codes
+#'
+#' This function downloads approved Area_Y Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_area <- area_eic()
+#' @export
+#'
+area_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv" )
+
+
+#' Get Accounting_point_Z EIC codes
+#'
+#' This function downloads approved Accounting_point_Z Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_accounting_point <- accounting_point_eic()
+#' @export
+#'
+accounting_point_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv" )
+
+
+#' Get Tie_Line_T EIC codes
+#'
+#' This function downloads approved Tie_Line_T Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_tie_line <- tie_line_eic()
+#' @export
+#'
+tie_line_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv" )
+
+
+#' Get Location_V EIC codes
+#'
+#' This function downloads approved Location_V Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_location <- location_eic()
+#' @export
+#'
+location_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv" )
+
+
+#' Get Resource_Object_W EIC codes
+#'
+#' This function downloads approved Resource_Object_W Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_resource_object <- resource_object_eic()
+#' @export
+#'
+resource_object_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv" )
+
+
+#' Get Substation_A EIC codes
+#'
+#' This function downloads all approved Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_substation <- substation_eic()
+#' @export
+#'
+substation_eic <- function() get_eiccodes( f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv" )
+
+
+#' Get all EIC codes
+#'
+#' This function downloads approved all Energy Identification Codes from
+#' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+#'
+#' @examples
+#' eic_all <- all_eic()
+#' @export
+#'
+all_eic <- function() {
+  tibble::as_tibble( data.table::rbindlist( l = list( party_eic(),
+                                                      area_eic(),
+                                                      accounting_point_eic(),
+                                                      tie_line_eic(),
+                                                      location_eic(),
+                                                      resource_object_eic(),
+                                                      substation_eic() ),
+                                            use.names = TRUE, fill = TRUE ) )
+}

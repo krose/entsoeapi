@@ -1,14 +1,17 @@
 Package: entsoeapi
 Type: Package
 Title: An R Wrapper for the Entso-E API.
-Version: 0.1.0
+Version: 0.1.1
 Author: Kenneth Rose
 Maintainer: Kenneth Rose <kennethrose82@gmail.com>
 Description: This is a wrapper for the Entso-E API. The goal
     is to build simple wrappers to retrieve common data.
 License: MIT
+Imports: lubridate, stringr, purrr, dplyr, tidyr, tibble, httr, xml2, data.table
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/krose/entsoeapi
 BugReports: https://github.com/krose/entsoeapi/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)

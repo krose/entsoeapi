@@ -63,3 +63,60 @@ dt_seq_helper <- function(from, to, seq_resolution, qty){
   df_dt
 }
 
+get_eiccodes <- function( f ) {
+  message( "\ndownloading ", f, " file ..." )
+
+  ## readding input file into a character vector
+  ## and replacing erroneous semicolons to commas
+  ## unfortunately there is no general rule for that hence it must be set manually!!
+  lns        <- readLines( con = f, encoding = "UTF-8" ) %>%
+    gsub( pattern     = "tutkimustehdas;\\sImatra",
+          replacement = "tutkimustehdas, Imatra",
+          perl        = TRUE ) %>%
+    gsub( pattern     = "; S\\.L\\.;",
+          replacement = ", S.L.;",
+          perl        = TRUE ) %>%
+    gsub( pattern     = "\\$amp;",
+          replacement = "&",
+          perl        = TRUE )
+
+  ## looking for those lines (elements) which end are not
+  ## according to the general rules
+  clps_ind   <- grep( x       = lns,
+                      pattern = ";type$|;X$|;Y$|;Z$|;T$|;V$|;W$|;A$",
+                      perl    = TRUE,
+                      invert  = TRUE )
+
+  ## if there are being collapsible elements
+  if( length( x = clps_ind ) > 0L ) {
+
+    ## iterating related elements thru from the last till the first element
+    for( i in rev( clps_ind ) ) {
+      ## collapsing related line (element) with its subsequent neighbor
+      lns[ i ]      <- paste0( lns[ i ], lns[ i + 1L ], collapse = "" )
+    }
+
+    ## removing subsequent neighbors (after collapse)
+    lns <- lns[ -( clps_ind + 1L ) ]
+
+  }
+
+  ## reading lines as they would be a csv
+  eiccodes   <- data.table::fread( text       = lns,
+                                   sep        =";",
+                                   na.strings = c( "", "n / a", "n/a", "N/A", "-", "-------", "." ),
+                                   encoding   = "UTF-8" )
+
+  ## trimming character columns
+  lapply( X   = names( x = eiccodes ),
+          FUN = function( col ) {
+            if( is.character( eiccodes[[ col ]] ) ) {
+              data.table::set( x     = eiccodes,
+                               j     = col,
+                               value = trimws( x     = eiccodes[[ col ]],
+                                               which = "both" ) )
+            }
+          } )
+
+  return( eiccodes )
+}
