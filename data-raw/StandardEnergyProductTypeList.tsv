@@ -1,0 +1,9 @@
+CODE	DEFINITION	DESCRIPTION
+8716867000016	Active power	The product of voltage and the in-phase component of alternating current measured in units of watts and standard multiples thereof.
+8716867000023	Reactive power	The product of voltage and current and the sine of the phase angle between them, measured in units of voltamperes reactive and standard multiples thereof. (not used for planned schedules).
+8716867000030	Active energy	The electrical energy produced, flowing or supplied by an electrical circuit during a time interval, being the integral with respect to time of instantaneous active power, measured in units of watt-hours, or standard multiples thereof.
+8716867000047	Reactive energy	The integral with respect to time of reactive power. (not used for planned schedules).
+8716867000139	Capacitive Reactive energy	Refer to the ETSO document "Energy product types Active -
+8716867000146	Inductive Reactive energy	Reactive - Inductive - Capacitive" Refer to the ETSO document "Energy product types Active - Reactive - Inductive - Capacitive"
+8716867009911	Water	For hydro power stations, this enables the identification of the quantity of water stored behind a dam (volume, head level, etc.), or the constraints in the flow of water.
+

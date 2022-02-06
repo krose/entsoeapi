@@ -1,0 +1,7 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Order by price with pro rata	The allocation method is by price with eventual pro rata.
+A02	Order by price with first come - first served	The allocation method is by price with eventual use of first come first served
+A03	First come – First served	The allocation method is first come first served
+A04	Pro rata	The allocation method is Pro rata
+A05	Continuous	The allocation method is continuous, i.e. there is no gate closure time when bids from the market participants are collected. Instead allocation procedure takes place immediately.
+

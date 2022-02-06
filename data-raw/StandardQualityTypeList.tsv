@@ -1,0 +1,7 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Adjusted	The contents of the object have been adjusted
+A02	Not available	The contents of the object are not available
+A03	Estimated	The contents of the object are estimated
+A04	As provided	The contents of the object are as provided
+A05	Incomplete	The contents of the object are calculated based on incomplete data.
+

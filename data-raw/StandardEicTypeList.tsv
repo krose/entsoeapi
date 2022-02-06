@@ -1,0 +1,9 @@
+CODE	DEFINITION	DESCRIPTION
+A	Substation	An EIC code to substations.
+T	Tieline	An EIC code to identify tielines.
+V	Location	An EIC code to identify locations.
+W	Resource Object	An EIC code to identify resource objects.
+X	Party	An EIC code to identify parties.
+Y	Area or Domain	An EIC code to identify areas or domains.
+Z	Measurement point	An EIC code to identify measurement points.
+
