@@ -305,22 +305,35 @@ en_outages_tidy_to_ts <- function(out_gen_df){
 
 outages_gen_helper <- function(x){
 
-  ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
+  #ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
+  ap_not <- x$Unavailability_MarketDocument$TimeSeries[!names(x$Unavailability_MarketDocument$TimeSeries) %in% c( "Available_Period", "Reason" )]
   ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
-  ap_not$Reason <- NULL
+  #ap_not$Reason <- NULL
+  rsn_outer <- x$Unavailability_MarketDocument[ names( x$Unavailability_MarketDocument ) == "Reason" ]
+  rsn_inner <- x$Unavailability_MarketDocument$TimeSeries[ names( x$Unavailability_MarketDocument$TimeSeries ) == "Reason" ]
+  rsn       <- unlist( c(  rsn_outer, rsn_inner ) )
+  rsn       <- unique( rsn[ names( rsn ) == "Reason.code" ] ) %>% sort()
   ap_not$mkt_doc_mrid <- x$Unavailability_MarketDocument$mRID[[1]]
   ap_not$revisionNumber <- x$Unavailability_MarketDocument$revisionNumber[[1]]
   ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
 
-  ap <- unname(x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"])
+  #ap <- unname(x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"])
+  ap <- unlist( x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"] )
 
-  start <- unlist(purrr::map(ap, ~.x$timeInterval$start[[1]]))
-  end <- unlist(purrr::map(ap, ~.x$timeInterval$end[[1]]))
-  resolution <- unlist(purrr::map(ap, ~.x$resolution))
-  position <- unlist(purrr::map(ap, ~.x$Point$position[[1]]))
-  quantity <- unlist(purrr::map(ap, ~.x$Point$quantity[[1]]))
+  #start <- unlist(purrr::map(ap, ~.x$timeInterval$start[[1]]))
+  start <- ap[[ "Available_Period.timeInterval.start" ]]
+  #end <- unlist(purrr::map(ap, ~.x$timeInterval$end[[1]]))
+  end <- ap[[ "Available_Period.timeInterval.end" ]]
+  #resolution <- unlist(purrr::map(ap, ~.x$resolution))
+  resolution <- ap[[ "Available_Period.resolution" ]]
+  #position <- unlist(purrr::map(ap, ~.x$Point$position[[1]]))
+  position <- ap[[ "Available_Period.Point.position" ]]
+  #quantity <- unlist(purrr::map(ap, ~.x$Point$quantity[[1]]))
+  quantity <- ap[[ "Available_Period.Point.quantity" ]]
 
   ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
+
+  for( i in seq_along( rsn ) ) ap_not[[ paste0( "Reason.", i ) ]] <- rsn[[ i ]]
 
   ap_not
 }
@@ -335,14 +348,17 @@ outages_gen_helper <- function(x){
 en_outages_clean <- function(out_df){
 
   out_df <-
-    out_df %>%
-    dplyr::group_by(mkt_doc_mrid, resource_mrid, resource_name, resource_location_name, resource_psr_type,
-                    resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
-                    revision_number, dt_created, dt_start, dt_end) %>%
-    dplyr::summarise_all(dplyr::last) %>%
-    dplyr::ungroup() %>%
-    dplyr::arrange(dplyr::desc(dt_created))
-
+    if("resource_mrid" %in% names(x = out_df)) {
+      out_df %>%
+      dplyr::group_by(mkt_doc_mrid, resource_mrid, resource_name, resource_location_name, resource_psr_type,
+                      resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
+                      revision_number, dt_created, dt_start, dt_end) %>%
+      dplyr::summarise_all(dplyr::last) %>%
+      dplyr::ungroup() %>%
+      dplyr::arrange(dplyr::desc(dt_created))
+    } else {
+      warning("Only the 'tidy_output' version of the outage table can be cleaned with this function!")
+    }
   out_df
 }
 
