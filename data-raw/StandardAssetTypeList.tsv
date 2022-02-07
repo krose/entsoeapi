@@ -1,0 +1,31 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Tieline	A high voltage line used for cross border energy interconnections.
+A02	Line	A specific electric line within a country
+A03	Resource Object	A resource that can either produce or consume energy
+A04	Generation	A resource that can produce energy
+A05	Load	A resource that can either consume energy
+B01	"Biomass"	A resource using biomass for energy
+B02	"Fossil Brown coal/Lignite"	A resource using Fossil Brown coal/Lignite for energy
+B03	"Fossil Coal-derived gas"	A resource using Fossil Coal-derived gas for energy
+B04	"Fossil Gas"	A resource using Fossil Gas for energy
+B05	"Fossil Hard coal"	A resource using Fossil Hard coal for energy
+B06	"Fossil Oil"	A resource using Fossil Oil for energy
+B07	"Fossil Oil shale"	A resource using Fossil Oil shale for energy
+B08	"Fossil Peat"	A resource using Fossil Peat for energy
+B09	"Geothermal"	A resource using Geothermal for energy
+B10	"Hydro Pumped Storage"	A resource using Hydro Pumped Storage for energy
+B11	"Hydro Run-of-river and poundage"	A resource using Hydro Run-of- river and poundage for energy
+B12	"Hydro Water Reservoir"	A resource using Hydro Water Reservoir for energy
+B13	"Marine"	A resource using Marine for energy
+B14	"Nuclear"	A resource using Nuclear for energy
+B15	"Other renewable"	A resource using Other renewable for energy
+B16	"Solar"	A resource using Solar for energy
+B17	"Waste"	A resource using Waste for energy
+B18	"Wind Offshore"	A resource using Wind Offshore for energy
+B19	"Wind Onshore"	A resource using Wind Onshore for energy
+B20	"Other"	A resource using other sources for producing energy
+B21	"AC Link"	Overhead line or cable which is used to transmit electrical power via Alternative Current.
+B22	"DC Link"	Overhead line or cable which is used to transmit electrical power via Direct Current.
+B23	"Substation"	An assembly of equipment in an electric power system through which electric energy is passed for transmission, transformation, distribution or switching.
+B24	"Transformer"	Electrical device that transfers energy from one voltage level to
+

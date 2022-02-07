@@ -1,0 +1,16 @@
+CODE	DEFINITION	DESCRIPTION
+MWH	Mega watt hours	The total amount of bulk energy transferred or consumed.
+MAW	Mega watt	A unit of bulk power flow, which can be defined as the rate of energy transfer /consumption when a current of 1000 amperes flows due to a potential of 1000 volts at unity power factor expressed in millions of a watt
+MAH	Mega volt ampere reactive hours	Total amount of reactive power across a power system.
+MAR	Mega volt ampere reactive	A unit of electrical reactive power represented by a current of one thousand amperes flowing due to a potential difference of one thousand volts where the sine of the phase angle between them is 1.
+KWT	kilo watt	A unit of bulk power flow, which can be defined as the rate of energy transfer /consumption when a current of 1000 amperes flows due to a potential of 1000 volts at unity power factor expressed in thousands of a watt
+KWH	kilo watt hour	A total amount of electrical energy transferred or consumed in one hour
+P1	Percent	A unit of proportion equal to 0.01.
+MTQ	Cubic metre	A Cubic metre
+MQS	Cubic metres per second	The volume flow rate of cubic metres per second
+MTR	Metre	The length of a metre.
+HMQ	Cubic hectometres	A unit of volume equal to one million cubic metres. 
+C62	One	A unit for dimensionless quantities, also called quantities of dimension one.
+AMP	Ampere	The unit of electrical current in the International system of Units (SI) equivalent to one Coulomb per second.
+KVR	Kilo volt ampere reactive	A unit of electrical reactive power represented by a current of one thousand amperes flowing due to a potential difference of one thousand volts where the sine of the phase angle between them is 1. The unity power factor is expressed in thousands of a volt ampere reactive.
+

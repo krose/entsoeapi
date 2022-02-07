@@ -1,0 +1,13 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Area	The object being described concerns an area.
+A02	Metering point	The object being described concerns a metering point.
+A03	Party	The object being described concerns a party.
+A04	Agreement Identification	The object being described concerns an agreement identification
+A05	Accounting point	The object being described concerns an accounting point
+A06	Resource Object	The object being described concerns a resource object
+A07	Tieline	The object being described concerns a tieline
+A08	Resource type	The object being described concerns a resource type
+A09	DC link	The object being described concerns a DC link
+A10	AC link	The object being described concerns an AC link
+A11	Merchant line	The object being described concerns a merchant line
+

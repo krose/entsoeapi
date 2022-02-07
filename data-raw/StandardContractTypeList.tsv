@@ -1,0 +1,14 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Daily	The condition under which capacity is allocated and handled is by daily auction or a daily transmission allocation procedure.
+A02	Weekly	The condition under which capacity is allocated and handled is by weekly auction or a weekly transmission allocation procedure.
+A03	Monthly	The condition under which capacity is allocated and handled is by monthly auction or a monthly transmission allocation procedure.
+A04	Yearly	The condition under which capacity is allocated and handled is by yearly auction or a yearly transmission allocation procedure.
+A05	Total	This is the sum of all capacity contract types for the period covered.
+A06	Long term contract	The condition under which capacity is allocated and handled is by long term trade agreements according to European regulations.(EU Directive 1228/2003).
+A07	Intraday contract	The condition under which the capacity is allocated and handled is through an intraday auction and allocation process.
+A08	Quarter yearly	The condition under which capacity is allocated and handled is by quarter yearly auction or a quarter yearly transmission allocation procedure.
+A09	Semestrial	The condition under which capacity is allocated and handled is by half yearly auction or a half yearly transmission allocation procedure.
+A10	Multiple year	The condition under which capacity is allocated and handled is by multiple year auctions.
+A11	Intraday balancing mechanism	The condition under which the capacity is allocated and handled is through intraday energy balancing services.
+A12	Historical contract	A Contract established before the EU directive that are valid until the term of the contract.
+

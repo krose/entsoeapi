@@ -1,0 +1,5 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Setpoint schedule	The code for the "power setpoint" mode of operation of the HVDC link
+A02	Proportional external signal	The code for the "Proportional external signal" mode of operation of the HVDC link
+A03	AC emulation	The code for the "AC emulation" mode of operation of the HVDC link
+

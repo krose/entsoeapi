@@ -1,0 +1,8 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Implicit	The auction is an implicit auction
+A02	Explicit	The auction is an explicit auction
+A03	Rule Based	The auction is a rule based auction
+A04	Mixed	The auction is partially implicit and partially explicit
+A05	Explicit/split	The auction concerns two explicit auctions on a split border
+A06	Shadow auction	An explicit auction carried out in the case of the failure of an implicit auction.
+

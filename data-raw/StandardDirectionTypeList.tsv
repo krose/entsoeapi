@@ -1,0 +1,6 @@
+CODE	DEFINITION	DESCRIPTION
+A01	UP	Up signifies that the available power can be used by the Purchasing area to increase energy.
+A02	DOWN	Down signifies that the available power can be used by the Purchasing area to decrease energy.
+A03	UP and DOWN	Up and Down signifies that the UP and Down values are equal.
+A04	Stable	The direction at a given instant in time is considered to be stable.
+

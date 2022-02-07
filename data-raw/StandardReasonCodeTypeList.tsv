@@ -1,0 +1,108 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Message fully accepted	The message has been fully accepted for application processing
+A02	Message fully rejected	No part of the message has been accepted for application processing. For example: Global position incomplete
+A03	Message contains errors at the time series level	Part of the message contents (i.e. certain time sereis) has been accepted for application processing. It is necessary to look at the time series level to determine the time series that have been rejected. The time series is excluded from the global position.
+A04	Time interval incorrect	The schedule time interval is not within the contractual agreement or the period does not agree with the schedule time interval.
+A05	Sender without valid contract	The sender has no current valid contract with the TSO. The message consequently will be fully rejected
+A06	Schedule accepted	The schedule of the recipient as presented has been completely accepted
+A07	Schedule partially accepted	The schedule of the recipient as presented has been partially accepted. It is necessary to look at the time series level to determine the changes (time series rejected, modified etc.)
+A08	Schedule rejected	The schedule of the recipient as presented has been totally rejected. The cause could be the non presentation of a counter part for the involved trades
+A09	Time series not matching	Time series mismatches.
+A10	Credit limit exceeded	The contractual credit limit has been exceeded and as such the message has been rejected.
+A20	Time series fully rejected	The time series has been fully rejected. In the case of a confirmation report, this reason code is used in conjunction with either A26 or A30.
+A21	Time series accepted with specific time interval errors	The time series has been accepted but some time interval quantities have been rectified or zeroed out
+A22	In party/Out party invalid	There is no contract for the parties indicated or the rules for cross border nominations are not being respected. The time series has been rejected
+A23	Area invalid	The area is unknown or not allowed. The time series has been rejected.
+A24		This code is no longer applicable
+A25		This code is no longer applicable
+A26	Default time series applied	The time series has been rejected and replaced with a default time series profile. This reason code may not be used in conjunction with A30.
+A27	Cross border capacity exceeded	The cross border capacity has been exceeded. The time series has been rejected or adjusted
+A28	Counterpart time series missing	This provides an indication that the time series has not got a counterpart time series. In the case of an Intermediate Confirmation Report this is advising the recipient that the time series may be rejected at nomination closure if the counterpart time series is not received. In the case of a Final Confirmation Report this is informing the recipient that the time series has been rejected because the counterpart time series has not been forthcoming.
+A29	Counterpart time series quantity differences	The time series has been rejected as it does not match that of the counterpart who is considered by market rules to be correct
+A30	Imposed Time series from nominated party's time series (party identified in reason text) 	The nominated party's time series has replaced the current time series.  This reason code  may not be used in conjunction with A26.
+A41	Resolution inconsistency	The resolution is not coherent with the time interval, or resolution not valid
+A42	Quantity inconsistency	The quantity is not coherent. For example a time period with the same version number but different quantities or an non permitted number of digits after the decimal point, etc.
+A43	Quantity increased	The quantity has been increased in order to satisfy minimum constraints
+A44	Quantity decreased	The quantity has been decreased in order to satisfy congestion constraints
+A45	Default quantity applied	The default quantity has been applied as the current quantity does not satisfy contractual obligations
+A46	Quantities must not be  signed values	The quantity proposed is illegal since signed values are only permitted in specific circumstances
+A47		This code is no longer applicable
+A48	Modification reason	In an intra day transmission, the reason for the modification is as follows (in the reason text).
+A49	Position inconsistency	A position is missing or too many.
+A50	Senders time series version conflict	There is an error in the senders time series version. (i.e. it could be superior to the message   version or is inconsistent with the existing data). The time series has been rejected. 
+A51	Message identification or version conflict	The message identification is  already in the receiving system.   Or a higher version already exists. Message rejected
+A52	Time series missing from  new version of message	A time series is not contained in a new version of the message. Message rejected
+A53	Receiving party incorrect	The receiving party is incorrect. Message rejected
+A54	Global position not in balance	The message does not balance out to zero. Market rules might require that the message is rejected.
+A55	Time series identification conflict	The identification of the time series is duplicated or incorrect. Time series will be rejected
+A56	Corresponding Time series not netted	All corresponding time series must be netted. Time series rejected.
+A57	Deadline limit exceeded/Gate not open	The deadline for receiving schedule messages has passed. Message or time series rejected.
+A58	One to one nomination inconsistency	There is a one to one nomination inconstancy with the in/out parties or areas. Time series rejected
+A59	Not compliant to local market rules	The level in which this is identified is not in compliance with local market rules. The level in question has been rejected.
+A60	Inter-area transit schedule exceeds nominated schedule	The inter-area transit schedule exceeds the nominated schedule for the same time interval. The inter-area transit schedule is rejected.
+A61	Currency invalid	The currency is not in compliance with ISO 4217.
+A62	Invalid business type	The business type does not belong to the valid set of business types for the process in question.
+A63	Time Series modified	The time series has been modified.
+A64	Resource Object Invalid	The Resource Object defined in the document is not valid
+A65	Reserve object Technical limits exceeded	Reserve objects aggregated values are not within technical/prequalified limits
+A66	Planned reserves do not correspond with contractual data	Planned reserves do not correspond with contractual data
+A67	Limit Data is not available	Limit Data is not available
+A68	Reserve Object not qualified for reserve type	Reserve Object is not qualified for reserve type
+A69	Mandatory attributes missing	Mandatory attributes missing.
+A70	Curtailment	The capacity in question has been curtailed
+A71	Linked bid rejected due to associated bid unsuccessful	The bid in question has been rejected because an associated bid has been unsuccessful.
+A72	Original bid divided to permit acceptance	The original bid quantity has been divided to enable it to be accepted
+A73	Bid accepted	The bid in question has been accepted
+A74	Auction Status	The information in the Reason Text provides auction status information
+A75	Right status information	The information in the Reason Text provides status information concerning the transmission rights in question
+A76	Agreement identification inconsistency	There is an inconsistency between the contract type and the agreement identification
+A77	Dependency matrix not respected	There is an inconsistency between the document contents and the dependency matrix
+A78	Sender identification and/or role invalid	The identification of the sender or the sender/role combination is invalid
+A79	Process type invalid	The process type does not figure in the list of valid process types for this document
+A80	Domain invalid	The domain does not figure in the list of valid domains for this document and process
+A81	Matching period invalid	The period is not within the expected limits
+A82	In/Out area inconsistant with domain	The in and out area does not figure within the domain specified
+A83	Disagree with matching results	The matching results provided are not consistant
+A84	Confirmation ignored due to higher version already received	The report has been ignored since a higher version has been received
+A85	Confirmation without adjustment (time series have been matched without change)	The report has been successfully matched without any changes
+A86	Confirmation with adjustment (time series have been modified)	The report has been matched but required adjustment
+A87	For action (only in intermediate confirmation - time series need mutual agreement and action)	The report in question is only for action in an intermediate stage
+A88	Time series matched	The time series has been sucessfully matched
+A89	Time series ignored (note: this can only apply to time series that are set to zero - see matching principles)	The time series has been ignored and not matched since it does not figure in a counterparty transmission. All are correctly equal to zero.
+A90	Modification proposal (intermediate confirmation)	The document is a proposal for change before finalization
+A91	Expected document not received	The document that is expected has not been received within the expected timeframe
+A92	Not possible to send document on time, but estimated delivery time is provided	The document that is due cannot be transmitted within the required timeframe. An estimated time of transmission is provided
+A93	Not possible to send document on time, and further more no expected time of return to normal situation	The document that is due cannot be transmitted within the required timeframe. The time of transmission of the document is unknown.
+A94	Document cannot be processed by receiving system	The receiving system cannot process that document in question
+A95	Complementary information	Additional text is provided in order to further explain a condition (for example to provide details of an outage)
+A96	Technical constraint	A technical constraint has been applied
+A97	Force majeure curtailment	Curtailment due to Force Majeure. A code that enables the identification of the curtailment reason for settlement purposes
+A98	Network security curtailment	Curtailment due to network security reasons A code that enables the identification of the curtailment reason for settlement purposes
+A99	Auction cancelled	The auction has been cancelled
+B01	Incomplete document	The document is incomplete and cannot be processed
+B02	Accounting Point (tie-line) Time Series missing	The document is incomplete as a time series for an accounting point is missing
+B03	Meter data Time series missing	The document is incomplete as a time series for meter data is missing
+B04	Estimated values not allowed in first transmission	The document is in its initial form and estimated values are not allowed
+B05	No quantity values allowed for a quality that is not available	No quantity values are allowed for a quality that is not available.
+B06	Time series accepted	Time series accepted for processing but not yet matched with counterparty and/or not yet verified against capacity.
+B07	Auction without bids being entered	The auction has terminated without any bids being submitted. The ReasonText may provide the identification of the auction in question.
+B08	Data not yet available	It is not possible to perform the necessary action since the required data for this action is not yet available.
+B09	Bid not accepted	The bid in question has NOT been accepted.
+B10	Initiator area problem	The problem concerns the initiator area.
+B11	Cooperating area problem	The problem concerns the cooperating area.
+B12	Communication status currently active	The status within the system indicates that the communication capability is currently active.
+B13	Communication status currently inactive	The status within the system indicates that the communication capability is currently inactive.
+B14	Communication status currently restricted	The status within the system indicates that the communication capability is currently restricted.
+B15	Problem associated with both areas	The problem concerns both areas.
+B16	Tender unavailable in MOL list	A tender that has been requested is no longer available in the MOL.
+B17	Price based on preliminary exchange rate	The price is based on a preliminary exchange rate.
+B18	Failure	a failure has occurred.
+B19	Forseen maintenance	Maintenance is foreseen.
+B20	Shutdown	A shutdown has occurred.
+B21	Official exchange rate approved	The official exchange rate has been approved.
+B22	System regulation	The information provided regards a regulation for system purposes.
+B23	Frequency regulation	The information provided regards a regulation for frequency purposes.
+B24	Load flow overload	Situation in the grid, where loading of a certain grid element (e.g. overhead line) is above defined technical limits
+B25	voltage level adjustment	A TSO activity to maintain an acceptable voltage profile throughout the network. This is achieved by balancing of the respective reactive power requirements of the network and the customers. This code is used to identify errors that have not been specifically addressed in the
+999	Errors not specifically identified	Reason code list. It can be used at any level and refers to the level for which it has been identified.
+
