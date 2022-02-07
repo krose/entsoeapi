@@ -318,20 +318,27 @@ outages_gen_helper <- function(x){
   ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
 
   #ap <- unname(x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"])
-  ap <- unlist( x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"] )
+  ap <- lapply( X   = x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"],
+                FUN = function( uap ) {
+                  tibble::as_tibble_row( x = unlist( uap ),
+                                         .name_repair = function( n ) {
+                                           sub( pattern = "^.+\\.",
+                                                replacement = "",
+                                                x = n,
+                                                perl = TRUE )
+                                         } ) %>%
+                    .[ , 1L:5L ]
+                } ) %>%
+    dplyr::bind_rows()
 
   #start <- unlist(purrr::map(ap, ~.x$timeInterval$start[[1]]))
-  start <- ap[[ "Available_Period.timeInterval.start" ]]
   #end <- unlist(purrr::map(ap, ~.x$timeInterval$end[[1]]))
-  end <- ap[[ "Available_Period.timeInterval.end" ]]
   #resolution <- unlist(purrr::map(ap, ~.x$resolution))
-  resolution <- ap[[ "Available_Period.resolution" ]]
   #position <- unlist(purrr::map(ap, ~.x$Point$position[[1]]))
-  position <- ap[[ "Available_Period.Point.position" ]]
   #quantity <- unlist(purrr::map(ap, ~.x$Point$quantity[[1]]))
-  quantity <- ap[[ "Available_Period.Point.quantity" ]]
 
-  ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
+  #ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
+  ap_not$available_period <- list( ap )
 
   for( i in seq_along( rsn ) ) ap_not[[ paste0( "Reason.", i ) ]] <- rsn[[ i ]]
 
@@ -347,19 +354,19 @@ outages_gen_helper <- function(x){
 #'
 en_outages_clean <- function(out_df){
 
-  out_df <-
-    if("resource_mrid" %in% names(x = out_df)) {
-      out_df %>%
-      dplyr::group_by(mkt_doc_mrid, resource_mrid, resource_name, resource_location_name, resource_psr_type,
-                      resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
-                      revision_number, dt_created, dt_start, dt_end) %>%
-      dplyr::summarise_all(dplyr::last) %>%
-      dplyr::ungroup() %>%
-      dplyr::arrange(dplyr::desc(dt_created))
+  if("resource_mrid" %in% names(x = out_df)) {
+      out_df <- out_df %>%
+        dplyr::group_by(mkt_doc_mrid, resource_mrid, resource_name, resource_location_name, resource_psr_type,
+                        resource_psr_type_capacity, resource_psr_type_mrid, resource_psr_type_name,
+                        revision_number, dt_created, dt_start, dt_end) %>%
+        dplyr::summarise_all(dplyr::last) %>%
+        dplyr::ungroup() %>%
+        dplyr::arrange(dplyr::desc(dt_created))
     } else {
-      warning("Only the 'tidy_output' version of the outage table can be cleaned with this function!")
+      warning("Table has not cleaned, only the 'tidy_output' version\nof the outage table can be cleaned with this function!")
     }
-  out_df
+  return( out_df )
+
 }
 
 
@@ -541,19 +548,19 @@ api_req_zip <- function(url, file_type){
       docs_allowed <- as.integer(stringr::str_extract(stringr::str_extract(req_cont_reason, "allowed: [0-9]{1,8}"), "[0-9]{1,8}"))
       docs_requested <- as.integer(stringr::str_extract(stringr::str_extract(req_cont_reason, "requested: [0-9]{1,8}"), "[0-9]{1,8}"))
 
-      total_api_reqs <- docs_requested %/% docs_allowed
+      total_api_reqs <- docs_requested%/%docs_allowed + ceiling( docs_requested %% docs_allowed / docs_allowed )
 
       folder_res <- api_zip_folder_prep(temp_file_path = temp_file_path)
 
       res_list <- vector(mode = "list", total_api_reqs)
 
-      message(paste0("Requested documents: ", docs_requested, "."))
+      message("Requested documents: ", docs_requested, ".")
 
-      for(i in 1:(total_api_reqs + 1)){
+      for(i in 1L:total_api_reqs){
 
-        message(paste0("Request no: ", i, ". Total requests: ", total_api_reqs + 1, "."))
+        message("Request no: ", i, ". Total requests: ", total_api_reqs, "   '&offset=", (i - 1L) * docs_allowed, "'" )
 
-        url_offset <- paste0(url, "&offset=", (i - 1) * 200)
+        url_offset <- paste0(url, "&offset=", (i - 1L) * docs_allowed )
 
         req <- httr::GET(url_offset, httr::write_disk(path = paste0(temp_file_path, "/file.zip"), overwrite = TRUE))
 
@@ -571,6 +578,7 @@ api_req_zip <- function(url, file_type){
           res_list[[i]] <- read_xml_from_path_out_tran(xml_path = temp_file_path)
         }
 
+        message( nrow( res_list[[ i ]] ), " rows downloaded" )
         folder_res <- api_zip_folder_prep(temp_file_path = temp_file_path)
 
       }
@@ -593,7 +601,7 @@ api_req_zip <- function(url, file_type){
     }
   }
 
-  df
+  unique( df )
 }
 
 api_unzip_res <- function(temp_file_path){
@@ -601,12 +609,22 @@ api_unzip_res <- function(temp_file_path){
   # unzip file
   unzip(zipfile = paste0(temp_file_path, "/file.zip"), exdir = temp_file_path)
 
+  # setting a boolean return value
+  # according to the number of unzipped xml files
+  if( length( list.files( path = temp_file_path,
+                          pattern = "xml",
+                          ignore.case = TRUE ) ) > 0L ) {
+    api_unzip_result <- TRUE
+  } else {
+    api_unzip_result <- FALSE
+  }
+
   # remove zip file so it's not read later
   if(file.exists(paste0(temp_file_path, "/file.zip"))){
     file.remove(paste0(temp_file_path, "/file.zip"))
   }
 
-  TRUE
+  return( api_unzip_result )
 }
 
 api_zip_folder_prep <- function(temp_file_path){
