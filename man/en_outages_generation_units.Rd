@@ -13,7 +13,8 @@ en_outages_generation_units(
   doc_status = "A05",
   business_type = NULL,
   tidy_output = TRUE,
-  security_token = NULL
+  new_style = FALSE,
+  security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
@@ -23,15 +24,19 @@ en_outages_generation_units(
 
 \item{period_end}{POSIXct}
 
-\item{period_start_update}{Period start udpate.}
+\item{period_start_update}{Period start udpate POSIXct}
 
-\item{period_end_update}{Period end update.}
+\item{period_end_update}{Period end update POSIXct}
 
-\item{doc_status}{Document status. A05 for active or A09 for Cancelled.}
+\item{doc_status}{Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.}
 
-\item{business_type}{Defaults to NULL. A53 for planned. A54 for unplanned.}
+\item{business_type}{Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.}
 
-\item{security_token}{Security token}
+\item{tidy_output}{flatten nested tables}
+
+\item{new_style}{If TRUE, some less useless descriptive columns are replaced by more useful ones}
+
+\item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
 Get outages for Generation units.
