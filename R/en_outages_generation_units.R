@@ -4,11 +4,13 @@
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
-#' @param period_start_update Period start udpate.
-#' @param period_end_update Period end update.
-#' @param doc_status Document status. A05 for active or A09 for Cancelled.
-#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
-#' @param security_token Security token
+#' @param period_start_update Period start udpate POSIXct
+#' @param period_end_update Period end update POSIXct
+#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
+#' @param tidy_output flatten nested tables
+#' @param new_style If TRUE, some less useless descriptive columns are replaced by more useful ones
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @importFrom dplyr %>%
 #'
@@ -22,15 +24,22 @@
 #'  france <- en_outages(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
 en_outages <- function(eic,
-                       period_start = lubridate::ymd(Sys.Date(), tz = "CET"), period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
-                       period_start_update = NULL, period_end_update = NULL,
-                       doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
+                       period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+                       period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+                       period_start_update = NULL,
+                       period_end_update = NULL,
+                       doc_status = "A05",
+                       business_type = NULL,
+                       tidy_output = TRUE,
+                       new_style = FALSE,
+                       security_token = NULL) {
 
   en_df_gen <- try(en_outages_generation_units(eic = eic,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
                                                period_end_update = period_end_update,
+                                               new_style = new_style,
                                                doc_status = doc_status,
                                                business_type = business_type,
                                                security_token = security_token))
@@ -39,6 +48,7 @@ en_outages <- function(eic,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
                                                period_end_update = period_end_update,
+                                               new_style = new_style,
                                                doc_status = doc_status,
                                                business_type = business_type,
                                                security_token = security_token))
@@ -60,6 +70,12 @@ en_outages <- function(eic,
     return(NULL)
   }
 
+  if( isTRUE( x = new_style ) ) {
+    en_df$curve_type <- NULL
+    en_df$curveType  <- NULL
+    en_df$doc_status <- doc_status
+  }
+
   en_df
 }
 
@@ -70,11 +86,13 @@ en_outages <- function(eic,
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
-#' @param period_start_update Period start udpate.
-#' @param period_end_update Period end update.
-#' @param doc_status Document status. A05 for active or A09 for Cancelled.
-#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
-#' @param security_token Security token
+#' @param period_start_update Period start udpate POSIXct
+#' @param period_end_update Period end update POSIXct
+#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
+#' @param tidy_output flatten nested tables
+#' @param new_style If TRUE, some less useless descriptive columns are replaced by more useful ones
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
 #'
@@ -85,17 +103,19 @@ en_outages <- function(eic,
 #'
 #'  france <- en_outages_generation_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
-en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+en_outages_generation_units <- function(eic,
+                                        period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
-                                        period_start_update = NULL, period_end_update = NULL,
-                                        doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
+                                        period_start_update = NULL,
+                                        period_end_update = NULL,
+                                        doc_status = "A05",
+                                        business_type = NULL,
+                                        tidy_output = TRUE,
+                                        new_style = FALSE,
+                                        security_token = Sys.getenv("ENTSOE_PAT")) {
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  if(is.null(security_token)){
-    security_token <- Sys.getenv("ENTSOE_PAT")
-  }
 
   if(length(eic) > 1){
     stop("This wrapper only supports one EIC per request.")
@@ -127,20 +147,28 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
     en_content$type <- "generation units"
   }
 
+  if( isTRUE( x = new_style ) ) {
+    en_content$curve_type <- NULL
+    en_content$curveType  <- NULL
+    en_content$doc_status <- doc_status
+  }
+
   en_content
 }
 
 
 #' Get outages for production units.
 #'
-#' @param eic Energy Identification Code
+#' @param eic Energy Identification Codeof the bidding zone
 #' @param period_start POSIXct
 #' @param period_end POSIXct
-#' @param period_start_update Period start udpate.
-#' @param period_end_update Period end update.
-#' @param doc_status Document status. A05 for active or A09 for Cancelled.
-#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
-#' @param security_token Security token
+#' @param period_start_update Period start udpate POSIXct
+#' @param period_end_update Period end update POSIXct
+#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
+#' @param tidy_output flatten nested tables
+#' @param new_style If TRUE, some less useless descriptive columns are replaced by more useful ones
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
 #'
@@ -151,19 +179,21 @@ en_outages_generation_units <- function(eic, period_start = lubridate::ymd(Sys.D
 #'
 #'  france <- en_outages_production_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
-en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+en_outages_production_units <- function(eic,
+                                        period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
-                                        period_start_update = NULL, period_end_update = NULL,
-                                        doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
+                                        period_start_update = NULL,
+                                        period_end_update = NULL,
+                                        doc_status = "A05",
+                                        business_type = NULL,
+                                        tidy_output = TRUE,
+                                        new_style = FALSE,
+                                        security_token = Sys.getenv("ENTSOE_PAT")) {
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
 
-  if(is.null(security_token)){
-    security_token <- Sys.getenv("ENTSOE_PAT")
-  }
-
-  if(length(eic) > 1){
+  if(length(eic) > 1L){
     stop("This wrapper only supports one EIC per request.")
   }
 
@@ -191,6 +221,12 @@ en_outages_production_units <- function(eic, period_start = lubridate::ymd(Sys.D
   if(tidy_output){
     en_content <- outages_prod_helper_tidy(en_content)
     en_content$type <- "production units"
+  }
+
+  if( isTRUE( x = new_style ) ) {
+    en_content$curve_type <- NULL
+    en_content$curveType  <- NULL
+    en_content$doc_status <- doc_status
   }
 
   en_content
@@ -224,10 +260,11 @@ outages_gen_helper_tidy <- function(out_gen_df){
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
     tidyr::unnest( data = ., cols = vapply( ., is.list, TRUE ) %>% which() %>% names() ) %>%
     { if( "Reason" %in% names(.) ) tidyr::unite( data = ., col = "Reason", grep( pattern = "^Reason", x = names( . ), value = TRUE ), na.rm = TRUE, sep = "|" ) else . } %>%
-    dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
-                  quantity = as.numeric(quantity),
-                  start = lubridate::ymd_hm(start, tz = "UTC"),
-                  end = lubridate::ymd_hm(end, tz = "UTC"))
+    dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity)
+                  # quantity = as.numeric(quantity),
+                  # start = lubridate::ymd_hm(start, tz = "UTC"),
+                  # end = lubridate::ymd_hm(end, tz = "UTC")
+                  )
 
   out_gen_df
 }
@@ -254,10 +291,11 @@ outages_prod_helper_tidy <- function(out_gen_df){
     dplyr::arrange(resource_psr_type, dt_start, dt_end) %>%
     tidyr::unnest( data = ., cols = vapply( ., is.list, TRUE ) %>% which() %>% names() ) %>%
     { if( "Reason" %in% names(.) ) tidyr::unite( data = ., col = "Reason", grep( pattern = "^Reason", x = names( . ), value = TRUE ), na.rm = TRUE, sep = "|" ) else . } %>%
-    dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
-                  quantity = as.numeric(quantity),
-                  start = lubridate::ymd_hm(start, tz = "UTC"),
-                  end = lubridate::ymd_hm(end, tz = "UTC"))
+    dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity)
+                  # quantity = as.numeric(quantity),
+                  # start = lubridate::ymd_hm(start, tz = "UTC"),
+                  # end = lubridate::ymd_hm(end, tz = "UTC")
+                  )
 
   if(!"resource_psr_type_mrid" %in% names(out_gen_df)){
     out_gen_df$resource_psr_type_mrid <- "none"
@@ -305,44 +343,101 @@ en_outages_tidy_to_ts <- function(out_gen_df){
 
 outages_gen_helper <- function(x){
 
-  #ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
-  ap_not <- x$Unavailability_MarketDocument$TimeSeries[!names(x$Unavailability_MarketDocument$TimeSeries) %in% c( "Available_Period", "Reason" )]
-  ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
-  #ap_not$Reason <- NULL
-  rsn_outer <- x$Unavailability_MarketDocument[ names( x$Unavailability_MarketDocument ) == "Reason" ]
-  rsn_inner <- x$Unavailability_MarketDocument$TimeSeries[ names( x$Unavailability_MarketDocument$TimeSeries ) == "Reason" ]
-  rsn       <- unlist( c(  rsn_outer, rsn_inner ) )
-  rsn       <- unique( rsn[ names( rsn ) == "Reason.code" ] ) %>% sort()
-  ap_not$mkt_doc_mrid <- x$Unavailability_MarketDocument$mRID[[1]]
-  ap_not$revisionNumber <- x$Unavailability_MarketDocument$revisionNumber[[1]]
-  ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
+  # ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
+  # ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
+  # ap_not$Reason <- NULL
+  # ap_not$mkt_doc_mrid <- x$Unavailability_MarketDocument$mRID[[1]]
+  # ap_not$revisionNumber <- x$Unavailability_MarketDocument$revisionNumber[[1]]
+  # ap_not$createdDateTime <- x$Unavailability_MarketDocument$createdDateTime[[1]]
+  #
+  # ap <- unname(x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"])
+  #
+  # start <- unlist(purrr::map(ap, ~.x$timeInterval$start[[1]]))
+  # end <- unlist(purrr::map(ap, ~.x$timeInterval$end[[1]]))
+  # resolution <- unlist(purrr::map(ap, ~.x$resolution))
+  # position <- unlist(purrr::map(ap, ~.x$Point$position[[1]]))
+  # quantity <- unlist(purrr::map(ap, ~.x$Point$quantity[[1]]))
+  #
+  # ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
 
-  #ap <- unname(x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"])
-  ap <- lapply( X   = x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) == "Available_Period"],
+  ## drilling one level deeper
+  x                  <- x$Unavailability_MarketDocument
+
+  ## picking main metadata of Unavailability_MarketDocument
+  reason             <- x$Reason
+  mkt_doc_mrid       <- x$mRID[[ 1L ]]
+  revisionNumber     <- x$revisionNumber[[ 1L ]]
+  createdDateTime    <- x$createdDateTime[[ 1L ]]
+
+  ## drilling one level deeper
+  x                  <- x$TimeSeries
+
+  ## picking reason code values from TimeSeries branch
+  ## and adding this value to the already existing reason vector
+  reason             <- unlist( c( reason, x$Reason ) )
+  reason             <- unique( reason[ names( reason ) == "code" ] ) %>% sort()
+
+  ## picking main metadata of TimeSeries branch
+  ## and creating a tibble from those
+  ap_not                 <- x[ !names( x ) %in% c( "Available_Period", "Reason" ) ]
+  ap_not                 <- lapply( X = ap_not,
+                                    FUN = unlist,
+                                    recursive = FALSE ) %>%
+                              tibble::as_tibble( .name_repair = "minimal" )
+
+  ## adding already collected meta data to the tibble as new columns
+  for( i in seq_along( reason ) ) ap_not[[ paste0( "Reason_", i ) ]] <- reason[[ i ]]
+  ap_not$mkt_doc_mrid    <- mkt_doc_mrid
+  ap_not$revisionNumber  <- revisionNumber
+  ap_not$createdDateTime <- createdDateTime
+
+  ## iterating Available_Period branches thru and appending the result tables together
+  ap <- lapply( X   = x[ names( x ) == "Available_Period" ],
                 FUN = function( uap ) {
-                  tibble::as_tibble_row( x = unlist( uap ),
-                                         .name_repair = function( n ) {
-                                           sub( pattern = "^.+\\.",
-                                                replacement = "",
-                                                x = n,
-                                                perl = TRUE )
+                  ## picking the start and end timestamps into variables
+                  start_tt    <- as.POSIXct( uap$timeInterval$start[[ 1L ]],
+                                             tryFormats = c( "%Y-%m-%dT%H:%MZ",
+                                                             "%Y-%m-%dT%H:%M:%SZ" ),
+                                             tz = "UTC" )
+                  end_tt      <- as.POSIXct( uap$timeInterval$end[[ 1L ]],
+                                             tryFormats = c( "%Y-%m-%dT%H:%MZ",
+                                                             "%Y-%m-%dT%H:%M:%SZ" ),
+                                             tz = "UTC" )
+                  ## translating the resolution value into seconds
+                  multip      <- data.table::fcase( uap$resolution[[ 1L ]] == "PT60M",      60L*60L,
+                                                    uap$resolution[[ 1L ]] == "PT30M",      30L*60L,
+                                                    uap$resolution[[ 1L ]] == "PT15M",      15L*60L,
+                                                    uap$resolution[[ 1L ]] == "PT1M",        1L*60L,
+                                                    uap$resolution[[ 1L ]] == "P1D",    24L*60L*60L,
+                                                    uap$resolution[[ 1L ]] == "P7D", 7L*24L*60L*60L )
+                  ## building tibble from the list of Point subvalues (position, quantity)
+                  point_table <- lapply( X   = uap[ names( x = uap ) == "Point" ],
+                                         FUN = function( p ) {
+                                            tibble::as_tibble_row( unlist( p ) )
                                          } ) %>%
-                    .[ , 1L:5L ]
+                                   dplyr::bind_rows()
+                  point_table$position <- as.numeric( point_table$position )
+                  point_table$quantity <- as.numeric( point_table$quantity )
+                  ## calculating start & end timestamp from start_tt, multip & end_tt values
+                  point_table <- tibble::add_column( point_table,
+                                                     start = start_tt + ( point_table$position - 1L )*multip,
+                                                     .before = "position" )
+                  point_table <- tibble::add_column( point_table,
+                                                     end = data.table::shift( x = point_table$start, type = "lead" ),
+                                                     .before = "position" )
+                  point_table$end[ nrow( point_table ) ] <- end_tt
+                  ## adding corresponding resolution value
+                  point_table <- tibble::add_column( point_table,
+                                                     resolution = uap$resolution[[ 1L ]],
+                                                     .before = "position" )
+                  return( point_table )
                 } ) %>%
     dplyr::bind_rows()
 
-  #start <- unlist(purrr::map(ap, ~.x$timeInterval$start[[1]]))
-  #end <- unlist(purrr::map(ap, ~.x$timeInterval$end[[1]]))
-  #resolution <- unlist(purrr::map(ap, ~.x$resolution))
-  #position <- unlist(purrr::map(ap, ~.x$Point$position[[1]]))
-  #quantity <- unlist(purrr::map(ap, ~.x$Point$quantity[[1]]))
-
-  #ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
+  ## inserting available period table as nested table
   ap_not$available_period <- list( ap )
 
-  for( i in seq_along( rsn ) ) ap_not[[ paste0( "Reason.", i ) ]] <- rsn[[ i ]]
-
-  ap_not
+  return( ap_not )
 }
 
 
@@ -375,11 +470,13 @@ en_outages_clean <- function(out_df){
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
 #' @param period_end POSIXct
-#' @param period_start_update Period start udpate.
-#' @param period_end_update Period end update.
-#' @param doc_status Document status. A05 for active or A09 for Cancelled.
-#' @param business_type Defaults to NULL. A53 for planned. A54 for unplanned.
-#' @param security_token Security token
+#' @param period_start_update Period start udpate POSIXct
+#' @param period_end_update Period end update POSIXct
+#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
+#' @param tidy_output flatten nested tables
+#' @param new_style If TRUE, some less useless descriptive columns are replaced by more useful ones
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
 #'
@@ -390,17 +487,20 @@ en_outages_clean <- function(out_df){
 #'
 #'  fr_de <- df <- en_outages_transmission_infrastructure(in_domain = "10YFR-RTE------C", out_domain = "10Y1001A1001A82H", period_start = lubridate::ymd(Sys.Date() - 300, tz = "CET"))
 #'
-en_outages_transmission_infrastructure <- function(in_domain, out_domain, period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
-                                        period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
-                                        period_start_update = NULL, period_end_update = NULL,
-                                        doc_status = "A05", business_type = NULL, tidy_output = TRUE, security_token = NULL){
+en_outages_transmission_infrastructure <- function(in_domain,
+                                                   out_domain,
+                                                   period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
+                                                   period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
+                                                   period_start_update = NULL,
+                                                   period_end_update = NULL,
+                                                   doc_status = "A05",
+                                                   business_type = NULL,
+                                                   tidy_output = TRUE,
+                                                   new_style = FALSE,
+                                                   security_token = Sys.getenv("ENTSOE_PAT")) {
 
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  if(is.null(security_token)){
-    security_token <- Sys.getenv("ENTSOE_PAT")
-  }
 
   url <- paste0(
     "https://transparency.entsoe.eu/api",
@@ -434,6 +534,12 @@ en_outages_transmission_infrastructure <- function(in_domain, out_domain, period
       dplyr::filter(dt_created == max(dt_created, na.rm = TRUE)) %>%
       dplyr::summarise_all(dplyr::last) %>%
       dplyr::ungroup()
+  }
+
+  if( isTRUE( x = new_style ) ) {
+    en_content$curve_type <- NULL
+    en_content$curveType  <- NULL
+    en_content$doc_status <- doc_status
   }
 
   en_content
