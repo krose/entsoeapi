@@ -15,13 +15,23 @@ api_req <- function(url){
 
 url_posixct_format <- function(x){
 
-  if("POSIXct" %in% class(x)){
-    x <- strftime(x = x, format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
+  if(any(class(x) == "POSIXct")){
+    y <- strftime(x = x, format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
   } else {
-    stop("Only the class POSIXct is supported by the converter.")
+    y <- lubridate::parse_date_time(x      = x,
+                                    orders = c("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d",
+                                               "%Y.%m.%d %H:%M:%S", "%Y.%m.%d %H:%M", "%Y.%m.%d"),
+                                    tz     = "UTC",
+                                    quiet  = TRUE) %>%
+      strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
+    if(is.na(y)) {
+      stop("Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text are supported by the converter.")
+    } else {
+      warning("The ", x, " value interpreted as UTC.", call. = FALSE)
+    }
   }
 
-  x
+  y
 }
 
 
@@ -41,7 +51,7 @@ dt_helper <- function(tz_start, tz_resolution, tz_position){
   dt
 }
 
-dt_seq_helper <- function(from, to, seq_resolution, qty){
+dt_seq_helper <- function(from, to, seq_resolution = NULL, qty){
 
   # if(seq_resolution == "PT1M"){
     # df_dt <- data.frame(dt = seq(from, to, by = "1 mins"))
