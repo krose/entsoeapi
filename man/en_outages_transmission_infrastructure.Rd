@@ -14,18 +14,21 @@ en_outages_transmission_infrastructure(
   doc_status = "A05",
   business_type = NULL,
   tidy_output = TRUE,
-  new_style = FALSE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
-\item{period_start}{POSIXct}
+\item{in_domain}{Energy Identification Code of the bidding zone area}
 
-\item{period_end}{POSIXct}
+\item{out_domain}{Energy Identification Code of the bidding zone area}
 
-\item{period_start_update}{Period start udpate POSIXct}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_end_update}{Period end update POSIXct}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+
+\item{period_start_update}{Period start update, POSIXct or YYYY-MM-DD HH:MM:SS format}
+
+\item{period_end_update}{Period end update, POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{doc_status}{Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.}
 
@@ -33,11 +36,7 @@ en_outages_transmission_infrastructure(
 
 \item{tidy_output}{flatten nested tables}
 
-\item{new_style}{If TRUE, some less useless descriptive columns are replaced by more useful ones}
-
 \item{security_token}{Security token for ENTSO-E transparency platform}
-
-\item{eic}{Energy Identification Code}
 }
 \description{
 Get outages for transmission units.
@@ -47,6 +46,7 @@ Get outages for transmission units.
  library(tidyverse)
  library(entsoeapi)
 
- fr_de <- df <- en_outages_transmission_infrastructure(in_domain = "10YFR-RTE------C", out_domain = "10Y1001A1001A82H", period_start = lubridate::ymd(Sys.Date() - 300, tz = "CET"))
+ fr_de <- en_outages_transmission_infrastructure(in_domain = "10YFR-RTE------C",
+                                                 out_domain = "10Y1001A1001A82H")
 
 }

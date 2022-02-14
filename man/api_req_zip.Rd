@@ -7,9 +7,9 @@
 api_req_zip(url, file_type)
 }
 \arguments{
-\item{url}{url.}
+\item{url}{the pre-orchestrated URL of the API request}
 
-\item{file_type}{transmission or generation.}
+\item{file_type}{"generation", "production" or "transmission"}
 }
 \description{
 save and unzip the zip file with xml data.

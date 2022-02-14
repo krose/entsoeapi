@@ -13,28 +13,25 @@ en_outages_production_units(
   doc_status = "A05",
   business_type = NULL,
   tidy_output = TRUE,
-  new_style = FALSE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
 \item{eic}{Energy Identification Codeof the bidding zone}
 
-\item{period_start}{POSIXct}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_end}{POSIXct}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_start_update}{Period start udpate POSIXct}
+\item{period_start_update}{Period start update, POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_end_update}{Period end update POSIXct}
+\item{period_end_update}{Period end update, POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{doc_status}{Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.}
 
 \item{business_type}{Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.}
 
 \item{tidy_output}{flatten nested tables}
-
-\item{new_style}{If TRUE, some less useless descriptive columns are replaced by more useful ones}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
