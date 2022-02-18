@@ -4,10 +4,13 @@
 \alias{en_outages_clean}
 \title{Clean data for outages}
 \usage{
-en_outages_clean(out_df)
+en_outages_clean(out_df, new_style = FALSE)
 }
 \arguments{
 \item{out_df}{Outages data.frame}
+
+\item{new_style}{If TRUE, some less useless descriptive columns are replaced by more useful ones,
+furthermore it gives back all the rows not only the last ones.}
 }
 \description{
 Clean data for outages
