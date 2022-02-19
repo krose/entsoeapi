@@ -8,7 +8,7 @@ en_generation_day_ahead_agg_gen(
   eic,
   period_start,
   period_end,
-  security_token = NULL
+  security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{

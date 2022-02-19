@@ -2,14 +2,20 @@
 
 api_req <- function(url){
 
+  message(url, " ...")
   req <- httr::GET(url)
 
   if(httr::status_code(req) != "200"){
     stop(httr::content(req, encoding = "UTF-8"))
   }
   en_cont <- httr::content(req, encoding = "UTF-8")
+  message("downloaded")
 
   en_cont
+}
+
+api_req_safe <- function(...) {
+  purrr:::capture_error(api_req(...), otherwise, quiet)
 }
 
 
@@ -20,7 +26,8 @@ url_posixct_format <- function(x){
   } else {
     y <- lubridate::parse_date_time(x      = x,
                                     orders = c("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d",
-                                               "%Y.%m.%d %H:%M:%S", "%Y.%m.%d %H:%M", "%Y.%m.%d"),
+                                               "%Y.%m.%d %H:%M:%S", "%Y.%m.%d %H:%M", "%Y.%m.%d",
+                                               "%Y%m%d%H%M%S",      "%Y%m%d%H%M",     "%Y%m%d"),
                                     tz     = "UTC",
                                     quiet  = TRUE) %>%
       strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
@@ -36,6 +43,14 @@ url_posixct_format <- function(x){
 
 
 dt_helper <- function(tz_start, tz_resolution, tz_position){
+  if(!lubridate::is.POSIXct(tz_start)) {
+    tz_start <- as.POSIXct( x = tz_start,
+                            tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                           "%Y-%m-%dT%H:%M:%SZ",
+                                           "%Y-%m-%d %H:%M",
+                                           "%Y-%m-%d %H:%M:%S"),
+                            tz = "UTC")
+  }
   if(tz_resolution == "PT60M"){
     dt <- tz_start + lubridate::hours(tz_position - 1)
   } else if(tz_resolution == "PT15M"){
