@@ -95,27 +95,26 @@ en_generation_agg_gen_per_type <- function(eic,
     stop("This wrapper only supports one control area EIC per request.")
   }
 
-  url_list <- en_gen_agg_gen_pertype_api_req_helper(
-                eic = eic,
-                period_start = period_start,
-                period_end = period_end,
-                security_token = security_token,
-                psr_type = gt)
+  url_list <- entsoeapi:::en_gen_agg_gen_pertype_api_req_helper(eic = eic,
+                                                                period_start = period_start2,
+                                                                period_end = period_end2,
+                                                                security_token = security_token,
+                                                                psr_type = gen_type)
 
-  en_cont <- purrr::map(url_list, api_req_safe)
-  en_cont <- purrr::map(en_cont, "result")
-  #en_cont <- purrr::map(en_cont, "GL_MarketDocument")
+  en_cont <- url_list %>%
+    purrr::map(entsoeapi:::api_req_safe) %>%
+    purrr::map("result")
+
   en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
 
-  en_cont <- purrr::map(en_cont, xml2::as_list)
-  #en_cont <- en_cont[[ 1L ]]$GL_MarketDocument
-  en_cont <- lapply(X = en_cont, FUN = `[[`, "GL_MarketDocument")
-  en_cont <- unlist(en_cont, recursive = FALSE)
-  en_cont <- en_cont[names(en_cont) == "TimeSeries"]
-  en_cont <- lapply(X = en_cont, FUN = ts_agg_gen_helper)
+  en_cont <- en_cont %>%
+    purrr::map(xml2::as_list) %>%
+    purrr::map("GL_MarketDocument") %>%
+    unlist(recursive = FALSE)
 
-  en_cont <- dplyr::bind_rows(en_cont)
-  en_cont <- dplyr::select(en_cont, -mRID, -businessType, -objectAggregation, -curveType, -position)
+  en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
+    purrr::map_dfr(entsoeapi:::ts_agg_gen_helper) %>%
+    dplyr::select(-mRID, -businessType, -objectAggregation, -curveType, -position)
 
   en_cont
 }
