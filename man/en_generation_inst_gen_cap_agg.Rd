@@ -4,7 +4,11 @@
 \alias{en_generation_inst_gen_cap_agg}
 \title{Get Installed generation capacity aggregated per type from Entsoe}
 \usage{
-en_generation_inst_gen_cap_agg(eic, year, security_token = NULL)
+en_generation_inst_gen_cap_agg(
+  eic,
+  year,
+  security_token = Sys.getenv("ENTSOE_PAT")
+)
 }
 \arguments{
 \item{eic}{Energy Identification Code}

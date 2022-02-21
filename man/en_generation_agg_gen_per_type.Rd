@@ -8,17 +8,20 @@ en_generation_agg_gen_per_type(
   eic,
   period_start,
   period_end,
-  security_token = NULL
+  security_token = Sys.getenv("ENTSOE_PAT"),
+  gen_type = NULL
 )
 }
 \arguments{
-\item{eic}{Energy Identification Code}
+\item{eic}{Energy Identification Code of the control area (TSO)}
 
-\item{period_start}{POSIXct}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies}
 
-\item{period_end}{POSIXct}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies}
 
-\item{security_token}{Security token}
+\item{security_token}{Security token for ENTSO-E transparency platform}
+
+\item{gen_type}{Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table}
 }
 \description{
 Get aggregated generation per type from Entsoe
@@ -28,6 +31,8 @@ Get aggregated generation per type from Entsoe
 library(tidyverse)
 library(entsoeapi)
 
-fr_2020 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+fr_202002 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C",
+                                            period_start = lubridate::ymd("2020-02-01", tz = "CET"),
+                                            period_end = lubridate::ymd("2020-03-01", tz = "CET"))
 
 }
