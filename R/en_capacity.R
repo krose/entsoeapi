@@ -96,67 +96,74 @@ en_capacity_total_nominated <- function(in_domain,
 
   rqst    <- purrr::map(url_list, api_req_safe)
 
-  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% warning()
+  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) {
 
-  en_cont <- purrr::map(rqst, "result")
-  en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
+    purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% warning()
+    return(tibble::tibble())
 
-  en_cont <- en_cont %>%
-    purrr::map(xml2::as_list) %>%
-    purrr::map("Publication_MarketDocument") %>%
-    unlist(recursive = FALSE)
+  } else {
 
-  en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
-    purrr::map_dfr(ts_capacity_helper) %>%
-    tibble::add_column(document_type = document_type)
+    en_cont <- purrr::map(rqst, "result")
+    en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
 
-  ## if the output should be tidy
-  if(tidy_output) {
+    en_cont <- en_cont %>%
+      purrr::map(xml2::as_list) %>%
+      purrr::map("Publication_MarketDocument") %>%
+      unlist(recursive = FALSE)
 
-    ## querying area EIC codes
-    eic  <- area_eic()[, c("EicCode", "EicDisplayName")]
+    en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
+      purrr::map_dfr(ts_capacity_helper) %>%
+      tibble::add_column(document_type = document_type)
 
-    ## remove not necessary columns
-    en_cont   <- en_cont %>% dplyr::select(-mRID, -curveType, -position)
-    ## renaming columns
-    names(en_cont) <- names(en_cont) %>%
-      gsub(pattern = ".", replacement = "_", fixed = TRUE) %>%
-      gsub(pattern = "Type", replacement = "_Type", fixed = TRUE) %>%
-      gsub(pattern = "Agreement", replacement = "_Agreement", fixed = TRUE) %>%
-      tolower()
-    ## adding definitions to codes
-    ## and reordering columns
-    en_cont   <- en_cont %>%
-      dplyr::left_join(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
-                                 dplyr::rename(business_type = CODE, business_type_def = DEFINITION),
-                       by    = "business_type",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = StandardContractTypeList[, c("CODE", "DEFINITION")] %>%
-                                 dplyr::rename(contract_market_agreement_type = CODE, contract_market_agreement_type_def = DEFINITION),
-                       by    = "contract_market_agreement_type",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = eic %>% dplyr::rename(in_domain_mrid = EicCode, in_domain_mrid_def = EicDisplayName),
-                       by    = "in_domain_mrid",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = eic %>% dplyr::rename(out_domain_mrid = EicCode, out_domain_mrid_def = EicDisplayName),
-                       by    = "out_domain_mrid",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = StandardDocumentTypeList[, c("CODE", "DEFINITION")] %>%
-                         dplyr::rename(document_type = CODE, document_type_def = DEFINITION),
-                       by    = "document_type",
-                       all.x = TRUE) %>%
-      dplyr::select(base::intersect(x = c("document_type", "document_type_def",
-                                          "business_type", "business_type_def",
-                                          "in_domain_mrid", "in_domain_mrid_def",
-                                          "out_domain_mrid", "out_domain_mrid_def",
-                                          "contract_market_agreement_type",
-                                          "contract_market_agreement_type_def", "dt",
-                                          "quantity", "quantity_measure_unit_name"),
-                                    y = names(.))) %>%
-      dplyr::arrange(dt)
+    ## if the output should be tidy
+    if(tidy_output) {
+
+      ## querying area EIC codes
+      eic  <- area_eic()[, c("EicCode", "EicDisplayName")]
+
+      ## remove not necessary columns
+      en_cont   <- en_cont %>% dplyr::select(-mRID, -curveType, -position)
+      ## renaming columns
+      names(en_cont) <- names(en_cont) %>%
+        gsub(pattern = ".", replacement = "_", fixed = TRUE) %>%
+        gsub(pattern = "Type", replacement = "_Type", fixed = TRUE) %>%
+        gsub(pattern = "Agreement", replacement = "_Agreement", fixed = TRUE) %>%
+        tolower()
+      ## adding definitions to codes
+      ## and reordering columns
+      en_cont   <- en_cont %>%
+        dplyr::left_join(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
+                                   dplyr::rename(business_type = CODE, business_type_def = DEFINITION),
+                         by    = "business_type",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = StandardContractTypeList[, c("CODE", "DEFINITION")] %>%
+                                   dplyr::rename(contract_market_agreement_type = CODE, contract_market_agreement_type_def = DEFINITION),
+                         by    = "contract_market_agreement_type",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = eic %>% dplyr::rename(in_domain_mrid = EicCode, in_domain_mrid_def = EicDisplayName),
+                         by    = "in_domain_mrid",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = eic %>% dplyr::rename(out_domain_mrid = EicCode, out_domain_mrid_def = EicDisplayName),
+                         by    = "out_domain_mrid",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = StandardDocumentTypeList[, c("CODE", "DEFINITION")] %>%
+                           dplyr::rename(document_type = CODE, document_type_def = DEFINITION),
+                         by    = "document_type",
+                         all.x = TRUE) %>%
+        dplyr::select(base::intersect(x = c("document_type", "document_type_def",
+                                            "business_type", "business_type_def",
+                                            "in_domain_mrid", "in_domain_mrid_def",
+                                            "out_domain_mrid", "out_domain_mrid_def",
+                                            "contract_market_agreement_type",
+                                            "contract_market_agreement_type_def", "dt",
+                                            "quantity", "quantity_measure_unit_name"),
+                                      y = names(.))) %>%
+        dplyr::arrange(dt)
+    }
+
+    return(en_cont)
+
   }
-
-  en_cont
 }
 
 
@@ -224,77 +231,84 @@ en_capacity_already_allocated <- function(in_domain,
 
   rqst    <- purrr::map(url_list, api_req_safe)
 
-  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% warning()
+  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) {
 
-  en_cont <- purrr::map(rqst, "result")
-  en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
+    purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% warning()
+    return(tibble::tibble())
 
-  en_cont <- en_cont %>%
-    purrr::map(xml2::as_list) %>%
-    purrr::map("Publication_MarketDocument") %>%
-    unlist(recursive = FALSE)
+  } else {
 
-  en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
-    purrr::map_dfr(ts_capacity_helper) %>%
-    tibble::add_column(document_type = document_type)
+    en_cont <- purrr::map(rqst, "result")
+    en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
 
-  ## if the output should be tidy
-  if(tidy_output) {
+    en_cont <- en_cont %>%
+      purrr::map(xml2::as_list) %>%
+      purrr::map("Publication_MarketDocument") %>%
+      unlist(recursive = FALSE)
 
-    ## querying area EIC codes
-    eic  <- area_eic()[, c("EicCode", "EicDisplayName")]
+    en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
+      purrr::map_dfr(ts_capacity_helper) %>%
+      tibble::add_column(document_type = document_type)
 
-    ## remove not necessary columns
-    en_cont   <- en_cont %>% dplyr::select(-mRID, -curveType, -position)
-    ## renaming columns
-    names(en_cont) <- names(en_cont) %>%
-      gsub(pattern = ".", replacement = "_", fixed = TRUE) %>%
-      gsub(pattern = "Type", replacement = "_Type", fixed = TRUE) %>%
-      gsub(pattern = "Agreement", replacement = "_Agreement", fixed = TRUE) %>%
-      tolower()
-    ## adding definitions to codes
-    ## and reordering columns
-    en_cont   <- en_cont %>%
-      dplyr::left_join(y     = StandardAuctionTypeList[, c("CODE", "DEFINITION")] %>%
-                         dplyr::rename(auction_type = CODE, auction_type_def = DEFINITION),
-                       by    = "auction_type",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = StandardCategoryTypeList[, c("CODE", "DEFINITION")] %>%
-                         dplyr::rename(auction_category = CODE, auction_category_def = DEFINITION),
-                       by    = "auction_category",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
-                         dplyr::rename(business_type = CODE, business_type_def = DEFINITION),
-                       by    = "business_type",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = StandardContractTypeList[, c("CODE", "DEFINITION")] %>%
-                         dplyr::rename(contract_market_agreement_type = CODE, contract_market_agreement_type_def = DEFINITION),
-                       by    = "contract_market_agreement_type",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = eic %>% dplyr::rename(in_domain_mrid = EicCode, in_domain_mrid_def = EicDisplayName),
-                       by    = "in_domain_mrid",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = eic %>% dplyr::rename(out_domain_mrid = EicCode, out_domain_mrid_def = EicDisplayName),
-                       by    = "out_domain_mrid",
-                       all.x = TRUE) %>%
-      dplyr::left_join(y     = StandardDocumentTypeList[, c("CODE", "DEFINITION")] %>%
-                         dplyr::rename(document_type = CODE, document_type_def = DEFINITION),
-                       by    = "document_type",
-                       all.x = TRUE) %>%
-      dplyr::select(base::intersect(x = c("auction_mrid", "auction_type", "auction_type_def",
-                                          "auction_category", "auction_category_def",
-                                          "document_type", "document_type_def",
-                                          "business_type", "business_type_def",
-                                          "in_domain_mrid", "in_domain_mrid_def",
-                                          "out_domain_mrid", "out_domain_mrid_def",
-                                          "contract_market_agreement_type",
-                                          "contract_market_agreement_type_def", "dt",
-                                          "quantity", "quantity_measure_unit_name"),
-                                    y = names(.))) %>%
-      dplyr::arrange(dt)
+    ## if the output should be tidy
+    if(tidy_output) {
+
+      ## querying area EIC codes
+      eic  <- area_eic()[, c("EicCode", "EicDisplayName")]
+
+      ## remove not necessary columns
+      en_cont   <- en_cont %>% dplyr::select(-mRID, -curveType, -position)
+      ## renaming columns
+      names(en_cont) <- names(en_cont) %>%
+        gsub(pattern = ".", replacement = "_", fixed = TRUE) %>%
+        gsub(pattern = "Type", replacement = "_Type", fixed = TRUE) %>%
+        gsub(pattern = "Agreement", replacement = "_Agreement", fixed = TRUE) %>%
+        tolower()
+      ## adding definitions to codes
+      ## and reordering columns
+      en_cont   <- en_cont %>%
+        dplyr::left_join(y     = StandardAuctionTypeList[, c("CODE", "DEFINITION")] %>%
+                           dplyr::rename(auction_type = CODE, auction_type_def = DEFINITION),
+                         by    = "auction_type",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = StandardCategoryTypeList[, c("CODE", "DEFINITION")] %>%
+                           dplyr::rename(auction_category = CODE, auction_category_def = DEFINITION),
+                         by    = "auction_category",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
+                           dplyr::rename(business_type = CODE, business_type_def = DEFINITION),
+                         by    = "business_type",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = StandardContractTypeList[, c("CODE", "DEFINITION")] %>%
+                           dplyr::rename(contract_market_agreement_type = CODE, contract_market_agreement_type_def = DEFINITION),
+                         by    = "contract_market_agreement_type",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = eic %>% dplyr::rename(in_domain_mrid = EicCode, in_domain_mrid_def = EicDisplayName),
+                         by    = "in_domain_mrid",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = eic %>% dplyr::rename(out_domain_mrid = EicCode, out_domain_mrid_def = EicDisplayName),
+                         by    = "out_domain_mrid",
+                         all.x = TRUE) %>%
+        dplyr::left_join(y     = StandardDocumentTypeList[, c("CODE", "DEFINITION")] %>%
+                           dplyr::rename(document_type = CODE, document_type_def = DEFINITION),
+                         by    = "document_type",
+                         all.x = TRUE) %>%
+        dplyr::select(base::intersect(x = c("auction_mrid", "auction_type", "auction_type_def",
+                                            "auction_category", "auction_category_def",
+                                            "document_type", "document_type_def",
+                                            "business_type", "business_type_def",
+                                            "in_domain_mrid", "in_domain_mrid_def",
+                                            "out_domain_mrid", "out_domain_mrid_def",
+                                            "contract_market_agreement_type",
+                                            "contract_market_agreement_type_def", "dt",
+                                            "quantity", "quantity_measure_unit_name"),
+                                      y = names(.))) %>%
+        dplyr::arrange(dt)
+    }
+
+    return(en_cont)
+
   }
-
-  en_cont
 }
 
 
