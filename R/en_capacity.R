@@ -251,7 +251,7 @@ en_capacity_already_allocated <- function(in_domain,
       tibble::add_column(document_type = document_type)
 
     ## if the output should be tidy
-    if(tidy_output) {
+    if(tidy_output & nrow(en_cont) > 0L) {
 
       ## querying area EIC codes
       eic  <- area_eic()[, c("EicCode", "EicDisplayName")]
