@@ -96,7 +96,7 @@ en_capacity_total_nominated <- function(in_domain,
 
   rqst    <- purrr::map(url_list, api_req_safe)
 
-  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% stop()
+  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% warning()
 
   en_cont <- purrr::map(rqst, "result")
   en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
@@ -224,7 +224,7 @@ en_capacity_already_allocated <- function(in_domain,
 
   rqst    <- purrr::map(url_list, api_req_safe)
 
-  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% stop()
+  if(!is.null(purrr::map(rqst, "error")[[ 1L ]])) purrr::map(rqst, "error") %>% purrr::map_chr("message") %>% warning()
 
   en_cont <- purrr::map(rqst, "result")
   en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
