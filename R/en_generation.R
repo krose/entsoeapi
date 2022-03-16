@@ -95,14 +95,14 @@ en_generation_agg_gen_per_type <- function(eic,
     stop("This wrapper only supports one control area EIC per request.")
   }
 
-  url_list <- entsoeapi:::en_gen_agg_gen_pertype_api_req_helper(eic = eic,
-                                                                period_start = period_start2,
-                                                                period_end = period_end2,
-                                                                security_token = security_token,
-                                                                psr_type = gen_type)
+  url_list <- en_gen_agg_gen_pertype_api_req_helper(eic = eic,
+                                                    period_start = period_start2,
+                                                    period_end = period_end2,
+                                                    security_token = security_token,
+                                                    psr_type = gen_type)
 
   en_cont <- url_list %>%
-    purrr::map(entsoeapi:::api_req_safe) %>%
+    purrr::map(api_req_safe) %>%
     purrr::map("result")
 
   en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
@@ -113,7 +113,7 @@ en_generation_agg_gen_per_type <- function(eic,
     unlist(recursive = FALSE)
 
   en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
-    purrr::map_dfr(entsoeapi:::ts_agg_gen_helper) %>%
+    purrr::map_dfr(ts_agg_gen_helper) %>%
     dplyr::select(-mRID, -businessType, -objectAggregation, -curveType, -position)
 
   en_cont

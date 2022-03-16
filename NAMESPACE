@@ -3,6 +3,8 @@
 export(accounting_point_eic)
 export(all_eic)
 export(area_eic)
+export(en_capacity_already_allocated)
+export(en_capacity_total_nominated)
 export(en_eic)
 export(en_generation_act_gen_per_unit)
 export(en_generation_agg_gen_per_type)

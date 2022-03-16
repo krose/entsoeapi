@@ -14,8 +14,8 @@ api_req <- function(url){
   en_cont
 }
 
-api_req_safe <- function(...) {
-  purrr:::capture_error(api_req(...), otherwise, quiet)
+api_req_safe <- function(..., otherwise = NULL, quiet = TRUE) {
+  purrr:::capture_error(api_req(...), otherwise = otherwise, quiet = quiet)
 }
 
 
