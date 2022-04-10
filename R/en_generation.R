@@ -210,7 +210,7 @@ en_generation_act_gen_per_unit <- function(eic,
                                                                    format = "%Y%m%d%H%M",
                                                                    tz     = "UTC"),
                                                         units = "days") %>%
-                                                 ceiling() - 1L) * 24L*60L*60L
+                                                 ceiling(.) - 1L) * 24L*60L*60L
   period_end_list   <- data.table::shift(x    = period_start_list,
                                          type = "lead",
                                          fill = as.POSIXct(x      = period_end,
