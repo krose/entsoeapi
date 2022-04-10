@@ -96,8 +96,8 @@ en_generation_agg_gen_per_type <- function(eic,
   }
 
   url_list <- en_gen_agg_gen_pertype_api_req_helper(eic = eic,
-                                                    period_start = period_start2,
-                                                    period_end = period_end2,
+                                                    period_start = period_start,
+                                                    period_end = period_end,
                                                     security_token = security_token,
                                                     psr_type = gen_type)
 
