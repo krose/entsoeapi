@@ -797,7 +797,7 @@ api_req_zip <- function(url, file_type) {
 
     req_cont_reason <- xml2::as_list(httr::content(req, encoding = "utf-8"))$Acknowledgement_MarketDocument$Reason$text[[1]]
 
-    if (stringr::str_detect(req_cont_reason, "The amount of requested data exceeds allowed limit.")) {
+    if (isTRUE(stringr::str_detect(req_cont_reason, "The amount of requested data exceeds allowed limit."))) {
       docs_allowed <- as.integer(stringr::str_extract(stringr::str_extract(req_cont_reason, "allowed: [0-9]{1,8}"), "[0-9]{1,8}"))
       docs_requested <- as.integer(stringr::str_extract(stringr::str_extract(req_cont_reason, "requested: [0-9]{1,8}"), "[0-9]{1,8}"))
 
