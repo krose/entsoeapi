@@ -6,18 +6,21 @@
 \usage{
 en_outages_production_units(
   eic,
+  mkt_doc_mrid = NULL,
   period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
   period_start_update = NULL,
   period_end_update = NULL,
-  doc_status = "A05",
+  doc_status = NULL,
   business_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
-\item{eic}{Energy Identification Codeof the bidding zone}
+\item{eic}{Energy Identification Code of the bidding zone/control area (To extract outages of bidding zone  DE-AT-LU area, it is recommended to send queries per control area i.e. CTA|DE(50Hertz), CTA|DE(Amprion), CTA|DE(TeneTGer),CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone. )}
+
+\item{mkt_doc_mrid}{Defaults to NULL. The older versions of an outage is returned only when mRID parameter is set.}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
@@ -27,11 +30,11 @@ en_outages_production_units(
 
 \item{period_end_update}{Period end update, POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{doc_status}{Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.}
+\item{doc_status}{Document status. Defaults to NULL. "A05" for active, "A09" for cancelled and "A13" for withdrawn.}
 
 \item{business_type}{Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.}
 
-\item{tidy_output}{flatten nested tables}
+\item{tidy_output}{Defaults to TRUE. flatten nested tables}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
