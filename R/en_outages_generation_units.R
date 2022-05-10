@@ -1,14 +1,15 @@
 
 #' Get outages for Generation units.
 #'
-#' @param eic Energy Identification Code
+#' @param eic Energy Identification Code of the bidding zone/control area (To extract outages of bidding zone  DE-AT-LU area, it is recommended to send queries per control area i.e. CTA|DE(50Hertz), CTA|DE(Amprion), CTA|DE(TeneTGer),CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone. )
+#' @param mkt_doc_mrid Defaults to NULL. The older versions of an outage is returned only when mRID parameter is set.
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_start_update Period start update, POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end_update Period end update, POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param doc_status Defaults to NULL. Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
 #' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
-#' @param tidy_output flatten nested tables
+#' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @importFrom dplyr %>%
@@ -23,16 +24,18 @@
 #'  france <- en_outages(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
 en_outages <- function(eic,
+                       mkt_doc_mrid = NULL,
                        period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                        period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                        period_start_update = NULL,
                        period_end_update = NULL,
-                       doc_status = "A05",
+                       doc_status = NULL,
                        business_type = NULL,
                        tidy_output = TRUE,
                        security_token = Sys.getenv("ENTSOE_PAT")) {
 
   en_df_gen <- try(en_outages_generation_units(eic = eic,
+                                               mkt_doc_mrid = mkt_doc_mrid,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
@@ -42,6 +45,7 @@ en_outages <- function(eic,
                                                tidy_output = tidy_output,
                                                security_token = security_token))
   en_df_pro <- try(en_outages_production_units(eic = eic,
+                                               mkt_doc_mrid = mkt_doc_mrid,
                                                period_start = period_start,
                                                period_end = period_end,
                                                period_start_update = period_start_update,
@@ -75,14 +79,15 @@ en_outages <- function(eic,
 
 #' Get outages for Generation units.
 #'
-#' @param eic Energy Identification Code
+#' @param eic Energy Identification Code of the bidding zone/control area (To extract outages of bidding zone  DE-AT-LU area, it is recommended to send queries per control area i.e. CTA|DE(50Hertz), CTA|DE(Amprion), CTA|DE(TeneTGer),CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone. )
+#' @param mkt_doc_mrid Defaults to NULL. The older versions of an outage is returned only when mRID parameter is set.
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_start_update Period start update, POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end_update Period end update, POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param doc_status Defaults to NULL. Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
 #' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
-#' @param tidy_output flatten nested tables
+#' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
@@ -95,30 +100,30 @@ en_outages <- function(eic,
 #'  france <- en_outages_generation_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
 en_outages_generation_units <- function(eic,
+                                        mkt_doc_mrid = NULL,
                                         period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL,
                                         period_end_update = NULL,
-                                        doc_status = "A05",
+                                        doc_status = NULL,
                                         business_type = NULL,
                                         tidy_output = TRUE,
                                         security_token = Sys.getenv("ENTSOE_PAT")) {
 
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  if (length(eic) > 1) {
-    stop("This wrapper only supports one EIC per request.")
-  }
+  stopifnot("This wrapper only supports one EIC per request." = length(eic) == 1)
+  stopifnot("Maximum one year range limit should be applied." = difftime(time1 = period_end, time2 = period_start, units = "days") <= 366)
 
   url <- paste0(
     "https://transparency.entsoe.eu/api",
     "?documentType=A80",
     "&biddingZone_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end,
+    "&periodStart=", url_posixct_format(period_start),
+    "&periodEnd=", url_posixct_format(period_end),
     "&securityToken=", security_token
   )
+  if (!is.null(mkt_doc_mrid)) {
+    url <- paste0(url, "&mRID=", mkt_doc_mrid)
+  }
   if (!is.null(doc_status)) {
     url <- paste0(url, "&docStatus=", doc_status)
   }
@@ -134,9 +139,8 @@ en_outages_generation_units <- function(eic,
   en_content <- api_req_zip(url, file_type = "generation")
 
   if (isTRUE(tidy_output) & nrow(en_content) > 0L) {
-    en_content <- outages_gen_helper_tidy(en_content)
-    en_content$type <- "generation units"
-    en_content$doc_status <- doc_status
+    en_content <- outages_gen_helper_tidy(en_content) %>%
+      tibble::add_column(type = "generation units")
   }
 
   en_content
@@ -145,14 +149,15 @@ en_outages_generation_units <- function(eic,
 
 #' Get outages for production units.
 #'
-#' @param eic Energy Identification Codeof the bidding zone
+#' @param eic Energy Identification Code of the bidding zone/control area (To extract outages of bidding zone  DE-AT-LU area, it is recommended to send queries per control area i.e. CTA|DE(50Hertz), CTA|DE(Amprion), CTA|DE(TeneTGer),CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone. )
+#' @param mkt_doc_mrid Defaults to NULL. The older versions of an outage is returned only when mRID parameter is set.
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_start_update Period start update, POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end_update Period end update, POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param doc_status Document status. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
+#' @param doc_status Document status. Defaults to NULL. "A05" for active, "A09" for cancelled and "A13" for withdrawn.
 #' @param business_type Defaults to NULL. "A53" for planned maintenance. "A54" for unplanned outage.
-#' @param tidy_output flatten nested tables
+#' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
@@ -165,30 +170,30 @@ en_outages_generation_units <- function(eic,
 #'  france <- en_outages_production_units(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2019-11-12", tz = "CET"), period_end = lubridate::ymd("2019-11-13", tz = "CET"))
 #'
 en_outages_production_units <- function(eic,
+                                        mkt_doc_mrid = NULL,
                                         period_start = lubridate::ymd(Sys.Date(), tz = "CET"),
                                         period_end = lubridate::ymd(Sys.Date() + 3, tz = "CET"),
                                         period_start_update = NULL,
                                         period_end_update = NULL,
-                                        doc_status = "A05",
+                                        doc_status = NULL,
                                         business_type = NULL,
                                         tidy_output = TRUE,
                                         security_token = Sys.getenv("ENTSOE_PAT")) {
 
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one EIC per request.")
-  }
+  stopifnot("This wrapper only supports one EIC per request." = length(eic) == 1)
+  stopifnot("Maximum one year range limit should be applied." = difftime(time1 = period_end, time2 = period_start, units = "days") <= 366)
 
   url <- paste0(
     "https://transparency.entsoe.eu/api",
     "?documentType=A77",
     "&biddingZone_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end,
+    "&periodStart=", url_posixct_format(period_start),
+    "&periodEnd=", url_posixct_format(period_end),
     "&securityToken=", security_token
   )
+  if (!is.null(mkt_doc_mrid)) {
+    url <- paste0(url, "&mRID=", mkt_doc_mrid)
+  }
   if (!is.null(doc_status)) {
     url <- paste0(url, "&docStatus=", doc_status)
   }
@@ -204,9 +209,8 @@ en_outages_production_units <- function(eic,
   en_content <- api_req_zip(url, file_type = "production")
 
   if (isTRUE(tidy_output) & nrow(en_content) > 0L) {
-    en_content <- outages_prod_helper_tidy(en_content)
-    en_content$type <- "production units"
-    en_content$doc_status <- doc_status
+    en_content <- outages_gen_helper_tidy(en_content) %>%
+      tibble::add_column(type = "production units")
   }
 
   en_content
@@ -214,15 +218,18 @@ en_outages_production_units <- function(eic,
 
 
 
-outages_gen_helper_tidy <- function(out_gen_df) {
+outages_gen_helper_tidy <- function(df) {
 
-  out_gen_df <- out_gen_df %>%
-    dplyr::mutate(dt_created = lubridate::ymd_hms(createdDateTime, tz = "UTC")) %>%
-    dplyr::select(-createdDateTime) %>%
-    dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
-    dplyr::select(-start_DateAndOrTime.time, -start_DateAndOrTime.date) %>%
-    dplyr::mutate(dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
-    dplyr::select(-end_DateAndOrTime.time, -end_DateAndOrTime.date) %>%
+  out_df <- df %>%
+    dplyr::mutate(dt_created = lubridate::ymd_hms(createdDateTime, tz = "UTC"),
+                  dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC"),
+                  dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    { if ( "docStatus" %in% names(.) ) .
+      else tibble::add_column( ., docStatus = NA_character_ ) } %>%
+    { if ( "production_RegisteredResource.pSRType.powerSystemResources.mRID" %in% names(.) ) .
+      else tibble::add_column( ., production_RegisteredResource.pSRType.powerSystemResources.mRID = NA_character_ ) } %>%
+    { if ( "production_RegisteredResource.pSRType.powerSystemResources.name" %in% names(.) ) .
+      else tibble::add_column( ., production_RegisteredResource.pSRType.powerSystemResources.name = NA_character_ ) } %>%
     dplyr::rename(bidding_zone_mrid = biddingZone_Domain.mRID,
                   quantity_measure_unit = quantity_Measure_Unit.name,
                   curve_type = curveType,
@@ -233,81 +240,35 @@ outages_gen_helper_tidy <- function(out_gen_df) {
                   resource_psr_type_mrid = production_RegisteredResource.pSRType.powerSystemResources.mRID,
                   resource_psr_type_name = production_RegisteredResource.pSRType.powerSystemResources.name,
                   resource_psr_type_capacity = production_RegisteredResource.pSRType.powerSystemResources.nominalP,
-                  revision_number = revisionNumber) %>%
+                  revision_number = revisionNumber,
+                  doc_status = docStatus) %>%
     dplyr::mutate(revision_number = as.integer(revision_number),
-                  resource_psr_type_mrid = dplyr::if_else(is.na(resource_psr_type_mrid), "none", resource_psr_type_mrid),
-                  resource_psr_type_name = dplyr::if_else(is.na(resource_psr_type_name), "none", resource_psr_type_name),
-                  resource_psr_type_capacity = as.integer(resource_psr_type_capacity)) %>%
+                  resource_psr_type_mrid = tidyr::replace_na(resource_psr_type_mrid, "none"),
+                  resource_psr_type_name = tidyr::replace_na(resource_psr_type_name, "none"),
+                  resource_psr_type_capacity = as.integer(resource_psr_type_capacity),
+                  doc_status = tidyr::replace_na(doc_status,"A05")) %>%
     dplyr::arrange(resource_psr_type, dt_start, resource_mrid) %>%
-    tidyr::unnest(data = ., cols = vapply(X = ., FUN = is.list, FUN.VALUE = TRUE) %>%
+    tidyr::unnest(data = .,
+                  cols = vapply(X = ., FUN = is.list, FUN.VALUE = TRUE) %>%
                     which() %>%
-                    names()) %>% {
-      reason_cols <- grep(pattern = "^Reason|^reason", x = names(.), value = TRUE);
+                    names()) %>%
+    { reason_cols <- grep(pattern = "^Reason|^reason", x = names(.), value = TRUE);
       if (length(x = reason_cols) > 0L) {
         tidyr::unite(data = ., col = "reason_code", reason_cols, sep = "|", na.rm = TRUE)
       } else {
         .
       } } %>%
-    # dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity)
-    #               quantity = as.numeric(quantity),
-    #               start = lubridate::ymd_hm(start, tz = "UTC"),
-    #               end = lubridate::ymd_hm(end, tz = "UTC")
-    #               )
     dplyr::select(mRID, businessType, bidding_zone_mrid, quantity_measure_unit, curve_type,
                   resource_mrid, resource_name, resource_location_name, resource_psr_type,
                   resource_psr_type_mrid, resource_psr_type_name, resource_psr_type_capacity,
-                  mkt_doc_mrid, revision_number, reason_code, start, end, resolution, position,
-                  quantity, dt_created, dt_start, dt_end)
+                  mkt_doc_mrid, revision_number, doc_status, reason_code, start, end, resolution,
+                  position,quantity, dt_created, dt_start, dt_end)
 
-  return(out_gen_df)
+  return(out_df)
+
 }
 
-outages_prod_helper_tidy <- function(out_prod_df) {
 
-  out_prod_df <- out_prod_df %>%
-    dplyr::mutate(dt_created = lubridate::ymd_hms(createdDateTime, tz = "UTC")) %>%
-    dplyr::select(-createdDateTime) %>%
-    dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
-    dplyr::select(-start_DateAndOrTime.time, -start_DateAndOrTime.date) %>%
-    dplyr::mutate(dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
-    dplyr::select(-end_DateAndOrTime.time, -end_DateAndOrTime.date) %>%
-    dplyr::rename(bidding_zone_mrid = biddingZone_Domain.mRID,
-                  quantity_measure_unit = quantity_Measure_Unit.name,
-                  curve_type = curveType,
-                  resource_location_name = production_RegisteredResource.location.name,
-                  resource_mrid = production_RegisteredResource.mRID,
-                  resource_name = production_RegisteredResource.name,
-                  resource_psr_type = production_RegisteredResource.pSRType.psrType,
-                  resource_psr_type_capacity = production_RegisteredResource.pSRType.powerSystemResources.nominalP,
-                  revision_number = revisionNumber) %>%
-    dplyr::mutate(revision_number = as.integer(revision_number),
-                  resource_psr_type_mrid = NA_character_,
-                  resource_psr_type_name = NA_character_,
-                  resource_psr_type_mrid = dplyr::if_else(is.na(resource_psr_type_mrid), "none", resource_psr_type_mrid),
-                  resource_psr_type_name = dplyr::if_else(is.na(resource_psr_type_name), "none", resource_psr_type_name),
-                  resource_psr_type_capacity = as.integer(resource_psr_type_capacity)) %>%
-    dplyr::arrange(resource_psr_type, dt_start, resource_mrid) %>%
-    tidyr::unnest(data = ., cols = vapply(X = ., FUN = is.list, FUN.VALUE = TRUE) %>%
-                    which() %>%
-                    names()) %>% {
-      reason_cols <- grep(pattern = "^Reason|^reason", x = names(.), value = TRUE);
-      if (length(x = reason_cols) > 0L) {
-        tidyr::unite(data = ., col = "reason_code", reason_cols, sep = "|", na.rm = TRUE)
-      } else {
-        .
-      } } %>%
-    # dplyr::mutate(resource_psr_type_capacity = as.integer(resource_psr_type_capacity)
-    #               quantity = as.numeric(quantity),
-    #               start = lubridate::ymd_hm(start, tz = "UTC"),
-    #               end = lubridate::ymd_hm(end, tz = "UTC"))
-    dplyr::select(mRID, businessType, bidding_zone_mrid, quantity_measure_unit, curve_type,
-                  resource_mrid, resource_name, resource_location_name, resource_psr_type,
-                  resource_psr_type_mrid, resource_psr_type_name, resource_psr_type_capacity,
-                  mkt_doc_mrid, revision_number, reason_code, start, end, resolution, position,
-                  quantity, dt_created, dt_start, dt_end)
-
-  return(out_prod_df)
-}
 
 #' Convert the outages to an hourly timeseries.
 #'
@@ -354,7 +315,7 @@ return(out_df)
 #   out_gen_df
 # }
 
-outages_gen_helper <- function(x) {
+outages_gen_helper <- function(xml_list) {
 
   # ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
   # ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
@@ -374,20 +335,21 @@ outages_gen_helper <- function(x) {
   # ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
 
   ## drilling one level deeper
-  x                  <- x$Unavailability_MarketDocument
+  umd                <- xml_list$Unavailability_MarketDocument
 
   ## picking main metadata of Unavailability_MarketDocument
-  Reason             <- unlist(x$Reason)
-  mkt_doc_mrid       <- x$mRID[[ 1L ]]
-  revisionNumber     <- x$revisionNumber[[ 1L ]]
-  createdDateTime    <- x$createdDateTime[[ 1L ]]
+  Reason             <- unlist(umd$Reason)
+  mkt_doc_mrid       <- unlist(umd$mRID)
+  revisionNumber     <- unlist(umd$revisionNumber)
+  createdDateTime    <- unlist(umd$createdDateTime)
+  docStatus          <- unlist(umd$docStatus, use.names = FALSE)
 
   ## drilling one level deeper
-  x                  <- x$TimeSeries
+  ts                 <- umd$TimeSeries
 
   ## picking main metadata of TimeSeries branch
   ## and creating a tibble from those
-  ap_not             <- x[ !names(x) %in% c("Available_Period", "Reason") ]
+  ap_not             <- ts[ !names(ts) %in% c("Available_Period", "Reason") ]
   ap_not             <- lapply(X   = ap_not,
                                FUN = unlist,
                                recursive = FALSE) %>%
@@ -397,10 +359,11 @@ outages_gen_helper <- function(x) {
   ap_not$mkt_doc_mrid    <- mkt_doc_mrid
   ap_not$revisionNumber  <- revisionNumber
   ap_not$createdDateTime <- createdDateTime
+  ap_not$docStatus       <- docStatus
   ap_not$Reason.code     <- unique(Reason[ names(Reason) == "code" ]) %>% sort()
 
   ## iterating Available_Period branches thru and appending the result tables together
-  ap <- lapply(X   = x[ names(x) == "Available_Period" ],
+  ap <- lapply(X   = ts[ names(ts) == "Available_Period" ],
                FUN = function(p) {
                   ## picking the start and end timestamps into variables
                   start_ts    <- as.POSIXct(p$timeInterval$start[[ 1L ]],
@@ -576,7 +539,7 @@ en_outages_transmission_infrastructure <- function(in_domain,
   en_content <- api_req_zip(url, file_type = "transmission")
 
   if (isTRUE(tidy_output) & nrow(en_content) > 0L) {
-    en_content <- outages_transmission_helper_tidy(en_content)
+    en_content <- outages_tran_helper_tidy(en_content)
     en_content$type <- "transmission"
     en_content$doc_status <- doc_status
 
@@ -592,7 +555,7 @@ en_outages_transmission_infrastructure <- function(in_domain,
 
 
 
-outages_transmission_helper <- function(x) {
+outages_tran_helper <- function(xml_list) {
 
   # ap_not <- x$Unavailability_MarketDocument$TimeSeries[names(x$Unavailability_MarketDocument$TimeSeries) != "Available_Period"]
   # ap_not <- tibble::as_tibble(lapply(ap_not, unlist, recursive = FALSE), .name_repair = "minimal")
@@ -621,27 +584,28 @@ outages_transmission_helper <- function(x) {
   # ap_not$available_period <- list(tibble::tibble(start, end, resolution, position, quantity))
 
   ## drilling one level deeper
-  x                  <- x$Unavailability_MarketDocument
+  umd                <- xml_list$Unavailability_MarketDocument
 
   ## picking main metadata of Unavailability_MarketDocument
-  Reason             <- unlist(x$Reason)
-  mkt_doc_mrid       <- x$mRID[[ 1L ]]
-  revisionNumber     <- x$revisionNumber[[ 1L ]]
-  createdDateTime    <- x$createdDateTime[[ 1L ]]
+  Reason             <- unlist(umd$Reason)
+  mkt_doc_mrid       <- unlist(umd$mRID)
+  revisionNumber     <- unlist(umd$revisionNumber)
+  createdDateTime    <- unlist(umd$createdDateTime)
+  docStatus          <- unlist(umd$docStatus, use.names = FALSE)
 
   ## drilling one level deeper
-  x                  <- x$TimeSeries
+  ts                 <- umd$TimeSeries
 
   ## picking main metadata of TimeSeries branch
   ## and creating a tibble from those
-  ap_not             <- x[ !names(x) %in% c("Available_Period", "Reason", "Asset_RegisteredResource") ]
+  ap_not             <- ts[ !names(ts) %in% c("Available_Period", "Reason", "Asset_RegisteredResource") ]
   ap_not             <- lapply(X   = ap_not,
                                FUN = unlist,
                                recursive = FALSE) %>%
                             tibble::as_tibble(.name_repair = "minimal")
 
   ## unnesting Asset_RegisteredResource branch into a tibble
-  arr                <- lapply(X   = x[ names(x) == "Asset_RegisteredResource" ],
+  arr                <- lapply(X   = ts[ names(ts) == "Asset_RegisteredResource" ],
                                FUN = unlist,
                                recursive = FALSE) %>%
                             dplyr::bind_rows()
@@ -655,10 +619,11 @@ outages_transmission_helper <- function(x) {
   ap_not$mkt_doc_mrid    <- mkt_doc_mrid
   ap_not$revisionNumber  <- revisionNumber
   ap_not$createdDateTime <- createdDateTime
+  ap_not$docStatus       <- docStatus
   ap_not$Reason.code     <- unique(Reason[ names(Reason) == "code" ]) %>% sort()
 
   ## iterating Available_Period branches thru and appending the result tables together
-  ap <- lapply(X   = x[ names(x) == "Available_Period" ],
+  ap <- lapply(X   = ts[ names(ts) == "Available_Period" ],
                FUN = function(p) {
                   ## picking the start and end timestamps into variables
                   start_ts    <- as.POSIXct(p$timeInterval$start[[ 1L ]],
@@ -707,9 +672,9 @@ outages_transmission_helper <- function(x) {
 }
 
 
-outages_transmission_helper_tidy <- function(out_trans_df) {
+outages_tran_helper_tidy <- function(trans_df) {
 
-  out_trans_df <- out_trans_df %>%
+  out_trans_df <- trans_df %>%
     dplyr::mutate(dt_created = lubridate::ymd_hms(createdDateTime, tz = "UTC")) %>%
     dplyr::select(-createdDateTime) %>%
     dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
@@ -752,8 +717,8 @@ outages_transmission_helper_tidy <- function(out_trans_df) {
 read_xml_from_path_out_gen <- function(xml_path) {
 
   en_content <- lapply(X   = dir(xml_path, full.names = TRUE),
-                       FUN = function(x) {
-                         xml_doc   <- xml2::read_xml(x)
+                       FUN = function(xml_link) {
+                         xml_doc   <- xml2::read_xml(xml_link)
                          xml_list  <- xml2::as_list(xml_doc)
                          xml_table <- outages_gen_helper(xml_list)
                          xml_table
@@ -766,10 +731,10 @@ read_xml_from_path_out_gen <- function(xml_path) {
 read_xml_from_path_out_tran <- function(xml_path) {
 
   en_content <- lapply(X   = dir(xml_path, full.names = TRUE),
-                       FUN = function(x) {
-                         xml_doc   <- xml2::read_xml(x)
+                       FUN = function(xml_link) {
+                         xml_doc   <- xml2::read_xml(xml_link)
                          xml_list  <- xml2::as_list(xml_doc)
-                         xml_table <- outages_transmission_helper(xml_list)
+                         xml_table <- outages_tran_helper(xml_list)
                          xml_table
                        }) %>%
                   dplyr::bind_rows()
@@ -805,43 +770,46 @@ api_req_zip <- function(url, file_type) {
 
       folder_res <- api_zip_folder_prep(temp_file_path)
 
-      res_list <- vector(mode = "list", total_api_reqs)
+      # res_list <- vector(mode = "list", total_api_reqs)
 
       message("Requested documents: ", docs_requested, ".")
 
-      for (i in 1L:total_api_reqs) {
+      df <- lapply(X   = seq_len(total_api_reqs),
+                   FUN = function(i) {
 
-        message("Request no: ", i, ". Total requests: ", total_api_reqs, "   '&offset=", (i - 1L) * docs_allowed, "'")
+                           message("Request no: ", i, ". Total requests: ", total_api_reqs, "   '&offset=", (i - 1L) * docs_allowed, "'")
 
-        url_offset <- paste0(url, "&offset=", (i - 1L) * docs_allowed)
+                           url_offset <- paste0(url, "&offset=", (i - 1L) * docs_allowed)
 
-        req <- httr::GET(url_offset, httr::write_disk(path = fs::path(temp_file_path, "file", ext = "zip"), overwrite = TRUE))
+                           req <- httr::GET(url_offset, httr::write_disk(path = fs::path(temp_file_path, "file", ext = "zip"), overwrite = TRUE))
 
-        if (httr::status_code(req) != 200) {
-          stop(xml2::as_list(httr::content(req, encoding = "utf-8"))$Acknowledgement_MarketDocument$Reason$text[[1]])
-        }
+                           if (httr::status_code(req) != 200) {
+                             stop(xml2::as_list(httr::content(req, encoding = "utf-8"))$Acknowledgement_MarketDocument$Reason$text[[1]])
+                           }
 
-        api_unzip_result <- api_unzip_res(temp_file_path)
+                           api_unzip_result <- api_unzip_res(temp_file_path)
 
-        if (isTRUE(api_unzip_result)) {
-          if (file_type == "generation") {
-            res_list[[i]] <- read_xml_from_path_out_gen(xml_path = temp_file_path)
-          } else if (file_type == "production") {
-            res_list[[i]] <- read_xml_from_path_out_gen(xml_path = temp_file_path)
-          } else if (file_type == "transmission") {
-            res_list[[i]] <- read_xml_from_path_out_tran(xml_path = temp_file_path)
-          }
-        } else {
-          warning("There was no XML file to consume in the decompressed response ZIP file.", call. = FALSE)
-          res_list[[i]] <- tibble::tibble()
-        }
+                           if (isTRUE(api_unzip_result)) {
+                             if (file_type %in% c("generation", "production")) {
+                               # res_list[[i]] <- read_xml_from_path_out_gen(xml_path = temp_file_path)
+                               res <- read_xml_from_path_out_gen(xml_path = temp_file_path)
+                             } else if (file_type == "transmission") {
+                               # res_list[[i]] <- read_xml_from_path_out_tran(xml_path = temp_file_path)
+                               res <- read_xml_from_path_out_tran(xml_path = temp_file_path)
+                             }
+                           } else {
+                             warning("There was no XML file to consume in the decompressed response ZIP file.", call. = FALSE)
+                             # res_list[[i]] <- tibble::tibble()
+                             res <- tibble::tibble()
+                           }
 
-        message(nrow(res_list[[ i ]]), " rows downloaded")
-        folder_res <- api_zip_folder_prep(temp_file_path)
+                           # message(nrow(res_list[[ i ]]), " rows downloaded")
+                           message(nrow(res), " rows downloaded")
+                           folder_res <- api_zip_folder_prep(temp_file_path)
 
-      }
+                           return( res )
 
-      df <- dplyr::bind_rows(res_list)
+                      }) %>% dplyr::bind_rows()
 
     } else {
       stop(httr::content(req, encoding = "UTF-8"))
@@ -851,9 +819,7 @@ api_req_zip <- function(url, file_type) {
     api_unzip_result <- api_unzip_res(temp_file_path)
 
     if (isTRUE(api_unzip_result)) {
-      if (file_type == "generation") {
-        df <- read_xml_from_path_out_gen(xml_path = temp_file_path)
-      } else if (file_type == "production") {
+      if (file_type %in% c("generation", "production")) {
         df <- read_xml_from_path_out_gen(xml_path = temp_file_path)
       } else if (file_type == "transmission") {
         df <- read_xml_from_path_out_tran(xml_path = temp_file_path)
