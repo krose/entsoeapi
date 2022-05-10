@@ -96,8 +96,8 @@ en_generation_agg_gen_per_type <- function(eic,
   }
 
   url_list <- en_gen_agg_gen_pertype_api_req_helper(eic = eic,
-                                                    period_start = period_start2,
-                                                    period_end = period_end2,
+                                                    period_start = period_start,
+                                                    period_end = period_end,
                                                     security_token = security_token,
                                                     psr_type = gen_type)
 
@@ -210,7 +210,7 @@ en_generation_act_gen_per_unit <- function(eic,
                                                                    format = "%Y%m%d%H%M",
                                                                    tz     = "UTC"),
                                                         units = "days") %>%
-                                                 ceiling() - 1L) * 24L*60L*60L
+                                                 ceiling(.) - 1L) * 24L*60L*60L
   period_end_list   <- data.table::shift(x    = period_start_list,
                                          type = "lead",
                                          fill = as.POSIXct(x      = period_end,
