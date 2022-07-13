@@ -105,7 +105,7 @@ en_generation_agg_gen_per_type <- function(eic,
   period_range <- difftime(time1 = lubridate::ymd_hm( x = period_end, tz = "UTC" ),
                            time2 = lubridate::ymd_hm( x = period_start, tz = "UTC" ),
                            units = "days")
-  if (period_range > lubridate::years(x = 1)) stop("One year range limit should be applied!")
+  if (period_range > 366L) stop("One year range limit should be applied!")
 
   ## composing GET request url for a (maximum) 1 year long period
   URL      <- en_gen_agg_gen_pertype_api_req_helper(eic            = eic,
