@@ -8,7 +8,8 @@ en_generation_act_gen_per_unit(
   eic,
   period_start = lubridate::ymd(Sys.Date() - 1L, tz = "CET"),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
-  tidy_output = FALSE,
+  gen_type = NULL,
+  tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
@@ -18,6 +19,10 @@ en_generation_act_gen_per_unit(
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format  One day range limit applies}
 
 \item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format  One day range limit applies}
+
+\item{gen_type}{Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table}
+
+\item{tidy_output}{Defaults to TRUE. flatten nested tables}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
