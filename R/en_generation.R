@@ -68,8 +68,9 @@ generation_inst_gen_cap_agg_helper <- function(x){
 #' @param eic Energy Identification Code of the control area (TSO)
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies
-#' @param security_token Security token for ENTSO-E transparency platform
 #' @param gen_type Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table
+#' @param tidy_output Defaults to TRUE. flatten nested tables
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
 #'
@@ -83,40 +84,158 @@ generation_inst_gen_cap_agg_helper <- function(x){
 #'                                             period_end = lubridate::ymd("2020-03-01", tz = "CET"))
 #'
 en_generation_agg_gen_per_type <- function(eic,
-                                           period_start,
-                                           period_end,
-                                           security_token = Sys.getenv("ENTSOE_PAT"),
-                                           gen_type = NULL){
+                                           period_start   = lubridate::ymd(Sys.Date() - 1L, tz = "CET"),
+                                           period_end     = lubridate::ymd(Sys.Date(), tz = "CET"),
+                                           gen_type       = NULL,
+                                           tidy_output    = TRUE,
+                                           security_token = Sys.getenv("ENTSOE_PAT")){
 
+  ## checking if only one eic provided
+  if (!exists("eic")) stop("One control area EIC should be provided.")
+  if (length(eic) > 1L) stop("This wrapper only supports one control area EIC per request.")
+
+  ## checking if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided.")
+
+  ## converting timestamps into accepted format
   period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
+  period_end   <- url_posixct_format(period_end)
 
-  if(length(eic) > 1L){
-    stop("This wrapper only supports one control area EIC per request.")
-  }
+  ## checking if target period not longer than 1 year
+  period_range <- difftime(time1 = lubridate::ymd_hm( x = period_end, tz = "UTC" ),
+                           time2 = lubridate::ymd_hm( x = period_start, tz = "UTC" ),
+                           units = "days")
+  if (period_range > lubridate::years(x = 1)) stop("One year range limit should be applied!")
 
-  url_list <- en_gen_agg_gen_pertype_api_req_helper(eic = eic,
-                                                    period_start = period_start,
-                                                    period_end = period_end,
-                                                    security_token = security_token,
-                                                    psr_type = gen_type)
+  ## composing GET request url for a (maximum) 1 year long period
+  URL      <- en_gen_agg_gen_pertype_api_req_helper(eic            = eic,
+                                                    period_start   = period_start,
+                                                    period_end     = period_end,
+                                                    psr_type       = gen_type,
+                                                    security_token = security_token)
 
-  en_cont <- url_list %>%
+  ## send GET request and extract result content and removing null contents
+  en_cont  <- unname( URL ) %>%
     purrr::map(api_req_safe) %>%
-    purrr::map("result")
+    purrr::map("result") %>%
+    purrr::compact()
 
-  en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
+  ## if valid contents left
+  if (length(en_cont) > 0L) {
 
-  en_cont <- en_cont %>%
-    purrr::map(xml2::as_list) %>%
-    purrr::map("GL_MarketDocument") %>%
-    unlist(recursive = FALSE)
+    ## composing a result table
+    ec       <- en_cont %>%
+      purrr::map(xml2::as_list) %>%
+      purrr::map("GL_MarketDocument") %>%
+      unlist(recursive = FALSE)
+    main     <- dplyr::bind_cols(tibble::tibble(document.mRID       = unlist(ec[names(ec) == "mRID"],
+                                                                             use.names = FALSE),
+                                                revisionNumber      = unlist(ec[names(ec) == "revisionNumber"],
+                                                                             use.names = FALSE),
+                                                process.processType = unlist(ec[names(ec) == "process.processType"],
+                                                                             use.names = FALSE),
+                                                createdDateTime     = unlist(ec[names(ec) == "createdDateTime"],
+                                                                             use.names = FALSE)),
+                                 dplyr::bind_rows(unlist(ec[names(ec) == "time_Period.timeInterval"])))
+    ts       <- ec[names(ec) == "TimeSeries"] %>%
+      purrr::map_dfr(ts_agg_gen_helper,
+                     tidy_output = tidy_output)
+    periodly <- dplyr::bind_cols(main, ts)
 
-  en_cont <- en_cont[names(en_cont) == "TimeSeries"] %>%
-    purrr::map_dfr(ts_agg_gen_helper) %>%
-    dplyr::select(-mRID, -businessType, -objectAggregation, -curveType, -position)
+    ## if the output should be tidy
+    if (tidy_output) {
 
-  en_cont
+      ## remove not necessary columns
+      periodly <- periodly %>%
+        dplyr::select(-time_Period.timeInterval.start,
+                      -time_Period.timeInterval.end)
+
+      ## renaming columns
+      names(periodly) <- names(periodly) %>%
+        gsub(pattern = ".mRID", replacement = "_mrid", fixed = TRUE) %>%
+        gsub(pattern = "Type", replacement = "_type", fixed = TRUE) %>%
+        gsub(pattern = "revisionNumber", replacement = "revision_number", fixed = TRUE) %>%
+        gsub(pattern = "createdDateTime", replacement = "dt_created", fixed = TRUE) %>%
+        gsub(pattern = "objectAggregation", replacement = "object_aggregation", fixed = TRUE) %>%
+        gsub(pattern = "TimeSeries_mrid", replacement = "ts_mrid", fixed = TRUE) %>%
+        gsub(pattern = "TimeSeries.", replacement = "", fixed = TRUE) %>%
+        gsub(pattern = "quantity_Measure_Unit.name", replacement = "quantity_measure_unit", fixed = TRUE) %>%
+        gsub(pattern = "process.", replacement = "", fixed = TRUE) %>%
+        gsub(pattern = "PowerSystemResources.psr_type", replacement = "resource_psr_type", fixed = TRUE) %>%
+        gsub(pattern = "PowerSystemResources.", replacement = "resource_psr_type_", fixed = TRUE) %>%
+        gsub(pattern = "PowerSystemResources", replacement = "resource_psr_type", fixed = TRUE) %>%
+        gsub(pattern = "Period.", replacement = "", fixed = TRUE) %>%
+        gsub(pattern = "timeInterval.", replacement = "dt_", fixed = TRUE) %>%
+        gsub(pattern = "StartDateTime", replacement = "start", fixed = TRUE) %>%
+        tolower()
+
+      ## converting timestamp-like columns to timestamps
+      ## adding definitions to codes
+      ## and reordering columns
+      periodly <- periodly %>%
+        dplyr::mutate(dt_created = as.POSIXct(x = dt_created,
+                                              tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                                             "%Y-%m-%dT%H:%M:%SZ"),
+                                              tz = "UTC"),
+                      dt_start   = as.POSIXct(x = dt_start,
+                                              tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                                             "%Y-%m-%dT%H:%M:%SZ"),
+                                              tz = "UTC"),
+                      dt_end     = as.POSIXct(x = dt_end,
+                                              tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                                             "%Y-%m-%dT%H:%M:%SZ"),
+                                              tz = "UTC")) %>%
+        merge(y     = StandardProcessTypeList[, c("CODE", "DEFINITION")] %>%
+                dplyr::rename(process_type     = CODE,
+                              process_type_def = DEFINITION),
+              by    = "process_type",
+              all.x = TRUE) %>%
+        merge(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
+                dplyr::rename(business_type     = CODE,
+                              business_type_def = DEFINITION),
+              by    = "business_type",
+              all.x = TRUE) %>%
+        merge(y     = StandardObjectAggregationTypeList[, c("CODE", "DEFINITION")] %>%
+                dplyr::rename(object_aggregation     = CODE,
+                              object_aggregation_def = DEFINITION),
+              by    = "object_aggregation",
+              all.x = TRUE) %>%
+        merge(y     = StandardCurveTypeList[, c("CODE", "DEFINITION")] %>%
+                dplyr::rename(curve_type     = CODE,
+                              curve_type_def = DEFINITION),
+              by    = "curve_type",
+              all.x = TRUE) %>%
+        merge(y     = StandardAssetTypeList[, c("CODE", "DEFINITION")] %>%
+                dplyr::rename(resource_psr_type     = CODE,
+                              resource_psr_type_def = DEFINITION),
+              by    = "resource_psr_type",
+              all.x = TRUE) %>%
+        dplyr::select(base::intersect(x = c("process_type", "process_type_def",
+                                            "curve_type", "curve_type_def",
+                                            "object_aggregation", "object_aggregation_def",
+                                            "business_type", "business_type_def",
+                                            "document_mrid", "inbiddingzone_domain_mrid", "outbiddingzone_domain_mrid",
+                                            "resource_mrid",
+                                            "resource_psr_type", "resource_psr_type_def",
+                                            "revision_number",
+                                            "ts_mrid", "dt_created",
+                                            "dt_start", "dt_end",
+                                            "resolution", "position",
+                                            "start", "quantity", "quantity_measure_unit"),
+                                      y = names(.))) %>%
+        dplyr::arrange(dt_created, dt_start, start)
+
+    }
+
+    ## returning with the periodly table
+    return(tibble::as_tibble(periodly))
+
+  } else {
+
+    ## returning with an empty table
+    return(tibble::tibble())
+
+  }
 }
 
 en_gen_agg_gen_pertype_api_req_helper <- function(eic,
@@ -137,27 +256,51 @@ en_gen_agg_gen_pertype_api_req_helper <- function(eic,
     "&securityToken=", security_token
   )
 
-  return( url )
+  return(url)
 }
 
-ts_agg_gen_helper <- function(ts){
+ts_agg_gen_helper <- function(ts, tidy_output = FALSE){
 
-  period <- ts$Period
-  ts$Period <- NULL
+  ## extracting content of "Period" subbranch
+  points        <- ts$Period[names(ts$Period) == "Point"] %>%
+                     purrr::map_df(unlist) %>%
+                     purrr::map_df(as.numeric) %>%
+                     tibble::add_column(StartDateTime = dt_helper(tz_start      = unlist(ts$Period$timeInterval$start,
+                                                                                         use.names = FALSE),
+                                                                  tz_resolution = unlist(ts$Period$resolution,
+                                                                                         use.names = FALSE),
+                                                                  tz_position   = .$position),
+                                        resolution    = unlist(ts$Period[names(ts$Period) == "resolution"],
+                                                               use.names = FALSE))
+  points        <- purrr::map_df(ts$Period[names(ts$Period) == "timeInterval"],
+                                 unlist) %>%
+                     dplyr::rename_with(~paste0("timeInterval.", .x)) %>%
+                     dplyr::bind_cols(points) %>%
+                     dplyr::rename_with(~paste0("TimeSeries.Period.", .x))
 
-  points <- period[names(period) == "Point"]
-  points <- dplyr::bind_rows(lapply(points, function(x){data.frame(position = x$position[[1]], quantity = x$quantity[[1]], stringsAsFactors = FALSE)}))
-  points$position <- as.integer(points$position)
-  points$quantity <- as.integer(points$quantity)
+  ## extracting content of "MktPSRType" subbranch
+  mktpsrtype    <- tibble::tibble(psrType = unlist(ts$MktPSRType$psrType)) %>%
+                     dplyr::rename_with(~paste0("TimeSeries.PowerSystemResources.", .x))
 
-  points$dt <- dt_helper(tz_start = lubridate::ymd_hm(period$timeInterval$start[[1]]), tz_resolution = period$resolution[[1]], tz_position = points$position)
+  ## removing "Period" and "MktPSRType" subbranches
+  ts$Period     <- NULL
+  ts$MktPSRType <- NULL
 
-  ts <- lapply(ts, unlist)
-  ts <- dplyr::bind_cols(ts)
-  ts$points <- list(points)
-  ts <- tidyr::unnest(ts, "points")
+  ## converting to table the remaining parts
+  ts            <- ts %>%
+                     purrr::map_df(unlist) %>%
+                     dplyr::rename_with(~paste0("TimeSeries.", .x))
 
-  ts
+  ## column-wise appending the parts
+  if (tidy_output) {
+    dplyr::bind_cols(ts, mktpsrtype, points) %>%
+      return()
+  } else {
+    dplyr::bind_cols(ts, mktpsrtype) %>%
+      tibble::add_column(periods = list(points)) %>%
+      return()
+  }
+
 }
 
 
@@ -167,6 +310,8 @@ ts_agg_gen_helper <- function(ts){
 #' @param eic Energy Identification Code(s) of the control area(s) (TSO)
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format  One day range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format  One day range limit applies
+#' @param gen_type Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table
+#' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
@@ -181,170 +326,183 @@ ts_agg_gen_helper <- function(ts){
 #'                                                       period_end = lubridate::ymd("2020-02-01", tz = "CET"))
 #'
 en_generation_act_gen_per_unit <- function(eic,
-                                           period_start = lubridate::ymd(Sys.Date() - 1L, tz = "CET"),
-                                           period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
-                                           # gen_type = NULL,
-                                           # gen_unit_eic = NULL,
-                                           tidy_output = FALSE,
+                                           period_start   = lubridate::ymd(Sys.Date() - 1L, tz = "CET"),
+                                           period_end     = lubridate::ymd(Sys.Date(), tz = "CET"),
+                                           gen_type       = NULL,
+                                           tidy_output    = TRUE,
                                            security_token = Sys.getenv("ENTSOE_PAT")) {
 
   ## checking if only one eic provided
-  if(length(eic) == 0L) stop("At least one control area EIC should be provided.")
+  if (!exists("eic")) stop("One control area EIC should be provided.")
+  if (length(eic) > 1L) stop("This wrapper only supports one control area EIC per request.")
 
   ## checking if valid security token is provided
-  if(security_token == "") stop("Valid security token should be provided.")
+  if (security_token == "") stop("Valid security token should be provided.")
 
   ## converting timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end   <- url_posixct_format(period_end)
 
   ## breaking time interval of period_start and period_end into 24 hour long parts
-  period_start_list <- as.POSIXct(x      = period_start,
-                                  format = "%Y%m%d%H%M",
-                                  tz     = "UTC") +
-                                    seq(from = 0L,
-                                        to   = difftime(as.POSIXct(x      = period_end,
-                                                                   format = "%Y%m%d%H%M",
-                                                                   tz     = "UTC"),
-                                                        as.POSIXct(x      = period_start,
-                                                                   format = "%Y%m%d%H%M",
-                                                                   tz     = "UTC"),
-                                                        units = "days") %>%
-                                                 ceiling(.) - 1L) * 24L*60L*60L
+  period_start_list <- lubridate::ymd_hm(x = period_start,tz = "UTC") +
+    seq(from = 0L,
+        to   = difftime(time1 = lubridate::ymd_hm(x  = period_end,
+                                                  tz = "UTC"),
+                        time2 = lubridate::ymd_hm(x  = period_start,
+                                                  tz = "UTC"),
+                        units = "days") %>%
+          ceiling() - 1L) * 24L*60L*60L
   period_end_list   <- data.table::shift(x    = period_start_list,
                                          type = "lead",
-                                         fill = as.POSIXct(x      = period_end,
-                                                           format = "%Y%m%d%H%M",
-                                                           tz     = "UTC"))
+                                         fill = lubridate::ymd_hm(x  = period_end,
+                                                                  tz = "UTC"))
+
+  ## converting timestamps into accepted format
+  period_start_list <- url_posixct_format(period_start_list)
+  period_end_list   <- url_posixct_format(period_end_list)
+
+  ## composing GET request url for a (maximum) 24 hours long period
+  url_list <- seq_along(period_start_list) %>%
+    purrr::map(~en_gen_act_gen_perunit_api_req_helper(eic            = eic,
+                                                      period_start   = period_start_list[[ .x ]],
+                                                      period_end     = period_end_list[[ .x ]],
+                                                      psr_type       = gen_type,
+                                                      security_token = security_token))
 
   ## iterating (maximum) 24 hours long periods thru
   ## and append them into one tibble
-  gnrtn <- seq_along( period_start_list ) %>%
-              purrr::map_df(function(i) {
+  gnrtn  <- url_list %>%
+    purrr::map_df(function(URL) {
 
-                  ## composing GET request url for a (maximum) 24 hours long period
-                  url_list <- en_gen_act_gen_perunit_api_req_helper(
-                                eic = eic,
-                                period_start = url_posixct_format(period_start_list[[ i ]]),
-                                period_end = url_posixct_format(period_end_list[[ i ]]),
-                                # psr_type = gen_type,
-                                # registered_resource = gen_unit_eic,
-                                security_token = security_token
-                              )
+      ## send GET request and extract result content and removing null contents
+      en_cont <- unname( URL ) %>%
+        purrr::map(api_req_safe) %>%
+        purrr::map("result") %>%
+        purrr::compact()
 
-                  ## send GET request and extract result content
-                  en_cont <- purrr::map(url_list, ~ api_req_safe(.x)$result)
+      ## if valid contents left
+      if (length(en_cont) > 0L) {
 
-                  ## removing null contents
-                  en_cont[vapply(X = en_cont, FUN = is.null, FUN.VALUE = TRUE)] <- NULL
+        ## composing a result table
+        ec      <- en_cont %>%
+          purrr::map(xml2::as_list) %>%
+          purrr::map("GL_MarketDocument") %>%
+          unlist(recursive = FALSE)
+        main  <- dplyr::bind_cols(tibble::tibble(document.mRID = unlist(ec[names(ec) == "mRID"],
+                                                                        use.names = FALSE),
+                                                 revisionNumber = unlist(ec[names(ec) == "revisionNumber"],
+                                                                         use.names = FALSE),
+                                                 process.processType = unlist(ec[names(ec) == "process.processType"],
+                                                                              use.names = FALSE),
+                                                 createdDateTime = unlist(ec[names(ec) == "createdDateTime"],
+                                                                          use.names = FALSE)),
+                                  dplyr::bind_rows(unlist(ec[names(ec) == "time_Period.timeInterval"])))
+        ts    <- ec[names(ec) == "TimeSeries"] %>%
+          purrr::map_dfr(ts_act_gen_helper,
+                         tidy_output = tidy_output)
+        periodly   <- dplyr::bind_cols(main, ts)
 
-                  ## if valid contents left
-                  if(length(en_cont) > 0L) {
+        ## if the output should be tidy
+        if (tidy_output) {
 
-                    ## composing a whole table for a maximum 24 hour long period
-                    daily   <- purrr::map(en_cont, ~ xml2::as_list(.x)$GL_MarketDocument) %>%
-                                  purrr::map_dfr(function(ec) {
-                                                 main  <- dplyr::bind_cols(tibble::tibble(document.mRID = unlist(ec[names(ec) == "mRID"],
-                                                                                                                 use.names = FALSE),
-                                                                                          revisionNumber = unlist(ec[names(ec) == "revisionNumber"],
-                                                                                                                  use.names = FALSE),
-                                                                                          process.processType = unlist(ec[names(ec) == "process.processType"],
-                                                                                                                       use.names = FALSE),
-                                                                                          createdDateTime = unlist(ec[names(ec) == "createdDateTime"],
-                                                                                                                   use.names = FALSE)),
-                                                                           dplyr::bind_rows(unlist(ec[names(ec) == "time_Period.timeInterval"])))
-                                                 ts    <- purrr::map_df(ec[names(ec) == "TimeSeries"], ts_act_gen_helper, tidy_output = tidy_output)
-                                                 return(dplyr::bind_cols(main, ts))
-                                               })
+          ## remove not necessary columns
+          periodly   <- periodly %>%
+            dplyr::select(-time_Period.timeInterval.start,
+                          -time_Period.timeInterval.end)
 
-                    ## if the output should be tidy
-                    if(tidy_output) {
-                      ## remove not necessary columns
-                      daily   <- daily %>% dplyr::select(-time_Period.timeInterval.start, -time_Period.timeInterval.end)
-                      ## renaming columns
-                      names(daily) <-names(daily) %>%
-                                       gsub(pattern = ".mRID", replacement = "_mrid", fixed = TRUE) %>%
-                                       gsub(pattern = "Type", replacement = "_type", fixed = TRUE) %>%
-                                       gsub(pattern = "revisionNumber", replacement = "revision_number", fixed = TRUE) %>%
-                                       gsub(pattern = "createdDateTime", replacement = "dt_created", fixed = TRUE) %>%
-                                       gsub(pattern = "objectAggregation", replacement = "object_aggregation", fixed = TRUE) %>%
-                                       gsub(pattern = "registeredResource_mrid", replacement = "resource_mrid", fixed = TRUE) %>%
-                                       gsub(pattern = "TimeSeries_mrid", replacement = "ts_mrid", fixed = TRUE) %>%
-                                       gsub(pattern = "TimeSeries.", replacement = "", fixed = TRUE) %>%
-                                       gsub(pattern = "quantity_Measure_Unit.name", replacement = "quantity_measure_unit", fixed = TRUE) %>%
-                                       gsub(pattern = "process.", replacement = "", fixed = TRUE) %>%
-                                       gsub(pattern = "PowerSystemResources.psr_type", replacement = "resource_psr_type", fixed = TRUE) %>%
-                                       gsub(pattern = "PowerSystemResources.", replacement = "resource_psr_type_", fixed = TRUE) %>%
-                                       gsub(pattern = "Period.", replacement = "", fixed = TRUE) %>%
-                                       gsub(pattern = "timeInterval.", replacement = "dt_", fixed = TRUE) %>%
-                                       gsub(pattern = "PowerSystemResources", replacement = "resource_psr_type", fixed = TRUE) %>%
-                                       gsub(pattern = "StartDateTime", replacement = "start", fixed = TRUE) %>%
-                                       tolower()
-                      ## converting timestamp-like columns to timestamps
-                      ## adding definitions to codes
-                      ## and reordering columns
-                      daily   <- daily %>%
-                                   dplyr::mutate(dt_created = as.POSIXct(x = dt_created,
-                                                                         tryFormats = c("%Y-%m-%dT%H:%MZ",
-                                                                                        "%Y-%m-%dT%H:%M:%SZ"),
-                                                                         tz = "UTC"),
-                                                 dt_start   = as.POSIXct(x = dt_start,
-                                                                         tryFormats = c("%Y-%m-%dT%H:%MZ",
-                                                                                        "%Y-%m-%dT%H:%M:%SZ"),
-                                                                         tz = "UTC"),
-                                                 dt_end     = as.POSIXct(x = dt_end,
-                                                                         tryFormats = c("%Y-%m-%dT%H:%MZ",
-                                                                                        "%Y-%m-%dT%H:%M:%SZ"),
-                                                                         tz = "UTC")) %>%
-                                   merge(y     = StandardProcessTypeList[, c("CODE", "DEFINITION")] %>%
-                                                   dplyr::rename(process_type = CODE, process_type_def = DEFINITION),
-                                         by    = "process_type",
-                                         all.x = TRUE) %>%
-                                   merge(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
-                                                   dplyr::rename(business_type = CODE, business_type_def = DEFINITION),
-                                         by    = "business_type",
-                                         all.x = TRUE) %>%
-                                   merge(x     = .,
-                                         y     = StandardObjectAggregationTypeList[, c("CODE", "DEFINITION")] %>%
-                                                   dplyr::rename(object_aggregation = CODE, object_aggregation_def = DEFINITION),
-                                         by    = "object_aggregation",
-                                         all.x = TRUE) %>%
-                                   merge(x     = .,
-                                         y     = StandardCurveTypeList[, c("CODE", "DEFINITION")] %>%
-                                                   dplyr::rename(curve_type = CODE, curve_type_def = DEFINITION),
-                                         by    = "curve_type",
-                                         all.x = TRUE) %>%
-                                   merge(x     = .,
-                                         y     = StandardAssetTypeList[, c("CODE", "DEFINITION")] %>%
-                                                   dplyr::rename(resource_psr_type = CODE, resource_psr_type_def = DEFINITION),
-                                         by    = "resource_psr_type",
-                                         all.x = TRUE) %>%
-                                   dplyr::select(base::intersect( x = c("process_type", "process_type_def", "curve_type", "curve_type_def",
-                                                                        "process_type_def", "object_aggregation", "object_aggregation_def",
-                                                                        "business_type", "business_type_def", "document_mrid",
-                                                                        "inbiddingzone_domain_mrid", "resource_mrid",
-                                                                        "resource_psr_type", "resource_psr_type_def",
-                                                                        "resource_psr_type_mrid", "resource_psr_type_name",
-                                                                        "revision_number", "ts_mrid", "dt_created", "dt_start", "dt_end",
-                                                                        "resolution", "position", "start", "quantity", "quantity_measure_unit"),
-                                                                  y = names(.))) %>%
-                                   dplyr::arrange(dt_created,dt_start, start)
-                    }
+          ## renaming columns
+          names(periodly) <- names(periodly) %>%
+            gsub(pattern = ".mRID", replacement = "_mrid", fixed = TRUE) %>%
+            gsub(pattern = "Type", replacement = "_type", fixed = TRUE) %>%
+            gsub(pattern = "revisionNumber", replacement = "revision_number", fixed = TRUE) %>%
+            gsub(pattern = "createdDateTime", replacement = "dt_created", fixed = TRUE) %>%
+            gsub(pattern = "objectAggregation", replacement = "object_aggregation", fixed = TRUE) %>%
+            gsub(pattern = "registeredResource_mrid", replacement = "resource_mrid", fixed = TRUE) %>%
+            gsub(pattern = "TimeSeries_mrid", replacement = "ts_mrid", fixed = TRUE) %>%
+            gsub(pattern = "TimeSeries.", replacement = "", fixed = TRUE) %>%
+            gsub(pattern = "quantity_Measure_Unit.name", replacement = "quantity_measure_unit", fixed = TRUE) %>%
+            gsub(pattern = "process.", replacement = "", fixed = TRUE) %>%
+            gsub(pattern = "PowerSystemResources.psr_type", replacement = "resource_psr_type", fixed = TRUE) %>%
+            gsub(pattern = "PowerSystemResources.", replacement = "resource_psr_type_", fixed = TRUE) %>%
+            gsub(pattern = "PowerSystemResources", replacement = "resource_psr_type", fixed = TRUE) %>%
+            gsub(pattern = "Period.", replacement = "", fixed = TRUE) %>%
+            gsub(pattern = "timeInterval.", replacement = "dt_", fixed = TRUE) %>%
+            gsub(pattern = "StartDateTime", replacement = "start", fixed = TRUE) %>%
+            tolower()
 
-                    ## returning with the daily table
-                    return(daily)
+          ## converting timestamp-like columns to timestamps
+          ## adding definitions to codes
+          ## and reordering columns
+          periodly   <- periodly %>%
+            dplyr::mutate(dt_created = as.POSIXct(x = dt_created,
+                                                  tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                                                 "%Y-%m-%dT%H:%M:%SZ"),
+                                                  tz = "UTC"),
+                          dt_start   = as.POSIXct(x = dt_start,
+                                                  tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                                                 "%Y-%m-%dT%H:%M:%SZ"),
+                                                  tz = "UTC"),
+                          dt_end     = as.POSIXct(x = dt_end,
+                                                  tryFormats = c("%Y-%m-%dT%H:%MZ",
+                                                                 "%Y-%m-%dT%H:%M:%SZ"),
+                                                  tz = "UTC")) %>%
+            merge(y     = StandardProcessTypeList[, c("CODE", "DEFINITION")] %>%
+                    dplyr::rename(process_type     = CODE,
+                                  process_type_def = DEFINITION),
+                  by    = "process_type",
+                  all.x = TRUE) %>%
+            merge(y     = StandardBusinessTypeList[, c("CODE", "DEFINITION")] %>%
+                    dplyr::rename(business_type     = CODE,
+                                  business_type_def = DEFINITION),
+                  by    = "business_type",
+                  all.x = TRUE) %>%
+            merge(y     = StandardObjectAggregationTypeList[, c("CODE", "DEFINITION")] %>%
+                    dplyr::rename(object_aggregation = CODE,
+                                  object_aggregation_def = DEFINITION),
+                  by    = "object_aggregation",
+                  all.x = TRUE) %>%
+            merge(y     = StandardCurveTypeList[, c("CODE", "DEFINITION")] %>%
+                    dplyr::rename(curve_type = CODE,
+                                  curve_type_def = DEFINITION),
+                  by    = "curve_type",
+                  all.x = TRUE) %>%
+            merge(y     = StandardAssetTypeList[, c("CODE", "DEFINITION")] %>%
+                    dplyr::rename(resource_psr_type = CODE,
+                                  resource_psr_type_def = DEFINITION),
+                  by    = "resource_psr_type",
+                  all.x = TRUE) %>%
+            dplyr::select(base::intersect(x = c("process_type", "process_type_def",
+                                                "curve_type", "curve_type_def",
+                                                "object_aggregation", "object_aggregation_def",
+                                                "business_type", "business_type_def",
+                                                "document_mrid", "inbiddingzone_domain_mrid", "outbiddingzone_domain_mrid",
+                                                "resource_mrid",
+                                                "resource_psr_type", "resource_psr_type_def",
+                                                "resource_psr_type_mrid", "resource_psr_type_name",
+                                                "revision_number",
+                                                "ts_mrid", "dt_created",
+                                                "dt_start", "dt_end",
+                                                "resolution", "position",
+                                                "start", "quantity", "quantity_measure_unit"),
+                                          y = names(.))) %>%
+            dplyr::arrange(dt_created,dt_start, start)
+        }
 
-                  } else {
+        ## returning with the periodly table
+        return(tibble::as_tibble(periodly))
 
-                    ## returning with an empty table
-                    return(tibble::tibble())
+      } else {
 
-                  }
-              } )
+        ## returning with an empty table
+        return(tibble::tibble())
+
+      }
+    })
 
   ## returning with all the generation data
   return(gnrtn)
 }
+
 
 ## url composer for Actual Generation Output per Generation Unit [16.1.A] request
 en_gen_act_gen_perunit_api_req_helper <- function(eic,
@@ -354,18 +512,16 @@ en_gen_act_gen_perunit_api_req_helper <- function(eic,
                                                   psr_type = NULL,
                                                   registered_resource = NULL) {
 
-  ## creating list of to be combined parameter lists
-  par_list    <- list(# "psrType" = psr_type,
-                      # "registeredResource" = registered_resource,
-                      "in_Domain" = eic)
-
-  ## removing empty combinations
-  par_list    <- par_list[ !vapply(X = par_list, FUN = is.null, FUN.VALUE = TRUE) ]
+  ## creating list of to be combined parameter lists and removing empty combinations
+  par_list    <- list("psrType" = psr_type,
+                      "registeredResource" = registered_resource,
+                      "in_Domain" = eic) %>%
+                   purrr::compact()
 
   ## creating combination matrix
-  par_matrix  <- expand.grid( par_list,
-                              stringsAsFactors = FALSE,
-                              KEEP.OUT.ATTRS   = FALSE )
+  par_matrix  <- expand.grid(par_list,
+                             stringsAsFactors = FALSE,
+                             KEEP.OUT.ATTRS   = FALSE)
 
   ## composing url(s)
   url <- paste0("https://transparency.entsoe.eu/api",
@@ -376,7 +532,7 @@ en_gen_act_gen_perunit_api_req_helper <- function(eic,
                 { apply(X = unique(par_matrix),
                         MARGIN = 1L,
                         FUN = function(r) {
-                          paste( vapply( X = colnames(par_matrix),
+                          paste(vapply(X = colnames(par_matrix),
                                          FUN = function(cn) sprintf(fmt = "&%s=%s", cn, r[[ cn ]]),
                                          FUN.VALUE = "foo"),
                                  collapse = "")
@@ -384,7 +540,7 @@ en_gen_act_gen_perunit_api_req_helper <- function(eic,
                 "&securityToken=", security_token)
 
   ## naming result vector according to control area EIC
-  names( url ) <- eic
+  names(url) <- eic
 
   ## returning with the composed url
   return(url)
@@ -396,15 +552,16 @@ ts_act_gen_helper <- function(ts, tidy_output=FALSE) {
   ## extracting content of "Period" subbranch
   points        <- ts$Period[names(ts$Period) == "Point"] %>%
                      purrr::map_df(unlist) %>%
-                     purrr::map_df(as.numeric)
-  points        <- dt_helper(tz_start      = unlist(ts$Period$timeInterval$start,
-                                                    use.names = FALSE),
-                             tz_resolution = unlist(ts$Period$resolution),
-                             tz_position   = points$position) %>%
-                     tibble::add_column(.data = points, StartDateTime = .) %>%
-                     tibble::add_column(resolution = unlist(ts$Period[names(ts$Period) == "resolution"],
+                     purrr::map_df(as.numeric) %>%
+                     tibble::add_column(StartDateTime = dt_helper(tz_start      = unlist(ts$Period$timeInterval$start,
+                                                                                         use.names = FALSE),
+                                                                  tz_resolution = unlist(ts$Period$resolution,
+                                                                                         use.names = FALSE),
+                                                                  tz_position   = .$position),
+                                        resolution = unlist(ts$Period[names(ts$Period) == "resolution"],
                                                             use.names = FALSE))
-  points        <- purrr::map_df(ts$Period[names(ts$Period) == "timeInterval"], unlist) %>%
+  points        <- purrr::map_df(ts$Period[names(ts$Period) == "timeInterval"],
+                                 unlist) %>%
                      dplyr::rename_with(~ paste0("timeInterval.", .x)) %>%
                      dplyr::bind_cols(points) %>%
                      dplyr::rename_with(~ paste0("TimeSeries.Period.", .x))
@@ -429,9 +586,12 @@ ts_act_gen_helper <- function(ts, tidy_output=FALSE) {
 
   ## column-wise appending the parts
   if(tidy_output) {
-    dplyr::bind_cols(ts, mktpsrtype, points) %>% return()
+    dplyr::bind_cols(ts, mktpsrtype, points) %>%
+      return()
   } else {
-    dplyr::bind_cols(ts, mktpsrtype) %>% tibble::add_column(periods = list(points)) %>% return()
+    dplyr::bind_cols(ts, mktpsrtype) %>%
+      tibble::add_column(periods = list(points)) %>%
+      return()
   }
 
 }
