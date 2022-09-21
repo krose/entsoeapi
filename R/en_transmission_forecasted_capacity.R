@@ -85,14 +85,14 @@ tm_price_helper <- function(x){
 }
 
 timeseries_extract_price_amount <- function(x){
-  mrid = unlist(x$mRID)
+  resolution = x$Period$resolution[[1]]
   dt <- lubridate::ymd_hm(x$Period$timeInterval$start[[1]], tz = "UTC")
   position <- as.integer(unlist(purrr::map(x$Period, "position")))
   price <- unlist(purrr::map(x$Period, "price.amount"))
 
   dt <- dt_helper(tz_start = dt, tz_resolution = x$Period$resolution[[1]], tz_position = position)
 
-  tibble::tibble(dt, price, mrid)
+  tibble::tibble(dt, price, resolution)
 }
 
 

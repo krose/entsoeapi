@@ -61,7 +61,7 @@ en_transmission_day_ahead_prices <- function(eic, period_start, period_end, in_d
   en_cont$in_domain_mrid <- in_domain
   en_cont$out_domain_mrid <- out_domain
 
-  en_cont <- en_cont[, c("in_domain_mrid", "out_domain_mrid", "currency_unit", "price_unit", "dt", "price", "mrid")]
+  en_cont <- en_cont[, c("in_domain_mrid", "out_domain_mrid", "currency_unit", "price_unit", "dt", "price", "resolution")]
 
   en_cont
 }
