@@ -3,6 +3,7 @@
 export(accounting_point_eic)
 export(all_eic)
 export(area_eic)
+export(en_activated_balancing_reserves)
 export(en_capacity_already_allocated)
 export(en_capacity_total_nominated)
 export(en_eic)
