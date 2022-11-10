@@ -6,10 +6,11 @@
 \usage{
 en_generation_agg_gen_per_type(
   eic,
-  period_start,
-  period_end,
-  security_token = Sys.getenv("ENTSOE_PAT"),
-  gen_type = NULL
+  period_start = lubridate::ymd(Sys.Date() - 1L, tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  gen_type = NULL,
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
@@ -19,9 +20,11 @@ en_generation_agg_gen_per_type(
 
 \item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies}
 
-\item{security_token}{Security token for ENTSO-E transparency platform}
-
 \item{gen_type}{Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table}
+
+\item{tidy_output}{Defaults to TRUE. flatten nested tables}
+
+\item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
 Get aggregated generation per type from Entsoe
