@@ -1,5 +1,5 @@
 
-#' Get Day ahead prices from Entsoe
+#' Get day-ahead prices from Entsoe
 #'
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
@@ -53,9 +53,9 @@ en_transmission_day_ahead_prices <- function(eic, period_start, period_end, in_d
   en_currency <- en_cont$Publication_MarketDocument$TimeSeries$currency_Unit.name[[1]]
   en_price_unit <- en_cont$Publication_MarketDocument$TimeSeries$price_Measure_Unit.name[[1]]
 
-  en_cont <- tm_price_helper(en_cont)
+  en_cont <- tm_quantity_helper(en_cont, "price.amount")
 
-  en_cont$price <- as.numeric(en_cont$price)
+  colnames(en_cont)[names(en_cont) == "value"] <- "price"
   en_cont$currency_unit <- en_currency
   en_cont$price_unit <- en_price_unit
   en_cont$in_domain_mrid <- in_domain
