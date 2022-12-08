@@ -47,6 +47,6 @@ CZ_DE50HTZ_201902w1 <- en_capacity_already_allocated(in_domain        = "10YDE-V
                                                      period_start     = lubridate::ymd("2019-02-01", tz = "CET"),
                                                      period_end       = lubridate::ymd("2019-02-08", tz = "CET"),
                                                      auction_category = "A01",
-                                                     contract_type    = "A07"))
+                                                     contract_type    = "A07")
 
 }
