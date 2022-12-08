@@ -2,19 +2,17 @@
 % Please edit documentation in R/en_transmission_day_ahead_prices.R
 \name{en_transmission_day_ahead_prices}
 \alias{en_transmission_day_ahead_prices}
-\title{Get Day ahead prices from Entsoe}
+\title{Get day-ahead prices from Entsoe}
 \usage{
 en_transmission_day_ahead_prices(
   eic,
   period_start,
   period_end,
-  in_domain = NULL,
-  out_domain = NULL,
-  security_token = NULL
+  security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
-\item{eic}{Energy Identification Code}
+\item{eic}{Energy Identification Code of the related domain}
 
 \item{period_start}{POSIXct}
 
@@ -23,7 +21,7 @@ en_transmission_day_ahead_prices(
 \item{security_token}{Security token}
 }
 \description{
-Get Day ahead prices from Entsoe
+Get day-ahead prices from Entsoe
 }
 \examples{
 
