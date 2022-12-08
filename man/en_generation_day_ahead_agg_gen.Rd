@@ -2,7 +2,8 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_day_ahead_agg_gen}
 \alias{en_generation_day_ahead_agg_gen}
-\title{Get total load from Entsoe}
+\title{Get Day-ahead aggregated generation forecast from Entsoe.
+It is an estimate of the total scheduled generation per bidding zone for the following day}
 \usage{
 en_generation_day_ahead_agg_gen(
   eic,
@@ -21,7 +22,8 @@ en_generation_day_ahead_agg_gen(
 \item{security_token}{Security token}
 }
 \description{
-Get total load from Entsoe
+Get Day-ahead aggregated generation forecast from Entsoe.
+It is an estimate of the total scheduled generation per bidding zone for the following day
 }
 \examples{
 
