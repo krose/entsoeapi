@@ -28,6 +28,6 @@ Get total load from Entsoe
 library(tidyverse)
 library(entsoeapi)
 
-fr_2020 <- en_generation_day_ahead_gen_forcast_ws(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+fr_2020 <- en_generation_day_ahead_gen_forecast_ws(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
 
 }

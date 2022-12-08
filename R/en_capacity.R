@@ -32,10 +32,9 @@ ts_capacity_helper <- function(ts) {
   points    <- purrr::map_dfr(period[ names(period) == "Point" ],
                               ~list(position = as.integer(.x$position[[ 1L ]]),
                                     quantity = as.integer(.x$quantity[[ 1L ]]))) %>%
-    tibble::add_column(dt = dt_helper(tz_start      = lubridate::ymd_hm(period$timeInterval$start[[ 1L ]],
-                                                                        tz = "UTC"),
+    tibble::add_column(dt = dt_helper(tz_start      = strptime(x = period$timeInterval$start[[ 1L ]], format = "%Y-%m-%dT%H:%MZ", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
                                       tz_resolution = period$resolution[[ 1L ]],
-                                      tz_position   = .$position) )
+                                      tz_position   = .$position))
 
   ts        <- purrr::map_dfc(ts, unlist) %>%
     tibble::add_column( points = list(points) ) %>%
@@ -192,7 +191,7 @@ en_capacity_total_nominated <- function(in_domain,
 #'                                                      period_start     = lubridate::ymd("2019-02-01", tz = "CET"),
 #'                                                      period_end       = lubridate::ymd("2019-02-08", tz = "CET"),
 #'                                                      auction_category = "A01",
-#'                                                      contract_type    = "A07"))
+#'                                                      contract_type    = "A07")
 #'
 
 en_capacity_already_allocated <- function(in_domain,

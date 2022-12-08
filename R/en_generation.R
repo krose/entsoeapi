@@ -102,8 +102,8 @@ en_generation_agg_gen_per_type <- function(eic,
   period_end   <- url_posixct_format(period_end)
 
   ## checking if target period not longer than 1 year
-  period_range <- difftime(time1 = lubridate::ymd_hm( x = period_end, tz = "UTC" ),
-                           time2 = lubridate::ymd_hm( x = period_start, tz = "UTC" ),
+  period_range <- difftime(time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                           time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
                            units = "days")
   if (period_range > 366L) stop("One year range limit should be applied!")
 
@@ -291,12 +291,17 @@ ts_agg_gen_helper <- function(ts, tidy_output = FALSE){
                      purrr::map_df(unlist) %>%
                      dplyr::rename_with(~paste0("TimeSeries.", .x))
 
+  ## if we have "MktPSRType" data, then we add as a new column
+  if (nrow(mktpsrtype) > 0) {
+    ts <- dplyr::bind_cols(ts, mktpsrtype)
+  }
+
   ## column-wise appending the parts
   if (tidy_output) {
-    dplyr::bind_cols(ts, mktpsrtype, points) %>%
+    dplyr::bind_cols(ts, points) %>%
       return()
   } else {
-    dplyr::bind_cols(ts, mktpsrtype) %>%
+    ts %>%
       tibble::add_column(periods = list(points)) %>%
       return()
   }
@@ -344,18 +349,15 @@ en_generation_act_gen_per_unit <- function(eic,
   period_end   <- url_posixct_format(period_end)
 
   ## breaking time interval of period_start and period_end into 24 hour long parts
-  period_start_list <- lubridate::ymd_hm(x = period_start,tz = "UTC") +
+  period_start_list <- strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC") +
     seq(from = 0L,
-        to   = difftime(time1 = lubridate::ymd_hm(x  = period_end,
-                                                  tz = "UTC"),
-                        time2 = lubridate::ymd_hm(x  = period_start,
-                                                  tz = "UTC"),
+        to   = difftime(time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                        time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
                         units = "days") %>%
           ceiling() - 1L) * 24L*60L*60L
   period_end_list   <- data.table::shift(x    = period_start_list,
                                          type = "lead",
-                                         fill = lubridate::ymd_hm(x  = period_end,
-                                                                  tz = "UTC"))
+                                         fill = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"))
 
   ## converting timestamps into accepted format
   period_start_list <- url_posixct_format(period_start_list)
@@ -598,7 +600,8 @@ ts_act_gen_helper <- function(ts, tidy_output=FALSE) {
 
 
 
-#' Get total load from Entsoe
+#' Get Day-ahead aggregated generation forecast from Entsoe.
+#' It is an estimate of the total scheduled generation per bidding zone for the following day
 #'
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
@@ -623,38 +626,28 @@ en_generation_day_ahead_agg_gen <- function(eic, period_start, period_end, secur
     stop("This wrapper only supports one EIC per request.")
   }
 
-  gen_type <- as.character(c(NA))
+  url      <- en_gen_day_ahead_agg_gen_api_req_helper(eic = eic,
+                                                      period_start = period_start,
+                                                      period_end = period_end,
+                                                      security_token = security_token)
 
-  url_list <- lapply(X = gen_type,
-                     FUN = en_gen_day_ahead_agg_gen_api_req_helper,
-                     eic = eic,
-                     period_start = period_start,
-                     period_end = period_end,
-                     security_token = security_token)
-
-  en_cont <- purrr::map(url_list, api_req_safe)
-  en_cont <- purrr::map(en_cont, "result")
-  #en_cont <- purrr::map(en_cont, "GL_MarketDocument")
-  en_cont[sapply(en_cont, is.null)] <- NULL
-
-  en_cont <- purrr::map(en_cont, xml2::as_list)
-  en_cont <- en_cont[[1]]$GL_MarketDocument
+  en_cont <- api_req_safe(url)
+  en_cont <- xml2::as_list(en_cont$result)
+  en_cont <- en_cont$GL_MarketDocument
   en_cont <- en_cont[names(en_cont) == "TimeSeries"]
-  en_cont <- lapply(en_cont, ts_agg_gen_helper)
-
-  en_cont <- dplyr::bind_rows(en_cont)
-  en_cont <- dplyr::select(en_cont, -mRID, -businessType, -objectAggregation, -curveType, -position)
+  en_cont <- lapply(en_cont, ts_agg_gen_helper, tidy_output = TRUE) %>%
+    dplyr::bind_rows() %>%
+    dplyr::select(-TimeSeries.mRID, -TimeSeries.businessType, -TimeSeries.objectAggregation, -TimeSeries.curveType, -TimeSeries.Period.position)
 
   en_cont
 }
 
-en_gen_day_ahead_agg_gen_api_req_helper <- function(psr_type, eic, period_start, period_end, security_token){
+en_gen_day_ahead_agg_gen_api_req_helper <- function(eic, period_start, period_end, security_token){
 
   url <- paste0(
     "https://transparency.entsoe.eu/api",
     "?documentType=A71",
     "&processType=A01",
-    #"&psrType=", psr_type,
     "&in_Domain=", eic,
     "&periodStart=",period_start,
     "&periodEnd=", period_end,
@@ -679,7 +672,7 @@ en_gen_day_ahead_agg_gen_api_req_helper <- function(psr_type, eic, period_start,
 #' library(tidyverse)
 #' library(entsoeapi)
 #'
-#' fr_2020 <- en_generation_day_ahead_gen_forcast_ws(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+#' fr_2020 <- en_generation_day_ahead_gen_forecast_ws(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
 #'
 en_generation_day_ahead_gen_forecast_ws <- function(eic, period_start, period_end, security_token = Sys.getenv("ENTSOE_PAT")){
 
@@ -692,25 +685,23 @@ en_generation_day_ahead_gen_forecast_ws <- function(eic, period_start, period_en
 
   gen_type <- as.character(c("B16", "B18", "B19"))
 
-  url_list <- lapply(X = gen_type,
-                     FUN = en_gen_day_ahead_gen_forecast_ws_api_req_helper,
-                     eic = eic,
-                     period_start = period_start,
-                     period_end = period_end,
-                     security_token = security_token)
+  url_list <- purrr::map(gen_type,
+                         ~en_gen_day_ahead_gen_forecast_ws_api_req_helper(psr_type = .x,
+                                                                          eic = eic,
+                                                                          period_start = period_start,
+                                                                          period_end = period_end,
+                                                                          security_token = security_token))
 
   en_cont <- purrr::map(url_list, api_req_safe)
   en_cont <- purrr::map(en_cont, "result")
-  #en_cont <- purrr::map(en_cont, "GL_MarketDocument")
-  en_cont[sapply(en_cont, is.null)] <- NULL
-
   en_cont <- purrr::map(en_cont, xml2::as_list)
-  en_cont <- en_cont[[1]]$GL_MarketDocument
-  en_cont <- en_cont[names(en_cont) == "TimeSeries"]
-  en_cont <- lapply(en_cont, ts_agg_gen_helper)
-
-  en_cont <- dplyr::bind_rows(en_cont)
-  en_cont <- dplyr::select(en_cont, -mRID, -businessType, -objectAggregation, -curveType, -position)
+  en_cont <- purrr::map(en_cont, "GL_MarketDocument")
+  names(en_cont) <- gen_type
+  en_cont[sapply(en_cont, is.null)] <- NULL
+  en_cont <- purrr::imap(en_cont, ~{ .x[names(.x) == "TimeSeries"] })
+  en_cont <- purrr::map(en_cont, function(ec) purrr::map(ec, ~ts_agg_gen_helper(.x)) %>% dplyr::bind_rows())
+  en_cont <- purrr::map(en_cont, ~dplyr::select(.x, -TimeSeries.mRID, -TimeSeries.businessType, -TimeSeries.objectAggregation, -TimeSeries.curveType) %>%
+                                      dplyr::rename_with( function(col) sub( "TimeSeries\\.", "", col)))
 
   en_cont
 }
@@ -721,7 +712,7 @@ en_gen_day_ahead_gen_forecast_ws_api_req_helper <- function(psr_type, eic, perio
     "https://transparency.entsoe.eu/api",
     "?documentType=A69",
     "&processType=A01",
-    #"&psrType=", psr_type,
+    "&psrType=", psr_type,
     "&in_Domain=", eic,
     "&periodStart=",period_start,
     "&periodEnd=", period_end,

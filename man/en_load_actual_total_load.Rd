@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_load_actual_total_load.R
 \name{en_load_actual_total_load}
 \alias{en_load_actual_total_load}
-\title{Get total load from Entsoe}
+\title{Get actual total load from Entsoe}
 \usage{
 en_load_actual_total_load(eic, period_start, period_end, security_token = NULL)
 }
@@ -16,18 +16,20 @@ en_load_actual_total_load(eic, period_start, period_end, security_token = NULL)
 \item{security_token}{Security token}
 }
 \description{
-Get total load from Entsoe
+Get actual total load from Entsoe
 }
 \examples{
 
 library(tidyverse)
 library(entsoeapi)
-en_load_actual_total_load(eic = "10Y1001A1001A82H", period_start = lubridate::ymd("2019-03-31", tz = "CET"),
-                          period_end = lubridate::ymd_hm("2019-03-31 23:00", tz = "CET"))
+en_load_actual_total_load(eic = "10Y1001A1001A82H",
+                          period_start = lubridate::ymd("2019-03-31", tz = "CET"),
+                          period_end = lubridate::ymd_hms("2019-03-31 23:00:00", tz = "CET"))
 
 # German average daily load.
-en_load_actual_total_load(eic = "10Y1001A1001A83F", period_start = lubridate::ymd(as.character(Sys.Date() - 30), tz = "UTC"),
-                          period_end = lubridate::ymd_hm(paste0(Sys.Date() - 1," 23:00"), tz = "UTC")) \%>\%
+en_load_actual_total_load(eic = "10Y1001A1001A83F",
+                          period_start = lubridate::ymd(as.character(Sys.Date() - 30), tz = "UTC"),
+                          period_end = lubridate::ymd_hms(paste(Sys.Date() - 1,"23:00:00"), tz = "UTC")) \%>\%
   mutate(dt = lubridate::floor_date(dt, "hours")) \%>\%
   group_by(dt) \%>\%
   summarise(quantity = mean(quantity)) \%>\%

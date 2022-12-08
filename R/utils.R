@@ -145,3 +145,21 @@ get_eiccodes <- function( f ) {
 
   return( eiccodes )
 }
+
+tm_quantity_helper <- function(x, patt){
+  x <- x$Publication_MarketDocument[names(x$Publication_MarketDocument) == "TimeSeries"]
+  x <- purrr::map(x, ~timeseries_extract_quantity(.x, patt))
+  x <- dplyr::bind_rows(x)
+
+  x
+}
+
+timeseries_extract_quantity <- function(x, patt){
+  value <- as.numeric(unlist(purrr::map(x$Period, patt)))
+  resolution <- x$Period$resolution[[1]]
+  position <- as.integer(unlist(purrr::map(x$Period, "position")))
+  dt <- dt_helper(tz_start = strptime(x = x$Period$timeInterval$start[[ 1L ]], format = "%Y-%m-%dT%H:%MZ", tz = "UTC") %>% as.POSIXct(tz = "UTC"), tz_resolution = resolution, tz_position = position)
+  res <- tibble::tibble(dt, value, resolution)
+
+  res
+}

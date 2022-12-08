@@ -14,7 +14,9 @@
 #' library(tidyverse)
 #' library(entsoeapi)
 #'
-#' en_load_week_ahead_total_load_forecast(eic = "10Y1001A1001A82H", period_start = lubridate::ymd("2019-11-01", tz = "CET"), period_end = lubridate::ymd_hm("2019-11-30 23:00", tz = "CET"))
+#' en_load_week_ahead_total_load_forecast(eic = "10Y1001A1001A82H",
+#'                                        period_start = lubridate::ymd("2019-11-01", tz = "CET"),
+#'                                        period_end = lubridate::ymd_hms("2019-11-30 23:00:00", tz = "CET"))
 #'
 #'
 en_load_week_ahead_total_load_forecast <- function(eic, period_start, period_end, security_token = NULL){
@@ -44,7 +46,12 @@ en_load_week_ahead_total_load_forecast <- function(eic, period_start, period_end
 
   en_cont <- xml2::as_list(en_cont)
 
+  en_unit <- unlist(en_cont$GL_MarketDocument$TimeSeries$quantity_Measure_Unit.name)
+  en_out_bidding_zone <- unlist(en_cont$GL_MarketDocument$TimeSeries$outBiddingZone_Domain.mRID)
+
   en_cont <- load_actual_total_load_helper(en_cont)
+  en_cont$unit <- en_unit
+  en_cont$out_bidding_zone <- en_out_bidding_zone
 
   en_cont
 }

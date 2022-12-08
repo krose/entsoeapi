@@ -2,20 +2,20 @@
 % Please edit documentation in R/en_transmission_forecasted_capacity.R
 \name{en_transmission_day_ahead_commercial_schedules}
 \alias{en_transmission_day_ahead_commercial_schedules}
-\title{Get Day ahead prices from Entsoe}
+\title{Get scheduled day-ahead commercial exchanges in aggregated form between bidding zones per direction and market time unit from Entsoe.}
 \usage{
 en_transmission_day_ahead_commercial_schedules(
   eic_in,
   eic_out,
   period_start,
   period_end,
-  security_token = NULL
+  security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
-\item{eic_in}{Energy Identification Code}
+\item{eic_in}{Energy Identification Code of in domain}
 
-\item{eic_out}{Energy Identification Code}
+\item{eic_out}{Energy Identification Code of out domain}
 
 \item{period_start}{POSIXct}
 
@@ -24,7 +24,7 @@ en_transmission_day_ahead_commercial_schedules(
 \item{security_token}{Security token}
 }
 \description{
-Get Day ahead prices from Entsoe
+Get scheduled day-ahead commercial exchanges in aggregated form between bidding zones per direction and market time unit from Entsoe.
 }
 \examples{
 

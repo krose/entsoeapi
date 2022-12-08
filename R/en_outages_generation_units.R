@@ -67,7 +67,6 @@ en_outages <- function(eic,
 
   if (!is.null(en_df_gen) | !is.null(en_df_pro)) {
     en_df <- dplyr::bind_rows(en_df_gen, en_df_pro)
-    #en_df <- dplyr::mutate(en_df, dt_created = lubridate::ymd_hms(dt_created, tz = "UTC")) << moved into _helper_tidy() functions
   } else {
     return(NULL)
   }
@@ -221,9 +220,9 @@ en_outages_production_units <- function(eic,
 outages_gen_helper_tidy <- function(df) {
 
   out_df <- df %>%
-    dplyr::mutate(dt_created = lubridate::ymd_hms(createdDateTime, tz = "UTC"),
-                  dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC"),
-                  dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
+    dplyr::mutate(dt_created = strptime(x = createdDateTime, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                  dt_start = strptime(x = paste(start_DateAndOrTime.date, start_DateAndOrTime.time), format = "%Y-%m-%d %H:%M:%S", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                  dt_end = strptime(x = paste(end_DateAndOrTime.date, end_DateAndOrTime.time), format = "%Y-%m-%d %H:%M:%S", tz = "UTC") %>% as.POSIXct(tz = "UTC")) %>%
     { if ( "docStatus" %in% names(.) ) .
       else tibble::add_column( ., docStatus = NA_character_ ) } %>%
     { if ( "production_RegisteredResource.pSRType.powerSystemResources.mRID" %in% names(.) ) .
@@ -452,7 +451,6 @@ en_outages_clean <- function(out_df,new_style = FALSE) {
     } else {
       out_df <- out_df %>%
         dplyr::select(!doc_status) %>%
-        #dplyr::mutate(dt_created = lubridate::ymd_hms(dt_created, tz = "UTC")) %>% << moved into _helper_tidy() functions
         dplyr::group_by_at(base::intersect( x = c("mkt_doc_mrid", "resource_mrid",
                                                   "resource_name","resource_location_name",
                                                   "resource_psr_type","resource_psr_type_capacity",
@@ -675,12 +673,10 @@ outages_tran_helper <- function(xml_list) {
 outages_tran_helper_tidy <- function(trans_df) {
 
   out_trans_df <- trans_df %>%
-    dplyr::mutate(dt_created = lubridate::ymd_hms(createdDateTime, tz = "UTC")) %>%
-    dplyr::select(-createdDateTime) %>%
-    dplyr::mutate(dt_start = lubridate::ymd_hm(paste0(start_DateAndOrTime.date, " ", stringr::str_sub(start_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
-    dplyr::select(-start_DateAndOrTime.time, -start_DateAndOrTime.date) %>%
-    dplyr::mutate(dt_end = lubridate::ymd_hm(paste0(end_DateAndOrTime.date, " ", stringr::str_sub(end_DateAndOrTime.time, 1, 5)), tz = "UTC")) %>%
-    dplyr::select(-end_DateAndOrTime.time, -end_DateAndOrTime.date) %>%
+    dplyr::mutate(dt_created = strptime(x = createdDateTime, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                  dt_start = strptime(x = paste(start_DateAndOrTime.date, start_DateAndOrTime.time), format = "%Y-%m-%d %H:%M:%S", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                  dt_end = strptime(x = paste(end_DateAndOrTime.date, end_DateAndOrTime.time), format = "%Y-%m-%d %H:%M:%S", tz = "UTC") %>% as.POSIXct(tz = "UTC")) %>%
+    dplyr::select(-createdDateTime, -start_DateAndOrTime.time, -start_DateAndOrTime.date, -end_DateAndOrTime.time, -end_DateAndOrTime.date) %>%
     dplyr::rename(in_domain_mrid = in_Domain.mRID,
                   out_domain_mrid = out_Domain.mRID,
                   quantity_measure_unit = quantity_Measure_Unit.name,
@@ -705,11 +701,6 @@ outages_tran_helper_tidy <- function(trans_df) {
       } else {
         .
       } }
-    # dplyr::mutate(start = lubridate::ymd_hm(start, tz = "UTC"),
-    #               end = lubridate::ymd_hm(end, tz = "UTC"),
-    #               dt_created = lubridate::ymd_hms(dt_created, tz = "UTC"),
-    #               position = as.integer(position),
-    #               quantity = as.numeric(quantity))
 
   return(out_trans_df)
 }

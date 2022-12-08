@@ -2,20 +2,20 @@
 % Please edit documentation in R/en_transmission_forecasted_capacity.R
 \name{en_transmission_forecasted_capacity}
 \alias{en_transmission_forecasted_capacity}
-\title{Get Day ahead prices from Entsoe}
+\title{Get day-ahead forecasted transfer capacities from Entsoe}
 \usage{
 en_transmission_forecasted_capacity(
   eic_in,
   eic_out,
   period_start,
   period_end,
-  security_token = NULL
+  security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
-\item{eic_in}{Energy Identification Code}
+\item{eic_in}{Energy Identification Code of in domain}
 
-\item{eic_out}{Energy Identification Code}
+\item{eic_out}{Energy Identification Code of out domain}
 
 \item{period_start}{POSIXct}
 
@@ -24,7 +24,7 @@ en_transmission_forecasted_capacity(
 \item{security_token}{Security token}
 }
 \description{
-Get Day ahead prices from Entsoe
+Get day-ahead forecasted transfer capacities from Entsoe
 }
 \examples{
 

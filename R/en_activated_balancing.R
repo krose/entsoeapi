@@ -37,8 +37,8 @@ en_activated_balancing_reserves <- function(eic,
   period_end   <- url_posixct_format(period_end)
 
   ## checking if target period not longer than 1 year
-  period_range <- difftime(time1 = lubridate::ymd_hm( x = period_end, tz = "UTC" ),
-                           time2 = lubridate::ymd_hm( x = period_start, tz = "UTC" ),
+  period_range <- difftime(time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
+                           time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") %>% as.POSIXct(tz = "UTC"),
                            units = "days")
   if (period_range > 366L) stop("One year range limit should be applied!")
 
