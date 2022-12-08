@@ -69,7 +69,7 @@ timeseries_extract_quantity <- function(x, patt){
   value <- as.numeric(unlist(purrr::map(x$Period, patt)))
   resolution <- x$Period$resolution[[1]]
   position <- as.integer(unlist(purrr::map(x$Period, "position")))
-  dt <- dt_helper(tz_start = base::strptime( x = x$Period$timeInterval$start[[ 1L ]], format = "%Y-%m-%dT%H:%MZ", tz = "UTC" ), tz_resolution = resolution, tz_position = position)
+  dt <- dt_helper(tz_start = strptime(x = x$Period$timeInterval$start[[ 1L ]], format = "%Y-%m-%dT%H:%MZ", tz = "UTC") %>% as.POSIXct(tz = "UTC"), tz_resolution = resolution, tz_position = position)
   tibble::tibble(dt, value, resolution)
 }
 
