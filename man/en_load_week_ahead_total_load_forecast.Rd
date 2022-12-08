@@ -28,7 +28,9 @@ Get week ahead total load forecast from Entsoe
 library(tidyverse)
 library(entsoeapi)
 
-en_load_week_ahead_total_load_forecast(eic = "10Y1001A1001A82H", period_start = lubridate::ymd("2019-11-01", tz = "CET"), period_end = lubridate::ymd_hm("2019-11-30 23:00", tz = "CET"))
+en_load_week_ahead_total_load_forecast(eic = "10Y1001A1001A82H",
+                                       period_start = lubridate::ymd("2019-11-01", tz = "CET"),
+                                       period_end = lubridate::ymd_hms("2019-11-30 23:00:00", tz = "CET"))
 
 
 }
