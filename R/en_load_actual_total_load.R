@@ -1,5 +1,5 @@
 
-#' Get total load from Entsoe
+#' Get actual total load from Entsoe
 #'
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
@@ -12,12 +12,14 @@
 #'
 #' library(tidyverse)
 #' library(entsoeapi)
-#' en_load_actual_total_load(eic = "10Y1001A1001A82H", period_start = lubridate::ymd("2019-03-31", tz = "CET"),
-#'                           period_end = lubridate::ymd_hm("2019-03-31 23:00", tz = "CET"))
+#' en_load_actual_total_load(eic = "10Y1001A1001A82H",
+#'                           period_start = lubridate::ymd("2019-03-31", tz = "CET"),
+#'                           period_end = lubridate::ymd_hms("2019-03-31 23:00:00", tz = "CET"))
 #'
 #' # German average daily load.
-#' en_load_actual_total_load(eic = "10Y1001A1001A83F", period_start = lubridate::ymd(as.character(Sys.Date() - 30), tz = "UTC"),
-#'                           period_end = lubridate::ymd_hm(paste0(Sys.Date() - 1," 23:00"), tz = "UTC")) %>%
+#' en_load_actual_total_load(eic = "10Y1001A1001A83F",
+#'                           period_start = lubridate::ymd(as.character(Sys.Date() - 30), tz = "UTC"),
+#'                           period_end = lubridate::ymd_hms(paste(Sys.Date() - 1,"23:00:00"), tz = "UTC")) %>%
 #'   mutate(dt = lubridate::floor_date(dt, "hours")) %>%
 #'   group_by(dt) %>%
 #'   summarise(quantity = mean(quantity)) %>%
@@ -67,7 +69,7 @@ en_load_actual_total_load <- function(eic, period_start, period_end, security_to
 }
 
 
-#' Get total load from Entsoe
+#' Get day-ahead total load forecast from Entsoe
 #'
 #' @param eic Energy Identification Code
 #' @param period_start POSIXct
@@ -81,11 +83,11 @@ en_load_actual_total_load <- function(eic, period_start, period_end, security_to
 #' library(tidyverse)
 #' library(entsoeapi)
 #' en_load_day_ahead_total_load_forecast(eic = "10Y1001A1001A82H", period_start = lubridate::ymd("2019-03-31", tz = "CET"),
-#'                           period_end = lubridate::ymd_hm("2019-03-31 23:00", tz = "CET"))
+#'                           period_end = lubridate::ymd_hms("2019-03-31 23:00:00", tz = "CET"))
 #'
 #' # German average daily load.
 #' en_load_day_ahead_total_load_forecast(eic = "10Y1001A1001A83F", period_start = lubridate::ymd(as.character(Sys.Date() - 30), tz = "UTC"),
-#'                           period_end = lubridate::ymd_hm(paste0(Sys.Date() - 1," 23:00"), tz = "UTC")) %>%
+#'                           period_end = lubridate::ymd_hms(paste(Sys.Date() - 1,"23:00:00"), tz = "UTC")) %>%
 #'   mutate(dt = lubridate::floor_date(dt, "hours")) %>%
 #'   group_by(dt) %>%
 #'   summarise(quantity = mean(quantity)) %>%
@@ -147,7 +149,7 @@ load_actual_total_load_helper <- function(x){
 
 timeseries_extract <- function(x){
 
-  dt <- lubridate::ymd_hm(x$Period$timeInterval$start[[1]], tz = "UTC")
+  dt <- strptime(x = x$Period$timeInterval$start[[1]], format = "%Y-%m-%dT%H:%MZ", tz = "UTC") %>% as.POSIXct(tz = "UTC")
   position <- as.integer(unlist(purrr::map(x$Period, "position")))
   quantity <- as.numeric(unlist(purrr::map(x$Period, "quantity")))
 
