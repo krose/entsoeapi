@@ -26,7 +26,7 @@ en_transmission_day_ahead_prices <- function(eic, period_start, period_end, secu
   }
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A44",
     "&in_Domain=", eic,
     "&out_Domain=", eic,

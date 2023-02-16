@@ -113,7 +113,7 @@ en_outages_generation_units <- function(eic,
   stopifnot("Maximum one year range limit should be applied." = difftime(time1 = period_end, time2 = period_start, units = "days") <= 366)
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A80",
     "&biddingZone_Domain=", eic,
     "&periodStart=", url_posixct_format(period_start),
@@ -183,7 +183,7 @@ en_outages_production_units <- function(eic,
   stopifnot("Maximum one year range limit should be applied." = difftime(time1 = period_end, time2 = period_start, units = "days") <= 366)
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A77",
     "&biddingZone_Domain=", eic,
     "&periodStart=", url_posixct_format(period_start),
@@ -514,7 +514,7 @@ en_outages_transmission_infrastructure <- function(in_domain,
   }
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "httpshttps://web-api.tp.entsoe.eu/api",
     "?documentType=A78",
     "&in_Domain=", in_domain,
     "&out_domain=", out_domain,

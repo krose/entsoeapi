@@ -28,7 +28,7 @@ en_generation_inst_gen_cap_agg <- function(eic, year, security_token = Sys.geten
   }
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A68",
     "&processType=A33",
     "&in_Domain=", eic,
@@ -246,7 +246,7 @@ en_gen_agg_gen_pertype_api_req_helper <- function(eic,
 
   ## composing url(s)
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A75",               # <- Actual generation per type - A document providing the actual generation per generation type for a period.
     "&processType=A16",                # <- Realised - The process for the treatment of realised data as opposed to forecast data
     "&in_Domain=", eic,                # <- reflects Generation values
@@ -526,7 +526,7 @@ en_gen_act_gen_perunit_api_req_helper <- function(eic,
                              KEEP.OUT.ATTRS   = FALSE)
 
   ## composing url(s)
-  url <- paste0("https://transparency.entsoe.eu/api",
+  url <- paste0("https://web-api.tp.entsoe.eu/api",
                 "?documentType=A73",               # <- Actual generation - A document providing the actual generation for a period.
                 "&processType=A16",                # <- Realised - The process for the treatment of realised data as opposed to forecast data
                 "&periodStart=",period_start,
@@ -645,7 +645,7 @@ en_generation_day_ahead_agg_gen <- function(eic, period_start, period_end, secur
 en_gen_day_ahead_agg_gen_api_req_helper <- function(eic, period_start, period_end, security_token){
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A71",
     "&processType=A01",
     "&in_Domain=", eic,
@@ -709,7 +709,7 @@ en_generation_day_ahead_gen_forecast_ws <- function(eic, period_start, period_en
 en_gen_day_ahead_gen_forecast_ws_api_req_helper <- function(psr_type, eic, period_start, period_end, security_token){
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A69",
     "&processType=A01",
     "&psrType=", psr_type,

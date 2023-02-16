@@ -27,7 +27,7 @@ en_transmission_x_border_phys_flow <- function(eic_in, eic_out, period_start, pe
   }
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A11",
     "&in_Domain=", eic_in,
     "&out_Domain=", eic_out,

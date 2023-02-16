@@ -10,7 +10,7 @@ en_capacity_api_req_helper <- function(in_domain,
 
   ## composing url(s)
   paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=", document_type,
     "&businessType=", business_type,
     if(!is.null( contract_type )) paste0("&contract_MarketAgreement.Type=", contract_type),

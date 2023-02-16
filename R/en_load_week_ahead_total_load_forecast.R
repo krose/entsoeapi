@@ -33,7 +33,7 @@ en_load_week_ahead_total_load_forecast <- function(eic, period_start, period_end
   }
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A65",
     "&processType=A31",
     "&outBiddingZone_Domain=", eic,

@@ -172,7 +172,7 @@ en_activated_balancing_reserves_api_req_helper <- function(eic,
 
   ## composing url(s)
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A83",
     "&controlArea_Domain=", eic,
     "&periodStart=",period_start,

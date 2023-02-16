@@ -26,7 +26,7 @@ en_transmission_forecasted_capacity <- function(eic_in, eic_out, period_start, p
   }
 
   url <- paste0(
-    "https://transparency.entsoe.eu/api",
+    "https://web-api.tp.entsoe.eu/api",
     "?documentType=A61",
     "&contract_MarketAgreement.Type=A01",
     "&in_Domain=", eic_in,
