@@ -115,13 +115,21 @@ en_generation_agg_gen_per_type <- function(eic,
                                                     security_token = security_token)
 
   ## send GET request and extract result content and removing null contents
-  en_cont  <- unname( URL ) %>%
+  en_cont  <- unname(URL) %>%
     purrr::map(api_req_safe) %>%
     purrr::map("result") %>%
     purrr::compact()
 
+  ## extract possible failure reason
+  reason <- en_cont %>%
+    purrr::map(xml2::as_list) %>%
+    purrr::map("Acknowledgement_MarketDocument") %>%
+    unlist(recursive = FALSE) %>%
+    purrr::pluck("Reason") %>%
+    unlist(recursive = FALSE)
+
   ## if valid contents left
-  if (length(en_cont) > 0L) {
+  if (is.null(reason)) {
 
     ## composing a result table
     ec       <- en_cont %>%
@@ -231,6 +239,8 @@ en_generation_agg_gen_per_type <- function(eic,
     return(tibble::as_tibble(periodly))
 
   } else {
+
+    message(reason$code, ": ", reason$text)
 
     ## returning with an empty table
     return(tibble::tibble())
@@ -377,13 +387,21 @@ en_generation_act_gen_per_unit <- function(eic,
     purrr::map_df(function(URL) {
 
       ## send GET request and extract result content and removing null contents
-      en_cont <- unname( URL ) %>%
+      en_cont <- unname(URL) %>%
         purrr::map(api_req_safe) %>%
         purrr::map("result") %>%
         purrr::compact()
 
+      ## extract possible failure reason
+      reason <- en_cont %>%
+        purrr::map(xml2::as_list) %>%
+        purrr::map("Acknowledgement_MarketDocument") %>%
+        unlist(recursive = FALSE) %>%
+        purrr::pluck("Reason") %>%
+        unlist(recursive = FALSE)
+
       ## if valid contents left
-      if (length(en_cont) > 0L) {
+      if (is.null(reason)) {
 
         ## composing a result table
         ec      <- en_cont %>%
@@ -494,6 +512,8 @@ en_generation_act_gen_per_unit <- function(eic,
         return(tibble::as_tibble(periodly))
 
       } else {
+
+        message(reason$code, ": ", reason$text)
 
         ## returning with an empty table
         return(tibble::tibble())
