@@ -95,13 +95,19 @@ get_eiccodes <- function( f ) {
   ## and replacing erroneous semicolons to commas
   ## unfortunately there is no general rule for that hence it must be set manually!!
   lns        <- readLines( con = f, encoding = "UTF-8" ) %>%
-    gsub( pattern     = "tutkimustehdas;\\sImatra",
+    iconv(x = ., "UTF-8", "ASCII", sub="") %>%
+    iconv(x = ., "", "ASCII", "byte") %>%
+    gsub(x = ., pattern     = "<\\s*U\\+[0-9A-Fa-f]{4,6}\\s*>",
+         replacement = "",
+         perl        = TRUE) %>%
+    enc2utf8() %>%
+    gsub(x = ., pattern     = "tutkimustehdas;\\sImatra",
           replacement = "tutkimustehdas, Imatra",
           perl        = TRUE ) %>%
-    gsub( pattern     = "; S\\.L\\.;",
+    gsub(x = ., pattern     = "; S\\.L\\.;",
           replacement = ", S.L.;",
           perl        = TRUE ) %>%
-    gsub( pattern     = "\\$amp;",
+    gsub(x = ., pattern     = "\\$amp;",
           replacement = "&",
           perl        = TRUE )
 
@@ -133,7 +139,8 @@ get_eiccodes <- function( f ) {
                                    encoding   = "UTF-8" )
 
   ## trimming character columns
-  lapply( X   = names( x = eiccodes ),
+  eiccodes <-
+    lapply( X   = names( x = eiccodes ),
           FUN = function( col ) {
             if( is.character( eiccodes[[ col ]] ) ) {
               data.table::set( x     = eiccodes,
