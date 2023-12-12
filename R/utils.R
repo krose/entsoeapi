@@ -109,7 +109,10 @@ get_eiccodes <- function( f ) {
           perl        = TRUE ) %>%
     gsub(x = ., pattern     = "\\$amp;",
           replacement = "&",
-          perl        = TRUE )
+          perl        = TRUE ) %>%
+    gsub(x = ., pattern = "<e2><80><93> ",
+         replacement = "",
+         perl = TRUE)
 
   ## looking for those lines (elements) which end are not
   ## according to the general rules
