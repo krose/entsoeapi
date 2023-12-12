@@ -160,21 +160,21 @@ en_generation_agg_gen_per_type <- function(eic,
 
       ## renaming columns
       names(periodly) <- names(periodly) %>%
-        gsub(pattern = ".mRID", replacement = "_mrid", fixed = TRUE) %>%
-        gsub(pattern = "Type", replacement = "_type", fixed = TRUE) %>%
-        gsub(pattern = "revisionNumber", replacement = "revision_number", fixed = TRUE) %>%
-        gsub(pattern = "createdDateTime", replacement = "dt_created", fixed = TRUE) %>%
-        gsub(pattern = "objectAggregation", replacement = "object_aggregation", fixed = TRUE) %>%
-        gsub(pattern = "TimeSeries_mrid", replacement = "ts_mrid", fixed = TRUE) %>%
-        gsub(pattern = "TimeSeries.", replacement = "", fixed = TRUE) %>%
-        gsub(pattern = "quantity_Measure_Unit.name", replacement = "quantity_measure_unit", fixed = TRUE) %>%
-        gsub(pattern = "process.", replacement = "", fixed = TRUE) %>%
-        gsub(pattern = "PowerSystemResources.psr_type", replacement = "resource_psr_type", fixed = TRUE) %>%
-        gsub(pattern = "PowerSystemResources.", replacement = "resource_psr_type_", fixed = TRUE) %>%
-        gsub(pattern = "PowerSystemResources", replacement = "resource_psr_type", fixed = TRUE) %>%
-        gsub(pattern = "Period.", replacement = "", fixed = TRUE) %>%
-        gsub(pattern = "timeInterval.", replacement = "dt_", fixed = TRUE) %>%
-        gsub(pattern = "StartDateTime", replacement = "start", fixed = TRUE) %>%
+        gsub(x = ., pattern = ".mRID", replacement = "_mrid", fixed = TRUE) %>%
+        gsub(x = ., pattern = "Type", replacement = "_type", fixed = TRUE) %>%
+        gsub(x = ., pattern = "revisionNumber", replacement = "revision_number", fixed = TRUE) %>%
+        gsub(x = ., pattern = "createdDateTime", replacement = "dt_created", fixed = TRUE) %>%
+        gsub(x = ., pattern = "objectAggregation", replacement = "object_aggregation", fixed = TRUE) %>%
+        gsub(x = ., pattern = "TimeSeries_mrid", replacement = "ts_mrid", fixed = TRUE) %>%
+        gsub(x = ., pattern = "TimeSeries.", replacement = "", fixed = TRUE) %>%
+        gsub(x = ., pattern = "quantity_Measure_Unit.name", replacement = "quantity_measure_unit", fixed = TRUE) %>%
+        gsub(x = ., pattern = "process.", replacement = "", fixed = TRUE) %>%
+        gsub(x = ., pattern = "PowerSystemResources.psr_type", replacement = "resource_psr_type", fixed = TRUE) %>%
+        gsub(x = ., pattern = "PowerSystemResources.", replacement = "resource_psr_type_", fixed = TRUE) %>%
+        gsub(x = ., pattern = "PowerSystemResources", replacement = "resource_psr_type", fixed = TRUE) %>%
+        gsub(x = ., pattern = "Period.", replacement = "", fixed = TRUE) %>%
+        gsub(x = ., pattern = "timeInterval.", replacement = "dt_", fixed = TRUE) %>%
+        gsub(x = ., pattern = "StartDateTime", replacement = "start", fixed = TRUE) %>%
         tolower()
 
       ## converting timestamp-like columns to timestamps
