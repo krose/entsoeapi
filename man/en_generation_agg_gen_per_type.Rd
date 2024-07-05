@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_agg_gen_per_type}
 \alias{en_generation_agg_gen_per_type}
-\title{Get aggregated generation per type from Entsoe}
+\title{Get aggregated generation per type from Entso-e (16.1.B&C)}
 \usage{
 en_generation_agg_gen_per_type(
   eic,
@@ -14,7 +14,7 @@ en_generation_agg_gen_per_type(
 )
 }
 \arguments{
-\item{eic}{Energy Identification Code of the control area (TSO)}
+\item{eic}{Energy Identification Code of the control area, bidding zone or country}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies}
 
@@ -22,12 +22,12 @@ en_generation_agg_gen_per_type(
 
 \item{gen_type}{Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table}
 
-\item{tidy_output}{Defaults to TRUE. flatten nested tables}
+\item{tidy_output}{Defaults to TRUE. If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
-Get aggregated generation per type from Entsoe
+Get aggregated generation per type from Entso-e (16.1.B&C)
 }
 \examples{
 
@@ -36,6 +36,9 @@ library(entsoeapi)
 
 fr_202002 <- en_generation_agg_gen_per_type(eic = "10YFR-RTE------C",
                                             period_start = lubridate::ymd("2020-02-01", tz = "CET"),
-                                            period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+                                            period_end = lubridate::ymd("2020-03-01", tz = "CET"),
+                                            gen_type       = NULL,
+                                            tidy_output    = TRUE)
+View(fr_202002)
 
 }

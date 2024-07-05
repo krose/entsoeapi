@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_act_gen_per_unit}
 \alias{en_generation_act_gen_per_unit}
-\title{Get actual generation output per generation unit from Entsoe}
+\title{Get actual generation output per generation unit from Entso-e (16.1.A)}
 \usage{
 en_generation_act_gen_per_unit(
   eic,
@@ -14,7 +14,7 @@ en_generation_act_gen_per_unit(
 )
 }
 \arguments{
-\item{eic}{Energy Identification Code(s) of the control area(s) (TSO)}
+\item{eic}{Energy Identification Code of the control area or bidding zone}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format  One day range limit applies}
 
@@ -22,20 +22,23 @@ en_generation_act_gen_per_unit(
 
 \item{gen_type}{Defaults to NULL, otherwise list of generation type codes from StandardAssetTypeList table}
 
-\item{tidy_output}{Defaults to TRUE. flatten nested tables}
+\item{tidy_output}{Defaults to TRUE. If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
-Get actual generation output per generation unit from Entsoe
+Get actual generation output per generation unit from Entso-e (16.1.A)
 }
 \examples{
 
 library(tidyverse)
 library(entsoeapi)
 
-de_50Hertz_20180101 <- en_generation_act_gen_per_unit(eic = "10YDE-VE-------2",
+de_50Hertz_20200131 <- en_generation_act_gen_per_unit(eic = "10YDE-VE-------2",
                                                       period_start = lubridate::ymd("2020-01-31", tz = "CET"),
-                                                      period_end = lubridate::ymd("2020-02-01", tz = "CET"))
+                                                      period_end = lubridate::ymd("2020-02-01", tz = "CET"),
+                                                      gen_type = NULL,
+                                                      tidy_output = TRUE)
+View(de_50Hertz_20200131)
 
 }

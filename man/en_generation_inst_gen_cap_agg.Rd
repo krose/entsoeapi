@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_inst_gen_cap_agg}
 \alias{en_generation_inst_gen_cap_agg}
-\title{Get Installed generation capacity aggregated per type from Entsoe}
+\title{Get Installed generation capacity - aggregated per type from Entso-e (14.1.A)}
 \usage{
 en_generation_inst_gen_cap_agg(
   eic,
@@ -11,22 +11,24 @@ en_generation_inst_gen_cap_agg(
 )
 }
 \arguments{
-\item{eic}{Energy Identification Code}
+\item{eic}{Energy Identification Code of the control area, bidding zone or country}
 
 \item{security_token}{Security token}
 
-\item{period_start}{POSIXct}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies}
 
-\item{period_end}{POSIXct}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format  One year range limit applies}
 }
 \description{
-Get Installed generation capacity aggregated per type from Entsoe
+Get Installed generation capacity - aggregated per type from Entso-e (14.1.A)
 }
 \examples{
 
 library(tidyverse)
 library(entsoeapi)
 
-fr_2020 <- en_generation_inst_gen_cap_agg(eic = "10YFR-RTE------C", year=2020)
+fr_2020 <- en_generation_inst_gen_cap_agg(eic = "10YFR-RTE------C",
+                                          year=2020)
+View(fr_2020)
 
 }
