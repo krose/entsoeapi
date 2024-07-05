@@ -30,7 +30,7 @@ Read here how to get a security token.
 You should also create a `.Renviron` file in your working directory with
 a security token and call it ENTSOE\_PAT.
 
-    ENTSOE_PAT = "<your_security_token>"
+    ENTSOE_PAT = "your_security_token"
 
 ## Example
 
