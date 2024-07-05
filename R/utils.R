@@ -1,11 +1,11 @@
 
 
-api_req <- function(url){
+api_req <- function(url) {
 
   message(url, " ...")
   req <- httr::GET(url)
 
-  if(httr::status_code(req) != "200"){
+  if (httr::status_code(req) != "200") {
     stop(httr::content(req, encoding = "UTF-8"))
   }
   en_cont <- httr::content(req, encoding = "UTF-8")
@@ -22,9 +22,9 @@ api_req_safe <- function(..., otherwise = NULL, quiet = TRUE) {
 }
 
 
-url_posixct_format <- function(x){
+url_posixct_format <- function(x) {
 
-  if(any(class(x) == "POSIXct")){
+  if (any(class(x) == "POSIXct")) {
     y <- strftime(x = x, format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
   } else {
     y <- lubridate::parse_date_time(x      = x,
@@ -34,7 +34,7 @@ url_posixct_format <- function(x){
                                     tz     = "UTC",
                                     quiet  = TRUE) |>
       strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
-    if(is.na(y)) {
+    if (is.na(y)) {
       stop("Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text are supported by the converter.")
     } else {
       warning("The ", x, " value interpreted as UTC.", call. = FALSE)
@@ -46,10 +46,10 @@ url_posixct_format <- function(x){
 }
 
 
-dt_helper <- function(tz_start, tz_resolution, tz_position){
+dt_helper <- function(tz_start, tz_resolution, tz_position) {
 
   # turn 'tz_start' to POSIXct if it is not such yet
-  if(!lubridate::is.POSIXct(tz_start)) {
+  if (!lubridate::is.POSIXct(tz_start)) {
     tz_start <- as.POSIXct(x = tz_start,
                            tryFormats = c("%Y-%m-%dT%H:%MZ",
                                           "%Y-%m-%dT%H:%M:%SZ",
@@ -68,7 +68,7 @@ dt_helper <- function(tz_start, tz_resolution, tz_position){
     tz_resolution == "P1D" ~ lubridate::days(x = tz_pos_prev),
     tz_resolution == "P1Y" ~ lubridate::years(x = tz_pos_prev)
   )
-  
+
   if (is.null(add_time)) {
     stop("The provided 'tz_resolution' value is not supported.",
          "\nPlease use 'PT1M', 'PT15M', 'PT30M', 'PT60M' or 'P1D'.")
@@ -79,7 +79,7 @@ dt_helper <- function(tz_start, tz_resolution, tz_position){
 
 }
 
-dt_seq_helper <- function(from, to, seq_resolution = "PT60M", qty){
+dt_seq_helper <- function(from, to, seq_resolution = "PT60M", qty) {
 
   ## calculate "by" value from "seq_resolution" value
   by <- dplyr::case_when(seq_resolution == "PT1M" ~ "1 min",
@@ -89,14 +89,14 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", qty){
                          seq_resolution == "P1D" ~ "1 day",
                          seq_resolution == "P1Y" ~ "1 year",
                          .default = "n/a")
-  
+
   ## compose a tibble from the expanded periods and the provided quantity
   if (by == "n/a") {
     stop("The provided 'seq_resolution' value is not supported.",
          "\nPlease use 'PT1M', 'PT15M', 'PT30M', 'PT60M' or 'P1D'.")
   } else {
-    dts <- lubridate::floor_date(x = seq(from = from, to = to, by = by),
-                                 unit = by)
+    dts <- seq(from = from, to = to, by = by) |>
+      lubridate::floor_date(unit = by)
     if (length(dts) == length(qty) + 1) {
       dts <- head(dts, -1)
     }
@@ -111,11 +111,11 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", qty){
 }
 
 
-get_eiccodes <- function( f ) {
+get_eiccodes <- function(f) {
 
   message("\ndownloading ", f, " file ...")
 
-  ## readding input file into a character vector
+  ## reading input file into a character vector
   ## and replacing erroneous semicolons to commas
   ## unfortunately there is no general rule for that hence it must be set manually!!
   lns <- readLines(con = f, encoding = "UTF-8") |>
@@ -137,7 +137,7 @@ get_eiccodes <- function( f ) {
   if (length(x = clps_ind) > 0L) {
 
     ## iterating related elements thru from the last till the first element
-    for(i in rev(clps_ind)) {
+    for (i in rev(clps_ind)) {
       ## collapsing related line (element) with its subsequent neighbor
       lns[i] <- paste0(lns[i], lns[i + 1L], collapse = "")
     }
@@ -149,20 +149,20 @@ get_eiccodes <- function( f ) {
 
   ## reading lines as they would be a csv
   eiccodes <- data.table::fread(text       = lns,
-                                sep        =";",
+                                sep        = ";",
                                 na.strings = c("", "n / a", "n/a", "N/A", "-", "-------", "."),
                                 encoding   = "UTF-8")
 
   ## trimming character columns
-  lapply(X   = names(eiccodes),
-         FUN = function(col) {
-           if (is.character(eiccodes[[col]])) {
-             data.table::set(x     = eiccodes,
-                             j     = col,
-                             value = trimws(x     = eiccodes[[col]],
-                                            which = "both"))
-          }
-        })
+  eiccodes <- lapply(X   = names(eiccodes),
+                     FUN = function(col) {
+                       if (is.character(eiccodes[[col]])) {
+                         data.table::set(x     = eiccodes,
+                                         j     = col,
+                                         value = trimws(x     = eiccodes[[col]],
+                                                        which = "both"))
+                         }
+                       })
 
   return(eiccodes)
 
@@ -172,13 +172,13 @@ get_eiccodes <- function( f ) {
 tm_quantity_helper <- function(x, patt) {
 
   sections <- x$Publication_MarketDocument[names(x$Publication_MarketDocument) == "TimeSeries"]
-  tbl <- purrr::map(sections,
-                    ~timeseries_extract_quantity(section = .x, patt = patt)) |>
+  tbl <- sections |>
+    purrr::map(~timeseries_extract_quantity(section = .x, patt = patt)) |>
     dplyr::bind_rows() |>
     tibble::as_tibble()
 
   return(tbl)
- 
+
 }
 
 
