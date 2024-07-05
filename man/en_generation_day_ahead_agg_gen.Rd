@@ -2,34 +2,41 @@
 % Please edit documentation in R/en_generation.R
 \name{en_generation_day_ahead_agg_gen}
 \alias{en_generation_day_ahead_agg_gen}
-\title{Get Day-ahead aggregated generation forecast from Entsoe.
-It is an estimate of the total scheduled generation per bidding zone for the following day}
+\title{Get Day-ahead aggregated generation forecast from Entso-e. (14.1.C)
+It is an estimate of the total scheduled generation per area for the following day}
 \usage{
 en_generation_day_ahead_agg_gen(
   eic,
   period_start,
   period_end,
+  tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
 \arguments{
-\item{eic}{Energy Identification Code}
+\item{eic}{Energy Identification Code of the control area, bidding zone or country}
 
-\item{period_start}{POSIXct}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_end}{POSIXct}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{security_token}{Security token}
+\item{tidy_output}{Defaults to TRUE. If TRUE, then flatten nested tables.}
+
+\item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
-Get Day-ahead aggregated generation forecast from Entsoe.
-It is an estimate of the total scheduled generation per bidding zone for the following day
+Get Day-ahead aggregated generation forecast from Entso-e. (14.1.C)
+It is an estimate of the total scheduled generation per area for the following day
 }
 \examples{
 
 library(tidyverse)
 library(entsoeapi)
 
-fr_2020 <- en_generation_day_ahead_agg_gen(eic = "10YFR-RTE------C", period_start = lubridate::ymd("2020-02-01", tz = "CET"), period_end = lubridate::ymd("2020-03-01", tz = "CET"))
+fr_202002 <- en_generation_day_ahead_agg_gen(eic = "10YFR-RTE------C",
+                                             period_start = lubridate::ymd("2020-02-01", tz = "CET"),
+                                             period_end = lubridate::ymd("2020-03-01", tz = "CET"),
+                                             tidy_output = TRUE)
+View(fr_202002)
 
 }
