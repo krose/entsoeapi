@@ -2,14 +2,28 @@
 % Please edit documentation in R/en_helpers.R
 \name{substation_eic}
 \alias{substation_eic}
-\title{Get Substation_A EIC codes}
+\title{Get Substation A Energy Identification Codes}
 \usage{
 substation_eic()
 }
 \description{
-This function downloads all approved Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads all approved substation A
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+Substation is a facility equipment that steps up or
+steps down the voltage in utility power lines.
+Voltage is stepped up where power is sent through
+long distance transmission lines, and stepped down
+where the power is to enter the local distribution lines.
+They can be classified as normal outside substation,
+armoured substation and underground substation.
 }
 \examples{
+
+library(entsoeapi)
+
 eic_substation <- substation_eic()
+
+str(eic_substation)
+
 }

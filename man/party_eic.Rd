@@ -2,14 +2,22 @@
 % Please edit documentation in R/en_helpers.R
 \name{party_eic}
 \alias{party_eic}
-\title{Get Party_X EIC codes}
+\title{Get Party_X Energy Identification Codes}
 \usage{
 party_eic()
 }
 \description{
-This function downloads approved Party_X Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads approved party X
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+It covers market participants.
 }
 \examples{
+
+library(entsoeapi)
+
 eic_party <- party_eic()
+
+str(eic_party)
+
 }
