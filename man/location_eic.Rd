@@ -2,14 +2,22 @@
 % Please edit documentation in R/en_helpers.R
 \name{location_eic}
 \alias{location_eic}
-\title{Get Location_V EIC codes}
+\title{Get Location V Energy Identification Codes}
 \usage{
 location_eic()
 }
 \description{
-This function downloads approved Location_V Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads approved location V
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+It covers an endpoint, or an IT-system.
 }
 \examples{
+
+library(entsoeapi)
+
 eic_location <- location_eic()
+
+str(eic_location)
+
 }

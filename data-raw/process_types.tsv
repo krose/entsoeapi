@@ -1,0 +1,52 @@
+CODE	DEFINITION	DESCRIPTION
+A01	Day ahead	The information provided concerns a day ahead schedule.
+A02	Intra day incremental	The information provided concerns an intra day schedule.
+A03	Inter-area transit	The information provided concerns an inter area transit schedule. The rules governing this process are market dependent
+A04	System operation closure	The information provided concerns the closure of a given period of both scheduled and regulation information
+A05	Metered data aggregation	The information provided concerns the aggregation process of metered information
+A06	Imbalance settlement	The information provided concerns the imbalance settlement for a given period for a balance responsible party or parties
+A07	Capacity allocation	The information provided concerns the capacity allocation process
+A08	Central reconciliation	The process carried out to finalise the imbalance settlement based on actual metered values against provisional values from profiled metering points
+A09	Released capacity allocation	The process concerns the notification of capacity rights that are being released
+A10	Proposed capacity allocation	The process concerns the proposed capacity to be allocated for a given border
+A11	Agreed capacity allocation	The process concerns the capacity that has been agreed for allocation for a border
+A12	Long term	The process concerns scheduling all schedules except daily and intraday contracts.
+A13	Post scheduling adjustment	The process concerns the adjustments made to previous schedules after the period of execution
+A14	Forecast	The data contained in the document are to be handled in short, medium, long term forecasting process.
+A15	Capacity determination	The process of determining the capacity for use
+A16	Realised	The process for the treatment of realised data as opposed to forecast data
+A17	Schedule day	The process concerns the day ahead, intraday and eventually ex- post scheduling in a single document. The schedule will be transferred within the total position including historic information
+A18	Intraday total	This process concerns an intraday schedule which contains the accumulated day ahead and intraday current position.
+A19	Intraday accumulated	This process concerns a single intraday schedule process where only intraday evolutions occur through version changes.
+A20	SOMA process	System Operator meter alignment process.
+A21	SOVM process	System Operator validated measurement process.
+A22	RGCE accounting process	The document provides ENTSO-E Regional Group Continantal Europe accounting process information.
+A23	CCSR RGCE Settlement	The process concerns the control center settlement report for the whole of the ENTSO-E Regional Group Continantal Europe.
+A24	CBSR Settlement	The process concerns the control block settlement report.
+A25	CASR Settlement	The process concerns the control area settlement report.
+A26	Outage information	The process concerns TSO publication of outages on its power system.
+A27	Reserve resource process	The process being described is for general reserve resources.
+A28	Primary reserve process	The process being described is for primary reserves.
+A29	Secondary reserve process	The process being described is for secondary reserves.
+A30	Tertiary reserve process	The process being described is for tertiary reserves.
+A31	Week ahead	The process being described is for the week ahead.
+A32	Month ahead	The process being described is for the month ahead.
+A33	Year ahead	The process being described is for the year ahead.
+A34	Contracted	The process being described is for contracted information.
+A35	Network information	The process being described is for network information.
+A36	Creation	The process being described is for the creation of information.
+A37	Modification	The process being described is for the modification of information.
+A38	Deactivation process	The process being described is for deactivation of information.
+A39	Synchronisation process	The process being described is for the synchronisation of information.
+A40	Intraday process	The process being described is for intraday process..
+A41	Redispatch process	The process being described is for redispatch activation.
+A42	Activation history process	The process being described is for the provisaion of an activation history.
+A46	Replacement reserve
+A47	Manual frequency restoration reserve
+A51	Automatic frequency restoration reserve
+A52	Frequency containment reserve
+A56	Frequency restoration reserve
+A60	Scheduled activation mFRR
+A61	Direct activation mFRR
+A67	Central Selection aFRR
+A68	Local Selection aFRR

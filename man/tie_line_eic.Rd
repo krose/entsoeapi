@@ -2,14 +2,23 @@
 % Please edit documentation in R/en_helpers.R
 \name{tie_line_eic}
 \alias{tie_line_eic}
-\title{Get Tie_Line_T EIC codes}
+\title{Get Tie Line T Energy Identification Codes}
 \usage{
 tie_line_eic()
 }
 \description{
-This function downloads approved Tie_Line_T Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads approved tie line T
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+It covers a transmission line that connects different areas
+excluding HVDC interconnectors.
 }
 \examples{
+
+library(entsoeapi)
+
 eic_tie_line <- tie_line_eic()
+
+str(eic_tie_line)
+
 }

@@ -2,14 +2,23 @@
 % Please edit documentation in R/en_helpers.R
 \name{accounting_point_eic}
 \alias{accounting_point_eic}
-\title{Get Accounting_point_Z EIC codes}
+\title{Get Accounting Point Z Energy Identification Codes}
 \usage{
 accounting_point_eic()
 }
 \description{
-This function downloads approved Accounting_point_Z Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads approved accounting point Z
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+An entity under balance responsibility where balance supplier change
+can take place and for which commercial business processes are defined.
 }
 \examples{
+
+library(entsoeapi)
+
 eic_accounting_point <- accounting_point_eic()
+
+str(eic_accounting_point)
+
 }

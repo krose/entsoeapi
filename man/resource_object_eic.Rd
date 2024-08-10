@@ -2,14 +2,23 @@
 % Please edit documentation in R/en_helpers.R
 \name{resource_object_eic}
 \alias{resource_object_eic}
-\title{Get Resource_Object_W EIC codes}
+\title{Get Resource Object W Energy Identification Codes}
 \usage{
 resource_object_eic()
 }
 \description{
-This function downloads approved Resource_Object_W Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads approved resource object W
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+A resource that can either produce or consume energy
+and that is reported in a schedule.
 }
 \examples{
+
+library(entsoeapi)
+
 eic_resource_object <- resource_object_eic()
+
+str(eic_resource_object)
+
 }

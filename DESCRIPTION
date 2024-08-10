@@ -1,16 +1,34 @@
 Package: entsoeapi
 Type: Package
-Title: An R Wrapper for the Entso-E API.
-Version: 0.1.4.9
-Authors@R: c(person("Kenneth","Rose",    role=c("aut", "cre"), email="kennethrose82@gmail.com"),
-             person("Sándor","Budai",    role="ctb",           email="sbudai.ga@gmail.com"))
-Description: This is a wrapper for the Entso-E API. The goal
-             is to build simple wrappers to retrieve common data.
-License: MIT
-Imports: lubridate, stringr, purrr, dplyr, tidyr, tibble, httr, xml2, data.table, fs
+Title: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface
+Version: 0.7.0.0
+Authors@R: c(person("Kenneth", "Rose",  role="aut",           email="kennethrose82@gmail.com"),
+             person("Sándor",  "Budai", role=c("aut", "cre"), email="sbudai.ga@gmail.com"))
+Description: Simple and standardized wrappers around Entso-E API's Load, Generation,
+             Transmission, Balancing & Outages endpoints to retrieve common data,
+             and convert them into tabular format.
+License: MIT + file LICENSE
+Imports: 
+    data.table,
+    dplyr,
+    fs,
+    httr,
+    lubridate,
+    purrr,
+    snakecase,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    utils,
+    xml2
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/krose/entsoeapi
 BugReports: https://github.com/krose/entsoeapi/issues
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Depends: R (>= 2.10)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

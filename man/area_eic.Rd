@@ -2,14 +2,21 @@
 % Please edit documentation in R/en_helpers.R
 \name{area_eic}
 \alias{area_eic}
-\title{Get Area_Y EIC codes}
+\title{Get Area Y Energy Identification Codes}
 \usage{
 area_eic()
 }
 \description{
-This function downloads approved Area_Y Energy Identification Codes from
-https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes/
+This function downloads approved area Y
+energy identification codes from this site:
+https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 }
 \examples{
+
+library(entsoeapi)
+
 eic_area <- area_eic()
+
+str(eic_area)
+
 }
