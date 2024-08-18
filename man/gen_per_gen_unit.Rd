@@ -17,11 +17,9 @@ gen_per_gen_unit(
 \item{eic}{Energy Identification Code of the control area
 or bidding zone}
 
-\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
-One day range limit applies}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
-One day range limit applies}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{gen_type}{Defaults to NULL, otherwise list of generation type
 codes from asset_types table}
@@ -43,7 +41,7 @@ library(lubridate)
 
 df <- gen_per_gen_unit(eic          = "10YDE-VE-------2",
                        period_start = ymd(x = "2020-01-31", tz = "CET"),
-                       period_end   = ymd(x = "2020-02-01", tz = "CET"),
+                       period_end   = ymd(x = "2020-02-06", tz = "CET"),
                        gen_type     = NULL,
                        tidy_output  = TRUE)
 str(df)
