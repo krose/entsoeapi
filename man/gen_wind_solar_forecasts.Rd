@@ -6,7 +6,7 @@
 \usage{
 gen_wind_solar_forecasts(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
+  period_start = lubridate::ymd(Sys.Date(), tz = "CET") - lubridate::days(x = 1L),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
