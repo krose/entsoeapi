@@ -1,3 +1,16 @@
+# entsoeapi (0.7.1.0 version)
+-   Renamed endpoint/function:
+    -   GENERATION
+        -   the gen_installed_capacity (14.1.A) renamed to gen_installed_capacity_per_pt (14.1.A)
+-   New endpoints/functions:
+    -   GENERATION
+        -   the gen_installed_capacity_per_pu (14.1.B) introduced
+        -   the gen_storage_mean_filling_rate (16.1.D) introduced
+
+If someone would like to use a not yet implemented one, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
+------------------------------------------------------------------------
+
 # entsoeapi (0.7.0.0 version)
 
 -   First standardised submission.
