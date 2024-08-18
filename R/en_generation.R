@@ -19,35 +19,111 @@
 #'
 #' library(entsoeapi)
 #'
-#' df <- gen_installed_capacity(eic  = "10YFR-RTE------C",
-#'                              year = 2020)
+#' df <- gen_installed_capacity_per_pt(eic      = "10YFR-RTE------C",
+#'                                     psr_type = "B05",
+#'                                     year     = 2020)
 #' str(df)
 #'
-gen_installed_capacity <- function(eic = NULL,
-                                   psr_type = NULL,
-                                   year = lubridate::year(Sys.Date()),
-                                   security_token = Sys.getenv("ENTSOE_PAT")) {
+gen_installed_capacity_per_pt <- function(
+  eic = NULL,
+  psr_type = NULL,
+  year = lubridate::year(Sys.Date()),
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
   # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
+  if (is.null(eic)) stop("One control area EIC should be provided!")
   if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
+    stop("This wrapper only supports one control area EIC per request!")
   }
 
   # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  if (security_token == "") stop("Valid security token should be provided!")
 
-  # convert year to date
-  period_start <- lubridate::ymd(paste0(year, "-01-01"), tz = "CET")
-  period_end <- lubridate::ymd(paste0(year, "-01-02"), tz = "CET")
+  # check if year is an integer number or not
+  if (year %% 1 > 0) stop("A valid integer year value should be provided!")
 
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
+  # convert year into the accepted format
+  period_start <- paste0(year, "01010000")
+  period_end <- paste0(year + 1L, "01010000")
 
   # compose GET request url for the denoted year
   request_url <- paste0(
     "https://web-api.tp.entsoe.eu/api",
     "?documentType=A68",
+    "&processType=A33",
+    "&in_Domain=", eic,
+    {if (!is.null(psr_type)) paste0("&psrType=", psr_type)},
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end,
+    "&securityToken=", security_token
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(request_url)
+
+  # return with the extracted the response
+  return(extract_response(content = en_cont_list, tidy_output = TRUE))
+}
+
+
+
+#' @title
+#' Get Installed Generation Capacity per Production Unit (14.1.B)
+#'
+#' @description
+#' The installed generation capacities (MW) at the beginning of the year
+#' for all the production units, including the planned ones.
+#'
+#' @param eic Energy Identification Code of the control area,
+#'            bidding zone or country
+#' @param psr_type Defaults to NULL, otherwise list of generation type
+#'                 codes from asset_types table
+#' @param year YYYY format Cannot be shown more than 3 years ahead
+#'             as required by the law.
+#' @param security_token Security token
+#'
+#' @export
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' df <- gen_installed_capacity_per_pu(eic      = "10YDE-VE-------2",
+#'                                     year     = 2020,
+#'                                     psr_type = "B05")
+#' str(df)
+#'
+gen_installed_capacity_per_pu <- function(
+  eic = NULL,
+  year = lubridate::year(Sys.Date()),
+  psr_type = NULL,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic)) stop("One control area EIC should be provided!")
+  if (length(eic) > 1L) {
+    stop("This wrapper only supports one control area EIC per request!")
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided!")
+
+  # check if year is an integer number or not
+  if (year %% 1 > 0) stop("A valid integer year value should be provided!")
+
+  # check if year is within the legal limit
+  if (year > lubridate::year(x = Sys.Date()) + 3L) {
+    stop("Cannot be shown more than 3 years ahead as required by the law!")
+  }
+
+  # convert year into the accepted format
+  period_start <- paste0(year, "01010000")
+  period_end <- paste0(year + 1L, "01010000")
+
+  # compose GET request url for the denoted year
+  request_url <- paste0(
+    "https://web-api.tp.entsoe.eu/api",
+    "?documentType=A71",
     "&processType=A33",
     "&in_Domain=", eic,
     {if (!is.null(psr_type)) paste0("&psrType=", psr_type)},
@@ -75,9 +151,9 @@ gen_installed_capacity <- function(eic = NULL,
 #' @param eic Energy Identification Code of the control area,
 #'            bidding zone or country
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                     One year range limit applies
+#'                     Maximum one year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                   One year range limit applies
+#'                   Maximum one year range limit applies
 #' @param gen_type Defaults to NULL, otherwise list of generation type
 #'                 codes from asset_types table
 #' @param tidy_output Defaults to TRUE.
@@ -108,13 +184,13 @@ gen_per_prod_type <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
+  if (is.null(eic)) stop("One control area EIC should be provided!")
   if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
+    stop("This wrapper only supports one control area EIC per request!")
   }
 
   # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  if (security_token == "") stop("Valid security token should be provided!")
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -154,6 +230,94 @@ gen_per_prod_type <- function(
 
 
 #' @title
+#' Get Weekly Average Filling Rate of Water Reservoirs
+#' and Hydro Storage Plants (16.1.D)
+#'
+#' @description
+#' Aggregated weekly average filling rate of all water reservoir
+#' and hydro storage plants (MWh) per area, including the same
+#' week value of the previous year.
+#'
+#' @param eic Energy Identification Code of the control area,
+#'            bidding zone or country
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     Maximum 380 days range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   Maximum 380 days range limit applies
+#' @param tidy_output Defaults to TRUE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @export
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#' library(lubridate)
+#'
+#' df <- gen_storage_mean_filling_rate(eic          = "10YFR-RTE------C",
+#'                                     period_start = ymd(x = "2020-02-01",
+#'                                                        tz = "CET"),
+#'                                     period_end   = ymd(x = "2021-02-15",
+#'                                                        tz = "CET"),
+#'                                     tidy_output  = TRUE)
+#' str(df)
+#'
+gen_storage_mean_filling_rate <- function(
+  eic = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L),
+                                tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic)) stop("One control area EIC should be provided!")
+  if (length(eic) > 1L) {
+    stop("This wrapper only supports one control area EIC per request!")
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided!")
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # check if target period not longer than 1 year
+  period_range <- difftime(time1 = strptime(x = period_end,
+                                            format = "%Y%m%d%H%M",
+                                            tz = "UTC") |>
+                             as.POSIXct(tz = "UTC"),
+                           time2 = strptime(x = period_start,
+                                            format = "%Y%m%d%H%M",
+                                            tz = "UTC") |>
+                             as.POSIXct(tz = "UTC"),
+                           units = "days")
+  if (period_range > 380L) {
+    stop("Maximum 380 days range limit should be applied!")
+  }
+
+  # compose GET request url for a (maximum) 1 year long period
+  request_url <- paste0(
+    "https://web-api.tp.entsoe.eu/api",
+    "?documentType=A72",
+    "&processType=A16",
+    "&in_Domain=", eic,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end,
+    "&securityToken=", security_token
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(request_url)
+
+  # return with the extracted the response
+  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+}
+
+
+#' @title
 #' Get Aggregated Generation per Generation Unit (16.1.A)
 #'
 #' @description
@@ -165,9 +329,7 @@ gen_per_prod_type <- function(
 #' @param eic Energy Identification Code of the control area
 #'            or bidding zone
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                     One day range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                   One day range limit applies
 #' @param gen_type Defaults to NULL, otherwise list of generation type
 #'                 codes from asset_types table
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
@@ -182,7 +344,7 @@ gen_per_prod_type <- function(
 #'
 #' df <- gen_per_gen_unit(eic          = "10YDE-VE-------2",
 #'                        period_start = ymd(x = "2020-01-31", tz = "CET"),
-#'                        period_end   = ymd(x = "2020-02-01", tz = "CET"),
+#'                        period_end   = ymd(x = "2020-02-06", tz = "CET"),
 #'                        gen_type     = NULL,
 #'                        tidy_output  = TRUE)
 #' str(df)
@@ -197,13 +359,13 @@ gen_per_gen_unit <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
+  if (is.null(eic)) stop("One control area EIC should be provided!")
   if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
+    stop("This wrapper only supports one control area EIC per request!")
   }
 
   # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  if (security_token == "") stop("Valid security token should be provided!")
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -322,12 +484,12 @@ gen_day_ahead <- function(
 ) {
   # check if only one eic provided
   if (is.null(eic)) {
-    stop("One control area/bidding zone/country EIC should be provided.")
+    stop("One control area/bidding zone/country EIC should be provided!")
   }
-  if (length(eic) > 1L) stop("This wrapper only supports one EIC per request.")
+  if (length(eic) > 1L) stop("This wrapper only supports one EIC per request!")
 
   # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  if (security_token == "") stop("Valid security token should be provided!")
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -390,20 +552,20 @@ gen_day_ahead <- function(
 #'
 gen_wind_solar_forecasts <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+  period_start = lubridate::ymd(Sys.Date(), tz = "CET") -
+    lubridate::days(x = 1L),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   # check if only one eic provided
   if (is.null(eic)) {
-    stop("One control area/bidding zone/country EIC should be provided.")
+    stop("One control area/bidding zone/country EIC should be provided!")
   }
-  if (length(eic) > 1L) stop("This wrapper only supports one EIC per request.")
+  if (length(eic) > 1L) stop("This wrapper only supports one EIC per request!")
 
   # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  if (security_token == "") stop("Valid security token should be provided!")
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
