@@ -1,22 +1,30 @@
 testthat::test_that(
-  desc = "gen_installed_capacity() works",
+  desc = "gen_installed_capacity_per_pt() works",
   code = {
     testthat::expect_no_error(
-      object = gen_installed_capacity(
+      object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
       )
     )
     testthat::expect_no_error(
-      object = gen_installed_capacity(
+      object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         psr_type = "B01"
       )
     )
     testthat::expect_error(
-      object = gen_installed_capacity(
+      object = gen_installed_capacity_per_pt(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()) - 3.4,
+        psr_type = NULL
+      ),
+      info = "A valid integer year value should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pt(
         eic = NULL,
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
@@ -24,7 +32,7 @@ testthat::test_that(
       info = "One control area EIC should be provided!"
     )
     testthat::expect_error(
-      object = gen_installed_capacity(
+      object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         security_token = ""
@@ -32,12 +40,201 @@ testthat::test_that(
       info = "Valid security token should be provided!"
     )
     testthat::expect_error(
-      object = gen_installed_capacity(
+      object = gen_installed_capacity_per_pt(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
       ),
       info = "One control area EIC should be provided!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "gen_installed_capacity_per_pu() works",
+  code = {
+    testthat::expect_no_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()),
+        psr_type = NULL
+      )
+    )
+    testthat::expect_no_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()) + 3L,
+        psr_type = NULL
+      )
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()) + 1.4,
+        psr_type = NULL
+      ),
+      info = "A valid integer year value should be provided!"
+    )
+    testthat::expect_no_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = 1492,
+        psr_type = NULL
+      )
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()) + 4L,
+        psr_type = NULL
+      ),
+      info = paste(
+        "Cannot be shown more than 3 years ahead",
+        "as required by the law!"
+      )
+    )
+    testthat::expect_no_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()),
+        psr_type = "B01"
+      )
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pu(
+        eic = NULL,
+        year = lubridate::year(x = Sys.Date()),
+        psr_type = NULL
+      ),
+      info = "One control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = lubridate::year(x = Sys.Date()),
+        security_token = ""
+      ),
+      info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pu(
+        eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
+        year = lubridate::year(x = Sys.Date()),
+        psr_type = NULL
+      ),
+      info = "One control area EIC should be provided!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "gen_storage_mean_filling_rate() works",
+  code = {
+    testthat::expect_no_error(
+      object = gen_storage_mean_filling_rate(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-03-01",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_no_error(
+      object = gen_storage_mean_filling_rate(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd_hms(
+          x = "2024-03-31 00:00:00",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd_hms(
+          x = "2024-03-31 16:00:00",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_no_error(
+      object = gen_storage_mean_filling_rate(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-03-01",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      )
+    )
+    testthat::expect_error(
+      object = gen_storage_mean_filling_rate(
+        eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-03-01",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "One control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_storage_mean_filling_rate(
+        eic = NULL,
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-03-01",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "One control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_storage_mean_filling_rate(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-03-01",
+          tz = "CET"
+        ),
+        security_token = ""
+      ),
+      info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_storage_mean_filling_rate(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2022-03-01",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "Maximum 380 days range limit should be applied!"
     )
   }
 )
@@ -367,4 +564,3 @@ testthat::test_that(
     )
   }
 )
-

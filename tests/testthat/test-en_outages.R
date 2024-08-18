@@ -38,11 +38,6 @@ testthat::test_that(
       ),
       ptype = NULL,
       size = 0
-      # ,
-      # info = paste0(
-      #   "Try calling the function outages_gen_units()/",
-      #   "outages_prod_units() to see the error message."
-      # )
     )
   }
 )

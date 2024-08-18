@@ -29,6 +29,30 @@ calc_offset_urls <- function(reason, url) {
 
 
 
+# read XML content from a zip compressed file
+read_zipped_xml <- function(temp_file_path) {
+  # safely decompress zip file into several files on disk
+  unzip_safe <- purrr::safely(utils::unzip)
+  unzipped_files <- unzip_safe(
+    zipfile = temp_file_path,
+    overwrite = TRUE,
+    exdir = fs::path_dir(temp_file_path)
+  )
+
+  # read the xml content from each the decompressed files
+  en_cont_list <- unzipped_files$result |>
+    purrr::map(~{
+      xml_content <- xml2::read_xml(.x)
+      message(.x, " has read in")
+      return(xml_content)
+    })
+
+  # return with the xml content list
+  return(en_cont_list)
+
+}
+
+
 # call request against the ENTSO-E API and converts the response into xml
 api_req <- function(url = NULL) {
   if (is.null(url)) {
@@ -50,37 +74,15 @@ api_req <- function(url = NULL) {
     # if the request is a zip file, then ...
     if (resp$headers$`content-type` == "application/zip") {
 
-      # safely decompress zip file into several files on disk
-      unzip_safe <- purrr::safely(utils::unzip)
-      unzipped_files <- unzip_safe(
-        zipfile = temp_file_path,
-        overwrite = TRUE,
-        exdir = fs::path_dir(temp_file_path)
-      )
-
-      # if decompression is successful, then ...
-      if (is.null(unzipped_files$error)) {
-
-        # read the xml content from each the decompressed files
-        en_cont_list <- unzipped_files$result |>
-          purrr::map(~{
-            xml_content <- xml2::read_xml(.x)
-            message(.x, " has read in")
-            return(xml_content)
-          })
-
-      } else {
-
-        stop(unzipped_files$error)
-
-      }
+      # read the xml content from each the decompressed files
+      en_cont_list <- read_zipped_xml(temp_file_path)
 
       # return with the xml content list
       return(en_cont_list)
 
     } else {
 
-      # # read the xml content from the response
+      # read the xml content from the response
       en_cont <- httr::content(resp, encoding = "UTF-8")
 
       # return with the xml content
@@ -181,19 +183,10 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
                          seq_resolution == "PT15M" ~ "15 mins",
                          seq_resolution == "PT30M" ~ "30 mins",
                          seq_resolution == "PT60M" ~ "1 hour",
-                         seq_resolution == "P1D" ~ "1 day",
-                         seq_resolution == "P7D" ~ "7 days",
+                         seq_resolution == "P1D" ~ "1 DSTday",
+                         seq_resolution == "P7D" ~ "7 DSTdays",
                          seq_resolution == "P1Y" ~ "1 year",
                          .default = "n/a")
-
-  # calculate "subtract_mins" value from "seq_resolution" value
-  subtract_mins <- dplyr::case_when(seq_resolution == "PT1M"  ~     1,
-                                    seq_resolution == "PT15M" ~    15,
-                                    seq_resolution == "PT30M" ~    30,
-                                    seq_resolution == "PT60M" ~    60,
-                                    seq_resolution == "P1D"   ~  1440,
-                                    seq_resolution == "P7D"   ~ 10800,
-                                    .default = NA_integer_)
 
   # check if we got a valid resolution
   if (by == "n/a") {
@@ -202,44 +195,52 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
          "\nPlease use 'PT1M', 'PT15M', 'PT30M', 'PT60M', 'P1D', ",
          "'P7D' or 'P1Y'.")
 
+  } else if (by %in% c("1 DSTday", "7 DSTdays", "P1Y" ~ "1 year")) {
+
+    # create a datetime vector from "from" (incl.) to "to" (excl.) by "by"
+    tzone <- dplyr::case_when(
+      format(x = from, format = "%H", tz = "UTC") == "00" ~ "UTC",
+      format(x = from, format = "%H", tz = "WET") == "00" ~ "WET",
+      format(x = from, format = "%H", tz = "CET") == "00" ~ "CET",
+      format(x = from, format = "%H", tz = "EET") == "00" ~ "EET",
+      format(x = from, format = "%H", tz = "Europe/Moscow") == "00" ~ "Europe/Moscow",
+      .default = "not_known"
+    )
+    if (tzone == "not_known") {
+      stop("The from date should denote the midnight hour either ",
+           "in 'UTC', 'WET', 'CET', 'EET' or Europe/Moscow timezone!")
+    }
+    dts <- seq(
+      from = lubridate::with_tz(time = from, tzone = tzone),
+      length.out = length(pos),
+      by = by
+    ) |>
+      lubridate::with_tz(tzone = "UTC")
+
   } else {
 
     # create a datetime vector from "from" (incl.) to "to" (excl.) by "by"
-    if (seq_resolution == "P1Y") {
-      dts <- seq(
-        from = from,
-        to = to - lubridate::years(x = 1),
-        by = by
-      )
-    } else {
-      dts <- seq(
-        from = from,
-        to = to - lubridate::minutes(x = subtract_mins),
-        by = by
-      )
-    }
+    dts <- seq(
+      from = from,
+      length.out = length(pos),
+      by = by
+    )
     # round down the datetime vector elements to "by" unit
     dts <- dts |>
       lubridate::floor_date(unit = by)
 
-    # if we have one more datetime elements than quantity values,
-    # then we drop the last one
-    if (length(dts) == length(qty) + 1) {
-      dts <- utils::head(dts, -1)
-    }
-
-    # compose a tibble from the expanded periods
-    # and the provided quantity using starting positions
-    dt_tbl <- merge(x = data.table::data.table(start_dt = dts),
-                    y = data.table::data.table(start_dt = dts[pos],
-                                               qty),
-                    by = "start_dt",
-                    all.x = TRUE)
-    data.table::set(x     = dt_tbl,
-                    j     = "qty",
-                    value = data.table::nafill(x = dt_tbl$qty, type = "locf"))
-
   }
+
+  # compose a tibble from the expanded periods
+  # and the provided quantity using starting positions
+  dt_tbl <- merge(x = data.table::data.table(start_dt = dts),
+                  y = data.table::data.table(start_dt = dts[pos],
+                                             qty),
+                  by = "start_dt",
+                  all.x = TRUE)
+  data.table::set(x     = dt_tbl,
+                  j     = "qty",
+                  value = data.table::nafill(x = dt_tbl$qty, type = "locf"))
 
   return(tibble::as_tibble(dt_tbl))
 }
@@ -256,8 +257,8 @@ get_eiccodes <- function(f) {
   # and replacing erroneous semicolons to commas
   # unfortunately there is no general rule for that,
   # hence it must be set manually!!
-  readLines_quiet <- purrr::quietly(readLines)
-  content <- readLines_quiet(con = f, encoding = "UTF-8")
+  readlines_quiet <- purrr::quietly(readLines)
+  content <- readlines_quiet(con = f, encoding = "UTF-8")
   lns <- content$result |>
     stringr::str_replace_all(pattern     = "tutkimustehdas;\\sImatra",
                              replacement = "tutkimustehdas, Imatra") |>
@@ -265,27 +266,6 @@ get_eiccodes <- function(f) {
                              replacement = ", S.L.;") |>
     stringr::str_replace_all(pattern     = "\\$amp;",
                              replacement = "&")
-
-  # looking for those lines (elements) which end are not
-  # according to the general rules
-  clps_ind <- grep(x       = lns,
-                   pattern = ";type$|;X$|;Y$|;Z$|;T$|;V$|;W$|;A$",
-                   perl    = TRUE,
-                   invert  = TRUE)
-
-  # if there are being collapsible elements
-  if (length(x = clps_ind) > 0L) {
-
-    # iterating related elements thru from the last till the first element
-    for (i in rev(clps_ind)) {
-      # collapsing related line (element) with its subsequent neighbour
-      lns[i] <- paste0(lns[i], lns[i + 1L], collapse = "")
-    }
-
-    # removing subsequent neighbours (after collapse)
-    lns <- lns[-(clps_ind + 1L)]
-
-  }
 
   # reading lines as they would be a csv
   eiccodes <- data.table::fread(
@@ -379,6 +359,9 @@ my_snakecase <- function(tbl) {
     stringr::str_replace_all(
       pattern = "asset_psr_type",
       replacement = "psr_type"
+    ) |>
+    stringr::str_remove(
+      pattern = "ts_mkt_psr_type_voltage_psr_"
     )
 }
 
@@ -588,6 +571,13 @@ add_definitions <- function(tbl) {
                     ts_registered_resource_name = EicLongName) |>
       data.table::data.table()
     tbl <- tbl |>
+      dplyr::select(
+        purrr::discard(
+          names(tbl),
+          identical,
+          y = "ts_registered_resource_name"
+        )
+      ) |>
       merge(y = resource_object_eic,
             by = "ts_registered_resource_mrid",
             all.x = TRUE)
@@ -822,14 +812,14 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
         }) |>
         dplyr::bind_cols(.name_repair = "minimal")
 
-      # check if there are multiple reason codes or texts
-      dupl_names <- names(res_dt_nps)[names(res_dt_nps) |> duplicated()]
-      dupl_names <- base::intersect(
-        x = dupl_names,
+      # check if there are multiple reason codes and/or texts
+      dupl_reason <- base::intersect(
+        x = names(res_dt_nps)[names(res_dt_nps) |> duplicated()],
         y = c("TimeSeries.Reason.code", "TimeSeries.Reason.text")
       )
-      for (col in dupl_names) {
-        # merge the multiple values
+      # if so, then ...
+      for (col in dupl_reason) {
+        # collapse the multiple values
         indices <- which(names(res_dt_nps) == col)
         first_idx <- indices[1]
         rest_idx <- base::setdiff(x = indices, y = first_idx)
@@ -913,7 +903,8 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
                    "ts_point_quantity", "ts_point_price",
                    "ts_currency_unit_name",
                    "ts_price_measure_unit_name",
-                   "ts_quantity_measure_unit_name")
+                   "ts_quantity_measure_unit_name",
+                   "high_voltage_limit")
   needed_cols <- base::intersect(x = needed_cols,
                                  y = names(result_tbl))
 
@@ -985,8 +976,7 @@ extract_response <- function(content, tidy_output = TRUE) {
     } else {
 
       # return with an empty table
-      warning(reason)
-      return(tibble::tibble())
+      stop(reason)
 
     }
   } else {

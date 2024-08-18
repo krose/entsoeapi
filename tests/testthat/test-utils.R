@@ -1,7 +1,45 @@
 testthat::test_that(
+  desc = "read_zipped_xml() works",
+  code = {
+    data(mtcars)
+    mtcars$make <- row.names(mtcars)
+    gzip_sample_file <- tempfile(fileext = ".gzip")
+    data.table::fwrite(x = mtcars, file = gzip_sample_file, compress = "gzip")
+    csv_sample_file <- tempfile(fileext = ".csv")
+    zip_sample_file <- tempfile(fileext = ".zip")
+    xml_sample_file <- tempfile(fileext = "xml")
+    zip_xml_sample_file <- tempfile(fileext = ".zip")
+    data.table::fwrite(x = mtcars, file = csv_sample_file, sep = ";")
+    zip(zipfile = zip_sample_file,
+        files = c(csv_sample_file))
+    cd_cat_xml <- xml2::read_xml(xml2::xml2_example(path = "cd_catalog.xml"))
+    xml2::write_xml(x = cd_cat_xml, file = xml_sample_file)
+    zip(zipfile = zip_xml_sample_file,
+        files = c(xml_sample_file))
+    testthat::expect_warning(
+      object = read_zipped_xml(temp_file_path = tempfile()),
+      info = "In .f(...) : error 1 in extracting from zip file"
+    )
+    testthat::expect_warning(
+      object = read_zipped_xml(temp_file_path = gzip_sample_file),
+      info = "In .f(...) : error 1 in extracting from zip file"
+    )
+    testthat::expect_error(
+      object = read_zipped_xml(temp_file_path = zip_sample_file),
+      info = "Start tag expected, '<' not found [4]"
+    )
+    testthat::expect_no_error(
+      object = read_zipped_xml(temp_file_path = zip_xml_sample_file)
+    )
+  }
+)
+
+
+
+testthat::test_that(
   desc = "calc_offset_urls() works",
   code = {
-    valid_url_3 <- paste0(
+    url_sample_3 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "&documentType=A65",
       "&processType=A16",
@@ -14,17 +52,17 @@ testthat::test_that(
     reason_2 <- "allowed: -200; requested: -1111"
     reason_3 <- "foo; bar"
     testthat::expect_equal(
-      object = calc_offset_urls(reason = reason_1, url = valid_url_3) |>
+      object = calc_offset_urls(reason = reason_1, url = url_sample_3) |>
         length(),
       expected = 6L
     ) |>
       testthat::expect_message()
     testthat::expect_error(
-      object = calc_offset_urls(reason = reason_2, url = valid_url_3),
+      object = calc_offset_urls(reason = reason_2, url = url_sample_3),
       info = "The 'from' argument must be a finite number!"
     )
     testthat::expect_error(
-      object = calc_offset_urls(reason = reason_3, url = valid_url_3),
+      object = calc_offset_urls(reason = reason_3, url = url_sample_3),
       info = "The 'from' argument must be a finite number!"
     )
   }
@@ -36,7 +74,7 @@ testthat::test_that(
   desc = "api_req() works",
   code = {
     api_url <- "https://web-api.tp.entsoe.eu/api"
-    valid_url_1 <- paste0(
+    url_sample_1 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A73",
       "&processType=A16",
@@ -45,7 +83,7 @@ testthat::test_that(
       "&in_Domain=10YDE-VE-------2",
       "&securityToken="
     )
-    valid_url_2 <- paste0(
+    url_sample_2 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A80",
       "&biddingZone_Domain=10YFR-RTE------C",
@@ -53,7 +91,7 @@ testthat::test_that(
       "&periodEnd=202407232200",
       "&securityToken="
     )
-    valid_url_3 <- paste0(
+    url_sample_3 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "&documentType=A65",
       "&processType=A16",
@@ -62,7 +100,7 @@ testthat::test_that(
       "&periodEnd=202501312300",
       "?securityToken="
     )
-    valid_url_4 <- paste0(
+    url_sample_4 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A80",
       "&biddingZone_Domain=10YFR-RTE------C",
@@ -71,7 +109,11 @@ testthat::test_that(
       "&securityToken="
     )
     testthat::expect_no_error(
-      object = api_req(url = paste0(valid_url_4, Sys.getenv("ENTSOE_PAT")))
+      object = api_req(url = paste0(url_sample_4, Sys.getenv("ENTSOE_PAT")))
+    )
+    testthat::expect_error(
+      object = api_req(url = "https://web-api.tp.entsoe.eu/api"),
+      info = "Unauthorized. Missing or invalid security token"
     )
     testthat::expect_error(
       object = api_req(url = NULL),
@@ -94,16 +136,16 @@ testthat::test_that(
       info = "The argument 'url' is not valid!"
     )
     testthat::expect_message(
-      object = api_req(url = paste0(valid_url_1, Sys.getenv("ENTSOE_PAT"))),
+      object = api_req(url = paste0(url_sample_1, Sys.getenv("ENTSOE_PAT"))),
       info = "The url value should be printed in console!"
     )
     testthat::expect_true(
-      object = api_req(url = paste0(valid_url_1, Sys.getenv("ENTSOE_PAT"))) |>
+      object = api_req(url = paste0(url_sample_1, Sys.getenv("ENTSOE_PAT"))) |>
         inherits(what = "xml_document"),
       info = "The url value should be printed in console!"
     )
     testthat::expect_true(
-      object = api_req(url = paste0(valid_url_2, Sys.getenv("ENTSOE_PAT"))) |>
+      object = api_req(url = paste0(url_sample_2, Sys.getenv("ENTSOE_PAT"))) |>
         purrr::map(~inherits(x = .x, what = "xml_document")) |>
         unlist() |>
         all(),
@@ -117,7 +159,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req_safe() works",
   code = {
-    valid_url_1 <- paste0(
+    url_sample_1 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A73",
       "&processType=A16",
@@ -126,11 +168,16 @@ testthat::test_that(
       "&in_Domain=10YDE-VE-------2",
       "&securityToken="
     )
-    content <- api_req_safe(url = paste0(valid_url_1, Sys.getenv("ENTSOE_PAT")))
+    content <- api_req_safe(
+      url = paste0(url_sample_1, Sys.getenv("ENTSOE_PAT"))
+    )
     testthat::expect_true(
       object = is.list(content) &&
         length(content) == 2L &&
         all(names(content) == c("result", "error"))
+    )
+    testthat::expect_no_error(
+      object = api_req_safe(url = "https://web-api.tp.entsoe.eu/api")
     )
   }
 )
@@ -185,37 +232,104 @@ testthat::test_that(
 
 
 
-testthat::test_that(
+testthat::test_that(  # TODO: 209, 219, 235
   desc = "dt_seq_helper() works",
   code = {
-    current_hour_1 <- lubridate::floor_date(
-      x = Sys.time(),
+    start_sample_1 <- lubridate::floor_date(
+      x = Sys.time() |>
+        lubridate::with_tz(tzone = "UTC"),
       unit = "hour"
     )
-    till_hour_1 <- current_hour_1 + lubridate::hours(x = 10L)
-    current_hour_2 <- lubridate::floor_date(
-      x = Sys.time(),
-      unit = "hour"
-    )
-    till_hour_2 <- current_hour_2 + lubridate::years(x = 2L)
+    end_sample_1 <- start_sample_1 + lubridate::hours(x = 10L)
     testthat::expect_error(
       object = dt_seq_helper(
-        from = current_hour_1,
-        to = till_hour_1,
+        from = start_sample_1,
+        to = end_sample_1,
         pos = 1L:10L,
         qty = 101L:110L,
         seq_resolution = "PT86M"
-        ),
+      ),
       info = "The provided 'seq_resolution' value is not supported!"
     )
+    start_sample_2 <- lubridate::ymd(Sys.Date(), tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    end_sample_2 <- start_sample_2 + lubridate::years(x = 2L)
     testthat::expect_no_error(
       object = dt_seq_helper(
-        from = current_hour_2,
-        to = till_hour_2,
+        from = start_sample_2,
+        to = end_sample_2,
+        pos = 1L:2L,
+        qty = 101L:102L,
+        seq_resolution = "P1Y"
+      )
+    )
+    start_sample_3 <- lubridate::ymd_hms("2024-03-31 01:00:00", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    end_sample_3 <- start_sample_3 + lubridate::hours(x = 2L)
+    testthat::expect_no_error(
+      object = dt_seq_helper(
+        from = start_sample_3,
+        to = end_sample_3,
+        pos = 1L:2L,
+        qty = 101L:102L,
+        seq_resolution = "PT60M"
+      )
+    )
+    start_sample_4 <- lubridate::ymd("2024-03-20", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    end_sample_4 <- lubridate::ymd("2024-04-10", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    testthat::expect_no_error(
+      object = dt_seq_helper(
+        from = start_sample_4,
+        to = end_sample_4,
         pos = 1L:3L,
         qty = 101L:103L,
-        seq_resolution = "P1Y"
-        )
+        seq_resolution = "P7D"
+      )
+    )
+    start_sample_5 <- lubridate::ymd("2024-03-27", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    end_sample_5 <- lubridate::ymd("2024-04-10", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    testthat::expect_no_error(
+      object = dt_seq_helper(
+        from = start_sample_5,
+        to = end_sample_5,
+        pos = 1L:2L,
+        qty = 103L:104L,
+        seq_resolution = "P7D"
+      )
+    )
+    start_sample_6 <- lubridate::ymd("2024-03-31", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    end_sample_6 <- lubridate::ymd("2024-04-02", tz = "CET") |>
+      lubridate::with_tz(tzone = "UTC")
+    testthat::expect_no_error(
+      object = dt_seq_helper(
+        from = start_sample_6,
+        to = end_sample_6,
+        pos = 1L:2L,
+        qty = 104L:105L,
+        seq_resolution = "P1D"
+      )
+    )
+    start_sample_7 <- lubridate::ymd("2024-03-20", tz = "NZ") |>
+      lubridate::with_tz(tzone = "UTC")
+    end_sample_7 <- lubridate::ymd("2024-04-10", tz = "NZ") |>
+      lubridate::with_tz(tzone = "UTC")
+    testthat::expect_error(
+      object = dt_seq_helper(
+        from = start_sample_7,
+        to = end_sample_7,
+        pos = 1L:3L,
+        qty = 101L:103L,
+        seq_resolution = "P7D"
+      ),
+      info = paste(
+        "The from date should denote the midnight hour either",
+        "in 'UTC', 'WET', 'CET', 'EET' or Europe/Moscow timezone!"
+      )
     )
     testthat::expect_error(
       object = dt_seq_helper(),
@@ -227,15 +341,15 @@ testthat::test_that(
     )
     testthat::expect_error(
       object = dt_seq_helper(
-        from = current_hour_1,
+        from = start_sample_1,
         qty = 101L:110L
       ),
       info = "The argument 'to' is missing!"
     )
     testthat::expect_equal(
       object = dt_seq_helper(
-        from = current_hour_1,
-        to = till_hour_1,
+        from = start_sample_1,
+        to = end_sample_1,
         pos = 1L:10L,
         qty = 101L:110L
       ) |>
@@ -244,8 +358,8 @@ testthat::test_that(
     )
     testthat::expect_equal(
       object = dt_seq_helper(
-        from = current_hour_1,
-        to = till_hour_1,
+        from = start_sample_1,
+        to = end_sample_1,
         pos = 1L:9L,
         qty = 101L:109L
       ) |>
@@ -254,8 +368,8 @@ testthat::test_that(
     )
     testthat::expect_equal(
       object = dt_seq_helper(
-        from = current_hour_1,
-        to = till_hour_1,
+        from = start_sample_1,
+        to = end_sample_1,
         pos = 1L:10L,
         qty = 101L:110L
       ) |> names(),
@@ -300,22 +414,34 @@ testthat::test_that(
       info = "Cannot open the connection!"
     )
     testthat::expect_no_error(
-      object = get_eiccodes(f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv")
+      object = get_eiccodes(
+        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv"
+      )
     )
     testthat::expect_no_error(
-      object = get_eiccodes(f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv")
+      object = get_eiccodes(
+        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv"
+      )
     )
     testthat::expect_no_error(
-      object = get_eiccodes(f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv")
+      object = get_eiccodes(
+        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv"
+      )
     )
     testthat::expect_no_error(
-      object = get_eiccodes(f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv")
+      object = get_eiccodes(
+        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv"
+      )
     )
     testthat::expect_no_error(
-      object = get_eiccodes(f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv")
+      object = get_eiccodes(
+        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv"
+      )
     )
     testthat::expect_no_error(
-      object = get_eiccodes(f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv")
+      object = get_eiccodes(
+        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv"
+      )
     )
   }
 )
@@ -490,7 +616,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "xml_to_table() works",
   code = {
-    valid_url_1 <- paste0(
+    url_sample_1 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A73",
       "&processType=A16",
@@ -499,7 +625,7 @@ testthat::test_that(
       "&in_Domain=10YDE-VE-------2",
       "&securityToken="
     )
-    valid_url_2 <- paste0(
+    url_sample_2 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A44",
       "&in_Domain=10YDK-1--------W",
@@ -508,13 +634,13 @@ testthat::test_that(
       "&periodEnd=201911302300",
       "&securityToken="
     )
-    content_1 <- api_req_safe(paste0(valid_url_1, Sys.getenv("ENTSOE_PAT")))
-    content_2 <- api_req_safe(paste0(valid_url_2, Sys.getenv("ENTSOE_PAT")))
+    content_1 <- api_req_safe(paste0(url_sample_1, Sys.getenv("ENTSOE_PAT")))
+    content_2 <- api_req_safe(paste0(url_sample_2, Sys.getenv("ENTSOE_PAT")))
     testthat::expect_no_error(
       object = xml_to_table(
         xml_content = content_1$result,
         tidy_output = TRUE
-        )
+      )
     )
     testthat::expect_no_error(
       object = xml_to_table(
@@ -565,15 +691,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "extract_response() works",
   code = {
-    content_1 <- setNames(
-      object = list(
-        xml2::xml2_example(path = "cd_catalog.xml") |>
-          xml2::read_xml(),
-        NULL
-      ),
-      c("result", "error")
-    )
-    valid_url_2 <- paste0(
+    url_sample_2 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A73",
       "&processType=A16",
@@ -582,8 +700,15 @@ testthat::test_that(
       "&in_Domain=10YDE-VE-------2",
       "&securityToken="
     )
-    content_2 <- api_req_safe(url = paste0(valid_url_2, Sys.getenv("ENTSOE_PAT")))
-    valid_url_3 <- paste0(
+    content_2 <- api_req_safe(url = paste0(url_sample_2,
+                                           Sys.getenv("ENTSOE_PAT")))
+    testthat::expect_no_error(
+      object = extract_response(
+        content = content_2,
+        tidy_output = TRUE
+      )
+    )
+    url_sample_3 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A80",
       "&biddingZone_Domain=10YFR-RTE------C",
@@ -591,8 +716,15 @@ testthat::test_that(
       "&periodEnd=202407232200",
       "&securityToken="
     )
-    content_3 <- api_req_safe(url = paste0(valid_url_3, Sys.getenv("ENTSOE_PAT")))
-    valid_url_4 <- paste0(
+    content_3 <- api_req_safe(url = paste0(url_sample_3,
+                                           Sys.getenv("ENTSOE_PAT")))
+    testthat::expect_no_error(
+      object = extract_response(
+        content = content_3,
+        tidy_output = FALSE
+      )
+    )
+    url_sample_4 <- paste0(
       "https://web-api.tp.entsoe.eu/api",
       "?documentType=A73",
       "&processType=A16",
@@ -601,25 +733,22 @@ testthat::test_that(
       "&in_Domain=10YDE-VE-------2",
       "&securityToken="
     )
-    content_4 <- api_req_safe(url = paste0(valid_url_4, Sys.getenv("ENTSOE_PAT")))
-    testthat::expect_no_error(
-      object = extract_response(
-        content = content_2,
-        tidy_output = TRUE
-      )
-    )
-    testthat::expect_no_error(
-      object = extract_response(
-        content = content_3,
-        tidy_output = FALSE
-      )
-    )
+    content_4 <- api_req_safe(url = paste0(url_sample_4,
+                                           Sys.getenv("ENTSOE_PAT")))
     testthat::expect_true(
       object = extract_response(
         content = content_4,
         tidy_output = TRUE
       ) |>
         inherits(what = "data.frame")
+    )
+    content_1 <- setNames(
+      object = list(
+        xml2::xml2_example(path = "cd_catalog.xml") |>
+          xml2::read_xml(),
+        NULL
+      ),
+      c("result", "error")
     )
     testthat::expect_error(
       object = extract_response(content = content_1),
@@ -629,7 +758,7 @@ testthat::test_that(
     data(iris)
     testthat::expect_error(
       object = extract_response(content = iris),
-      info = "No additional definitions added!"
+      info = "The content is not in the required list format!"
     )
     testthat::expect_error(
       object = extract_response(content = NULL),
