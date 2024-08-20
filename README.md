@@ -1,18 +1,17 @@
----
-title: "README - entsoeapi"
----
+# README - entsoeapi <img src="man/figures/sticker.png" width="160px" align="right" />
 
 <!-- badges: start -->
-![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+[![Lifecycle:
+experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)    
+![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)    
 <!-- badges: end -->
 
 The goal of `entsoeapi` package is to create an easy wrapper for querying the
 ENTSO-E [API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html)'s
 Load, Generation, Transmission, Balancing & Outages data which are available on the ENTSO-E [transparency
 platform](https://transparency.entsoe.eu/) website as well.    
+
+---     
 
 -   Already available ENTSO-E API endpoints:
     -   BALANCING
