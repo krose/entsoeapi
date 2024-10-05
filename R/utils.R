@@ -179,19 +179,29 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
   qty <- qty
 
   # calculate "by" value from "seq_resolution" value
-  by <- dplyr::case_when(seq_resolution == "PT1M" ~ "1 min",
-                         seq_resolution == "PT15M" ~ "15 mins",
-                         seq_resolution == "PT30M" ~ "30 mins",
-                         seq_resolution == "PT60M" ~ "1 hour",
-                         seq_resolution == "P1D" ~ "1 DSTday",
-                         seq_resolution == "P7D" ~ "7 DSTdays",
-                         seq_resolution == "P1Y" ~ "1 year",
-                         .default = "n/a")
+  by <- tryCatch(
+    dplyr::case_when(seq_resolution == "PT1M" ~ "1 min",
+                     seq_resolution == "PT15M" ~ "15 mins",
+                     seq_resolution == "PT30M" ~ "30 mins",
+                     seq_resolution == "PT60M" ~ "1 hour",
+                     seq_resolution == "P1D" ~ "1 DSTday",
+                     seq_resolution == "P7D" ~ "7 DSTdays",
+                     seq_resolution == "P1Y" ~ "1 year",
+                     .default = "n/a"),
+    error = function(cond) {
+      message(conditionMessage(cond))
+      message("The sequence resolution does not seem to be valid.")
+      message(paste("Its type is:", typeof(seq_resolution)))
+      message(paste("Its structure is:", capture.output(str(seq_resolution))))
+      # set a return value in case of error
+      "n/a"
+    }
+  )
 
   # check if we got a valid resolution
   if (by == "n/a") {
 
-    stop("The provided 'seq_resolution' value is not supported.",
+    stop("The 'resolution' value of the response is not supported yet.",
          "\nPlease use 'PT1M', 'PT15M', 'PT30M', 'PT60M', 'P1D', ",
          "'P7D' or 'P1Y'.")
 
