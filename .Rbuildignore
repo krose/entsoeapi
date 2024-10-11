@@ -4,3 +4,4 @@
 ^data-raw$
 sandbox/
 ^LICENSE\.md$
+^\.github$
