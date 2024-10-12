@@ -192,7 +192,7 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
       message(conditionMessage(cond))
       message("The sequence resolution does not seem to be valid.")
       message(paste("Its type is:", typeof(seq_resolution)))
-      message(paste("Its structure is:", capture.output(str(seq_resolution))))
+      message(paste("Its structure is:", utils::capture.output(utils::str(seq_resolution))))
       # set a return value in case of error
       "n/a"
     }
