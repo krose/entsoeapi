@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [develop]
 
-name: test-coverage.yaml
+name: test-coverage.yml
 
 permissions: read-all
 
