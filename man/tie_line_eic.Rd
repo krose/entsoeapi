@@ -8,9 +8,10 @@ tie_line_eic()
 }
 \value{
 A tibble of accordingly filtered EIC codes, which contains such columns as
-\code{EicCode}, \code{EicDisplayName}, \code{EicLongName}, \code{EicParent}, \code{EicResponsibleParty},
-\code{EicStatus}, \code{MarketParticipantPostalCode}, \code{MarketParticipantIsoCountryCode},
-\code{MarketParticipantVatCode}, \code{EicTypeFunctionList} and \code{type}.
+\code{EicCode}, \code{EicDisplayName}, \code{EicLongName}, \code{EicParent},
+\code{EicResponsibleParty}, \code{EicStatus}, \code{MarketParticipantPostalCode},
+\code{MarketParticipantIsoCountryCode}, \code{MarketParticipantVatCode},
+\code{EicTypeFunctionList} and \code{type}.
 }
 \description{
 This function downloads approved tie line T
