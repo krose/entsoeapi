@@ -6,10 +6,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -18,10 +20,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One control area EIC should be provided!"
@@ -31,10 +35,12 @@ testthat::test_that(
         eic = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -44,10 +50,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -58,10 +66,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 390),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One year range limit should be applied!"
@@ -79,10 +89,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -91,10 +103,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One control area EIC should be provided!"
@@ -104,10 +118,12 @@ testthat::test_that(
         eic = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "This wrapper only supports one control area EIC per request.!"
@@ -117,10 +133,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 30),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -131,10 +149,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 390),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One year range limit should be applied!"
@@ -152,10 +172,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -164,10 +186,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One control area EIC should be provided!"
@@ -177,10 +201,12 @@ testthat::test_that(
         eic = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -190,10 +216,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -204,10 +232,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = "2018-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One year range limit should be applied!"
@@ -225,10 +255,12 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -237,10 +269,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One control area EIC should be provided!"
@@ -250,10 +284,12 @@ testthat::test_that(
         eic = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "his wrapper only supports one control area EIC per request!"
@@ -263,10 +299,12 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -277,10 +315,12 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One year range limit should be applied!"
@@ -298,10 +338,12 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -310,10 +352,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One control area EIC should be provided!"
@@ -323,10 +367,12 @@ testthat::test_that(
         eic = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -336,10 +382,12 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -350,10 +398,12 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = "2019-11-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-11-30",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One year range limit should be applied!"
@@ -371,10 +421,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = "2019-01-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-12-31",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -383,10 +435,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2019-01-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-12-31",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One control area EIC should be provided.!"
@@ -396,10 +450,12 @@ testthat::test_that(
         eic = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
         period_start = lubridate::ymd(
           x = "2019-01-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-12-31",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -409,10 +465,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = "2019-01-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2019-12-31",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -423,10 +481,12 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
           x = "2019-01-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-12-31",
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       info = "One year range limit should be applied!!"
