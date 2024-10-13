@@ -1,4 +1,7 @@
-# calculate offset URLs
+#' @title
+#' calculate offset URLs
+#'
+#' @noRd
 calc_offset_urls <- function(reason, url) {
   # extract the number of the allowed documents
   docs_allowed <- stringr::str_extract(
@@ -29,7 +32,10 @@ calc_offset_urls <- function(reason, url) {
 
 
 
-# read XML content from a zip compressed file
+#' @title
+#' read XML content from a zip compressed file
+#'
+#' @noRd
 read_zipped_xml <- function(temp_file_path) {
   # safely decompress zip file into several files on disk
   unzip_safe <- purrr::safely(utils::unzip)
@@ -53,7 +59,10 @@ read_zipped_xml <- function(temp_file_path) {
 }
 
 
-# call request against the ENTSO-E API and converts the response into xml
+#' @title
+#' call request against the ENTSO-E API and converts the response into xml
+#'
+#' @noRd
 api_req <- function(url = NULL) {
   if (is.null(url)) {
     stop("The argument 'url' is missing!")
@@ -130,12 +139,18 @@ api_req <- function(url = NULL) {
 
 
 
-# safely call api_req() function
+#' @title
+#' safely call api_req() function
+#'
+#' @noRd
 api_req_safe <- purrr::safely(api_req)
 
 
 
-# converts the given POSIXct or character timestamp into the acceptable format
+#' @title
+#' converts the given POSIXct or character timestamp into the acceptable format
+#'
+#' @noRd
 url_posixct_format <- function(x) {
   if (is.null(x)) {
     y <- NULL
@@ -170,12 +185,16 @@ url_posixct_format <- function(x) {
 
 
 
-# create a time series table between "from" till "to"
-# with "seq_resolution" frequency
-# using "pos" position and "qty" quantity values
+#' @title
+#' create a time series table
+#'
+#' @description
+#' between "from" till "to" with "seq_resolution" frequency
+#' using "pos" position and "qty" quantity values
+#'
+#' @noRd
 dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
   # define those variables as NULL which are used under non-standard evaluation
-  start_dt <- NULL
   qty <- qty
 
   # calculate "by" value from "seq_resolution" value
@@ -192,7 +211,8 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
       message(conditionMessage(cond))
       message("The sequence resolution does not seem to be valid.")
       message(paste("Its type is:", typeof(seq_resolution)))
-      message(paste("Its structure is:", utils::capture.output(utils::str(seq_resolution))))
+      seq_res_str <- utils::capture.output(utils::str(seq_resolution))
+      message(paste("Its structure is:", seq_res_str))
       # set a return value in case of error
       "n/a"
     }
@@ -213,7 +233,10 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
       format(x = from, format = "%H", tz = "WET") == "00" ~ "WET",
       format(x = from, format = "%H", tz = "CET") == "00" ~ "CET",
       format(x = from, format = "%H", tz = "EET") == "00" ~ "EET",
-      format(x = from, format = "%H", tz = "Europe/Moscow") == "00" ~ "Europe/Moscow",
+      format(
+        x = from, format = "%H",
+        tz = "Europe/Moscow"
+      ) == "00" ~ "Europe/Moscow",
       .default = "not_known"
     )
     if (tzone == "not_known") {
@@ -243,23 +266,25 @@ dt_seq_helper <- function(from, to, seq_resolution = "PT60M", pos, qty) {
 
   # compose a tibble from the expanded periods
   # and the provided quantity using starting positions
-  dt_tbl <- merge(x = data.table::data.table(start_dt = dts),
-                  y = data.table::data.table(start_dt = dts[pos],
-                                             qty),
+  dt_tbl <- merge(x = tibble::tibble(start_dt = dts),
+                  y = tibble::tibble(start_dt = dts[pos],
+                                     qty),
                   by = "start_dt",
                   all.x = TRUE)
-  data.table::set(x     = dt_tbl,
-                  j     = "qty",
-                  value = data.table::nafill(x = dt_tbl$qty, type = "locf"))
+  dt_tbl$qty <- data.table::nafill(x = dt_tbl$qty, type = "locf")
 
   return(tibble::as_tibble(dt_tbl))
 }
 
 
 
-# downloads approved Energy Identification Codes
-# from ENTSO-E Transparency Platform
-# under link "f"
+#' @title
+#' downloads approved Energy Identification Codes
+#'
+#' @description
+#' from ENTSO-E Transparency Platform under link "f"
+#'
+#' @noRd
 get_eiccodes <- function(f) {
   message("\ndownloading ", f, " file ...")
 
@@ -301,7 +326,10 @@ get_eiccodes <- function(f) {
 
 
 
-# unpack an xml section into a tabular row
+#' @title
+#' unpack an xml section into a tabular row
+#'
+#' @noRd
 unpack_xml <- function(section, parent_name = NULL) {
   result_vector <- xml2::as_list(section) |>
     unlist(recursive = TRUE)
@@ -320,9 +348,14 @@ unpack_xml <- function(section, parent_name = NULL) {
 
 
 
-# an own version of snakecase::to_snakecase() function
-# read and convert the column names of the provided data frame
-# into the required snakecase format
+#' @title
+#' an own version of snakecase::to_snakecase() function
+#'
+#' @description
+#' read and convert the column names of the provided data frame
+#' into the required snakecase format
+#'
+#' @noRd
 my_snakecase <- function(tbl) {
   if (isFALSE(is.data.frame(tbl))) {
     stop("The provided argument is not a valid data frame!")
@@ -377,22 +410,61 @@ my_snakecase <- function(tbl) {
 
 
 
-# detect the number of grand children per each child
+#' @title
+#' detect the number of grand children per each child
+#'
+#' @noRd
 xml_grand_children_lengths <- function(xml_content) {
   xml2::xml_children(xml_content) |> xml2::xml_length()
 }
 
 
 
-# add definitions to codes
-add_definitions <- function(tbl) {
-  if (isFALSE(is.data.frame(tbl))) {
-    stop("The provided argument is not a valid data frame!")
-  }
+#' @title
+#' create a specific merge function which adds the needed definitions
+#'
+#' @noRd
+def_merge <- function(x, y, code_name, definition_name) {
   # define those variables as NULL which are used under non-standard evaluation
-  reason_text.x <- reason_text.y <- CODE <- DEFINITION <- NULL
-  EicCode <- EicLongName <- eic_code <- eic_long_name <- eic_name <- NULL
+  y <- y |>
+    subset(select = c("CODE", "DEFINITION")) |>
+    data.table::data.table()
+  names(y) <- c(code_name, definition_name)
+  data.table::merge.data.table(
+    x = x,
+    y = y,
+    by = code_name,
+    suffixes = c("_x", "_y"),
+    all.x = TRUE
+  )
+}
 
+
+
+#' @title
+#' create a specific merge function which adds the EIC names
+#'
+#' @noRd
+eic_name_merge <- function(x, y, eic_code_name, eic_name_name) {
+  y <- y |>
+    subset(select = c("eic_code", "eic_name")) |>
+    data.table::data.table()
+  names(y) <- c(eic_code_name, eic_name_name)
+  data.table::merge.data.table(
+    x = x,
+    y = y,
+    by = eic_code_name,
+    all.x = TRUE
+  )
+}
+
+
+
+#' @title
+#' add type names to codes
+#'
+#' @noRd
+add_type_names <- function(tbl) {
   # pre-define some built-in tables to avoid non-standard evaluation issues
   # within the current function
   asset_types <- asset_types
@@ -405,14 +477,114 @@ add_definitions <- function(tbl) {
   process_types <- process_types
   reason_code_types <- reason_code_types
 
-  # convert result_tbl to data.table in order to join faster
-  tbl <- tbl |>
-    data.table::data.table()
+  # convert tbl to data.table in order to join faster
+  tbl <- data.table::data.table(tbl)
+
+  # define an empty vector to collect those column names
+  # which will get definitions by add_type_names() function
+  affected_cols <- c()
+
+  # add type names to codes
+  if ("type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "type")
+    tbl <- def_merge(
+      x = tbl,
+      y = document_types,
+      code_name = "type",
+      definition_name = "type_def"
+    )
+  }
+  if ("ts_business_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_business_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = business_types,
+      code_name = "ts_business_type",
+      definition_name = "ts_business_type_def"
+    )
+  }
+  if ("ts_mkt_psr_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_mkt_psr_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = asset_types,
+      code_name = "ts_mkt_psr_type",
+      definition_name = "ts_mkt_psr_type_def"
+    )
+  }
+  if ("ts_asset_psr_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_asset_psr_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = asset_types,
+      code_name = "ts_asset_psr_type",
+      definition_name = "ts_asset_psr_type_def"
+    )
+  }
+  if ("ts_production_psr_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_production_psr_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = asset_types,
+      code_name = "ts_production_psr_type",
+      definition_name = "ts_production_psr_type_def"
+    )
+  }
+  if ("process_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "process_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = process_types,
+      code_name = "process_type",
+      definition_name = "process_type_def"
+    )
+  }
+  if ("ts_contract_market_agreement_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_contract_market_agreement_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = contract_types,
+      code_name = "ts_contract_market_agreement_type",
+      definition_name = "ts_contract_market_agreement_type_def"
+    )
+  }
+  if ("ts_auction_type" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_auction_type")
+    tbl <- def_merge(
+      x = tbl,
+      y = auction_types,
+      code_name = "ts_auction_type",
+      definition_name = "ts_auction_type_def"
+    )
+  }
+  if (length(affected_cols) == 0L) {
+    warning(
+      "column names: ",
+      paste(names(tbl), collapse = " - "),
+      "\n  No additional type names added!"
+    )
+  }
+
+  return(tbl)
+}
+
+
+
+#' @title
+#' add names to EIC codes
+#'
+#' @noRd
+add_eic_names <- function(tbl) {
+  # define those variables as NULL which are used under non-standard evaluation
+  eic_code <- eic_long_name <- eic_name <- NULL
+
+  # convert tbl to data.table in order to join faster
+  tbl <- data.table::data.table(tbl)
 
   # convert area_eic() table to data.table in order to join faster
   area_eic_name <- area_eic()
   area_eic_name <- area_eic_name |>
-    dplyr::select(EicCode, EicLongName) |>
+    subset(select = c("EicCode", "EicLongName")) |>
     dplyr::rename_with(snakecase::to_snake_case) |>
     dplyr::group_by(eic_code) |>
     dplyr::mutate(eic_name = stringr::str_c(
@@ -423,162 +595,18 @@ add_definitions <- function(tbl) {
     dplyr::select(eic_code, eic_name) |>
     data.table::data.table()
 
-  # define an empty vector to collect those column names
-  # which will get definitions by add_definitions() function
+  # define an empty vector to collect those EIC column names
+  # which will get definitions by add_eic_names() function
   affected_cols <- c()
 
-  # add definitions to codes
-  if ("type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "type")
-    tbl <- tbl |>
-      merge(y = document_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(type = CODE,
-                            type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "type",
-            all.x = TRUE)
-  }
-  if ("ts_business_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_business_type")
-    tbl <- tbl |>
-      merge(y = business_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_business_type = CODE,
-                            ts_business_type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_business_type",
-            all.x = TRUE)
-  }
-  if ("ts_mkt_psr_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_mkt_psr_type")
-    tbl <- tbl |>
-      merge(y = asset_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_mkt_psr_type = CODE,
-                            ts_mkt_psr_type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_mkt_psr_type",
-            all.x = TRUE)
-  }
-  if ("doc_status_value" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "doc_status_value")
-    tbl <- tbl |>
-      merge(y = document_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(doc_status_value = CODE,
-                            doc_status = DEFINITION) |>
-              data.table::data.table(),
-            by = "doc_status_value",
-            all.x = TRUE)
-  }
-  if ("ts_asset_psr_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_asset_psr_type")
-    tbl <- tbl |>
-      merge(y = asset_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_asset_psr_type = CODE,
-                            ts_asset_psr_type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_asset_psr_type",
-            all.x = TRUE)
-  }
-  if ("ts_production_psr_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_production_psr_type")
-    tbl <- tbl |>
-      merge(y = asset_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_production_psr_type = CODE,
-                            ts_production_psr_type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_production_psr_type",
-            all.x = TRUE)
-  }
-  if ("process_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "process_type")
-    tbl <- tbl |>
-      merge(y = process_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(process_type = CODE,
-                            process_type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "process_type",
-            all.x = TRUE)
-  }
-  if ("ts_contract_market_agreement_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_contract_market_agreement_type")
-    my_contract_types <- contract_types |>
-      dplyr::select(CODE, DEFINITION) |>
-      dplyr::rename(
-        ts_contract_market_agreement_type = CODE,
-        ts_contract_market_agreement_type_def = DEFINITION
-      ) |>
-      data.table::data.table()
-    tbl <- tbl |>
-      merge(y = my_contract_types,
-            by = "ts_contract_market_agreement_type",
-            all.x = TRUE)
-  }
-  if ("ts_auction_type" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_auction_type")
-    tbl <- tbl |>
-      merge(y = auction_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_auction_type = CODE,
-                            ts_auction_type_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_auction_type",
-            all.x = TRUE)
-  }
-  if ("ts_auction_category" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_auction_category")
-    tbl <- tbl |>
-      merge(y = category_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_auction_category = CODE,
-                            ts_auction_category_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_auction_category",
-            all.x = TRUE)
-  }
-  if ("reason_code" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "reason_code")
-    tbl <- tbl |>
-      merge(y = reason_code_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(reason_code = CODE,
-                            reason_text = DEFINITION) |>
-              data.table::data.table(),
-            by = "reason_code",
-            all.x = TRUE)
-    if ("reason_text.x" %in% names(tbl) &&
-          "reason_text.y" %in% names(tbl)) {
-      tbl <- tbl |>
-        dplyr::mutate(
-          reason_text = paste(reason_text.y, reason_text.x,
-                              sep = " - "),
-          reason_text.x = NULL,
-          reason_text.y = NULL
-        )
-    }
-  }
-  if ("ts_object_aggregation" %in% names(tbl)) {
-    affected_cols <- c(affected_cols, "ts_object_aggregation")
-    tbl <- tbl |>
-      merge(y = object_aggregation_types |>
-              dplyr::select(CODE, DEFINITION) |>
-              dplyr::rename(ts_object_aggregation = CODE,
-                            ts_object_aggregation_def = DEFINITION) |>
-              data.table::data.table(),
-            by = "ts_object_aggregation",
-            all.x = TRUE)
-  }
+  # add names to eic codes
   if ("ts_registered_resource_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_registered_resource_mrid")
     resource_object_eic <- resource_object_eic() |>
-      dplyr::select(EicCode, EicLongName) |>
-      dplyr::rename(ts_registered_resource_mrid = EicCode,
-                    ts_registered_resource_name = EicLongName) |>
+      subset(select = c("EicCode", "EicLongName")) |>
+      dplyr::rename_with(snakecase::to_snake_case) |>
+      dplyr::rename(ts_registered_resource_mrid = eic_code,
+                    ts_registered_resource_name = eic_long_name) |>
       data.table::data.table()
     tbl <- tbl |>
       dplyr::select(
@@ -595,56 +623,130 @@ add_definitions <- function(tbl) {
   if ("ts_bidding_zone_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_bidding_zone_domain_mrid")
     tbl <- tbl |>
-      merge(y = area_eic_name |>
-              dplyr::rename(ts_bidding_zone_domain_name = eic_name,
-                            ts_bidding_zone_domain_mrid = eic_code),
-            by = "ts_bidding_zone_domain_mrid",
-            all.x = TRUE)
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "ts_bidding_zone_domain_mrid",
+        eic_name_name = "ts_bidding_zone_domain_name"
+      )
   }
   if ("ts_in_bidding_zone_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_in_bidding_zone_domain_mrid")
     tbl <- tbl |>
-      merge(y = area_eic_name |>
-              dplyr::rename(ts_in_bidding_zone_domain_name = eic_name,
-                            ts_in_bidding_zone_domain_mrid = eic_code),
-            by = "ts_in_bidding_zone_domain_mrid",
-            all.x = TRUE)
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "ts_in_bidding_zone_domain_mrid",
+        eic_name_name = "ts_in_bidding_zone_domain_name"
+      )
   }
   if ("ts_out_bidding_zone_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_out_bidding_zone_domain_mrid")
     tbl <- tbl |>
-      merge(y = area_eic_name |>
-              dplyr::rename(ts_out_bidding_zone_domain_name = eic_name,
-                            ts_out_bidding_zone_domain_mrid = eic_code),
-            by = "ts_out_bidding_zone_domain_mrid",
-            all.x = TRUE)
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "ts_out_bidding_zone_domain_mrid",
+        eic_name_name = "ts_out_bidding_zone_domain_name"
+      )
   }
   if ("ts_in_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_in_domain_mrid")
     tbl <- tbl |>
-      merge(y = area_eic_name |>
-              dplyr::rename(ts_in_domain_name = eic_name,
-                            ts_in_domain_mrid = eic_code),
-            by = "ts_in_domain_mrid",
-            all.x = TRUE)
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "ts_in_domain_mrid",
+        eic_name_name = "ts_in_domain_name"
+      )
   }
   if ("ts_out_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_out_domain_mrid")
     tbl <- tbl |>
-      merge(y = area_eic_name |>
-              dplyr::rename(ts_out_domain_name = eic_name,
-                            ts_out_domain_mrid = eic_code),
-            by = "ts_out_domain_mrid",
-            all.x = TRUE)
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "ts_out_domain_mrid",
+        eic_name_name = "ts_out_domain_name"
+      )
   }
   if ("control_area_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "control_area_domain_mrid")
     tbl <- tbl |>
-      merge(y = area_eic_name |>
-              dplyr::rename(control_area_domain_name = eic_name,
-                            control_area_domain_mrid = eic_code),
-            by = "control_area_domain_mrid",
-            all.x = TRUE)
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "control_area_domain_mrid",
+        eic_name_name = "control_area_domain_name"
+      )
+  }
+  if (length(affected_cols) == 0L) {
+    warning(
+      "column names: ",
+      paste(names(tbl), collapse = " - "),
+      "\n  No additional eic names added!"
+    )
+  }
+
+  return(tbl)
+}
+
+
+
+#' @title
+#' add definitions to codes
+#'
+#' @noRd
+add_definitions <- function(tbl) {
+  # define those variables as NULL which are used under non-standard evaluation
+  reason_text_x <- reason_text_y <- NULL
+
+  # convert tbl to data.table in order to join faster
+  tbl <- data.table::data.table(tbl)
+
+  # define an empty vector to collect those column names
+  # which will get definitions by add_definitions() function
+  affected_cols <- c()
+
+  # add definitions to codes
+  if ("doc_status_value" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "doc_status_value")
+    tbl <- def_merge(
+      x = tbl,
+      y = document_types,
+      code_name = "doc_status_value",
+      definition_name = "doc_status"
+    )
+  }
+  if ("ts_auction_category" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_auction_category")
+    tbl <- def_merge(
+      x = tbl,
+      y = category_types,
+      code_name = "ts_auction_category",
+      definition_name = "ts_auction_category_def"
+    )
+  }
+  if ("reason_code" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "reason_code")
+    tbl <- def_merge(
+      x = tbl,
+      y = reason_code_types,
+      code_name = "reason_code",
+      definition_name = "reason_text"
+    )
+    if ("reason_text_x" %in% names(tbl) &&
+          "reason_text_y" %in% names(tbl)) {
+      tbl <- tbl |>
+        dplyr::mutate(
+          reason_text = paste(reason_text_y, reason_text_x, sep = " - "),
+          reason_text_x = NULL,
+          reason_text_y = NULL
+        )
+    }
+  }
+  if ("ts_object_aggregation" %in% names(tbl)) {
+    affected_cols <- c(affected_cols, "ts_object_aggregation")
+    tbl <- def_merge(
+      x = tbl,
+      y = object_aggregation_types,
+      code_name = "ts_object_aggregation",
+      definition_name = "ts_object_aggregation_def"
+    )
   }
   if (length(affected_cols) == 0L) {
     warning(
@@ -659,7 +761,10 @@ add_definitions <- function(tbl) {
 
 
 
-# convert xml content to table
+#' @title
+#' convert xml content to table
+#'
+#' @noRd
 xml_to_table <- function(xml_content, tidy_output = FALSE) {
   if (isFALSE(inherits(x = xml_content, what = "xml_document"))) {
     stop("The 'xml_content' should be an xml document!")
@@ -855,10 +960,18 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     result_tbl <- ridge_tbl
   } else if (ncol(det_tbl)) {
     result_tbl <- det_tbl
+  } else {
+    stop("The result table is not a valid data frame!")
   }
 
   # rename columns to snakecase
   names(result_tbl) <- my_snakecase(tbl = result_tbl)
+
+  # add type names to codes
+  result_tbl <- add_type_names(tbl = result_tbl)
+
+  # add eic names to eic codes
+  result_tbl <- add_eic_names(tbl = result_tbl)
 
   # add definitions to codes
   result_tbl <- add_definitions(tbl = result_tbl)
@@ -944,7 +1057,10 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
 
 
 
-# extract the response
+#' @title
+#' extract the response from content list
+#'
+#' @noRd
 extract_response <- function(content, tidy_output = TRUE) {
 
   # check if the content is in the required list format
@@ -985,7 +1101,6 @@ extract_response <- function(content, tidy_output = TRUE) {
 
     } else {
 
-      # return with an empty table
       stop(reason)
 
     }
