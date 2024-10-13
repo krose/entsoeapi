@@ -1,17 +1,21 @@
-# README - entsoeapi <img src="man/figures/sticker.png" width="160px" align="right" />
+---
+title: "README - entsoeapi <img src='.graphics/sticker.png' width='160px' align='right' />"
+output:
+  html_document:
+    toc: yes
+pagetitle: README - entsoeapi
+---
 
 <!-- badges: start -->
-[![Lifecycle:experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)    
-![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)    
-[![R-CMD-check](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yaml)
+
+[![Lifecycle:experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)\
+[![R-CMD-check](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yml)
+
 <!-- badges: end -->
 
-The goal of `entsoeapi` package is to create an easy wrapper for querying the
-ENTSO-E [API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html)'s
-Load, Generation, Transmission, Balancing & Outages data which are available on the ENTSO-E [transparency
-platform](https://transparency.entsoe.eu/) website as well.    
+The goal of `entsoeapi` package is to create an easy wrapper for querying the ENTSO-E [API](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html)'s Load, Generation, Transmission, Balancing & Outages data which are available on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.
 
----     
+------------------------------------------------------------------------
 
 -   Already available ENTSO-E API endpoints:
     -   BALANCING
@@ -49,12 +53,9 @@ platform](https://transparency.entsoe.eu/) website as well.
         -   transm_total_nominated_cap (12.1.B)
         -   transm_x_border_phys_flow (12.1.G)
 
-All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented.
-If you want to use an unimplemented endpoint, please submit an [issue](https://github.com/krose/entsoeapi/issues) 
-and we'll do our best to resolve it.    
-<b>IMPORTANT!</b>    
-Since the underlying engine has fairly been standardized with the introduction of version 0.7.0.0, 
-there are significant (breaking) changes between the 0.7.0.0 and the previous versions.
+All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented. If you want to use an unimplemented endpoint, please submit an [issue](https://github.com/krose/entsoeapi/issues) and we'll do our best to resolve it.\
+<b>IMPORTANT!</b>\
+Since the underlying engine has fairly been standardized with the introduction of version 0.7.0.0, there are significant (breaking) changes between the 0.7.0.0 and the previous versions.
 
 ## Installation
 
@@ -67,10 +68,7 @@ devtools::install_github("krose/entsoeapi")
 
 ## Security token
 
-Read
-[here](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_authentication_and_authorisation)
-how to get a security token. You should also create a `.Renviron` file in your
-working directory with a security token and call it ENTSOE_PAT.
+Read [here](https://transparency.entsoe.eu/content/static_content/Static%20content/web%20api/Guide.html#_authentication_and_authorisation) how to get a security token. You should also create a `.Renviron` file in your working directory with a security token and call it ENTSOE_PAT.
 
 ```         
 ENTSOE_PAT = "your_security_token"
@@ -78,8 +76,7 @@ ENTSOE_PAT = "your_security_token"
 
 ## Example
 
-You use the eic codes to get the data. Let’s try to find the eic code for
-Germany.
+You use the eic codes to get the data. Let’s try to find the eic code for Germany.
 
 ``` r
 library(dplyr)
@@ -113,7 +110,6 @@ glimpse(asset_types)
 #> $ CODE        <chr> "A01", "A02", "A03", "A04", "A05", "B01", "B02", "B0…
 #> $ DEFINITION  <chr> "Tieline", "Line", "Resource Object", "Generation", …
 #> $ DESCRIPTION <chr> "A high voltage line used for cross border energy in…
-
 ```
 
 Let’s get the demand in Germany.
@@ -148,8 +144,7 @@ load_actual_total(eic = "10Y1001A1001A83F",
 #> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", …
 ```
 
-This is basically how all the functions work, so let’s try to get the production
-data too.
+This is basically how all the functions work, so let’s try to get the production data too.
 
 ``` r
 gen_per_prod_type(eic = "10Y1001A1001A83F", 
