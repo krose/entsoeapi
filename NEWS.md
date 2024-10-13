@@ -1,3 +1,10 @@
+# entsoeapi (0.7.1.2 version)
+-   Some under-the-hood improvements related to code syntax.
+
+If someone would like to use a not yet implemented one, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
+------------------------------------------------------------------------
+
 # entsoeapi (0.7.1.1 version)
 -   The README has adjusted to correspond to new function names.
 -   Some under-the-hood improvements related to error handling.
