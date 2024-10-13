@@ -74,7 +74,7 @@ Read [here](https://transparency.entsoe.eu/content/static_content/Static%20conte
 ENTSOE_PAT = "your_security_token"
 ```
 
-## Example
+## Examples
 
 You use the eic codes to get the data. Let’s try to find the eic code for Germany.
 
