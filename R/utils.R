@@ -1,14 +1,22 @@
 utils::globalVariables(
-  c("asset_types",
+  c(
+    "asset_types",
     "auction_types",
     "business_types",
     "category_types",
     "document_types",
     "object_aggregation_types",
     "process_types",
-    "reason_code_types"
+    "reason_code_types",
+    "area_eic",
+    "document_types",
+    "category_types",
+    "reason_code_types",
+    "object_aggregation_types"
   )
 )
+
+
 
 #' @title
 #' calculate offset URLs
@@ -69,6 +77,7 @@ read_zipped_xml <- function(temp_file_path) {
   return(en_cont_list)
 
 }
+
 
 
 #' @title

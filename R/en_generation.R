@@ -1,3 +1,13 @@
+utils::globalVariables(
+  c(
+    "url_posixct_format",
+    "api_req_safe",
+    "extract_response"
+  )
+)
+
+
+
 #' @title
 #' Get Installed Generation Capacity per Production Type (14.1.A)
 #'

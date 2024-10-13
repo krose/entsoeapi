@@ -1,3 +1,11 @@
+utils::globalVariables(
+  c(
+    "get_eiccodes"
+  )
+)
+
+
+
 #' @title
 #' Get Party_X Energy Identification Codes
 #'

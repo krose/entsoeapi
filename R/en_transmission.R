@@ -1,3 +1,13 @@
+utils::globalVariables(
+  c(
+    "url_posixct_format",
+    "api_req_safe",
+    "extract_response"
+  )
+)
+
+
+
 #' @title
 #' Get Cross-Border Physical Flow (12.1.G)
 #'

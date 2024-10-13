@@ -1,3 +1,13 @@
+utils::globalVariables(
+  c(
+    "url_posixct_format",
+    "api_req_safe",
+    "extract_response"
+  )
+)
+
+
+
 #' @title
 #' Get Unavailability of Production & Generation Units (15.1.A&B + 15.1.C&D)
 #'
