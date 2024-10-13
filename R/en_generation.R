@@ -3,7 +3,7 @@
 #'
 #' @description
 #' The sum of installed net generation capacity (MW) for all
-#' existing production units equalling to or exceeding 1 MW
+#' existing production units equal to or exceeding 1 MW
 #' installed generation capacity, per production type.
 #'
 #' @param eic Energy Identification Code of the control area,
@@ -412,14 +412,24 @@ gen_per_gen_unit <- function(
     unlist()
 
   # compose GET request url for a (maximum) 24 hours long period
-  request_url_list <- seq_along(period_start_list) |>
-    purrr::map(~paste0("https://web-api.tp.entsoe.eu/api",
-                       "?documentType=A73",
-                       "&processType=A16",
-                       "&periodStart=", period_start_list[[.x]],
-                       "&periodEnd=", period_end_list[[.x]],
-                       par_part,
-                       "&securityToken=", security_token))
+  if (nchar(par_part) == 0) {
+    request_url_list <- seq_along(period_start_list) |>
+      purrr::map(~paste0("https://web-api.tp.entsoe.eu/api",
+                         "?documentType=A73",
+                         "&processType=A16",
+                         "&periodStart=", period_start_list[[.x]],
+                         "&periodEnd=", period_end_list[[.x]],
+                         "&securityToken=", security_token))
+  } else {
+    request_url_list <- seq_along(period_start_list) |>
+      purrr::map(~paste0("https://web-api.tp.entsoe.eu/api",
+                         "?documentType=A73",
+                         "&processType=A16",
+                         "&periodStart=", period_start_list[[.x]],
+                         "&periodEnd=", period_end_list[[.x]],
+                         par_part,
+                         "&securityToken=", security_token))
+  }
 
   # iterate (maximum) 24 hours long periods thru
   # and append them into one tibble
