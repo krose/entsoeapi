@@ -6,10 +6,12 @@ testthat::test_that(
         eic = "10YHU-MAVIR----U",
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       )
@@ -19,10 +21,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       ),
@@ -33,10 +37,12 @@ testthat::test_that(
         eic = c("10YHU-MAVIR----U", "10Y1001A1001A83F"),
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       ),
@@ -47,10 +53,12 @@ testthat::test_that(
         eic = "10YHU-MAVIR----U",
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2021-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       ),
@@ -61,10 +69,12 @@ testthat::test_that(
         eic = "10YHU-MAVIR----U",
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE,
         security_token = ""
@@ -84,10 +94,12 @@ testthat::test_that(
         eic = "10YHU-MAVIR----U",
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       )
@@ -97,10 +109,12 @@ testthat::test_that(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       ),
@@ -111,10 +125,12 @@ testthat::test_that(
         eic = c("10YHU-MAVIR----U", "10Y1001A1001A83F"),
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       ),
@@ -125,10 +141,12 @@ testthat::test_that(
         eic = "10YHU-MAVIR----U",
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2021-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE
       ),
@@ -139,10 +157,12 @@ testthat::test_that(
         eic = "10YHU-MAVIR----U",
         period_start = lubridate::ymd(
           x = "2020-02-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = "2020-03-01",
-          tz = "CET"),
+          tz = "CET"
+        ),
         reserve_type = "A96",
         tidy_output = TRUE,
         security_token = ""
