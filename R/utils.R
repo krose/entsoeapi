@@ -1,3 +1,15 @@
+utils::globalVariables(
+  c("asset_types",
+    "auction_types",
+    "business_types",
+    "category_types",
+    "document_types",
+    "object_aggregation_types",
+    "process_types",
+    "reason_code_types"
+  )
+)
+
 #' @title
 #' calculate offset URLs
 #'
