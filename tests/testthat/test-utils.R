@@ -543,6 +543,146 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "add_type_names() works",
+  code = {
+    df <- data.frame(
+      process_type = c("A12", "A27", "A61"),
+      ts_in_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_out_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_in_bidding_zone_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_out_bidding_zone_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      control_area_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_auction_type = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_auction_category = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_contract_market_agreement_type = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_asset_psr_type = c(
+        "B01",
+        "B02",
+        "B03"
+      )
+    )
+    testthat::expect_equal(
+      object = add_type_names(tbl = df) |>
+        dim(),
+      expected = c(3L, 14L)
+    )
+    data(iris)
+    testthat::expect_warning(
+      object = add_type_names(tbl = iris),
+      info = "No additional definitions added!"
+    )
+    testthat::expect_warning(
+      object = add_type_names(tbl = NULL),
+      info = "No additional definitions added!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "add_eic_names() works",
+  code = {
+    df <- data.frame(
+      process_type = c("A12", "A27", "A61"),
+      ts_in_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_out_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_in_bidding_zone_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_out_bidding_zone_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      control_area_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_auction_type = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_auction_category = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_contract_market_agreement_type = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_asset_psr_type = c(
+        "B01",
+        "B02",
+        "B03"
+      )
+    )
+    testthat::expect_equal(
+      object = add_eic_names(tbl = df) |>
+        dim(),
+      expected = c(3L, 15L)
+    )
+    data(iris)
+    testthat::expect_warning(
+      object = add_eic_names(tbl = iris),
+      info = "No additional definitions added!"
+    )
+    testthat::expect_warning(
+      object = add_eic_names(tbl = NULL),
+      info = "No additional definitions added!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
   desc = "add_definitions() works",
   code = {
     df <- data.frame(
@@ -596,16 +736,16 @@ testthat::test_that(
     testthat::expect_equal(
       object = add_definitions(tbl = df) |>
         dim(),
-      expected = c(3L, 20L)
+      expected = c(3L, 11L)
     )
     data(iris)
     testthat::expect_warning(
       object = add_definitions(tbl = iris),
       info = "No additional definitions added!"
     )
-    testthat::expect_error(
+    testthat::expect_warning(
       object = add_definitions(tbl = NULL),
-      info = "The argument 'tbl' is missing!"
+      info = "No additional definitions added!"
     )
   }
 )
@@ -669,6 +809,7 @@ testthat::test_that(
         xml_to_table(),
       info = "There is no interesting columns in the result table!"
     ) |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     data(iris)
     testthat::expect_error(
@@ -754,6 +895,7 @@ testthat::test_that(
       object = extract_response(content = content_1),
       info = "There is no interesting columns in the result table!"
     ) |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     data(iris)
     testthat::expect_error(

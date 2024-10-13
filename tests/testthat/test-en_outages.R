@@ -6,16 +6,20 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -24,16 +28,20 @@ testthat::test_that(
         eic = "ABC",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       ),
       ptype = NULL,
@@ -54,16 +62,20 @@ testthat::test_that(
         event_nature = "A54",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -74,16 +86,20 @@ testthat::test_that(
         event_nature = "A54",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -94,16 +110,20 @@ testthat::test_that(
         event_nature = "A54",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE,
         security_token = ""
       ),
@@ -114,16 +134,20 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 400L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -133,16 +157,20 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -153,16 +181,20 @@ testthat::test_that(
         eic = c("10YFR-RTE------C", "45Y000000000001C"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -171,16 +203,20 @@ testthat::test_that(
       object = outages_gen_units(
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One control area EIC should be provided!"
@@ -200,16 +236,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -220,16 +260,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -240,16 +284,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -260,16 +308,20 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 400L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -279,16 +331,20 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
@@ -299,16 +355,20 @@ testthat::test_that(
         eic = c("10YFR-RTE------C", "45Y000000000001C"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -317,16 +377,20 @@ testthat::test_that(
       object = outages_prod_units(
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One control area EIC should be provided!"
@@ -345,16 +409,20 @@ testthat::test_that(
         doc_status = "A09",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -364,16 +432,20 @@ testthat::test_that(
         doc_status = "A09",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -383,16 +455,20 @@ testthat::test_that(
         doc_status = "A09",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -403,16 +479,20 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 400L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -422,16 +502,20 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
@@ -442,16 +526,20 @@ testthat::test_that(
         eic = c("10Y1001A1001A82H", "45Y000000000001C"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -460,16 +548,20 @@ testthat::test_that(
       object = outages_offshore_grid(
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One control area EIC should be provided!"
@@ -489,16 +581,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = TRUE
       )
     )
@@ -509,16 +605,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -529,16 +629,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -549,16 +653,20 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 400L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -568,16 +676,20 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
@@ -588,16 +700,20 @@ testthat::test_that(
         eic = c("10YFI-1--------U", "45Y000000000001C"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -606,16 +722,20 @@ testthat::test_that(
       object = outages_cons_units(
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One control area EIC should be provided!"
@@ -636,16 +756,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -657,16 +781,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One OUT control area EIC should be provided!"
@@ -679,16 +807,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One IN control area EIC should be provided!"
@@ -701,16 +833,20 @@ testthat::test_that(
         event_nature = "A53",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -722,16 +858,20 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 400L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -742,16 +882,20 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
@@ -763,16 +907,20 @@ testthat::test_that(
         eic_out = c("10Y1001A1001A82H"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one in control area EIC per request!"
@@ -783,16 +931,20 @@ testthat::test_that(
         eic_out = c("10YFR-RTE------C", "45Y000000000001C"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one out control area EIC per request!"
@@ -801,16 +953,20 @@ testthat::test_that(
       object = outages_transmission_grid(
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_start_update = lubridate::ymd(
           x = Sys.Date() - lubridate::days(x = 7L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end_update = lubridate::ymd(
           x = Sys.Date(),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One control area EIC should be provided!"
@@ -830,10 +986,12 @@ testthat::test_that(
         event_nature = "C47",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       )
     )
@@ -844,10 +1002,12 @@ testthat::test_that(
         event_nature = "C47",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -860,10 +1020,12 @@ testthat::test_that(
         event_nature = "C47",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = paste(
@@ -878,10 +1040,12 @@ testthat::test_that(
         event_nature = "C01",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 8),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = paste(
@@ -894,10 +1058,12 @@ testthat::test_that(
         eic = "10YBE----------2",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 400L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -907,10 +1073,12 @@ testthat::test_that(
         eic = "10YBE----------2",
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
@@ -921,10 +1089,12 @@ testthat::test_that(
         eic = c("10YBE----------2", "45Y000000000001C"),
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -933,10 +1103,12 @@ testthat::test_that(
       object = outages_fallbacks(
         period_start = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 1L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         period_end = lubridate::ymd(
           x = Sys.Date() + lubridate::days(x = 2L),
-          tz = "CET"),
+          tz = "CET"
+        ),
         tidy_output = FALSE
       ),
       info = "One control area EIC should be provided!"

@@ -1,9 +1,9 @@
 # README - entsoeapi <img src="man/figures/sticker.png" width="160px" align="right" />
 
 <!-- badges: start -->
-[![Lifecycle:
-experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)    
+[![Lifecycle:experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)    
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)    
+[![R-CMD-check](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `entsoeapi` package is to create an easy wrapper for querying the

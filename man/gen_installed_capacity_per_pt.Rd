@@ -24,7 +24,7 @@ codes from asset_types table}
 }
 \description{
 The sum of installed net generation capacity (MW) for all
-existing production units equalling to or exceeding 1 MW
+existing production units equal to or exceeding 1 MW
 installed generation capacity, per production type.
 }
 \examples{

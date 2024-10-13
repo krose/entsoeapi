@@ -1,3 +1,11 @@
+utils::globalVariables(
+  c(
+    "get_eiccodes"
+  )
+)
+
+
+
 #' @title
 #' Get Party_X Energy Identification Codes
 #'
@@ -6,6 +14,13 @@
 #' energy identification codes from this site:
 #' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 #' It covers market participants.
+#'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
 #'
 #' @export
 #'
@@ -32,6 +47,13 @@ party_eic <- function() {
 #' This function downloads approved area Y
 #' energy identification codes from this site:
 #' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
+#'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
 #'
 #' @export
 #'
@@ -61,6 +83,13 @@ area_eic <- function() {
 #' An entity under balance responsibility where balance supplier change
 #' can take place and for which commercial business processes are defined.
 #'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
+#'
 #' @export
 #'
 #' @examples
@@ -89,6 +118,12 @@ accounting_point_eic <- function() {
 #' It covers a transmission line that connects different areas
 #' excluding HVDC interconnectors.
 #'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
 #'
 #' @export
 #'
@@ -117,6 +152,13 @@ tie_line_eic <- function() {
 #' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 #' It covers an endpoint, or an IT-system.
 #'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
+#'
 #' @export
 #'
 #' @examples
@@ -144,6 +186,13 @@ location_eic <- function() {
 #' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 #' A resource that can either produce or consume energy
 #' and that is reported in a schedule.
+#'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
 #'
 #' @export
 #'
@@ -178,6 +227,13 @@ resource_object_eic <- function() {
 #' They can be classified as normal outside substation,
 #' armoured substation and underground substation.
 #'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
+#'
 #' @export
 #'
 #' @examples
@@ -205,6 +261,13 @@ substation_eic <- function() {
 #' https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 #' Further details are under:
 #' https://www.entsoe.eu/data/energy-identification-codes-eic/#eic-documentation
+#'
+#' @returns
+#' A tibble of accordingly filtered EIC codes, which contains such columns as
+#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
+#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
+#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
+#' `EicTypeFunctionList` and `type`.
 #'
 #' @export
 #'

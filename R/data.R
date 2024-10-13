@@ -1,3 +1,4 @@
+#' @title
 #' List Allocation Mode Types
 #'
 #' @examples
@@ -10,6 +11,7 @@
 
 
 
+#' @title
 #' List Asset Types
 #'
 #' @examples
@@ -22,6 +24,7 @@
 
 
 
+#' @title
 #' List Auction Types
 #'
 #' @examples
@@ -34,6 +37,7 @@
 
 
 
+#' @title
 #' List Business Types
 #'
 #' @examples
@@ -46,6 +50,7 @@
 
 
 
+#' @title
 #' List Category Types
 #'
 #' @examples
@@ -58,6 +63,7 @@
 
 
 
+#' @title
 #' List Classification Types
 #'
 #' @examples
@@ -70,6 +76,7 @@
 
 
 
+#' @title
 #' List Coding Scheme Types
 #'
 #' @examples
@@ -82,6 +89,7 @@
 
 
 
+#' @title
 #' List Contract Types
 #'
 #' @examples
@@ -94,6 +102,7 @@
 
 
 
+#' @title
 #' List Currency Types
 #'
 #' @examples
@@ -106,6 +115,7 @@
 
 
 
+#' @title
 #' List Curve Types
 #'
 #' @examples
@@ -118,6 +128,7 @@
 
 
 
+#' @title
 #' List Direction Types
 #'
 #' @examples
@@ -130,6 +141,7 @@
 
 
 
+#' @title
 #' List Document Types
 #'
 #' @examples
@@ -142,6 +154,7 @@
 
 
 
+#' @title
 #' List EIC Types
 #'
 #' @examples
@@ -154,6 +167,7 @@
 
 
 
+#' @title
 #' List Energy Product Types
 #'
 #' @examples
@@ -166,6 +180,7 @@
 
 
 
+#' @title
 #' List HVDC Mode Types
 #'
 #' @examples
@@ -178,6 +193,7 @@
 
 
 
+#' @title
 #' List Indicator Types
 #'
 #' @examples
@@ -190,6 +206,7 @@
 
 
 
+#' @title
 #' List Object Aggregation Types
 #'
 #' @examples
@@ -202,6 +219,7 @@
 
 
 
+#' @title
 #' List Payment Terms Types
 #'
 #' @examples
@@ -214,6 +232,7 @@
 
 
 
+#' @title
 #' List Price Category Types
 #'
 #' @examples
@@ -226,6 +245,7 @@
 
 
 
+#' @title
 #' List Price Direction Types
 #'
 #' @examples
@@ -238,6 +258,7 @@
 
 
 
+#' @title
 #' List Process Types
 #'
 #' @examples
@@ -250,6 +271,7 @@
 
 
 
+#' @title
 #' List Quality Types
 #'
 #' @examples
@@ -262,6 +284,7 @@
 
 
 
+#' @title
 #' List Reason Code Types
 #'
 #' @examples
@@ -274,6 +297,7 @@
 
 
 
+#' @title
 #' List Rights Types
 #'
 #' @examples
@@ -286,6 +310,7 @@
 
 
 
+#' @title
 #' List Role Types
 #'
 #' @examples
@@ -298,6 +323,7 @@
 
 
 
+#' @title
 #' List Status Types
 #'
 #' @examples
@@ -310,6 +336,7 @@
 
 
 
+#' @title
 #' List Tariff Types
 #'
 #' @examples
@@ -322,6 +349,7 @@
 
 
 
+#' @title
 #' List Unit of Measure Types
 #'
 #' @examples
@@ -334,6 +362,7 @@
 
 
 
+#' @title
 #' List Unit Symbol Types
 #'
 #' @examples
@@ -346,6 +375,7 @@
 
 
 
+#' @title
 #' List Transmission Pair EIC Dictionary
 #'
 #' @examples

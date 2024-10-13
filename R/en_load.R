@@ -1,3 +1,13 @@
+utils::globalVariables(
+  c(
+    "url_posixct_format",
+    "api_req_safe",
+    "extract_response"
+  )
+)
+
+
+
 #' @title
 #' Get Actual Total Load (6.1.A)
 #'
