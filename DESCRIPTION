@@ -1,14 +1,15 @@
 Package: entsoeapi
 Type: Package
 Title: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface
-Version: 0.7.1.2
+Version: 0.7.2.0
 Authors@R: c(person("Kenneth", "Rose",  role="aut",           email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre"), email="sbudai.ga@gmail.com"))
 Description: Simple and standardized wrappers around Entso-E API's Load, Generation,
-             Transmission, Balancing & Outages endpoints to retrieve common data,
+             Transmission, Balancing, Outages & Congestion Management endpoints to retrieve common data,
              and convert them into tabular format.
 License: MIT + file LICENSE
 Imports: 
+    cachem,
     data.table,
     dplyr,
     fs,
@@ -42,3 +43,4 @@ Collate:
     'en_load.R'
     'en_outages.R'
     'en_transmission.R'
+    'en_congestion.R'
