@@ -1057,7 +1057,6 @@ process_detailed <- function(xml_content, tidy_output) {
                 purrr::discard_at("qty") |>
                 dplyr::rename(ts_point_dt_start = start_dt)
             } else {
-              message(names(p_tbl))  # TODO: remove
               stop("No appropriate TimeSeries.Point resolver implemented.")
             }
           } else {
