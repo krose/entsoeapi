@@ -81,18 +81,19 @@ load_actual_total <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A65",
+  query_string <- paste0(
+    "documentType=A65",
     "&processType=A16",
     "&outBiddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -171,18 +172,19 @@ load_day_ahead_total_forecast <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A65",
+  query_string <- paste0(
+    "documentType=A65",
     "&processType=A01",
     "&outBiddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -259,18 +261,19 @@ load_week_ahead_total_forecast <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A65",
+  query_string <- paste0(
+    "documentType=A65",
     "&processType=A31",
     "&outBiddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -348,18 +351,19 @@ load_month_ahead_total_forecast <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A65",
+  query_string <- paste0(
+    "documentType=A65",
     "&processType=A32",
     "&outBiddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -436,18 +440,19 @@ load_year_ahead_total_forecast <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A65",
+  query_string <- paste0(
+    "documentType=A65",
     "&processType=A33",
     "&outBiddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -524,18 +529,19 @@ load_year_ahead_forecast_margin <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A70",
+  query_string <- paste0(
+    "documentType=A70",
     "&processType=A33",
     "&outBiddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
