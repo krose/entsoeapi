@@ -188,6 +188,16 @@ outages_gen_units <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if doc_status value is valid
+  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
+    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
+  }
+
+  # check if event_nature value is valid
+  if (isFALSE(event_nature %in% c("A53", "A54"))) {
+    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -205,28 +215,29 @@ outages_gen_units <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A80",
+  query_string <- paste0(
+    "documentType=A80",
     "&biddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
   if (!is.null(doc_status)) {
-    request_url <- paste0(request_url, "&docStatus=", doc_status)
+    query_string <- paste0(query_string, "&docStatus=", doc_status)
   }
   if (!is.null(event_nature)) {
-    request_url <- paste0(request_url, "&businessType=", event_nature)
+    query_string <- paste0(query_string, "&businessType=", event_nature)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    request_url <- paste0(request_url,
-                          "&periodStartUpdate=", period_start_update,
-                          "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(query_string,
+                           "&periodStartUpdate=", period_start_update,
+                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -306,6 +317,16 @@ outages_prod_units <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if doc_status value is valid
+  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
+    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
+  }
+
+  # check if event_nature value is valid
+  if (isFALSE(event_nature %in% c("A53", "A54"))) {
+    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -323,28 +344,29 @@ outages_prod_units <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A77",
+  query_string <- paste0(
+    "documentType=A77",
     "&biddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
   if (!is.null(doc_status)) {
-    request_url <- paste0(request_url, "&docStatus=", doc_status)
+    query_string <- paste0(query_string, "&docStatus=", doc_status)
   }
   if (!is.null(event_nature)) {
-    request_url <- paste0(request_url, "&businessType=", event_nature)
+    query_string <- paste0(query_string, "&businessType=", event_nature)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    request_url <- paste0(request_url,
-                          "&periodStartUpdate=", period_start_update,
-                          "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(query_string,
+                           "&periodStartUpdate=", period_start_update,
+                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -419,6 +441,11 @@ outages_offshore_grid <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if doc_status value is valid
+  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
+    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -436,25 +463,26 @@ outages_offshore_grid <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A79",
+  query_string <- paste0(
+    "documentType=A79",
     "&biddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
   if (!is.null(doc_status)) {
-    request_url <- paste0(request_url, "&docStatus=", doc_status)
+    query_string <- paste0(query_string, "&docStatus=", doc_status)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    request_url <- paste0(request_url,
-                          "&periodStartUpdate=", period_start_update,
-                          "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(query_string,
+                           "&periodStartUpdate=", period_start_update,
+                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -529,6 +557,16 @@ outages_cons_units <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if doc_status value is valid
+  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
+    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
+  }
+
+  # check if event_nature value is valid
+  if (isFALSE(event_nature %in% c("A53", "A54"))) {
+    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -546,28 +584,29 @@ outages_cons_units <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A76",
+  query_string <- paste0(
+    "documentType=A76",
     "&biddingZone_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
   if (!is.null(doc_status)) {
-    request_url <- paste0(request_url, "&docStatus=", doc_status)
+    query_string <- paste0(query_string, "&docStatus=", doc_status)
   }
   if (!is.null(event_nature)) {
-    request_url <- paste0(request_url, "&businessType=", event_nature)
+    query_string <- paste0(query_string, "&businessType=", event_nature)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    request_url <- paste0(request_url,
-                          "&periodStartUpdate=", period_start_update,
-                          "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(query_string,
+                           "&periodStartUpdate=", period_start_update,
+                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -649,6 +688,16 @@ outages_transmission_grid <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if doc_status value is valid
+  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
+    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
+  }
+
+  # check if event_nature value is valid
+  if (isFALSE(event_nature %in% c("A53", "A54"))) {
+    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
@@ -666,29 +715,30 @@ outages_transmission_grid <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A78",
+  query_string <- paste0(
+    "documentType=A78",
     "&in_Domain=", eic_in,
     "&out_domain=", eic_out,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
   if (!is.null(doc_status)) {
-    request_url <- paste0(request_url, "&docStatus=", doc_status)
+    query_string <- paste0(query_string, "&docStatus=", doc_status)
   }
   if (!is.null(event_nature)) {
-    request_url <- paste0(request_url, "&businessType=", event_nature)
+    query_string <- paste0(query_string, "&businessType=", event_nature)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    request_url <- paste0(request_url,
-                          "&periodStartUpdate=", period_start_update,
-                          "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(query_string,
+                           "&periodStartUpdate=", period_start_update,
+                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -760,13 +810,13 @@ outages_fallbacks <- function(
 
   # check if valid process_type provided
   if (!process_type %in% c("A47", "A51", "A63")) {
-    stop("The process_type value should be chosen among 'A47', 'A51' or 'A63'.")
+    stop("The 'process_type' parameter should be 'A47', 'A51' or 'A63'.")
   }
 
   # check if valid event_nature provided
   if (!event_nature %in% c("C47", "A53", "A54", "A83")) {
-    stop("The event_nature value should be chosen ",
-         "among 'C47', 'A53', 'A54' or '83'.")
+    stop("The 'event_nature' parameter should be ",
+         "'C47', 'A53', 'A54' or '83'.")
   }
 
   # check if valid security token is provided
@@ -789,19 +839,20 @@ outages_fallbacks <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A53",
+  query_string <- paste0(
+    "documentType=A53",
     "&biddingZone_Domain=", eic,
     "&processType=", process_type,
     "&businessType=", event_nature,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))

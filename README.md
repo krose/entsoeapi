@@ -1,15 +1,11 @@
----
-title: "README - entsoeapi <img src='.graphics/sticker.png' width='160px' align='right' />"
-output:
-  html_document:
-    toc: yes
-pagetitle: README - entsoeapi
----
+# README - entsoeapi <img src="man/figures/logo.png" align = "right" height = "139" alt="" />
 
 <!-- badges: start -->
 
 [![Lifecycle:experimental](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)\
+[![lint-project.yml](https://github.com/krose/entsoeapi/actions/workflows/lint-project.yml/badge.svg)](https://github.com/krose/entsoeapi/actions/workflows/lint-project.yml)
 [![R-CMD-check](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/krose/entsoeapi/actions/workflows/R-CMD-check.yml)
+[![test-coverage.yml](https://github.com/krose/entsoeapi/actions/workflows/test-coverage.yml/badge.svg)](https://github.com/krose/entsoeapi/actions/workflows/test-coverage.yml)
 
 <!-- badges: end -->
 
@@ -52,6 +48,11 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
         -   transm_total_comm_sched (12.1.F)
         -   transm_total_nominated_cap (12.1.B)
         -   transm_x_border_phys_flow (12.1.G)
+    -   CONGESTION MANAGEMENT
+        -   redispatching_internal (13.1.A)
+        -   redispatching_x_border (13.1.A)
+        -   countertrading (13.1.B)
+        -   costs_of_congestion_management (13.1.C)
 
 All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented. If you want to use an unimplemented endpoint, please submit an [issue](https://github.com/krose/entsoeapi/issues) and we'll do our best to resolve it.\
 <b>IMPORTANT!</b>\
@@ -74,7 +75,7 @@ Read [here](https://transparency.entsoe.eu/content/static_content/Static%20conte
 ENTSOE_PAT = "your_security_token"
 ```
 
-## Example
+## Examples
 
 You use the eic codes to get the data. Let’s try to find the eic code for Germany.
 

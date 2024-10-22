@@ -33,9 +33,29 @@ utils::globalVariables(
 #' str(eic_party)
 #'
 party_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv"
+
+  # check if there is any cached value of 'party_eic_name'
+  cache_key <- "party_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 
@@ -66,9 +86,29 @@ party_eic <- function() {
 #' str(eic_area)
 #'
 area_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
+
+  # check if there is any cached value of 'area_eic_name'
+  cache_key <- "area_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 
@@ -101,9 +141,29 @@ area_eic <- function() {
 #' str(eic_accounting_point)
 #'
 accounting_point_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv"
+
+  # check if there is any cached value of 'accounting_point_eic_name'
+  cache_key <- "accounting_point_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 
@@ -136,9 +196,29 @@ accounting_point_eic <- function() {
 #' str(eic_tie_line)
 #'
 tie_line_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv"
+
+  # check if there is any cached value of 'tie_line_eic_name'
+  cache_key <- "tie_line_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 
@@ -170,9 +250,29 @@ tie_line_eic <- function() {
 #' str(eic_location)
 #'
 location_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv"
+
+  # check if there is any cached value of 'location_eic_name'
+  cache_key <- "location_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 
@@ -205,9 +305,29 @@ location_eic <- function() {
 #' str(eic_resource_object)
 #'
 resource_object_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv"
+
+  # check if there is any cached value of 'resource_object_eic_name'
+  cache_key <- "resource_object_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 
@@ -245,9 +365,29 @@ resource_object_eic <- function() {
 #' str(eic_substation)
 #'
 substation_eic <- function() {
-  get_eiccodes(
-    f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv"
-  )
+  # set the link of the csv file
+  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv"
+
+  # check if there is any cached value of 'substation_eic_name'
+  cache_key <- "substation_eic_df_key"
+  if (m$exists(key = cache_key)) {
+
+    # recall res_df values
+    res_df <- m$get(cache_key)
+    message("\npulling ", f, " file from cache")
+
+  } else {
+
+    # download and import the csv file
+    message("\ndownloading ", f, " file ...")
+    res_df <- get_eiccodes(f)
+
+    # cache res_df as cache_key
+    m$set(cache_key, res_df)
+
+  }
+
+  return(res_df)
 }
 
 

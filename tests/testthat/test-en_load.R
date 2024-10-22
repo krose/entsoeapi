@@ -346,7 +346,9 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    )
+    ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = load_year_ahead_total_forecast(
         eic = NULL,

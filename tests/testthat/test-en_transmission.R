@@ -15,7 +15,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = transm_x_border_phys_flow(
         eic_in = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
@@ -118,7 +119,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = transm_day_ahead_transf_cap(
         eic_in = c("10YCZ-CEPS-----N", "10YSK-SEPS-----K"),
@@ -221,7 +223,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = transm_day_ahead_comm_sched(
         eic_out = "10YSK-SEPS-----K",
@@ -324,7 +327,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = transm_total_comm_sched(
         eic_in = "10YCZ-CEPS-----N",
@@ -426,7 +430,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = transm_day_ahead_prices(
         eic = NULL,
@@ -495,7 +500,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = transm_total_nominated_cap(
         eic_in = "10YDE-VE-------2",

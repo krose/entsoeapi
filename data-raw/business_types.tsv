@@ -49,8 +49,7 @@ A48	Market capacity price differential	The difference between the price of capac
 A49	Inflow	The volume of water that flows into a reservoir in a given interval
 A50	Water extraction	The volume of water that can be extracted from a resevoir in a given interval
 A51	Turbined water	The volume of water that can be turbined in a plant in a given interval
-A52	Water spillage	The volume of water that is not
-		turbined going through the spilway in a given interval
+A52	Water spillage	The volume of water that is not turbined going through the spilway in a given interval
 A53	Planned maintenance	Maintenance has been planned for the object in question with a forecast ending date.
 A54	Unplanned outage	An unplanned outage has occurred on the object in question.
 A55	Use it Or Sell it (UIOSI) pricing	The time series provides information on the capacity resold in the "use it or sell it" process and its corresponding price.
@@ -132,4 +131,3 @@ B31	Transmission Reliability Margin (TRM)	A time series concerning Transmission 
 B32	Imbalance component for a pool	This information is used to provide to a pool manager the combined imbalance of all the pool participants.
 B33	Area Control error (ACE)	The sum of the instantaneous difference between the actual and the set-point value of the measured total power value and Control Program including Virtual Tie-Lines for the power interchange of a LFC Area or a LFC Block and the frequency bias given by the product of the K-Factor of the LFC Area or the LFC Block and the Frequency Deviation.
 B34	Area Control Error after Imbalance Netting	A time series concerning the Area Control Error after applying the imbalance netting energy correction.
-

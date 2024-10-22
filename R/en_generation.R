@@ -2,7 +2,10 @@ utils::globalVariables(
   c(
     "url_posixct_format",
     "api_req_safe",
-    "extract_response"
+    "extract_response",
+    "periodEnd",
+    "periodStart",
+    "psrType"
   )
 )
 
@@ -57,19 +60,20 @@ gen_installed_capacity_per_pt <- function(
   period_end <- paste0(year + 1L, "01010000")
 
   # compose GET request url for the denoted year
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A68",
+  query_string <- paste0(
+    "documentType=A68",
     "&processType=A33",
     "&in_Domain=", eic,
     {if (!is.null(psr_type)) paste0("&psrType=", psr_type)},
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = TRUE))
@@ -131,19 +135,20 @@ gen_installed_capacity_per_pu <- function(
   period_end <- paste0(year + 1L, "01010000")
 
   # compose GET request url for the denoted year
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A71",
+  query_string <- paste0(
+    "documentType=A71",
     "&processType=A33",
     "&in_Domain=", eic,
     {if (!is.null(psr_type)) paste0("&psrType=", psr_type)},
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = TRUE))
@@ -219,19 +224,22 @@ gen_per_prod_type <- function(
   if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A75",
+  query_string <- paste0(
+    "documentType=A75",
     "&processType=A16",
     "&in_Domain=", eic,
     "&periodStart=", period_start,
     "&periodEnd=", period_end,
-    {if (!is.null(gen_type)) paste0("&psrType=", gen_type)},
-    "&securityToken=", security_token
+    {
+      if (!is.null(gen_type)) paste0("&psrType=", gen_type)
+    }
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -309,18 +317,19 @@ gen_storage_mean_filling_rate <- function(
   }
 
   # compose GET request url for a (maximum) 1 year long period
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A72",
+  query_string <- paste0(
+    "documentType=A72",
     "&processType=A16",
     "&in_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -355,7 +364,7 @@ gen_storage_mean_filling_rate <- function(
 #' df <- gen_per_gen_unit(eic          = "10YDE-VE-------2",
 #'                        period_start = ymd(x = "2020-01-31", tz = "CET"),
 #'                        period_end   = ymd(x = "2020-02-06", tz = "CET"),
-#'                        gen_type     = NULL,
+#'                        gen_type     = c("B04", "B05"),
 #'                        tidy_output  = TRUE)
 #' str(df)
 #'
@@ -363,7 +372,8 @@ gen_per_gen_unit <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
                                 tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
   gen_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -381,7 +391,7 @@ gen_per_gen_unit <- function(
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
 
-  # break time interval of period_start and period_end into 24 hour long parts
+  # break time interval of period_start into 24 hour long parts
   to_time <- difftime(time1 = strptime(x = period_end,
                                        format = "%Y%m%d%H%M",
                                        tz = "UTC") |>
@@ -392,27 +402,61 @@ gen_per_gen_unit <- function(
                         as.POSIXct(tz = "UTC"),
                       units = "days") |>
     ceiling() - 1L
-  period_start_list <- as.POSIXct(x = period_start, format = "%Y%m%d%H%M",
-                                  tz = "UTC") +
-    seq(from = 0L, to = to_time) * 24L * 60L * 60L
-  period_end_list <- data.table::shift(x    = period_start_list,
-                                       type = "lead",
-                                       fill = as.POSIXct(x = period_end,
-                                                         format = "%Y%m%d%H%M",
-                                                         tz = "UTC"))
+  period_start_list <- as.POSIXct(
+    x = period_start,
+    format = "%Y%m%d%H%M",
+    tz = "UTC"
+  ) + seq(from = 0L, to = to_time) * 24L * 60L * 60L
 
-  # convert timestamps into accepted format
-  period_start_list <- url_posixct_format(period_start_list)
-  period_end_list <- url_posixct_format(period_end_list)
-
-  # create list of to be combined parameter lists and remove empty combinations
-  par_list <- list("psrType" = gen_type, "in_Domain" = eic) |>
+  # create a named list of generation types and remove every empty elements
+  par_list <- list(
+    "psrType" = gen_type,
+    "periodStart" = period_start_list
+  ) |>
     purrr::compact()
 
   # create combination matrix dataframe
   par_matrix <- expand.grid(par_list,
                             stringsAsFactors = FALSE,
                             KEEP.OUT.ATTRS   = FALSE)
+
+  # calculate period end for each period start
+  if (is.null(gen_type)) {
+    par_matrix <- par_matrix |>
+      dplyr::mutate(
+        periodEnd = data.table::shift(
+          x = periodStart,
+          type = "lead",
+          fill = as.POSIXct(
+            x = period_end,
+            format = "%Y%m%d%H%M",
+            tz = "UTC"
+          )
+        )
+      )
+  } else {
+    par_matrix <- par_matrix |>
+      dplyr::group_by(psrType) |>
+      dplyr::mutate(
+        periodEnd = data.table::shift(
+          x = periodStart,
+          type = "lead",
+          fill = as.POSIXct(
+            x = period_end,
+            format = "%Y%m%d%H%M",
+            tz = "UTC"
+          )
+        )
+      ) |>
+      dplyr::ungroup(psrType)
+  }
+
+  # convert the timestamps into accepted format
+  par_matrix <- par_matrix |>
+    dplyr::mutate(
+      periodStart = url_posixct_format(periodStart),
+      periodEnd = url_posixct_format(periodEnd)
+    )
 
   # create the corresponding part of the request URL from the par matrix
   par_part <- par_matrix |>
@@ -421,33 +465,22 @@ gen_per_gen_unit <- function(
                   paste(collapse = "")) |>
     unlist()
 
-  # compose GET request url for a (maximum) 24 hours long period
-  if (nchar(par_part) == 0) {
-    request_url_list <- seq_along(period_start_list) |>
-      purrr::map(~paste0("https://web-api.tp.entsoe.eu/api",
-                         "?documentType=A73",
-                         "&processType=A16",
-                         "&periodStart=", period_start_list[[.x]],
-                         "&periodEnd=", period_end_list[[.x]],
-                         "&securityToken=", security_token))
-  } else {
-    request_url_list <- seq_along(period_start_list) |>
-      purrr::map(~paste0("https://web-api.tp.entsoe.eu/api",
-                         "?documentType=A73",
-                         "&processType=A16",
-                         "&periodStart=", period_start_list[[.x]],
-                         "&periodEnd=", period_end_list[[.x]],
-                         par_part,
-                         "&securityToken=", security_token))
-  }
+  # compose GET request URL list for a (maximum) 24 hours long period
+  query_string_list <- paste0("In_Domain=", eic,
+                              "&documentType=A73",
+                              "&processType=A16",
+                              par_part)
 
   # iterate (maximum) 24 hours long periods thru
   # and append them into one tibble
-  result_tbl_appended <- request_url_list |>
-    purrr::map(\(request_url) {
+  result_tbl_appended <- query_string_list |>
+    purrr::map(\(query_string) {
 
       # send GET request
-      en_cont_list <- api_req_safe(request_url)
+      en_cont_list <- api_req_safe(
+        query_string = query_string,
+        security_token = security_token
+      )
 
       # return with the extracted the response
       extract_response(
@@ -516,18 +549,19 @@ gen_day_ahead <- function(
   period_end <- url_posixct_format(period_end)
 
   # compose GET request url
-  request_url <- paste0(
-    "https://web-api.tp.entsoe.eu/api",
-    "?documentType=A71",
+  query_string <- paste0(
+    "documentType=A71",
     "&processType=A01",
     "&in_Domain=", eic,
     "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&securityToken=", security_token
+    "&periodEnd=", period_end
   )
 
   # send GET request
-  en_cont_list <- api_req_safe(request_url)
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
 
   # return with the extracted the response
   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
@@ -593,21 +627,22 @@ gen_wind_solar_forecasts <- function(
 
   # compose GET request urls for a (minimum) 24 hours long period
   process_type <- c("Day-ahead" = "A01", "Intraday" = "A40", "Current" = "A18")
-  request_url_list <- purrr::map(process_type,
-                                 ~paste0("https://web-api.tp.entsoe.eu/api",
-                                         "?documentType=A69",
-                                         "&processType=", .x,
-                                         "&in_Domain=", eic,
-                                         "&periodStart=", period_start,
-                                         "&periodEnd=", period_end,
-                                         "&securityToken=", security_token))
+  query_string_list <- purrr::map(process_type,
+                                  ~paste0("documentType=A69",
+                                          "&processType=", .x,
+                                          "&in_Domain=", eic,
+                                          "&periodStart=", period_start,
+                                          "&periodEnd=", period_end))
 
   # iterate over request url list
-  result_tbl_list <- purrr::map(request_url_list,
-                                \(request_url) {
+  result_tbl_list <- purrr::map(query_string_list,
+                                \(query_string) {
 
                                   # send the GET request against the endpoint
-                                  en_cont_list <- api_req_safe(request_url)
+                                  en_cont_list <- api_req_safe(
+                                    query_string = query_string,
+                                    security_token = security_token
+                                  )
 
                                   # return with the extracted the response
                                   extract_response(

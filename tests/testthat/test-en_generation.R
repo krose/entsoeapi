@@ -83,7 +83,9 @@ testthat::test_that(
         year = 1492,
         psr_type = NULL
       )
-    )
+    ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = "10YFR-RTE------C",
@@ -359,6 +361,37 @@ testthat::test_that(
         gen_type = NULL,
         tidy_output = TRUE
       )
+    )
+    testthat::expect_no_error(
+      object = gen_per_gen_unit(
+        eic = "10YDE-VE-------2",
+        period_start = lubridate::ymd(
+          x = "2020-01-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-02-02",
+          tz = "CET"
+        ),
+        gen_type = c("B04", "B05"),
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_error(
+      object = gen_per_gen_unit(
+        eic = "10YDE-VE-------2",
+        period_start = lubridate::ymd(
+          x = "2020-01-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2020-02-02",
+          tz = "CET"
+        ),
+        gen_type = c("B03", "B04"),
+        tidy_output = TRUE
+      ),
+      info = "Delivered PsrType B03 is not valid for this area!"
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
