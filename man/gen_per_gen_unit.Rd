@@ -42,7 +42,7 @@ library(lubridate)
 df <- gen_per_gen_unit(eic          = "10YDE-VE-------2",
                        period_start = ymd(x = "2020-01-31", tz = "CET"),
                        period_end   = ymd(x = "2020-02-06", tz = "CET"),
-                       gen_type     = NULL,
+                       gen_type     = c("B04", "B05"),
                        tidy_output  = TRUE)
 str(df)
 

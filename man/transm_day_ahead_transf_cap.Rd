@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_transmission.R
 \name{transm_day_ahead_transf_cap}
 \alias{transm_day_ahead_transf_cap}
-\title{Get Day-Ahead Forecasted Transfer Capacities (11.1)}
+\title{Get Day-Ahead Forecasted Transfer Capacities (11.1.A)}
 \usage{
 transm_day_ahead_transf_cap(
   eic_in = NULL,

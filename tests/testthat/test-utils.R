@@ -39,30 +39,32 @@ testthat::test_that(
 testthat::test_that(
   desc = "calc_offset_urls() works",
   code = {
-    url_sample_3 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "&documentType=A65",
-      "&processType=A16",
-      "&outBiddingZone_Domain=10YCZ-CEPS-----N",
-      "&periodStart=202412312300",
-      "&periodEnd=202501312300",
-      "?securityToken="
+    url_sample_3 <- paste(
+      "documentType=A65",
+      "processType=A16",
+      "outBiddingZone_Domain=10YCZ-CEPS-----N",
+      "periodStart=202412312300",
+      "periodEnd=202501312300",
+      sep = "&"
     )
     reason_1 <- "allowed: 200; requested: 1111"
     reason_2 <- "allowed: -200; requested: -1111"
     reason_3 <- "foo; bar"
     testthat::expect_equal(
-      object = calc_offset_urls(reason = reason_1, url = url_sample_3) |>
+      object = calc_offset_urls(
+        reason = reason_1,
+        query_string = url_sample_3
+      ) |>
         length(),
       expected = 6L
     ) |>
       testthat::expect_message()
     testthat::expect_error(
-      object = calc_offset_urls(reason = reason_2, url = url_sample_3),
+      object = calc_offset_urls(reason = reason_2, query_string = url_sample_3),
       info = "The 'from' argument must be a finite number!"
     )
     testthat::expect_error(
-      object = calc_offset_urls(reason = reason_3, url = url_sample_3),
+      object = calc_offset_urls(reason = reason_3, query_string = url_sample_3),
       info = "The 'from' argument must be a finite number!"
     )
   }
@@ -73,79 +75,125 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() works",
   code = {
-    api_url <- "https://web-api.tp.entsoe.eu/api"
-    url_sample_1 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A73",
-      "&processType=A16",
-      "&periodStart=202001302300",
-      "&periodEnd=202001312300",
-      "&in_Domain=10YDE-VE-------2",
-      "&securityToken="
+    url_sample_1 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
     )
-    url_sample_2 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A80",
-      "&biddingZone_Domain=10YFR-RTE------C",
-      "&periodStart=202407222200",
-      "&periodEnd=202407232200",
-      "&securityToken="
+    url_sample_2 <- paste(
+      "documentType=A80",
+      "biddingZone_Domain=10YFR-RTE------C",
+      "periodStart=202407222200",
+      "periodEnd=202407232200",
+      sep = "&"
     )
-    url_sample_3 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "&documentType=A65",
-      "&processType=A16",
-      "&outBiddingZone_Domain=10YCZ-CEPS-----N",
-      "&periodStart=202501242300",
-      "&periodEnd=202501312300",
-      "?securityToken="
+    url_sample_3 <- paste(
+      "documentType=A65",
+      "processType=A16",
+      "outBiddingZone_Domain=10YCZ-CEPS-----N",
+      "periodStart=202501242300",
+      "periodEnd=202501312300",
+      sep = "&"
     )
-    url_sample_4 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A80",
-      "&biddingZone_Domain=10YFR-RTE------C",
-      "&periodStart=202407132200",
-      "&periodEnd=202407232200",
-      "&securityToken="
+    url_sample_4 <- paste(
+      "documentType=A80",
+      "biddingZone_Domain=10YFR-RTE------C",
+      "periodStart=202407132200",
+      "periodEnd=202407232200",
+      sep = "&"
+    )
+    url_sample_5 <- paste(
+      "documentType=A63",
+      "businessType=A85",
+      "in_Domain=10YNO-0--------C",
+      "out_Domain=10YNO-0--------C",
+      "periodStart=202402292300",
+      "periodEnd=202403312200",
+      sep = "&"
     )
     testthat::expect_no_error(
-      object = api_req(url = paste0(url_sample_4, Sys.getenv("ENTSOE_PAT")))
+      object = api_req(
+        query_string = url_sample_4,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      )
     )
     testthat::expect_error(
-      object = api_req(url = "https://web-api.tp.entsoe.eu/api"),
+      object = api_req(
+        query_string = url_sample_5,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      )
+    )
+    testthat::expect_error(
+      object = api_req(
+        query_string = "https://web-api.tp.entsoe.eu/api",
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ),
       info = "Unauthorized. Missing or invalid security token"
     )
     testthat::expect_error(
-      object = api_req(url = NULL),
-      info = "The argument 'url' is missing!"
+      object = api_req(
+        query_string = NULL,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ),
+      info = "The argument 'query_string' is missing!"
     )
     testthat::expect_error(
       object = api_req(),
-      info = "The argument 'url' is missing!"
+      info = "The argument 'query_string' is missing!"
     )
     testthat::expect_error(
-      object = api_req(url = NA),
-      info = "The argument 'url' not in an acceptable timestamp format!"
+      object = api_req(
+        query_string = NA,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ),
+      info = paste(
+        "The argument 'query_string' has not got",
+        "an acceptable timestamp format!"
+      )
     )
     testthat::expect_error(
-      object = api_req(url = "https://google.com/"),
-      info = "The argument 'url' is not valid!"
+      object = api_req(
+        query_string = "https://google.com/",
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ),
+      info = "The argument 'query_string' is not valid!"
     )
     testthat::expect_error(
-      object = api_req(url = api_url),
-      info = "The argument 'url' is not valid!"
+      object = api_req(
+        query_string = "",
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ),
+      info = "The argument 'query_string' is not valid!"
     )
     testthat::expect_message(
-      object = api_req(url = paste0(url_sample_1, Sys.getenv("ENTSOE_PAT"))),
+      object = api_req(
+        query_string = url_sample_1,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ),
       info = "The url value should be printed in console!"
     )
+    testthat::expect_error(
+      object = api_req(
+        query_string = url_sample_1
+      ),
+      info = "The argument 'security_token' is not provided!"
+    )
     testthat::expect_true(
-      object = api_req(url = paste0(url_sample_1, Sys.getenv("ENTSOE_PAT"))) |>
+      object = api_req(
+        query_string = url_sample_1,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ) |>
         inherits(what = "xml_document"),
       info = "The url value should be printed in console!"
     )
     testthat::expect_true(
-      object = api_req(url = paste0(url_sample_2, Sys.getenv("ENTSOE_PAT"))) |>
+      object = api_req(
+        query_string = url_sample_2,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      ) |>
         purrr::map(~inherits(x = .x, what = "xml_document")) |>
         unlist() |>
         all(),
@@ -159,28 +207,51 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req_safe() works",
   code = {
-    url_sample_1 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A73",
-      "&processType=A16",
-      "&periodStart=202001302300",
-      "&periodEnd=202001312300",
-      "&in_Domain=10YDE-VE-------2",
-      "&securityToken="
+    url_sample_1 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
     )
-    content <- api_req_safe(
-      url = paste0(url_sample_1, Sys.getenv("ENTSOE_PAT"))
-    )
-    testthat::expect_true(
-      object = is.list(content) &&
-        length(content) == 2L &&
-        all(names(content) == c("result", "error"))
+    url_sample_2 <- paste(
+      "",
+      "",
+      sep = "&"
     )
     testthat::expect_no_error(
-      object = api_req_safe(url = "https://web-api.tp.entsoe.eu/api")
+      object = content_1 <- api_req_safe(
+        query_string = url_sample_1,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      )
+    )
+    testthat::expect_true(
+      object = "xml_document" %in% class(content_1$result)
+    )
+    testthat::expect_true(
+      object = is.null(content_1$error)
+    )
+    testthat::expect_true(
+      object = is.list(content_1) &&
+        length(content_1) == 2L &&
+        all(names(content_1) == c("result", "error"))
+    )
+    testthat::expect_no_error(
+      object = content_2 <- api_req_safe(
+        query_string = url_sample_2,
+        security_token = Sys.getenv("ENTSOE_PAT")
+      )
+    )
+    testthat::expect_true(
+      object = "error" %in% class(content_2$error)
+    )
+    testthat::expect_true(
+      object = is.null(content_2$result)
     )
   }
 )
+
 
 
 testthat::test_that(
@@ -232,7 +303,7 @@ testthat::test_that(
 
 
 
-testthat::test_that(  # TODO: 209, 219, 235
+testthat::test_that(
   desc = "dt_seq_helper() works",
   code = {
     start_sample_1 <- lubridate::floor_date(
@@ -546,38 +617,22 @@ testthat::test_that(
   desc = "add_type_names() works",
   code = {
     df <- data.frame(
-      process_type = c("A12", "A27", "A61"),
-      ts_in_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_out_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_in_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_out_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      control_area_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
+      process_type = c(
+        "A12",
+        "A27",
+        "A61"
       ),
       ts_auction_type = c(
         "A01",
         "A02",
         "A03"
       ),
-      ts_auction_category = c(
+      ts_business_type = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      type = c(
         "A01",
         "A02",
         "A03"
@@ -591,14 +646,43 @@ testthat::test_that(
         "B01",
         "B02",
         "B03"
+      ),
+      ts_mkt_psr_type = c(
+        "B01",
+        "B02",
+        "B03"
+      ),
+      ts_production_psr_type = c(
+        "B01",
+        "B02",
+        "B03"
       )
     )
-    testthat::expect_equal(
-      object = add_type_names(tbl = df) |>
-        dim(),
-      expected = c(3L, 14L)
-    )
     data(iris)
+    testthat::expect_true(
+      object = identical(
+        x = add_type_names(tbl = df) |>
+          names(),
+        y = c(
+          "ts_auction_type",
+          "ts_contract_market_agreement_type",
+          "process_type",
+          "ts_production_psr_type",
+          "ts_asset_psr_type",
+          "ts_mkt_psr_type",
+          "ts_business_type",
+          "type",
+          "type_def",
+          "ts_business_type_def",
+          "ts_mkt_psr_type_def",
+          "ts_asset_psr_type_def",
+          "ts_production_psr_type_def",
+          "process_type_def",
+          "ts_contract_market_agreement_type_def",
+          "ts_auction_type_def"
+        )
+      )
+    )
     testthat::expect_warning(
       object = add_type_names(tbl = iris),
       info = "No additional definitions added!"
@@ -616,13 +700,17 @@ testthat::test_that(
   desc = "add_eic_names() works",
   code = {
     df <- data.frame(
-      process_type = c("A12", "A27", "A61"),
       ts_in_domain_mrid = c(
         "16YAOGUADIANA--T",
         "44Y-00000000007S",
         "44Y-00000000012Z"
       ),
       ts_out_domain_mrid = c(
+        "16YAOGUADIANA--T",
+        "44Y-00000000007S",
+        "44Y-00000000012Z"
+      ),
+      ts_bidding_zone_domain_mrid = c(
         "16YAOGUADIANA--T",
         "44Y-00000000007S",
         "44Y-00000000012Z"
@@ -642,33 +730,35 @@ testthat::test_that(
         "44Y-00000000007S",
         "44Y-00000000012Z"
       ),
-      ts_auction_type = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_auction_category = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_contract_market_agreement_type = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_asset_psr_type = c(
-        "B01",
-        "B02",
-        "B03"
+      ts_registered_resource_mrid = c(
+        "11WD4GKM-2CM-179",
+        "11WD7VIAN2H-1-3K",
+        "11WD8HOH22H---DA"
       )
     )
-    testthat::expect_equal(
-      object = add_eic_names(tbl = df) |>
-        dim(),
-      expected = c(3L, 15L)
-    )
     data(iris)
+    testthat::expect_true(
+      object = identical(
+        x = add_eic_names(tbl = df) |>
+          names(),
+        y = c(
+          "control_area_domain_mrid",
+          "ts_out_domain_mrid",
+          "ts_in_domain_mrid",
+          "ts_out_bidding_zone_domain_mrid",
+          "ts_in_bidding_zone_domain_mrid",
+          "ts_bidding_zone_domain_mrid",
+          "ts_registered_resource_mrid",
+          "ts_registered_resource_name",
+          "ts_bidding_zone_domain_name",
+          "ts_in_bidding_zone_domain_name",
+          "ts_out_bidding_zone_domain_name",
+          "ts_in_domain_name",
+          "ts_out_domain_name",
+          "control_area_domain_name"
+        )
+      )
+    )
     testthat::expect_warning(
       object = add_eic_names(tbl = iris),
       info = "No additional definitions added!"
@@ -686,33 +776,7 @@ testthat::test_that(
   desc = "add_definitions() works",
   code = {
     df <- data.frame(
-      process_type = c("A12", "A27", "A61"),
-      ts_in_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_out_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_in_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_out_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      control_area_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_auction_type = c(
+      doc_status_value = c(
         "A01",
         "A02",
         "A03"
@@ -722,23 +786,48 @@ testthat::test_that(
         "A02",
         "A03"
       ),
-      ts_contract_market_agreement_type = c(
+      ts_flow_direction = c(
         "A01",
         "A02",
         "A03"
       ),
-      ts_asset_psr_type = c(
+      reason_code = c(
         "B01",
         "B02",
         "B03"
+      ),
+      ts_reason_code = c(
+        "A01",
+        "A02",
+        "A03"
+      ),
+      ts_object_aggregation = c(
+        "A01",
+        "A02",
+        "A03"
       )
     )
-    testthat::expect_equal(
-      object = add_definitions(tbl = df) |>
-        dim(),
-      expected = c(3L, 11L)
-    )
     data(iris)
+    testthat::expect_true(
+      object = identical(
+        x = add_definitions(tbl = df) |>
+          names(),
+        y = c(
+          "ts_object_aggregation",
+          "ts_reason_code",
+          "reason_code",
+          "ts_flow_direction",
+          "ts_auction_category",
+          "doc_status_value",
+          "doc_status",
+          "ts_auction_category_def",
+          "ts_flow_direction_def",
+          "reason_text",
+          "ts_reason_text",
+          "ts_object_aggregation_def"
+        )
+      )
+    )
     testthat::expect_warning(
       object = add_definitions(tbl = iris),
       info = "No additional definitions added!"
@@ -752,30 +841,73 @@ testthat::test_that(
 
 
 
-# xml_to_table
 testthat::test_that(
   desc = "xml_to_table() works",
   code = {
-    url_sample_1 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A73",
-      "&processType=A16",
-      "&periodStart=202001302300",
-      "&periodEnd=202001312300",
-      "&in_Domain=10YDE-VE-------2",
-      "&securityToken="
+    url_sample_1 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
     )
-    url_sample_2 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A44",
-      "&in_Domain=10YDK-1--------W",
-      "&out_Domain=10YDK-1--------W",
-      "&periodStart=201910312300",
-      "&periodEnd=201911302300",
-      "&securityToken="
+    url_sample_2 <- paste(
+      "documentType=A44",
+      "in_Domain=10YDK-1--------W",
+      "out_Domain=10YDK-1--------W",
+      "periodStart=201910312300",
+      "periodEnd=201911302300",
+      sep = "&"
     )
-    content_1 <- api_req_safe(paste0(url_sample_1, Sys.getenv("ENTSOE_PAT")))
-    content_2 <- api_req_safe(paste0(url_sample_2, Sys.getenv("ENTSOE_PAT")))
+    url_sample_3 <- paste(
+      "documentType=A63",
+      "businessType=A85",
+      "in_Domain=10YNL----------L",
+      "out_Domain=10YNL----------L",
+      "periodStart=202402292300",
+      "periodEnd=202403312300",
+      sep = "&"
+    )
+    url_sample_4 <- paste(
+      "documentType=A63",
+      "businessType=A85",
+      "in_Domain=10YNL----------L",
+      "out_Domain=10YNL----------L",
+      "periodStart=202310302300",
+      "periodEnd=202311302300",
+      sep = "&"
+    )
+    url_sample_5 <- paste(
+      "documentType=A65",
+      "businessType=A85",
+      "in_Domain=10YNO-0--------C",   #
+      "out_Domain=10YNO-0--------C",
+      "periodStart=202402292300",
+      "periodEnd=202403102300",
+      sep = "&"
+    )
+    data(iris)
+    content_1 <- api_req_safe(
+      query_string = url_sample_1,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_2 <- api_req_safe(
+      query_string = url_sample_2,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_3 <- api_req_safe(
+      query_string = url_sample_3,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_4 <- api_req_safe(
+      query_string = url_sample_4,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_5 <- api_req_safe(
+      query_string = url_sample_5,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
     testthat::expect_no_error(
       object = xml_to_table(
         xml_content = content_1$result,
@@ -787,6 +919,26 @@ testthat::test_that(
         xml_content = content_2$result,
         tidy_output = TRUE
       )
+    ) |>
+      testthat::expect_warning()
+    testthat::expect_no_error(
+      object = xml_to_table(
+        xml_content = content_3$result,
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_no_error(
+      object = xml_to_table(
+        xml_content = content_4$result,
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_error(
+      object = xml_to_table(
+        xml_content = content_5$result,
+        tidy_output = TRUE
+      ),
+      info = "The 'xml_content' should be an xml document!"
     )
     testthat::expect_true(
       object = xml_to_table(xml_content = content_1$result) |>
@@ -810,8 +962,8 @@ testthat::test_that(
       info = "There is no interesting columns in the result table!"
     ) |>
       testthat::expect_warning() |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
-    data(iris)
     testthat::expect_error(
       object = xml_to_table(xml_content = iris),
       info = "The 'xml_content' should be an xml document!"
@@ -832,57 +984,30 @@ testthat::test_that(
 testthat::test_that(
   desc = "extract_response() works",
   code = {
-    url_sample_2 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A73",
-      "&processType=A16",
-      "&periodStart=202001302300",
-      "&periodEnd=202001312300",
-      "&in_Domain=10YDE-VE-------2",
-      "&securityToken="
+    url_sample_2 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
     )
-    content_2 <- api_req_safe(url = paste0(url_sample_2,
-                                           Sys.getenv("ENTSOE_PAT")))
-    testthat::expect_no_error(
-      object = extract_response(
-        content = content_2,
-        tidy_output = TRUE
-      )
+    url_sample_3 <- paste(
+      "documentType=A80",
+      "biddingZone_Domain=10YFR-RTE------C",
+      "periodStart=202407192200",
+      "periodEnd=202407232200",
+      sep = "&"
     )
-    url_sample_3 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A80",
-      "&biddingZone_Domain=10YFR-RTE------C",
-      "&periodStart=202407192200",
-      "&periodEnd=202407232200",
-      "&securityToken="
+    url_sample_4 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
     )
-    content_3 <- api_req_safe(url = paste0(url_sample_3,
-                                           Sys.getenv("ENTSOE_PAT")))
-    testthat::expect_no_error(
-      object = extract_response(
-        content = content_3,
-        tidy_output = FALSE
-      )
-    )
-    url_sample_4 <- paste0(
-      "https://web-api.tp.entsoe.eu/api",
-      "?documentType=A73",
-      "&processType=A16",
-      "&periodStart=202001302300",
-      "&periodEnd=202001312300",
-      "&in_Domain=10YDE-VE-------2",
-      "&securityToken="
-    )
-    content_4 <- api_req_safe(url = paste0(url_sample_4,
-                                           Sys.getenv("ENTSOE_PAT")))
-    testthat::expect_true(
-      object = extract_response(
-        content = content_4,
-        tidy_output = TRUE
-      ) |>
-        inherits(what = "data.frame")
-    )
+    data(iris)
     content_1 <- setNames(
       object = list(
         xml2::xml2_example(path = "cd_catalog.xml") |>
@@ -891,13 +1016,44 @@ testthat::test_that(
       ),
       c("result", "error")
     )
+    content_2 <- api_req_safe(
+      query_string = url_sample_2,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_3 <- api_req_safe(
+      query_string = url_sample_3,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_4 <- api_req_safe(
+      query_string = url_sample_4,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    testthat::expect_no_error(
+      object = extract_response(
+        content = content_2,
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_no_error(
+      object = extract_response(
+        content = content_3,
+        tidy_output = FALSE
+      )
+    )
+    testthat::expect_true(
+      object = extract_response(
+        content = content_4,
+        tidy_output = TRUE
+      ) |>
+        inherits(what = "data.frame")
+    )
     testthat::expect_error(
       object = extract_response(content = content_1),
       info = "There is no interesting columns in the result table!"
     ) |>
       testthat::expect_warning() |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
-    data(iris)
     testthat::expect_error(
       object = extract_response(content = iris),
       info = "The content is not in the required list format!"
@@ -905,6 +1061,13 @@ testthat::test_that(
     testthat::expect_error(
       object = extract_response(content = NULL),
       info = "The argument 'tbl' is missing!"
+    )
+    testthat::expect_error(
+      object = extract_response(content = list(result = "A", error = "B")),
+      info = paste(
+        "Error in extract_response(content",
+        "= list(result = 'A', error = 'B'))"
+      )
     )
   }
 )
