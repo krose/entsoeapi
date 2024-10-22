@@ -82,6 +82,31 @@ testthat::test_that(
     testthat::expect_error(
       object = outages_gen_units(
         eic = "10YFR-RTE------C",
+        doc_status = "ABC",
+        event_nature = "A54",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL!"
+    )
+    testthat::expect_error(
+      object = outages_gen_units(
+        eic = "10YFR-RTE------C",
         doc_status = "A05",
         event_nature = "A33",
         period_start = lubridate::ymd(
@@ -278,6 +303,56 @@ testthat::test_that(
         tidy_output = TRUE
       )
     )
+    testthat::expect_error(
+      object = outages_prod_units(
+        eic = "10YFR-RTE------C",
+        doc_status = "ABC",
+        event_nature = "A53",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL!"
+    )
+    testthat::expect_error(
+      object = outages_prod_units(
+        eic = "10YFR-RTE------C",
+        doc_status = "A09",
+        event_nature = "ABC",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "The 'event_nature' parameter should be 'A53', 'A54' or NULL!"
+    )
     testthat::expect_no_error(
       object = outages_prod_units(
         eic = "10YFR-RTE------C",
@@ -453,6 +528,30 @@ testthat::test_that(
     ) |>
       testthat::expect_warning() |>
       testthat::expect_warning()
+    testthat::expect_error(
+      object = outages_offshore_grid(
+        eic = "10Y1001A1001A82H",
+        doc_status = "ABC",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL!"
+    )
     testthat::expect_no_error(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
@@ -626,6 +725,56 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
+    )
+    testthat::expect_error(
+      object = outages_cons_units(
+        eic = "10YFI-1--------U",
+        doc_status = "ABC",
+        event_nature = "A53",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL!"
+    )
+    testthat::expect_error(
+      object = outages_cons_units(
+        eic = "10YFI-1--------U",
+        doc_status = "A09",
+        event_nature = "ABC",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "The 'event_nature' parameter should be 'A53', 'A54' or NULL!"
     )
     testthat::expect_no_error(
       object = outages_cons_units(
@@ -804,6 +953,58 @@ testthat::test_that(
     ) |>
       testthat::expect_warning() |>
       testthat::expect_warning()
+    testthat::expect_error(
+      object = outages_transmission_grid(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "10Y1001A1001A82H",
+        doc_status = "ABC",
+        event_nature = "A53",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL!"
+    )
+    testthat::expect_error(
+      object = outages_transmission_grid(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "10Y1001A1001A82H",
+        doc_status = "A09",
+        event_nature = "ABC",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-30",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "The 'event_nature' parameter should be 'A53', 'A54' or NULL!"
+    )
     testthat::expect_error(
       object = outages_transmission_grid(
         eic_in = "10YFR-RTE------C",
