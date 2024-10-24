@@ -38,15 +38,15 @@ A36	Creation	The process being described is for the creation of information.
 A37	Modification	The process being described is for the modification of information.
 A38	Deactivation process	The process being described is for deactivation of information.
 A39	Synchronisation process	The process being described is for the synchronisation of information.
-A40	Intraday process	The process being described is for intraday process..
+A40	Intraday process	The process being described is for intraday process.
 A41	Redispatch process	The process being described is for redispatch activation.
 A42	Activation history process	The process being described is for the provisaion of an activation history.
-A46	Replacement reserve  
-A47	Manual frequency restoration reserve
-A51	Automatic frequency restoration reserve
-A52	Frequency containment reserve
-A56	Frequency restoration reserve
-A60	Scheduled activation mFRR
-A61	Direct activation mFRR
-A67	Central Selection aFRR
-A68	Local Selection aFRR
+A46	Replacement reserve	-
+A47	Manual frequency restoration reserve	-
+A51	Automatic frequency restoration reserve	-
+A52	Frequency containment reserve	-
+A56	Frequency restoration reserve	-
+A60	Scheduled activation mFRR	-
+A61	Direct activation mFRR	-
+A67	Central Selection aFRR	-
+A68	Local Selection aFRR	-
