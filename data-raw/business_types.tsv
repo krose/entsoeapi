@@ -24,10 +24,10 @@ A22	Frequency control	A time series concerning primary and secondary reserve (Se
 A23	Balance management	A time series concerning energy balancing services (See ETSO TF Balance Management definition).
 A24	Total trade	A time series concerning the total of both the internal and external trades.
 A25	General Capacity Information	A time series providing the total capacity available on a TSO border.
-A26	Available transfer capacity (ATC)	Available transfer capacity as defined in the ETSO document "Definitions of Transfer Capacities in liberalised Electricity Markets" April 2001
-A27	Net transfer capacity (NTC)	Net transfer capacity as defined in the ETSO document "Definitions of Transfer Capacities in liberalised Electricity Markets" April 2001.
+A26	Available transfer capacity (ATC)	Available transfer capacity as defined in the ETSO document 'Definitions of Transfer Capacities in liberalised Electricity Markets' April 2001
+A27	Net transfer capacity (NTC)	Net transfer capacity as defined in the ETSO document 'Definitions of Transfer Capacities in liberalised Electricity Markets' April 2001.
 A28	Control Area Program	A time series providing the total exchanges between two TSOs (including the commercial transactions, the compensation program and the losses compensation program). (note this definition might change when UCTE brings forward its coding requirements).
-A29	Already allocated capacity (AAC)	Already Allocated Capacity as defined in the ETSO document "Definitions of Transfer Capacities in liberalised Electricity Markets" April 2001
+A29	Already allocated capacity (AAC)	Already Allocated Capacity as defined in the ETSO document 'Definitions of Transfer Capacities in liberalised Electricity Markets' April 2001
 A30	Internal inter area trade	A trade that occurs between internal areas within a market balance area
 A31	Offered Capacity	The time series provides the offered capacity
 A32	Capacity transfer notification	The time series provides information concerning the notification of the transfer of capacity to another market participant
@@ -52,7 +52,7 @@ A51	Turbined water	The volume of water that can be turbined in a plant in a give
 A52	Water spillage	The volume of water that is not turbined going through the spilway in a given interval
 A53	Planned maintenance	Maintenance has been planned for the object in question with a forecast ending date.
 A54	Unplanned outage	An unplanned outage has occurred on the object in question.
-A55	Use it Or Sell it (UIOSI) pricing	The time series provides information on the capacity resold in the "use it or sell it" process and its corresponding price.
+A55	Use it Or Sell it (UIOSI) pricing	The time series provides information on the capacity resold in the 'use it or sell it' process and its corresponding price.
 A56	Compensation for auction cancellation where capacity is for resale	The time series provides information on the compensation of the capacity for resale following an auction cancellation
 A57	Resale pricing	For each Physical Transmission Rights holder, this document contains the resold capacity and its corresponding price.
 A58	Curtailed capacity compensation	The time series provides information to compensate a party when curtailment is applied on the capacity obtained in a previous auction, resale or transfer.
