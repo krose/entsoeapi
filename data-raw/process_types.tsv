@@ -41,7 +41,7 @@ A39	Synchronisation process	The process being described is for the synchronisati
 A40	Intraday process	The process being described is for intraday process..
 A41	Redispatch process	The process being described is for redispatch activation.
 A42	Activation history process	The process being described is for the provisaion of an activation history.
-A46	Replacement reserve
+A46	Replacement reserve  
 A47	Manual frequency restoration reserve
 A51	Automatic frequency restoration reserve
 A52	Frequency containment reserve
