@@ -32,15 +32,12 @@ utils::globalVariables(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
 #' # German average daily load.
-#' df <- load_actual_total(
+#' df <- entsoeapi::load_actual_total(
 #'   eic          = "10Y1001A1001A83F",
-#'   period_start = ymd(x = Sys.Date() - days(x = 30), tz = "CET"),
-#'   period_end   = ymd(x = Sys.Date(), tz = "CET"),
+#'   period_start = lubridate::ymd(x = Sys.Date() -
+#'     lubridate::days(x = 30), tz = "CET"),
+#'   period_end   = lubridate::ymd(x = Sys.Date(), tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -123,15 +120,12 @@ load_actual_total <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
 #' # German average daily load.
-#' df <- load_day_ahead_total_forecast(
+#' df <- entsoeapi::load_day_ahead_total_forecast(
 #'   eic          = "10Y1001A1001A83F",
-#'   period_start = ymd(x = Sys.Date() - days(x = 30), tz = "CET"),
-#'   period_end   = ymd(x = Sys.Date(), tz = "CET"),
+#'   period_start = lubridate::ymd(x = Sys.Date() -
+#'     lubridate::days(x = 30), tz = "CET"),
+#'   period_end   = lubridate::ymd(x = Sys.Date(), tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -214,14 +208,10 @@ load_day_ahead_total_forecast <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- load_week_ahead_total_forecast(
+#' df <- entsoeapi::load_week_ahead_total_forecast(
 #'   eic          = "10Y1001A1001A82H",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-11-30", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -231,7 +221,8 @@ load_week_ahead_total_forecast <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
                                 tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
@@ -303,14 +294,10 @@ load_week_ahead_total_forecast <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- load_month_ahead_total_forecast(
+#' df <- entsoeapi::load_month_ahead_total_forecast(
 #'   eic          = "10Y1001A1001A82H",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-11-30", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -393,14 +380,10 @@ load_month_ahead_total_forecast <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- load_year_ahead_total_forecast(
+#' df <- entsoeapi::load_year_ahead_total_forecast(
 #'   eic          = "10Y1001A1001A82H",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-11-30", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -482,14 +465,10 @@ load_year_ahead_total_forecast <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- load_year_ahead_forecast_margin(
+#' df <- entsoeapi::load_year_ahead_forecast_margin(
 #'   eic          = "10Y1001A1001A82H",
-#'   period_start = ymd(x = "2019-01-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-12-31", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-01-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-31", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
