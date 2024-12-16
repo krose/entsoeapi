@@ -21,8 +21,10 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
+    utf8,
     utils,
-    xml2
+    xml2,
+    xmlconvert
 Encoding: UTF-8
 Language: en-US
 LazyData: true
