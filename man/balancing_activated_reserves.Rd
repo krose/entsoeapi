@@ -34,17 +34,13 @@ from business_types table}
 The amount of activated balancing energy.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- balancing_activated_reserves(eic          = "10YHU-MAVIR----U",
-                                   period_start = ymd(x = "2020-02-01",
-                                                      tz = "CET"),
-                                   period_end   = ymd(x = "2020-03-01",
-                                                      tz = "CET"),
-                                   tidy_output  = TRUE,
-                                   reserve_type = "A96")
+df <- entsoeapi::balancing_activated_reserves(
+  eic          = "10YHU-MAVIR----U",
+  period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+  tidy_output  = TRUE,
+  reserve_type = "A96"
+)
 str(df)
 
 }

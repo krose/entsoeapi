@@ -36,15 +36,11 @@ congested lines in transmission grid.
 100 documents limit applies!!
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
 # Czech's Costs of Congestion Management
-df <- costs_of_congestion_management(
+df <- entsoeapi::costs_of_congestion_management(
   eic          = "10YCZ-CEPS-----N",
-  period_start = ymd(x = "2016-01-01", tz = "CET"),
-  period_end   = ymd(x = "2017-01-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2016-01-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2017-01-01", tz = "CET"),
   tidy_output  = TRUE
 )
 

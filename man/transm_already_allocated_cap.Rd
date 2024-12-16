@@ -47,15 +47,11 @@ Total capacity allocated, for all time horizons
 per market time unit.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- transm_already_allocated_cap(
+df <- entsoeapi::transm_already_allocated_cap(
   eic_in        = "10YDE-VE-------2",
   eic_out       = "10YCZ-CEPS-----N",
-  period_start  = ymd(x = "2019-02-01", tz = "CET"),
-  period_end    = ymd(x = "2019-02-02", tz = "CET"),
+  period_start  = lubridate::ymd(x = "2019-02-01", tz = "CET"),
+  period_end    = lubridate::ymd(x = "2019-02-02", tz = "CET"),
   auction_type  = "A02",
   contract_type = "A01"
 )

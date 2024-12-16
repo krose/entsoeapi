@@ -30,32 +30,20 @@ Prices in currency/MWh created on spot (Day-Ahead) market.
 The data is delivered for each market time unit.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df1 <- transm_day_ahead_prices(eic          = "10YCZ-CEPS-----N",
-                               period_start = ymd(
-                                 x = "2019-11-01",
-                                 tz = "CET"
-                               ),
-                               period_end   = ymd(
-                                 x = "2019-12-01",
-                                 tz = "CET"
-                               ),
-                               tidy_output  = TRUE)
+df1 <- entsoeapi::transm_day_ahead_prices(
+  eic          = "10YCZ-CEPS-----N",
+  period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+  tidy_output  = TRUE
+)
 str(df1)
 
-df2 <- transm_day_ahead_prices(eic          = "10YDK-1--------W",
-                               period_start = ymd(
-                                 x = "2019-11-01",
-                                 tz = "CET"
-                               ),
-                               period_end   = ymd(
-                                 x = "2019-12-01",
-                                 tz = "CET"
-                               ),
-                               tidy_output  = TRUE)
+df2 <- entsoeapi::transm_day_ahead_prices(
+  eic          = "10YDK-1--------W",
+  period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+  tidy_output  = TRUE
+)
 str(df2)
 
 }

@@ -54,17 +54,20 @@ one market time unit including information about new
 net transfer capacity.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- outages_transmission_grid(
+df <- entsoeapi::outages_transmission_grid(
   eic_in              = "10YFR-RTE------C",
   eic_out             = "10Y1001A1001A82H",
-  period_start        = ymd(x = Sys.Date() + days(x = 1), tz = "CET"),
-  period_end          = ymd(x = Sys.Date() + days(x = 2), tz = "CET"),
-  period_start_update = ymd(x = Sys.Date() - days(x = 7), tz = "CET"),
-  period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+  period_start        = lubridate::ymd(x = Sys.Date() +
+                                         lubridate::days(x = 1),
+                                       tz = "CET"),
+  period_end          = lubridate::ymd(x = Sys.Date() +
+                                         lubridate::days(x = 2),
+                                       tz = "CET"),
+  period_start_update = lubridate::ymd(x = Sys.Date() -
+                                         lubridate::days(x = 7),
+                                       tz = "CET"),
+  period_end_update   = lubridate::ymd(x = Sys.Date(),
+                                       tz = "CET")
 )
 
 str(df)

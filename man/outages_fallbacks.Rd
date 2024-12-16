@@ -48,15 +48,13 @@ the European platform, unavailability of European platform itself
 used on the platform fails or does not find solution.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- outages_fallbacks(eic          = "10YBE----------2",
-                        period_start = ymd(x = "2023-01-01", tz = "CET"),
-                        period_end   = ymd(x = "2024-01-01", tz = "CET"),
-                        process_type = "A51",
-                        event_nature   = "C47")
+#'
+df <- entsoeapi::outages_fallbacks(
+  eic          = "10YBE----------2",
+  period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+  process_type = "A51",
+  event_nature = "C47")
 
 str(df)
 

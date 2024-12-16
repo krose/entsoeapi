@@ -33,16 +33,12 @@ The elements of the result list are representing
 each related forecast time range.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df_list <- gen_wind_solar_forecasts(eic          = "10YFR-RTE------C",
-                                    period_start = ymd(x = "2020-02-01",
-                                                       tz = "CET"),
-                                    period_end   = ymd(x = "2020-03-01",
-                                                       tz = "CET"),
-                                    tidy_output  = TRUE)
+df_list <- entsoeapi::gen_wind_solar_forecasts(
+  eic          = "10YFR-RTE------C",
+  period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+  tidy_output  = TRUE
+)
 str(df_list$`Day-ahead`)
 str(df_list$`Intraday`)
 str(df_list$`Current`)

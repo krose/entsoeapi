@@ -36,14 +36,10 @@ between neighbouring bidding zones
 }
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- load_year_ahead_total_forecast(
+df <- entsoeapi::load_year_ahead_total_forecast(
   eic          = "10Y1001A1001A82H",
-  period_start = ymd(x = "2019-11-01", tz = "CET"),
-  period_end   = ymd(x = "2019-11-30", tz = "CET"),
+  period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
   tidy_output  = TRUE
 )
 

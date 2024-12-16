@@ -34,14 +34,10 @@ generation and forecast of reserves contracted for
 system services.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- load_year_ahead_forecast_margin(
+df <- entsoeapi::load_year_ahead_forecast_margin(
   eic          = "10Y1001A1001A82H",
-  period_start = ymd(x = "2019-01-01", tz = "CET"),
-  period_end   = ymd(x = "2019-12-31", tz = "CET"),
+  period_start = lubridate::ymd(x = "2019-01-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-12-31", tz = "CET"),
   tidy_output  = TRUE
 )
 

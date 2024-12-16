@@ -34,17 +34,13 @@ from business_types table}
 Energy volumes available for activation.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- balancing_accepted_aggr_offers(eic          = "10YHU-MAVIR----U",
-                                     period_start = ymd(x = "2020-02-01",
-                                                        tz = "CET"),
-                                     period_end   = ymd(x = "2020-03-01",
-                                                        tz = "CET"),
-                                     tidy_output  = TRUE,
-                                     reserve_type = "A96")
+df <- entsoeapi::balancing_accepted_aggr_offers(
+  eic          = "10YHU-MAVIR----U",
+  period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+  tidy_output  = TRUE,
+  reserve_type = "A96"
+)
 str(df)
 
 }

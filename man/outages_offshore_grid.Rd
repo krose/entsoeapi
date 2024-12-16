@@ -50,16 +50,18 @@ Wind power fed in at the time of the change in the availability
 is provided.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- outages_offshore_grid(
+df <- entsoeapi::outages_offshore_grid(
   eic                 = "10Y1001A1001A82H",
-  period_start        = ymd(x = Sys.Date() - days(x = 365L), tz = "CET"),
-  period_end          = ymd(x = Sys.Date(), tz = "CET"),
-  period_start_update = ymd(x = Sys.Date() - days(x = 365L), tz = "CET"),
-  period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+  period_start        = lubridate::ymd(x = Sys.Date() -
+                                         lubridate::days(x = 365L),
+                                       tz = "CET"),
+  period_end          = lubridate::ymd(x = Sys.Date(),
+                                       tz = "CET"),
+  period_start_update = lubridate::ymd(x = Sys.Date() -
+                                         lubridate::days(x = 365L),
+                                       tz = "CET"),
+  period_end_update   = lubridate::ymd(x = Sys.Date(),
+                                       tz = "CET")
 )
 
 str(df)

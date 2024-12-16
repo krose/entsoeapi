@@ -21,10 +21,7 @@ It covers a transmission line that connects different areas
 excluding HVDC interconnectors.
 }
 \examples{
-
-library(entsoeapi)
-
-eic_tie_line <- tie_line_eic()
+eic_tie_line <- entsoeapi::tie_line_eic()
 
 str(eic_tie_line)
 

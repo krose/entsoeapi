@@ -20,10 +20,7 @@ https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 It covers an endpoint, or an IT-system.
 }
 \examples{
-
-library(entsoeapi)
-
-eic_location <- location_eic()
+eic_location <- entsoeapi::location_eic()
 
 str(eic_location)
 

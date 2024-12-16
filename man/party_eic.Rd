@@ -20,10 +20,7 @@ https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 It covers market participants.
 }
 \examples{
-
-library(entsoeapi)
-
-eic_party <- party_eic()
+eic_party <- entsoeapi::party_eic()
 
 str(eic_party)
 
