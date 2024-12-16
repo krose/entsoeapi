@@ -1,7 +1,7 @@
 Package: entsoeapi
 Type: Package
 Title: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface
-Version: 0.7.2.0
+Version: 0.7.3.0
 Authors@R: c(person("Kenneth", "Rose",  role="aut",           email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre"), email="sbudai.ga@gmail.com"))
 Description: Simple and standardized wrappers around Entso-E API's Load, Generation,
