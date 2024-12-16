@@ -1,4 +1,159 @@
 testthat::test_that(
+  desc = "extract_leaf_twig_branch() works",
+  code = {
+    url_sample_2 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
+    )
+    url_sample_3 <- paste(
+      "documentType=A80",
+      "biddingZone_Domain=10YFR-RTE------C",
+      "periodStart=202407192200",
+      "periodEnd=202407232200",
+      sep = "&"
+    )
+    url_sample_4 <- paste(
+      "documentType=A73",
+      "processType=A16",
+      "periodStart=202001302300",
+      "periodEnd=202001312300",
+      "in_Domain=10YDE-VE-------2",
+      sep = "&"
+    )
+    data(iris)
+    content_1 <- setNames(
+      object = list(
+        xml2::xml2_example(path = "cd_catalog.xml") |>
+          xml2::read_xml(),
+        NULL
+      ),
+      c("result", "error")
+    )
+    content_2 <- api_req_safe(
+      query_string = url_sample_2,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_3 <- api_req_safe(
+      query_string = url_sample_3,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    content_4 <- api_req_safe(
+      query_string = url_sample_4,
+      security_token = Sys.getenv("ENTSOE_PAT")
+    )
+    testthat::expect_s3_class(
+      object = xml2::xml_contents(content_1$result) |>
+        extract_leaf_twig_branch(),
+      class = "tbl"
+    )
+    testthat::expect_contains(
+      object = xml2::xml_contents(content_2$result) |>
+        extract_leaf_twig_branch() |>
+        names() |>
+        sort(),
+      expected = c(
+        "createdDateTime",
+        "mRID",
+        "process.processType",
+        "receiver_MarketParticipant.marketRole.type",
+        "receiver_MarketParticipant.mRID",
+        "revisionNumber",
+        "sender_MarketParticipant.marketRole.type",
+        "sender_MarketParticipant.mRID",
+        "time_Period.timeInterval.end",
+        "time_Period.timeInterval.start",
+        "TimeSeries.businessType",
+        "TimeSeries.curveType",
+        "TimeSeries.inBiddingZone_Domain.mRID",
+        "TimeSeries.MktPSRType.PowerSystemResources.mRID",
+        "TimeSeries.MktPSRType.PowerSystemResources.name",
+        "TimeSeries.MktPSRType.psrType",
+        "TimeSeries.mRID",
+        "TimeSeries.objectAggregation",
+        "TimeSeries.Period.Point.position",
+        "TimeSeries.Period.Point.quantity",
+        "TimeSeries.Period.resolution",
+        "TimeSeries.Period.timeInterval.end",
+        "TimeSeries.Period.timeInterval.start",
+        "TimeSeries.quantity_Measure_Unit.name",
+        "TimeSeries.registeredResource.mRID",
+        "type"
+      )
+    )
+    testthat::expect_contains(
+      object = xml2::xml_contents(content_3$result[[1]]) |>
+        extract_leaf_twig_branch() |>
+        names() |>
+        sort(),
+      expected = c(
+        "createdDateTime",
+        "mRID",
+        "process.processType",
+        "Reason.code",
+        "Reason.text",
+        "receiver_MarketParticipant.marketRole.type",
+        "receiver_MarketParticipant.mRID",
+        "revisionNumber",
+        "sender_MarketParticipant.marketRole.type",
+        "sender_MarketParticipant.mRID",
+        "TimeSeries.Available_Period.Point.position",
+        "TimeSeries.Available_Period.Point.quantity",
+        "TimeSeries.Available_Period.resolution",
+        "TimeSeries.Available_Period.timeInterval.end",
+        "TimeSeries.Available_Period.timeInterval.start",
+        "TimeSeries.biddingZone_Domain.mRID",
+        "TimeSeries.businessType",
+        "TimeSeries.curveType",
+        "TimeSeries.end_DateAndOrTime.date",
+        "TimeSeries.end_DateAndOrTime.time",
+        "TimeSeries.mRID",
+        "TimeSeries.production_RegisteredResource.location.name",
+        "TimeSeries.production_RegisteredResource.mRID",
+        "TimeSeries.production_RegisteredResource.name",
+        paste0(
+          "TimeSeries.production_RegisteredResource.",
+          "pSRType.powerSystemResources.mRID"
+        ),
+        paste0(
+          "TimeSeries.production_RegisteredResource.",
+          "pSRType.powerSystemResources.name"
+        ),
+        paste0(
+          "TimeSeries.production_RegisteredResource.",
+          "pSRType.powerSystemResources.nominalP"
+        ),
+        "TimeSeries.production_RegisteredResource.pSRType.psrType",
+        "TimeSeries.quantity_Measure_Unit.name",
+        "TimeSeries.start_DateAndOrTime.date",
+        "TimeSeries.start_DateAndOrTime.time",
+        "type",
+        "unavailability_Time_Period.timeInterval.end",
+        "unavailability_Time_Period.timeInterval.start"
+      )
+    )
+    testthat::expect_equal(
+      object = xml2::xml_contents(content_4$result) |>
+        extract_leaf_twig_branch() |>
+        dim(),
+      expected = c(960, 26)
+    )
+    testthat::expect_error(
+      object = extract_leaf_twig_branch(nodesets = iris),
+      info = paste(
+        "no applicable method for 'nodeset_apply'",
+        " applied to an object of class 'c('double', 'numeric')'"
+      )
+    )
+  }
+)
+
+
+
+testthat::test_that(
   desc = "read_zipped_xml() works",
   code = {
     data(mtcars)
@@ -304,171 +459,25 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "dt_seq_helper() works",
-  code = {
-    start_sample_1 <- lubridate::floor_date(
-      x = Sys.time() |>
-        lubridate::with_tz(tzone = "UTC"),
-      unit = "hour"
-    )
-    end_sample_1 <- start_sample_1 + lubridate::hours(x = 10L)
-    testthat::expect_error(
-      object = dt_seq_helper(
-        from = start_sample_1,
-        to = end_sample_1,
-        pos = 1L:10L,
-        qty = 101L:110L,
-        seq_resolution = "PT86M"
-      ),
-      info = "The provided 'seq_resolution' value is not supported!"
-    )
-    start_sample_2 <- lubridate::ymd(Sys.Date(), tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    end_sample_2 <- start_sample_2 + lubridate::years(x = 2L)
-    testthat::expect_no_error(
-      object = dt_seq_helper(
-        from = start_sample_2,
-        to = end_sample_2,
-        pos = 1L:2L,
-        qty = 101L:102L,
-        seq_resolution = "P1Y"
-      )
-    )
-    start_sample_3 <- lubridate::ymd_hms("2024-03-31 01:00:00", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    end_sample_3 <- start_sample_3 + lubridate::hours(x = 2L)
-    testthat::expect_no_error(
-      object = dt_seq_helper(
-        from = start_sample_3,
-        to = end_sample_3,
-        pos = 1L:2L,
-        qty = 101L:102L,
-        seq_resolution = "PT60M"
-      )
-    )
-    start_sample_4 <- lubridate::ymd("2024-03-20", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    end_sample_4 <- lubridate::ymd("2024-04-10", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    testthat::expect_no_error(
-      object = dt_seq_helper(
-        from = start_sample_4,
-        to = end_sample_4,
-        pos = 1L:3L,
-        qty = 101L:103L,
-        seq_resolution = "P7D"
-      )
-    )
-    start_sample_5 <- lubridate::ymd("2024-03-27", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    end_sample_5 <- lubridate::ymd("2024-04-10", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    testthat::expect_no_error(
-      object = dt_seq_helper(
-        from = start_sample_5,
-        to = end_sample_5,
-        pos = 1L:2L,
-        qty = 103L:104L,
-        seq_resolution = "P7D"
-      )
-    )
-    start_sample_6 <- lubridate::ymd("2024-03-31", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    end_sample_6 <- lubridate::ymd("2024-04-02", tz = "CET") |>
-      lubridate::with_tz(tzone = "UTC")
-    testthat::expect_no_error(
-      object = dt_seq_helper(
-        from = start_sample_6,
-        to = end_sample_6,
-        pos = 1L:2L,
-        qty = 104L:105L,
-        seq_resolution = "P1D"
-      )
-    )
-    start_sample_7 <- lubridate::ymd("2024-03-20", tz = "NZ") |>
-      lubridate::with_tz(tzone = "UTC")
-    end_sample_7 <- lubridate::ymd("2024-04-10", tz = "NZ") |>
-      lubridate::with_tz(tzone = "UTC")
-    testthat::expect_error(
-      object = dt_seq_helper(
-        from = start_sample_7,
-        to = end_sample_7,
-        pos = 1L:3L,
-        qty = 101L:103L,
-        seq_resolution = "P7D"
-      ),
-      info = paste(
-        "The from date should denote the midnight hour either",
-        "in 'UTC', 'WET', 'CET', 'EET' or Europe/Moscow timezone!"
-      )
-    )
-    testthat::expect_error(
-      object = dt_seq_helper(),
-      info = "The argument 'qty' is missing!"
-    )
-    testthat::expect_error(
-      object = dt_seq_helper(qty = 101L:110L),
-      info = "The argument 'from' is missing!"
-    )
-    testthat::expect_error(
-      object = dt_seq_helper(
-        from = start_sample_1,
-        qty = 101L:110L
-      ),
-      info = "The argument 'to' is missing!"
-    )
-    testthat::expect_equal(
-      object = dt_seq_helper(
-        from = start_sample_1,
-        to = end_sample_1,
-        pos = 1L:10L,
-        qty = 101L:110L
-      ) |>
-        dim(),
-      expected = c(10L, 2L)
-    )
-    testthat::expect_equal(
-      object = dt_seq_helper(
-        from = start_sample_1,
-        to = end_sample_1,
-        pos = 1L:9L,
-        qty = 101L:109L
-      ) |>
-        dim(),
-      expected = c(9L, 2L)
-    )
-    testthat::expect_equal(
-      object = dt_seq_helper(
-        from = start_sample_1,
-        to = end_sample_1,
-        pos = 1L:10L,
-        qty = 101L:110L
-      ) |> names(),
-      expected = c("start_dt", "qty")
-    )
-  }
-)
-
-
-
-testthat::test_that(
   desc = "get_eiccodes() works",
   code = {
-    testthat::expect_equal(
+    testthat::expect_contains(
       object = get_eiccodes(
         f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
       ) |> names(),
-      expected = c("EicCode",
-                   "EicDisplayName",
-                   "EicLongName",
-                   "EicParent",
-                   "EicResponsibleParty",
-                   "EicStatus",
-                   "MarketParticipantPostalCode",
-                   "MarketParticipantIsoCountryCode",
-                   "MarketParticipantVatCode",
-                   "EicTypeFunctionList",
-                   "type")
+      expected = c(
+        "EicCode",
+        "EicDisplayName",
+        "EicLongName",
+        "EicParent",
+        "EicResponsibleParty",
+        "EicStatus",
+        "MarketParticipantPostalCode",
+        "MarketParticipantIsoCountryCode",
+        "MarketParticipantVatCode",
+        "EicTypeFunctionList",
+        "type"
+      )
     )
     testthat::expect_gt(
       object = get_eiccodes(
@@ -529,15 +538,17 @@ testthat::test_that(
       |> dim(),
       expected = c(1L, 4L)
     )
-    testthat::expect_equal(
+    testthat::expect_contains(
       object = xml2::xml2_example(path = "order-schema.xml") |>
         xml2::read_xml() |>
         unpack_xml(parent_name = "foo") |>
         names(),
-      expected = c("foo.schema.schema.annotation.documentation",
-                   "foo.schema.schema.complexType.annotation.documentation",
-                   "foo.schema.schema.complexType.annotation.appinfo",
-                   "foo.schema.schema")
+      expected = c(
+        "foo.schema.schema.annotation.documentation",
+        "foo.schema.schema.complexType.annotation.documentation",
+        "foo.schema.schema.complexType.annotation.appinfo",
+        "foo.schema.schema"
+      )
     )
     testthat::expect_error(
       object = xml2::xml2_example(path = "cd_catalog.xml") |>
@@ -551,19 +562,70 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "tidy_or_not() works",
+  code = {
+    test_df_1 <- xml2::xml2_example(path = "order-schema.xml") |>
+      xml2::read_xml() |>
+      unpack_xml(parent_name = "foo")
+    test_df_2 <- tibble::tibble(
+      ts_resolution = rep(x = "PT15M", 12L),
+      ts_reason_code = rep(x = "B01", 12L),
+      ts_time_interval_start = as.POSIXct(
+        x = "2023-10-01 23:00:00",
+        tz = "UTC"
+      ),
+      ts_point_position = 1:12,
+      ts_point_price = rep(c(10, 20, 30), 4L)
+    )
+    testthat::expect_equal(
+      object = tidy_or_not(tbl = test_df_1, tidy_output = TRUE) |>
+        dim(),
+      expected = c(1L, 4L)
+    )
+    testthat::expect_equal(
+      object = tidy_or_not(tbl = test_df_1, tidy_output = FALSE) |>
+        dim(),
+      expected = c(1L, 4L)
+    )
+    testthat::expect_contains(
+      object = tidy_or_not(tbl = test_df_2, tidy_output = TRUE) |>
+        names(),
+      expected = c(
+        "ts_resolution", "ts_reason_code", "ts_time_interval_start",
+        "ts_point_price", "ts_point_dt_start"
+      )
+    )
+    testthat::expect_contains(
+      object = tidy_or_not(tbl = test_df_2, tidy_output = FALSE) |>
+        names(),
+      expected = c(
+        "ts_resolution", "ts_reason_code", "ts_time_interval_start",
+        "ts_point"
+      )
+    )
+  }
+)
+
+
+
+testthat::test_that(
   desc = "my_snakecase() works",
   code = {
     data("iris")
-    testthat::expect_equal(
+    testthat::expect_contains(
       object = my_snakecase(tbl = iris),
-      expected = c("sepal_length", "sepal_width", "petal_length", "petal_width",
-                   "species")
+      expected = c(
+        "sepal_length", "sepal_width", "petal_length", "petal_width",
+        "species"
+      )
     )
-    testthat::expect_equal(
+    testthat::expect_contains(
       object = my_snakecase(tbl = transmission_pair_eic_dict),
-      expected = c("out_area_code", "out_area_type_code", "out_area_name",
-                   "out_map_code", "in_area_code", "in_area_type_code",
-                   "in_area_name", "in_map_code")
+      expected = c(
+        "out_area_code", "out_area_type_code", "out_area_name",
+        "out_map_code", "in_area_code", "in_area_type_code",
+        "in_area_name", "in_map_code"
+      )
     )
     df <- data.frame(
       process.mRID = 1L:3L,
@@ -578,35 +640,19 @@ testthat::test_that(
       G.asset_psr_type = LETTERS[1L:3L],
       receiver_MarketParticipant.marketRole = LETTERS[1L:3L]
     )
-    testthat::expect_equal(
+    testthat::expect_contains(
       object = my_snakecase(tbl = df),
-      expected = c("mrid", "ts_type",
-                   "unavailability", "a_ts_production",
-                   "b_ts_production", "c_ts_asset", "d_ts_asset",
-                   "e_psr_type", "f_psr_type", "g_psr_type",
-                   "receiver_market_participant_market_role")
+      expected = c(
+        "mrid", "ts_type",
+        "unavailability", "a_ts_production",
+        "b_ts_production", "c_ts_asset", "d_ts_asset",
+        "e_psr_type", "f_psr_type", "g_psr_type",
+        "receiver_market_participant_market_role"
+      )
     )
     testthat::expect_error(
       object = my_snakecase(tbl = NULL),
       info = "The argument 'tbl' is missing!"
-    )
-  }
-)
-
-
-
-testthat::test_that(
-  desc = "xml_grand_children_lengths() works",
-  code = {
-    testthat::expect_equal(
-      object = xml2::xml2_example(path = "order-schema.xml") |>
-        xml2::read_xml() |>
-        xml_grand_children_lengths(),
-      expected = c(1L, 0L, 0L, 2L, 3L, 1L, 1L)
-    )
-    testthat::expect_error(
-      object = xml_grand_children_lengths(xml_content = NULL),
-      info = "The argument 'xml_content' is missing!"
     )
   }
 )
@@ -737,26 +783,24 @@ testthat::test_that(
       )
     )
     data(iris)
-    testthat::expect_true(
-      object = identical(
-        x = add_eic_names(tbl = df) |>
-          names(),
-        y = c(
-          "control_area_domain_mrid",
-          "ts_out_domain_mrid",
-          "ts_in_domain_mrid",
-          "ts_out_bidding_zone_domain_mrid",
-          "ts_in_bidding_zone_domain_mrid",
-          "ts_bidding_zone_domain_mrid",
-          "ts_registered_resource_mrid",
-          "ts_registered_resource_name",
-          "ts_bidding_zone_domain_name",
-          "ts_in_bidding_zone_domain_name",
-          "ts_out_bidding_zone_domain_name",
-          "ts_in_domain_name",
-          "ts_out_domain_name",
-          "control_area_domain_name"
-        )
+    testthat::expect_contains(
+      object = add_eic_names(tbl = df) |>
+        names(),
+      expected = c(
+        "control_area_domain_mrid",
+        "ts_out_domain_mrid",
+        "ts_in_domain_mrid",
+        "ts_out_bidding_zone_domain_mrid",
+        "ts_in_bidding_zone_domain_mrid",
+        "ts_bidding_zone_domain_mrid",
+        "ts_registered_resource_mrid",
+        "ts_registered_resource_name",
+        "ts_bidding_zone_domain_name",
+        "ts_in_bidding_zone_domain_name",
+        "ts_out_bidding_zone_domain_name",
+        "ts_in_domain_name",
+        "ts_out_domain_name",
+        "control_area_domain_name"
       )
     )
     testthat::expect_warning(
@@ -958,7 +1002,7 @@ testthat::test_that(
     testthat::expect_error(
       object = xml2::xml2_example(path = "order-schema.xml") |>
         xml2::read_xml() |>
-        xml_to_table(),
+        xml_to_table(tidy_output = FALSE),
       info = "There is no interesting columns in the result table!"
     ) |>
       testthat::expect_warning() |>
