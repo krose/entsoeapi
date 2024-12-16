@@ -29,12 +29,11 @@ utils::globalVariables(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#'
-#' df <- gen_installed_capacity_per_pt(eic      = "10YFR-RTE------C",
-#'                                     psr_type = "B05",
-#'                                     year     = 2020)
+#' df <- entsoeapi::gen_installed_capacity_per_pt(
+#'   eic      = "10YFR-RTE------C",
+#'   psr_type = "B05",
+#'   year     = 2020
+#' )
 #' str(df)
 #'
 gen_installed_capacity_per_pt <- function(
@@ -99,12 +98,11 @@ gen_installed_capacity_per_pt <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#'
-#' df <- gen_installed_capacity_per_pu(eic      = "10YDE-VE-------2",
-#'                                     year     = 2020,
-#'                                     psr_type = "B05")
+#' df <- entsoeapi::gen_installed_capacity_per_pu(
+#'   eic      = "10YDE-VE-------2",
+#'   year     = 2020,
+#'   psr_type = "B05"
+#' )
 #' str(df)
 #'
 gen_installed_capacity_per_pu <- function(
@@ -178,15 +176,13 @@ gen_installed_capacity_per_pu <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- gen_per_prod_type(eic          = "10YFR-RTE------C",
-#'                         period_start = ymd(x = "2020-02-01", tz = "CET"),
-#'                         period_end   = ymd(x = "2020-03-01", tz = "CET"),
-#'                         gen_type     = NULL,
-#'                         tidy_output  = TRUE)
+#' df <- entsoeapi::gen_per_prod_type(
+#'   eic          = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+#'   gen_type     = NULL,
+#'   tidy_output  = TRUE
+#' )
 #' str(df)
 #'
 gen_per_prod_type <- function(
@@ -269,16 +265,11 @@ gen_per_prod_type <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- gen_storage_mean_filling_rate(eic          = "10YFR-RTE------C",
-#'                                     period_start = ymd(x = "2020-02-01",
-#'                                                        tz = "CET"),
-#'                                     period_end   = ymd(x = "2021-02-15",
-#'                                                        tz = "CET"),
-#'                                     tidy_output  = TRUE)
+#' df <- entsoeapi::gen_storage_mean_filling_rate(
+#'   eic          = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2021-02-15", tz = "CET"),
+#'   tidy_output  = TRUE)
 #' str(df)
 #'
 gen_storage_mean_filling_rate <- function(
@@ -357,15 +348,13 @@ gen_storage_mean_filling_rate <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- gen_per_gen_unit(eic          = "10YDE-VE-------2",
-#'                        period_start = ymd(x = "2020-01-31", tz = "CET"),
-#'                        period_end   = ymd(x = "2020-02-06", tz = "CET"),
-#'                        gen_type     = c("B04", "B05"),
-#'                        tidy_output  = TRUE)
+#' df <- entsoeapi::gen_per_gen_unit(
+#'   eic          = "10YDE-VE-------2",
+#'   period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2020-02-06", tz = "CET"),
+#'   gen_type     = c("B04", "B05"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df)
 #'
 gen_per_gen_unit <- function(
@@ -517,14 +506,12 @@ gen_per_gen_unit <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- gen_day_ahead(eic          = "10YFR-RTE------C",
-#'                     period_start = ymd(x = "2020-02-01", tz = "CET"),
-#'                     period_end   = ymd(x = "2020-03-01", tz = "CET"),
-#'                     tidy_output  = TRUE)
+#' df <- entsoeapi::gen_day_ahead(
+#'   eic          = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df)
 #'
 gen_day_ahead <- function(
@@ -590,16 +577,12 @@ gen_day_ahead <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df_list <- gen_wind_solar_forecasts(eic          = "10YFR-RTE------C",
-#'                                     period_start = ymd(x = "2020-02-01",
-#'                                                        tz = "CET"),
-#'                                     period_end   = ymd(x = "2020-03-01",
-#'                                                        tz = "CET"),
-#'                                     tidy_output  = TRUE)
+#' df_list <- entsoeapi::gen_wind_solar_forecasts(
+#'   eic          = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df_list$`Day-ahead`)
 #' str(df_list$`Intraday`)
 #' str(df_list$`Current`)
