@@ -21,10 +21,7 @@ A resource that can either produce or consume energy
 and that is reported in a schedule.
 }
 \examples{
-
-library(entsoeapi)
-
-eic_resource_object <- resource_object_eic()
+eic_resource_object <- entsoeapi::resource_object_eic()
 
 str(eic_resource_object)
 

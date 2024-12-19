@@ -29,15 +29,11 @@ relieve internal congestion lines that exceeds its capacity.
 100 documents limit applies!!
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
 # Netherlands' internal redispatching.
-df <- redispatching_internal(
+df <- entsoeapi::redispatching_internal(
   eic          = "10YNL----------L",
-  period_start = ymd(x = "2023-11-01", tz = "CET"),
-  period_end   = ymd(x = "2023-12-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2023-11-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2023-12-01", tz = "CET"),
   tidy_output  = TRUE
 )
 

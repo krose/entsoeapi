@@ -33,15 +33,12 @@ between neighbouring bidding zones
 }
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
 # German average daily load.
-df <- load_actual_total(
+df <- entsoeapi::load_actual_total(
   eic          = "10Y1001A1001A83F",
-  period_start = ymd(x = Sys.Date() - days(x = 30), tz = "CET"),
-  period_end   = ymd(x = Sys.Date(), tz = "CET"),
+  period_start = lubridate::ymd(x = Sys.Date() -
+    lubridate::days(x = 30), tz = "CET"),
+  period_end   = lubridate::ymd(x = Sys.Date(), tz = "CET"),
   tidy_output  = TRUE
 )
 

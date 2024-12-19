@@ -33,25 +33,21 @@ Day-ahead forecasted transmission capacities (MW)
 per direction between areas.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df1 <- transm_day_ahead_transf_cap(
+df1 <- entsoeapi::transm_day_ahead_transf_cap(
   eic_in       = "10YCZ-CEPS-----N",
   eic_out      = "10YSK-SEPS-----K",
-  period_start = ymd(x = "2019-11-01", tz = "CET"),
-  period_end   = ymd(x = "2019-12-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
   tidy_output  = TRUE
 )
 
 str(df1)
 
-df2 <- transm_day_ahead_transf_cap(
+df2 <- entsoeapi::transm_day_ahead_transf_cap(
   eic_in       = "10YDK-1--------W",
   eic_out      = "10Y1001A1001A82H",
-  period_start = ymd(x = "2019-11-01", tz = "CET"),
-  period_end   = ymd(x = "2019-12-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
   tidy_output  = TRUE
 )
 

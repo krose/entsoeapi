@@ -35,15 +35,11 @@ allocations, agreed between the TSOs and confirmed
 to the market.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- transm_total_nominated_cap(
+df <- entsoeapi::transm_total_nominated_cap(
   eic_in       = "10YDE-VE-------2",
   eic_out      = "10YCZ-CEPS-----N",
-  period_start = ymd(x = "2019-02-01", tz = "CET"),
-  period_end   = ymd(x = "2019-03-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2019-02-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2019-03-01", tz = "CET"),
   tidy_output  = TRUE
 )
 

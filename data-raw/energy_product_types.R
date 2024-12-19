@@ -3,6 +3,7 @@ energy_product_types <- fs::path("data-raw",
                                  "energy_product_types",
                                  ext = "tsv") |>
   data.table::fread(encoding = "UTF-8") |>
+  dplyr::mutate(CODE = as.character(CODE)) |>
   purrr::modify_if(is.character, trimws, which = "both") |>
   purrr::discard(~is.na(.x) |> all())
 

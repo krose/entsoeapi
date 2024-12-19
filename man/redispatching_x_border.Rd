@@ -33,16 +33,12 @@ relieve congested internal lines that exceeds its capacity.
 100 documents limit applies!!
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
 # Germany's cross-border redispatching between TenneT and 50Hertz TSO.
-df <- redispatching_x_border(
+df <- entsoeapi::redispatching_x_border(
   eic_in       = "10YDE-EON------1",
   eic_out      = "10YDE-VE-------2",
-  period_start = ymd(x = "2024-09-01", tz = "CET"),
-  period_end   = ymd(x = "2024-10-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2024-09-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2024-10-01", tz = "CET"),
   tidy_output  = TRUE
 )
 

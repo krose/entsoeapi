@@ -24,16 +24,12 @@
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
 #' # Germany's cross-border redispatching between TenneT and 50Hertz TSO.
-#' df <- redispatching_x_border(
+#' df <- entsoeapi::redispatching_x_border(
 #'   eic_in       = "10YDE-EON------1",
 #'   eic_out      = "10YDE-VE-------2",
-#'   period_start = ymd(x = "2024-09-01", tz = "CET"),
-#'   period_end   = ymd(x = "2024-10-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2024-09-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2024-10-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -106,15 +102,11 @@ redispatching_x_border <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
 #' # Netherlands' internal redispatching.
-#' df <- redispatching_internal(
+#' df <- entsoeapi::redispatching_internal(
 #'   eic          = "10YNL----------L",
-#'   period_start = ymd(x = "2023-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2023-12-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2023-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2023-12-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -188,16 +180,12 @@ redispatching_internal <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
 #' # Counter trading between Germany and Denmark.
-#' df <- countertrading(
+#' df <- entsoeapi::countertrading(
 #'   eic_in       = "10Y1001A1001A82H",
 #'   eic_out      = "10YDK-1--------W",
-#'   period_start = ymd(x = "2024-09-01", tz = "CET"),
-#'   period_end   = ymd(x = "2024-10-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2024-09-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2024-10-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -274,15 +262,11 @@ countertrading <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
 #' # Czech's Costs of Congestion Management
-#' df <- costs_of_congestion_management(
+#' df <- entsoeapi::costs_of_congestion_management(
 #'   eic          = "10YCZ-CEPS-----N",
-#'   period_start = ymd(x = "2016-01-01", tz = "CET"),
-#'   period_end   = ymd(x = "2017-01-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2016-01-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2017-01-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'

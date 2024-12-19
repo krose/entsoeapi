@@ -56,16 +56,19 @@ The "available capacity during the event" means the minimum
 available generation capacity during the period specified.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- outages_prod_units(
+df <- entsoeapi::outages_prod_units(
   eic                 = "10YFR-RTE------C",
-  period_start        = ymd(x = Sys.Date() + days(x = 1L), tz = "CET"),
-  period_end          = ymd(x = Sys.Date() + days(x = 2L), tz = "CET"),
-  period_start_update = ymd(x = Sys.Date() - days(x = 7L), tz = "CET"),
-  period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+  period_start        = lubridate::ymd(x = Sys.Date() +
+                                         lubridate::days(x = 1L),
+                                       tz = "CET"),
+  period_end          = lubridate::ymd(x = Sys.Date() +
+                                         lubridate::days(x = 2L),
+                                       tz = "CET"),
+  period_start_update = lubridate::ymd(x = Sys.Date() -
+                                         lubridate::days(x = 7L),
+                                       tz = "CET"),
+  period_end_update   = lubridate::ymd(x = Sys.Date(),
+                                       tz = "CET")
 )
 
 str(df)

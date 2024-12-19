@@ -19,10 +19,7 @@ energy identification codes from this site:
 https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 }
 \examples{
-
-library(entsoeapi)
-
-eic_area <- area_eic()
+eic_area <- entsoeapi::area_eic()
 
 str(eic_area)
 

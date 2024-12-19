@@ -28,12 +28,11 @@ The installed generation capacities (MW) at the beginning of the year
 for all the production units, including the planned ones.
 }
 \examples{
-
-library(entsoeapi)
-
-df <- gen_installed_capacity_per_pu(eic      = "10YDE-VE-------2",
-                                    year     = 2020,
-                                    psr_type = "B05")
+df <- entsoeapi::gen_installed_capacity_per_pu(
+  eic      = "10YDE-VE-------2",
+  year     = 2020,
+  psr_type = "B05"
+)
 str(df)
 
 }

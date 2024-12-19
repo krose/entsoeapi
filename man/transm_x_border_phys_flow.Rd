@@ -34,25 +34,21 @@ It is the measured real flow of energy between
 the neighbouring areas on the cross borders.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df1 <- transm_x_border_phys_flow(
+df1 <- entsoeapi::transm_x_border_phys_flow(
   eic_in       = "10Y1001A1001A83F",
   eic_out      = "10YCZ-CEPS-----N",
-  period_start = ymd(x = "2020-01-01", tz = "CET"),
-  period_end   = ymd(x = "2020-01-02", tz = "CET"),
+  period_start = lubridate::ymd(x = "2020-01-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-01-02", tz = "CET"),
   tidy_output  = TRUE
 )
 
 str(df1)
 
-df2 <- transm_x_border_phys_flow(
+df2 <- entsoeapi::transm_x_border_phys_flow(
   eic_in       = "10YCZ-CEPS-----N",
   eic_out      = "10Y1001A1001A83F",
-  period_start = ymd(x = "2020-01-01", tz = "CET"),
-  period_end   = ymd(x = "2020-01-02", tz = "CET"),
+  period_start = lubridate::ymd(x = "2020-01-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-01-02", tz = "CET"),
   tidy_output  = TRUE
 )
 

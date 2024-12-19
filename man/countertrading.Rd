@@ -35,16 +35,12 @@ matching counter trades
 100 documents limit applies!!
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
 # Counter trading between Germany and Denmark.
-df <- countertrading(
+df <- entsoeapi::countertrading(
   eic_in       = "10Y1001A1001A82H",
   eic_out      = "10YDK-1--------W",
-  period_start = ymd(x = "2024-09-01", tz = "CET"),
-  period_end   = ymd(x = "2024-10-01", tz = "CET"),
+  period_start = lubridate::ymd(x = "2024-09-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2024-10-01", tz = "CET"),
   tidy_output  = TRUE
 )
 

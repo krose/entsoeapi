@@ -28,12 +28,11 @@ existing production units equal to or exceeding 1 MW
 installed generation capacity, per production type.
 }
 \examples{
-
-library(entsoeapi)
-
-df <- gen_installed_capacity_per_pt(eic      = "10YFR-RTE------C",
-                                    psr_type = "B05",
-                                    year     = 2020)
+df <- entsoeapi::gen_installed_capacity_per_pt(
+  eic      = "10YFR-RTE------C",
+  psr_type = "B05",
+  year     = 2020
+)
 str(df)
 
 }

@@ -1,3 +1,17 @@
+# entsoeapi v0.7.3.0 (2024-12-16)
+
+## New functionality
+
+-   The `balancing_border_cap_limit()` query introduced.
+-   The `exchanged_volumes()` query introduced.
+-   The `netted_volumes()` query introduced.
+-   The `elastic_demands()` query introduced.
+
+## Miscellaneous
+
+-   Further under the hood optimizations implemented.
+-   If someone would like to use a not yet implemented one, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
 # entsoeapi v0.7.2.0 (2024-10-22)
 
 ## New functionality
@@ -13,15 +27,11 @@
 -   Under the hood optimizations (e.g. caching) implemented.
 -   If someone would like to use a not yet implemented one, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
 
-
-
 # entsoeapi v0.7.1.2
 
 ## Miscellaneous
 
 -   Some under-the-hood improvements related to code syntax.
-
-
 
 # entsoeapi v0.7.1.1
 
@@ -29,8 +39,6 @@
 
 -   The README has adjusted to correspond to new function names.
 -   Some under-the-hood improvements related to error handling.
-
-
 
 # entsoeapi v0.7.1.0
 
@@ -46,8 +54,6 @@
 -   Renamed endpoint/function:
     -   GENERATION
         -   the gen_installed_capacity (14.1.A) renamed to gen_installed_capacity_per_pt (14.1.A)
-
-
 
 # entsoeapi v0.7.0.0
 

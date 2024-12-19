@@ -34,16 +34,11 @@ and hydro storage plants (MWh) per area, including the same
 week value of the previous year.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- gen_storage_mean_filling_rate(eic          = "10YFR-RTE------C",
-                                    period_start = ymd(x = "2020-02-01",
-                                                       tz = "CET"),
-                                    period_end   = ymd(x = "2021-02-15",
-                                                       tz = "CET"),
-                                    tidy_output  = TRUE)
+df <- entsoeapi::gen_storage_mean_filling_rate(
+  eic          = "10YFR-RTE------C",
+  period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2021-02-15", tz = "CET"),
+  tidy_output  = TRUE)
 str(df)
 
 }

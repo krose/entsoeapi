@@ -26,10 +26,7 @@ They can be classified as normal outside substation,
 armoured substation and underground substation.
 }
 \examples{
-
-library(entsoeapi)
-
-eic_substation <- substation_eic()
+eic_substation <- entsoeapi::substation_eic()
 
 str(eic_substation)
 

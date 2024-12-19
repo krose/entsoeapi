@@ -8,6 +8,8 @@ utils::globalVariables(
 
 
 
+# Expansion And Dismantling Projects  @@@@
+# Expansion And Dismantling Projects (Report)  @@@@
 # 4.2.1. Expansion and Dismantling Projects [9.1]
 # 100 documents limit applies
 # Time interval in query response depends on duration of matching projects
@@ -47,25 +49,21 @@ utils::globalVariables(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df1 <- transm_day_ahead_transf_cap(
+#' df1 <- entsoeapi::transm_day_ahead_transf_cap(
 #'   eic_in       = "10YCZ-CEPS-----N",
 #'   eic_out      = "10YSK-SEPS-----K",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-12-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
 #' str(df1)
 #'
-#' df2 <- transm_day_ahead_transf_cap(
+#' df2 <- entsoeapi::transm_day_ahead_transf_cap(
 #'   eic_in       = "10YDK-1--------W",
 #'   eic_out      = "10Y1001A1001A82H",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-12-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -163,6 +161,8 @@ transm_day_ahead_transf_cap <- function(
 
 
 
+# Cross Border Capacity of DC Links - Ramping Restrictions  @@@@
+# Cross Border Capacity of DC Links - Intraday Transfer Limits  @@@@
 # 4.2.5. Intraday Transfer Limits [11.3]
 # One year range limit applies
 # Minimum time interval in query response ranges from part of day up to one day
@@ -247,15 +247,11 @@ transm_day_ahead_transf_cap <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- transm_total_nominated_cap(
+#' df <- entsoeapi::transm_total_nominated_cap(
 #'   eic_in       = "10YDE-VE-------2",
 #'   eic_out      = "10YCZ-CEPS-----N",
-#'   period_start = ymd(x = "2019-02-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-03-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-02-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-03-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -341,15 +337,11 @@ transm_total_nominated_cap <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- transm_already_allocated_cap(
+#' df <- entsoeapi::transm_already_allocated_cap(
 #'   eic_in        = "10YDE-VE-------2",
 #'   eic_out       = "10YCZ-CEPS-----N",
-#'   period_start  = ymd(x = "2019-02-01", tz = "CET"),
-#'   period_end    = ymd(x = "2019-02-02", tz = "CET"),
+#'   period_start  = lubridate::ymd(x = "2019-02-01", tz = "CET"),
+#'   period_end    = lubridate::ymd(x = "2019-02-02", tz = "CET"),
 #'   auction_type  = "A02",
 #'   contract_type = "A01"
 #' )
@@ -429,32 +421,20 @@ transm_already_allocated_cap <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df1 <- transm_day_ahead_prices(eic          = "10YCZ-CEPS-----N",
-#'                                period_start = ymd(
-#'                                  x = "2019-11-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                period_end   = ymd(
-#'                                  x = "2019-12-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                tidy_output  = TRUE)
+#' df1 <- entsoeapi::transm_day_ahead_prices(
+#'   eic          = "10YCZ-CEPS-----N",
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df1)
 #'
-#' df2 <- transm_day_ahead_prices(eic          = "10YDK-1--------W",
-#'                                period_start = ymd(
-#'                                  x = "2019-11-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                period_end   = ymd(
-#'                                  x = "2019-12-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                tidy_output  = TRUE)
+#' df2 <- entsoeapi::transm_day_ahead_prices(
+#'   eic          = "10YDK-1--------W",
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df2)
 #'
 transm_day_ahead_prices <- function(
@@ -500,6 +480,10 @@ transm_day_ahead_prices <- function(
 
 
 
+# Implicit Allocations - Net positions  @@@@
+# Intraday Implicit Allocations - Congestion Income  @@@@
+# Daily Implicit Allocations - Congestion Income  @@@@
+# Daily Flow Based Allocations - Congestion Income  @@@@
 # 4.2.11. Implicit Auction — Net Positions [12.1.E]
 # One year range limit applies
 # Minimum time interval in query response is one day
@@ -565,28 +549,22 @@ transm_day_ahead_prices <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df1 <- transm_day_ahead_comm_sched(
+#' df1 <- entsoeapi::transm_day_ahead_comm_sched(
 #'   eic_in       = "10YCZ-CEPS-----N",
 #'   eic_out      = "10YSK-SEPS-----K",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-12-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
-#'
 #' str(df1)
 #'
-#' df2 <- transm_day_ahead_comm_sched(
+#' df2 <- entsoeapi::transm_day_ahead_comm_sched(
 #'   eic_in       = "10YDK-1--------W",
 #'   eic_out      = "10Y1001A1001A82H",
-#'   period_start = ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = ymd(x = "2019-12-01", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
-#'
 #' str(df2)
 #'
 transm_day_ahead_comm_sched <- function(
@@ -655,36 +633,22 @@ transm_day_ahead_comm_sched <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df1 <- transm_total_comm_sched(eic_in       = "10YCZ-CEPS-----N",
-#'                                eic_out      = "10YSK-SEPS-----K",
-#'                                period_start = ymd(
-#'                                  x = "2019-11-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                period_end   = ymd(
-#'                                  x = "2019-12-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                tidy_output  = TRUE)
-#'
+#' df1 <- entsoeapi::transm_total_comm_sched(
+#'   eic_in       = "10YCZ-CEPS-----N",
+#'   eic_out      = "10YSK-SEPS-----K",
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df1)
 #'
-#' df2 <- transm_total_comm_sched(eic_in       = "10YDK-1--------W",
-#'                                eic_out      = "10Y1001A1001A82H",
-#'                                period_start = ymd(
-#'                                  x = "2019-11-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                period_end   = ymd(
-#'                                  x = "2019-12-01",
-#'                                  tz = "CET"
-#'                                ),
-#'                                tidy_output  = TRUE)
-#'
+#' df2 <- entsoeapi::transm_total_comm_sched(
+#'   eic_in       = "10YDK-1--------W",
+#'   eic_out      = "10Y1001A1001A82H",
+#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   tidy_output  = TRUE
+#' )
 #' str(df2)
 #'
 transm_total_comm_sched <- function(
@@ -752,25 +716,21 @@ transm_total_comm_sched <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df1 <- transm_x_border_phys_flow(
+#' df1 <- entsoeapi::transm_x_border_phys_flow(
 #'   eic_in       = "10Y1001A1001A83F",
 #'   eic_out      = "10YCZ-CEPS-----N",
-#'   period_start = ymd(x = "2020-01-01", tz = "CET"),
-#'   period_end   = ymd(x = "2020-01-02", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2020-01-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2020-01-02", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
 #' str(df1)
 #'
-#' df2 <- transm_x_border_phys_flow(
+#' df2 <- entsoeapi::transm_x_border_phys_flow(
 #'   eic_in       = "10YCZ-CEPS-----N",
 #'   eic_out      = "10Y1001A1001A83F",
-#'   period_start = ymd(x = "2020-01-01", tz = "CET"),
-#'   period_end   = ymd(x = "2020-01-02", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2020-01-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2020-01-02", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
 #'
@@ -820,8 +780,9 @@ transm_x_border_phys_flow <- function(
 }
 
 
-
-# 4.2.16. Capacity Allocated Outside EU [12.1.H]
+# Transfer Capacities Allocated with Third Countries (Implicit)
+# Transfer Capacities Allocated with Third Countries
+# 4.2.16. Capacity Allocated Outside EU [12.1.H]  @@@@
 # 100 documents limit applies
 # Minimum time interval in query response ranges from part of day to year,
 # depending on selected Contract_MarketAgreement.Type
@@ -844,3 +805,7 @@ transm_x_border_phys_flow <- function(
 # &classificationSequence_AttributeInstanceComponent.Position=1
 # &periodStart=201601012300
 # &periodEnd=201601022300
+
+
+
+# Critical Network Elements (11.4)  @@@@

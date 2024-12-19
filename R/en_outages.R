@@ -42,16 +42,19 @@ utils::globalVariables(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_both(
+#' df <- entsoeapi::outages_both(
 #'   eic                 = "10YFR-RTE------C",
-#'   period_start        = ymd(x = Sys.Date() + days(x = 1L), tz = "CET"),
-#'   period_end          = ymd(x = Sys.Date() + days(x = 2L), tz = "CET"),
-#'   period_start_update = ymd(x = Sys.Date() - days(x = 7L), tz = "CET"),
-#'   period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+#'   period_start        = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 1L),
+#'                                        tz = "CET"),
+#'   period_end          = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 2L),
+#'                                        tz = "CET"),
+#'   period_start_update = lubridate::ymd(x = Sys.Date() -
+#'                                          lubridate::days(x = 7L),
+#'                                        tz = "CET"),
+#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
+#'                                        tz = "CET")
 #' )
 #'
 #' str(df)
@@ -152,16 +155,19 @@ outages_both <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_gen_units(
+#' df <- entsoeapi::outages_gen_units(
 #'   eic                 = "10YFR-RTE------C",
-#'   period_start        = ymd(x = Sys.Date() + days(x = 1L), tz = "CET"),
-#'   period_end          = ymd(x = Sys.Date() + days(x = 2L), tz = "CET"),
-#'   period_start_update = ymd(x = Sys.Date() - days(x = 7L), tz = "CET"),
-#'   period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+#'   period_start        = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 1L),
+#'                                        tz = "CET"),
+#'   period_end          = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 2L),
+#'                                        tz = "CET"),
+#'   period_start_update = lubridate::ymd(x = Sys.Date() -
+#'                                          lubridate::days(x = 7L),
+#'                                        tz = "CET"),
+#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
+#'                                        tz = "CET")
 #' )
 #'
 #' str(df)
@@ -281,16 +287,19 @@ outages_gen_units <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_prod_units(
+#' df <- entsoeapi::outages_prod_units(
 #'   eic                 = "10YFR-RTE------C",
-#'   period_start        = ymd(x = Sys.Date() + days(x = 1L), tz = "CET"),
-#'   period_end          = ymd(x = Sys.Date() + days(x = 2L), tz = "CET"),
-#'   period_start_update = ymd(x = Sys.Date() - days(x = 7L), tz = "CET"),
-#'   period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+#'   period_start        = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 1L),
+#'                                        tz = "CET"),
+#'   period_end          = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 2L),
+#'                                        tz = "CET"),
+#'   period_start_update = lubridate::ymd(x = Sys.Date() -
+#'                                          lubridate::days(x = 7L),
+#'                                        tz = "CET"),
+#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
+#'                                        tz = "CET")
 #' )
 #'
 #' str(df)
@@ -406,16 +415,18 @@ outages_prod_units <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_offshore_grid(
+#' df <- entsoeapi::outages_offshore_grid(
 #'   eic                 = "10Y1001A1001A82H",
-#'   period_start        = ymd(x = Sys.Date() - days(x = 365L), tz = "CET"),
-#'   period_end          = ymd(x = Sys.Date(), tz = "CET"),
-#'   period_start_update = ymd(x = Sys.Date() - days(x = 365L), tz = "CET"),
-#'   period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+#'   period_start        = lubridate::ymd(x = Sys.Date() -
+#'                                          lubridate::days(x = 365L),
+#'                                        tz = "CET"),
+#'   period_end          = lubridate::ymd(x = Sys.Date(),
+#'                                        tz = "CET"),
+#'   period_start_update = lubridate::ymd(x = Sys.Date() -
+#'                                          lubridate::days(x = 365L),
+#'                                        tz = "CET"),
+#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
+#'                                        tz = "CET")
 #' )
 #'
 #' str(df)
@@ -525,13 +536,11 @@ outages_offshore_grid <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_cons_units(eic          = "10YFI-1--------U",
-#'                          period_start = ymd(x = "2024-04-10", tz = "CET"),
-#'                          period_end   = ymd(x = "2024-04-11", tz = "CET"))
+#' df <- entsoeapi::outages_cons_units(
+#'   eic          = "10YFI-1--------U",
+#'   period_start = lubridate::ymd(x = "2024-04-10", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2024-04-11", tz = "CET")
+#' )
 #'
 #' str(df)
 #'
@@ -646,17 +655,20 @@ outages_cons_units <- function(
 #' @export
 #'
 #' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_transmission_grid(
+#' df <- entsoeapi::outages_transmission_grid(
 #'   eic_in              = "10YFR-RTE------C",
 #'   eic_out             = "10Y1001A1001A82H",
-#'   period_start        = ymd(x = Sys.Date() + days(x = 1), tz = "CET"),
-#'   period_end          = ymd(x = Sys.Date() + days(x = 2), tz = "CET"),
-#'   period_start_update = ymd(x = Sys.Date() - days(x = 7), tz = "CET"),
-#'   period_end_update   = ymd(x = Sys.Date(), tz = "CET")
+#'   period_start        = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 1),
+#'                                        tz = "CET"),
+#'   period_end          = lubridate::ymd(x = Sys.Date() +
+#'                                          lubridate::days(x = 2),
+#'                                        tz = "CET"),
+#'   period_start_update = lubridate::ymd(x = Sys.Date() -
+#'                                          lubridate::days(x = 7),
+#'                                        tz = "CET"),
+#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
+#'                                        tz = "CET")
 #' )
 #'
 #' str(df)
@@ -778,16 +790,13 @@ outages_transmission_grid <- function(
 #'
 #' @export
 #'
-#' @examples
-#'
-#' library(entsoeapi)
-#' library(lubridate)
-#'
-#' df <- outages_fallbacks(eic          = "10YBE----------2",
-#'                         period_start = ymd(x = "2023-01-01", tz = "CET"),
-#'                         period_end   = ymd(x = "2024-01-01", tz = "CET"),
-#'                         process_type = "A51",
-#'                         event_nature   = "C47")
+#' @examples#'
+#' df <- entsoeapi::outages_fallbacks(
+#'   eic          = "10YBE----------2",
+#'   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
+#'   period_end   = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+#'   process_type = "A51",
+#'   event_nature = "C47")
 #'
 #' str(df)
 #'

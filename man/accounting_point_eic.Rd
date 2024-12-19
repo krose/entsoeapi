@@ -21,10 +21,7 @@ An entity under balance responsibility where balance supplier change
 can take place and for which commercial business processes are defined.
 }
 \examples{
-
-library(entsoeapi)
-
-eic_accounting_point <- accounting_point_eic()
+eic_accounting_point <- entsoeapi::accounting_point_eic()
 
 str(eic_accounting_point)
 

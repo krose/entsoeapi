@@ -17,6 +17,10 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
     -   BALANCING
         -   balancing_accepted_aggr_offers (17.1.D)
         -   balancing_activated_reserves (17.1.E)
+        -   balancing_border_cap_limit (IFs 4.3 & 4.4)
+        -   exchanged_volumes (aFRR 3.16, mFRR 3.17)
+        -   netted_volumes (IFs IN 3.10)
+        -   elastic_demands (IF mFRR 3.4)
     -   GENERATION
         -   gen_day_ahead (14.1.C)
         -   gen_installed_capacity_per_pt (14.1.A)

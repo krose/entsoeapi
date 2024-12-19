@@ -36,15 +36,13 @@ Actual aggregated net generation output (MW) or consumption
 per market time unit and per production type.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- gen_per_prod_type(eic          = "10YFR-RTE------C",
-                        period_start = ymd(x = "2020-02-01", tz = "CET"),
-                        period_end   = ymd(x = "2020-03-01", tz = "CET"),
-                        gen_type     = NULL,
-                        tidy_output  = TRUE)
+df <- entsoeapi::gen_per_prod_type(
+  eic          = "10YFR-RTE------C",
+  period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+  gen_type     = NULL,
+  tidy_output  = TRUE
+)
 str(df)
 
 }

@@ -55,13 +55,11 @@ aggregated according to the market time unit. The list of
 specific consumption units are not provided.
 }
 \examples{
-
-library(entsoeapi)
-library(lubridate)
-
-df <- outages_cons_units(eic          = "10YFI-1--------U",
-                         period_start = ymd(x = "2024-04-10", tz = "CET"),
-                         period_end   = ymd(x = "2024-04-11", tz = "CET"))
+df <- entsoeapi::outages_cons_units(
+  eic          = "10YFI-1--------U",
+  period_start = lubridate::ymd(x = "2024-04-10", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2024-04-11", tz = "CET")
+)
 
 str(df)
 

@@ -14,17 +14,14 @@ A tibble of accordingly filtered EIC codes, which contains such columns as
 \code{EicTypeFunctionList} and \code{type}.
 }
 \description{
-This function downloads approved all
+This function downloads all approved
 energy identification codes from this site:
 https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 Further details are under:
 https://www.entsoe.eu/data/energy-identification-codes-eic/#eic-documentation
 }
 \examples{
-
-library(entsoeapi)
-
-eic_all <- all_approved_eic()
+eic_all <- entsoeapi::all_approved_eic()
 
 str(eic_all)
 

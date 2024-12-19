@@ -77,7 +77,9 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      )
+      ) |>
+        testthat::expect_warning() |>
+        testthat::expect_warning()
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -151,7 +153,9 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      )
+      ) |>
+        testthat::expect_warning() |>
+        testthat::expect_warning()
     )
     testthat::expect_error(
       object = outages_gen_units(
