@@ -463,7 +463,7 @@ testthat::test_that(
   code = {
     testthat::expect_contains(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
+        f = "Y_eicCodes.csv"
       ) |> names(),
       expected = c(
         "EicCode",
@@ -481,7 +481,7 @@ testthat::test_that(
     )
     testthat::expect_gt(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
+        f = "Y_eicCodes.csv"
       ) |> nrow(),
       expected = 300
     )
@@ -495,32 +495,32 @@ testthat::test_that(
     )
     testthat::expect_no_error(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv"
+        f = "X_eicCodes.csv"
       )
     )
     testthat::expect_no_error(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv"
+        f = "Z_eicCodes.csv"
       )
     )
     testthat::expect_no_error(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv"
+        f = "T_eicCodes.csv"
       )
     )
     testthat::expect_no_error(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv"
+        f = "V_eicCodes.csv"
       )
     )
     testthat::expect_no_error(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv"
+        f = "W_eicCodes.csv"
       )
     )
     testthat::expect_no_error(
       object = get_eiccodes(
-        f = "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv"
+        f = "A_eicCodes.csv"
       )
     )
   }
