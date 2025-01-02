@@ -53,14 +53,14 @@ party_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -103,14 +103,14 @@ area_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -155,14 +155,14 @@ accounting_point_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -207,14 +207,14 @@ tie_line_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -258,14 +258,14 @@ location_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -310,14 +310,14 @@ resource_object_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -367,14 +367,14 @@ substation_eic <- function() {
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)

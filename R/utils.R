@@ -22,7 +22,6 @@ utils::globalVariables(
     "area_eic",
     "document_types",
     "category_types",
-    "reason_code_types",
     "object_aggregation_types",
     "m",
     "ts_resolution",
@@ -593,42 +592,59 @@ url_posixct_format <- function(x) {
 #' from ENTSO-E Transparency Platform under link "f"
 #'
 #' @noRd
-get_eiccodes <- function(f) {
+get_eiccodes <- function(
+  base_url = "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/",
+  f = NA_character_
+) {
+  # compose the complete url
+  complete_url <- paste0(base_url, f)
+
   # reading input file into a character vector
   # and replacing erroneous semicolons to commas
   # unfortunately there is no general rule for that,
   # hence it must be set manually!!
-  readlines_quiet <- purrr::quietly(readLines)
-  content <- readlines_quiet(con = f, encoding = "UTF-8")
-  lns <- content$result |>
-    stringr::str_replace_all(pattern     = "tutkimustehdas;\\sImatra",
-                             replacement = "tutkimustehdas, Imatra") |>
-    stringr::str_replace_all(pattern     = "; S\\.L\\.;",
-                             replacement = ", S.L.;") |>
-    stringr::str_replace_all(pattern     = "\\$amp;",
-                             replacement = "&")
-
-  # reading lines as they would be a csv
-  eiccodes <- data.table::fread(
-    text       = lns,
-    sep        = ";",
-    na.strings = c("", "n / a", "n/a", "N/A", "-", "-------", "."),
-    encoding   = "UTF-8"
+  readlines_safe <- purrr::safely(readLines, quiet = TRUE)
+  content <- suppressWarnings(
+    expr = readlines_safe(
+      con = complete_url, encoding = "UTF-8"
+    )
   )
+  if (is.null(content$error)) {
+    lns <- content$result |>
+      stringr::str_replace_all(pattern     = "tutkimustehdas;\\sImatra",
+                               replacement = "tutkimustehdas, Imatra") |>
+      stringr::str_replace_all(pattern     = "; S\\.L\\.;",
+                               replacement = ", S.L.;") |>
+      stringr::str_replace_all(pattern     = "\\$amp;",
+                               replacement = "&")
 
-  # trimming character columns
-  eiccodes <- eiccodes |>
-    purrr::map(~{
-      if (is.character(.x)) {
-        utf8::utf8_encode(x = .x) |>
-          trimws(which = "both")
-      } else {
-        .x
-      }
-    }) |>
-    tibble::as_tibble()
+    # reading lines as they would be a csv
+    eiccodes <- data.table::fread(
+      text       = lns,
+      sep        = ";",
+      na.strings = c("", "n / a", "n/a", "N/A", "-", "-------", "."),
+      encoding   = "UTF-8"
+    )
 
-  return(eiccodes)
+    # trimming character columns
+    eiccodes <- eiccodes |>
+      purrr::map(~{
+        if (is.character(.x)) {
+          utf8::utf8_encode(x = .x) |>
+            trimws(which = "both")
+        } else {
+          .x
+        }
+      }) |>
+      tibble::as_tibble()
+
+    return(eiccodes)
+
+  } else {
+
+    stop("cannot open the connection to '", complete_url, "'!")
+
+  }
 }
 
 
@@ -821,18 +837,14 @@ eic_name_merge <- function(x, y, eic_code_name, eic_name_name) {
 add_type_names <- function(tbl) {
   # pre-define some built-in tables to avoid non-standard evaluation issues
   # within the current function
-  asset_types <- asset_types
-  auction_types <- auction_types
-  business_types <- business_types
-  category_types <- category_types
-  contract_types <- contract_types
-  document_types <- document_types
-  object_aggregation_types <- object_aggregation_types
-  process_types <- process_types
-  reason_code_types <- reason_code_types
-  role_types <- role_types
-  direction_types <- direction_types
-  energy_product_types <- energy_product_types
+  asset_types <- entsoeapi::asset_types
+  business_types <- entsoeapi::business_types
+  contract_types <- entsoeapi::contract_types
+  document_types <- entsoeapi::document_types
+  process_types <- entsoeapi::process_types
+  role_types <- entsoeapi::role_types
+  direction_types <- entsoeapi::direction_types
+  energy_product_types <- entsoeapi::energy_product_types
 
   # convert tbl to data.table in order to join faster
   tbl <- data.table::data.table(tbl)
@@ -915,6 +927,7 @@ add_type_names <- function(tbl) {
     )
   }
   if ("ts_auction_type" %in% names(tbl)) {
+    auction_types <- entsoeapi::auction_types
     affected_cols <- c(affected_cols, "ts_auction_type")
     tbl <- def_merge(
       x = tbl,
@@ -1230,6 +1243,7 @@ add_definitions <- function(tbl) {
     )
   }
   if ("ts_auction_category" %in% names(tbl)) {
+    category_types <- entsoeapi::category_types
     affected_cols <- c(affected_cols, "ts_auction_category")
     tbl <- def_merge(
       x = tbl,
@@ -1252,6 +1266,7 @@ add_definitions <- function(tbl) {
     pattern = "^reason_code(|_[0-9])"
   )
   if (length(rc_cols) > 0) {
+    reason_code_types <- entsoeapi::reason_code_types
     for (rc_col in rc_cols) {
       affected_cols <- c(affected_cols, rc_col)
       tbl <- def_merge(
@@ -1293,6 +1308,7 @@ add_definitions <- function(tbl) {
     pattern = "^ts_reason_code(|_[0-9])"
   )
   if (length(trc_cols) > 0) {
+    reason_code_types <- entsoeapi::reason_code_types
     for (trc_col in trc_cols) {
       affected_cols <- c(affected_cols, trc_col)
       tbl <- def_merge(
@@ -1330,6 +1346,7 @@ add_definitions <- function(tbl) {
     }
   }
   if ("ts_object_aggregation" %in% names(tbl)) {
+    object_aggregation_types <- entsoeapi::object_aggregation_types
     affected_cols <- c(affected_cols, "ts_object_aggregation")
     tbl <- def_merge(
       x = tbl,
