@@ -46,21 +46,21 @@ mh <- cachem::cache_mem(max_age = 3600)
 #'
 party_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv"
+  f <- "X_eicCodes.csv"
 
   # check if there is any cached value of 'party_eic_name'
   cache_key <- "party_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -96,21 +96,21 @@ party_eic <- function() {
 #'
 area_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
+  f <- "Y_eicCodes.csv"
 
   # check if there is any cached value of 'area_eic_name'
   cache_key <- "area_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -148,21 +148,21 @@ area_eic <- function() {
 #'
 accounting_point_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv"
+  f <- "Z_eicCodes.csv"
 
   # check if there is any cached value of 'accounting_point_eic_name'
   cache_key <- "accounting_point_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -200,21 +200,21 @@ accounting_point_eic <- function() {
 #'
 tie_line_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv"
+  f <- "T_eicCodes.csv"
 
   # check if there is any cached value of 'tie_line_eic_name'
   cache_key <- "tie_line_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -251,21 +251,21 @@ tie_line_eic <- function() {
 #'
 location_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv"
+  f <- "V_eicCodes.csv"
 
   # check if there is any cached value of 'location_eic_name'
   cache_key <- "location_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -303,21 +303,21 @@ location_eic <- function() {
 #'
 resource_object_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv"
+  f <- "W_eicCodes.csv"
 
   # check if there is any cached value of 'resource_object_eic_name'
   cache_key <- "resource_object_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
@@ -360,21 +360,21 @@ resource_object_eic <- function() {
 #'
 substation_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv"
+  f <- "A_eicCodes.csv"
 
   # check if there is any cached value of 'substation_eic_name'
   cache_key <- "substation_eic_df_key"
   if (mh$exists(key = cache_key)) {
 
     # recall res_df values
-    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f))
+    res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
     message("\npulling ", f, " file from cache")
 
   } else {
 
     # download and import the csv file
     message("\ndownloading ", f, " file ...")
-    res_df <- get_eiccodes(f)
+    res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
