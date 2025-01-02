@@ -46,7 +46,7 @@ mh <- cachem::cache_mem(max_age = 3600)
 #'
 party_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/X_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/X_eicCodes.csv"
 
   # check if there is any cached value of 'party_eic_name'
   cache_key <- "party_eic_df_key"
@@ -96,7 +96,7 @@ party_eic <- function() {
 #'
 area_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Y_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/Y_eicCodes.csv"
 
   # check if there is any cached value of 'area_eic_name'
   cache_key <- "area_eic_df_key"
@@ -148,7 +148,7 @@ area_eic <- function() {
 #'
 accounting_point_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/Z_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/Z_eicCodes.csv"
 
   # check if there is any cached value of 'accounting_point_eic_name'
   cache_key <- "accounting_point_eic_df_key"
@@ -200,7 +200,7 @@ accounting_point_eic <- function() {
 #'
 tie_line_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/T_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/T_eicCodes.csv"
 
   # check if there is any cached value of 'tie_line_eic_name'
   cache_key <- "tie_line_eic_df_key"
@@ -251,7 +251,7 @@ tie_line_eic <- function() {
 #'
 location_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/V_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/V_eicCodes.csv"
 
   # check if there is any cached value of 'location_eic_name'
   cache_key <- "location_eic_df_key"
@@ -303,7 +303,7 @@ location_eic <- function() {
 #'
 resource_object_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/W_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/W_eicCodes.csv"
 
   # check if there is any cached value of 'resource_object_eic_name'
   cache_key <- "resource_object_eic_df_key"
@@ -360,7 +360,7 @@ resource_object_eic <- function() {
 #'
 substation_eic <- function() {
   # set the link of the csv file
-  f <- "https://eepublicdownloads.entsoe.eu/eic-codes-csv/A_eiccodes.csv"
+  f <- "https://eepublicdownloads.blob.core.windows.net/cio-lio/csv/A_eicCodes.csv"
 
   # check if there is any cached value of 'substation_eic_name'
   cache_key <- "substation_eic_df_key"
