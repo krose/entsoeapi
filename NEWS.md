@@ -1,3 +1,14 @@
+# entsoeapi v0.7.3.1 (2025-01-02)
+
+## New functionality
+
+-   None.
+
+## Miscellaneous
+
+-   The ..._eic() functions fixed. (There had been a data source URL related issue.)
+-   If someone would like to use a not yet implemented one, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
 # entsoeapi v0.7.3.0 (2024-12-16)
 
 ## New functionality
