@@ -1535,7 +1535,8 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
                    "ts_production_psr_nominal_p",
                    "ts_point_quantity", "bid_ts_point_quantity",
                    "ts_available_period_point_quantity",
-                   "ts_point_price", "bid_ts_point_energy_price_amount",
+                   "ts_point_price", "ts_point_price_amount",
+                   "bid_ts_point_energy_price_amount",
                    "ts_point_congestion_cost",
                    "ts_currency_unit_name",
                    "bid_ts_currency_unit_name",
@@ -1566,7 +1567,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
 
     return(result_tbl)
   } else {
-    stop("There is no interesting columns in the result table!")
+    stop("There is no interesting column in the result table!")
   }
 
 }
