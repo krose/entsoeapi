@@ -1,3 +1,14 @@
+# entsoeapi v0.7.3.2 (2025-01-06)
+
+## New functionality
+
+-   None.
+
+## Miscellaneous
+
+-   On some endpoints the `price` field name has changed to `price`.`amount` in the response XML. So we integrated the new field name into our `xml_to_table` engine.
+-   If someone would like to use a not yet implemented endpoint/function, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
 # entsoeapi v0.7.3.1 (2025-01-02)
 
 ## New functionality
@@ -7,7 +18,7 @@
 ## Miscellaneous
 
 -   The ..._eic() functions fixed. (There had been a data source URL related issue.)
--   If someone would like to use a not yet implemented one, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+-   If someone would like to use a not yet implemented endpoint/function, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
 
 # entsoeapi v0.7.3.0 (2024-12-16)
 
