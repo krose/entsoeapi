@@ -1,3 +1,15 @@
+# entsoeapi v0.8.0.0 (2025-01-12)
+
+## New functionality
+
+-   None.
+
+## Miscellaneous
+
+-   The timeseries data have not converted to table correctly in every case. The 'A03' type curves were processed in 'A01' way. (See further details [here](https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/Introduction_of_different_Timeseries_possibilities__curvetypes__with_ENTSO-E_electronic_document_v1.4.pdf).)
+    This issue has been fixed.
+-   If someone would like to use a not yet implemented endpoint/function, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
 # entsoeapi v0.7.3.2 (2025-01-06)
 
 ## New functionality
