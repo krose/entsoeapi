@@ -27,6 +27,9 @@ utils::globalVariables(
     "ts_resolution",
     "ts_time_interval_start",
     "ts_point_position",
+    "ts_resolution_requ_length",
+    "ts_resolution_real_length",
+    "ts_resolution_ok",
     "TimeSeries.mRID"
   )
 )
@@ -114,72 +117,6 @@ extract_leaf_twig_branch <- function(nodesets) {
     extract_nodesets() |>
     data.table::as.data.table()
 
-  # # compose a sub table from deeper level data  # TODO: possible error source
-  # second_level_tbl <- nodesets[children_of_nodes > 0] |>
-  #   purrr::map(
-  #     \(scnd_ns) {
-  #       # define an empty list
-  #       compound_tbls <- list()
-  #
-  #       # compose a data.table from the XML nodeset
-  #       temp_list <- xmlconvert::xml_to_list(
-  #         xml = scnd_ns,
-  #         cleanup = TRUE,
-  #         convert.types = FALSE
-  #       )
-  #
-  #       # detect which element is list
-  #       is_list_element <- purrr::map_lgl(temp_list, is.list)
-  #
-  #       # convert the childless child nodes into a table
-  #       compound_tbls[[1]] <- temp_list[!is_list_element] |>
-  #         data.table::as.data.table()
-  #
-  #       # # convert the grandchild nodes into a table
-  #       compound_tbls[[2]] <- temp_list[is_list_element] |>
-  #         purrr::imap(
-  #           \(list_elem, prefix) {
-  #             sub_element_names <- names(list_elem) |>
-  #               unique()
-  #             purrr::map(
-  #               sub_element_names,
-  #               \(sen) {
-  #                 sub_temp_dt <- list_elem[names(list_elem) == sen] |>
-  #                   purrr::map(tibble::as_tibble) |>
-  #                   data.table::rbindlist(use.names = TRUE, fill = TRUE)
-  #
-  #                 # add prefix to column names
-  #                 names(sub_temp_dt) <- stringr::str_c(
-  #                   sen,
-  #                   names(sub_temp_dt),
-  #                   sep = "."
-  #                 ) |>
-  #                   stringr::str_remove_all(pattern = "\\.value$")
-  #
-  #                 return(sub_temp_dt)
-  #               }
-  #             ) |>
-  #               dplyr::bind_cols()
-  #           }
-  #         ) |>
-  #         data.table::rbindlist(use.names = TRUE, fill = TRUE)
-  #
-  #       # column-wise append the tables
-  #       compound_tbl <- purrr::compact(compound_tbls) |>
-  #         dplyr::bind_cols()
-  #
-  #       # add prefix to column names
-  #       names(compound_tbl) <- stringr::str_c(
-  #         xml2::xml_name(scnd_ns),
-  #         names(compound_tbl),
-  #         sep = "."
-  #       )
-  #
-  #       return(compound_tbl)
-  #     }
-  #   ) |>
-  #   data.table::rbindlist(use.names = TRUE, fill = TRUE)
-
   second_level_tbl <- nodesets[children_of_nodes > 0] |>
     purrr::map(
       \(scnd_ns) {
@@ -242,6 +179,7 @@ extract_leaf_twig_branch <- function(nodesets) {
 #'
 #' @noRd
 tidy_or_not <- function(tbl, tidy_output = FALSE) {
+
   # detect if there is any 'bid_ts_' column names
   bid_ts_cols <- stringr::str_subset(
     string = names(tbl),
@@ -286,55 +224,195 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     }
 
     return(tbl)
+
   }
 
-  # if tidy output is needed, then
-  if (tidy_output == TRUE) {
-    # select the group by columns
-    group_cols <- base::setdiff(
-      x = names(tbl),
-      y = c(ts_point_cols, ts_reason_cols)
+  # extract curve type from tbl
+  curve_type <- base::subset(x = tbl,
+                             select = stringr::str_match_all(
+                               string = names(tbl),
+                               pattern = ".*curve_type$"
+                             ) |>
+                               unlist()) |>
+    unlist() |>
+    unique()
+
+  # select the group by columns
+  group_cols <- base::setdiff(
+    x = names(tbl),
+    y = c(ts_point_cols, ts_reason_cols)
+  )
+
+  # calculate 'by' values which will be used to calculate
+  # the 'ts_point_dt_start' values
+  tbl <- tbl |>
+    dplyr::mutate(
+      by = data.table::fcase(
+        ts_resolution == "PT4S", "4 sec",
+        ts_resolution == "PT1M", "1 min",
+        ts_resolution == "PT15M", "15 mins",
+        ts_resolution == "PT30M", "30 mins",
+        ts_resolution == "PT60M", "1 hour",
+        ts_resolution == "P1D", "1 DSTday",
+        ts_resolution == "P7D", "7 DSTdays",
+        ts_resolution == "P1M", "1 month",
+        ts_resolution == "P1Y", "1 year",
+        default = "n/a"
+      )
     )
 
-    # calculate 'ts_point_dt_start' values
+  # if curve_type not defined or 'A01', then
+  if (is.null(curve_type) || curve_type == "A01") {
+
+    # do nothing in this case
+    Sys.sleep(time = 0)
+
+  } else if (curve_type == "A03") {  # if curve_type is 'A03', then
+    ts_resolution_requ_length <- ts_resolution_real_length <- NULL
+    ts_resolution_ok <- ts_time_interval_end <- NULL
+
+    # calculate 'ts_resolution_requ_length',
+    # 'ts_resolution_real_length'
+    # and 'ts_resolution_ok' values
     tbl <- tbl |>
-      dplyr::mutate(
-        by = data.table::fcase(
-          ts_resolution == "PT4S", "4 sec",
-          ts_resolution == "PT1M", "1 min",
-          ts_resolution == "PT15M", "15 mins",
-          ts_resolution == "PT30M", "30 mins",
-          ts_resolution == "PT60M", "1 hour",
-          ts_resolution == "P1D", "1 DSTday",
-          ts_resolution == "P7D", "7 DSTdays",
-          ts_resolution == "P1M", "1 month",
-          ts_resolution == "P1Y", "1 year",
-          default = "n/a"
-        )
-      ) |>
       dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols))) |>
       dplyr::mutate(
-        ts_point_dt_start = seq.POSIXt(
-          from = min(ts_time_interval_start),
-          length.out = max(ts_point_position),
-          by = unique(by),
-        )[ts_point_position] |>  # handle the case of any missing period)
-          as.POSIXct(tz = "UTC")
+        ts_resolution_requ_length =
+          (max(ts_time_interval_end) - min(ts_time_interval_start)) /
+          lubridate::duration(by),
+        ts_resolution_real_length = dplyr::n(),
+        ts_resolution_ok =
+          ts_resolution_real_length == ts_resolution_requ_length
       ) |>
       dplyr::ungroup()
 
-    # remove the 'ts_point_position' column
-    tbl <- tbl |>
-      subset(select = -c(ts_point_position, by))
+    # filter on those periods which have missing timeseries
+    # data points (ts_point_position)
+    tbl_adj <- base::subset(x = tbl, subset = !ts_resolution_ok)
+
+    # check if there is any need to adjust the timeseries data points
+    if (nrow(tbl_adj) > 0L) {
+
+      # remove the to be adjusted rows from the base 'tbl'
+      tbl <- base::subset(x = tbl, subset = ts_resolution_ok)
+
+      # create a frame table to adjust the timeseries data points
+      frame_tbl <- base::subset(
+        x = tbl_adj,
+        select = c(
+          ts_time_interval_start,
+          ts_time_interval_end,
+          ts_resolution_requ_length
+        )
+      ) |>
+        unique() |>
+        purrr::pmap(
+          ~tibble::tibble(
+            ts_time_interval_start = ..1,
+            ts_time_interval_end = ..2,
+            ts_point_position = seq.int(from = 1, to = ..3)
+          )
+        ) |>
+        data.table::rbindlist(use.names = TRUE, fill = TRUE)
+
+      # full join the adjusted timeseries data points with the frame table
+      tbl_adj <- data.table::merge.data.table(
+        x = tbl_adj,
+        y = frame_tbl,
+        by = c(
+          "ts_time_interval_start",
+          "ts_time_interval_end",
+          "ts_point_position"
+        ),
+        all = TRUE
+      ) |>
+        data.table::as.data.table()
+
+      # fill the missing values with the last observation carry forward method
+      tbl_adj <- tbl_adj |>
+        tidyr::fill(dplyr::everything())
+
+      # append the adjusted timeseries data points to the base 'tbl'
+      tbl <- data.table::rbindlist(
+        l = list(tbl, tbl_adj),
+        use.names = TRUE,
+        fill = TRUE
+      )
+      data.table::setorderv(
+        x = tbl,
+        cols = c(
+          "ts_time_interval_start",
+          "ts_time_interval_end",
+          "ts_point_position"
+        )
+      )
+
+    }
 
   } else {
 
+    # TODO: remove after every curve_type handling is fixed
+    # hints: https://eepublicdownloads.entsoe.eu/clean-documents/EDI/
+    # Library/cim_based/
+    # Introduction_of_different_Timeseries_possibilities__curvetypes
+    # __with_ENTSO-E_electronic_document_v1.4.pdf
+    stop("The curve type is not defined, but ", curve_type, "!")
+
+  }
+
+  # calculate the 'ts_point_dt_start' values accordingly
+  tbl <- tbl |>
+    dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols))) |>
+    dplyr::mutate(
+      ts_point_dt_start = seq.POSIXt(
+        from = min(ts_time_interval_start),
+        length.out = max(ts_point_position),
+        by = unique(by),
+      )[ts_point_position] |>  # handle the unusual case of any missing period
+        as.POSIXct(tz = "UTC")
+    ) |>
+    dplyr::ungroup()
+
+  # if tidy output is needed, then
+  if (tidy_output == TRUE) {
+
+    # set the not_needed_cols
+    not_needed_cols <- c(
+      "ts_point_position", "by", "ts_resolution_requ_length",
+      "ts_resolution_real_length", "ts_resolution_ok"
+    )
+
+    # remove the not needed columns
+    not_needed_cols <- base::intersect(
+      x = not_needed_cols,
+      y = names(tbl)
+    )
+    tbl[not_needed_cols] <- list(NULL)
+
+  } else {
+
+    # set the not_needed_cols
+    not_needed_cols <- c(
+      "ts_point_dt_start", "by", "ts_resolution_requ_length",
+      "ts_resolution_real_length", "ts_resolution_ok"
+    )
+
+    # remove the not needed columns
+    not_needed_cols <- base::intersect(
+      x = not_needed_cols,
+      y = names(tbl)
+    )
+    tbl[not_needed_cols] <- list(NULL)
+
+    # nest the timeseries data points
     tbl <- tidyr::nest(
       tbl,
       ts_point = tidyselect::all_of(ts_point_cols)
     )
 
   }
+
+
 
   # convert the original 'bid_ts_' column names back
   if (length(bid_ts_cols) > 0) {
@@ -1369,7 +1447,8 @@ add_definitions <- function(tbl) {
 #'
 #' @noRd
 xml_to_table <- function(xml_content, tidy_output = FALSE) {
-  if (isFALSE(inherits(x = xml_content, what = "xml_document"))) {
+  is_xml_document <- inherits(x = xml_content, what = "xml_document")
+  if (isFALSE(is_xml_document)) {
     stop("The 'xml_content' should be an xml document!")
   }
 
@@ -1592,8 +1671,12 @@ extract_response <- function(content, tidy_output = TRUE) {
     # if valid content got
     if (is.null(reason)) {
 
-      # if the response is not list, then convert it to list
-      if (inherits(x = content$result, what = "list")) {
+      # check if the response is list
+      result_is_list <- inherits(x = content$result, what = "list")
+
+      # if the response is list, then convert the XML elements
+      # to table in a loop and append them to a single table
+      if (result_is_list) {
         # convert XMLs to one table
         response_length <- length(content$result)
         result_tbl <- purrr::imap(content$result,
