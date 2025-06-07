@@ -1,16 +1,34 @@
-CODE	DEFINITION	DESCRIPTION
-MWH	Mega watt hours	The total amount of bulk energy transferred or consumed.
-MAW	Mega watt	A unit of bulk power flow, which can be defined as the rate of energy transfer /consumption when a current of 1000 amperes flows due to a potential of 1000 volts at unity power factor expressed in millions of a watt
-MAH	Mega volt ampere reactive hours	Total amount of reactive power across a power system.
-MAR	Mega volt ampere reactive	A unit of electrical reactive power represented by a current of one thousand amperes flowing due to a potential difference of one thousand volts where the sine of the phase angle between them is 1.
-KWT	kilo watt	A unit of bulk power flow, which can be defined as the rate of energy transfer /consumption when a current of 1000 amperes flows due to a potential of 1000 volts at unity power factor expressed in thousands of a watt
-KWH	kilo watt hour	A total amount of electrical energy transferred or consumed in one hour
-P1	Percent	A unit of proportion equal to 0.01.
-MTQ	Cubic metre	A Cubic metre
-MQS	Cubic metres per second	The volume flow rate of cubic metres per second
-MTR	Metre	The length of a metre.
-HMQ	Cubic hectometres	A unit of volume equal to one million cubic metres. 
+Code	Title	Description
+A59	OKTA unit	A unit of measurement of the cloudiness expressed in OKTA or OCTA, i.e. A unit of count defining the number of eighth-parts as a measure of the celestial dome cloud coverage.
+A90	gigawatt	GW unit as per UN/CEFACT recommendation 20.
+A97	hectopascal	A unit of measurement of the pressure expressed in hectopascal.
+AMP	ampere	The unit of electrical current in the International system of Units (SI) equivalent to one Coulomb per second.
 C62	One	A unit for dimensionless quantities, also called quantities of dimension one.
-AMP	Ampere	The unit of electrical current in the International system of Units (SI) equivalent to one Coulomb per second.
-KVR	Kilo volt ampere reactive	A unit of electrical reactive power represented by a current of one thousand amperes flowing due to a potential difference of one thousand volts where the sine of the phase angle between them is 1. The unity power factor is expressed in thousands of a volt ampere reactive.
-
+CEL	Celsius	A unit of measurement of temperature expressed in degree Celsius.
+D54	watt per square meter	A unit of measurement of the density of heat flow rate expressed in watt per square meter.
+DD	degree (unit of angle)	A unit of measurement of angles expressed in a 0 to 360 degree gradient.
+E08	Megawatt per Hertz	A unit of energy expressed as the load change in million watts that will cause a frequency shift of one hertz.
+GWH	gigawatt hour	GWh unit as per UN/CEFACT recommendation 20.
+HMQ	cubic hectometres	A unit of volume equal to one million cubic metres.
+HTZ	Hertz	HTZ unit as per UN/CEFACT recommendation 20.
+KEL	K (Kelvin)	Temperature unit refer ISO 80000-5 (Quantities and units, Part 5: Thermodynamics).
+KMT	kilometre	km unit as per UN/CEFACT recommendation 20.
+KVR	kilovolt ampere reactive	A unit of electrical reactive power represented by a current of one thousand amperes flowing due to a potential difference of one thousand volts where the sine of the phase angle between them is 1. The unity power factor is expressed in thousands of a volt ampere reactive.
+KVT	kilovolt	kV unit as per UN/CEFACT recommendation 20.
+KWH	kilowatt hour	A total amount of electrical energy transferred or consumed in one hour.
+KWT	kilowatt	A unit of bulk power flow, which can be defined as the rate of energy transfer /consumption when a current of 1000 amperes flows due to a potential of 1000 volts at unity power factor expressed in thousands of a watt.
+MAH	megavolt ampere reactive hours	Total amount of reactive power across a power system.
+MAR	megavolt ampere reactive	A unit of electrical reactive power represented by a current of one thousand amperes flowing due to a potential difference of one thousand volts where the sine of the phase angle between them is 1.
+MAW	megawatt	A unit of bulk power flow, which can be defined as the rate of energy transfer /consumption when a current of 1000 amperes flows due to a potential of 1000 volts at unity power factor expressed in millions of a watt.
+MIN	minute	A period of time equal to sixty seconds.
+MMT	millimeter	A unit of measurement of length expressed in millimeter.
+MQS	cubic metres per second	The volume flow rate of cubic metre per second.
+MTQ	cubic metre	A Cubic metre.
+MTR	metre	The length of a metre.
+MTS	meter per second	A unit of measurement of the speed expressed in m/s.
+MTZ	millihertz	A unit of frequency equal to 0.001 cycle per second.
+MVA	megavolt-ampere	MVA unit as per UN/CEFACT recommendation 20.
+MWH	megawatt hours	The total amount of bulk energy transferred or consumed.
+P1	percent	A unit of proportion equal to 0.01.
+SEC	second	A period of time equal to one second.
+WTT	watt	The watt is the International System of Units (SI) standard unit of power (energy per unit time), the equivalent of one joule per second.

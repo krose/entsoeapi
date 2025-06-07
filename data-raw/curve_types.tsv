@@ -1,7 +1,6 @@
-CODE	DEFINITION	DESCRIPTION
+Code	Title	Description
 A01	Sequential fixed size block	The curve is made of successive Intervals of time (Blocks) of constant duration (size), where the size of the Blocks is equal to the Resolution of the Period.
 A02	Point	The curve is made of successive instants of time (Points).
 A03	Variable sized Block	The curve is made of successive Intervals of time (Blocks) of variable duration (size), where the end date and end time of each Block are equal to the start date and start time of the next Interval. For the last Block the end date and end time of the last Interval would be equal to EndDateTime of TimeInterval.
 A04	Overlapping breakpoint	The curve is made of successive Intervals of time of variable duration (size), where the end date and end time of each interval are equal to the start date and start time of the next Interval.
 A05	Non-overlapping breakpoint	This curve is a restriction of the curve type A04, i.e. overlapping breakpoints. The restriction is that a single Period is allowed.
-

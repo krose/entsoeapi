@@ -1,5 +1,4 @@
-CODE	DEFINITION	DESCRIPTION
+Code	Title	Description
 A01	Pay as bid	The amount to be paid shall correspond to the amount bid.
 A02	Pay as cleared	The amount to be paid shall correspond to the amount calculated for clearing.
 A03	No payment terms	There are no payment terms to be used.
-

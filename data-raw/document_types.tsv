@@ -102,4 +102,3 @@ B02	HVDC Schedule	A document providing the information for operating DC links.
 B03	EIC code request	A document providing the information requesting a new EIC code.
 B04	EIC code information	A document providing EIC information in a central registry exchange or information to an EIC participant.
 B05	EIC code publication	A document providing EIC publication information in a web site publication of a limited set of information.
-
