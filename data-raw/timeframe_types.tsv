@@ -1,0 +1,47 @@
+Code	Title	Description
+A01	Real time	The information provided concerns real time timeframe.
+A02	Intraday	The information provided concerns an intra day timeframe.
+A03	Hour-1	The information provided concerns 1 hour ahead for given delivery hour.
+A04	Hour-2	The information provided concerns 2 hours ahead for given delivery hour.
+A05	Hour-3	The information provided concerns 3 hours ahead for given delivery hour.
+A06	Hour-4	The information provided concerns 4 hours ahead for given delivery hour.
+A07	Hour-5	The information provided concerns 5 hours ahead for given delivery hour.
+A08	Hour-6	The information provided concerns 6 hours ahead for given delivery hour.
+A09	Hour-7	The information provided concerns 7 hours ahead for given delivery hour.
+A10	Hour-8	The information provided concerns 8 hours ahead for given delivery hour.
+A11	Hour-9	The information provided concerns 9 hours ahead for given delivery hour.
+A12	Hour-10	The information provided concerns 10 hours ahead for given delivery hour.
+A13	Hour-11	The information provided concerns 11 hours ahead for given delivery hour.
+A14	Hour-12	The information provided concerns 12 hours ahead for given delivery hour.
+A15	Hour-13	The information provided concerns 13 hours ahead for given delivery hour.
+A16	Hour-14	The information provided concerns 14 hours ahead for given delivery hour.
+A17	Hour-15	The information provided concerns 15 hours ahead for given delivery hour.
+A18	Hour-16	The information provided concerns 16 hours ahead for given delivery hour.
+A19	Hour-17	The information provided concerns 17 hours ahead for given delivery hour.
+A20	Hour-18	The information provided concerns 18 hours ahead for given delivery hour.
+A21	Hour-19	The information provided concerns 19 hours ahead for given delivery hour.
+A22	Hour-20	The information provided concerns 20 hours ahead for given delivery hour.
+A23	Hour-21	The information provided concerns 21 hours ahead for given delivery hour.
+A24	Hour-22	The information provided concerns 22 hours ahead for given delivery hour.
+A25	Hour-23	The information provided concerns 23 hours ahead for given delivery hour.
+A26	Hour-24	The information provided concerns 24 hours ahead for given delivery hour.
+A27	Hour-25	The information provided concerns 25 hours ahead for given delivery hour.
+A28	Hour-26	The information provided concerns 26 hours ahead for given delivery hour.
+A29	Hour-27	The information provided concerns 27 hours ahead for given delivery hour.
+A30	Hour-28	The information provided concerns 28 hours ahead for given delivery hour.
+A31	Hour-29	The information provided concerns 29 hours ahead for given delivery hour.
+A32	Hour-30	The information provided concerns 30 hours ahead for given delivery hour.
+A33	Hour-31	The information provided concerns 31 hours ahead for given delivery hour.
+A34	Day ahead	The information provided concerns day ahead timeframe.
+A35	Day-2	The information provided concerns two days ahead timeframe.
+A36	Day-3	The information provided concerns three days ahead timeframe.
+A37	Day-4	The information provided concerns four days ahead timeframe.
+A38	Day-5	The information provided concerns five days ahead timeframe.
+A39	Day-6	The information provided concerns six days ahead timeframe.
+A40	Day-7	The information provided concerns seven days ahead timeframe.
+A41	Week ahead	The information provided concerns next week ahead timeframe.
+A42	Week-0	The information provided concerns current week timeframe.
+A43	Week+1	The information provided concerns previous week timeframe.
+A44	Month ahead	The information provided concerns month ahead timeframe.
+A45	Year ahead	The information provided concerns year ahead timeframe.
+A46	Year-10	The information provided concerns 10 years ahead timeframe.
