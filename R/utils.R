@@ -10,19 +10,41 @@ m <- cachem::cache_mem(max_age = 3600)
 
 utils::globalVariables(
   c(
+    "allocation_mode_types",
+    "analog_types",
     "asset_types",
     "auction_types",
     "business_types",
     "category_types",
-    "document_types",
+    "classification_types",
+    "coding_scheme_types",
+    "contract_types",
+    "coordinate_system_types",
+    "currency_types",
+    "curve_types",
     "direction_types",
+    "eic_types",
+    "energy_product_types",
+    "fuel_types",
+    "hvdc_mode_types",
+    "indicator_types",
+    "market_product_types",
+    "message_types",
     "object_aggregation_types",
+    "price_direction_types",
     "process_types",
+    "quality_types",
     "reason_code_types",
+    "rights_types",
+    "role_types",
+    "status_types",
+    "tariff_types",
+    "timeframe_types",
+    "transmission_pair_eic_dict",
+    "unit_multiplier",
+    "unit_of_measure_types",
+    "unit_symbol_types",
     "area_eic",
-    "document_types",
-    "category_types",
-    "object_aggregation_types",
     "m",
     "ts_resolution",
     "ts_time_interval_start",
@@ -156,7 +178,7 @@ extract_leaf_twig_branch <- function(nodesets) {
         compound_tbl <- purrr::compact(compound_tbls) |>
           dplyr::bind_cols()
 
-        return(compound_tbl)
+        compound_tbl
 
       }
     ) |>
@@ -456,7 +478,7 @@ calc_offset_urls <- function(reason, query_string) {
 
   # recompose offset URLs
   message("*** The request has been rephrased. ***")
-  return(paste0(query_string, "&offset=", all_offset_seq))
+  paste0(query_string, "&offset=", all_offset_seq)
 }
 
 
@@ -483,7 +505,7 @@ read_zipped_xml <- function(temp_file_path) {
     })
 
   # return with the xml content list
-  return(en_cont_list)
+  en_cont_list
 
 }
 
@@ -658,7 +680,7 @@ url_posixct_format <- function(x) {
     stop("The argument 'x' is not in an acceptable timestamp format!")
   }
 
-  return(y)
+  y
 }
 
 
@@ -875,7 +897,7 @@ def_merge <- function(x, y, code_name, definition_name) {
   x <- x |>
     data.table::data.table()
   y <- y |>
-    subset(select = c("CODE", "DEFINITION")) |>
+    subset(select = c("Code", "Title")) |>
     data.table::data.table()
   names(y) <- c(code_name, definition_name)
   data.table::merge.data.table(
@@ -918,7 +940,7 @@ add_type_names <- function(tbl) {
   asset_types <- entsoeapi::asset_types
   business_types <- entsoeapi::business_types
   contract_types <- entsoeapi::contract_types
-  document_types <- entsoeapi::document_types
+  message_types <- entsoeapi::message_types
   process_types <- entsoeapi::process_types
   role_types <- entsoeapi::role_types
   direction_types <- entsoeapi::direction_types
@@ -936,7 +958,7 @@ add_type_names <- function(tbl) {
     affected_cols <- c(affected_cols, "type")
     tbl <- def_merge(
       x = tbl,
-      y = document_types,
+      y = message_types,
       code_name = "type",
       definition_name = "type_def"
     )
@@ -1042,7 +1064,7 @@ add_type_names <- function(tbl) {
     warning("No additional type names added!")
   }
 
-  return(tbl)
+  tbl
 }
 
 
@@ -1095,7 +1117,7 @@ get_area_eic_name <- function() {
     m$set(key = aen_cache_key, value = area_eic_name)
   }
 
-  return(area_eic_name)
+  area_eic_name
 }
 
 
@@ -1293,7 +1315,7 @@ add_eic_names <- function(tbl) {
     warning("No additional eic names added!")
   }
 
-  return(tbl)
+  tbl
 }
 
 
@@ -1315,7 +1337,7 @@ add_definitions <- function(tbl) {
     affected_cols <- c(affected_cols, "doc_status_value")
     tbl <- def_merge(
       x = tbl,
-      y = document_types,
+      y = message_types,
       code_name = "doc_status_value",
       definition_name = "doc_status"
     )
@@ -1437,7 +1459,7 @@ add_definitions <- function(tbl) {
     warning("No additional definitions added!")
   }
 
-  return(tbl)
+  tbl
 }
 
 
