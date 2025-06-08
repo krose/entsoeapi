@@ -1,7 +1,7 @@
 Package: entsoeapi
 Type: Package
 Title: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface
-Version: 0.8.0.0
+Version: 0.8.1.0
 Authors@R: c(person("Kenneth", "Rose",  role="aut",           email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre"), email="sbudai.ga@gmail.com"))
 Description: Simple and standardized wrappers around Entso-E API's Load, Generation,
@@ -32,7 +32,7 @@ URL: https://github.com/krose/entsoeapi
 BugReports: https://github.com/krose/entsoeapi/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Depends: R (>= 2.10)
+Depends: R (>= 4.1.0)
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
