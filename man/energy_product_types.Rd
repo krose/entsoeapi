@@ -5,7 +5,7 @@
 \alias{energy_product_types}
 \title{List Energy Product Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 7 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 9 rows and 3 columns.
 }
 \usage{
 energy_product_types

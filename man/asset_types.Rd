@@ -5,7 +5,7 @@
 \alias{asset_types}
 \title{List Asset Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 29 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 90 rows and 3 columns.
 }
 \usage{
 asset_types

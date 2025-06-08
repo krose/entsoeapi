@@ -5,7 +5,7 @@
 \alias{status_types}
 \title{List Status Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 16 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 76 rows and 3 columns.
 }
 \usage{
 status_types

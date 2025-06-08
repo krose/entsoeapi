@@ -5,7 +5,7 @@
 \alias{currency_types}
 \title{List Currency Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 22 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 23 rows and 3 columns.
 }
 \usage{
 currency_types
