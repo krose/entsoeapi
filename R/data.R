@@ -142,15 +142,15 @@
 
 
 #' @title
-#' List Document Types
+#' List Message Types
 #'
 #' @examples
 #'
 #' library(entsoeapi)
 #'
-#' str(document_types)
+#' str(message_types)
 #'
-"document_types"
+"message_types"
 
 
 
@@ -385,3 +385,87 @@
 #' str(transmission_pair_eic_dict)
 #'
 "transmission_pair_eic_dict"
+
+
+#' @title
+#' List Analog Types
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(analog_types)
+#'
+"analog_types"
+
+
+#' @title
+#' List Coordinate System Types
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(coordinate_system_types)
+#'
+"coordinate_system_types"
+
+
+#' @title
+#' List Fuel Types
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(fuel_types)
+#'
+"fuel_types"
+
+
+#' @title
+#' List Market Product Types
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(market_product_types)
+#'
+"market_product_types"
+
+
+#' @title
+#' List Price Component Types
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(price_component_types)
+#'
+"price_component_types"
+
+
+#' @title
+#' List Timeframe Types
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(timeframe_types)
+#'
+"timeframe_types"
+
+
+#' @title
+#' List Unit Multiplier
+#'
+#' @examples
+#'
+#' library(entsoeapi)
+#'
+#' str(unit_multiplier)
+#'
+"unit_multiplier"
