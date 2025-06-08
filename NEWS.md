@@ -1,3 +1,22 @@
+# entsoeapi v0.8.1.0 (2025-06-08)
+
+## New functionality
+
+-   New code list documents introduced from ENTSO-E code lists version 92:
+    -   `analog_types`
+    -   `coordinate_system_types`
+    -   `fuel_types`
+    -   `market_product_types`
+    -   `price_component_types`
+    -   `timeframe_types`
+    -   `unit_multiplier`
+
+## Miscellaneous
+
+-   The `document_types` code list table renamed to `message_types` to better reflect its content.
+-   The ENTSO-E code lists updated from version 36 to version 92. Since it contains codes created recently, the result tables of queries may show new data.
+-   If someone would like to use a not yet implemented endpoint/function, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
+
 # entsoeapi v0.8.0.0 (2025-01-12)
 
 ## New functionality
@@ -6,8 +25,7 @@
 
 ## Miscellaneous
 
--   The timeseries data have not converted to table correctly in every case. The 'A03' type curves were processed in 'A01' way. (See further details [here](https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/Introduction_of_different_Timeseries_possibilities__curvetypes__with_ENTSO-E_electronic_document_v1.4.pdf).)
-    This issue has been fixed.
+-   The timeseries data have not converted to table correctly in every case. The 'A03' type curves were processed in 'A01' way. (See further details [here](https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/Introduction_of_different_Timeseries_possibilities__curvetypes__with_ENTSO-E_electronic_document_v1.4.pdf).) This issue has been fixed.
 -   If someone would like to use a not yet implemented endpoint/function, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
 
 # entsoeapi v0.7.3.2 (2025-01-06)
@@ -29,7 +47,7 @@
 
 ## Miscellaneous
 
--   The ..._eic() functions fixed. (There had been a data source URL related issue.)
+-   The ...\_eic() functions fixed. (There had been a data source URL related issue.)
 -   If someone would like to use a not yet implemented endpoint/function, then notify us using the <https://github.com/krose/entsoeapi/issues> site.
 
 # entsoeapi v0.7.3.0 (2024-12-16)
