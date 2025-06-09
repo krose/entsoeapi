@@ -1,7 +1,12 @@
-CODE	DEFINITION	DESCRIPTION
-MAW	MW	The symbol of MW
-KVT	kV	The symbol of kV
-P1	Percent	A unit of proportion equal to 0.01.
-C62	One	A unit for dimensionless quantities, also called quantities of dimension one.
+Code	Title	Description
 AMP	Ampere	The unit of electrical current in the International system of Units (SI) equivalent to one Coulomb per second.
-
+C62	One	A unit for dimensionless quantities, also called quantities of dimension one.
+DD	degree (unit of angle)	A unit of measurement of angles expressed in a 0 to 360 degree gradient.
+GKH	grams per kilowatt hour	It represents the mass rate of emissions per unit of work accomplished.
+HTZ	Hertz	HTZ unit as per UN/CEFACT recommendation 20
+KVT	kV	The symbol of kV
+MAR	MVAr	The symbol of MVAr
+MAW	MW	The symbol of MW
+MVA	megavolt-ampere	MVA unit as per UN/CEFACT recommendation 20
+OHM	Ohm	The symbol of Ohm Unit
+P1	Percent	A unit of proportion equal to 0.01.

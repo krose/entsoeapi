@@ -5,7 +5,7 @@
 \alias{business_types}
 \title{List Business Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 132 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 292 rows and 3 columns.
 }
 \usage{
 business_types

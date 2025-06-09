@@ -5,7 +5,7 @@
 \alias{role_types}
 \title{List Role Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 41 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 59 rows and 3 columns.
 }
 \usage{
 role_types

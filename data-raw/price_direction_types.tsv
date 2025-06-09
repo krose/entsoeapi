@@ -1,4 +1,3 @@
-CODE	DEFINITION	DESCRIPTION
-A01	Expenditure.	Expenditure (i.e. the Impacted Area System Operator pays to the internal Market Parties).
-A02	Income.	Income (i.e. The Impacted Area System Operator receives from the internal Market Parties).
-
+Code	Title	Description
+A01	Expenditure.	Expenditure, i.e. the Impacted Area System Operator pays to the internal Market Parties.
+A02	Income.	Income, i.e. The Impacted Area System Operator receives from the internal Market Parties.

@@ -5,7 +5,7 @@
 \alias{allocation_mode_types}
 \title{List Allocation Mode Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 5 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 4 rows and 3 columns.
 }
 \usage{
 allocation_mode_types

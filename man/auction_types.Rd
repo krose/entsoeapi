@@ -5,7 +5,7 @@
 \alias{auction_types}
 \title{List Auction Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 6 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 8 rows and 3 columns.
 }
 \usage{
 auction_types

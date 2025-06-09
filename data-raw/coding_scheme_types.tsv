@@ -1,50 +1,51 @@
-CODE	DEFINITION	DESCRIPTION
-A01	EIC (Preferred)	The coding scheme for the preceding attribute is the Energy Identification Coding Scheme (EIC), maintained by ENTSO-E.
-A10	GS1 (Preferred)	The coding scheme for the preceding attribute is the Global Location Number (GLN 13) or Global Service Relation Number (GSRN 18), maintained by GS1.
+Code	Title	Description
+A01	EIC	The coding scheme is the Energy Identification Coding Scheme (EIC), maintained by ENTSO-E.
+A02	CGM	The coding scheme used for Common Grid Model Exchange Standard (CGMES).
+A10	Coding scheme which are part of GS1 system	The coding schemes maintained by GS1.
 NAD	Andorra National coding scheme	The National coding scheme of the country in question.
 NAL	Albania National coding scheme	The National coding scheme of the country in question.
 NAM	Armenia National coding scheme	The National coding scheme of the country in question.
 NAT	Austria National coding scheme	The National coding scheme of the country in question.
 NAZ	Azerbaijan National coding scheme	The National coding scheme of the country in question.
-NBE	Belgium National coding scheme	The National coding scheme of the country in question.
 NBA	Bosnia and Herzegovina National coding scheme	The National coding scheme of the country in question.
+NBE	Belgium National coding scheme	The National coding scheme of the country in question.
 NBG	Bulgaria National coding scheme	The National coding scheme of the country in question.
-NHR	Croatia National coding scheme	The National coding scheme of the country in question.
+NCH	Switzerland National coding scheme	The National coding scheme of the country in question.
+NCS	Serbia and Montenegro National coding scheme	The National coding scheme of the country in question.
+NCY	Cyprus National coding scheme	The National coding scheme of the country in question.
 NCZ	Czech Republic National coding scheme	The National coding scheme of the country in question.
+NDE	Germany National coding scheme	The National coding scheme of the country in question.
 NDK	Denmark National coding scheme	The National coding scheme of the country in question.
 NEE	Estonia National coding scheme	The National coding scheme of the country in question.
+NES	Spain National coding scheme	The National coding scheme of the country in question.
 NFI	Finland National coding scheme	The National coding scheme of the country in question.
 NFR	France National coding scheme	The National coding scheme of the country in question.
+NGB	United Kingdom National coding scheme	The National coding scheme of the country in question.
 NGE	Georgia National coding scheme	The National coding scheme of the country in question.
-NDE	Germany National coding scheme	The National coding scheme of the country in question.
 NGI	Gibraltar National coding scheme	The National coding scheme of the country in question.
 NGR	Greece National coding scheme	The National coding scheme of the country in question.
+NHR	Croatia National coding scheme	The National coding scheme of the country in question.
 NHU	Hungary National coding scheme	The National coding scheme of the country in question.
 NIE	Ireland National coding scheme	The National coding scheme of the country in question.
 NIT	Italy National coding scheme	The National coding scheme of the country in question.
-NKZ	Kazakstan National coding scheme 	The National coding scheme of the country in question.
-NKG	Kyrgyzstan National coding scheme 	The National coding scheme of the country in question.
+NKG	Kyrgyzstan National coding scheme	The National coding scheme of the country in question.
+NKZ	Kazakhstan National coding scheme	The National coding scheme of the country in question.
+NLI	Liechtenstein National coding scheme	The National coding scheme of the country in question.
+NLT	Lithuania National coding scheme	The National coding scheme of the country in question.
+NLU	Luxembourg National coding scheme	The National coding scheme of the country in question.
 NLV	Latvia National coding scheme	The National coding scheme of the country in question.
-NLI	Liechtenstein National coding scheme 	The National coding scheme of the country in question.
-NLT	lithuania National coding scheme 	The National coding scheme of the country in question.
-NLU	Luxembourg National coding scheme 	The National coding scheme of the country in question.
-NMK	Macedonia National coding scheme 	The National coding scheme of the country in question.
-NMD	Moldovia National coding scheme 	The National coding scheme of the country in question.
-NMA	Morocco National coding scheme 	The National coding scheme of the country in question.
-NNL	Netherlands National coding scheme 	The National coding scheme of the country in question.
-NNO	Norway National coding scheme 	The National coding scheme of the country in question.
+NMA	Morocco National coding scheme	The National coding scheme of the country in question.
+NMD	Moldavia National coding scheme	The National coding scheme of the country in question.
+NMK	Macedonia National coding scheme	The National coding scheme of the country in question.
+NNL	Netherlands National coding scheme	The National coding scheme of the country in question.
+NNN	Nordic Regional coding scheme	The coding scheme of the Nordic region which covers Denmark, Finland, Norway and Sweden.
+NNO	Norway National coding scheme	The National coding scheme of the country in question.
 NPL	Poland National coding scheme	The National coding scheme of the country in question.
-NPT	Portugal National coding scheme 	The National coding scheme of the country in question.
-NRO	Romania National coding scheme 	The National coding scheme of the country in question.
-NRU	Russian Federation National coding scheme 	The National coding scheme of the country in question.
-NCS	Serbia and Montenegro National coding scheme 	The National coding scheme of the country in question.
-NSK	Slovakia National coding scheme 	The National coding scheme of the country in question.
-NSI	Slovenia National coding scheme 	The National coding scheme of the country in question.
-NES	Spain National coding scheme	The National coding scheme of the country in question.
+NPT	Portugal National coding scheme	The National coding scheme of the country in question.
+NRO	Romania National coding scheme	The National coding scheme of the country in question.
+NRU	Russian Federation National coding scheme	The National coding scheme of the country in question.
 NSE	Sweden National coding scheme	The National coding scheme of the country in question.
-NCH	Switzerland National coding scheme 	The National coding scheme of the country in question.
+NSI	Slovenia National coding scheme	The National coding scheme of the country in question.
+NSK	Slovakia National coding scheme	The National coding scheme of the country in question.
 NTR	Turkey National coding scheme	The National coding scheme of the country in question.
-NUA	Ukraine National coding scheme 	The National coding scheme of the country in question.
-NGB	United Kingdom National coding scheme 	The National coding scheme of the country in question.
-NNN	Nordic Regional coding scheme	The coding scheme of the Nordic region which covers  Norway, Sweden, Denmark and Finland.
-
+NUA	Ukraine National coding scheme	The National coding scheme of the country in question.

@@ -5,7 +5,7 @@
 \alias{object_aggregation_types}
 \title{List Object Aggregation Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 11 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 16 rows and 3 columns.
 }
 \usage{
 object_aggregation_types

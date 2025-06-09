@@ -1,0 +1,43 @@
+Code	Title	Description
+A01	Flow	This is the computed flow for the monitored element in the constraint situation ("N situation", "N-1 situation" ...) after the capacity calculation. The flow is expressed in A, %, or MW.
+A02	Permanent admissible transmission limit (PATL)	The permanent load of transmission system elements which is allowed for an unlimited period and which does not cause physical damage to the transmission system elements as long as the defined threshold is respected.
+A03	Flow reliability margin	This is the flow reliability margin for a given critical network element. The amount of MW or A that is reserved for this critical network element and shall not be used for the computed outage situation, in order to secure the power network.
+A04	Spanning margin value	This is the margin that is taken into account when spanning (fall-back process) is applied. Spanning marginal value is an historical based parameter which specifies the amount of MW that reduces the RAM when spanning is applied.
+A05	Long term allocation margin	This is the amount of MW that is added to the capacity of the critical network element in order to automatically include the long term allocation domain into the flow based domain.
+A06	Final adjustment margin value	This is the margin that is manually added or subtracted to the capacity of the critical network element. A negative value for final adjustment value simulates the effect of an additional margin due to complex remedial actions (RA) which cannot be modeled and so calculated in the flow based parameter calculation. A positive value for FAV as a consequence of the verification phase of the flow based domain, leading to the need to reduce the margin on one or more CBs for system security reasons.
+A07	Transitory admissible transmission limit (TATL)	The temporary overload of transmission system elements which is allowed for a limited period and which does not cause physical damage to the transmission system elements as long as the defined duration and thresholds are respected.
+A08	Long admissible flow	This is the value, expressed in A or MW, that the overload flow in a network element shall not exceed for a duration no longer than the long duration. The long duration value depends on the TSO network operating rules.
+A09	Negative Final adjustment margin value	This is the margin that is manually added to the capacity of the critical network element in order to simulate the effect of an additional margin due to complex remedial actions (RA) which cannot be modeled and so calculated in the flow based parameter calculation.
+A10	Minimum voltage level	This is the minimum voltage that can be supported by a network element without involving a risk for the security of supply.
+A11	Maximum voltage level	This is the maximum voltage that can be supported by a network element without involving a risk for the security of supply.
+A12	TATL after automatic RA	The Transitory admissible transmission limit (TATL) which is allowed after an automatic Remedial Action (RA) has been applied.
+A13	TATL after curative RA	The Transitory admissible transmission limit (TATL) which is allowed after a curative Remedial Action (RA) has been applied.
+A14	Computed Voltage	This is the computed voltage for a given monitored element.
+A15	Zero-Balance flow	This is the amount of power affected by a contingency that reflects a situation with a scheduled exchange of zero.
+A16	Available margin after remedial actions	This is the available flow margin adjusted for the consideration of remedial actions in capacity calculation.
+A17	Loss Factor	This is the loss factor for an asset.
+A18	Adjustment for minimum RAM	This is the adjustment applied to the capacity of a branch to have a minimum RAM (Remaining Available Margin) available for commercial exchanges.
+A19	Tap changer	The position of a Tap changer.
+A20	Regulator mode	A measurement type indicating the control mode of a regulator, i.e. from voltage regulation to fixed MVAR regulation.
+A21	Regulator set-point	The set-point of a regulator. A regulator can be a tap changer, a synchronous machine, a SVC or a shunt.
+A22	Reference Flow	This is the amount of power affected by a contingency that reflects a situation with scheduled exchanges from a reference situation.
+A23	CO2 emission	This is the CO2 emission from one or several assets.
+A24	Maximum admissible current (Imax)	The maximum admissible current of a critical network element or a critical network element and contingency.
+A25	Individual value adjustment (IVA)	Individual value adjustment resulting from TSO validation process.
+A26	Linear flow approximation (F0)	The linear approximation of a flow in the reference net position in a situation without any cross-zonal exchanges.
+A27	Flow without commercial exchanges (F0_Wce)	Flow per critical network element and contingency without commercial exchanges within a capacity calculation region.
+A28	Flow without commercial exchanges between areas (F0_all)	Flow per critical network element and contingency without commercial exchanges between bidding zones within the same or different synchronous areas.
+A29	Flow due to non-costly remedial actions (F_nrao)	Expected flow change due to non-costly remedial actions.
+A30	Flow after long-term nominations (F_LTN)	Flow after consideration of long-term nominations.
+A31	Coordinated value adjustment (CVA)	Coordinated value adjustment resulting from coordinated validation process.
+A32	Minimum remaining available margin as ratio of maximum allowable power flow (Ramr)	Percentage of the maximum allowable power flow that needs to be available as minimum Remaining Available Margin.
+A33	Flows from already allocated cross-zonal capacities (Faac)	Flows resulting from previously allocated cross-zonal capacities.
+A34	Flow from remedial action (FRA)	Flow for increasing the Remaining Available Margin due to remedial action.
+A35	Assumed external exchanges	Flow resulting from assumed commercial exchanges outside the region (F_uaf).
+A36	Minimum remaining available margin target	Target capacity for exchanges by deducing the exchanges not related to the region.
+A37	Average voltage	Average voltage on two connecting nodes of a critical network element resulting from AC load flow calculation with applied reactive power constraints (U).
+A38	Average power factor	Average power factor on two connecting nodes of a critical network element resulting from AC load flow calculation (cos phi).
+A39	Lower ramp rate	The maximum rate that the output can be lowered by.
+A40	Raise ramp rate	The maximum rate that the output can be raised by.
+A41	Negative reference flow	The amount of power negatively affected by a contingency that reflects a situation with scheduled exchanges from a reference situation.
+A42	Negative flow due to non-costly remedial actions	Negative expected flow change due to non-costly remedial actions.

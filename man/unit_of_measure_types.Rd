@@ -5,7 +5,7 @@
 \alias{unit_of_measure_types}
 \title{List Unit of Measure Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 14 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 33 rows and 3 columns.
 }
 \usage{
 unit_of_measure_types

@@ -67,7 +67,7 @@ party_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -117,7 +117,7 @@ area_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -169,7 +169,7 @@ accounting_point_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -221,7 +221,7 @@ tie_line_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -272,7 +272,7 @@ location_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -324,7 +324,7 @@ resource_object_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -381,7 +381,7 @@ substation_eic <- function() {
 
   }
 
-  return(res_df)
+  res_df
 }
 
 
@@ -440,18 +440,11 @@ all_approved_eic <- function() {
 #'
 #' @returns
 #' A tibble of all allocated EIC codes, which contains such columns as
-#' `eic_code_doc_status`, `eic_code_doc_status_value`, `type`, `type_def`,
-#' `mrid`, `revision_number`, `created_date_time`, `eic_code_mrid`,
-#' `eic_code_attribute_instance_component_attribute`,
-#' `eic_code_long_name`, `eic_code_display_name`,
-#' `eic_code_last_request_date_and_or_time_date`,
-#' `eic_code_deactivation_requested_date_and_or_time_date`,
-#' `eic_code_market_participant_street_address`,
+#' `doc_status`, `doc_status_value`, `revision_number`, `created_date_time`, `eic_code`,
+#' `instance_component_attribute`, `long_name`, `display_name`, `last_request_date`,
+#' `eic_code_deactivation_requested_date_and_or_time_date`, `description`,
 #' `eic_code_market_participant_vat_code_name`,
-#' `eic_code_market_participant_acer_code_name`,
-#' `eic_code_description`,
-#' `eic_code_eic_responsible_market_participant_mrid`,
-#'  and `eic_code_function_name`.
+#' `eic_code_market_participant_acer_code_name` and `parent_market_document_mrid`
 #'
 #' @importFrom stats setNames
 #'
@@ -578,8 +571,8 @@ all_allocated_eic <- function() {
       # add eic_code_doc_status definitions to codes
       result_tbl <- data.table::merge.data.table(
         x = data.table::data.table(result_tbl),
-        y = data.table::data.table(document_types) |>
-          subset(select = c("CODE", "DEFINITION")) |>
+        y = data.table::data.table(message_types) |>
+          subset(select = c("Code", "Title")) |>
           setNames(
             nm = c("doc_status", "doc_status_value")
           ),
@@ -592,7 +585,7 @@ all_allocated_eic <- function() {
         )
 
       # return with the xml content list
-      return(tibble::as_tibble(result_tbl))
+      tibble::as_tibble(result_tbl)
 
     } else {
 
