@@ -440,18 +440,11 @@ all_approved_eic <- function() {
 #'
 #' @returns
 #' A tibble of all allocated EIC codes, which contains such columns as
-#' `eic_code_doc_status`, `eic_code_doc_status_value`, `type`, `type_def`,
-#' `mrid`, `revision_number`, `created_date_time`, `eic_code_mrid`,
-#' `eic_code_attribute_instance_component_attribute`,
-#' `eic_code_long_name`, `eic_code_display_name`,
-#' `eic_code_last_request_date_and_or_time_date`,
-#' `eic_code_deactivation_requested_date_and_or_time_date`,
-#' `eic_code_market_participant_street_address`,
+#' `doc_status`, `doc_status_value`, `revision_number`, `created_date_time`, `eic_code`,
+#' `instance_component_attribute`, `long_name`, `display_name`, `last_request_date`,
+#' `eic_code_deactivation_requested_date_and_or_time_date`, `description`,
 #' `eic_code_market_participant_vat_code_name`,
-#' `eic_code_market_participant_acer_code_name`,
-#' `eic_code_description`,
-#' `eic_code_eic_responsible_market_participant_mrid`,
-#'  and `eic_code_function_name`.
+#' `eic_code_market_participant_acer_code_name` and `parent_market_document_mrid`
 #'
 #' @importFrom stats setNames
 #'

@@ -45,7 +45,7 @@ testthat::test_that(
       exact = FALSE
     )
     testthat::expect_equal(
-      object = anyNA(tbl$type),
+      object = anyNA(tbl$created_date_time),
       expected = FALSE
     )
     testthat::expect_contains(
