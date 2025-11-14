@@ -1,3 +1,14 @@
+# entsoeapi v0.8.2.0 (2025-11-14)
+
+## New functionality
+
+-   None.
+
+## Miscellaneous
+
+-   The xml extractor engine made more resistant to oddities in XML response of the ENTSO-E API.
+-   Under the hood the superseded 'httr' package functions replaced by 'httr2' package functions.
+
 # entsoeapi v0.8.1.0 (2025-06-08)
 
 ## New functionality
