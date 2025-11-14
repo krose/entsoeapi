@@ -440,18 +440,19 @@ all_approved_eic <- function() {
 #'
 #' @returns
 #' A tibble of all allocated EIC codes, which contains such columns as
-#' `doc_status`, `doc_status_value`, `revision_number`, `created_date_time`, `eic_code`,
-#' `instance_component_attribute`, `long_name`, `display_name`, `last_request_date`,
-#' `eic_code_deactivation_requested_date_and_or_time_date`, `description`,
-#' `eic_code_market_participant_vat_code_name`,
-#' `eic_code_market_participant_acer_code_name` and `parent_market_document_mrid`
+#' `doc_status`, `doc_status_value`, `revision_number`, `created_date_time`,
+#' `eic_code`, `instance_component_attribute`, `long_name`, `display_name`,
+#' `last_request_date`, `eic_code_deactivation_requested_date_and_or_time_date`,
+#' `description`, `eic_code_market_participant_vat_code_name`,
+#' `eic_code_market_participant_acer_code_name` and
+#' `parent_market_document_mrid`
 #'
 #' @importFrom stats setNames
 #'
 #' @noRd
 all_allocated_eic <- function() {
   # define those variables as NULL which are used under non-standard evaluation
-  mRID <- doc_status_value <- NULL
+  mrid <- doc_status_value <- NULL
 
   # set the link of the xml file
   f <- paste0(
@@ -534,7 +535,7 @@ all_allocated_eic <- function() {
               )
           }
           second_level_tbl <- second_level_tbl |>
-            dplyr::rename(eic_code = mRID)
+            dplyr::rename(eic_code = mrid)
 
           # combine the first level and the second levels tables together
           dplyr::bind_cols(first_level_tbl, second_level_tbl)
