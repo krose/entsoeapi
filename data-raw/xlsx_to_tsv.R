@@ -9,13 +9,13 @@ purrr::walk2(
         "data-raw/",
         snakecase::to_snake_case(sheet_name),
         "s.tsv"
-        )
+      )
     } else {
       file_path <- paste0(
         "data-raw/",
         snakecase::to_snake_case(sheet_name),
         ".tsv"
-        )
+      )
     }
     dt <- purrr::map(df, gsub, pattern = "\\n", replacement = "") |>
       data.table::as.data.table()
