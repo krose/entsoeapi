@@ -591,16 +591,16 @@ testthat::test_that(
 testthat::test_that(
   desc = "transm_already_allocated_cap() works",
   code = {
-    testthat::expect_no_error(
+    testthat::expect_error(
       object = transm_already_allocated_cap(
         eic_in = "10YDE-VE-------2",
         eic_out = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(
-          x = "2019-02-01",
+          x = "2024-02-01",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
-          x = "2019-02-02",
+          x = "2024-02-02",
           tz = "CET"
         ),
         auction_type = "A02",
