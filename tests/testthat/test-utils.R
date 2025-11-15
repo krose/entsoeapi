@@ -94,7 +94,6 @@ testthat::test_that(
         "mRID",
         "process.processType",
         "Reason.code",
-        "Reason.text",
         "receiver_MarketParticipant.marketRole.type",
         "receiver_MarketParticipant.mRID",
         "revisionNumber",
@@ -275,7 +274,7 @@ testthat::test_that(
         security_token = Sys.getenv("ENTSOE_PAT")
       )
     )
-    testthat::expect_error(
+    testthat::expect_no_error(
       object = api_req(
         query_string = url_sample_5,
         security_token = Sys.getenv("ENTSOE_PAT")
