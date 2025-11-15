@@ -8,8 +8,6 @@ outages_offshore_grid(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L), tz = "CET"),
-  period_start_update = NULL,
-  period_end_update = NULL,
   doc_status = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -29,15 +27,9 @@ in POSIXct or YYYY-MM-DD HH:MM:SS format}
 \item{period_end}{the ending date of the outage in-scope period
 in POSIXct or YYYY-MM-DD HH:MM:SS format}
 
-\item{period_start_update}{notification submission/update starting date
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
-
-\item{period_end_update}{notification submission/update ending date
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
-
-\item{doc_status}{Notification document status. "A05" for active,
-"A09" for cancelled and "A13" for withdrawn.
-Defaults to NULL which means "A05" and "A09" together.}
+\item{doc_status}{Notification document status. NULL or "A05"
+for active and "A13" for withdrawn.
+Defaults to NULL.}
 
 \item{tidy_output}{Defaults to TRUE. flatten nested tables}
 
@@ -56,11 +48,6 @@ df <- entsoeapi::outages_offshore_grid(
                                          lubridate::days(x = 365L),
                                        tz = "CET"),
   period_end          = lubridate::ymd(x = Sys.Date(),
-                                       tz = "CET"),
-  period_start_update = lubridate::ymd(x = Sys.Date() -
-                                         lubridate::days(x = 365L),
-                                       tz = "CET"),
-  period_end_update   = lubridate::ymd(x = Sys.Date(),
                                        tz = "CET")
 )
 

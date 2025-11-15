@@ -15,9 +15,7 @@ List Status Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(status_types)
+str(entsoeapi::status_types)
 
 }
 \keyword{datasets}

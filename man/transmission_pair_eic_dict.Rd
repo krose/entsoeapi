@@ -15,9 +15,7 @@ List Transmission Pair EIC Dictionary
 }
 \examples{
 
-library(entsoeapi)
-
-str(transmission_pair_eic_dict)
+str(entsoeapi::transmission_pair_eic_dict)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Category Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(category_types)
+str(entsoeapi::category_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Asset Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(asset_types)
+str(entsoeapi::asset_types)
 
 }
 \keyword{datasets}

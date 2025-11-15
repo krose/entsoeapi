@@ -15,9 +15,7 @@ List Coding Scheme Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(coding_scheme_types)
+str(entsoeapi::coding_scheme_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Timeframe Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(timeframe_types)
+str(entsoeapi::timeframe_types)
 
 }
 \keyword{datasets}

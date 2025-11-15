@@ -15,9 +15,7 @@ List Unit Symbol Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(unit_symbol_types)
+str(entsoeapi::unit_symbol_types)
 
 }
 \keyword{datasets}

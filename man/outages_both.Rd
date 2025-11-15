@@ -8,8 +8,6 @@ outages_both(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L), tz = "CET"),
-  period_start_update = NULL,
-  period_end_update = NULL,
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
@@ -27,12 +25,6 @@ CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone.)}
 in POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{period_end}{the ending date of the outage in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
-
-\item{period_start_update}{notification submission/update starting date
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
-
-\item{period_end_update}{notification submission/update ending date
 in POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{doc_status}{Notification document status. "A05" for active,
@@ -61,11 +53,6 @@ df <- entsoeapi::outages_both(
                                        tz = "CET"),
   period_end          = lubridate::ymd(x = Sys.Date() +
                                          lubridate::days(x = 2L),
-                                       tz = "CET"),
-  period_start_update = lubridate::ymd(x = Sys.Date() -
-                                         lubridate::days(x = 7L),
-                                       tz = "CET"),
-  period_end_update   = lubridate::ymd(x = Sys.Date(),
                                        tz = "CET")
 )
 

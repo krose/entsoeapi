@@ -15,9 +15,7 @@ List Curve Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(curve_types)
+str(entsoeapi::curve_types)
 
 }
 \keyword{datasets}

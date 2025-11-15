@@ -15,9 +15,7 @@ List Price Component Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(price_component_types)
+str(entsoeapi::price_component_types)
 
 }
 \keyword{datasets}

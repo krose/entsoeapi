@@ -15,9 +15,7 @@ List Currency Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(currency_types)
+str(entsoeapi::currency_types)
 
 }
 \keyword{datasets}

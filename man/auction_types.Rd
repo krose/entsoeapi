@@ -15,9 +15,7 @@ List Auction Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(auction_types)
+str(entsoeapi::auction_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Tariff Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(tariff_types)
+str(entsoeapi::tariff_types)
 
 }
 \keyword{datasets}

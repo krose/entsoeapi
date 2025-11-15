@@ -15,9 +15,7 @@ List Energy Product Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(energy_product_types)
+str(entsoeapi::energy_product_types)
 
 }
 \keyword{datasets}

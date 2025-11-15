@@ -15,9 +15,7 @@ List Quality Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(quality_types)
+str(entsoeapi::quality_types)
 
 }
 \keyword{datasets}
