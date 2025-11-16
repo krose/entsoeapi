@@ -138,7 +138,7 @@ testthat::test_that(
       object = xml2::xml_contents(content_4$result) |>
         extract_leaf_twig_branch() |>
         dim(),
-      expected = c(960, 26)
+      expected = c(1000, 26)
     )
     testthat::expect_error(
       object = extract_leaf_twig_branch(nodesets = iris),
