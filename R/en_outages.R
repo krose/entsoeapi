@@ -26,10 +26,6 @@ utils::globalVariables(
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_start_update notification submission/update starting date
-#'                            in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_end_update notification submission/update ending date
-#'                          in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -49,11 +45,6 @@ utils::globalVariables(
 #'                                        tz = "CET"),
 #'   period_end          = lubridate::ymd(x = Sys.Date() +
 #'                                          lubridate::days(x = 2L),
-#'                                        tz = "CET"),
-#'   period_start_update = lubridate::ymd(x = Sys.Date() -
-#'                                          lubridate::days(x = 7L),
-#'                                        tz = "CET"),
-#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
 #'                                        tz = "CET")
 #' )
 #'
@@ -65,8 +56,6 @@ outages_both <- function(
                                 tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
                               tz = "CET"),
-  period_start_update = NULL,
-  period_end_update = NULL,
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
@@ -75,8 +64,6 @@ outages_both <- function(
   tbl_gu <- try(outages_gen_units(eic = eic,
                                   period_start = period_start,
                                   period_end = period_end,
-                                  period_start_update = period_start_update,
-                                  period_end_update = period_end_update,
                                   doc_status = doc_status,
                                   event_nature = event_nature,
                                   tidy_output = tidy_output,
@@ -84,8 +71,6 @@ outages_both <- function(
   tbl_pu <- try(outages_prod_units(eic = eic,
                                    period_start = period_start,
                                    period_end = period_end,
-                                   period_start_update = period_start_update,
-                                   period_end_update = period_end_update,
                                    doc_status = doc_status,
                                    event_nature = event_nature,
                                    tidy_output = tidy_output,
@@ -139,10 +124,6 @@ outages_both <- function(
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_start_update notification submission/update starting date
-#'                            in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_end_update notification submission/update ending date
-#'                          in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -162,11 +143,6 @@ outages_both <- function(
 #'                                        tz = "CET"),
 #'   period_end          = lubridate::ymd(x = Sys.Date() +
 #'                                          lubridate::days(x = 2L),
-#'                                        tz = "CET"),
-#'   period_start_update = lubridate::ymd(x = Sys.Date() -
-#'                                          lubridate::days(x = 7L),
-#'                                        tz = "CET"),
-#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
 #'                                        tz = "CET")
 #' )
 #'
@@ -178,8 +154,6 @@ outages_gen_units <- function(
                                 tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
                               tz = "CET"),
-  period_start_update = NULL,
-  period_end_update = NULL,
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
@@ -207,8 +181,6 @@ outages_gen_units <- function(
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-  period_start_update <- url_posixct_format(period_start_update)
-  period_end_update <- url_posixct_format(period_end_update)
 
   # check if target period not longer than 1 year
   period_range <- difftime(
@@ -232,11 +204,6 @@ outages_gen_units <- function(
   }
   if (!is.null(event_nature)) {
     query_string <- paste0(query_string, "&businessType=", event_nature)
-  }
-  if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    query_string <- paste0(query_string,
-                           "&periodStartUpdate=", period_start_update,
-                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
@@ -271,10 +238,6 @@ outages_gen_units <- function(
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_start_update notification submission/update starting date
-#'                            in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_end_update notification submission/update ending date
-#'                          in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -294,11 +257,6 @@ outages_gen_units <- function(
 #'                                        tz = "CET"),
 #'   period_end          = lubridate::ymd(x = Sys.Date() +
 #'                                          lubridate::days(x = 2L),
-#'                                        tz = "CET"),
-#'   period_start_update = lubridate::ymd(x = Sys.Date() -
-#'                                          lubridate::days(x = 7L),
-#'                                        tz = "CET"),
-#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
 #'                                        tz = "CET")
 #' )
 #'
@@ -310,8 +268,6 @@ outages_prod_units <- function(
                                 tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
                               tz = "CET"),
-  period_start_update = NULL,
-  period_end_update = NULL,
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
@@ -339,8 +295,6 @@ outages_prod_units <- function(
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-  period_start_update <- url_posixct_format(period_start_update)
-  period_end_update <- url_posixct_format(period_end_update)
 
   # check if target period not longer than 1 year
   period_range <- difftime(
@@ -364,11 +318,6 @@ outages_prod_units <- function(
   }
   if (!is.null(event_nature)) {
     query_string <- paste0(query_string, "&businessType=", event_nature)
-  }
-  if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    query_string <- paste0(query_string,
-                           "&periodStartUpdate=", period_start_update,
-                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
@@ -402,13 +351,9 @@ outages_prod_units <- function(
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_start_update notification submission/update starting date
-#'                            in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_end_update notification submission/update ending date
-#'                          in POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param doc_status Notification document status. "A05" for active,
-#'                   "A09" for cancelled and "A13" for withdrawn.
-#'                   Defaults to NULL which means "A05" and "A09" together.
+#' @param doc_status Notification document status. NULL or "A05"
+#'                   for active and "A13" for withdrawn.
+#'                   Defaults to NULL.
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
@@ -421,11 +366,6 @@ outages_prod_units <- function(
 #'                                          lubridate::days(x = 365L),
 #'                                        tz = "CET"),
 #'   period_end          = lubridate::ymd(x = Sys.Date(),
-#'                                        tz = "CET"),
-#'   period_start_update = lubridate::ymd(x = Sys.Date() -
-#'                                          lubridate::days(x = 365L),
-#'                                        tz = "CET"),
-#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
 #'                                        tz = "CET")
 #' )
 #'
@@ -437,8 +377,6 @@ outages_offshore_grid <- function(
                                 tz = "CET"),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
                               tz = "CET"),
-  period_start_update = NULL,
-  period_end_update = NULL,
   doc_status = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -460,8 +398,6 @@ outages_offshore_grid <- function(
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-  period_start_update <- url_posixct_format(period_start_update)
-  period_end_update <- url_posixct_format(period_end_update)
 
   # check if target period not longer than 1 year
   period_range <- difftime(
@@ -482,11 +418,6 @@ outages_offshore_grid <- function(
   )
   if (!is.null(doc_status)) {
     query_string <- paste0(query_string, "&docStatus=", doc_status)
-  }
-  if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    query_string <- paste0(query_string,
-                           "&periodStartUpdate=", period_start_update,
-                           "&periodEndUpdate=", period_end_update)
   }
 
   # send GET request
