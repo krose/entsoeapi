@@ -1,4 +1,4 @@
-# entsoeapi v0.8.2.0 (2025-11-14)
+# entsoeapi v0.8.2.0 (2025-11-16)
 
 ## New functionality
 
@@ -8,6 +8,7 @@
 
 -   The xml extractor engine made more resistant to oddities in XML response of the ENTSO-E API.
 -   Under the hood the superseded 'httr' package functions replaced by 'httr2' package functions.
+-   The `period_start_update` and `period_end_update` parameters removed from `outages_gen_units()`, `outages_prod_units`, `outages_both()` and `outages_offshore_grid` functions, since those blocked the responses.
 
 # entsoeapi v0.8.1.0 (2025-06-08)
 
