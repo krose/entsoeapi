@@ -340,10 +340,10 @@ transm_total_nominated_cap <- function(
 #' df <- entsoeapi::transm_already_allocated_cap(
 #'   eic_in        = "10YDE-VE-------2",
 #'   eic_out       = "10YCZ-CEPS-----N",
-#'   period_start  = lubridate::ymd(x = "2019-02-01", tz = "CET"),
-#'   period_end    = lubridate::ymd(x = "2019-02-02", tz = "CET"),
-#'   auction_type  = "A02",
-#'   contract_type = "A01"
+#'   period_start  = lubridate::ymd(x = "2025-02-01", tz = "CET"),
+#'   period_end    = lubridate::ymd(x = "2025-02-02", tz = "CET"),
+#'   auction_type  = "A04",
+#'   contract_type = "A14"
 #' )
 #' str(df)
 #'
