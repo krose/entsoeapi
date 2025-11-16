@@ -440,11 +440,12 @@ all_approved_eic <- function() {
 #'
 #' @returns
 #' A tibble of all allocated EIC codes, which contains such columns as
-#' `doc_status`, `doc_status_value`, `revision_number`, `created_date_time`, `eic_code`,
-#' `instance_component_attribute`, `long_name`, `display_name`, `last_request_date`,
-#' `eic_code_deactivation_requested_date_and_or_time_date`, `description`,
-#' `eic_code_market_participant_vat_code_name`,
-#' `eic_code_market_participant_acer_code_name` and `parent_market_document_mrid`
+#' `doc_status`, `doc_status_value`, `revision_number`, `created_date_time`,
+#' `eic_code`, `instance_component_attribute`, `long_name`, `display_name`,
+#' `last_request_date`, `eic_code_deactivation_requested_date_and_or_time_date`,
+#' `description`, `eic_code_market_participant_vat_code_name`,
+#' `eic_code_market_participant_acer_code_name` and
+#' `parent_market_document_mrid`
 #'
 #' @importFrom stats setNames
 #'
@@ -460,152 +461,230 @@ all_allocated_eic <- function() {
   )
 
   # retrieve data from the API
-  resp <- httr::GET(
-    url = f,
-    httr::content_type_xml(),
-    httr::write_memory()
+  req <- httr2::request(base_url = f) |>
+    httr2::req_method(method = "GET") |>
+    httr2::req_verbose(
+      header_req = FALSE,
+      header_resp = TRUE,
+      body_req = FALSE,
+      body_resp = FALSE
+    ) |>
+    httr2::req_timeout(seconds = 60)
+  resp <- "No response."
+  resp <- tryCatch(
+    expr = httr2::req_perform(req = req),
+    httr2_http_404 = \(cnd) cnd,
+    httr2_http = \(cnd) cnd,
+    httr2_error = \(cnd) cnd
   )
 
-  if (is.integer(httr::status_code(resp))) message("response has arrived")
+  if (inherits(x = resp, what = "httr2_response")) {
+    message("response has arrived")
+  } else {
+    # extract reason from reason text
+    response_reason <- resp$resp |>
+      httr2::resp_body_xml(encoding = "utf-8") |>
+      xmlconvert::xml_to_list() |>
+      paste(collapse = " - ")
 
-  # if the get request is successful, then ...
-  if (httr::status_code(resp) == "200") {
-
-    # if the request is an xml file, then ...
-    rhct <- resp$headers$`content-type`
-    expt <- c(
-      "application/octet-stream",
-      "text/xml",
-      "application/xml"
-    )
-    if (rhct %in% expt) {
-
-      # read the xml content from the response
-      en_cont <- httr::content(x = resp, type = "text/xml", encoding = "UTF-8")
-
-      # convert XML to table
-      result_tbl <- tryCatch(
-        expr = {
-          nodesets <- xml2::xml_contents(en_cont)
-
-          # detect the number of children for each element
-          ns_children <- purrr::map_int(nodesets, number_of_children)
-
-          # compose a sub table from the first level data
-          first_level_tbl <- nodesets[ns_children == 0] |>
-            xmlconvert::xml_to_list() |>
-            data.table::as.data.table() |>
-            setNames(nm = xml2::xml_name(nodesets[ns_children == 0]))
-
-          # remove the not needed columns from the first_level_tbl
-          not_needed_patt <- paste(
-            "^(sender|receiver)_MarketParticipant\\.",
-            "^mRID$|^type$",
-            sep = "|"
-          )
-          first_level_tbl <- first_level_tbl |>
-            dplyr::select(!dplyr::matches(match = not_needed_patt))
-
-          # compose a sub table from the second level data
-          second_level_tbls <- nodesets[ns_children > 0] |>
-            purrr::map(
-              ~xmlconvert::xml_to_list(
-                xml = .x,
-                convert.types = FALSE
-              ) |>
-                data.table::as.data.table()
-            )
-          second_level_tbl <- second_level_tbls |>
-            data.table::rbindlist(use.names = TRUE, fill = TRUE)
-
-          # paste together multiple Function_Names columns into one.
-          fn_cols <- stringr::str_subset(
-            string = names(second_level_tbl),
-            pattern = "^Function_Names$"
-          )
-          if (length(fn_cols) > 0) {
-            second_level_tbl <- second_level_tbl |>
-              tidyr::unite(
-                col = "Function_Names",
-                dplyr::all_of(fn_cols),
-                sep = " - ",
-                remove = TRUE,
-                na.rm = TRUE
-              )
-          }
-          second_level_tbl <- second_level_tbl |>
-            dplyr::rename(eic_code = mRID)
-
-          # combine the first level and the second levels tables together
-          dplyr::bind_cols(first_level_tbl, second_level_tbl)
-        },
-        error = \(e) {
-          stop("The XML document has an unexpected tree structure!\n", e)
-        }
-      )
-
-      # rename columns to snakecase
-      names(result_tbl) <- my_snakecase(result_tbl)
-
-      # rename some columns
-      data.table::setnames(
-        x = result_tbl,
-        old = c(
-          "attribute_instance_component_attribute",
-          "last_request_date_and_or_time_date",
-          "eic_responsible_market_participant_mrid",
-          "eic_code_market_participant_vat_code_name",
-          "eic_code_market_participant_acer_code_name",
-          "eic_parent_market_document_mrid"
-        ),
-        new = c(
-          "instance_component_attribute",
-          "last_request_date",
-          "responsible_market_participant_mrid",
-          "market_participant_vat_code_name",
-          "market_participant_acer_code_name",
-          "parent_market_document_mrid"
-        )
-      )
-
-      # add eic_code_doc_status definitions to codes
-      result_tbl <- data.table::merge.data.table(
-        x = data.table::data.table(result_tbl),
-        y = data.table::data.table(message_types) |>
-          subset(select = c("Code", "Title")) |>
-          setNames(
-            nm = c("doc_status", "doc_status_value")
-          ),
-        by = "doc_status",
-        all.x = TRUE
-      ) |>
-        dplyr::relocate(
-          doc_status_value,
-          .after = doc_status
-        )
-
-      # return with the xml content list
-      tibble::as_tibble(result_tbl)
-
+    if (lengths(response_reason) > 0) {
+      stop(response_reason)
     } else {
-
-      stop("Not known response content-type: ", resp$headers$`content-type`)
-
+      stop(httr2::resp_status(resp$resp))
     }
+  }
+
+  # retrieve content-type from response headers
+  rhct <- httr2::resp_headers(resp = resp)[["content-type"]]
+  expt_zip <- c(
+    "application/zip",
+    "application/octet-stream"
+  )
+  expt_xml <- c(
+    "text/xml",
+    "application/xml"
+  )
+
+  # if the request is a zipped xml file, then ...
+  if (rhct %in% expt_zip) {
+
+    # read the xml content from each the decompressed files
+    en_cont <- httr2::resp_body_raw(resp = resp) |>
+      rawToChar() |>
+      xml2::as_xml_document()
+
+    # convert XML to table
+    result_tbl <- tryCatch(
+      expr = {
+        nodesets <- xml2::xml_contents(en_cont)
+
+        # detect the number of children for each element
+        ns_children <- purrr::map_int(nodesets, number_of_children)
+
+        # compose a sub table from the first level data
+        first_level_tbl <- nodesets[ns_children == 0] |>
+          xmlconvert::xml_to_list(convert.types = FALSE) |>
+          data.table::as.data.table() |>
+          setNames(nm = xml2::xml_name(nodesets[ns_children == 0]))
+
+        # remove the not needed columns from the first_level_tbl
+        not_needed_patt <- paste(
+          "^(sender|receiver)_MarketParticipant\\.",
+          "^mRID$|^type$",
+          sep = "|"
+        )
+        first_level_tbl <- first_level_tbl |>
+          dplyr::select(!dplyr::matches(match = not_needed_patt))
+
+        # compose a sub table from the second level data
+        second_level_tbls <- nodesets[ns_children > 0] |>
+          purrr::map(
+            ~xmlconvert::xml_to_list(
+              xml = .x,
+              convert.types = FALSE
+            ) |>
+              data.table::as.data.table()
+          )
+        second_level_tbl <- second_level_tbls |>
+          data.table::rbindlist(use.names = TRUE, fill = TRUE)
+
+        # paste together multiple Function_Names columns into one.
+        fn_cols <- stringr::str_subset(
+          string = names(second_level_tbl),
+          pattern = "^Function_Names$"
+        )
+        if (length(fn_cols) > 0) {
+          second_level_tbl <- second_level_tbl |>
+            tidyr::unite(
+              col = "Function_Names",
+              dplyr::all_of(fn_cols),
+              sep = " - ",
+              remove = TRUE,
+              na.rm = TRUE
+            )
+        }
+        second_level_tbl <- second_level_tbl |>
+          dplyr::rename(eic_code = mRID)
+
+        # combine the first level and the second levels tables together
+        dplyr::bind_cols(first_level_tbl, second_level_tbl)
+      },
+      error = \(e) {
+        stop("The XML document has an unexpected tree structure!\n", e)
+      }
+    )
+
+  } else if (rhct %in% expt_xml) {
+
+    # read the xml content from the response
+    en_cont <- httr2::resp_body_xml(resp = resp, encoding = "UTF-8")
+
+    # convert XML to table
+    result_tbl <- tryCatch(
+      expr = {
+        nodesets <- xml2::xml_contents(en_cont)
+
+        # detect the number of children for each element
+        ns_children <- purrr::map_int(nodesets, number_of_children)
+
+        # compose a sub table from the first level data
+        first_level_tbl <- nodesets[ns_children == 0] |>
+          xmlconvert::xml_to_list() |>
+          data.table::as.data.table() |>
+          setNames(nm = xml2::xml_name(nodesets[ns_children == 0]))
+
+        # remove the not needed columns from the first_level_tbl
+        not_needed_patt <- paste(
+          "^(sender|receiver)_MarketParticipant\\.",
+          "^mRID$|^type$",
+          sep = "|"
+        )
+        first_level_tbl <- first_level_tbl |>
+          dplyr::select(!dplyr::matches(match = not_needed_patt))
+
+        # compose a sub table from the second level data
+        second_level_tbls <- nodesets[ns_children > 0] |>
+          purrr::map(
+            ~xmlconvert::xml_to_list(
+              xml = .x,
+              convert.types = FALSE
+            ) |>
+              data.table::as.data.table()
+          )
+        second_level_tbl <- second_level_tbls |>
+          data.table::rbindlist(use.names = TRUE, fill = TRUE)
+
+        # paste together multiple Function_Names columns into one.
+        fn_cols <- stringr::str_subset(
+          string = names(second_level_tbl),
+          pattern = "^Function_Names$"
+        )
+        if (length(fn_cols) > 0) {
+          second_level_tbl <- second_level_tbl |>
+            tidyr::unite(
+              col = "Function_Names",
+              dplyr::all_of(fn_cols),
+              sep = " - ",
+              remove = TRUE,
+              na.rm = TRUE
+            )
+        }
+        second_level_tbl <- second_level_tbl |>
+          dplyr::rename(eic_code = mRID)
+
+        # combine the first level and the second levels tables together
+        dplyr::bind_cols(first_level_tbl, second_level_tbl)
+      },
+      error = \(e) {
+        stop("The XML document has an unexpected tree structure!\n", e)
+      }
+    )
 
   } else {
 
-    # extract reason from reason text
-    response_reason <- resp |>
-      httr::content(type = "text/xml", encoding = "utf-8") |>
-      xml2::as_list() |>
-      purrr::pluck("Error", "Message") |>
-      unlist()
-    if (lengths(response_reason) > 0) {
-      stop("*** ", response_reason, " ***")
-    } else {
-      stop("*** ", httr::status_code(resp), " ***")
-    }
+    stop("Not known response content-type: ", rhct)
 
   }
+
+  # rename columns to snakecase
+  names(result_tbl) <- my_snakecase(result_tbl)
+
+  # rename some columns
+  data.table::setnames(
+    x = result_tbl,
+    old = c(
+      "attribute_instance_component_attribute",
+      "last_request_date_and_or_time_date",
+      "eic_responsible_market_participant_mrid",
+      "eic_code_market_participant_vat_code_name",
+      "eic_code_market_participant_acer_code_name",
+      "eic_parent_market_document_mrid"
+    ),
+    new = c(
+      "instance_component_attribute",
+      "last_request_date",
+      "responsible_market_participant_mrid",
+      "market_participant_vat_code_name",
+      "market_participant_acer_code_name",
+      "parent_market_document_mrid"
+    )
+  )
+
+  # add eic_code_doc_status definitions to codes
+  result_tbl <- data.table::merge.data.table(
+    x = data.table::data.table(result_tbl),
+    y = data.table::data.table(message_types) |>
+      subset(select = c("Code", "Title")) |>
+      setNames(nm = c("doc_status", "doc_status_value")),
+    by = "doc_status",
+    all.x = TRUE
+  ) |>
+    dplyr::relocate(
+      doc_status_value,
+      .after = doc_status
+    )
+
+  # return with the xml content list
+  tibble::as_tibble(result_tbl)
+
 }

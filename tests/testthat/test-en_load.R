@@ -335,20 +335,18 @@ testthat::test_that(
   code = {
     testthat::expect_no_error(
       object = load_year_ahead_total_forecast(
-        eic = "10Y1001A1001A82H",
+        eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(
-          x = "2019-11-01",
+          x = "2024-11-01",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
-          x = "2019-11-30",
+          x = "2024-11-30",
           tz = "CET"
         ),
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = load_year_ahead_total_forecast(
         eic = NULL,

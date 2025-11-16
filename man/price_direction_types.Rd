@@ -15,9 +15,7 @@ List Price Direction Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(price_direction_types)
+str(entsoeapi::price_direction_types)
 
 }
 \keyword{datasets}

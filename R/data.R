@@ -3,9 +3,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(allocation_mode_types)
+#' str(entsoeapi::allocation_mode_types)
 #'
 "allocation_mode_types"
 
@@ -16,9 +14,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(asset_types)
+#' str(entsoeapi::asset_types)
 #'
 "asset_types"
 
@@ -29,9 +25,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(auction_types)
+#' str(entsoeapi::auction_types)
 #'
 "auction_types"
 
@@ -42,9 +36,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(business_types)
+#' str(entsoeapi::business_types)
 #'
 "business_types"
 
@@ -55,9 +47,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(category_types)
+#' str(entsoeapi::category_types)
 #'
 "category_types"
 
@@ -68,9 +58,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(classification_types)
+#' str(entsoeapi::classification_types)
 #'
 "classification_types"
 
@@ -81,9 +69,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(coding_scheme_types)
+#' str(entsoeapi::coding_scheme_types)
 #'
 "coding_scheme_types"
 
@@ -94,9 +80,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(contract_types)
+#' str(entsoeapi::contract_types)
 #'
 "contract_types"
 
@@ -107,9 +91,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(currency_types)
+#' str(entsoeapi::currency_types)
 #'
 "currency_types"
 
@@ -120,9 +102,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(curve_types)
+#' str(entsoeapi::curve_types)
 #'
 "curve_types"
 
@@ -133,9 +113,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(direction_types)
+#' str(entsoeapi::direction_types)
 #'
 "direction_types"
 
@@ -146,9 +124,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(message_types)
+#' str(entsoeapi::message_types)
 #'
 "message_types"
 
@@ -159,9 +135,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(eic_types)
+#' str(entsoeapi::eic_types)
 #'
 "eic_types"
 
@@ -172,9 +146,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(energy_product_types)
+#' str(entsoeapi::energy_product_types)
 #'
 "energy_product_types"
 
@@ -185,9 +157,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(hvdc_mode_types)
+#' str(entsoeapi::hvdc_mode_types)
 #'
 "hvdc_mode_types"
 
@@ -198,9 +168,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(indicator_types)
+#' str(entsoeapi::indicator_types)
 #'
 "indicator_types"
 
@@ -211,9 +179,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(object_aggregation_types)
+#' str(entsoeapi::object_aggregation_types)
 #'
 "object_aggregation_types"
 
@@ -224,9 +190,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(payment_terms_types)
+#' str(entsoeapi::payment_terms_types)
 #'
 "payment_terms_types"
 
@@ -237,9 +201,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(price_category_types)
+#' str(entsoeapi::price_category_types)
 #'
 "price_category_types"
 
@@ -250,9 +212,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(price_direction_types)
+#' str(entsoeapi::price_direction_types)
 #'
 "price_direction_types"
 
@@ -263,9 +223,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(process_types)
+#' str(entsoeapi::process_types)
 #'
 "process_types"
 
@@ -276,9 +234,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(quality_types)
+#' str(entsoeapi::quality_types)
 #'
 "quality_types"
 
@@ -289,9 +245,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(reason_code_types)
+#' str(entsoeapi::reason_code_types)
 #'
 "reason_code_types"
 
@@ -302,9 +256,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(rights_types)
+#' str(entsoeapi::rights_types)
 #'
 "rights_types"
 
@@ -315,9 +267,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(role_types)
+#' str(entsoeapi::role_types)
 #'
 "role_types"
 
@@ -328,9 +278,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(status_types)
+#' str(entsoeapi::status_types)
 #'
 "status_types"
 
@@ -341,9 +289,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(tariff_types)
+#' str(entsoeapi::tariff_types)
 #'
 "tariff_types"
 
@@ -354,9 +300,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(unit_of_measure_types)
+#' str(entsoeapi::unit_of_measure_types)
 #'
 "unit_of_measure_types"
 
@@ -367,9 +311,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(unit_symbol_types)
+#' str(entsoeapi::unit_symbol_types)
 #'
 "unit_symbol_types"
 
@@ -380,9 +322,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(transmission_pair_eic_dict)
+#' str(entsoeapi::transmission_pair_eic_dict)
 #'
 "transmission_pair_eic_dict"
 
@@ -392,9 +332,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(analog_types)
+#' str(entsoeapi::analog_types)
 #'
 "analog_types"
 
@@ -404,9 +342,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(coordinate_system_types)
+#' str(entsoeapi::coordinate_system_types)
 #'
 "coordinate_system_types"
 
@@ -416,9 +352,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(fuel_types)
+#' str(entsoeapi::fuel_types)
 #'
 "fuel_types"
 
@@ -428,9 +362,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(market_product_types)
+#' str(entsoeapi::market_product_types)
 #'
 "market_product_types"
 
@@ -440,9 +372,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(price_component_types)
+#' str(entsoeapi::price_component_types)
 #'
 "price_component_types"
 
@@ -452,9 +382,7 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(timeframe_types)
+#' str(entsoeapi::timeframe_types)
 #'
 "timeframe_types"
 
@@ -464,8 +392,6 @@
 #'
 #' @examples
 #'
-#' library(entsoeapi)
-#'
-#' str(unit_multiplier)
+#' str(entsoeapi::unit_multiplier)
 #'
 "unit_multiplier"

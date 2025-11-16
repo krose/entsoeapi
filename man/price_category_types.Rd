@@ -15,9 +15,7 @@ List Price Category Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(price_category_types)
+str(entsoeapi::price_category_types)
 
 }
 \keyword{datasets}

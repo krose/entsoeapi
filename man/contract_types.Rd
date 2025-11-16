@@ -15,9 +15,7 @@ List Contract Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(contract_types)
+str(entsoeapi::contract_types)
 
 }
 \keyword{datasets}

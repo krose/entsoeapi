@@ -15,9 +15,7 @@ List Process Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(process_types)
+str(entsoeapi::process_types)
 
 }
 \keyword{datasets}

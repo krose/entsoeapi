@@ -15,9 +15,7 @@ List Coordinate System Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(coordinate_system_types)
+str(entsoeapi::coordinate_system_types)
 
 }
 \keyword{datasets}

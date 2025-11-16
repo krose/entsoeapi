@@ -15,9 +15,7 @@ List Fuel Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(fuel_types)
+str(entsoeapi::fuel_types)
 
 }
 \keyword{datasets}

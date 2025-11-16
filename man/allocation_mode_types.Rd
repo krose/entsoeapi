@@ -15,9 +15,7 @@ List Allocation Mode Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(allocation_mode_types)
+str(entsoeapi::allocation_mode_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Direction Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(direction_types)
+str(entsoeapi::direction_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Indicator Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(indicator_types)
+str(entsoeapi::indicator_types)
 
 }
 \keyword{datasets}

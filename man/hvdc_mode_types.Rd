@@ -15,9 +15,7 @@ List HVDC Mode Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(hvdc_mode_types)
+str(entsoeapi::hvdc_mode_types)
 
 }
 \keyword{datasets}

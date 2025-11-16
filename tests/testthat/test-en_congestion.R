@@ -38,18 +38,19 @@ testthat::test_that(
         eic_in = "10YDE-VE-------2",
         eic_out = "10YDE-EON------1",
         period_start = lubridate::ymd(
-          x = "2024-03-01",
+          x = "2023-01-01",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
-          x = "2024-08-01",
+          x = "2025-01-01",
           tz = "CET"
         ),
         tidy_output = TRUE
       ),
       info = paste(
-        "The amount of requested data exceeds allowed limit!",
-        "allowed: 100 documents, requested: 256 documents"
+        "Provided time interval (...)) is larger than maximum ",
+        "allowed period 'P1Y' for ",
+        "'REDISPATCHING_CROSS_BORDER_R3:XML' export."
       )
     )
     testthat::expect_error(
@@ -155,11 +156,11 @@ testthat::test_that(
         tidy_output = TRUE
       )
     )
-    testthat::expect_error(
+    testthat::expect_no_error(
       object = redispatching_internal(
         eic = "10YNO-0--------C",
         period_start = lubridate::ymd(
-          x = "2024-03-01",
+          x = "2023-05-01",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
@@ -167,10 +168,6 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = paste(
-        "The amount of requested data exceeds allowed limit!",
-        "allowed: 100 documents, requested: 256 documents"
       )
     )
     testthat::expect_error(
@@ -244,7 +241,7 @@ testthat::test_that(
     ) |>
       expect_warning() |>
       expect_warning()
-    testthat::expect_error(
+    testthat::expect_no_error(
       object = countertrading(
         eic_in = "10YDE-VE-------2",
         eic_out = "10YDE-EON------1",
@@ -257,12 +254,10 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = paste(
-        "One of the following parameters is not valid for ",
-        "Countertrading [13.1.B]: 10YDE-VE-------2, 10YDE-EON------1"
       )
-    )
+    ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = countertrading(
         eic_in = NULL,
@@ -360,6 +355,7 @@ testthat::test_that(
         tidy_output  = TRUE
       )
     ) |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_no_error(
       object = costs_of_congestion_management(
@@ -370,6 +366,7 @@ testthat::test_that(
         tidy_output  = TRUE
       )
     ) |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_error(
       object = costs_of_congestion_management(

@@ -15,9 +15,7 @@ List Business Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(business_types)
+str(entsoeapi::business_types)
 
 }
 \keyword{datasets}

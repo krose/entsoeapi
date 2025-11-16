@@ -159,14 +159,14 @@ extract_leaf_twig_branch <- function(nodesets) {
           number_of_children
         )
         compound_tbls[[1]] <- extract_nodesets(
-          nodesets = child_nodesets[ch_children_of_nodes < 2],
+          nodesets = child_nodesets[ch_children_of_nodes == 0L],
           prefix = xml2::xml_name(scnd_ns)
         ) |>
           data.table::as.data.table()
 
         # convert the grandchild nodes into a table
         compound_tbls[[2]] <- extract_nodesets(
-          nodesets = child_nodesets[ch_children_of_nodes >= 2],
+          nodesets = child_nodesets[ch_children_of_nodes > 0L],
           prefix = xml2::xml_name(scnd_ns)
         ) |>
           data.table::rbindlist(
@@ -250,12 +250,14 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
   }
 
   # extract curve type from tbl
-  curve_type <- base::subset(x = tbl,
-                             select = stringr::str_match_all(
-                               string = names(tbl),
-                               pattern = ".*curve_type$"
-                             ) |>
-                               unlist()) |>
+  curve_type <- base::subset(
+    x = tbl,
+    select = stringr::str_match_all(
+      string = names(tbl),
+      pattern = ".*curve_type$"
+    ) |>
+      unlist()
+  ) |>
     unlist() |>
     unique()
 
@@ -355,11 +357,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
         tidyr::fill(dplyr::everything())
 
       # append the adjusted timeseries data points to the base 'tbl'
-      tbl <- data.table::rbindlist(
-        l = list(tbl, tbl_adj),
-        use.names = TRUE,
-        fill = TRUE
-      )
+      tbl <- list(tbl, tbl_adj) |>
+        data.table::rbindlist(use.names = TRUE, fill = TRUE)
       data.table::setorderv(
         x = tbl,
         cols = c(
@@ -378,12 +377,18 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     # Library/cim_based/
     # Introduction_of_different_Timeseries_possibilities__curvetypes
     # __with_ENTSO-E_electronic_document_v1.4.pdf
-    stop("The curve type is not defined, but ", curve_type, "!")
+    stop(
+      sprintf("The curve type is not defined, but %s!", curve_type),
+      call. = FALSE
+    )
 
   }
 
   # calculate the 'ts_point_dt_start' values accordingly
   tbl <- tbl |>
+    base::subset(
+      subset = !is.na(ts_time_interval_start) & !is.na(ts_point_position)
+    ) |>
     dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols))) |>
     dplyr::mutate(
       ts_point_dt_start = seq.POSIXt(
@@ -433,8 +438,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     )
 
   }
-
-
 
   # convert the original 'bid_ts_' column names back
   if (length(bid_ts_cols) > 0) {
@@ -523,10 +526,13 @@ api_req <- function(
   security_token = NULL
 ) {
   if (is.null(query_string)) {
-    stop("The argument 'query_string' is missing!")
+    stop("The argument 'query_string' is missing!", call. = FALSE)
   }
   if (is.null(security_token)) {
-    stop("The argument 'security_token' is not provided!")
+    stop(
+      "The argument 'security_token' is not provided!",
+      call. = FALSE
+    )
   } else {
     # add the canonical API prefix and suffix to the request url
     url <- paste0(
@@ -536,103 +542,180 @@ api_req <- function(
   }
 
   # retrieve data from the API
-  resp <- httr::GET(
-    url = paste0(url, security_token),
-    httr::content_type_xml(),
-    httr::write_memory()
+  req <- httr2::request(base_url = paste0(url, security_token)) |>
+    httr2::req_method(method = "GET") |>
+    httr2::req_verbose(
+      header_req = FALSE,
+      header_resp = TRUE,
+      body_req = FALSE,
+      body_resp = FALSE
+    ) |>
+    httr2::req_timeout(seconds = 60)
+  resp <- "No response."
+  resp <- tryCatch(
+    expr = httr2::req_perform(req = req),
+    httr2_http = \(cnd) cnd,
+    httr2_error = \(cnd) cnd,
+    error = \(cnd) cnd
   )
 
-  if (is.integer(httr::status_code(resp))) message("response has arrived")
+  if (inherits(x = resp, what = "httr2_response")) {
+    message("response has arrived")
 
-  # if the get request is successful, then ...
-  if (httr::status_code(resp) == "200") {
+    # if the get request is successful, then ...
+    if (httr2::resp_status(resp = resp) == 200) {
 
-    # if the request is a zip file, then ...
-    rhct <- resp$headers$`content-type`
-    if (rhct %in% c("application/zip", "application/octet-stream")) {
-
-      # save raw data to disk from memory
-      temp_file_path <- tempfile(fileext = ".zip")
-      writeBin(object = resp$content, con = temp_file_path)
-
-      # read the xml content from each the decompressed files
-      en_cont_list <- read_zipped_xml(temp_file_path)
-
-      # return with the xml content list
-      return(en_cont_list)
-
-    } else if (rhct %in% c("text/xml", "application/xml")) {
-
-      # read the xml content from the response
-      en_cont <- httr::content(resp, encoding = "UTF-8")
-
-      # return with the xml content
-      return(en_cont)
-
-    } else {
-
-      stop("Not known response content-type: ", resp$headers$`content-type`)
-
-    }
-
-  } else if (httr::status_code(resp) == "503") {
-
-    stop(
-      "503 - service unavailable\n",
-      "The server cannot complete a requested action at the immediate moment."
-    )
-
-  } else {
-
-    # extract reason from reason text
-    response_reason <- resp |>
-      httr::content(encoding = "utf-8") |>
-      xml2::as_list() |>
-      purrr::pluck("Acknowledgement_MarketDocument", "Reason", "text") |>
-      unlist()
-    if (lengths(response_reason) > 0) {
-      message("*** ", response_reason, " ***")
-    }
-
-    # check if offset usage needed or not
-    offset_needed <- stringr::str_detect(
-      string = response_reason,
-      pattern = "The amount of requested data exceeds allowed limit"
-    )
-
-    # check if query offset is allowed
-    offset_allowed <- stringr::str_detect(
-      string = query_string,
-      pattern = "documentType=A63&businessType=A85",
-      negate = TRUE
-    )
-
-    # if offset usage needed, then ...
-    if (isTRUE(offset_needed) && isTRUE(offset_allowed)) {
-
-      # calculate offset URLs
-      offset_query_strings <- calc_offset_urls(
-        reason = response_reason,
-        query_string = query_string
+      # retrieve content-type from response headers
+      rhct <- httr2::resp_headers(resp = resp)[["content-type"]]
+      expt_zip <- c(
+        "application/zip",
+        "application/octet-stream"
+      )
+      expt_xml <- c(
+        "text/xml",
+        "application/xml"
       )
 
-      # recursively call the api_req() function itself
-      en_cont_list <- offset_query_strings |>
-        purrr::map(
-          ~api_req(
-            query_string = .x,
-            security_token = security_token
-          )
-        ) |>
-        unlist(recursive = FALSE)
+      # if the request is a zip file, then ...
+      if (rhct %in% expt_zip) {
 
-      return(en_cont_list)
+        # save raw data to disk from memory
+        temp_file_path <- tempfile(fileext = ".zip")
+        writeBin(
+          object = httr2::resp_body_raw(resp = resp),
+          con = temp_file_path
+        )
+
+        # read the xml content from each the decompressed files
+        en_cont_list <- read_zipped_xml(temp_file_path)
+
+        # return with the xml content list
+        return(en_cont_list)
+
+      } else if (rhct %in% expt_xml) {
+
+        # read the xml content from the response
+        en_cont <- httr2::resp_body_xml(resp = resp, encoding = "UTF-8")
+
+        # return with the xml content
+        return(en_cont)
+
+      } else {
+
+        stop(
+          sprintf("Not known response content-type: %s",
+                  resp$headers$`content-type`),
+          call. = FALSE
+        )
+
+      }
 
     } else {
 
-      stop(httr::content(resp, encoding = "UTF-8"))
+      # extract reason from reason text
+      response_reason <- resp |>
+        httr2::resp_body_xml(encoding = "UTF-8") |>
+        xml2::as_list() |>
+        purrr::pluck("Acknowledgement_MarketDocument", "Reason", "text") |>
+        unlist()
+      if (lengths(response_reason) > 0) {
+        message("*** ", response_reason, " ***")
+      }
+
+      # check if offset usage needed or not
+      offset_needed <- stringr::str_detect(
+        string = response_reason,
+        pattern = "The amount of requested data exceeds allowed limit"
+      )
+
+      # check if query offset is allowed
+      offset_allowed <- stringr::str_detect(
+        string = query_string,
+        pattern = "documentType=A63&businessType=A85",
+        negate = TRUE
+      )
+
+      # if offset usage needed, then ...
+      if (isTRUE(offset_needed) && isTRUE(offset_allowed)) {
+
+        # calculate offset URLs
+        offset_query_strings <- calc_offset_urls(
+          reason = response_reason,
+          query_string = query_string
+        )
+
+        # recursively call the api_req() function itself
+        en_cont_list <- offset_query_strings |>
+          purrr::map(
+            ~api_req(
+              query_string = .x,
+              security_token = security_token
+            )
+          ) |>
+          unlist(recursive = FALSE)
+
+        return(en_cont_list)
+
+      } else {
+
+        stop(
+          paste(
+            httr2::resp_body_string(resp = resp, encoding = "UTF-8"),
+            collapse = "\n"
+          ),
+          call. = FALSE
+        )
+
+      }
 
     }
+
+  } else if (inherits(x = resp, what = "httr2_error")) {
+    message("error response has arrived")
+
+    # retrieve content-type from response headers
+    rhct <- httr2::resp_headers(resp = resp$resp)[["content-type"]]
+    expt_html <- c("text/html;charset=UTF-8")
+    expt_xml <- c("text/xml", "application/xml")
+
+    if (rhct %in% expt_html) {
+      # extract reason text and code
+      response_reason_text <- resp$resp |>
+        httr2::resp_body_html(encoding = "utf-8") |>
+        xmlconvert::xml_to_list() |>
+        purrr::pluck("body")
+      response_reason_code <- httr2::resp_status(resp$resp)
+
+      stop(
+        sprintf("%s: %s", response_reason_code, response_reason_text),
+        call. = FALSE
+      )
+    }
+
+    if (rhct %in% expt_xml) {
+      # extract reason from reason text
+      response_reason <- resp$resp |>
+        httr2::resp_body_xml(encoding = "utf-8") |>
+        xmlconvert::xml_to_list() |>
+        purrr::pluck("Reason")
+
+      if (all(names(response_reason) == c("code", "text"))) {
+        stop(
+          sprintf("%s: %s", response_reason$code, response_reason$text),
+          call. = FALSE
+        )
+      } else {
+        stop(
+          paste(httr2::resp_status(resp$resp), collapse = "\n"),
+          call. = FALSE
+        )
+      }
+    }
+  } else {
+    stop(
+      paste(httr2::resp_status(resp$resp), collapse = "\n"),
+      call. = FALSE
+    )
 
   }
 }
@@ -671,13 +754,24 @@ url_posixct_format <- function(x) {
                                     quiet  = TRUE) |>
       strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
     if (is.na(y)) {
-      stop("Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text ",
-           "are supported by the converter.")
+      stop(
+        paste(
+          "Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text",
+          "are supported by the converter."
+        ),
+        call. = FALSE
+      )
     } else {
-      warning("The ", x, " value has interpreted as UTC!", call. = FALSE)
+      warning(
+        "The ", x, " value has interpreted as UTC!",
+        call. = FALSE
+      )
     }
   } else {
-    stop("The argument 'x' is not in an acceptable timestamp format!")
+    stop(
+      "The argument is not in an acceptable timestamp format!",
+      call. = FALSE
+    )
   }
 
   y
@@ -742,7 +836,10 @@ get_eiccodes <- function(
 
   } else {
 
-    stop("cannot open the connection to '", complete_url, "'!")
+    stop(
+      sprintf("cannot open the connection to '%s'!", complete_url),
+      call. = FALSE
+    )
 
   }
 }
@@ -780,7 +877,10 @@ unpack_xml <- function(section, parent_name = NULL) {
 #' @noRd
 my_snakecase <- function(tbl) {
   if (isFALSE(is.data.frame(tbl))) {
-    stop("The provided argument is not a valid data frame!")
+    stop(
+      "The provided argument is not a valid data frame!",
+      call. = FALSE
+    )
   }
   names(tbl) |>
     stringr::str_replace_all(
@@ -1471,13 +1571,21 @@ add_definitions <- function(tbl) {
 xml_to_table <- function(xml_content, tidy_output = FALSE) {
   is_xml_document <- inherits(x = xml_content, what = "xml_document")
   if (isFALSE(is_xml_document)) {
-    stop("The 'xml_content' should be an xml document!")
+    stop(
+      "The 'xml_content' should be an xml document!",
+      call. = FALSE
+    )
   }
 
   # extract nodesets from the XML document and process
   result_tbl <- tryCatch(
     expr = xml2::xml_contents(xml_content) |> extract_leaf_twig_branch(),
-    error = \(e) stop("The XML document has an unexpected tree structure!\n", e)
+    error = \(e) {
+      stop(
+        sprintf("The XML document has an unexpected tree structure!\n%s", e),
+        call. = FALSE
+      )
+    }
   )
 
   # merge the related date and time columns into datetime column
@@ -1527,16 +1635,18 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
 
   # if 'TimeSeries.mRID' can be converted to numeric then convert it
   ts_mrid_is_in <- "TimeSeries.mRID" %in% names(result_tbl)
-  ts_mrid_is_num <- stringr::str_detect(
-    string = result_tbl[["TimeSeries.mRID"]],
-    pattern = "^[0-9]+$"
-  ) |>
-    all()
-  if (ts_mrid_is_in && ts_mrid_is_num) {
-    result_tbl <- result_tbl |>
-      dplyr::mutate(
-        TimeSeries.mRID = as.numeric(x = TimeSeries.mRID)
-      )
+  if (ts_mrid_is_in) {
+    ts_mrid_is_num <- stringr::str_detect(
+      string = result_tbl[["TimeSeries.mRID"]],
+      pattern = "^[0-9]+$"
+    ) |>
+      all()
+    if (ts_mrid_is_num) {
+      result_tbl <- result_tbl |>
+        dplyr::mutate(
+          TimeSeries.mRID = as.numeric(x = TimeSeries.mRID)
+        )
+    }
   }
 
   # rename columns to snakecase
@@ -1661,14 +1771,18 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
                                        "ts_time_interval_start",
                                        "ts_point_dt_start"),
                                  y = names(result_tbl))
-    data.table::setkeyv(x = result_tbl, cols = sort_cols)
+    result_dtbl <- data.table::as.data.table(result_tbl)
+    data.table::setkeyv(x = result_dtbl, cols = sort_cols)
 
     # convert the result to tibble
-    result_tbl <- tibble::as_tibble(result_tbl)
+    result_tbl <- tibble::as_tibble(result_dtbl)
 
     return(result_tbl)
   } else {
-    stop("There is no interesting column in the result table!")
+    stop(
+      "There is no interesting column in the result table!",
+      call. = FALSE
+    )
   }
 
 }
@@ -1723,16 +1837,25 @@ extract_response <- function(content, tidy_output = TRUE) {
           tidy_output = tidy_output
         )
       }
+
+      # if ("reason_text" %in% names(result_tbl)) {
+      #   stop(result_tbl$reason_text, call. = FALSE)
+      # } else {
+      #   return(result_tbl)
+      # } TODO: decide about this later
       return(result_tbl)
 
     } else {
 
-      stop(reason)
+      stop(reason$message, call. = FALSE)
 
     }
   } else {
 
-    stop("The content is not in the required list format!")
+    stop(
+      "The content is not in the required list format!",
+      call. = FALSE
+    )
 
   }
 }

@@ -15,9 +15,7 @@ List Analog Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(analog_types)
+str(entsoeapi::analog_types)
 
 }
 \keyword{datasets}

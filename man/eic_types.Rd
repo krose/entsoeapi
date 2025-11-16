@@ -15,9 +15,7 @@ List EIC Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(eic_types)
+str(entsoeapi::eic_types)
 
 }
 \keyword{datasets}

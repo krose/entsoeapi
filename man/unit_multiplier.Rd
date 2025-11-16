@@ -15,9 +15,7 @@ List Unit Multiplier
 }
 \examples{
 
-library(entsoeapi)
-
-str(unit_multiplier)
+str(entsoeapi::unit_multiplier)
 
 }
 \keyword{datasets}

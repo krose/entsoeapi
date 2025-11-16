@@ -15,9 +15,7 @@ List Object Aggregation Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(object_aggregation_types)
+str(entsoeapi::object_aggregation_types)
 
 }
 \keyword{datasets}

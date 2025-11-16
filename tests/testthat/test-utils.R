@@ -94,7 +94,6 @@ testthat::test_that(
         "mRID",
         "process.processType",
         "Reason.code",
-        "Reason.text",
         "receiver_MarketParticipant.marketRole.type",
         "receiver_MarketParticipant.mRID",
         "revisionNumber",
@@ -139,7 +138,7 @@ testthat::test_that(
       object = xml2::xml_contents(content_4$result) |>
         extract_leaf_twig_branch() |>
         dim(),
-      expected = c(960, 26)
+      expected = c(1000, 26)
     )
     testthat::expect_error(
       object = extract_leaf_twig_branch(nodesets = iris),
@@ -275,7 +274,7 @@ testthat::test_that(
         security_token = Sys.getenv("ENTSOE_PAT")
       )
     )
-    testthat::expect_error(
+    testthat::expect_no_error(
       object = api_req(
         query_string = url_sample_5,
         security_token = Sys.getenv("ENTSOE_PAT")

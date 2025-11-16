@@ -15,9 +15,7 @@ List Reason Code Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(reason_code_types)
+str(entsoeapi::reason_code_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Market Product Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(market_product_types)
+str(entsoeapi::market_product_types)
 
 }
 \keyword{datasets}

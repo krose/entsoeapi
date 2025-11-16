@@ -15,9 +15,7 @@ List Payment Terms Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(payment_terms_types)
+str(entsoeapi::payment_terms_types)
 
 }
 \keyword{datasets}

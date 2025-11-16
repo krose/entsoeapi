@@ -15,9 +15,7 @@ List Rights Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(rights_types)
+str(entsoeapi::rights_types)
 
 }
 \keyword{datasets}

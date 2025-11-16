@@ -15,9 +15,7 @@ List Unit of Measure Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(unit_of_measure_types)
+str(entsoeapi::unit_of_measure_types)
 
 }
 \keyword{datasets}

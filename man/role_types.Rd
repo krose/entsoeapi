@@ -15,9 +15,7 @@ List Role Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(role_types)
+str(entsoeapi::role_types)
 
 }
 \keyword{datasets}

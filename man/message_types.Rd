@@ -15,9 +15,7 @@ List Message Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(message_types)
+str(entsoeapi::message_types)
 
 }
 \keyword{datasets}

@@ -15,9 +15,7 @@ List Classification Types
 }
 \examples{
 
-library(entsoeapi)
-
-str(classification_types)
+str(entsoeapi::classification_types)
 
 }
 \keyword{datasets}

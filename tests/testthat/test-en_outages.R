@@ -12,20 +12,12 @@ testthat::test_that(
           x = "2024-10-24",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       )
     )
-    testthat::expect_vector(
+    testthat::expect_no_error(
       object = outages_both(
-        eic = "ABC",
+        eic = "ABCDEFGHIJKLMNOP",
         period_start = lubridate::ymd(
           x = "2024-10-23",
           tz = "CET"
@@ -34,19 +26,13 @@ testthat::test_that(
           x = "2024-10-24",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = TRUE
-      ),
-      ptype = NULL,
-      size = 0
-    )
+      )
+    ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning()
   }
 )
 
@@ -68,18 +54,8 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = TRUE
-      ) |>
-        testthat::expect_warning() |>
-        testthat::expect_warning()
+      )
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -92,14 +68,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = TRUE
@@ -119,14 +87,6 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = TRUE
       ),
       info = "The 'event_nature' parameter should be 'A53', 'A54' or NULL!"
@@ -144,18 +104,8 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
-      ) |>
-        testthat::expect_warning() |>
-        testthat::expect_warning()
+      )
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -168,14 +118,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = TRUE,
@@ -194,14 +136,6 @@ testthat::test_that(
           x = "2025-11-26",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -215,14 +149,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE,
@@ -241,14 +167,6 @@ testthat::test_that(
           x = "2024-10-24",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -261,14 +179,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE
@@ -296,14 +206,6 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = TRUE
       )
     )
@@ -318,14 +220,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = TRUE
@@ -345,14 +239,6 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = TRUE
       ),
       info = "The 'event_nature' parameter should be 'A53', 'A54' or NULL!"
@@ -368,14 +254,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE
@@ -394,14 +272,6 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE,
         security_token = ""
       ),
@@ -418,14 +288,6 @@ testthat::test_that(
           x = "2025-11-26",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -439,14 +301,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE,
@@ -465,14 +319,6 @@ testthat::test_that(
           x = "2024-10-24",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -485,14 +331,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE
@@ -510,21 +348,13 @@ testthat::test_that(
     testthat::expect_no_error(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
-        doc_status = "A09",
+        doc_status = "A05",
         period_start = lubridate::ymd(
           x = "2024-10-23",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
           x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = TRUE
@@ -544,14 +374,6 @@ testthat::test_that(
           x = "2024-10-30",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = TRUE
       ),
       info = "The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL!"
@@ -559,46 +381,28 @@ testthat::test_that(
     testthat::expect_no_error(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
-        doc_status = "A09",
+        doc_status = "A05",
         period_start = lubridate::ymd(
-          x = "2024-10-23",
+          x = "2025-01-23",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
+          x = "2025-01-30",
           tz = "CET"
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
-        doc_status = "A09",
+        doc_status = "A05",
         period_start = lubridate::ymd(
           x = "2024-10-23",
           tz = "CET"
         ),
         period_end = lubridate::ymd(
           x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE,
@@ -617,14 +421,6 @@ testthat::test_that(
           x = "2025-11-26",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
@@ -638,14 +434,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE,
@@ -664,14 +452,6 @@ testthat::test_that(
           x = "2024-10-24",
           tz = "CET"
         ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
         tidy_output = FALSE
       ),
       info = "This wrapper only supports one control area EIC per request!"
@@ -684,14 +464,6 @@ testthat::test_that(
         ),
         period_end = lubridate::ymd(
           x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
           tz = "CET"
         ),
         tidy_output = FALSE
