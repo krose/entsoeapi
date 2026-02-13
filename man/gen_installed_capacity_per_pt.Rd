@@ -29,9 +29,9 @@ installed generation capacity, per production type.
 }
 \examples{
 df <- entsoeapi::gen_installed_capacity_per_pt(
-  eic      = "10YFR-RTE------C",
+  eic = "10YFR-RTE------C",
   psr_type = "B05",
-  year     = 2020
+  year = 2020
 )
 str(df)
 

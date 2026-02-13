@@ -59,6 +59,75 @@ utils::globalVariables(
 
 
 #' @title
+#' Organize list of strings into group
+#'
+#' @description
+#' This function solves a connected components problem where vectors
+#' are connected if they share at least one common string.
+#' It returns with groups containing the indices of elements.
+#'
+#' @noRd
+grouping_by_common_strings <- function(vector_list) {
+  n <- length(vector_list)
+
+  if (n == 0) return(list())
+  if (n == 1) return(list(1L))
+
+  # Build an inverted index: string -> vector indices containing that string
+  string_to_indices <- new.env(hash = TRUE)
+
+  for (i in 1L:n) {
+    unique_strings <- unique(vector_list[[i]])
+    for (s in unique_strings) {
+      if (exists(x = s, envir = string_to_indices)) {
+        string_to_indices[[s]] <- c(string_to_indices[[s]], i)
+      } else {
+        string_to_indices[[s]] <- i
+      }
+    }
+  }
+
+  # Union-Find with path compression
+  parent <- 1L:n
+
+  find_root <- function(i) {
+    if (parent[i] != i) {
+      parent[i] <<- find_root(parent[i])
+    }
+    parent[i]
+  }
+
+  union_sets <- function(i, j) {
+    root_i <- find_root(i)
+    root_j <- find_root(j)
+    if (root_i != root_j) {
+      parent[root_j] <<- root_i
+    }
+  }
+
+  # For each string, union all vectors that contain it
+  for (s in ls(string_to_indices)) {
+    indices <- string_to_indices[[s]]
+    if (length(indices) > 1L) {
+      for (k in 2L:length(indices)) {
+        union_sets(i = indices[1L], j = indices[k])
+      }
+    }
+  }
+
+  # Normalize all parents
+  for (i in 1L:n) {
+    parent[i] <- find_root(i)
+  }
+
+  # Group indices by their root parent
+  base::split(x = 1L:n, f = parent) |>
+    unname()
+}
+
+
+
+#' @title
 #' Calculate the Number of Children for a Given Nodeset
 #'
 #' @description
@@ -135,11 +204,11 @@ extract_leaf_twig_branch <- function(nodesets) {
 
   # compose a sub table from first level data
   children_of_nodes <- purrr::map_int(nodesets, number_of_children)
-  first_level_tbl <- nodesets[children_of_nodes == 0] |>
+  first_level_tbl <- nodesets[children_of_nodes == 0L] |>
     extract_nodesets() |>
     data.table::as.data.table()
 
-  second_level_tbl <- nodesets[children_of_nodes > 0] |>
+  second_level_tbl <- nodesets[children_of_nodes > 0L] |>
     purrr::map(
       \(scnd_ns) {
         # define an empty list
@@ -158,21 +227,30 @@ extract_leaf_twig_branch <- function(nodesets) {
           child_nodesets,
           number_of_children
         )
-        compound_tbls[[1]] <- extract_nodesets(
+        compound_tbls[[1L]] <- extract_nodesets(
           nodesets = child_nodesets[ch_children_of_nodes == 0L],
           prefix = xml2::xml_name(scnd_ns)
         ) |>
           data.table::as.data.table()
 
         # convert the grandchild nodes into a table
-        compound_tbls[[2]] <- extract_nodesets(
+        nodeset_tbls <- extract_nodesets(
           nodesets = child_nodesets[ch_children_of_nodes > 0L],
           prefix = xml2::xml_name(scnd_ns)
-        ) |>
-          data.table::rbindlist(
-            use.names = TRUE,
-            fill = TRUE
-          )
+        )
+        nodeset_groups <- purrr::map(nodeset_tbls, names) |>
+          grouping_by_common_strings()
+        if (length(nodeset_groups) == 1L) {
+          compound_tbls[[2L]] <- nodeset_tbls |>
+            data.table::rbindlist(use.names = TRUE, fill = TRUE)
+        } else {
+          compound_tbls[[2L]] <- nodeset_groups |>
+            purrr::map(
+              ~nodeset_tbls[nodeset_groups[[.x]]] |>
+                data.table::rbindlist(use.names = TRUE, fill = TRUE)
+            ) |>
+            dplyr::bind_cols()
+        }
 
         # column-wise append the tables
         compound_tbl <- purrr::compact(compound_tbls) |>
@@ -186,8 +264,8 @@ extract_leaf_twig_branch <- function(nodesets) {
 
   list(first_level_tbl, second_level_tbl) |>
     purrr::compact() |>
-    data.table::as.data.table() |>
-    tibble::as_tibble()
+    dplyr::bind_cols() |>
+    tibble::tibble()
 }
 
 
@@ -234,7 +312,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     string = names(tbl),
     pattern = "ts_point_position"
   )
-  if (length(ts_point_cols) < 2 || length(pos_col) == 0) {
+  if (length(ts_point_cols) < 2L || length(pos_col) == 0L) {
 
     # convert the original 'bid_ts_' column names back
     if (length(bid_ts_cols) > 0) {
@@ -293,10 +371,9 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
 
   } else if (curve_type == "A03") {  # if curve_type is 'A03', then
     ts_resolution_requ_length <- ts_resolution_real_length <- NULL
-    ts_resolution_ok <- ts_time_interval_end <- NULL
+    ts_resolution_ok <- ts_time_interval_start <- ts_time_interval_end <- NULL
 
-    # calculate 'ts_resolution_requ_length',
-    # 'ts_resolution_real_length'
+    # calculate 'ts_resolution_requ_length', 'ts_resolution_real_length'
     # and 'ts_resolution_ok' values
     tbl <- tbl |>
       dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols))) |>
@@ -326,7 +403,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
         select = c(
           ts_time_interval_start,
           ts_time_interval_end,
-          ts_resolution_requ_length
+          ts_resolution_requ_length,
+          ts_resolution
         )
       ) |>
         unique() |>
@@ -334,7 +412,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           ~tibble::tibble(
             ts_time_interval_start = ..1,
             ts_time_interval_end = ..2,
-            ts_point_position = seq.int(from = 1, to = ..3)
+            ts_point_position = seq.int(from = 1, to = ..3),
+            ts_resolution = ..4
           )
         ) |>
         data.table::rbindlist(use.names = TRUE, fill = TRUE)
@@ -346,7 +425,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
         by = c(
           "ts_time_interval_start",
           "ts_time_interval_end",
-          "ts_point_position"
+          "ts_point_position",
+          "ts_resolution"
         ),
         all = TRUE
       ) |>
@@ -354,7 +434,9 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
 
       # fill the missing values with the last observation carry forward method
       tbl_adj <- tbl_adj |>
-        tidyr::fill(dplyr::everything())
+        dplyr::group_by(dplyr::across(tidyselect::all_of("ts_resolution"))) |>
+        tidyr::fill(dplyr::everything()) |>
+        dplyr::ungroup()
 
       # append the adjusted timeseries data points to the base 'tbl'
       tbl <- list(tbl, tbl_adj) |>
@@ -372,7 +454,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
 
   } else {
 
-    # TODO: remove after every curve_type handling is fixed
     # hints: https://eepublicdownloads.entsoe.eu/clean-documents/EDI/
     # Library/cim_based/
     # Introduction_of_different_Timeseries_possibilities__curvetypes
@@ -440,7 +521,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
   }
 
   # convert the original 'bid_ts_' column names back
-  if (length(bid_ts_cols) > 0) {
+  if (length(bid_ts_cols) > 0L) {
     names(tbl) <- names(tbl) |>
       stringr::str_replace_all(
         pattern = "^ts_",
@@ -448,7 +529,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
       )
   }
 
-  return(tbl)
+  # return
+  tbl
 }
 
 
@@ -461,18 +543,34 @@ calc_offset_urls <- function(reason, query_string) {
   # extract the number of the allowed documents
   docs_allowed <- stringr::str_extract(
     string = reason,
-    pattern = "allowed: [0-9]{1,8}"
+    pattern = "allowed maximum \\([0-9]{1,8}\\)"
   ) |>
     stringr::str_extract(pattern = "[0-9]{1,8}") |>
     as.integer()
+  if (is.na(docs_allowed)) {
+    docs_allowed <- stringr::str_extract(
+      string = reason,
+      pattern = "allowed:\\s+[0-9]{1,8}"
+    ) |>
+      stringr::str_extract(pattern = "[0-9]{1,8}") |>
+      as.integer()
+  }
 
   # extract the number of the requested documents
   docs_requested <- stringr::str_extract(
     string = reason,
-    pattern = "requested: [0-9]{1,8}"
+    pattern = "number of instances \\([0-9]{1,8}\\)"
   ) |>
     stringr::str_extract(pattern = "[0-9]{1,8}") |>
     as.integer()
+  if (is.na(docs_requested)) {
+    docs_requested <- stringr::str_extract(
+      string = reason,
+      pattern = "requested:\\s[0-9]{1,8}"
+    ) |>
+      stringr::str_extract(pattern = "[0-9]{1,8}") |>
+      as.integer()
+  }
 
   # calculate how many offset round is needed
   all_offset_nr <- docs_requested %/% docs_allowed +
@@ -481,6 +579,8 @@ calc_offset_urls <- function(reason, query_string) {
 
   # recompose offset URLs
   message("*** The request has been rephrased. ***")
+  query_string <- query_string |>
+    gsub(pattern = "\\&offset=[0-9]+", replacement = "")
   paste0(query_string, "&offset=", all_offset_seq)
 }
 
@@ -552,21 +652,17 @@ api_req <- function(
     ) |>
     httr2::req_timeout(seconds = 60)
   resp <- "No response."
-  resp <- tryCatch(
-    expr = httr2::req_perform(req = req),
-    httr2_http = \(cnd) cnd,
-    httr2_error = \(cnd) cnd,
-    error = \(cnd) cnd
-  )
+  resp <- req_perform_safe(req = req)
 
-  if (inherits(x = resp, what = "httr2_response")) {
+  if (is.null(x = resp$error)) {
+    result_obj <- resp$result
     message("response has arrived")
 
     # if the get request is successful, then ...
-    if (httr2::resp_status(resp = resp) == 200) {
+    if (httr2::resp_status(resp = result_obj) == 200) {
 
       # retrieve content-type from response headers
-      rhct <- httr2::resp_headers(resp = resp)[["content-type"]]
+      rhct <- httr2::resp_content_type(resp = result_obj)
       expt_zip <- c(
         "application/zip",
         "application/octet-stream"
@@ -582,7 +678,7 @@ api_req <- function(
         # save raw data to disk from memory
         temp_file_path <- tempfile(fileext = ".zip")
         writeBin(
-          object = httr2::resp_body_raw(resp = resp),
+          object = httr2::resp_body_raw(resp = result_obj),
           con = temp_file_path
         )
 
@@ -590,101 +686,41 @@ api_req <- function(
         en_cont_list <- read_zipped_xml(temp_file_path)
 
         # return with the xml content list
-        return(en_cont_list)
+        en_cont_list
 
       } else if (rhct %in% expt_xml) {
 
-        # read the xml content from the response
-        en_cont <- httr2::resp_body_xml(resp = resp, encoding = "UTF-8")
-
-        # return with the xml content
-        return(en_cont)
+        # read the xml content from the response and return
+        result_obj |>
+          httr2::resp_body_xml(encoding = "UTF-8")
 
       } else {
 
         stop(
           sprintf("Not known response content-type: %s",
-                  resp$headers$`content-type`),
+                  result_obj$headers$`content-type`),
           call. = FALSE
         )
 
       }
-
-    } else {
-
-      # extract reason from reason text
-      response_reason <- resp |>
-        httr2::resp_body_xml(encoding = "UTF-8") |>
-        xml2::as_list() |>
-        purrr::pluck("Acknowledgement_MarketDocument", "Reason", "text") |>
-        unlist()
-      if (lengths(response_reason) > 0) {
-        message("*** ", response_reason, " ***")
-      }
-
-      # check if offset usage needed or not
-      offset_needed <- stringr::str_detect(
-        string = response_reason,
-        pattern = "The amount of requested data exceeds allowed limit"
-      )
-
-      # check if query offset is allowed
-      offset_allowed <- stringr::str_detect(
-        string = query_string,
-        pattern = "documentType=A63&businessType=A85",
-        negate = TRUE
-      )
-
-      # if offset usage needed, then ...
-      if (isTRUE(offset_needed) && isTRUE(offset_allowed)) {
-
-        # calculate offset URLs
-        offset_query_strings <- calc_offset_urls(
-          reason = response_reason,
-          query_string = query_string
-        )
-
-        # recursively call the api_req() function itself
-        en_cont_list <- offset_query_strings |>
-          purrr::map(
-            ~api_req(
-              query_string = .x,
-              security_token = security_token
-            )
-          ) |>
-          unlist(recursive = FALSE)
-
-        return(en_cont_list)
-
-      } else {
-
-        stop(
-          paste(
-            httr2::resp_body_string(resp = resp, encoding = "UTF-8"),
-            collapse = "\n"
-          ),
-          call. = FALSE
-        )
-
-      }
-
     }
 
-  } else if (inherits(x = resp, what = "httr2_error")) {
-    message("error response has arrived")
+  } else {
+    error_obj <- resp$error
 
     # retrieve content-type from response headers
-    rhct <- httr2::resp_headers(resp = resp$resp)[["content-type"]]
+    rhct <- httr2::resp_content_type(resp = error_obj$resp)
     expt_html <- c("text/html;charset=UTF-8")
     expt_xml <- c("text/xml", "application/xml")
+    expt_json <- c("text/xml", "application/json")
 
     if (rhct %in% expt_html) {
-      # extract reason text and code
-      response_reason_text <- resp$resp |>
+      # extract reason code and text
+      response_reason_code <- httr2::resp_status(error_obj$resp)
+      response_reason_text <- error_obj$resp |>
         httr2::resp_body_html(encoding = "utf-8") |>
         xmlconvert::xml_to_list() |>
         purrr::pluck("body")
-      response_reason_code <- httr2::resp_status(resp$resp)
 
       stop(
         sprintf("%s: %s", response_reason_code, response_reason_text),
@@ -694,28 +730,78 @@ api_req <- function(
 
     if (rhct %in% expt_xml) {
       # extract reason from reason text
-      response_reason <- resp$resp |>
+      response_reason <- error_obj$resp |>
         httr2::resp_body_xml(encoding = "utf-8") |>
         xmlconvert::xml_to_list() |>
         purrr::pluck("Reason")
 
-      if (all(names(response_reason) == c("code", "text"))) {
+      if (!all(names(response_reason) == c("code", "text"))) {
+        stop(
+          sprintf("%s: %s",
+                  httr2::resp_status(error_obj$resp),
+                  httr2::resp_status_desc(error_obj$resp)),
+          call. = FALSE
+        )
+      }
+
+      if (response_reason$code == 999) {
+        # check if query offsetting is forbidden
+        offset_forbidden <- stringr::str_detect(
+          string = query_string,
+          pattern = sprintf(
+            fmt = "(%s|%s|%s|%s)",
+            "(?=.*documentType=A63)(?=.*businessType=A(46|85))",
+            "(?=.*documentType=A65)(?=.*businessType=A85)",
+            "documentType=A91",
+            "documentType=A92"
+          )
+        )
+
+        # if offset usage is not forbidden, then ...
+        if (isFALSE(offset_forbidden)) {
+          # check if offset usage needed
+          offset_needed <- stringr::str_detect(
+            string = response_reason$text,
+            pattern = "exceeds the allowed maximum"
+          )
+
+          # if offset usage needed and not forbidden, then ...
+          if (isTRUE(offset_needed)) {
+            # calculate offset URLs
+            offset_query_strings <- calc_offset_urls(
+              reason = response_reason$text,
+              query_string = query_string
+            )
+
+            # recursively call the api_req() function itself
+            en_cont_list <- offset_query_strings |>
+              purrr::map(
+                ~api_req(
+                  query_string = .x,
+                  security_token = security_token
+                )
+              )
+
+            return(en_cont_list)
+          }
+        }
+
+        stop(paste(response_reason, collapse = "\n"), call. = FALSE)
+      } else {
         stop(
           sprintf("%s: %s", response_reason$code, response_reason$text),
           call. = FALSE
         )
-      } else {
-        stop(
-          paste(httr2::resp_status(resp$resp), collapse = "\n"),
-          call. = FALSE
-        )
       }
     }
-  } else {
-    stop(
-      paste(httr2::resp_status(resp$resp), collapse = "\n"),
-      call. = FALSE
-    )
+
+    if (rhct %in% expt_json) {
+      # extract reason from reason text
+      response_reason <- error_obj$resp |>
+        httr2::resp_body_json(encoding = "utf-8") |>
+        purrr::pluck("uuAppErrorMap", "URI_FORMAT_ERROR")
+      stop(response_reason$message, call. = FALSE)
+    }
 
   }
 }
@@ -727,6 +813,14 @@ api_req <- function(
 #'
 #' @noRd
 api_req_safe <- purrr::safely(api_req)
+
+
+
+#' @title
+#' safely call req_perform() function
+#'
+#' @noRd
+req_perform_safe <- purrr::safely(httr2::req_perform)
 
 
 
@@ -832,7 +926,8 @@ get_eiccodes <- function(
       }) |>
       tibble::as_tibble()
 
-    return(eiccodes)
+    # return
+    eiccodes
 
   } else {
 
@@ -862,7 +957,8 @@ unpack_xml <- function(section, parent_name = NULL) {
                                            sep = ".")
     tbl <- tibble::as_tibble_row(result_vector)
   }
-  return(tbl)
+  # return
+  tbl
 }
 
 
@@ -984,6 +1080,10 @@ my_snakecase <- function(tbl) {
     stringr::str_replace_all(
       pattern = "_market_product_market_product",
       replacement = "_market_product"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "_attribute_instance_component",
+      replacement = ""
     )
 }
 
@@ -1267,7 +1367,8 @@ get_resource_object_eic <- function(
     m$set(key = roe_cache_key, value = resource_object_eic)
   }
 
-  return(resource_object_eic)
+  # return
+  resource_object_eic
 }
 
 
@@ -1755,7 +1856,8 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
                    "bid_ts_price_measure_unit_name",
                    "ts_quantity_measure_unit_name",
                    "bid_ts_quantity_measure_unit_name",
-                   "high_voltage_limit")
+                   "high_voltage_limit",
+                   "ts_classification_sequence_position")
   needed_cols <- base::intersect(x = needed_cols,
                                  y = names(result_tbl))
 
@@ -1777,7 +1879,9 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     # convert the result to tibble
     result_tbl <- tibble::as_tibble(result_dtbl)
 
-    return(result_tbl)
+    # return
+    result_tbl
+
   } else {
     stop(
       "There is no interesting column in the result table!",
@@ -1815,19 +1919,44 @@ extract_response <- function(content, tidy_output = TRUE) {
       if (result_is_list) {
         # convert XMLs to one table
         response_length <- length(content$result)
-        result_tbl <- purrr::imap(content$result,
-                                  \(x, idx) {
-                                    times <- response_length - idx + 1
-                                    if (times > 1) {
-                                      message(
-                                        idx, " ", rep(x = "<", times = times)
-                                      )
-                                    }
-                                    xml_to_table(
-                                      xml_content = x,
-                                      tidy_output = tidy_output
-                                    )
-                                  }) |>
+        result_tbl <- content$result |>
+          purrr::imap(
+                      \(x, idx) {
+                        times <- response_length - idx + 1L
+                        if (times > 1L) {
+                          message(
+                            idx, " ", rep(x = "<", times = times)
+                          )
+                        }
+                        if (!is.null(x)) {
+                          if (inherits(x = x, what = "list")) {
+                            all_doc <- purrr::map_lgl(
+                              x, inherits, what = "xml_document"
+                            ) |>
+                              all()
+                            if (all_doc) {
+                              purrr::map(
+                                x, xml_to_table, tidy_output = tidy_output
+                              ) |>
+                                purrr::compact() |>
+                                data.table::rbindlist(
+                                  use.names = TRUE,
+                                  fill = TRUE
+                                )
+                            } else {
+                              NULL
+                            }
+                          } else {
+                            xml_to_table(
+                              xml_content = x,
+                              tidy_output = tidy_output
+                            )
+                          }
+                        } else {
+                          NULL
+                        }
+                      }) |>
+          purrr::compact() |>
           data.table::rbindlist(use.names = TRUE, fill = TRUE) |>
           tibble::as_tibble()
       } else {
@@ -1838,12 +1967,8 @@ extract_response <- function(content, tidy_output = TRUE) {
         )
       }
 
-      # if ("reason_text" %in% names(result_tbl)) {
-      #   stop(result_tbl$reason_text, call. = FALSE)
-      # } else {
-      #   return(result_tbl)
-      # } TODO: decide about this later
-      return(result_tbl)
+      # return
+      result_tbl
 
     } else {
 

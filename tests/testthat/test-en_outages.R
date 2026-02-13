@@ -33,6 +33,22 @@ testthat::test_that(
       testthat::expect_warning() |>
       testthat::expect_warning() |>
       testthat::expect_warning()
+    testthat::expect_error(
+      object = outages_both(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2025-11-24",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One year range limit should be applied!"
+    ) |>
+      testthat::expect_error(info = "One year range limit should be applied!")
   }
 )
 

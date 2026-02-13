@@ -19,10 +19,12 @@ outages_fallbacks(
 control area}
 
 \item{period_start}{the starting date of the in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{period_end}{the ending date of the outage in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{process_type}{"A47" = mFRR
 "A51" = aFRR
@@ -50,9 +52,9 @@ used on the platform fails or does not find solution.
 \examples{
 #'
 df <- entsoeapi::outages_fallbacks(
-  eic          = "10YBE----------2",
+  eic = "10YBE----------2",
   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+  period_end = lubridate::ymd(x = "2024-01-01", tz = "CET"),
   process_type = "A51",
   event_nature = "C47")
 

@@ -28,11 +28,9 @@ One day range limit applies}
 \description{
 The net position informs whether the given area imports or exports energy.
 Those rows which hold the queried eic value in the
-'ts_connecting_domain_mrid' column
-show the export value.
+'ts_connecting_domain_mrid' column show the export value.
 Those rows which hold the queried eic value in the
-'ts_acquiring_domain_mrid' column
-show the import value.
+'ts_acquiring_domain_mrid' column show the import value.
 }
 \examples{
 df <- entsoeapi::netted_volumes(

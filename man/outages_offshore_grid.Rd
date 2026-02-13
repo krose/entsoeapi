@@ -22,10 +22,12 @@ CTA|DE(TeneTGer), CTA|DE(TransnetBW),CTA|AT,CTA|LU
 but not per bidding zone.)}
 
 \item{period_start}{the starting date of the in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{period_end}{the ending date of the outage in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{doc_status}{Notification document status. NULL or "A05"
 for active and "A13" for withdrawn.
@@ -43,12 +45,12 @@ is provided.
 }
 \examples{
 df <- entsoeapi::outages_offshore_grid(
-  eic                 = "10Y1001A1001A82H",
-  period_start        = lubridate::ymd(x = Sys.Date() -
-                                         lubridate::days(x = 365L),
-                                       tz = "CET"),
-  period_end          = lubridate::ymd(x = Sys.Date(),
-                                       tz = "CET")
+  eic = "10Y1001A1001A82H",
+  period_start = lubridate::ymd(
+                   x = Sys.Date() -lubridate::days(x = 365L),
+                   tz = "CET"
+                 ),
+  period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
 )
 
 str(df)

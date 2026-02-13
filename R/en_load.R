@@ -18,27 +18,25 @@ utils::globalVariables(
 #'   between neighbouring bidding zones
 #' - the power absorbed by energy storage resources
 #'
-#' @param eic
-#' Energy Identification Code of the bidding zone/country/control area
-#' @param period_start
-#' POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param period_end
-#' POSIXct or YYYY-MM-DD HH:MM:SS format
-#' @param tidy_output
-#' Defaults to TRUE. If TRUE, then flatten nested tables.
-#' @param security_token
-#' Security token for ENTSO-E transparency platform
+#' @param eic Energy Identification Code of the bidding zone/country/control
+#'            area
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
 #' @export
 #'
 #' @examples
 #' # German average daily load.
 #' df <- entsoeapi::load_actual_total(
-#'   eic          = "10Y1001A1001A83F",
+#'   eic = "10Y1001A1001A83F",
 #'   period_start = lubridate::ymd(x = Sys.Date() -
 #'     lubridate::days(x = 30), tz = "CET"),
-#'   period_end   = lubridate::ymd(x = Sys.Date(), tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -61,21 +59,14 @@ load_actual_total <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -93,7 +84,7 @@ load_actual_total <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -112,7 +103,9 @@ load_actual_total <- function(
 #' @param eic Energy Identification Code of the bidding zone/
 #'            country/control area
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param tidy_output Defaults to TRUE
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
@@ -122,11 +115,11 @@ load_actual_total <- function(
 #' @examples
 #' # German average daily load.
 #' df <- entsoeapi::load_day_ahead_total_forecast(
-#'   eic          = "10Y1001A1001A83F",
+#'   eic = "10Y1001A1001A83F",
 #'   period_start = lubridate::ymd(x = Sys.Date() -
 #'     lubridate::days(x = 30), tz = "CET"),
-#'   period_end   = lubridate::ymd(x = Sys.Date(), tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -149,21 +142,14 @@ load_day_ahead_total_forecast <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -181,7 +167,7 @@ load_day_ahead_total_forecast <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -200,7 +186,9 @@ load_day_ahead_total_forecast <- function(
 #' @param eic Energy Identification Code of the bidding zone/
 #'            country/control area
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param tidy_output Defaults to TRUE.
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
@@ -209,10 +197,10 @@ load_day_ahead_total_forecast <- function(
 #'
 #' @examples
 #' df <- entsoeapi::load_week_ahead_total_forecast(
-#'   eic          = "10Y1001A1001A82H",
+#'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2019-11-30", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -235,21 +223,14 @@ load_week_ahead_total_forecast <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -267,7 +248,7 @@ load_week_ahead_total_forecast <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -286,7 +267,9 @@ load_week_ahead_total_forecast <- function(
 #' @param eic Energy Identification Code of the bidding zone/
 #'            country/control area
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param tidy_output Defaults to TRUE.
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
@@ -295,10 +278,10 @@ load_week_ahead_total_forecast <- function(
 #'
 #' @examples
 #' df <- entsoeapi::load_month_ahead_total_forecast(
-#'   eic          = "10Y1001A1001A82H",
+#'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2019-11-30", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -321,21 +304,14 @@ load_month_ahead_total_forecast <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -353,7 +329,7 @@ load_month_ahead_total_forecast <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -372,7 +348,9 @@ load_month_ahead_total_forecast <- function(
 #' @param eic Energy Identification Code of the bidding zone/
 #'            country/control area
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param tidy_output Defaults to TRUE.
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
@@ -381,10 +359,10 @@ load_month_ahead_total_forecast <- function(
 #'
 #' @examples
 #' df <- entsoeapi::load_year_ahead_total_forecast(
-#'   eic          = "10Y1001A1001A82H",
+#'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2019-11-30", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2019-11-30", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -406,21 +384,14 @@ load_year_ahead_total_forecast <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -438,7 +409,7 @@ load_year_ahead_total_forecast <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -457,7 +428,9 @@ load_year_ahead_total_forecast <- function(
 #' @param eic Energy Identification Code of the bidding zone/
 #'            country/control area
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param tidy_output Defaults to TRUE.
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
@@ -466,10 +439,10 @@ load_year_ahead_total_forecast <- function(
 #'
 #' @examples
 #' df <- entsoeapi::load_year_ahead_forecast_margin(
-#'   eic          = "10Y1001A1001A82H",
+#'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-01-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2019-12-31", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2019-12-31", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -491,21 +464,14 @@ load_year_ahead_forecast_margin <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -523,5 +489,5 @@ load_year_ahead_forecast_margin <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }

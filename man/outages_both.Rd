@@ -22,10 +22,12 @@ i.e. CTA|DE(50Hertz), CTA|DE(Amprion), CTA|DE(TeneTGer),
 CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone.)}
 
 \item{period_start}{the starting date of the in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{period_end}{the ending date of the outage in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{doc_status}{Notification document status. "A05" for active,
 "A09" for cancelled and "A13" for withdrawn.
@@ -47,13 +49,15 @@ means the minimum available generation capacity during the period specified.
 }
 \examples{
 df <- entsoeapi::outages_both(
-  eic                 = "10YFR-RTE------C",
-  period_start        = lubridate::ymd(x = Sys.Date() +
-                                         lubridate::days(x = 1L),
-                                       tz = "CET"),
-  period_end          = lubridate::ymd(x = Sys.Date() +
-                                         lubridate::days(x = 2L),
-                                       tz = "CET")
+  eic = "10YFR-RTE------C",
+  period_start = lubridate::ymd(
+                   x = Sys.Date() + lubridate::days(x = 1L),
+                   tz = "CET"
+                 ),
+  period_end = lubridate::ymd(
+                 x = Sys.Date() + lubridate::days(x = 2L),
+                 tz = "CET"
+               )
 )
 
 str(df)

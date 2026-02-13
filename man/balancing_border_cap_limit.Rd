@@ -30,9 +30,11 @@ A47 mFRR
 A51 aFRR
 A63 Imbalance Netting}
 
-\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
-\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{tidy_output}{Defaults to TRUE. flatten nested tables}
 

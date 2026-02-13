@@ -1,7 +1,7 @@
 Package: entsoeapi
 Type: Package
 Title: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface
-Version: 0.8.2.0
+Version: 0.9.0.0
 Authors@R: c(person("Kenneth", "Rose",  role="aut",           email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre"), email="sbudai.ga@gmail.com"))
 Description: Simple and standardized wrappers around Entso-E API's Load, Generation,
@@ -31,7 +31,7 @@ LazyData: true
 URL: https://github.com/krose/entsoeapi
 BugReports: https://github.com/krose/entsoeapi/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
 Depends: R (>= 4.1.0)
 Suggests: 
     testthat (>= 3.0.0)
@@ -39,10 +39,10 @@ Config/testthat/edition: 3
 Collate: 
     'data.R'
     'utils.R'
-    'en_balancing.R'
-    'en_generation.R'
     'en_helpers.R'
+    'en_market.R'
     'en_load.R'
-    'en_outages.R'
+    'en_generation.R'
     'en_transmission.R'
-    'en_congestion.R'
+    'en_outages.R'
+    'en_balancing.R'

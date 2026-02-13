@@ -14,13 +14,17 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
 ------------------------------------------------------------------------
 
 -   Already available ENTSO-E API endpoints:
-    -   BALANCING
-        -   balancing_accepted_aggr_offers (17.1.D)
-        -   balancing_activated_reserves (17.1.E)
-        -   balancing_border_cap_limit (IFs 4.3 & 4.4)
-        -   exchanged_volumes (aFRR 3.16, mFRR 3.17)
-        -   netted_volumes (IFs IN 3.10)
-        -   elastic_demands (IF mFRR 3.4)
+    -   MARKET
+        -   total_nominated_capacity (12.1.B)
+        -   already_allocated_total_capacity (12.1.C)
+        -   day_ahead_prices (12.1.D)
+    -   LOAD
+        -   load_actual_total (6.1.A)
+        -   load_day_ahead_total_forecast (6.1.B)
+        -   load_week_ahead_total_forecast (6.1.C)
+        -   load_month_ahead_total_forecast (6.1.D)
+        -   load_year_ahead_total_forecast (6.1.E)
+        -   load_year_ahead_forecast_margin (8.1)
     -   GENERATION
         -   gen_day_ahead (14.1.C)
         -   gen_installed_capacity_per_pt (14.1.A)
@@ -29,14 +33,16 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
         -   gen_per_prod_type (16.1.B&C)
         -   gen_wind_solar_forecasts (14.1.D)
         -   the gen_storage_mean_filling_rate (16.1.D)
-    -   LOAD
-        -   load_actual_total (6.1.A)
-        -   load_day_ahead_total_forecast (6.1.B)
-        -   load_week_ahead_total_forecast (6.1.C)
-        -   load_month_ahead_total_forecast (6.1.D)
-        -   load_year_ahead_total_forecast (6.1.E)
-        -   load_year_ahead_forecast_margin (8.1)
-    -   UNAVAILABILITY
+    -   TRANSMISSION
+        -   redispatching_internal (13.1.A)
+        -   redispatching_cross_border (13.1.A)
+        -   countertrading (13.1.B)
+        -   costs_of_congestion_management (13.1.C)
+        -   day_ahead_commercial_sched (12.1.F)
+        -   total_commercial_sched (12.1.F)
+        -   forecasted_transfer_capacities (11.1)
+        -   cross_border_physical_flows (12.1.G)
+    -   OUTAGES
         -   outages_gen_units (15.1.A&B)
         -   outages_prod_units (15.1.C&D)
         -   outages_both (15.1.A&B + 15.1.C&D)
@@ -44,19 +50,13 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
         -   outages_fallbacks (IFs IN 7.2, mFRR 3.11, aFRR 3.10)
         -   outages_offshore_grid (10.1.A&B)
         -   outages_transmission_grid (10.1.A&B)
-    -   TRANSMISSION
-        -   transm_already_allocated_cap (12.1.C)
-        -   transm_day_ahead_comm_sched (12.1.F)
-        -   transm_day_ahead_prices (12.1.D)
-        -   transm_day_ahead_transf_cap (11.1)
-        -   transm_total_comm_sched (12.1.F)
-        -   transm_total_nominated_cap (12.1.B)
-        -   transm_x_border_phys_flow (12.1.G)
-    -   CONGESTION MANAGEMENT
-        -   redispatching_internal (13.1.A)
-        -   redispatching_x_border (13.1.A)
-        -   countertrading (13.1.B)
-        -   costs_of_congestion_management (13.1.C)
+    -   BALANCING
+        -   balancing_border_cap_limit (IFs 4.3 & 4.4)
+        -   exchanged_volumes (aFRR 3.16, mFRR 3.17)
+        -   netted_volumes (IFs IN 3.10)
+        -   elastic_demands (IF mFRR 3.4)
+
+
 
 All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented. If you want to use an unimplemented endpoint, 
 please submit an [issue](https://github.com/krose/entsoeapi/issues/new/choose) and we'll do our best to resolve it.\
