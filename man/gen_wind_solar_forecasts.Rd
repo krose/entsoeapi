@@ -16,9 +16,11 @@ gen_wind_solar_forecasts(
 \item{eic}{Energy Identification Code of the control area,
 bidding zone or country}
 
-\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
-\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{tidy_output}{Defaults to TRUE.
 If TRUE, then flatten nested tables.}

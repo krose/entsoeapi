@@ -18,10 +18,10 @@ gen_per_prod_type(
 bidding zone or country}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
-Maximum one year range limit applies}
+One year range limit applies}
 
 \item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
-Maximum one year range limit applies}
+One year range limit applies}
 
 \item{gen_type}{Defaults to NULL, otherwise list of generation type
 codes from asset_types table}

@@ -18,8 +18,8 @@ exchanged_volumes(
 
 \item{process_type}{type of frequency restoration reserve
 A51 aFRR
-A60 mFRR scheduled activation
-A61 mFRR direct activation}
+A60 mFRR with scheduled activation
+A61 mFRR with direct activation}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
 One day range limit applies}

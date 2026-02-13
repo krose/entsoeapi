@@ -23,10 +23,12 @@ outages_transmission_grid(
 \item{eic_out}{Energy Identification Code of the OUT bidding zone area}
 
 \item{period_start}{the starting date of the in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{period_end}{the ending date of the outage in-scope period
-in POSIXct or YYYY-MM-DD HH:MM:SS format}
+in POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{period_start_update}{notification submission/update starting date
 in POSIXct or YYYY-MM-DD HH:MM:SS format}
@@ -55,19 +57,21 @@ net transfer capacity.
 }
 \examples{
 df <- entsoeapi::outages_transmission_grid(
-  eic_in              = "10YFR-RTE------C",
-  eic_out             = "10Y1001A1001A82H",
-  period_start        = lubridate::ymd(x = Sys.Date() +
-                                         lubridate::days(x = 1),
-                                       tz = "CET"),
-  period_end          = lubridate::ymd(x = Sys.Date() +
-                                         lubridate::days(x = 2),
-                                       tz = "CET"),
-  period_start_update = lubridate::ymd(x = Sys.Date() -
-                                         lubridate::days(x = 7),
-                                       tz = "CET"),
-  period_end_update   = lubridate::ymd(x = Sys.Date(),
-                                       tz = "CET")
+  eic_in = "10YFR-RTE------C",
+  eic_out = "10Y1001A1001A82H",
+  period_start = lubridate::ymd(
+                   x = Sys.Date() + lubridate::days(x = 1),
+                   tz = "CET"
+                 ),
+  period_end = lubridate::ymd(
+                 x = Sys.Date() + lubridate::days(x = 2),
+                 tz = "CET"
+               ),
+  period_start_update = lubridate::ymd(
+                          x = Sys.Date() -lubridate::days(x = 7),
+                          tz = "CET"
+                        ),
+  period_end_update = lubridate::ymd(x = Sys.Date(), tz = "CET")
 )
 
 str(df)

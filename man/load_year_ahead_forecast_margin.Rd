@@ -16,9 +16,11 @@ load_year_ahead_forecast_margin(
 \item{eic}{Energy Identification Code of the bidding zone/
 country/control area}
 
-\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
-\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{tidy_output}{Defaults to TRUE.
 If TRUE, then flatten nested tables.}
@@ -35,10 +37,10 @@ system services.
 }
 \examples{
 df <- entsoeapi::load_year_ahead_forecast_margin(
-  eic          = "10Y1001A1001A82H",
+  eic = "10Y1001A1001A82H",
   period_start = lubridate::ymd(x = "2019-01-01", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2019-12-31", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2019-12-31", tz = "CET"),
+  tidy_output = TRUE
 )
 
 str(df)

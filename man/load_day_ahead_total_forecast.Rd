@@ -16,9 +16,11 @@ load_day_ahead_total_forecast(
 \item{eic}{Energy Identification Code of the bidding zone/
 country/control area}
 
-\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
-\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format}
+\item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
+One year range limit applies}
 
 \item{tidy_output}{Defaults to TRUE
 If TRUE, then flatten nested tables.}
@@ -38,11 +40,11 @@ between neighbouring bidding zones
 \examples{
 # German average daily load.
 df <- entsoeapi::load_day_ahead_total_forecast(
-  eic          = "10Y1001A1001A83F",
+  eic = "10Y1001A1001A83F",
   period_start = lubridate::ymd(x = Sys.Date() -
     lubridate::days(x = 30), tz = "CET"),
-  period_end   = lubridate::ymd(x = Sys.Date(), tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = Sys.Date(), tz = "CET"),
+  tidy_output = TRUE
 )
 
 str(df)

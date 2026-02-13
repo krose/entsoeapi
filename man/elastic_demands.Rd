@@ -2,10 +2,11 @@
 % Please edit documentation in R/en_balancing.R
 \name{elastic_demands}
 \alias{elastic_demands}
-\title{Get Elastic Demands (IF mFRR 3.4)}
+\title{Get Elastic Demands (IFs aFRR 3.4 & mFRR 3.4)}
 \usage{
 elastic_demands(
   eic = NULL,
+  process_type = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
@@ -14,6 +15,10 @@ elastic_demands(
 }
 \arguments{
 \item{eic}{Energy Identification Code of the scheduling area}
+
+\item{process_type}{type of frequency restoration reserve
+A47 mFRR
+A51 aFRR}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
 One year range limit applies}
@@ -26,11 +31,12 @@ One year range limit applies}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
-Elastic demands for scheduled activation of standard mFRR product.
+Elastic demands for scheduled activation of standard aFRR/mFRR product.
 }
 \examples{
 df <- entsoeapi::elastic_demands(
   eic          = "10YCZ-CEPS-----N",
+  process_type = "A47",
   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
   period_end   = lubridate::ymd(x = "2024-11-01", tz = "CET"),
   tidy_output  = TRUE
