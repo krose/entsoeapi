@@ -21,7 +21,7 @@ testthat::test_that(
         year = lubridate::year(x = Sys.Date()) - 3.4,
         psr_type = NULL
       ),
-      info = "A valid integer year value should be provided!"
+      info = "One valid integer year value should be provided!"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
@@ -46,6 +46,17 @@ testthat::test_that(
         psr_type = NULL
       ),
       info = "One control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pt(
+        eic = "10YFR-RTE------C",
+        year = c(
+          lubridate::year(x = Sys.Date()),
+          lubridate::year(x = Sys.Date()) - 1L
+        ),
+        psr_type = NULL
+      ),
+      info = "One valid integer year value should be provided!"
     )
   }
 )
@@ -75,7 +86,18 @@ testthat::test_that(
         year = lubridate::year(x = Sys.Date()) + 1.4,
         psr_type = NULL
       ),
-      info = "A valid integer year value should be provided!"
+      info = "One valid integer year value should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_installed_capacity_per_pu(
+        eic = "10YFR-RTE------C",
+        year = c(
+          lubridate::year(x = Sys.Date()),
+          lubridate::year(x = Sys.Date()) - 1L
+        ),
+        psr_type = NULL
+      ),
+      info = "One valid integer year value should be provided!"
     )
     testthat::expect_no_error(
       object = gen_installed_capacity_per_pu(
@@ -377,7 +399,7 @@ testthat::test_that(
         tidy_output = TRUE
       )
     )
-    testthat::expect_error(
+    testthat::expect_warning(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
         period_start = lubridate::ymd(
@@ -388,11 +410,14 @@ testthat::test_that(
           x = "2020-02-02",
           tz = "CET"
         ),
-        gen_type = c("B03", "B04"),
+        gen_type = c("B03"),
         tidy_output = TRUE
       ),
-      info = "Delivered PsrType B03 is not valid for this area!"
-    )
+      info = "No additional type names added!"
+    ) |>
+      testthat::expect_warning(info = "No additional eic names added!") |>
+      testthat::expect_warning(info = "No additional type names added!") |>
+      testthat::expect_warning(info = "No additional eic names added!")
     testthat::expect_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
@@ -465,10 +490,10 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "gen_day_ahead() works",
+  desc = "gen_day_ahead_forecast() works",
   code = {
     testthat::expect_no_error(
-      object = gen_day_ahead(
+      object = gen_day_ahead_forecast(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = "2020-02-01",
@@ -482,7 +507,7 @@ testthat::test_that(
       )
     )
     testthat::expect_error(
-      object = gen_day_ahead(
+      object = gen_day_ahead_forecast(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = "2020-02-01",
@@ -498,7 +523,7 @@ testthat::test_that(
       info = "Valid security token should be provided!"
     )
     testthat::expect_error(
-      object = gen_day_ahead(
+      object = gen_day_ahead_forecast(
         eic = NULL,
         period_start = lubridate::ymd(
           x = "2020-02-01",
@@ -513,7 +538,7 @@ testthat::test_that(
       info = "One control area/bidding zone/country EIC should be provided!"
     )
     testthat::expect_error(
-      object = gen_day_ahead(
+      object = gen_day_ahead_forecast(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
         period_start = lubridate::ymd(
           x = "2020-02-01",
@@ -526,6 +551,21 @@ testthat::test_that(
         tidy_output = TRUE
       ),
       info = "This wrapper only supports one EIC per request!"
+    )
+    testthat::expect_error(
+      object = gen_day_ahead_forecast(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2021-03-01",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "One year range limit should be applied!"
     )
   }
 )
@@ -594,6 +634,21 @@ testthat::test_that(
         security_token = ""
       ),
       info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = gen_wind_solar_forecasts(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2020-02-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2021-03-01",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      ),
+      info = "One year range limit should be applied!"
     )
   }
 )
