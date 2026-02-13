@@ -1,3 +1,30 @@
+# entsoeapi v0.9.0.0 (2026-02-dd)
+
+## New functionality
+
+-   Pagination functionality has been added to outage queries.
+-   Day-ahead market notation has been added for `day_ahead_prices()` query result where more than one day-ahead auction are available; the column named as `ts_classification_sequence_position`.
+-   The missing PSR information related issue resolved in `gen_per_gen_unit()` query results.
+
+## Miscellaneous
+
+-   some functions renamed according to the names of the transparency platform:
+    -   `redispatching_x_border()` \>\> `redispatching_cross_border()`
+    -   `transm_already_allocated_cap()` \>\> `already_allocated_total_capacity()`
+    -   `transm_day_ahead_comm_sched()` \>\> `day_ahead_commercial_sched()`
+    -   `transm_day_ahead_prices()` \>\> `day_ahead_prices()`
+    -   `transm_day_ahead_transf_cap()` \>\> `forecasted_transfer_capacities()`
+    -   `transm_total_comm_sched()` \>\> `total_commercial_sched()`
+    -   `transm_total_nominated_cap()` \>\> `total_nominated_capacity()`
+    -   `transm_x_border_phys_flow()` \>\> `cross_border_physical_flows()`
+    -   `gen_day_ahead()` \>\> `gen_day_ahead_forecast()`
+-   some functions phased out according to the transparency platform:
+    -   `balancing_accepted_aggr_offers()`
+    -   `balancing_activated_reserves()`
+-   attribute(s) have been modified at some function(s):
+    -   `elastic_demands()`
+    -   `already_allocated_total_capacity()`
+
 # entsoeapi v0.8.2.0 (2025-11-16)
 
 ## New functionality
