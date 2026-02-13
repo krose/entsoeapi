@@ -9,12 +9,15 @@ utils::globalVariables(
 
 
 #' @title
-#' Get Elastic Demands (IF mFRR 3.4)
+#' Get Elastic Demands (IFs aFRR 3.4 & mFRR 3.4)
 #'
 #' @description
-#' Elastic demands for scheduled activation of standard mFRR product.
+#' Elastic demands for scheduled activation of standard aFRR/mFRR product.
 #'
 #' @param eic Energy Identification Code of the scheduling area
+#' @param process_type type of frequency restoration reserve
+#'        A47 mFRR
+#'        A51 aFRR
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
 #'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
@@ -27,6 +30,7 @@ utils::globalVariables(
 #' @examples
 #' df <- entsoeapi::elastic_demands(
 #'   eic          = "10YCZ-CEPS-----N",
+#'   process_type = "A47",
 #'   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
 #'   period_end   = lubridate::ymd(x = "2024-11-01", tz = "CET"),
 #'   tidy_output  = TRUE
@@ -35,6 +39,7 @@ utils::globalVariables(
 #'
 elastic_demands <- function(
   eic = NULL,
+  process_type = NULL,
   period_start = lubridate::ymd(
     Sys.Date() - lubridate::days(x = 7L),
     tz = "CET"
@@ -53,8 +58,13 @@ elastic_demands <- function(
     stop("This wrapper only supports one control area EIC per request.")
   }
 
+  # check if proper process_type provided
+  if (!process_type %in% c("A47", "A51")) {
+    stop("The 'process_type' should be 'A47' or 'A51'.")
+  }
+
   # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365) {
+  if (difftime(period_end, period_start, units = "day") > 365L) {
     stop("One year range limit should be applied!")
   }
 
@@ -68,7 +78,7 @@ elastic_demands <- function(
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
     "documentType=A37",
-    "&processType=A47",
+    "&processType=", process_type,
     "&businessType=B75",
     "&Acquiring_domain=", eic,
     "&periodStart=", period_start,
@@ -82,7 +92,7 @@ elastic_demands <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -93,11 +103,9 @@ elastic_demands <- function(
 #' @description
 #' The net position informs whether the given area imports or exports energy.
 #' Those rows which hold the queried eic value in the
-#' 'ts_connecting_domain_mrid' column
-#' show the export value.
+#' 'ts_connecting_domain_mrid' column show the export value.
 #' Those rows which hold the queried eic value in the
-#' 'ts_acquiring_domain_mrid' column
-#' show the import value.
+#' 'ts_acquiring_domain_mrid' column show the import value.
 #'
 #' @param eic Energy Identification Code of the area
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
@@ -138,7 +146,7 @@ netted_volumes <- function(
   }
 
   # check if the requested period is not longer than one day
-  if (difftime(period_end, period_start, units = "day") > 1) {
+  if (difftime(period_end, period_start, units = "day") > 1L) {
     stop("One day range limit should be applied!")
   }
 
@@ -166,7 +174,7 @@ netted_volumes <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -187,8 +195,8 @@ netted_volumes <- function(
 #' @param eic Energy Identification Code of the area
 #' @param process_type type of frequency restoration reserve
 #'        A51 aFRR
-#'        A60 mFRR scheduled activation
-#'        A61 mFRR direct activation
+#'        A60 mFRR with scheduled activation
+#'        A61 mFRR with direct activation
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
 #'                     One day range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
@@ -244,7 +252,7 @@ exchanged_volumes <- function(
   }
 
   # check if the requested period is not longer than one day
-  if (difftime(period_end, period_start, units = "day") > 1) {
+  if (difftime(period_end, period_start, units = "day") > 1L) {
     stop("One day range limit should be applied!")
   }
 
@@ -272,7 +280,7 @@ exchanged_volumes <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -295,7 +303,9 @@ exchanged_volumes <- function(
 #'        A51 aFRR
 #'        A63 Imbalance Netting
 #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
@@ -336,7 +346,7 @@ balancing_border_cap_limit <- function(
   }
 
   # check if none or only one eic_interconnector provided
-  if (!is.null(eic_interconnector) && length(eic_interconnector) > 1) {
+  if (!is.null(eic_interconnector) && length(eic_interconnector) > 1L) {
     stop(
       "None or one Transmission Asset (eic_interconnector) ",
       "should be provided."
@@ -350,6 +360,11 @@ balancing_border_cap_limit <- function(
 
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -381,7 +396,7 @@ balancing_border_cap_limit <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -595,167 +610,169 @@ balancing_border_cap_limit <- function(
 
 
 
-#' @title
-#' Get Accepted Aggregated Offers (17.1.D)
+#' #' @title
+#' #' Get Accepted Aggregated Offers (17.1.D)
+#' #'
+#' #' @description
+#' #' Energy volumes available for activation.
+#' #'
+#' #' @param eic Energy Identification Code of the control area domain
+#' #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#' #'                     One year range limit applies
+#' #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#' #'                   One year range limit applies
+#' #' @param reserve_type Defaults to NULL, otherwise choose among the
+#' #'                     list of reserve type codes (A95, A96, A97, A98)
+#' #'                     from business_types table
+#' #' @param tidy_output Defaults to TRUE. flatten nested tables
+#' #' @param security_token Security token for ENTSO-E transparency platform
+#' #'
+#' #' export
+#' #'
+#' #' @examples
+#' #' df <- entsoeapi::balancing_accepted_aggr_offers(
+#' #'   eic          = "10YHU-MAVIR----U",
+#' #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+#' #'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+#' #'   tidy_output  = TRUE,
+#' #'   reserve_type = "A96"
+#' #' )
+#' #' str(df)
+#' #'
+#' balancing_accepted_aggr_offers <- function(
+#'   eic = NULL,
+#'   period_start = lubridate::ymd(
+#'     Sys.Date() - lubridate::days(x = 7L),
+#'     tz = "CET"
+#'   ),
+#'   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+#'   reserve_type = NULL,
+#'   tidy_output = TRUE,
+#'   security_token = Sys.getenv("ENTSOE_PAT")
+#' ) {
 #'
-#' @description
-#' Energy volumes available for activation.
+#'   # check if only one eic provided
+#'   if (is.null(eic)) stop("One control area EIC should be provided.")
+#'   if (length(eic) > 1L) {
+#'     stop("This wrapper only supports one control area EIC per request.")
+#'   }
 #'
-#' @param eic Energy Identification Code of the control area domain
-#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                     One year range limit applies
-#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                   One year range limit applies
-#' @param reserve_type Defaults to NULL, otherwise choose among the
-#'                     list of reserve type codes (A95, A96, A97, A98)
-#'                     from business_types table
-#' @param tidy_output Defaults to TRUE. flatten nested tables
-#' @param security_token Security token for ENTSO-E transparency platform
+#'   # check if the requested period is not longer than one year
+#'   if (difftime(period_end, period_start, units = "day") > 365) {
+#'     stop("One year range limit should be applied!")
+#'   }
 #'
-#' @export
+#'   # check if valid security token is provided
+#'   if (security_token == "") stop("Valid security token should be provided.")
 #'
-#' @examples
-#' df <- entsoeapi::balancing_accepted_aggr_offers(
-#'   eic          = "10YHU-MAVIR----U",
-#'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
-#'   tidy_output  = TRUE,
-#'   reserve_type = "A96"
-#' )
-#' str(df)
+#'   # convert timestamps into accepted format
+#'   period_start <- url_posixct_format(period_start)
+#'   period_end   <- url_posixct_format(period_end)
 #'
-balancing_accepted_aggr_offers <- function(
-  eic = NULL,
-  period_start = lubridate::ymd(
-    Sys.Date() - lubridate::days(x = 7L),
-    tz = "CET"
-  ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
-  reserve_type = NULL,
-  tidy_output = TRUE,
-  security_token = Sys.getenv("ENTSOE_PAT")
-) {
-
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365) {
-    stop("One year range limit should be applied!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end   <- url_posixct_format(period_end)
-
-  # compose GET request url for a (maximum) 1 year long period
-  query_string <- paste0(
-    "documentType=A82",
-    "&controlArea_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    {
-      if (is.null(reserve_type)) "" else paste0("&businessType=", reserve_type)
-    }
-  )
-
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
-  )
-
-  # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
-}
-
-
-
-#' @title
-#' Get Activated Balancing Reserves (17.1.E)
+#'   # compose GET request url for a (maximum) 1 year long period
+#'   query_string <- paste0(
+#'     "documentType=A82",
+#'     "&controlArea_Domain=", eic,
+#'     "&periodStart=", period_start,
+#'     "&periodEnd=", period_end,
+#'     {
+#'       if (is.null(reserve_type)) "" else paste0("&businessType=",
+#'                                                 reserve_type)
+#'     }
+#'   )
 #'
-#' @description
-#' The amount of activated balancing energy.
+#'   # send GET request
+#'   en_cont_list <- api_req_safe(
+#'     query_string = query_string,
+#'     security_token = security_token
+#'   )
 #'
-#' @param eic Energy Identification Code of the control area domain
-#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                     One year range limit applies
-#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
-#'                   One year range limit applies
-#' @param reserve_type Defaults to NULL, otherwise choose among the
-#'                     list of reserve type codes (A95, A96, A97, A98)
-#'                     from business_types table
-#' @param tidy_output Defaults to TRUE. flatten nested tables
-#' @param security_token Security token for ENTSO-E transparency platform
+#'   # return with the extracted the response
+#'   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+#' }
+
+
+
+#' #' @title
+#' #' Get Activated Balancing Reserves (17.1.E)
+#' #'
+#' #' @description
+#' #' The amount of activated balancing energy.
+#' #'
+#' #' @param eic Energy Identification Code of the control area domain
+#' #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#' #'                     One year range limit applies
+#' #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#' #'                   One year range limit applies
+#' #' @param reserve_type Defaults to NULL, otherwise choose among the
+#' #'                     list of reserve type codes (A95, A96, A97, A98)
+#' #'                     from business_types table
+#' #' @param tidy_output Defaults to TRUE. flatten nested tables
+#' #' @param security_token Security token for ENTSO-E transparency platform
+#' #'
+#' #' export
+#' #'
+#' #' @examples
+#' #' df <- entsoeapi::balancing_activated_reserves(
+#' #'   eic          = "10YHU-MAVIR----U",
+#' #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+#' #'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+#' #'   tidy_output  = TRUE,
+#' #'   reserve_type = "A96"
+#' #' )
+#' #' str(df)
+#' #'
+#' balancing_activated_reserves <- function(
+#'   eic = NULL,
+#'   period_start = lubridate::ymd(
+#'     Sys.Date() - lubridate::days(x = 7L),
+#'     tz = "CET"
+#'   ),
+#'   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+#'   reserve_type = NULL,
+#'   tidy_output = TRUE,
+#'   security_token = Sys.getenv("ENTSOE_PAT")
+#' ) {
 #'
-#' @export
+#'   # check if only one eic provided
+#'   if (is.null(eic)) stop("One control area EIC should be provided.")
+#'   if (length(eic) > 1L) {
+#'     stop("This wrapper only supports one control area EIC per request.")
+#'   }
 #'
-#' @examples
-#' df <- entsoeapi::balancing_activated_reserves(
-#'   eic          = "10YHU-MAVIR----U",
-#'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
-#'   tidy_output  = TRUE,
-#'   reserve_type = "A96"
-#' )
-#' str(df)
+#'   # check if the requested period is not longer than one year
+#'   if (difftime(period_end, period_start, units = "day") > 365) {
+#'     stop("One year range limit should be applied!")
+#'   }
 #'
-balancing_activated_reserves <- function(
-  eic = NULL,
-  period_start = lubridate::ymd(
-    Sys.Date() - lubridate::days(x = 7L),
-    tz = "CET"
-  ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
-  reserve_type = NULL,
-  tidy_output = TRUE,
-  security_token = Sys.getenv("ENTSOE_PAT")
-) {
-
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365) {
-    stop("One year range limit should be applied!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end   <- url_posixct_format(period_end)
-
-  # compose GET request url for a (maximum) 1 year long period
-  query_string <- paste0(
-    "documentType=A83",
-    "&controlArea_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    {
-      if (is.null(reserve_type)) "" else paste0("&businessType=", reserve_type)
-    }
-  )
-
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
-  )
-
-  # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
-}
+#'   # check if valid security token is provided
+#'   if (security_token == "") stop("Valid security token should be provided.")
+#'
+#'   # convert timestamps into accepted format
+#'   period_start <- url_posixct_format(period_start)
+#'   period_end   <- url_posixct_format(period_end)
+#'
+#'   # compose GET request url for a (maximum) 1 year long period
+#'   query_string <- paste0(
+#'     "documentType=A83",
+#'     "&controlArea_Domain=", eic,
+#'     "&periodStart=", period_start,
+#'     "&periodEnd=", period_end,
+#'     {
+#'       if (is.null(reserve_type)) "" else paste0("&businessType=",
+#'                                                 reserve_type)
+#'     }
+#'   )
+#'
+#'   # send GET request
+#'   en_cont_list <- api_req_safe(
+#'     query_string = query_string,
+#'     security_token = security_token
+#'   )
+#'
+#'   # return with the extracted the response
+#'   return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+#' }
 
 
 

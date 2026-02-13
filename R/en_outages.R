@@ -24,8 +24,10 @@ utils::globalVariables(
 #'        CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone.)
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -39,13 +41,15 @@ utils::globalVariables(
 #'
 #' @examples
 #' df <- entsoeapi::outages_both(
-#'   eic                 = "10YFR-RTE------C",
-#'   period_start        = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 1L),
-#'                                        tz = "CET"),
-#'   period_end          = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 2L),
-#'                                        tz = "CET")
+#'   eic = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(
+#'                    x = Sys.Date() + lubridate::days(x = 1L),
+#'                    tz = "CET"
+#'                  ),
+#'   period_end = lubridate::ymd(
+#'                  x = Sys.Date() + lubridate::days(x = 2L),
+#'                  tz = "CET"
+#'                )
 #' )
 #'
 #' str(df)
@@ -92,13 +96,10 @@ outages_both <- function(
     tbl_pu <- NULL
   }
 
-  # append the results
-  result_tbl <- list(tbl_gu, tbl_pu) |>
+  # append the results and return
+  list(tbl_gu, tbl_pu) |>
     purrr::compact() |>
     data.table::rbindlist(use.names = TRUE, fill = TRUE)
-
-  return(result_tbl)
-
 }
 
 
@@ -122,8 +123,10 @@ outages_both <- function(
 #'            but not per bidding zone.)
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -137,13 +140,15 @@ outages_both <- function(
 #'
 #' @examples
 #' df <- entsoeapi::outages_gen_units(
-#'   eic                 = "10YFR-RTE------C",
-#'   period_start        = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 1L),
-#'                                        tz = "CET"),
-#'   period_end          = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 2L),
-#'                                        tz = "CET")
+#'   eic = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(
+#'                    x = Sys.Date() + lubridate::days(x = 1L),
+#'                    tz = "CET"
+#'                  ),
+#'   period_end = lubridate::ymd(
+#'                  x = Sys.Date() + lubridate::days(x = 2L),
+#'                  tz = "CET"
+#'                )
 #' )
 #'
 #' str(df)
@@ -178,19 +183,14 @@ outages_gen_units <- function(
     stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
   }
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(
-    time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    units = "days"
-  )
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -213,7 +213,7 @@ outages_gen_units <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -236,8 +236,10 @@ outages_gen_units <- function(
 #'            but not per bidding zone.)
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -292,19 +294,14 @@ outages_prod_units <- function(
     stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
   }
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(
-    time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    units = "days"
-  )
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -327,7 +324,7 @@ outages_prod_units <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -349,8 +346,10 @@ outages_prod_units <- function(
 #'            but not per bidding zone.)
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param doc_status Notification document status. NULL or "A05"
 #'                   for active and "A13" for withdrawn.
 #'                   Defaults to NULL.
@@ -361,12 +360,12 @@ outages_prod_units <- function(
 #'
 #' @examples
 #' df <- entsoeapi::outages_offshore_grid(
-#'   eic                 = "10Y1001A1001A82H",
-#'   period_start        = lubridate::ymd(x = Sys.Date() -
-#'                                          lubridate::days(x = 365L),
-#'                                        tz = "CET"),
-#'   period_end          = lubridate::ymd(x = Sys.Date(),
-#'                                        tz = "CET")
+#'   eic = "10Y1001A1001A82H",
+#'   period_start = lubridate::ymd(
+#'                    x = Sys.Date() -lubridate::days(x = 365L),
+#'                    tz = "CET"
+#'                  ),
+#'   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
 #' )
 #'
 #' str(df)
@@ -395,19 +394,14 @@ outages_offshore_grid <- function(
     stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
   }
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(
-    time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    units = "days"
-  )
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -427,7 +421,7 @@ outages_offshore_grid <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -449,12 +443,16 @@ outages_offshore_grid <- function(
 #'            CTA|DE(TransnetBW),CTA|AT,CTA|LU but not per bidding zone.)
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param period_start_update notification submission/update starting date
 #'                            in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                            One year range limit applies
 #' @param period_end_update notification submission/update ending date
 #'                          in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                          One year range limit applies
 #' @param doc_status Notification document status. "A05" for active,
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
@@ -468,9 +466,9 @@ outages_offshore_grid <- function(
 #'
 #' @examples
 #' df <- entsoeapi::outages_cons_units(
-#'   eic          = "10YFI-1--------U",
+#'   eic = "10YFI-1--------U",
 #'   period_start = lubridate::ymd(x = "2024-04-10", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2024-04-11", tz = "CET")
+#'   period_end = lubridate::ymd(x = "2024-04-11", tz = "CET")
 #' )
 #'
 #' str(df)
@@ -507,21 +505,16 @@ outages_cons_units <- function(
     stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
   }
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
   period_start_update <- url_posixct_format(period_start_update)
   period_end_update <- url_posixct_format(period_end_update)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(
-    time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    units = "days"
-  )
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -549,7 +542,7 @@ outages_cons_units <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -568,8 +561,10 @@ outages_cons_units <- function(
 #' @param eic_out Energy Identification Code of the OUT bidding zone area
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param period_start_update notification submission/update starting date
 #'                            in POSIXct or YYYY-MM-DD HH:MM:SS format
 #' @param period_end_update notification submission/update ending date
@@ -587,19 +582,21 @@ outages_cons_units <- function(
 #'
 #' @examples
 #' df <- entsoeapi::outages_transmission_grid(
-#'   eic_in              = "10YFR-RTE------C",
-#'   eic_out             = "10Y1001A1001A82H",
-#'   period_start        = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 1),
-#'                                        tz = "CET"),
-#'   period_end          = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 2),
-#'                                        tz = "CET"),
-#'   period_start_update = lubridate::ymd(x = Sys.Date() -
-#'                                          lubridate::days(x = 7),
-#'                                        tz = "CET"),
-#'   period_end_update   = lubridate::ymd(x = Sys.Date(),
-#'                                        tz = "CET")
+#'   eic_in = "10YFR-RTE------C",
+#'   eic_out = "10Y1001A1001A82H",
+#'   period_start = lubridate::ymd(
+#'                    x = Sys.Date() + lubridate::days(x = 1),
+#'                    tz = "CET"
+#'                  ),
+#'   period_end = lubridate::ymd(
+#'                  x = Sys.Date() + lubridate::days(x = 2),
+#'                  tz = "CET"
+#'                ),
+#'   period_start_update = lubridate::ymd(
+#'                           x = Sys.Date() -lubridate::days(x = 7),
+#'                           tz = "CET"
+#'                         ),
+#'   period_end_update = lubridate::ymd(x = Sys.Date(), tz = "CET")
 #' )
 #'
 #' str(df)
@@ -641,21 +638,16 @@ outages_transmission_grid <- function(
     stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
   }
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
   period_start_update <- url_posixct_format(period_start_update)
   period_end_update <- url_posixct_format(period_end_update)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(
-    time1 = strptime(x = period_end, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    time2 = strptime(x = period_start, format = "%Y%m%d%H%M", tz = "UTC") |>
-      as.POSIXct(tz = "UTC"),
-    units = "days"
-  )
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -684,7 +676,7 @@ outages_transmission_grid <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 
 }
 
@@ -704,8 +696,10 @@ outages_transmission_grid <- function(
 #'            control area
 #' @param period_start the starting date of the in-scope period
 #'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
 #' @param process_type "A47" = mFRR
 #'                     "A51" = aFRR
 #'                     "A63" = imbalance netting
@@ -723,9 +717,9 @@ outages_transmission_grid <- function(
 #'
 #' @examples#'
 #' df <- entsoeapi::outages_fallbacks(
-#'   eic          = "10YBE----------2",
+#'   eic = "10YBE----------2",
 #'   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2024-01-01", tz = "CET"),
 #'   process_type = "A51",
 #'   event_nature = "C47")
 #'
@@ -762,21 +756,14 @@ outages_fallbacks <- function(
   # check if valid security token is provided
   if (security_token == "") stop("Valid security token should be provided.")
 
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
-
-  # check if target period not longer than 1 year
-  period_range <- difftime(time1 = strptime(x = period_end,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           time2 = strptime(x = period_start,
-                                            format = "%Y%m%d%H%M",
-                                            tz = "UTC") |>
-                             as.POSIXct(tz = "UTC"),
-                           units = "days")
-  if (period_range > 366L) stop("One year range limit should be applied!")
 
   # compose GET request url for a (maximum) 1 year long period
   query_string <- paste0(
@@ -795,5 +782,5 @@ outages_fallbacks <- function(
   )
 
   # return with the extracted the response
-  return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
