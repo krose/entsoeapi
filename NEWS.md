@@ -1,3 +1,13 @@
+# entsoeapi v0.9.0.1 (2026-02-14)
+
+## New functionality
+
+-   None.
+
+## Miscellaneous
+
+-   A minor table compositor engine issue has been resolved.
+
 # entsoeapi v0.9.0.0 (2026-02-14)
 
 ## New functionality

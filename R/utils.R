@@ -244,7 +244,7 @@ extract_leaf_twig_branch <- function(nodesets) {
           compound_tbls[[2L]] <- nodeset_tbls |>
             data.table::rbindlist(use.names = TRUE, fill = TRUE)
         } else {
-          compound_tbls[[2L]] <- nodeset_groups |>
+          compound_tbls[[2L]] <- seq_along(nodeset_groups) |>
             purrr::map(
               ~nodeset_tbls[nodeset_groups[[.x]]] |>
                 data.table::rbindlist(use.names = TRUE, fill = TRUE)
@@ -253,7 +253,8 @@ extract_leaf_twig_branch <- function(nodesets) {
         }
 
         # column-wise append the tables
-        compound_tbl <- purrr::compact(compound_tbls) |>
+        compound_tbl <- compound_tbls |>
+          purrr::compact() |>
           dplyr::bind_cols()
 
         compound_tbl
