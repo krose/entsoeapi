@@ -386,6 +386,21 @@ testthat::test_that(
     )
     testthat::expect_no_error(
       object = gen_per_gen_unit(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd_hm(
+          x = "2020-01-31 02:00",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd_hm(
+          x = "2020-02-01 03:00",
+          tz = "CET"
+        ),
+        gen_type = NULL,
+        tidy_output = TRUE
+      )
+    )
+    testthat::expect_no_error(
+      object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
         period_start = lubridate::ymd(
           x = "2020-01-31",
