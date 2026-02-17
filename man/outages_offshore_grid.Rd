@@ -2,7 +2,7 @@
 % Please edit documentation in R/en_outages.R
 \name{outages_offshore_grid}
 \alias{outages_offshore_grid}
-\title{Get Unavailability of Offshore Grid Infrastructure. (10.1.A&B)}
+\title{Get Unavailability of Offshore Grid Infrastructure. (10.1.C)}
 \usage{
 outages_offshore_grid(
   eic = NULL,
