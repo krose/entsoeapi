@@ -674,7 +674,7 @@ all_allocated_eic <- function() {
   result_tbl <- data.table::merge.data.table(
     x = data.table::data.table(result_tbl),
     y = data.table::data.table(message_types) |>
-      subset(select = c("Code", "Title")) |>
+      subset(select = c("code", "title")) |>
       setNames(nm = c("doc_status", "doc_status_value")),
     by = "doc_status",
     all.x = TRUE
