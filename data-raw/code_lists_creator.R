@@ -33,7 +33,7 @@ xsd_path <- fs::dir_ls(
   recurse = TRUE,
   type = "file",
   regexp = "codelists\\.xsd$"
-  ) |>
+) |>
   purrr::pluck(1L)
 message("Using: ", xsd_path)
 
@@ -79,17 +79,21 @@ parse_simple_type <- function(node) {
         replacement = "tariff_types"
       ),
     code = xml2::xml_attr(x = enum_nodes, attr = "value"),
-    title = purrr::map_chr(
-      enum_nodes,
-      \(enum_node) {
-        n <- xml2::xml_find_first(
-          x = enum_node,
-          xpath = ".//*[local-name()='Title']",
-          ns = ns
-        )
-      if (inherits(x = n, what = "xml_missing")) NA_character_
-        else xml2::xml_text(x = n)
-    }),
+    title = enum_nodes |>
+      purrr::map_chr(
+        \(enum_node) {
+          n <- xml2::xml_find_first(
+            x = enum_node,
+            xpath = ".//*[local-name()='Title']",
+            ns = ns
+          )
+          if (inherits(x = n, what = "xml_missing")) {
+            NA_character_
+          } else {
+            xml2::xml_text(x = n)
+          }
+        }
+      ),
     description = purrr::map_chr(
       enum_nodes,
       \(enum_node) {
@@ -98,8 +102,11 @@ parse_simple_type <- function(node) {
           xpath = ".//*[local-name()='Definition']",
           ns = ns
         )
-      if (inherits(x = n, what = "xml_missing")) NA_character_
-        else xml2::xml_text(x = n)
+        if (inherits(x = n, what = "xml_missing")) {
+          NA_character_
+        } else {
+          xml2::xml_text(x = n)
+        }
       }
     ) |>
       purrr::modify(gsub, pattern = "\\n", replacement = " ") |>
@@ -132,5 +139,3 @@ do.call(
   usethis::use_data,
   c(lapply(names(code_lists), as.name), list(overwrite = TRUE))
 )
-
-
