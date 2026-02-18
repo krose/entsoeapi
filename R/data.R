@@ -120,6 +120,17 @@
 
 
 #' @title
+#' List Document Types
+#'
+#' @examples
+#'
+#' str(entsoeapi::document_types)
+#'
+"document_types"
+
+
+
+#' @title
 #' List Message Types
 #'
 #' @examples
@@ -149,6 +160,28 @@
 #' str(entsoeapi::energy_product_types)
 #'
 "energy_product_types"
+
+
+
+#' @title
+#' List Flow Commodity Types
+#'
+#' @examples
+#'
+#' str(entsoeapi::flow_commodity_option_types)
+#'
+"flow_commodity_option_types"
+
+
+
+#' @title
+#' List Grid Agreement Types
+#'
+#' @examples
+#'
+#' str(entsoeapi::grid_agreement_types)
+#'
+"grid_agreement_types"
 
 
 
@@ -270,6 +303,17 @@
 #' str(entsoeapi::role_types)
 #'
 "role_types"
+
+
+
+#' @title
+#' List Settlement Method Types
+#'
+#' @examples
+#'
+#' str(entsoeapi::settlement_method_types)
+#'
+"settlement_method_types"
 
 
 
