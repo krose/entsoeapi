@@ -8,7 +8,6 @@
 
 -   The built-in type list tables have been updated according to "<https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z>".
 -   The 'ts_in_bidding_zone_domain_mrid' and 'ts_out_bidding_zone_domain_mrid' column related issue have been resolved in `gen_per_gen_unit()` query's tidy results.
--   All `..._types` table have been updated according to <https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z> document
 
 # entsoeapi v0.9.0.1 (2026-02-14)
 
