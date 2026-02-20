@@ -8,23 +8,193 @@ utils::globalVariables(
 
 
 
-# Expansion and Dismantling Projects (9.1)  @@@@
-# 100 documents limit applies
-# Time interval in query response depends on duration of matching projects
-# Mandatory parameters:
-# - DocumentType
-# - In_Domain
-# - Out_Domain
-# - TimeInterval or combination of PeriodStart and PeriodEnd
-# Optional parameters:
-# - BusinessType
-# - DocStatus
-# GET /api?documentType=A90
-# &businessType=B01
-# &in_Domain=10YCZ-CEPS-----N
-# &out_Domain=10YSK-SEPS-----K
-# &periodStart=201512312300
-# &periodEnd=201612312300
+#' @title
+#' Get Expansion and Dismantling Projects (9.1)
+#'
+#' @description
+#' Query the interconnector network evolution or dismantling
+#'
+#'
+#' @param eic_in Energy Identification Code of in domain
+#' @param eic_out Energy Identification Code of out domain
+#' @param period_start the starting date of the in-scope period
+#'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#' @param period_end the ending date of the outage in-scope period
+#'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#' @param business_type "B01" = for interconnector network evolution
+#'                      "B02" = interconnector network dismantling
+#' @param doc_status Notification document status.
+#'                   "A01" for intermediate
+#'                   "A02" for final
+#'                   "A05" for active,
+#'                   "A09" for cancelled
+#'                   "A13" for withdrawn
+#'                   "X01" for estimated
+#' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @return
+#' A data frame with expansion or dismantling projects
+#'
+#' @export
+#'
+#' @examples
+#' df <- entsoeapi::expansion_and_dismantling_project(
+#'   eic_in = "10YSK-SEPS-----K",
+#'   eic_out = "10YHU-MAVIR----U",
+#'   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2023-01-02", tz = "CET"),
+#'   business_type = "B01",
+#'   doc_status = "A05",
+#'   tidy_output = TRUE
+#' )
+#'
+#' str(df)
+#'
+expansion_and_dismantling_project <- function(
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+                                tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
+  business_type = NULL,
+  doc_status = NULL,
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
+  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
+    stop("This wrapper only supports one in and one out EIC per request.")
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided.")
+
+  # check if business_type value is valid
+  if (isFALSE(business_type %in% c("B01", "B02"))) {
+    stop(
+      "The 'doc_status' parameter should be 'B01', 'B02'."
+    )
+  }
+
+  # check if doc_status value is valid
+  if (isFALSE(doc_status %in% c("A01", "A02", "A05", "A09", "A13", "X01"))) {
+    stop(
+      "The 'doc_status' parameter should be 'A01', 'A02'",
+      "A05', 'A09', 'A13' or 'X01'."
+    )
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A90",
+    "&in_Domain=", eic_in,
+    "&out_Domain=", eic_out,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end,
+    "&=businessType", business_type,
+    "&=DocStatus", doc_status
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted the response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
+
+
+
+#' @title
+#' Get Intraday Cross-Border Transfer Limits (11.3)
+#'
+#' @description
+#' intraday cross-border transfer limits of DC links
+#'
+#' @param eic_in Energy Identification Code of in domain
+#' @param eic_out Energy Identification Code of out domain
+#' @param period_start the starting date of the in-scope period
+#'                     in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end the ending date of the outage in-scope period
+#'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @return
+#' A data frame with intraday cross-border transfer limits
+#'
+#' @export
+#'
+#' @examples
+#' df <- entsoeapi::intraday_cross_border_transfer_limits(
+#'   eic_in = "10YFR-RTE------C",
+#'   eic_out = "11Y0-0000-0265-K",
+#'   period_start = lubridate::ymd(x = "2023-08-16", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2023-08-17", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
+#'
+#' str(df)
+#'
+intraday_cross_border_transfer_limits <- function(
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+                                tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
+  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
+    stop("This wrapper only supports one in and one out EIC per request.")
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided.")
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A93",
+    "&in_Domain=", eic_in,
+    "&out_Domain=", eic_out,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted the response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
 
 
 
@@ -32,7 +202,7 @@ utils::globalVariables(
 #' Get Forecasted Transfer Capacities (11.1.A)
 #'
 #' @description
-#' forecasted transfer capacities (MW) per direction between areas.
+#' forecasted transfer capacities (MW) per direction between areas
 #'
 #' @param eic_in Energy Identification Code of in domain
 #' @param eic_out Energy Identification Code of out domain
@@ -79,7 +249,7 @@ forecasted_transfer_capacities <- function(
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 
@@ -114,23 +284,6 @@ forecasted_transfer_capacities <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
-
-
-# Cross Border Capacity of DC Links - Intraday Transfer Limits  @@@@
-# 4.2.5. Intraday Transfer Limits [11.3]
-# One year range limit applies
-# Minimum time interval in query response ranges from part of day up to one day
-# Mandatory parameters:
-# - DocumentType
-# - In_Domain
-# - Out_Domain
-# - TimeInterval or combination of PeriodStart and PeriodEnd
-# GET /api?documentType=A93
-# &in_Domain=10YFR-RTE------C
-# &out_Domain=10YGB----------A
-# &periodStart=201512312300
-# &periodEnd=201612312300
 
 
 
@@ -184,7 +337,7 @@ day_ahead_commercial_sched <- function(
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 
@@ -272,7 +425,7 @@ total_commercial_sched <- function(
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 
@@ -363,7 +516,7 @@ cross_border_physical_flows <- function(
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 
@@ -442,7 +595,7 @@ redispatching_cross_border <- function(
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 
@@ -513,7 +666,7 @@ redispatching_internal <- function(
 ) {
   # check if only one eic provided
   if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1) {
+  if (length(eic) > 1L) {
     stop("This wrapper only supports one EIC per request.")
   }
 
@@ -590,7 +743,7 @@ countertrading <- function(
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 
@@ -667,7 +820,7 @@ costs_of_congestion_management <- function(
 ) {
   # check if only one eic provided
   if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1) {
+  if (length(eic) > 1L) {
     stop("This wrapper only supports one EIC per request.")
   }
 

@@ -29,7 +29,7 @@ One year range limit applies}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \description{
-forecasted transfer capacities (MW) per direction between areas.
+forecasted transfer capacities (MW) per direction between areas
 }
 \examples{
 df1 <- entsoeapi::forecasted_transfer_capacities(

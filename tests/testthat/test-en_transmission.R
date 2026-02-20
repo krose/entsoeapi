@@ -940,3 +940,259 @@ testthat::test_that(
     )
   }
 )
+
+
+
+testthat::test_that(
+  desc = "expansion_and_dismantling_project() works",
+  code = {
+    testthat::expect_no_error(
+      object = expansion_and_dismantling_project(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YHU-MAVIR----U",
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B01",
+        doc_status = "A05",
+        tidy_output = FALSE
+      )
+    )
+    testthat::expect_error(
+      object = expansion_and_dismantling_project(
+        eic_in = NULL,
+        eic_out = "10YHU-MAVIR----U",
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B01",
+        doc_status = "A05",
+        tidy_output = FALSE
+      ),
+      info = "One 'in' control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = expansion_and_dismantling_project(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = NULL,
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B01",
+        doc_status = "A05",
+        tidy_output = FALSE
+      ),
+      info = "One 'out' control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = expansion_and_dismantling_project(
+        eic_in = c("10YSK-SEPS-----K", "10YHU-MAVIR----U"),
+        eic_out = c("10YHU-MAVIR----U", "10YSK-SEPS-----K"),
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B01",
+        doc_status = "A05",
+        tidy_output = FALSE
+      ),
+      info = "This wrapper only supports one in and one out EIC per request!"
+    )
+    testthat::expect_error(
+      object = expansion_and_dismantling_project(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YHU-MAVIR----U",
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B01",
+        doc_status = "A05",
+        tidy_output = FALSE,
+        security_token = ""
+      ),
+      info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = expansion_and_dismantling_project(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YHU-MAVIR----U",
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B99",
+        doc_status = "A05",
+        tidy_output = FALSE
+      ),
+      info = "The 'business_type' parameter should be 'B01' or 'B02'!"
+    )
+    testthat::expect_error(
+      object = expansion_and_dismantling_project(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YHU-MAVIR----U",
+        period_start = lubridate::ymd(
+          x = "2023-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-01-02",
+          tz = "CET"
+        ),
+        business_type = "B01",
+        doc_status = "X99",
+        tidy_output = FALSE
+      ),
+      info = "The 'doc_status' parameter should be 'A01', 'A02', 'A05', 'A09', 'A13' or 'X01'!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "intraday_cross_border_transfer_limits() works",
+  code = {
+    testthat::expect_no_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "11Y0-0000-0265-K",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      )
+    ) |>
+      testthat::expect_warning()
+    testthat::expect_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = NULL,
+        eic_out = "11Y0-0000-0265-K",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One 'in' control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = "10YFR-RTE------C",
+        eic_out = NULL,
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One 'out' control area EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = c("10YFR-RTE------C", "11Y0-0000-0265-K"),
+        eic_out = c("11Y0-0000-0265-K", "10YFR-RTE------C"),
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "This wrapper only supports one in and one out EIC per request!"
+    )
+    testthat::expect_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "11Y0-0000-0265-K",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      ),
+      info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "11Y0-0000-0265-K",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      info = "Unauthorized. Missing or invalid security token!"
+    )
+    testthat::expect_error(
+      object = intraday_cross_border_transfer_limits(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "11Y0-0000-0265-K",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One year range limit should be applied!"
+    )
+  }
+)
