@@ -288,7 +288,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
   )
 
   # convert the original 'bid_ts_' column names to 'ts_'
-  if (length(bid_ts_cols) > 0) {
+  if (length(bid_ts_cols) > 0L) {
     names(tbl) <- names(tbl) |>
       stringr::str_replace_all(
         pattern = "^bid_ts_",
@@ -308,24 +308,17 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     pattern = "^ts_reason_"
   )
 
-  # check if there are both position and value ts_point_...
-  pos_col <- stringr::str_subset(
-    string = names(tbl),
-    pattern = "ts_point_position"
-  )
-  if (length(ts_point_cols) < 2L || length(pos_col) == 0L) {
-
+  # if there is no ts_point_ column
+  if (length(ts_point_cols) == 0L) {
     # convert the original 'bid_ts_' column names back
-    if (length(bid_ts_cols) > 0) {
+    if (length(bid_ts_cols) > 0L) {
       names(tbl) <- names(tbl) |>
         stringr::str_replace_all(
           pattern = "^ts_",
           replacement = "bid_ts_"
         )
     }
-
     return(tbl)
-
   }
 
   # extract curve type from tbl
@@ -370,8 +363,9 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     # do nothing in this case
     Sys.sleep(time = 0)
 
-  } else if (curve_type == "A03") {  # if curve_type is 'A03', then
-    ts_resolution_requ_length <- ts_resolution_real_length <- NULL
+    # if curve_type is 'A03', then
+  } else if (curve_type == "A03") {
+    ts_resolution_requ_length <- ts_resolution_real_length <- ts_mrid <- NULL
     ts_resolution_ok <- ts_time_interval_start <- ts_time_interval_end <- NULL
 
     # calculate 'ts_resolution_requ_length', 'ts_resolution_real_length'
@@ -396,6 +390,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     if (nrow(tbl_adj) > 0L) {
 
       # remove the to be adjusted rows from the base 'tbl'
+      # or in other words stash the records with 'ok' resolution
       tbl <- base::subset(x = tbl, subset = ts_resolution_ok)
 
       # create a frame table to adjust the timeseries data points
@@ -405,7 +400,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           ts_time_interval_start,
           ts_time_interval_end,
           ts_resolution_requ_length,
-          ts_resolution
+          ts_resolution,
+          ts_mrid
         )
       ) |>
         unique() |>
@@ -414,7 +410,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
             ts_time_interval_start = ..1,
             ts_time_interval_end = ..2,
             ts_point_position = seq.int(from = 1, to = ..3),
-            ts_resolution = ..4
+            ts_resolution = ..4,
+            ts_mrid = ..5
           )
         ) |>
         data.table::rbindlist(use.names = TRUE, fill = TRUE)
@@ -427,19 +424,21 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           "ts_time_interval_start",
           "ts_time_interval_end",
           "ts_point_position",
-          "ts_resolution"
+          "ts_resolution",
+          "ts_mrid"
         ),
         all = TRUE
       ) |>
         data.table::as.data.table()
 
       # fill the missing values with the last observation carry forward method
+      group_cols <- c("ts_resolution", "ts_mrid")
       tbl_adj <- tbl_adj |>
-        dplyr::group_by(dplyr::across(tidyselect::all_of("ts_resolution"))) |>
+        dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols))) |>
         tidyr::fill(dplyr::everything()) |>
         dplyr::ungroup()
 
-      # append the adjusted timeseries data points to the base 'tbl'
+      # append the adjusted timeseries data points to the 'ok' timeseries data
       tbl <- list(tbl, tbl_adj) |>
         data.table::rbindlist(use.names = TRUE, fill = TRUE)
       data.table::setorderv(
@@ -639,7 +638,7 @@ api_req <- function(
     url <- paste0(
       api_scheme, api_domain, api_name, query_string, "&securityToken="
     )
-    message(url, "<...>")
+    cat(url, "<...>\n", sep = "")
   }
 
   # retrieve data from the API
@@ -710,6 +709,7 @@ api_req <- function(
     error_obj <- resp$error
 
     # retrieve content-type from response headers
+    if (is.null(error_obj$resp)) stop(error_obj$parent$message, call. = FALSE)
     rhct <- httr2::resp_content_type(resp = error_obj$resp)
     expt_html <- c("text/html;charset=UTF-8")
     expt_xml <- c("text/xml", "application/xml")
@@ -750,9 +750,10 @@ api_req <- function(
         offset_forbidden <- stringr::str_detect(
           string = query_string,
           pattern = sprintf(
-            fmt = "(%s|%s|%s|%s)",
+            fmt = "(%s|%s|%s|%s|%s)",
             "(?=.*documentType=A63)(?=.*businessType=A(46|85))",
             "(?=.*documentType=A65)(?=.*businessType=A85)",
+            "(?=.*documentType=B09)(?=.*StorageType=archive)",
             "documentType=A91",
             "documentType=A92"
           )
@@ -1085,6 +1086,25 @@ my_snakecase <- function(tbl) {
     stringr::str_replace_all(
       pattern = "_attribute_instance_component",
       replacement = ""
+    ) |>
+    stringr::str_replace_all(
+      pattern = "ts_point_constraint_ts_",
+      replacement = "constraint_ts_"
+    ) |>
+    stringr::str_remove(
+      pattern = "ts_point_constraint_"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "ts_monitored_registered_resource_",
+      replacement = "ts_monitored_"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "_ptdf_domain_p_tdf_quantity",
+      replacement = "_ptdf_domain_quantity"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "_flow_based_study_domain_flow_based_margin_quantity",
+      replacement = "_flow_based_study_domain_margin_quantity"
     )
 }
 
@@ -1098,7 +1118,7 @@ def_merge <- function(x, y, code_name, definition_name) {
   x <- x |>
     data.table::data.table()
   y <- y |>
-    subset(select = c("Code", "Title")) |>
+    subset(select = c("code", "title")) |>
     data.table::data.table()
   names(y) <- c(code_name, definition_name)
   data.table::merge.data.table(
@@ -1513,6 +1533,17 @@ add_eic_names <- function(tbl) {
         eic_name_name = "domain_name"
       )
   }
+  if ("constraint_ts_monitored_ptdf_domain_mrid" %in% names(tbl)) {
+    affected_cols <- c(
+      affected_cols, "constraint_ts_monitored_ptdf_domain_mrid"
+    )
+    tbl <- tbl |>
+      eic_name_merge(
+        y = area_eic_name,
+        eic_code_name = "constraint_ts_monitored_ptdf_domain_mrid",
+        eic_name_name = "constraint_ts_monitored_ptdf_domain_name"
+      )
+  }
   if (length(affected_cols) == 0L) {
     warning("No additional eic names added!")
   }
@@ -1720,7 +1751,9 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
         tidyselect::matches("[t|T]ime$|start$|end$"),
         ~as.POSIXct(
           x = .x,
-          tryFormats = c("%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ"),
+          tryFormats = c(
+            "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
+          ),
           tz = "UTC"
         )
       )
@@ -1770,95 +1803,101 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
   result_tbl <- add_definitions(tbl = result_tbl)
 
   # select and reorder columns
-  needed_cols <- c("ts_bidding_zone_domain_mrid",
-                   "ts_bidding_zone_domain_name",
-                   "ts_in_bidding_zone_domain_mrid",
-                   "ts_in_bidding_zone_domain_name",
-                   "ts_out_bidding_zone_domain_mrid",
-                   "ts_out_bidding_zone_domain_name",
-                   "domain_mrid",
-                   "domain_name",
-                   "area_domain_mrid",
-                   "area_domain_name",
-                   "control_area_domain_mrid",
-                   "control_area_domain_name",
-                   "ts_in_domain_mrid", "ts_in_domain_name",
-                   "ts_out_domain_mrid", "ts_out_domain_name",
-                   "ts_production_mrid", "ts_production_name",
-                   "ts_production_psr_mrid",
-                   "ts_production_psr_name",
-                   "ts_connecting_domain_mrid",
-                   "ts_connecting_domain_name",
-                   "ts_acquiring_domain_mrid",
-                   "ts_acquiring_domain_name",
-                   "bid_ts_connecting_domain_mrid",
-                   "bid_ts_connecting_domain_name",
-                   "bid_ts_acquiring_domain_mrid",
-                   "bid_ts_acquiring_domain_name",
-                   "bid_ts_mrid", "bid_ts_auction_mrid",
-                   "ts_product", "ts_product_def",
-                   "doc_status_value", "doc_status",
-                   "ts_mkt_psr_type_psr_mrid",
-                   "ts_mkt_psr_type_psr_name",
-                   "ts_registered_resource_mrid",
-                   "ts_registered_resource_name",
-                   "ts_asset_location_name",
-                   "ts_asset_mrid", "ts_asset_name",
-                   "ts_production_mrid", "ts_production_name",
-                   "ts_production_location_name",
-                   "subject_market_participant_market_role_type",
-                   "subject_market_participant_market_role_type_def",
-                   "type", "type_def", "process_type",
-                   "process_type_def",
-                   "ts_contract_market_agreement_type",
-                   "ts_contract_market_agreement_type_def",
-                   "ts_auction_mrid", "ts_auction_type",
-                   "ts_auction_type_def",
-                   "ts_auction_category",
-                   "ts_auction_category_def",
-                   "ts_object_aggregation",
-                   "ts_object_aggregation_def",
-                   "ts_flow_direction", "ts_flow_direction_def",
-                   "bid_ts_flow_direction", "bid_ts_flow_direction_def",
-                   "ts_business_type", "ts_business_type_def",
-                   "ts_mkt_psr_type", "ts_mkt_psr_type_def",
-                   "ts_asset_psr_type", "ts_asset_psr_type_def",
-                   "ts_psr_type", "ts_psr_type_def",
-                   "ts_production_psr_type",
-                   "ts_production_psr_type_def",
-                   "created_date_time",
-                   "reason_code", "reason_text",
-                   "ts_reason_code", "ts_reason_text",
-                   "revision_number",
-                   "time_period_time_interval_start",
-                   "time_period_time_interval_end",
-                   "unavailability_time_interval_start",
-                   "unavailability_time_interval_end",
-                   "reserve_bid_period_time_interval_start",
-                   "reserve_bid_period_time_interval_end",
-                   "ts_resolution", "bid_ts_resolution",
-                   "ts_available_period_resolution",
-                   "ts_time_interval_start",
-                   "ts_time_interval_end",
-                   "bid_ts_time_interval_start",
-                   "bid_ts_time_interval_end",
-                   "ts_mrid", "bid_ts_mrid", "bid_ts_auction_mrid",
-                   "ts_point", "bid_ts_point", "ts_point_dt_start",
-                   "bid_ts_point_dt_start",
-                   "ts_production_psr_nominal_p",
-                   "ts_point_quantity", "bid_ts_point_quantity",
-                   "ts_available_period_point_quantity",
-                   "ts_point_price", "ts_point_price_amount",
-                   "bid_ts_point_energy_price_amount",
-                   "ts_point_congestion_cost",
-                   "ts_currency_unit_name",
-                   "bid_ts_currency_unit_name",
-                   "ts_price_measure_unit_name",
-                   "bid_ts_price_measure_unit_name",
-                   "ts_quantity_measure_unit_name",
-                   "bid_ts_quantity_measure_unit_name",
-                   "high_voltage_limit",
-                   "ts_classification_sequence_position")
+  needed_cols <- c(
+    "ts_bidding_zone_domain_mrid",
+    "ts_bidding_zone_domain_name",
+    "ts_in_bidding_zone_domain_mrid",
+    "ts_in_bidding_zone_domain_name",
+    "ts_out_bidding_zone_domain_mrid",
+    "ts_out_bidding_zone_domain_name",
+    "domain_mrid",
+    "domain_name",
+    "area_domain_mrid",
+    "area_domain_name",
+    "control_area_domain_mrid",
+    "control_area_domain_name",
+    "ts_in_domain_mrid", "ts_in_domain_name",
+    "ts_out_domain_mrid", "ts_out_domain_name",
+    "ts_production_mrid", "ts_production_name",
+    "ts_production_psr_mrid",
+    "ts_production_psr_name",
+    "ts_connecting_domain_mrid",
+    "ts_connecting_domain_name",
+    "ts_acquiring_domain_mrid",
+    "ts_acquiring_domain_name",
+    "bid_ts_connecting_domain_mrid",
+    "bid_ts_connecting_domain_name",
+    "bid_ts_acquiring_domain_mrid",
+    "bid_ts_acquiring_domain_name",
+    "bid_ts_mrid", "bid_ts_auction_mrid",
+    "ts_product", "ts_product_def",
+    "doc_status_value", "doc_status",
+    "ts_mkt_psr_type_psr_mrid",
+    "ts_mkt_psr_type_psr_name",
+    "ts_registered_resource_mrid",
+    "ts_registered_resource_name",
+    "ts_asset_location_name",
+    "ts_asset_mrid", "ts_asset_name",
+    "ts_production_mrid", "ts_production_name",
+    "ts_production_location_name",
+    "subject_market_participant_market_role_type",
+    "subject_market_participant_market_role_type_def",
+    "type", "type_def", "process_type",
+    "process_type_def",
+    "ts_contract_market_agreement_type",
+    "ts_contract_market_agreement_type_def",
+    "ts_auction_mrid", "ts_auction_type",
+    "ts_auction_type_def",
+    "ts_auction_category",
+    "ts_auction_category_def",
+    "ts_object_aggregation",
+    "ts_object_aggregation_def",
+    "ts_flow_direction", "ts_flow_direction_def",
+    "bid_ts_flow_direction", "bid_ts_flow_direction_def",
+    "ts_business_type", "ts_business_type_def",
+    "ts_mkt_psr_type", "ts_mkt_psr_type_def",
+    "ts_asset_psr_type", "ts_asset_psr_type_def",
+    "ts_psr_type", "ts_psr_type_def",
+    "ts_production_psr_type",
+    "ts_production_psr_type_def",
+    "created_date_time",
+    "reason_code", "reason_text",
+    "ts_reason_code", "ts_reason_text",
+    "revision_number",
+    "time_period_time_interval_start",
+    "time_period_time_interval_end",
+    "unavailability_time_interval_start",
+    "unavailability_time_interval_end",
+    "reserve_bid_period_time_interval_start",
+    "reserve_bid_period_time_interval_end",
+    "ts_resolution", "bid_ts_resolution",
+    "ts_available_period_resolution",
+    "ts_time_interval_start",
+    "ts_time_interval_end",
+    "bid_ts_time_interval_start",
+    "bid_ts_time_interval_end",
+    "ts_mrid", "bid_ts_mrid", "bid_ts_auction_mrid",
+    "ts_point", "bid_ts_point", "ts_point_dt_start",
+    "bid_ts_point_dt_start",
+    "ts_production_psr_nominal_p",
+    "ts_point_quantity", "bid_ts_point_quantity",
+    "ts_available_period_point_quantity",
+    "ts_point_price", "ts_point_price_amount",
+    "bid_ts_point_energy_price_amount",
+    "ts_point_congestion_cost",
+    "ts_currency_unit_name",
+    "bid_ts_currency_unit_name",
+    "ts_price_measure_unit_name",
+    "bid_ts_price_measure_unit_name",
+    "ts_quantity_measure_unit_name",
+    "bid_ts_quantity_measure_unit_name",
+    "high_voltage_limit",
+    "ts_classification_sequence_position",
+    "constraint_ts_monitored_ptdf_domain_mrid",
+    "constraint_ts_monitored_ptdf_domain_name",
+    "constraint_ts_monitored_ptdf_domain_quantity",
+    "constraint_ts_monitored_flow_based_study_domain_margin_quantity"
+  )
   needed_cols <- base::intersect(x = needed_cols,
                                  y = names(result_tbl))
 
@@ -1929,7 +1968,9 @@ extract_response <- function(content, tidy_output = TRUE) {
                             idx, " ", rep(x = "<", times = times)
                           )
                         }
-                        if (!is.null(x)) {
+                        if (is.null(x)) {
+                          NULL
+                        } else {
                           if (inherits(x = x, what = "list")) {
                             all_doc <- purrr::map_lgl(
                               x, inherits, what = "xml_document"
@@ -1953,8 +1994,6 @@ extract_response <- function(content, tidy_output = TRUE) {
                               tidy_output = tidy_output
                             )
                           }
-                        } else {
-                          NULL
                         }
                       }) |>
           purrr::compact() |>

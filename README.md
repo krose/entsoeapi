@@ -9,12 +9,17 @@
 
 <!-- badges: end -->
 
-The goal of `entsoeapi` package is to create an easy wrapper for querying the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s Load, Generation, Transmission, Balancing, Congestion Management & Outages data which are available on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.
+The goal of `entsoeapi` package is to create an easy wrapper for querying the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s Market, Load, Generation, Transmission, Outages & Balancing data which are available on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.
 
 ------------------------------------------------------------------------
 
 -   Already available ENTSO-E API endpoints:
     -   MARKET
+        -   implicit_offered_transfer_capacities (11.1)  (beta test version)
+        -   explicit_offered_transfer_capacities (11.1.A)  (beta test version)
+        -   continuous_offered_transfer_capacities (11.1)  (beta test version)
+        -   flow_based_allocations (11.1.B)  (beta test version)
+         -  auction_revenue (12.1.A)  (beta test version)
         -   total_nominated_capacity (12.1.B)
         -   already_allocated_total_capacity (12.1.C)
         -   day_ahead_prices (12.1.D)
@@ -26,46 +31,45 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
         -   load_year_ahead_total_forecast (6.1.E)
         -   load_year_ahead_forecast_margin (8.1)
     -   GENERATION
-        -   gen_day_ahead (14.1.C)
         -   gen_installed_capacity_per_pt (14.1.A)
         -   the gen_installed_capacity_per_pu (14.1.B)
+        -   gen_day_ahead (14.1.C)
+        -   gen_wind_solar_forecasts (14.1.D)
         -   gen_per_gen_unit (16.1.A)
         -   gen_per_prod_type (16.1.B&C)
-        -   gen_wind_solar_forecasts (14.1.D)
         -   the gen_storage_mean_filling_rate (16.1.D)
     -   TRANSMISSION
+        -   expansion_and_dismantling_project (9.1)  (beta test version)
+        -   intraday_cross_border_transfer_limits (11.3)  (beta test version)
+        -   forecasted_transfer_capacities (11.1.A)
+        -   day_ahead_commercial_sched (12.1.F)
+        -   total_commercial_sched (12.1.F)
+        -   cross_border_physical_flows (12.1.G)
         -   redispatching_internal (13.1.A)
         -   redispatching_cross_border (13.1.A)
         -   countertrading (13.1.B)
         -   costs_of_congestion_management (13.1.C)
-        -   day_ahead_commercial_sched (12.1.F)
-        -   total_commercial_sched (12.1.F)
-        -   forecasted_transfer_capacities (11.1)
-        -   cross_border_physical_flows (12.1.G)
     -   OUTAGES
+        -   outages_cons_units (7.1.A&B)
+        -   outages_fallbacks (IFs IN 7.2, mFRR 3.11, aFRR 3.10)
+        -   outages_transmission_grid (10.1.A&B)
+        -   outages_offshore_grid (10.1.C)
         -   outages_gen_units (15.1.A&B)
         -   outages_prod_units (15.1.C&D)
         -   outages_both (15.1.A&B + 15.1.C&D)
-        -   outages_cons_units (7.1.A&B)
-        -   outages_fallbacks (IFs IN 7.2, mFRR 3.11, aFRR 3.10)
-        -   outages_offshore_grid (10.1.A&B)
-        -   outages_transmission_grid (10.1.A&B)
     -   BALANCING
-        -   balancing_border_cap_limit (IFs 4.3 & 4.4)
         -   exchanged_volumes (aFRR 3.16, mFRR 3.17)
         -   netted_volumes (IFs IN 3.10)
         -   elastic_demands (IF mFRR 3.4)
+        -   balancing_border_cap_limit (IFs 4.3 & 4.4)
 
-
-
-All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented. If you want to use an unimplemented endpoint, 
-please submit an [issue](https://github.com/krose/entsoeapi/issues/new/choose) and we'll do our best to resolve it.\
+All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented. If you want to use an unimplemented endpoint, please submit an [issue](https://github.com/krose/entsoeapi/issues/new/choose) and we'll do our best to resolve it.\
 <b>IMPORTANT!</b>\
 Since the underlying engine has fairly been standardized with the introduction of version 0.7.0.0, there are significant (breaking) changes between the 0.7.0.0 and the previous versions.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/krose/entsoeapi) with:
+You can install this under development version from [GitHub](https://github.com/krose/entsoeapi) with:
 
 ``` r
 install.packages("devtools")
@@ -85,13 +89,9 @@ ENTSOE_PAT = "your_security_token"
 You use the eic codes to get the data. Let’s try to find the eic code for Germany.
 
 ``` r
-library(dplyr)
-library(lubridate)
-library(entsoeapi)
-
-all_approved_eic() |>
-  filter(EicLongName == "Germany") |>
-  glimpse()
+entsoeapi::all_approved_eic() |>
+  dplyr::filter(EicLongName == "Germany") |>
+  dplyr::glimpse()
 #> Rows: 1
 #> Columns: 11
 #> $ EicCode                         <chr> "10Y1001A1001A83F"
@@ -110,7 +110,7 @@ all_approved_eic() |>
 For some of the data you need to translate the generation codes.
 
 ``` r
-glimpse(asset_types)
+dplyr::glimpse(entsoeapi::asset_types)
 #> Rows: 29
 #> Columns: 3
 #> $ Code        <chr> "A01", "A02", "A03", "A04", "A05", "B01", "B02", "B0…
@@ -121,12 +121,12 @@ glimpse(asset_types)
 Let’s get the demand in Germany.
 
 ``` r
-load_actual_total(
+entsoeapi::load_actual_total(
   eic = "10Y1001A1001A83F",
-  period_start = ymd("2020-01-01", tz = "CET"),
-  period_end = ymd("2020-01-02", tz = "CET")
+  period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+  period_end = lubridate::ymd("2020-01-02", tz = "CET")
 ) |>
-  glimpse()
+  dplyr::glimpse()
 #> Rows: 96
 #> Columns: 21
 #> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A83F", "10Y1001A1001A83F", "1…
@@ -148,22 +148,22 @@ load_actual_total(
 #> $ ts_time_interval_end            <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00,…
 #> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ ts_point_dt_start               <dttm> 2019-12-31 23:00:00, 2019-12-31 23:15:00,…
-#> $ ts_point_quantity               <dbl> 43882, 43640, 43331, 43149, 43017, 42806, …
+#> $ ts_point_quantity               <dbl> 43881.80, 43639.59, 43330.90, 43149.49, 43…
 #> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", …
 ```
 
 This is basically how all the functions work, so let’s try to get the production data too.
 
 ``` r
-gen_per_prod_type(
+entsoeapi::gen_per_prod_type(
   eic = "10Y1001A1001A83F", 
-  period_start = ymd("2020-01-01", tz = "CET"),
-  period_end = ymd("2020-01-02", tz = "CET"),
+  period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+  period_end = lubridate::ymd("2020-01-02", tz = "CET"),
   gen_type = NULL,
   tidy_output = TRUE
 ) |>
-  glimpse()
-#> Rows: 1,632
+  dplyr::glimpse()
+#> Rows: 1,581
 #> Columns: 25
 #> $ ts_in_bidding_zone_domain_mrid  <chr> "10Y1001A1001A83F", "10Y1001A1001A83F", "10Y100…
 #> $ ts_in_bidding_zone_domain_name  <chr> "Germany", "Germany", "Germany", "Germany", "Ge…
@@ -179,7 +179,7 @@ gen_per_prod_type(
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Prod…
 #> $ ts_mkt_psr_type                 <chr> "B01", "B01", "B01", "B01", "B01", "B01", "B01"…
 #> $ ts_mkt_psr_type_def             <chr> "Biomass", "Biomass", "Biomass", "Biomass", "Bi…
-#> $ created_date_time               <dttm> 2024-10-05 19:51:35, 2024-10-05 19:51:35, 2024…
+#> $ created_date_time               <dttm> 22026-02-16 08:56:28, 2026-02-16 08:56:28, 202…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00, 2020…
@@ -188,6 +188,6 @@ gen_per_prod_type(
 #> $ ts_time_interval_end            <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00, 2020…
 #> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_point_dt_start               <dttm> 2019-12-31 23:00:00, 2019-12-31 23:15:00, 2019…
-#> $ ts_point_quantity               <dbl> 4918, 4913, 4899, 4897, 4896, 4877, 4886, 4896,…
+#> $ ts_point_quantity               <dbl> 4809.13, 4803.04, 4787.15, 4787.26, 4784.65, 47…
 #> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"…
 ```

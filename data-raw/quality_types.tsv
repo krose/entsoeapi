@@ -1,7 +1,0 @@
-Code	Title	Description
-A01	Adjusted	The contents of the object have been adjusted.
-A02	Not available	The contents of the object are not available.
-A03	Estimated	The contents of the object are estimated. The code is typically used when measured values are missing and an estimate is made based on historical data.
-A04	As provided	The contents of the object are as provided.
-A05	Incomplete	The contents of the object are calculated based on incomplete data.
-A06	Calculated	The contents of the object are calculated. The code is typically used when a value is calculated based on several other known values.

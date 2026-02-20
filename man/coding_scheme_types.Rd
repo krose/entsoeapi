@@ -5,7 +5,7 @@
 \alias{coding_scheme_types}
 \title{List Coding Scheme Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 50 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 51 rows and 3 columns.
 }
 \usage{
 coding_scheme_types

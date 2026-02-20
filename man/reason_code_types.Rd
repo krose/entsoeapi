@@ -5,7 +5,7 @@
 \alias{reason_code_types}
 \title{List Reason Code Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 161 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 163 rows and 3 columns.
 }
 \usage{
 reason_code_types

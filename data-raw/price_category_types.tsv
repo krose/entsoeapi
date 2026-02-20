@@ -1,9 +1,0 @@
-Code	Title	Description
-A01	Category 1	A category one price calculation is to be applied.
-A02	Category 2	A category two price calculation is to be applied.
-A03	Category 3	A category three price calculation is to be applied.
-A04	Excess balance	The category concerns excess balance.
-A05	Insufficient balance	A category concerns insufficient balance.
-A06	Average bid price	The average bid price for a given product.
-A07	Single marginal bid price	The downwards activated bid price or the upwards activated bid price for activated balancing reserves.
-A08	Cross-border marginal price	The price determined in accordance with article 3 of the methodology for pricing balancing energy.

@@ -330,7 +330,7 @@ outages_prod_units <- function(
 
 
 #' @title
-#' Get Unavailability of Offshore Grid Infrastructure. (10.1.A&B)
+#' Get Unavailability of Offshore Grid Infrastructure. (10.1.C)
 #'
 #' @description
 #' Unavailability of the off-shore grid that reduce wind power
@@ -573,8 +573,8 @@ outages_cons_units <- function(
 #'                   "A09" for cancelled and "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
 #' @param event_nature "A53" for planned maintenance.
-#'                      "A54" for unplanned outage.
-#'                      Defaults to NULL which means both of them.
+#'                     "A54" for unplanned outage.
+#'                     Defaults to NULL which means both of them.
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'

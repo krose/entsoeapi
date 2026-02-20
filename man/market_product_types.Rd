@@ -5,7 +5,7 @@
 \alias{market_product_types}
 \title{List Market Product Types}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 12 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 14 rows and 3 columns.
 }
 \usage{
 market_product_types
