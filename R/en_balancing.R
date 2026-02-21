@@ -35,6 +35,7 @@ utils::globalVariables(
 #'   period_end   = lubridate::ymd(x = "2024-11-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
+#'
 #' str(df)
 #'
 elastic_demands <- function(
@@ -51,7 +52,6 @@ elastic_demands <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-
   # check if only one eic provided
   if (is.null(eic)) stop("One control area EIC should be provided.")
   if (length(eic) > 1L) {
@@ -59,7 +59,7 @@ elastic_demands <- function(
   }
 
   # check if proper process_type provided
-  if (!process_type %in% c("A47", "A51")) {
+  if (is.null(process_type) || !process_type %in% c("A47", "A51")) {
     stop("The 'process_type' should be 'A47' or 'A51'.")
   }
 
@@ -247,7 +247,7 @@ exchanged_volumes <- function(
   }
 
   # check if proper process_type provided
-  if (!process_type %in% c("A51", "A60", "A61")) {
+  if (is.null(process_type) || !process_type %in% c("A51", "A60", "A61")) {
     stop("The 'process_type' should be 'A51', 'A60' or 'A61'.")
   }
 
@@ -341,7 +341,7 @@ balancing_border_cap_limit <- function(
   # check if only one in and only one out eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
   if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1 || length(eic_out) > 1) {
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
     stop("This wrapper only supports one in and one out EIC per request.")
   }
 

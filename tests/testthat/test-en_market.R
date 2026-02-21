@@ -525,7 +525,10 @@ testthat::test_that(
         contract_type = "A99",
         tidy_output = FALSE
       ),
-      info = "The 'contract_type' parameter should be 'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
+      info = paste(
+        "The 'contract_type' parameter should be ",
+        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
+      )
     )
     testthat::expect_error(
       object = explicit_offered_transfer_capacity(
@@ -768,7 +771,10 @@ testthat::test_that(
         process_type = "A99",
         tidy_output = FALSE
       ),
-      info = "The 'process_type' parameter should be 'A32', 'A33', 'A43' or 'A44'!"
+      info = paste(
+        "The 'process_type' parameter should be",
+        "'A32', 'A33', 'A43' or 'A44'!"
+      )
     )
     testthat::expect_error(
       object = flow_based_allocations(
@@ -906,7 +912,10 @@ testthat::test_that(
         contract_type = "A99",
         tidy_output = FALSE
       ),
-      info = "The 'contract_type' parameter should be 'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
+      info = paste(
+        "The 'contract_type' parameter should be",
+        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
+      )
     )
     testthat::expect_error(
       object = auction_revenue(

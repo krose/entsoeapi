@@ -4,7 +4,6 @@ testthat::test_that(
     testthat::expect_no_error(
       object = elastic_demands(
         eic = "10YCZ-CEPS-----N",
-        process_type = "A47",
         period_start = lubridate::ymd(
           x = "2024-01-01",
           tz = "CET"
@@ -13,10 +12,15 @@ testthat::test_that(
           x = "2024-12-01",
           tz = "CET"
         ),
+        process_type = "A47",
         tidy_output = TRUE
       ),
       message = "uses offsetting"
     ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_no_error(
       object = elastic_demands(
