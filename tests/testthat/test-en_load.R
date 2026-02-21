@@ -414,6 +414,121 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "load_actual_total() returns valid output structure",
+  code = {
+    result <- load_actual_total(
+      eic = "10Y1001A1001A83F",
+      period_start = lubridate::ymd(
+        x = Sys.Date() - lubridate::days(x = 30),
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = Sys.Date(),
+        tz = "CET"
+      ),
+      tidy_output = TRUE
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(result), expected = 0L)
+    testthat::expect_gt(object = ncol(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "load_day_ahead_total_forecast() returns valid output structure",
+  code = {
+    result <- load_day_ahead_total_forecast(
+      eic = "10Y1001A1001A83F",
+      period_start = lubridate::ymd(
+        x = Sys.Date() - lubridate::days(x = 30),
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = Sys.Date(),
+        tz = "CET"
+      ),
+      tidy_output = TRUE
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(result), expected = 0L)
+    testthat::expect_gt(object = ncol(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "load_week_ahead_total_forecast() returns valid output structure",
+  code = {
+    result <- load_week_ahead_total_forecast(
+      eic = "10Y1001A1001A83F",
+      period_start = lubridate::ymd(
+        x = "2019-11-01",
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = "2019-11-30",
+        tz = "CET"
+      ),
+      tidy_output = TRUE
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(result), expected = 0L)
+    testthat::expect_gt(object = ncol(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "load_month_ahead_total_forecast() returns valid output structure",
+  code = {
+    result <- load_month_ahead_total_forecast(
+      eic = "10Y1001A1001A82H",
+      period_start = lubridate::ymd(
+        x = "2019-11-01",
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = "2019-11-30",
+        tz = "CET"
+      ),
+      tidy_output = TRUE
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(result), expected = 0L)
+    testthat::expect_gt(object = ncol(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "load_year_ahead_total_forecast() returns valid output structure",
+  code = {
+    result <- load_year_ahead_total_forecast(
+      eic = "10Y1001A1001A83F",
+      period_start = lubridate::ymd(
+        x = "2024-11-01",
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = "2024-11-30",
+        tz = "CET"
+      ),
+      tidy_output = TRUE
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(result), expected = 0L)
+    testthat::expect_gt(object = ncol(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
   desc = "load_year_ahead_forecast_margin() works",
   code = {
     testthat::expect_no_error(
@@ -491,5 +606,28 @@ testthat::test_that(
       ),
       info = "One year range limit should be applied!!"
     )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "load_year_ahead_forecast_margin() returns valid output structure",
+  code = {
+    result <- load_year_ahead_forecast_margin(
+      eic = "10Y1001A1001A83F",
+      period_start = lubridate::ymd(
+        x = "2019-01-01",
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = "2019-12-31",
+        tz = "CET"
+      ),
+      tidy_output = TRUE
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(result), expected = 0L)
+    testthat::expect_gt(object = ncol(result), expected = 0L)
   }
 )

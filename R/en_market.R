@@ -394,32 +394,6 @@ flow_based_allocations <- function(
 
 
 
-# 4.2.6. Explicit Allocations (Use of the Transfer Capacity) [12.1.A]
-# 100 documents limit applies
-# Minimum time interval in query response ranges from part of day to year,
-# depending on selected Contract_MarketAgreement.Type
-# Mandatory parameters:
-# - DocumentType
-# - BusinessType
-# - Contract_MarketAgreement.Type
-# - In_Domain
-# - Out_Domain
-# - TimeInterval or combination of PeriodStart and PeriodEnd
-# Optional parameters:
-# - Auction.Category
-# - ClassificationSequence_AttributeInstanceComponent.Position
-# GET /api?documentType=A25
-# &businessType=B05
-# &contract_MarketAgreement.Type=A01
-# &in_Domain=10YSK-SEPS-----K
-# &out_Domain=10YCZ-CEPS-----N
-# &auction.Category=A01
-# &classificationSequence_AttributeInstanceComponent.Position=1
-# &periodStart=201601012300
-# &periodEnd=201601022300
-
-
-
 #' @title
 #' Get the Auction Revenue (12.1.A)
 #'
@@ -463,15 +437,15 @@ flow_based_allocations <- function(
 #' str(df)
 #'
 auction_revenue <- function(
-    eic_in = NULL,
-    eic_out = NULL,
-    period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                  tz = "CET"),
-    period_end = lubridate::ymd(Sys.Date(),
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
                                 tz = "CET"),
-    contract_type = "A01",
-    tidy_output = FALSE,
-    security_token = Sys.getenv("ENTSOE_PAT")
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
+  contract_type = "A01",
+  tidy_output = FALSE,
+  security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   # check if only one eic provided
   if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
@@ -806,10 +780,6 @@ day_ahead_prices <- function(
 
 
 
-# Implicit Allocations - Net positions  @@@@
-# Intraday Implicit Allocations - Congestion Income  @@@@
-# Daily Implicit Allocations - Congestion Income  @@@@
-# Daily Flow Based Allocations - Congestion Income  @@@@
 # 4.2.11. Implicit Auction — Net Positions [12.1.E]
 # One year range limit applies
 # Minimum time interval in query response is one day
@@ -857,7 +827,6 @@ day_ahead_prices <- function(
 
 
 # Transfer Capacities Allocated with Third Countries (Implicit)
-# Transfer Capacities Allocated with Third Countries
 # 4.2.16. Capacity Allocated Outside EU [12.1.H]  @@@@
 # 100 documents limit applies
 # Minimum time interval in query response ranges from part of day to year,

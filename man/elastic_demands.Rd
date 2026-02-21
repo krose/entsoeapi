@@ -41,6 +41,7 @@ df <- entsoeapi::elastic_demands(
   period_end   = lubridate::ymd(x = "2024-11-01", tz = "CET"),
   tidy_output  = TRUE
 )
+
 str(df)
 
 }

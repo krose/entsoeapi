@@ -750,7 +750,7 @@ outages_fallbacks <- function(
   # check if valid event_nature provided
   if (!event_nature %in% c("C47", "A53", "A54", "A83")) {
     stop("The 'event_nature' parameter should be ",
-         "'C47', 'A53', 'A54' or '83'.")
+         "'C47', 'A53', 'A54' or 'A83'.")
   }
 
   # check if valid security token is provided

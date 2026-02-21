@@ -1070,7 +1070,10 @@ testthat::test_that(
         doc_status = "X99",
         tidy_output = FALSE
       ),
-      info = "The 'doc_status' parameter should be 'A01', 'A02', 'A05', 'A09', 'A13' or 'X01'!"
+      info = paste(
+        "The 'doc_status' parameter should be",
+        "'A01', 'A02', 'A05', 'A09', 'A13' or 'X01'!"
+      )
     )
   }
 )

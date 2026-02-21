@@ -76,14 +76,14 @@ expansion_and_dismantling_project <- function(
   # check if business_type value is valid
   if (isFALSE(business_type %in% c("B01", "B02"))) {
     stop(
-      "The 'doc_status' parameter should be 'B01', 'B02'."
+      "The 'business_type' parameter should be 'B01', 'B02'."
     )
   }
 
   # check if doc_status value is valid
   if (isFALSE(doc_status %in% c("A01", "A02", "A05", "A09", "A13", "X01"))) {
     stop(
-      "The 'doc_status' parameter should be 'A01', 'A02'",
+      "The 'doc_status' parameter should be 'A01', 'A02' ",
       "A05', 'A09', 'A13' or 'X01'."
     )
   }
@@ -99,8 +99,8 @@ expansion_and_dismantling_project <- function(
     "&out_Domain=", eic_out,
     "&periodStart=", period_start,
     "&periodEnd=", period_end,
-    "&=businessType", business_type,
-    "&=DocStatus", doc_status
+    "&businessType=", business_type,
+    "&DocStatus=", doc_status
   )
 
   # send GET request

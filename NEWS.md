@@ -1,3 +1,13 @@
+# entsoeapi v0.9.1.1 (2026-02-21)
+
+## New functionality
+
+-   The beta versions of `implicit_offered_transfer_capacities()`, `explicit_offered_transfer_capacities()`, `continuous_offered_transfer_capacities()`, `flow_based_allocations()`, `auction_revenue()`, `expansion_and_dismantling_project()` and `intraday_cross_border_transfer_limits()` queries have been introduced.
+
+## Miscellaneous
+
+-   Minor under the hood improvements and fixes.
+
 # entsoeapi v0.9.1.0 (2026-02-20)
 
 ## New functionality

@@ -1257,10 +1257,7 @@ add_type_names <- function(tbl) {
       definition_name = "ts_auction_type_def"
     )
   }
-  if (
-    "subject_market_participant_market_role_type"
-    %in% names(tbl)
-  ) {
+  if ("subject_market_participant_market_role_type" %in% names(tbl)) {
     affected_cols <- c(
       affected_cols,
       "subject_market_participant_market_role_type"
