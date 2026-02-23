@@ -726,6 +726,7 @@ testthat::test_that(
         tidy_output = FALSE
       )
     ) |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_error(
       object = flow_based_allocations(
@@ -966,6 +967,456 @@ testthat::test_that(
         tidy_output = FALSE
       ),
       info = "One year range limit should be applied!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "net_positions() works",
+  code = {
+    testthat::expect_no_error(
+      object = net_positions(
+        eic = "10YCZ-CEPS-----N",
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        contract_type = "A01",
+        tidy_output = FALSE
+      )
+    ) |>
+      testthat::expect_warning()
+    testthat::expect_error(
+      object = net_positions(
+        eic = NULL,
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One bidding zone EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = net_positions(
+        eic = c("10YCZ-CEPS-----N", "10Y1001A1001A82H"),
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "This wrapper only supports one EIC per request!"
+    )
+    testthat::expect_error(
+      object = net_positions(
+        eic = "10YCZ-CEPS-----N",
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        contract_type = "A99",
+        tidy_output = FALSE
+      ),
+      info = "The 'contract_type' parameter should be 'A01' or 'A07'!"
+    )
+    testthat::expect_error(
+      object = net_positions(
+        eic = "10YCZ-CEPS-----N",
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      ),
+      info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = net_positions(
+        eic = "10YCZ-CEPS-----N",
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      info = "Unauthorized. Missing or invalid security token!"
+    )
+    testthat::expect_error(
+      object = net_positions(
+        eic = "10YCZ-CEPS-----N",
+        period_start = lubridate::ymd(
+          x = "2015-12-31",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-12-31",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One year range limit should be applied!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "congestion_income() works",
+  code = {
+    testthat::expect_no_error(
+      object = congestion_income(
+        eic = "10YDOM-1001A083J",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        contract_type = "A01",
+        tidy_output = FALSE
+      )
+    ) |>
+      testthat::expect_warning()
+    testthat::expect_error(
+      object = congestion_income(
+        eic = "10YDOM-1001A083J",
+        period_start = lubridate::ymd(
+          x = "2015-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        contract_type = "A01",
+        tidy_output = FALSE
+      ),
+      regexp = "larger than maximum allowed period 'P1Y'"
+    )
+    testthat::expect_error(
+      object = congestion_income(
+        eic = NULL,
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "One border or bidding zone EIC should be provided!"
+    )
+    testthat::expect_error(
+      object = congestion_income(
+        eic = c("10YDOM-1001A083J", "10YCZ-CEPS-----N"),
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      info = "This wrapper only supports one EIC per request!"
+    )
+    testthat::expect_error(
+      object = congestion_income(
+        eic = "10YDOM-1001A083J",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        contract_type = "A99",
+        tidy_output = FALSE
+      ),
+      info = paste(
+        "The 'contract_type' parameter should be",
+        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
+      )
+    )
+    testthat::expect_error(
+      object = congestion_income(
+        eic = "10YDOM-1001A083J",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      ),
+      info = "Valid security token should be provided!"
+    )
+    testthat::expect_error(
+      object = congestion_income(
+        eic = "10YDOM-1001A083J",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      info = "Unauthorized. Missing or invalid security token!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "allocated_transfer_capacities_3rd_countries() works",
+  code = {
+    cts <- c("A01", "A02", "A03", "A04", "A06", "A07", "A08")
+    ats <- c("A01", "A02", "A03", "A04")
+    for (ct in cts) {
+      for (at in ats) {
+        testthat::expect_no_error(
+          object = allocated_transfer_capacities_3rd_countries(
+            eic_in = "10YSK-SEPS-----K",
+            eic_out = "10YUA-WEPS-----0",
+            period_start = lubridate::ymd(
+              x = "2016-01-01",
+              tz = "CET"
+            ),
+            period_end = lubridate::ymd(
+              x = "2016-01-01",
+              tz = "CET"
+            ),
+            contract_type = ct,
+            auction_category = at,
+            position = 1L,
+            tidy_output = FALSE
+          )
+        ) |>
+          testthat::expect_warning() |>
+          testthat::expect_warning()
+      }
+    }
+    testthat::expect_warning(
+      object = df <- allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        contract_type = "A01",
+        auction_category = "A04",
+        position = 2L,
+        tidy_output = FALSE
+      )
+    ) |>
+      testthat::expect_warning()
+    testthat::expect_match(
+      object = df$reason_code,
+      regexp = "999"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2015-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2015-05-01",
+          tz = "CET"
+        ),
+        contract_type = "A01",
+        auction_category = "A04",
+        position = 1L,
+        tidy_output = FALSE
+      ),
+      regexp = "exceeds the allowed maximum \\(100\\) for data item"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = NULL,
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      regexp = "One 'in' control area EIC should be provided"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = NULL,
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      regexp = "One 'out' control area EIC should be provided"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = c("10YSK-SEPS-----K", "10YUA-WEPS-----0"),
+        eic_out = c("10YUA-WEPS-----0", "10YSK-SEPS-----K"),
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE
+      ),
+      regexp = "This wrapper only supports one in and one out EIC per request"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        contract_type = "A99",
+        tidy_output = FALSE
+      ),
+      regexp = paste(
+        "The 'contract_type' parameter should be",
+        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'"
+      )
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        auction_category = "A99",
+        tidy_output = FALSE
+      ),
+      regexp = "The 'auction_category' should be 'A01', 'A02', 'A03' or 'A04'"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        position = 0L,
+        tidy_output = FALSE
+      ),
+      regexp = "The 'position' parameter should be a positive integer"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      ),
+      regexp = "Valid security token should be provided"
+    )
+    testthat::expect_error(
+      object = allocated_transfer_capacities_3rd_countries(
+        eic_in = "10YSK-SEPS-----K",
+        eic_out = "10YUA-WEPS-----0",
+        period_start = lubridate::ymd(
+          x = "2016-01-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2016-01-02",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      regexp = "Unauthorized. Missing or invalid security token"
     )
   }
 )

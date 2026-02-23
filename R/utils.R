@@ -751,12 +751,13 @@ api_req <- function(
         offset_forbidden <- stringr::str_detect(
           string = query_string,
           pattern = sprintf(
-            fmt = "(%s|%s|%s|%s|%s)",
+            fmt = "(%s|%s|%s|%s|%s|%s)",
             "(?=.*documentType=A63)(?=.*businessType=A(46|85))",
             "(?=.*documentType=A65)(?=.*businessType=A85)",
             "(?=.*documentType=B09)(?=.*StorageType=archive)",
             "documentType=A91",
-            "documentType=A92"
+            "documentType=A92",
+            "(?=.*documentType=A94)(?=.*auction.Type=A02)"
           )
         )
 

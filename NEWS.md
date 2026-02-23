@@ -1,3 +1,13 @@
+# entsoeapi v0.9.2.0 (2026-02-23)
+
+## New functionality
+
+-   The beta versions of `net_positions()`, `congestion_income()` and `allocated_transfer_capacities_3rd_countries()` queries have been introduced.
+
+## Miscellaneous
+
+-   Minor under the hood improvements and fixes.
+
 # entsoeapi v0.9.1.1 (2026-02-21)
 
 ## New functionality
