@@ -1123,7 +1123,7 @@ testthat::test_that(
         contract_type = "A01",
         tidy_output = FALSE
       ),
-      regexp = "larger than maximum allowed period 'P1Y'"
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = congestion_income(
