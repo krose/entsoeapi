@@ -201,9 +201,10 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
 #'
 #' @noRd
 extract_leaf_twig_branch <- function(nodesets) {
+  # detect the number of children for each element
+  children_of_nodes <- purrr::map_int(nodesets, number_of_children)
 
   # compose a sub table from first level data
-  children_of_nodes <- purrr::map_int(nodesets, number_of_children)
   first_level_tbl <- nodesets[children_of_nodes == 0L] |>
     extract_nodesets() |>
     data.table::as.data.table()
@@ -683,7 +684,7 @@ api_req <- function(
         )
 
         # read the xml content from each the decompressed files
-        en_cont_list <- read_zipped_xml(temp_file_path)
+        en_cont_list <- read_zipped_xml(temp_file_path = temp_file_path)
 
         # return with the xml content list
         en_cont_list
@@ -750,12 +751,13 @@ api_req <- function(
         offset_forbidden <- stringr::str_detect(
           string = query_string,
           pattern = sprintf(
-            fmt = "(%s|%s|%s|%s|%s)",
+            fmt = "(%s|%s|%s|%s|%s|%s)",
             "(?=.*documentType=A63)(?=.*businessType=A(46|85))",
             "(?=.*documentType=A65)(?=.*businessType=A85)",
             "(?=.*documentType=B09)(?=.*StorageType=archive)",
             "documentType=A91",
-            "documentType=A92"
+            "documentType=A92",
+            "(?=.*documentType=A94)(?=.*auction.Type=A02)"
           )
         )
 
@@ -944,6 +946,144 @@ get_eiccodes <- function(
 
 
 #' @title
+#' downloads all allocated Energy Identification Codes
+#'
+#' @description
+#' from https://eepublicdownloads.blob.core.windows.net
+#'
+#' @noRd
+get_all_allocated_eic <- function() {
+  # define those variables as NULL which are used under non-standard evaluation
+  doc_status_value <- NULL
+
+  # set the link of the xml file
+  base_url <- "https://eepublicdownloads.blob.core.windows.net"
+
+  # retrieve data from the API
+  req <- httr2::request(base_url = base_url) |>
+    httr2::req_url_path_append("cio-lio") |>
+    httr2::req_url_path_append("xml") |>
+    httr2::req_url_path_append("allocated-eic-codes.xml") |>
+    httr2::req_method(method = "GET") |>
+    httr2::req_progress() |>
+    httr2::req_verbose(
+      header_req = FALSE,
+      header_resp = TRUE,
+      body_req = FALSE,
+      body_resp = FALSE
+    ) |>
+    httr2::req_timeout(seconds = 60)
+  resp <- "No response."
+  resp <- req_perform_safe(req = req)
+
+  if (is.null(resp$error)) {
+    message("response has arrived")
+
+    # read the xml content from each the decompressed files
+    en_cont <- httr2::resp_body_raw(resp = resp$result) |>
+      rawToChar() |>
+      xml2::as_xml_document()
+
+    # convert XML to table
+    result_tbl <- tryCatch(
+      expr = {
+        nodesets <- xml2::xml_contents(x = en_cont)
+
+        # detect the number of children for each element
+        children_of_nodes <- purrr::map_int(nodesets, number_of_children)
+
+        # compose a sub table from the first level data
+        first_level_tbl <- nodesets[children_of_nodes == 0L] |>
+          extract_nodesets() |>
+          data.table::as.data.table()
+
+        # remove the not needed columns from the first_level_tbl
+        not_needed_patt <- paste(
+          "^(sender|receiver)_MarketParticipant\\.",
+          "^mRID$|^type$",
+          sep = "|"
+        )
+        first_level_tbl <- first_level_tbl |>
+          dplyr::select(!dplyr::matches(match = not_needed_patt))
+
+        # compose a sub table from the second level data
+        second_level_length <- nodesets[children_of_nodes > 0L] |>
+          length()
+        second_level_tbl <- nodesets[children_of_nodes > 0L] |>
+          purrr::imap(
+            \(scnd_ns, idx) {
+              times <- second_level_length - idx + 1L
+              thsnd_idx <- ((second_level_length - times) %/% 1000L + 1L)
+              if (times %% 1000L == 0L) {
+                message(thsnd_idx, " ", rep(x = "<", times = times %/% 1000L))
+              }
+              # extract as named list
+              nodeset_list <- xmlconvert::xml_to_list(
+                xml = scnd_ns,
+                convert.types = FALSE
+              )
+              # collapse duplicated elements
+              dupl_col <- which(table(names(nodeset_list)) > 1L) |>
+                names()
+              for (col in dupl_col) {
+                indices <- which(names(nodeset_list) == col)
+                first_idx <- indices[[1L]]
+                rest_idx <- base::setdiff(x = indices, y = first_idx)
+                nodeset_list[first_idx] <- paste(
+                  nodeset_list[indices],
+                  collapse = " - "
+                )
+                nodeset_list[rest_idx] <- NULL
+              }
+              # convert named list to table
+              data.table::as.data.table(nodeset_list)
+            }
+          ) |>
+          purrr::compact() |>
+          data.table::rbindlist(use.names = TRUE, fill = TRUE) |>
+          dplyr::rename(dplyr::any_of(c(eic_code = "mRID",
+                                        docStatusValue = "docStatus")))
+
+        # combine the first level and the second levels tables together
+        dplyr::bind_cols(first_level_tbl, second_level_tbl)
+      },
+      error = \(e) {
+        stop("The XML document has an unexpected tree structure!\n", e)
+      }
+    )
+
+    if (nrow(result_tbl) == 0L) {
+      stop("The XML document has an unexpected tree structure!")
+    }
+
+    # rename columns to snakecase
+    names(result_tbl) <- my_snakecase(result_tbl)
+
+    # add eic_code_doc_status definitions to codes
+    result_tbl <- data.table::merge.data.table(
+      x = result_tbl,
+      y = message_types |>
+        subset(select = c("code", "title")) |>
+        setNames(nm = c("doc_status_value", "doc_status")),
+      by = "doc_status_value",
+      all.x = TRUE
+    ) |>
+      dplyr::relocate(
+        doc_status,
+        .after = doc_status_value
+      )
+
+    # return with the xml content list
+    tibble::as_tibble(result_tbl)
+
+  } else {
+    stop(sprintf("%s\n%s", resp$error$message, req$url))
+  }
+}
+
+
+
+#' @title
 #' unpack an xml section into a tabular row
 #'
 #' @noRd
@@ -1105,6 +1245,30 @@ my_snakecase <- function(tbl) {
     stringr::str_replace_all(
       pattern = "_flow_based_study_domain_flow_based_margin_quantity",
       replacement = "_flow_based_study_domain_margin_quantity"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "attribute_instance_component_attribute",
+      replacement = "instance_component_attribute"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "last_request_date_and_or_time_date",
+      replacement = "last_request_date"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "eic_responsible_market_participant_mrid",
+      replacement = "responsible_market_participant_mrid"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "eic_code_market_participant_vat_code_name",
+      replacement = "market_participant_vat_code_name"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "eic_code_market_participant_acer_code_name",
+      replacement = "market_participant_acer_code_name"
+    ) |>
+    stringr::str_replace_all(
+      pattern = "eic_parent_market_document_mrid",
+      replacement = "parent_market_document_mrid"
     )
 }
 

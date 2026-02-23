@@ -31,18 +31,19 @@ The data is delivered for each market time unit.
 }
 \examples{
 df1 <- entsoeapi::day_ahead_prices(
-  eic          = "10YCZ-CEPS-----N",
+  eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+  tidy_output = TRUE
 )
+
 str(df1)
 
 df2 <- entsoeapi::day_ahead_prices(
-  eic          = "10Y1001A1001A82H",
+  eic = "10Y1001A1001A82H",
   period_start = lubridate::ymd(x = "2026-02-13", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2026-02-13", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2026-02-13", tz = "CET"),
+  tidy_output = TRUE
 )
 str(df2)
 

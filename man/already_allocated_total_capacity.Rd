@@ -63,6 +63,7 @@ df <- entsoeapi::already_allocated_total_capacity(
   period_end = lubridate::ymd(x = "2025-02-02", tz = "CET"),
   tidy_output = TRUE
 )
+
 str(df)
 
 }

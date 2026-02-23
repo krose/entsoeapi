@@ -521,11 +521,11 @@ auction_revenue <- function(
 #'
 #' @examples
 #' df <- entsoeapi::total_nominated_capacity(
-#'   eic_in       = "10YDE-VE-------2",
-#'   eic_out      = "10YCZ-CEPS-----N",
+#'   eic_in = "10YDE-VE-------2",
+#'   eic_out = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2019-02-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2019-03-01", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2019-03-01", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #'
 #' str(df)
@@ -627,6 +627,7 @@ total_nominated_capacity <- function(
 #'   period_end = lubridate::ymd(x = "2025-02-02", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
+#'
 #' str(df)
 #'
 already_allocated_total_capacity <- function(
@@ -717,18 +718,19 @@ already_allocated_total_capacity <- function(
 #'
 #' @examples
 #' df1 <- entsoeapi::day_ahead_prices(
-#'   eic          = "10YCZ-CEPS-----N",
+#'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2019-12-01", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
+#'
 #' str(df1)
 #'
 #' df2 <- entsoeapi::day_ahead_prices(
-#'   eic          = "10Y1001A1001A82H",
+#'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2026-02-13", tz = "CET"),
-#'   period_end   = lubridate::ymd(x = "2026-02-13", tz = "CET"),
-#'   tidy_output  = TRUE
+#'   period_end = lubridate::ymd(x = "2026-02-13", tz = "CET"),
+#'   tidy_output = TRUE
 #' )
 #' str(df2)
 #'
@@ -780,73 +782,322 @@ day_ahead_prices <- function(
 
 
 
-# 4.2.11. Implicit Auction — Net Positions [12.1.E]
-# One year range limit applies
-# Minimum time interval in query response is one day
-# Mandatory parameters:
-# - DocumentType
-# - BusinessType
-# - Contract_MarketAgreement.Type
-# - In_Domain
-# - Out_Domain
-# - TimeInterval or combination of PeriodStart and PeriodEnd
-# - In_Domain and Out_Domain must be populated with the same
-#   bidding zone EIC code
-# GET /api?documentType=A25
-# &businessType=B09
-# &contract_MarketAgreement.Type=A01
-# &in_Domain=10YCZ-CEPS-----N
-# &out_Domain=10YCZ-CEPS-----N
-# &periodStart=201512312300
-# &periodEnd=201612312300
+#' @title
+#' Get Implicit Auction — Net Positions (12.1.E)
+#'
+#' @description
+#' Net positions resulting from implicit auctions per bidding zone.
+#'
+#' @param eic Energy Identification Code of the bidding zone
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param contract_type Contract market agreement type;
+#'                      "A01" = Day ahead
+#'                      "A07" = Intraday
+#'                      Defaults to "A01" (Day ahead)
+#' @param tidy_output Defaults to FALSE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @export
+#'
+#' @examples
+#' df <- entsoeapi::net_positions(
+#'   eic = "10YCZ-CEPS-----N",
+#'   period_start = lubridate::ymd(x = "2015-12-31", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2016-01-01", tz = "CET"),
+#'   contract_type = "A01",
+#'   tidy_output = TRUE
+#' )
+#'
+#' str(df)
+#'
+net_positions <- function(
+  eic = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+                                tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
+  contract_type = "A01",
+  tidy_output = FALSE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic)) stop("One bidding zone EIC should be provided.")
+  if (length(eic) > 1L) {
+    stop("This wrapper only supports one EIC per request.")
+  }
+
+  # check if contract_type value is valid
+  if (isFALSE(contract_type %in% c("A01", "A07"))) {
+    stop("The 'contract_type' parameter should be 'A01' or 'A07'.")
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided.")
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A25",
+    "&businessType=B09",
+    "&contract_MarketAgreement.Type=", contract_type,
+    "&in_Domain=", eic,
+    "&out_Domain=", eic,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted the response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
 
 
 
-# 4.2.12. Implicit Auction — Congestion Income [12.1.E]
-# 100 documents limit applies
-# Minimum time interval in query response ranges from part of day to one day,
-# depending on selected Contract_MarketAgreement.Type
-# Mandatory parameters:
-# - DocumentType
-# - BusinessType
-# - Contract_MarketAgreement.Type
-# - In_Domain
-# - Out_Domain
-# - TimeInterval or combination of PeriodStart and PeriodEnd
-# For implicit allocations, In_Domain and Out_Domain must be populated with
-# the same border EIC code. For flow-based, they must be populated with
-# the same bidding zone EIC code
-# GET /api?documentType=A25
-# &businessType=B10
-# &contract_MarketAgreement.Type=A01
-# &in_Domain=10YDOM-1001A083J
-# &out_Domain=10YDOM-1001A083J
-# &periodStart=201601012300
-# &periodEnd=201601022300
+#' @title
+#' Get Implicit and Flow-based Allocations — Congestion Income (12.1.E)
+#'
+#' @description
+#' Congestion income from implicit and flow-based allocations.
+#' For implicit allocations, In_Domain and Out_Domain must be the same
+#' border EIC code. For flow-based, both must be the same bidding zone EIC.
+#'
+#' @param eic Energy Identification Code of the border or bidding zone
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param contract_type Contract market agreement type, valid values
+#'                      can be checked from contract_types table;
+#'                      "A01" = Day ahead
+#'                      "A02" = Weekly
+#'                      "A032 = Monthly
+#'                      "A04" = Yearly
+#'                      "A06" = Long Term
+#'                      "A07" = Intraday
+#'                      "A08" = Quarterly
+#'                      Defaults to "A01" (Day ahead)
+#' @param tidy_output Defaults to FALSE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @export
+#'
+#' @examples
+#' df <- entsoeapi::congestion_income(
+#'   eic = "10YDOM-1001A083J",
+#'   period_start = lubridate::ymd(x = "2016-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2016-01-02", tz = "CET"),
+#'   contract_type = "A01",
+#'   tidy_output = TRUE
+#' )
+#'
+#' str(df)
+#'
+congestion_income <- function(
+  eic = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+                                tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
+  contract_type = "A01",
+  tidy_output = FALSE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic)) stop("One border or bidding zone EIC should be provided.")
+  if (length(eic) > 1L) {
+    stop("This wrapper only supports one EIC per request.")
+  }
+
+  # check if contract_type value is valid
+  if (isFALSE(contract_type %in% c("A01", "A02", "A03", "A04", "A06", "A07",
+                                   "A08"))) {
+    stop(
+      "The 'contract_type' parameter should be 'A01', 'A02', 'A03', 'A04', ",
+      "'A06', 'A07' or 'A08'."
+    )
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided.")
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    stop("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A25",
+    "&businessType=B10",
+    "&contract_MarketAgreement.Type=", contract_type,
+    "&in_Domain=", eic,
+    "&out_Domain=", eic,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted the response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
 
 
 
-# Transfer Capacities Allocated with Third Countries (Implicit)
-# 4.2.16. Capacity Allocated Outside EU [12.1.H]  @@@@
-# 100 documents limit applies
-# Minimum time interval in query response ranges from part of day to year,
-# depending on selected Contract_MarketAgreement.Type
-# Mandatory parameters:
-# - DocumentType
-# - Auction.Type
-# - Contract_MarketAgreement.Type
-# - In_Domain
-# - Out_Domain
-# - TimeInterval or combination of PeriodStart and PeriodEnd
-# Optional parameters:
-# - Auction.Category
-# - ClassificationSequence_AttributeInstanceComponent.Position
-# GET /api?documentType=A94
-# &contract_MarketAgreement.Type=A01
-# &in_Domain=10YSK-SEPS-----K
-# &out_Domain=10YUA-WEPS-----0
-# &auction.Type=A02
-# &auction.Category=A04
-# &classificationSequence_AttributeInstanceComponent.Position=1
-# &periodStart=201601012300
-# &periodEnd=201601022300
+#' @title
+#' Get Transfer Capacities Allocated with Third Countries — Explicit (12.1.H)
+#'
+#' @description
+#' Capacity allocated outside the EU via explicit auction (auction.Type=A02).
+#' Minimum time interval in query response ranges from part of day to year,
+#' depending on the selected contract type. A 100-document limit applies.
+#'
+#' @param eic_in Energy Identification Code of the in domain
+#' @param eic_out Energy Identification Code of the out domain
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#' @param contract_type Contract market agreement type, valid values
+#'                      can be checked from contract_types table;
+#'                      "A01" = Day ahead
+#'                      "A02" = Weekly
+#'                      "A03" = Monthly
+#'                      "A04" = Yearly
+#'                      "A06" = Long Term
+#'                      "A07" = Intraday
+#'                      "A08" = Quarterly
+#'                      Defaults to "A01" (Day ahead)
+#' @param auction_category Optional auction category;
+#'                         "A01" = Base
+#'                         "A02" = Peak
+#'                         "A03" = Off Peak
+#'                         "A04" = Hourly
+#'                         Defaults to "A04"
+#' @param position Integer position for ts_classification_sequence_position.
+#'                 Defaults to 1.
+#' @param tidy_output Defaults to FALSE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @export
+#'
+#' @examples
+#' df <- entsoeapi::allocated_transfer_capacities_3rd_countries(
+#'   eic_in = "10YSK-SEPS-----K",
+#'   eic_out = "10YUA-WEPS-----0",
+#'   period_start = lubridate::ymd(x = "2016-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2016-01-02", tz = "CET"),
+#'   contract_type = "A01",
+#'   auction_category = "A04",
+#'   position = 1L,
+#'   tidy_output = TRUE
+#' )
+#'
+#' str(df)
+#'
+allocated_transfer_capacities_3rd_countries <- function(
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+                                tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(),
+                              tz = "CET"),
+  contract_type = "A01",
+  auction_category = "A04",
+  position = 1L,
+  tidy_output = FALSE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  # check if only one eic provided
+  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
+  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
+  if (length(eic_in) > 1L || length(eic_out) > 1L) {
+    stop("This wrapper only supports one in and one out EIC per request.")
+  }
+
+  # check if contract_type value is valid
+  if (isFALSE(contract_type %in% c("A01", "A02", "A03", "A04", "A06", "A07",
+                                   "A08"))) {
+    stop(
+      "The 'contract_type' parameter should be 'A01', 'A02', 'A03', 'A04', ",
+      "'A06', 'A07' or 'A08'."
+    )
+  }
+
+  # check if the optional auction_category value is valid
+  if (isFALSE(auction_category %in% c("A01", "A02", "A03", "A04"))) {
+    stop("The 'auction_category' should be 'A01', 'A02', 'A03' or 'A04'.")
+  }
+
+  # check if the optional position value is a positive integer
+  if ((!is.numeric(position) ||
+       position != as.integer(position) ||
+       position < 1L)) {
+    stop("The 'position' parameter should be a positive integer.")
+  }
+
+  # check if valid security token is provided
+  if (security_token == "") stop("Valid security token should be provided.")
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A94",
+    "&auction.Type=A02",
+    "&contract_MarketAgreement.Type=", contract_type,
+    "&in_Domain=", eic_in,
+    "&out_Domain=", eic_out,
+    if (!is.null(auction_category)) {
+      paste0("&auction.Category=", auction_category)
+    } else {
+      ""
+    },
+    if (!is.null(position)) {
+      paste0(
+        "&classificationSequence_AttributeInstanceComponent.Position=",
+        as.integer(position)
+      )
+    } else {
+      ""
+    },
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted the response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}

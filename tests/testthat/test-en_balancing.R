@@ -21,6 +21,7 @@ testthat::test_that(
       testthat::expect_warning() |>
       testthat::expect_warning() |>
       testthat::expect_warning() |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_no_error(
       object = elastic_demands(
@@ -37,6 +38,7 @@ testthat::test_that(
         tidy_output = TRUE
       )
     ) |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_contains(
       object = elastic_demands(
@@ -59,6 +61,11 @@ testthat::test_that(
         "bid_ts_flow_direction"
       )
     ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
+      testthat::expect_warning() |>
       testthat::expect_warning()
     testthat::expect_error(
       object = elastic_demands(

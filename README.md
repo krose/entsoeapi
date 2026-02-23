@@ -15,14 +15,17 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
 
 -   Already available ENTSO-E API endpoints:
     -   MARKET
-        -   implicit_offered_transfer_capacities (11.1)  (beta test version)
-        -   explicit_offered_transfer_capacities (11.1.A)  (beta test version)
-        -   continuous_offered_transfer_capacities (11.1)  (beta test version)
-        -   flow_based_allocations (11.1.B)  (beta test version)
-         -  auction_revenue (12.1.A)  (beta test version)
+        -   implicit_offered_transfer_capacities (11.1) (beta test version)
+        -   explicit_offered_transfer_capacities (11.1.A) (beta test version)
+        -   continuous_offered_transfer_capacities (11.1) (beta test version)
+        -   flow_based_allocations (11.1.B) (beta test version)
+        -   auction_revenue (12.1.A) (beta test version)
         -   total_nominated_capacity (12.1.B)
         -   already_allocated_total_capacity (12.1.C)
         -   day_ahead_prices (12.1.D)
+        -   net_positions (12.1.E) (beta test version)
+        -   congestion_income (12.1.E) (beta test version)
+        -   allocated_transfer_capacities_3rd_countries (12.1.H) (beta test version)
     -   LOAD
         -   load_actual_total (6.1.A)
         -   load_day_ahead_total_forecast (6.1.B)
@@ -39,8 +42,8 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
         -   gen_per_prod_type (16.1.B&C)
         -   the gen_storage_mean_filling_rate (16.1.D)
     -   TRANSMISSION
-        -   expansion_and_dismantling_project (9.1)  (beta test version)
-        -   intraday_cross_border_transfer_limits (11.3)  (beta test version)
+        -   expansion_and_dismantling_project (9.1) (beta test version)
+        -   intraday_cross_border_transfer_limits (11.3) (beta test version)
         -   forecasted_transfer_capacities (11.1.A)
         -   day_ahead_commercial_sched (12.1.F)
         -   total_commercial_sched (12.1.F)

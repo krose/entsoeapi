@@ -962,7 +962,9 @@ testthat::test_that(
         doc_status = "A05",
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning() |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = expansion_and_dismantling_project(
         eic_in = NULL,

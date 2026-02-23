@@ -36,11 +36,11 @@ to the market.
 }
 \examples{
 df <- entsoeapi::total_nominated_capacity(
-  eic_in       = "10YDE-VE-------2",
-  eic_out      = "10YCZ-CEPS-----N",
+  eic_in = "10YDE-VE-------2",
+  eic_out = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2019-02-01", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2019-03-01", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2019-03-01", tz = "CET"),
+  tidy_output = TRUE
 )
 
 str(df)

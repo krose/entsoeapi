@@ -1381,3 +1381,217 @@ testthat::test_that(
     )
   }
 )
+
+
+
+testthat::test_that(
+  desc = paste(
+    "get_all_allocated_eic() returns a tibble",
+    "with expected columns on valid XML"
+  ),
+  code = {
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          headers     = list("content-type" = "application/xml"),
+          body        = xml_fixture
+        )
+      }
+    )
+    tbl <- entsoeapi:::get_all_allocated_eic()
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_contains(
+      object   = names(tbl),
+      expected = c(
+        "eic_code",
+        "doc_status_value",
+        "doc_status",
+        "last_request_date",
+        "instance_component_attribute",
+        "long_name",
+        "display_name",
+        "function_names"
+      )
+    )
+    testthat::expect_false(object = anyNA(tbl$created_date_time))
+  }
+)
+
+
+
+testthat::test_that(
+  desc =
+    "get_all_allocated_eic() joins doc_status from message_types correctly",
+  code = {
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          headers     = list("content-type" = "application/xml"),
+          body        = xml_fixture
+        )
+      }
+    )
+    tbl <- entsoeapi:::get_all_allocated_eic()
+    # A05 is in the fixture; its title in message_types
+    # is "Control block area schedule"
+    testthat::expect_equal(
+      object   = tbl$doc_status[[1L]],
+      expected = "Control block area schedule"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc =
+    "get_all_allocated_eic() stops with HTTP error message and request URL",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          headers     = list("content-type" = "application/xml"),
+          body        = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = entsoeapi:::get_all_allocated_eic(),
+      regexp = "HTTP 503"
+    )
+    testthat::expect_error(
+      object = entsoeapi:::get_all_allocated_eic(),
+      regexp = "eepublicdownloads\\.blob\\.core\\.windows\\.net"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "get_all_allocated_eic() stops on empty response body",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          headers     = list("content-type" = "application/xml"),
+          body        = raw(0L)
+        )
+      }
+    )
+    testthat::expect_error(object = entsoeapi:::get_all_allocated_eic())
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "get_all_allocated_eic() stops on XML with unexpected tree structure",
+  code = {
+    minimal_xml <- charToRaw(x = paste0(
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      "<root>",
+      "  <docStatusValue>A05</docStatusValue>",
+      "  <simpleLeaf>value</simpleLeaf>",
+      "</root>"
+    ))
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          headers     = list("content-type" = "application/xml"),
+          body        = minimal_xml
+        )
+      }
+    )
+    testthat::expect_error(
+      object = entsoeapi:::get_all_allocated_eic(),
+      regexp = "unexpected tree structure"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc =
+    "get_all_allocated_eic() returns one row per EICCode_MarketDocument node",
+  code = {
+    multi_eic_xml <- readLines(
+      con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          headers     = list("content-type" = "application/xml"),
+          body        = multi_eic_xml
+        )
+      }
+    )
+    tbl <- entsoeapi:::get_all_allocated_eic()
+    testthat::expect_equal(object = nrow(tbl), expected = 2L)
+    testthat::expect_setequal(
+      object   = tbl$eic_code,
+      expected = c("10X-TEST--EIC--1", "10X-TEST--EIC--2")
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc =
+    "get_all_allocated_eic() collapses duplicate Function_Names with ' - '",
+  code = {
+    dupl_fn_xml <- readLines(
+      con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          headers     = list("content-type" = "application/xml"),
+          body        = dupl_fn_xml
+        )
+      }
+    )
+    tbl <- entsoeapi:::get_all_allocated_eic()
+    testthat::expect_equal(object = nrow(tbl), expected = 2L)
+    testthat::expect_true(
+      object = grepl(
+        pattern = " - ",
+        x = tbl$function_names[[1L]],
+        fixed = TRUE
+      )
+    )
+  }
+)
