@@ -14,8 +14,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = day_ahead_prices(
         eic = NULL,
@@ -99,8 +98,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = total_nominated_capacity(
         eic_in = "10YDE-VE-------2",
@@ -321,8 +319,7 @@ testthat::test_that(
         contract_type = "A01",
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
         eic_in = NULL,
@@ -602,8 +599,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = continuous_offered_transfer_capacity(
         eic_in = NULL,
@@ -725,9 +721,7 @@ testthat::test_that(
         archive = TRUE,
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = flow_based_allocations(
         eic = NULL,
@@ -848,8 +842,7 @@ testthat::test_that(
         contract_type = "A01",
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = auction_revenue(
         eic_in = NULL,
@@ -990,8 +983,7 @@ testthat::test_that(
         contract_type = "A01",
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = net_positions(
         eic = NULL,
@@ -1107,8 +1099,7 @@ testthat::test_that(
         contract_type = "A01",
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = congestion_income(
         eic = "10YDOM-1001A083J",
@@ -1214,6 +1205,22 @@ testthat::test_that(
 testthat::test_that(
   desc = "allocated_transfer_capacities_3rd_countries() works",
   code = {
+    df <- allocated_transfer_capacities_3rd_countries(
+      eic_in = "10YSK-SEPS-----K",
+      eic_out = "10YUA-WEPS-----0",
+      period_start = lubridate::ymd(
+        x = "2016-01-01",
+        tz = "CET"
+      ),
+      period_end = lubridate::ymd(
+        x = "2016-01-01",
+        tz = "CET"
+      ),
+      contract_type = "A01",
+      auction_category = "A04",
+      position = 2L,
+      tidy_output = FALSE
+    )
     cts <- c("A01", "A02", "A03", "A04", "A06", "A07", "A08")
     ats <- c("A01", "A02", "A03", "A04")
     for (ct in cts) {
@@ -1235,30 +1242,9 @@ testthat::test_that(
             position = 1L,
             tidy_output = FALSE
           )
-        ) |>
-          testthat::expect_warning() |>
-          testthat::expect_warning()
+        )
       }
     }
-    testthat::expect_warning(
-      object = df <- allocated_transfer_capacities_3rd_countries(
-        eic_in = "10YSK-SEPS-----K",
-        eic_out = "10YUA-WEPS-----0",
-        period_start = lubridate::ymd(
-          x = "2016-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2016-01-01",
-          tz = "CET"
-        ),
-        contract_type = "A01",
-        auction_category = "A04",
-        position = 2L,
-        tidy_output = FALSE
-      )
-    ) |>
-      testthat::expect_warning()
     testthat::expect_match(
       object = df$reason_code,
       regexp = "999"

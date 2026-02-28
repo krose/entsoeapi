@@ -34,11 +34,12 @@ Those rows which hold the queried eic value in the
 }
 \examples{
 df <- entsoeapi::netted_volumes(
-  eic          = "10YCZ-CEPS-----N",
+  eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2022-08-16", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2022-08-17", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2022-08-17", tz = "CET"),
+  tidy_output = TRUE
 )
+
 str(df)
 
 }

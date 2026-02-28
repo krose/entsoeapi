@@ -17,9 +17,9 @@ exchanged_volumes(
 \item{eic}{Energy Identification Code of the area}
 
 \item{process_type}{type of frequency restoration reserve
-A51 aFRR
-A60 mFRR with scheduled activation
-A61 mFRR with direct activation}
+"A51" aFRR
+"A60" mFRR with scheduled activation
+"A61" mFRR with direct activation}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format
 One day range limit applies}
@@ -43,21 +43,22 @@ show the import value.
 }
 \examples{
 df1 <- entsoeapi::exchanged_volumes(
-  eic          = "10YCZ-CEPS-----N",
+  eic = "10YCZ-CEPS-----N",
   process_type = "A51",
   period_start = lubridate::ymd(x = "2022-08-16", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2022-08-17", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2022-08-17", tz = "CET"),
+  tidy_output = TRUE
 )
 str(df1)
 
 df2 <- entsoeapi::exchanged_volumes(
-  eic          = "10YCZ-CEPS-----N",
+  eic = "10YCZ-CEPS-----N",
   process_type = "A60",
   period_start = lubridate::ymd(x = "2024-07-11", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2024-07-12", tz = "CET"),
-  tidy_output  = TRUE
+  period_end = lubridate::ymd(x = "2024-07-12", tz = "CET"),
+  tidy_output = TRUE
 )
+
 str(df2)
 
 }

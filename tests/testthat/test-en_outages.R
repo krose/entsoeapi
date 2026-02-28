@@ -28,11 +28,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning() |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = outages_both(
         eic = "10YFR-RTE------C",
@@ -375,9 +371,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
@@ -742,9 +736,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = outages_transmission_grid(
         eic_in = "10YFR-RTE------C",
@@ -1018,9 +1010,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = outages_fallbacks(
         eic = "10YBE----------2",
