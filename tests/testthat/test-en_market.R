@@ -721,7 +721,8 @@ testthat::test_that(
         archive = TRUE,
         tidy_output = FALSE
       )
-    )
+    ) |>
+      testthat::expect_warning()
     testthat::expect_error(
       object = flow_based_allocations(
         eic = NULL,
