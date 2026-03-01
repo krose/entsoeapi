@@ -1,3 +1,14 @@
+# entsoeapi v0.9.3.0 (2026-03-01)
+
+## New functionality
+
+-   The beta versions of `exchanged_volumes_per_border()`, `hvdc_link_constrains()`, `changes_to_bid_availability()`, `current_balancing_state()`, `balancing_energy_bids()`, `aggregated_balancing_energy_bids()`, `procured_balancing_capacity()`, `allocation_of_cross_zonal_balancing_cap()`, `contracted_reserves()`, `activated_balancing_prices()`, `imbalance_prices()`, `imbalance_volumes()`, `financial_expenses_and_income_for_balancing()`, `fcr_total_capacity()`, `shares_of_fcr_capacity()`, `rr_and_frr_actual_capacity()` and `rr_actual_capacity()` queries have been introduced.
+
+## Miscellaneous
+
+-   The warnings about not attached type names, eic names and definitions have been changed to simple console messages.
+-   Minor under the hood improvements and fixes.
+
 # entsoeapi v0.9.2.0 (2026-02-23)
 
 ## New functionality

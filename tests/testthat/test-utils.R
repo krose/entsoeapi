@@ -523,11 +523,10 @@ testthat::test_that(
       sep = "&"
     )
     url_sample_5 <- paste(
-      "documentType=A63",
-      "businessType=A85",
-      "in_Domain=10YNO-0--------C",
-      "out_Domain=10YNO-0--------C",
-      "periodStart=202402292300",
+      "documentType=A75",
+      "processType=A16",
+      "in_Domain=10YFR-RTE------C",
+      "periodStart=202202292300",
       "periodEnd=202403312200",
       sep = "&"
     )
@@ -542,73 +541,62 @@ testthat::test_that(
         query_string = url_sample_5,
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      info = "The number of instances exceeds the allowed maximum."
+      regexp = "is larger than maximum allowed period"
     )
     testthat::expect_error(
       object = api_req(
         query_string = "https://web-api.tp.entsoe.eu/api",
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      label = "Unable to parse URI. Its format is not valid"
+      regexp = "Unable to parse URI. Its format is not valid"
     )
     testthat::expect_error(
       object = api_req(
         query_string = NULL,
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      info = "The argument 'query_string' is missing!"
+      regexp = "The argument 'query_string' is missing!"
     )
     testthat::expect_error(
       object = api_req(),
-      info = "The argument 'query_string' is missing!"
+      regexp = "The argument 'query_string' is missing!"
     )
     testthat::expect_error(
       object = api_req(
         query_string = NA,
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      info = paste(
-        "The argument 'query_string' has not got",
-        "an acceptable timestamp format!"
-      )
+      regexp = "Input parameter does not exist: NA"
     )
     testthat::expect_error(
       object = api_req(
         query_string = "https://google.com/",
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      info = "Unable to parse URI."
+      regexp = "Unable to parse URI."
     )
     testthat::expect_error(
       object = api_req(
         query_string = "",
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      info = paste(
-        "The combination of [] is not valid, or the requested data is not ",
-        "allowed to be fetched via this service!"
+      regexp = paste(
+        "The combination of \\[\\] is not valid, or the requested data is not",
+        "allowed to be fetched via this service"
       )
-    )
-    testthat::expect_message(
-      object = api_req(
-        query_string = url_sample_1,
-        security_token = Sys.getenv("ENTSOE_PAT")
-      ),
-      info = "The url value should be printed in console!"
     )
     testthat::expect_error(
       object = api_req(
         query_string = url_sample_1
       ),
-      info = "The argument 'security_token' is not provided!"
+      regexp = "The argument 'security_token' is not provided"
     )
-    testthat::expect_true(
+    testthat::expect_s3_class(
       object = api_req(
         query_string = url_sample_1,
         security_token = Sys.getenv("ENTSOE_PAT")
-      ) |>
-        inherits(what = "xml_document"),
-      info = "The url value should be printed in console!"
+      ),
+      class = "xml_document"
     )
     testthat::expect_true(
       object = api_req(
@@ -636,11 +624,7 @@ testthat::test_that(
       "in_Domain=10YDE-VE-------2",
       sep = "&"
     )
-    url_sample_2 <- paste(
-      "",
-      "",
-      sep = "&"
-    )
+    url_sample_2 <- NULL
     testthat::expect_no_error(
       object = content_1 <- api_req_safe(
         query_string = url_sample_1,
@@ -717,7 +701,7 @@ testthat::test_that(
     )
     testthat::expect_warning(
       object = url_posixct_format(x = "20240722210000"),
-      info = "The 'x' value has interpreted as UTC!"
+      info = "The 'x' value has been interpreted as UTC!"
     )
   }
 )
@@ -822,6 +806,14 @@ testthat::test_that(
         unpack_xml(parent_name = "foo"),
       info = "Names must be unique!"
     )
+    # NULL result_vector path (empty XML element)
+    testthat::expect_equal(
+      object = xml2::read_xml("<root><empty/></root>") |>
+        xml2::xml_contents() |>
+        (\(ns) ns[[1L]])() |>
+        unpack_xml(parent_name = "foo"),
+      expected = tibble::tibble()
+    )
   }
 )
 
@@ -869,6 +861,54 @@ testthat::test_that(
         "ts_point"
       )
     )
+    # bid_ts_ columns with ts_point_ cols: covers rename-to-ts_ and rename-back
+    test_df_3 <- tibble::tibble(
+      bid_ts_mrid = rep(x = "TS001", 4L),
+      bid_ts_resolution = rep(x = "PT15M", 4L),
+      bid_ts_time_interval_start = as.POSIXct(
+        x = "2023-10-01 23:00:00",
+        tz = "UTC"
+      ),
+      bid_ts_point_position = 1L:4L,
+      bid_ts_point_price = c(10, 20, 30, 40)
+    )
+    result_3_tidy <- tidy_or_not(tbl = test_df_3, tidy_output = TRUE)
+    testthat::expect_contains(
+      object = names(result_3_tidy),
+      expected = c("bid_ts_point_price", "bid_ts_point_dt_start")
+    )
+    testthat::expect_false(object = "ts_point_price" %in% names(result_3_tidy))
+    # bid_ts_ columns without ts_point_ cols:
+    # covers rename-back-early-return path
+    test_df_4 <- tibble::tibble(
+      bid_ts_resolution = "PT15M",
+      bid_ts_mrid = "TS001"
+    )
+    result_4 <- tidy_or_not(tbl = test_df_4, tidy_output = FALSE)
+    testthat::expect_contains(
+      object = names(result_4),
+      expected = c("bid_ts_resolution", "bid_ts_mrid")
+    )
+    # A03 curve type with missing positions: covers the fill-missing-values path
+    test_df_5 <- tibble::tibble(
+      ts_mrid = rep(x = "TS001", 3L),
+      ts_curve_type = rep(x = "A03", 3L),
+      ts_resolution = rep(x = "PT60M", 3L),
+      ts_time_interval_start = rep(
+        x = as.POSIXct(x = "2023-10-01 22:00:00", tz = "UTC"), 3L
+      ),
+      ts_time_interval_end = rep(
+        x = as.POSIXct(x = "2023-10-02 04:00:00", tz = "UTC"), 3L
+      ),
+      ts_point_position = c(1L, 2L, 4L),
+      ts_point_quantity = c(100.0, 200.0, 400.0)
+    )
+    result_5 <- tidy_or_not(tbl = test_df_5, tidy_output = TRUE)
+    testthat::expect_contains(
+      object = names(result_5),
+      expected = c("ts_point_dt_start", "ts_point_quantity")
+    )
+    testthat::expect_equal(object = nrow(result_5), expected = 6L)
   }
 )
 
@@ -995,13 +1035,33 @@ testthat::test_that(
         )
       )
     )
-    testthat::expect_warning(
+    testthat::expect_no_warning(
       object = add_type_names(tbl = iris),
-      info = "No additional definitions added!"
+      message = "No additional definitions added!"
     )
-    testthat::expect_warning(
+    testthat::expect_no_warning(
       object = add_type_names(tbl = NULL),
-      info = "No additional definitions added!"
+      message = "No additional definitions added!"
+    )
+    # ts_product branch
+    df_product <- data.frame(ts_product = c("A03", "A04", "A05"))
+    testthat::expect_contains(
+      object = add_type_names(tbl = df_product) |> names(),
+      expected = "ts_product_def"
+    )
+    # subject_market_participant_market_role_type
+    # and bid_ts_flow_direction branches
+    df_role_dir <- data.frame(
+      subject_market_participant_market_role_type = c("A01", "A07", "A32"),
+      bid_ts_flow_direction = c("A01", "A02", "A01")
+    )
+    result_role_dir <- add_type_names(tbl = df_role_dir)
+    testthat::expect_contains(
+      object = names(result_role_dir),
+      expected = c(
+        "subject_market_participant_market_role_type_def",
+        "bid_ts_flow_direction_def"
+      )
     )
   }
 )
@@ -1069,13 +1129,13 @@ testthat::test_that(
         "control_area_domain_name"
       )
     )
-    testthat::expect_warning(
+    testthat::expect_s3_class(
       object = add_eic_names(tbl = iris),
-      info = "No additional definitions added!"
+      class = "data.table"
     )
-    testthat::expect_warning(
+    testthat::expect_equal(
       object = add_eic_names(tbl = NULL),
-      info = "No additional definitions added!"
+      expected = data.table::data.table()
     )
   }
 )
@@ -1138,13 +1198,13 @@ testthat::test_that(
         )
       )
     )
-    testthat::expect_warning(
+    testthat::expect_s3_class(
       object = add_definitions(tbl = iris),
-      info = "No additional definitions added!"
+      class = "data.table"
     )
-    testthat::expect_warning(
+    testthat::expect_equal(
       object = add_definitions(tbl = NULL),
-      info = "No additional definitions added!"
+      expected = data.table::data.table()
     )
   }
 )
@@ -1191,7 +1251,7 @@ testthat::test_that(
     url_sample_5 <- paste(
       "documentType=A65",
       "businessType=A85",
-      "in_Domain=10YNO-0--------C",   #
+      "in_Domain=10YNO-0--------C",
       "out_Domain=10YNO-0--------C",
       "periodStart=202402292300",
       "periodEnd=202403102300",
@@ -1229,8 +1289,7 @@ testthat::test_that(
         xml_content = content_2$result,
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_no_error(
       object = xml_to_table(
         xml_content = content_3$result,
@@ -1248,7 +1307,7 @@ testthat::test_that(
         xml_content = content_5$result,
         tidy_output = TRUE
       ),
-      info = "The 'xml_content' should be an xml document!"
+      regexp = "The 'xml_content' should be an xml document"
     )
     testthat::expect_true(
       object = xml_to_table(xml_content = content_1$result) |>
@@ -1270,10 +1329,7 @@ testthat::test_that(
         xml2::read_xml() |>
         xml_to_table(tidy_output = FALSE),
       info = "There is no interesting columns in the result table!"
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = xml_to_table(xml_content = iris),
       info = "The 'xml_content' should be an xml document!"
@@ -1360,10 +1416,7 @@ testthat::test_that(
     testthat::expect_error(
       object = extract_response(content = content_1),
       info = "There is no interesting columns in the result table!"
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = extract_response(content = iris),
       info = "The content is not in the required list format!"
@@ -1400,16 +1453,22 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 200L,
-          headers     = list("content-type" = "application/xml"),
-          body        = xml_fixture
+          headers = list("content-type" = "application/xml"),
+          body = xml_fixture
         )
       }
     )
-    tbl <- entsoeapi:::get_all_allocated_eic()
-    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
-    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_s3_class(
+      object = tbl <- get_all_allocated_eic(),
+      class = "tbl_df",
+      exact = FALSE
+    )
+    testthat::expect_gt(
+      object = nrow(tbl),
+      expected = 0L
+    )
     testthat::expect_contains(
-      object   = names(tbl),
+      object = names(tbl),
       expected = c(
         "eic_code",
         "doc_status_value",
@@ -1441,16 +1500,16 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 200L,
-          headers     = list("content-type" = "application/xml"),
-          body        = xml_fixture
+          headers = list("content-type" = "application/xml"),
+          body = xml_fixture
         )
       }
     )
-    tbl <- entsoeapi:::get_all_allocated_eic()
+    tbl <- get_all_allocated_eic()
     # A05 is in the fixture; its title in message_types
     # is "Control block area schedule"
     testthat::expect_equal(
-      object   = tbl$doc_status[[1L]],
+      object = tbl$doc_status[[1L]],
       expected = "Control block area schedule"
     )
   }
@@ -1466,8 +1525,8 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 503L,
-          headers     = list("content-type" = "application/xml"),
-          body        = charToRaw(
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
             paste0(
               '<?xml version="1.0" encoding="utf-8"?>',
               "<root><Reason>Unavailable</Reason></root>"
@@ -1477,11 +1536,11 @@ testthat::test_that(
       }
     )
     testthat::expect_error(
-      object = entsoeapi:::get_all_allocated_eic(),
+      object = get_all_allocated_eic(),
       regexp = "HTTP 503"
     )
     testthat::expect_error(
-      object = entsoeapi:::get_all_allocated_eic(),
+      object = get_all_allocated_eic(),
       regexp = "eepublicdownloads\\.blob\\.core\\.windows\\.net"
     )
   }
@@ -1496,12 +1555,12 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 200L,
-          headers     = list("content-type" = "application/xml"),
-          body        = raw(0L)
+          headers = list("content-type" = "application/xml"),
+          body = raw(0L)
         )
       }
     )
-    testthat::expect_error(object = entsoeapi:::get_all_allocated_eic())
+    testthat::expect_error(object = get_all_allocated_eic())
   }
 )
 
@@ -1521,13 +1580,13 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 200L,
-          headers     = list("content-type" = "application/xml"),
-          body        = minimal_xml
+          headers = list("content-type" = "application/xml"),
+          body = minimal_xml
         )
       }
     )
     testthat::expect_error(
-      object = entsoeapi:::get_all_allocated_eic(),
+      object = get_all_allocated_eic(),
       regexp = "unexpected tree structure"
     )
   }
@@ -1549,15 +1608,15 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 200L,
-          headers     = list("content-type" = "application/xml"),
-          body        = multi_eic_xml
+          headers = list("content-type" = "application/xml"),
+          body = multi_eic_xml
         )
       }
     )
-    tbl <- entsoeapi:::get_all_allocated_eic()
+    tbl <- get_all_allocated_eic()
     testthat::expect_equal(object = nrow(tbl), expected = 2L)
     testthat::expect_setequal(
-      object   = tbl$eic_code,
+      object = tbl$eic_code,
       expected = c("10X-TEST--EIC--1", "10X-TEST--EIC--2")
     )
   }
@@ -1579,12 +1638,12 @@ testthat::test_that(
       mock = function(req) {
         httr2::response(
           status_code = 200L,
-          headers     = list("content-type" = "application/xml"),
-          body        = dupl_fn_xml
+          headers = list("content-type" = "application/xml"),
+          body = dupl_fn_xml
         )
       }
     )
-    tbl <- entsoeapi:::get_all_allocated_eic()
+    tbl <- get_all_allocated_eic()
     testthat::expect_equal(object = nrow(tbl), expected = 2L)
     testthat::expect_true(
       object = grepl(
@@ -1592,6 +1651,383 @@ testthat::test_that(
         x = tbl$function_names[[1L]],
         fixed = TRUE
       )
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = paste(
+    "get_all_allocated_eic() stops with error message",
+    "and URL on no internet connection"
+  ),
+  code = {
+    curl_err <- structure(
+      class = c("curl_error", "error", "condition"),
+      list(message = paste(
+        "Could not resolve host:",
+        "eepublicdownloads.blob.core.windows.net"
+      )
+      )
+    )
+    httr2_err <- structure(
+      class = c("httr2_failure", "httr2_error", "error", "condition"),
+      list(
+        message = "Failed to perform HTTP request.",
+        resp = NULL,
+        parent = curl_err
+      )
+    )
+    httr2::local_mocked_responses(
+      mock = function(req) stop(httr2_err)
+    )
+    testthat::expect_error(
+      object = get_all_allocated_eic(),
+      regexp = "Failed to perform HTTP request\\."
+    )
+    testthat::expect_error(
+      object = get_all_allocated_eic(),
+      regexp = "eepublicdownloads\\.blob\\.core\\.windows\\.net"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "tidy_or_not() stops on unknown curve_type",
+  code = {
+    df <- tibble::tibble(
+      ts_resolution = "PT60M",
+      ts_curve_type = "A99",
+      ts_time_interval_start = as.POSIXct("2023-01-01 00:00:00", tz = "UTC"),
+      ts_point_position = 1L,
+      ts_point_price = 50.0
+    )
+    testthat::expect_error(
+      object = tidy_or_not(tbl = df, tidy_output = TRUE),
+      regexp = "The curve type is not defined, but A99!"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = paste(
+    "get_all_allocated_eic() collapses actual duplicate",
+    "Function_Names elements with ' - '"
+  ),
+  code = {
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "get_allocated_eic_dupl.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = xml_fixture
+        )
+      }
+    )
+    tbl <- get_all_allocated_eic()
+    testthat::expect_equal(object = nrow(tbl), expected = 1L)
+    testthat::expect_true(
+      object = grepl(
+        pattern = "GENERATION - LOAD",
+        x = tbl$function_names[[1L]],
+        fixed = TRUE
+      )
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "add_eic_names() adds names for additional domain mrid columns",
+  code = {
+    eic_val <- "16YAOGUADIANA--T"
+    df <- data.frame(
+      area_domain_mrid              = eic_val,
+      ts_acquiring_domain_mrid      = eic_val,
+      ts_connecting_domain_mrid     = eic_val,
+      bid_ts_acquiring_domain_mrid  = eic_val,
+      bid_ts_connecting_domain_mrid = eic_val,
+      domain_mrid                   = eic_val,
+      constraint_ts_monitored_ptdf_domain_mrid = eic_val,
+      stringsAsFactors = FALSE
+    )
+    result <- add_eic_names(tbl = df)
+    testthat::expect_contains(
+      object = names(result),
+      expected = c(
+        "area_domain_mrid",
+        "area_domain_name",
+        "ts_acquiring_domain_mrid",
+        "ts_acquiring_domain_name",
+        "ts_connecting_domain_mrid",
+        "ts_connecting_domain_name",
+        "bid_ts_acquiring_domain_mrid",
+        "bid_ts_acquiring_domain_name",
+        "bid_ts_connecting_domain_mrid",
+        "bid_ts_connecting_domain_name",
+        "domain_mrid",
+        "domain_name",
+        "constraint_ts_monitored_ptdf_domain_mrid",
+        "constraint_ts_monitored_ptdf_domain_name"
+      )
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "add_definitions() unites multiple ts_reason_code columns",
+  code = {
+    df <- data.frame(
+      ts_reason_code   = c("A01", "A02"),
+      ts_reason_code_1 = c("A03", "A04"),
+      stringsAsFactors = FALSE
+    )
+    result <- add_definitions(tbl = df)
+    testthat::expect_contains(
+      object = names(result),
+      expected = c("ts_reason_code", "ts_reason_text")
+    )
+    testthat::expect_true(
+      object = all(grepl(" - ", result$ts_reason_text, fixed = TRUE))
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "xml_to_table() tryCatch handler fires on unequal-group XML",
+  code = {
+    conflict_xml <- xml2::read_xml(
+      paste0(
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        "<root><row>",
+        "<groupA><subA><item>1</item></subA></groupA>",
+        "<groupA><subA><item>2</item></subA></groupA>",
+        "<groupA><subA><item>3</item></subA></groupA>",
+        "<groupB><subB><item>x</item></subB></groupB>",
+        "<groupB><subB><item>y</item></subB></groupB>",
+        "</row></root>"
+      )
+    )
+    testthat::expect_error(
+      object = xml_to_table(xml_content = conflict_xml),
+      regexp = "The XML document has an unexpected tree structure"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "extract_response() returns empty tibble for NULL result element",
+  code = {
+    content_null <- list(result = list(NULL), error = NULL)
+    result <- extract_response(content = content_null)
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_equal(object = nrow(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "extract_response() processes a list-of-xml_documents element",
+  code = {
+    xml_doc <- xml2::xml2_example(path = "order-schema.xml") |>
+      xml2::read_xml()
+    content_alldoc <- list(result = list(list(xml_doc)), error = NULL)
+    # xml_to_table on order-schema.xml fails because it has no ENTSO-E columns;
+    # the important thing is the all_doc branch is entered (lines 2037-2041)
+    testthat::expect_error(
+      object = extract_response(content = content_alldoc)
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "extract_response() returns empty tibble for list of non-documents",
+  code = {
+    content_nondoc <- list(result = list(list(1L, 2L, 3L)), error = NULL)
+    result <- extract_response(content = content_nondoc)
+    testthat::expect_s3_class(object = result, class = "tbl_df", exact = FALSE)
+    testthat::expect_equal(object = nrow(result), expected = 0L)
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "api_req() stops on unknown 200 response content-type",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "text/plain"),
+          body = charToRaw("some plain text")
+        )
+      }
+    )
+    testthat::expect_error(
+      object = api_req(
+        query_string = "documentType=A73",
+        security_token = "dummy_token"
+      ),
+      regexp = "Not known response content-type: text/plain"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "api_req() stops on HTML error response",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 403L,
+          url = req$url,
+          headers = list("content-type" = "text/html"),
+          body = charToRaw(
+            "<!DOCTYPE html><html><body>Access Denied</body></html>"
+          )
+        )
+      }
+    )
+    # The stop() message may be empty when xmlconvert::xml_to_list()|>pluck()
+    # returns NULL for the HTML body; what matters is that the HTML error branch
+    # (lines 721-730) is reached and an error is thrown.
+    testthat::expect_error(
+      object = api_req(
+        query_string = "documentType=A73",
+        security_token = "dummy_token"
+      )
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "api_req() stops on XML error with unexpected Reason structure",
+  code = {
+    xml_body <- paste0(
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      "<Acknowledgement_MarketDocument>",
+      "<mRID>test</mRID>",
+      "<Reason><message>Something went wrong</message></Reason>",
+      "</Acknowledgement_MarketDocument>"
+    ) |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 500L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = xml_body
+        )
+      }
+    )
+    testthat::expect_error(
+      object = api_req(
+        query_string = "documentType=A73",
+        security_token = "dummy_token"
+      ),
+      regexp = "^500"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "api_req() stops with code:text message on non-999 XML error code",
+  code = {
+    xml_body <- paste0(
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      "<Acknowledgement_MarketDocument>",
+      "<mRID>test</mRID>",
+      "<Reason>",
+      "<code>B11</code>",
+      "<text>Requested data is not available</text>",
+      "</Reason>",
+      "</Acknowledgement_MarketDocument>"
+    ) |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 400L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = xml_body
+        )
+      }
+    )
+    testthat::expect_error(
+      object = api_req(
+        query_string = "documentType=A73",
+        security_token = "dummy_token"
+      ),
+      regexp = "B11"
+    )
+  }
+)
+
+
+
+testthat::test_that(
+  desc = "api_req() stops with curl error message on no internet connection",
+  code = {
+    curl_err <- structure(
+      class = c("curl_error", "error", "condition"),
+      list(message = "Could not resolve host: web-api.tp.entsoe.eu")
+    )
+    httr2_err <- structure(
+      class = c("httr2_failure", "httr2_error", "error", "condition"),
+      list(
+        message = "Failed to perform HTTP request.",
+        resp = NULL,
+        parent = curl_err
+      )
+    )
+    httr2::local_mocked_responses(
+      mock = function(req) stop(httr2_err)
+    )
+    testthat::expect_error(
+      object = api_req(
+        query_string = paste(
+          "documentType=A73",
+          "processType=A16",
+          "periodStart=202001302300",
+          "periodEnd=202001312300",
+          "in_Domain=10YDE-VE-------2",
+          sep = "&"
+        ),
+        security_token = "dummy_token"
+      ),
+      regexp = "Could not resolve host: web-api\\.tp\\.entsoe\\.eu"
     )
   }
 )

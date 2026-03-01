@@ -105,9 +105,7 @@ testthat::test_that(
         year = 1492,
         psr_type = NULL
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = "10YFR-RTE------C",
@@ -414,7 +412,7 @@ testthat::test_that(
         tidy_output = TRUE
       )
     )
-    testthat::expect_warning(
+    testthat::expect_no_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
         period_start = lubridate::ymd(
@@ -427,12 +425,8 @@ testthat::test_that(
         ),
         gen_type = c("B03"),
         tidy_output = TRUE
-      ),
-      info = "No additional type names added!"
-    ) |>
-      testthat::expect_warning(info = "No additional eic names added!") |>
-      testthat::expect_warning(info = "No additional type names added!") |>
-      testthat::expect_warning(info = "No additional eic names added!")
+      )
+    )
     testthat::expect_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",

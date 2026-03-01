@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EIC_MarketDocument>
+  <mRID>EIC_Registry_TEST</mRID>
+  <revisionNumber>1</revisionNumber>
+  <type>B05</type>
+  <sender_MarketParticipant.mRID>10X1001A1001A450</sender_MarketParticipant.mRID>
+  <sender_MarketParticipant.marketRole.type>A40</sender_MarketParticipant.marketRole.type>
+  <receiver_MarketParticipant.mRID>10X1001A1001A450</receiver_MarketParticipant.mRID>
+  <receiver_MarketParticipant.marketRole.type>A41</receiver_MarketParticipant.marketRole.type>
+  <createdDateTime>2024-01-01T00:00:00Z</createdDateTime>
+  <EICCode_MarketDocument>
+    <mRID>10X-TEST--EIC--D</mRID>
+    <docStatus><value>A05</value></docStatus>
+    <attributeInstanceComponent.attribute>International</attributeInstanceComponent.attribute>
+    <long_Names.name>Test EIC With Duplicate Functions</long_Names.name>
+    <display_Names.name>TEST-EIC-D</display_Names.name>
+    <lastRequest_DateAndOrTime.date>2024-01-01</lastRequest_DateAndOrTime.date>
+    <eICResponsible_MarketParticipant.mRID>10XDE-ENBW-----N</eICResponsible_MarketParticipant.mRID>
+    <Function_Names><name>GENERATION</name></Function_Names>
+    <Function_Names><name>LOAD</name></Function_Names>
+    <eICParent_MarketDocument.mRID>TEST_PARENT_D</eICParent_MarketDocument.mRID>
+  </EICCode_MarketDocument>
+</EIC_MarketDocument>

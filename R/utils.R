@@ -604,7 +604,7 @@ read_zipped_xml <- function(temp_file_path) {
   en_cont_list <- unzipped_files$result |>
     purrr::map(~{
       xml_content <- xml2::read_xml(.x)
-      message(.x, " has read in")
+      message(.x, " has been read in")
       return(xml_content)
     })
 
@@ -712,7 +712,7 @@ api_req <- function(
     # retrieve content-type from response headers
     if (is.null(error_obj$resp)) stop(error_obj$parent$message, call. = FALSE)
     rhct <- httr2::resp_content_type(resp = error_obj$resp)
-    expt_html <- c("text/html;charset=UTF-8")
+    expt_html <- c("text/html")
     expt_xml <- c("text/xml", "application/xml")
     expt_json <- c("text/xml", "application/json")
 
@@ -737,7 +737,8 @@ api_req <- function(
         xmlconvert::xml_to_list() |>
         purrr::pluck("Reason")
 
-      if (!all(names(response_reason) == c("code", "text"))) {
+      if (!is.list(response_reason) ||
+            !identical(names(response_reason), c("code", "text"))) {
         stop(
           sprintf("%s: %s",
                   httr2::resp_status(error_obj$resp),
@@ -838,7 +839,7 @@ url_posixct_format <- function(x) {
   } else if (inherits(x = x, what = "POSIXct")) {
     y <- strftime(x = x, format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
   } else if (inherits(x = x, what = "character")) {
-    y <- lubridate::parse_date_time(x      = x,
+    y <- lubridate::parse_date_time(x = x,
                                     orders = c("%Y-%m-%d %H:%M:%S",
                                                "%Y-%m-%d %H:%M",
                                                "%Y-%m-%d",
@@ -848,8 +849,8 @@ url_posixct_format <- function(x) {
                                                "%Y%m%d%H%M%S",
                                                "%Y%m%d%H%M",
                                                "%Y%m%d"),
-                                    tz     = "UTC",
-                                    quiet  = TRUE) |>
+                                    tz = "UTC",
+                                    quiet = TRUE) |>
       strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
     if (is.na(y)) {
       stop(
@@ -861,7 +862,7 @@ url_posixct_format <- function(x) {
       )
     } else {
       warning(
-        "The ", x, " value has interpreted as UTC!",
+        "The ", x, " value has been interpreted as UTC!",
         call. = FALSE
       )
     }
@@ -903,19 +904,19 @@ get_eiccodes <- function(
   )
   if (is.null(content$error)) {
     lns <- content$result |>
-      stringr::str_replace_all(pattern     = "tutkimustehdas;\\sImatra",
+      stringr::str_replace_all(pattern = "tutkimustehdas;\\sImatra",
                                replacement = "tutkimustehdas, Imatra") |>
-      stringr::str_replace_all(pattern     = "; S\\.L\\.;",
+      stringr::str_replace_all(pattern = "; S\\.L\\.;",
                                replacement = ", S.L.;") |>
-      stringr::str_replace_all(pattern     = "\\$amp;",
+      stringr::str_replace_all(pattern = "\\$amp;",
                                replacement = "&")
 
     # reading lines as they would be a csv
     eiccodes <- data.table::fread(
-      text       = lns,
-      sep        = ";",
+      text = lns,
+      sep = ";",
       na.strings = c("", "n / a", "n/a", "N/A", "-", "-------", "."),
-      encoding   = "UTF-8"
+      encoding = "UTF-8"
     )
 
     # trimming character columns
@@ -934,12 +935,7 @@ get_eiccodes <- function(
     eiccodes
 
   } else {
-
-    stop(
-      sprintf("cannot open the connection to '%s'!", complete_url),
-      call. = FALSE
-    )
-
+    stop(content$error$message, call. = FALSE)
   }
 }
 
@@ -972,7 +968,11 @@ get_all_allocated_eic <- function() {
       body_req = FALSE,
       body_resp = FALSE
     ) |>
-    httr2::req_timeout(seconds = 60)
+    httr2::req_timeout(seconds = 120) |>
+    httr2::req_retry(
+      max_tries = 3L,
+      backoff = \(resp) 10
+    )
   resp <- "No response."
   resp <- req_perform_safe(req = req)
 
@@ -1013,8 +1013,8 @@ get_all_allocated_eic <- function() {
           purrr::imap(
             \(scnd_ns, idx) {
               times <- second_level_length - idx + 1L
-              thsnd_idx <- ((second_level_length - times) %/% 1000L + 1L)
               if (times %% 1000L == 0L) {
+                thsnd_idx <- (idx - 1L) %/% 1000L + 1L
                 message(thsnd_idx, " ", rep(x = "<", times = times %/% 1000L))
               }
               # extract as named list
@@ -1023,17 +1023,21 @@ get_all_allocated_eic <- function() {
                 convert.types = FALSE
               )
               # collapse duplicated elements
-              dupl_col <- which(table(names(nodeset_list)) > 1L) |>
-                names()
-              for (col in dupl_col) {
-                indices <- which(names(nodeset_list) == col)
-                first_idx <- indices[[1L]]
-                rest_idx <- base::setdiff(x = indices, y = first_idx)
-                nodeset_list[first_idx] <- paste(
-                  nodeset_list[indices],
-                  collapse = " - "
-                )
-                nodeset_list[rest_idx] <- NULL
+              if (anyDuplicated(names(nodeset_list))) {
+                dupl_lgl <- names(nodeset_list) |>
+                  duplicated()
+                dupl_col <- names(nodeset_list)[dupl_lgl] |>
+                  unique()
+                for (col in dupl_col) {
+                  indices <- which(names(nodeset_list) == col)
+                  first_idx <- indices[[1L]]
+                  rest_idx <- indices[-1L]
+                  nodeset_list[first_idx] <- paste(
+                    nodeset_list[indices],
+                    collapse = " - "
+                  )
+                  nodeset_list[rest_idx] <- NULL
+                }
               }
               # convert named list to table
               data.table::as.data.table(nodeset_list)
@@ -1122,153 +1126,55 @@ my_snakecase <- function(tbl) {
   }
   names(tbl) |>
     stringr::str_replace_all(
-      pattern = "mRID",
-      replacement = "mrid"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "TimeSeries",
-      replacement = "ts"
-    ) |>
-    stringr::str_remove(
-      pattern = "^process"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "unavailability_Time_Period",
-      replacement = "unavailability"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts.[p|P]roduction_RegisteredResource.pSRType",
-      replacement = "ts.production"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts.[p|P]roduction_RegisteredResource",
-      replacement = "ts.production"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts.[a|A]sset_RegisteredResource.pSRType",
-      replacement = "ts.asset"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts.[a|A]sset_RegisteredResource",
-      replacement = "ts.asset"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "[p|P]owerSystemResources",
-      replacement = "psr"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eICCode",
-      replacement = "eicCode"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "aCERCode",
-      replacement = "acerCode"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "vATCode",
-      replacement = "vatCode"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eICParent",
-      replacement = "eic_parent"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eICResponsible",
-      replacement = "eicResponsible"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "EICCode_MarketDocument",
-      replacement = "eicCode"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eICResponsible",
-      replacement = "eicResponsible"
+      c(
+        "mRID" = "mrid",
+        "TimeSeries" = "ts",
+        "^process" = "",
+        "unavailability_Time_Period" = "unavailability",
+        "ts.[p|P]roduction_RegisteredResource.pSRType" = "ts.production",
+        "ts.[p|P]roduction_RegisteredResource" = "ts.production",
+        "ts.[a|A]sset_RegisteredResource.pSRType" = "ts.asset",
+        "ts.[a|A]sset_RegisteredResource" = "ts.asset",
+        "[p|P]owerSystemResources" = "psr",
+        "eICCode" = "eicCode",
+        "aCERCode" = "acerCode",
+        "vATCode" = "vatCode",
+        "eICParent" = "eic_parent",
+        "eICResponsible" = "eicResponsible",
+        "EICCode_MarketDocument" = "eicCode"
+      )
     ) |>
     snakecase::to_snake_case() |>
     stringr::str_replace_all(
-      pattern = "psr_type_psr_type",
-      replacement = "psr_type"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "asset_psr_type",
-      replacement = "psr_type"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_direction_direction",
-      replacement = "_direction"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eic_code_eic_code_",
-      replacement = "eic_code_"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_names_name",
-      replacement = "_name"
-    ) |>
-    stringr::str_remove(
-      pattern = "ts_mkt_psr_type_voltage_psr_"
-    ) |>
-    stringr::str_remove_all(
-      pattern = "_(wind|solar)_power_feedin"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts_period_",
-      replacement = "ts_"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_quantity_quantity",
-      replacement = "_quantity"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_market_product_market_product",
-      replacement = "_market_product"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_attribute_instance_component",
-      replacement = ""
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts_point_constraint_ts_",
-      replacement = "constraint_ts_"
-    ) |>
-    stringr::str_remove(
-      pattern = "ts_point_constraint_"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "ts_monitored_registered_resource_",
-      replacement = "ts_monitored_"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_ptdf_domain_p_tdf_quantity",
-      replacement = "_ptdf_domain_quantity"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "_flow_based_study_domain_flow_based_margin_quantity",
-      replacement = "_flow_based_study_domain_margin_quantity"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "attribute_instance_component_attribute",
-      replacement = "instance_component_attribute"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "last_request_date_and_or_time_date",
-      replacement = "last_request_date"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eic_responsible_market_participant_mrid",
-      replacement = "responsible_market_participant_mrid"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eic_code_market_participant_vat_code_name",
-      replacement = "market_participant_vat_code_name"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eic_code_market_participant_acer_code_name",
-      replacement = "market_participant_acer_code_name"
-    ) |>
-    stringr::str_replace_all(
-      pattern = "eic_parent_market_document_mrid",
-      replacement = "parent_market_document_mrid"
+      c(
+        "psr_type_psr_type" = "psr_type",
+        "asset_psr_type" = "psr_type",
+        "_direction_direction" = "_direction",
+        "eic_code_eic_code_" = "eic_code_",
+        "_names_name" = "_name",
+        "ts_mkt_psr_type_voltage_psr_" = "",
+        "_(wind|solar)_power_feedin" = "",
+        "ts_period_" = "ts_",
+        "_quantity_quantity" = "_quantity",
+        "_market_product_market_product" = "_market_product",
+        "_attribute_instance_component" = "",
+        "ts_point_constraint_ts_" = "constraint_ts_",
+        "ts_point_constraint_" = "",
+        "ts_monitored_registered_resource_" = "ts_monitored_",
+        "_ptdf_domain_p_tdf_quantity" = "_ptdf_domain_quantity",
+        "_flow_based_study_domain_flow_based_margin_quantity" =
+          "_flow_based_study_domain_margin_quantity",
+        "attribute_instance_component_attribute" =
+          "instance_component_attribute",
+        "last_request_date_and_or_time_date" = "last_request_date",
+        "eic_responsible_market_participant_mrid" =
+          "responsible_market_participant_mrid",
+        "eic_code_market_participant_vat_code_name" =
+          "market_participant_vat_code_name",
+        "eic_code_market_participant_acer_code_name" =
+          "market_participant_acer_code_name",
+        "eic_parent_market_document_mrid" = "parent_market_document_mrid"
+      )
     )
 }
 
@@ -1443,7 +1349,7 @@ add_type_names <- function(tbl) {
     )
   }
   if (length(affected_cols) == 0L) {
-    warning("No additional type names added!")
+    cat("No additional type names added!", sep = "\n")
   }
 
   tbl
@@ -1706,7 +1612,7 @@ add_eic_names <- function(tbl) {
       )
   }
   if (length(affected_cols) == 0L) {
-    warning("No additional eic names added!")
+    cat("No additional eic names added!", sep = "\n")
   }
 
   tbl
@@ -1850,7 +1756,7 @@ add_definitions <- function(tbl) {
     )
   }
   if (length(affected_cols) == 0L) {
-    warning("No additional definitions added!")
+    cat("No additional definitions added!", sep = "\n")
   }
 
   tbl

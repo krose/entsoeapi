@@ -1056,8 +1056,8 @@ allocated_transfer_capacities_3rd_countries <- function(
 
   # check if the optional position value is a positive integer
   if ((!is.numeric(position) ||
-       position != as.integer(position) ||
-       position < 1L)) {
+         position != as.integer(position) ||
+         position < 1L)) {
     stop("The 'position' parameter should be a positive integer.")
   }
 

@@ -15,8 +15,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = cross_border_physical_flows(
         eic_in = c("10Y1001A1001A83F", "10YCZ-CEPS-----N"),
@@ -135,8 +134,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = day_ahead_commercial_sched(
         eic_out = "10YSK-SEPS-----K",
@@ -255,8 +253,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = total_commercial_sched(
         eic_in = "10YCZ-CEPS-----N",
@@ -375,8 +372,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = forecasted_transfer_capacities(
         eic_in = "10YCZ-CEPS-----N",
@@ -509,9 +505,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ) |>
-        expect_warning() |>
-        expect_warning()
+      )
     )
     testthat::expect_error(
       object = redispatching_cross_border(
@@ -828,8 +822,7 @@ testthat::test_that(
         period_end   = lubridate::ymd(x = "2016-12-31", tz = "CET"),
         tidy_output  = TRUE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_no_error(
       object = costs_of_congestion_management(
         eic          = "10YBE----------2",
@@ -838,8 +831,7 @@ testthat::test_that(
         event_nature = "A46",
         tidy_output  = TRUE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = costs_of_congestion_management(
         eic          = "10YCZ-CEPS-----N",
@@ -866,8 +858,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_no_error(
       object = costs_of_congestion_management(
         eic = "10YNO-0--------C",
@@ -881,8 +872,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = costs_of_congestion_management(
         eic = NULL,
@@ -962,9 +952,7 @@ testthat::test_that(
         doc_status = "A05",
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning() |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = expansion_and_dismantling_project(
         eic_in = NULL,
@@ -1099,8 +1087,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       )
-    ) |>
-      testthat::expect_warning()
+    )
     testthat::expect_error(
       object = intraday_cross_border_transfer_limits(
         eic_in = NULL,
