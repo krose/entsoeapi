@@ -38,7 +38,7 @@ Depends: R (>= 4.1.0)
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
     ggplot2
 VignetteBuilder: knitr
 Config/testthat/edition: 3
