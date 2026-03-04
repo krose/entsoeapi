@@ -47,9 +47,9 @@ is provided.
 df <- entsoeapi::outages_offshore_grid(
   eic = "10Y1001A1001A82H",
   period_start = lubridate::ymd(
-                   x = Sys.Date() -lubridate::days(x = 365L),
-                   tz = "CET"
-                 ),
+    x = Sys.Date() - lubridate::days(x = 365L),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
 )
 

@@ -14,7 +14,6 @@ analog_types
 List Analog Types
 }
 \examples{
-
 str(entsoeapi::analog_types)
 
 }

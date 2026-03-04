@@ -1,6 +1,10 @@
 testthat::test_that(
   desc = "all_approved_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- all_approved_eic()
     )
@@ -25,10 +29,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "party_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- party_eic()
     )
@@ -56,10 +63,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "area_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- area_eic()
     )
@@ -87,10 +97,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "accounting_point_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- accounting_point_eic()
     )
@@ -118,10 +131,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "tie_line_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- tie_line_eic()
     )
@@ -149,10 +165,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "location_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- location_eic()
     )
@@ -180,10 +199,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "resource_object_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- resource_object_eic()
     )
@@ -211,10 +233,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "substation_eic() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = tbl <- substation_eic()
     )
@@ -242,10 +267,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "all_allocated_eic() responses got and appended into a tibble",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     mh$reset()
     testthat::expect_no_error(
       object = tbl <- all_allocated_eic()
@@ -273,7 +301,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -304,7 +331,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "all_allocated_eic() errors on HTTP error response",
   code = {
@@ -330,7 +356,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -363,7 +388,7 @@ testthat::test_that(
       expected = 0L
     )
     testthat::expect_contains(
-      object   = names(tbl),
+      object = names(tbl),
       expected = c(
         "eic_code",
         "doc_status",
@@ -377,7 +402,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -411,7 +435,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(

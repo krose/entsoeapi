@@ -14,7 +14,6 @@ grid_agreement_types
 List Grid Agreement Types
 }
 \examples{
-
 str(entsoeapi::grid_agreement_types)
 
 }

@@ -14,7 +14,6 @@ asset_types
 List Asset Types
 }
 \examples{
-
 str(entsoeapi::asset_types)
 
 }

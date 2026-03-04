@@ -14,7 +14,6 @@ price_category_types
 List Price Category Types
 }
 \examples{
-
 str(entsoeapi::price_category_types)
 
 }

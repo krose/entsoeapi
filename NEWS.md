@@ -1,3 +1,19 @@
+# entsoeapi v0.9.4.0 (2026-03-04)
+
+## New functionality
+
+-   The beta version of `sharing_of_frr_capacity()` query has been introduced.
+
+## Miscellaneous
+
+-   The progress bar and the console message formats standardized.
+-   New hex sticker has been created and added.
+-   A new da-price-spread-vignette.Rmd has been composed and added.
+-   CODE_OF_CONDUCT.md has been composed and added.
+-   The README.md has been updated.
+-   A top-level documentation has been added to the package.
+-   Minor under the hood improvements and fixes.
+
 # entsoeapi v0.9.3.0 (2026-03-01)
 
 ## New functionality

@@ -10,7 +10,6 @@ utils::globalVariables(
 )
 
 
-
 #' @title
 #' Get Installed Generation Capacity per Production Type (14.1.A)
 #'
@@ -42,17 +41,9 @@ gen_installed_capacity_per_pt <- function(
   year = lubridate::year(Sys.Date()),
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided!")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
-
-  # check if year is an integer number or not
-  if (year %% 1 > 0) stop("One valid integer year value should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_integerish(year, len = 1L)
 
   # convert year into the accepted format
   period_start <- paste0(year, "01010000")
@@ -62,10 +53,15 @@ gen_installed_capacity_per_pt <- function(
   query_string <- paste0(
     "documentType=A68",
     "&processType=A33",
-    "&in_Domain=", eic,
-    {if (!is.null(psr_type)) paste0("&psrType=", psr_type)},
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+    "&in_Domain=",
+    eic,
+    {
+      if (!is.null(psr_type)) paste0("&psrType=", psr_type)
+    },
+    "&periodStart=",
+    period_start,
+    "&periodEnd=",
+    period_end
   )
 
   # send GET request
@@ -77,7 +73,6 @@ gen_installed_capacity_per_pt <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = TRUE)
 }
-
 
 
 #' @title
@@ -111,21 +106,15 @@ gen_installed_capacity_per_pu <- function(
   psr_type = NULL,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided!")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
-
-  # check if year is an integer number or not
-  if (year %% 1 > 0) stop("One valid integer year value should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_integerish(year, len = 1L)
 
   # check if year is within the legal limit
   if (year > lubridate::year(x = Sys.Date()) + 3L) {
-    stop("Cannot be shown more than 3 years ahead as required by the law!")
+    cli::cli_abort(
+      "Cannot be shown more than 3 years ahead as required by the law!"
+    )
   }
 
   # convert year into the accepted format
@@ -136,10 +125,15 @@ gen_installed_capacity_per_pu <- function(
   query_string <- paste0(
     "documentType=A71",
     "&processType=A33",
-    "&in_Domain=", eic,
-    {if (!is.null(psr_type)) paste0("&psrType=", psr_type)},
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+    "&in_Domain=",
+    eic,
+    {
+      if (!is.null(psr_type)) paste0("&psrType=", psr_type)
+    },
+    "&periodStart=",
+    period_start,
+    "&periodEnd=",
+    period_end
   )
 
   # send GET request
@@ -151,7 +145,6 @@ gen_installed_capacity_per_pu <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = TRUE)
 }
-
 
 
 #' @title
@@ -188,24 +181,19 @@ gen_installed_capacity_per_pu <- function(
 gen_per_prod_type <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   gen_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided!")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -216,9 +204,12 @@ gen_per_prod_type <- function(
   query_string <- paste0(
     "documentType=A75",
     "&processType=A16",
-    "&in_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end,
+    "&in_Domain=",
+    eic,
+    "&periodStart=",
+    period_start,
+    "&periodEnd=",
+    period_end,
     {
       if (!is.null(gen_type)) paste0("&psrType=", gen_type)
     }
@@ -233,7 +224,6 @@ gen_per_prod_type <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -262,29 +252,25 @@ gen_per_prod_type <- function(
 #'   eic          = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
 #'   period_end   = lubridate::ymd(x = "2021-02-15", tz = "CET"),
-#'   tidy_output  = TRUE)
+#'   tidy_output  = TRUE
+#' )
 #' str(df)
 #'
 gen_storage_mean_filling_rate <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided!")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 380L) {
-    stop("Maximum 380 days range limit should be applied!")
+    cli::cli_abort("Maximum 380 days range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -344,36 +330,38 @@ gen_storage_mean_filling_rate <- function(
 gen_per_gen_unit <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   gen_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided!")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request!")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
 
   # break time interval of period_start into 24 hour long parts
-  to_time <- difftime(time1 = strptime(x = period_end,
-                                       format = "%Y%m%d%H%M",
-                                       tz = "UTC") |>
-                        as.POSIXct(tz = "UTC"),
-                      time2 = strptime(x = period_start,
-                                       format = "%Y%m%d%H%M",
-                                       tz = "UTC") |>
-                        as.POSIXct(tz = "UTC"),
-                      units = "days") |>
+  to_time <- difftime(
+    time1 = strptime(
+      x = period_end,
+      format = "%Y%m%d%H%M",
+      tz = "UTC"
+    ) |>
+      as.POSIXct(tz = "UTC"),
+    time2 = strptime(
+      x = period_start,
+      format = "%Y%m%d%H%M",
+      tz = "UTC"
+    ) |>
+      as.POSIXct(tz = "UTC"),
+    units = "days"
+  ) |>
     ceiling() - 1L
   period_start_list <- as.POSIXct(
     x = period_start,
@@ -390,8 +378,9 @@ gen_per_gen_unit <- function(
 
   # create combination matrix dataframe
   par_matrix <- expand.grid(par_list,
-                            stringsAsFactors = FALSE,
-                            KEEP.OUT.ATTRS   = FALSE)
+    stringsAsFactors = FALSE,
+    KEEP.OUT.ATTRS   = FALSE
+  )
 
   # calculate period end for each period start
   if (is.null(gen_type)) {
@@ -433,22 +422,27 @@ gen_per_gen_unit <- function(
 
   # create the corresponding part of the request URL from the par matrix
   par_part <- par_matrix |>
-    purrr::pmap(~list(...) |>
-                  purrr::imap(~sprintf(fmt = "&%s=%s", .y, .x)) |>
-                  paste(collapse = "")) |>
+    purrr::pmap(
+      ~{
+        list(...) |>
+          purrr::imap(~ sprintf(fmt = "&%s=%s", .y, .x)) |>
+          paste(collapse = "")
+      }
+    ) |>
     unlist()
 
   # compose GET request URL list for a (maximum) 24 hours long period
-  query_string_list <- paste0("In_Domain=", eic,
-                              "&documentType=A73",
-                              "&processType=A16",
-                              par_part)
+  query_string_list <- paste0(
+    "In_Domain=", eic,
+    "&documentType=A73",
+    "&processType=A16",
+    par_part
+  )
 
   # iterate (maximum) 24 hours long periods thru
   # and append them into one tibble
   result_tbl_appended <- query_string_list |>
     purrr::map(\(query_string) {
-
       # send GET request
       en_cont_list <- api_req_safe(
         query_string = query_string,
@@ -460,16 +454,13 @@ gen_per_gen_unit <- function(
         content = en_cont_list,
         tidy_output = tidy_output
       )
-
     }) |>
     purrr::compact() |>
     dplyr::bind_rows()
 
   # return with all the generation data
   result_tbl_appended
-
 }
-
 
 
 #' @title
@@ -503,23 +494,18 @@ gen_per_gen_unit <- function(
 gen_day_ahead_forecast <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) {
-    stop("One control area/bidding zone/country EIC should be provided!")
-  }
-  if (length(eic) > 1L) stop("This wrapper only supports one EIC per request!")
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -544,7 +530,6 @@ gen_day_ahead_forecast <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -588,18 +573,12 @@ gen_wind_solar_forecasts <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) {
-    stop("One control area/bidding zone/country EIC should be provided!")
-  }
-  if (length(eic) > 1L) stop("This wrapper only supports one EIC per request!")
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided!")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -608,27 +587,33 @@ gen_wind_solar_forecasts <- function(
 
   # compose GET request urls for a (minimum) 24 hours long period
   process_type <- c("Day-ahead" = "A01", "Intraday" = "A40", "Current" = "A18")
-  query_string_list <- purrr::map(process_type,
-                                  ~paste0("documentType=A69",
-                                          "&processType=", .x,
-                                          "&in_Domain=", eic,
-                                          "&periodStart=", period_start,
-                                          "&periodEnd=", period_end))
+  query_string_list <- purrr::map(
+    process_type,
+    ~ paste0(
+      "documentType=A69",
+      "&processType=", .x,
+      "&in_Domain=", eic,
+      "&periodStart=", period_start,
+      "&periodEnd=", period_end
+    )
+  )
 
   # iterate over request url list
   # and return with all the data
-  purrr::map(query_string_list,
-             \(query_string) {
-               # send the GET request against the endpoint
-               en_cont_list <- api_req_safe(
-                 query_string = query_string,
-                 security_token = security_token
-               )
+  purrr::map(
+    query_string_list,
+    \(query_string) {
+      # send the GET request against the endpoint
+      en_cont_list <- api_req_safe(
+        query_string = query_string,
+        security_token = security_token
+      )
 
-               # return with the extracted the response
-               extract_response(
-                 content = en_cont_list,
-                 tidy_output = tidy_output
-               )
-             })
+      # return with the extracted the response
+      extract_response(
+        content = en_cont_list,
+        tidy_output = tidy_output
+      )
+    }
+  )
 }

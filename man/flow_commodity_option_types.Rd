@@ -14,7 +14,6 @@ flow_commodity_option_types
 List Flow Commodity Types
 }
 \examples{
-
 str(entsoeapi::flow_commodity_option_types)
 
 }

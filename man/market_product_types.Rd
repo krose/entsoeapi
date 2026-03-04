@@ -14,7 +14,6 @@ market_product_types
 List Market Product Types
 }
 \examples{
-
 str(entsoeapi::market_product_types)
 
 }

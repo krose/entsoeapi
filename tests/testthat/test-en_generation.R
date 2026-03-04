@@ -1,6 +1,14 @@
 testthat::test_that(
   desc = "gen_installed_capacity_per_pt() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
@@ -20,32 +28,28 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()) - 3.4,
         psr_type = NULL
-      ),
-      info = "One valid integer year value should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
         eic = NULL,
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
@@ -55,17 +59,23 @@ testthat::test_that(
           lubridate::year(x = Sys.Date()) - 1L
         ),
         psr_type = NULL
-      ),
-      info = "One valid integer year value should be provided!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "gen_installed_capacity_per_pu() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_installed_capacity_per_pu(
         eic = "10YFR-RTE------C",
@@ -85,8 +95,7 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()) + 1.4,
         psr_type = NULL
-      ),
-      info = "One valid integer year value should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
@@ -96,8 +105,7 @@ testthat::test_that(
           lubridate::year(x = Sys.Date()) - 1L
         ),
         psr_type = NULL
-      ),
-      info = "One valid integer year value should be provided!"
+      )
     )
     testthat::expect_no_error(
       object = gen_installed_capacity_per_pu(
@@ -111,10 +119,6 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()) + 4L,
         psr_type = NULL
-      ),
-      info = paste(
-        "Cannot be shown more than 3 years ahead",
-        "as required by the law!"
       )
     )
     testthat::expect_no_error(
@@ -129,33 +133,37 @@ testthat::test_that(
         eic = NULL,
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "gen_storage_mean_filling_rate() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_storage_mean_filling_rate(
         eic = "10YFR-RTE------C",
@@ -210,8 +218,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
@@ -225,8 +232,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
@@ -240,8 +246,7 @@ testthat::test_that(
           tz = "CET"
         ),
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
@@ -255,17 +260,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "Maximum 380 days range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "gen_per_prod_type() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_per_prod_type(
         eic = "10YFR-RTE------C",
@@ -309,8 +320,7 @@ testthat::test_that(
         ),
         gen_type = NULL,
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_per_prod_type(
@@ -325,8 +335,7 @@ testthat::test_that(
         ),
         gen_type = NULL,
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_per_prod_type(
@@ -340,8 +349,7 @@ testthat::test_that(
           tz = "CET"
         ),
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_per_prod_type(
@@ -356,17 +364,23 @@ testthat::test_that(
         ),
         gen_type = NULL,
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "gen_per_gen_unit() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
@@ -441,8 +455,7 @@ testthat::test_that(
         gen_type = NULL,
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
@@ -457,8 +470,7 @@ testthat::test_that(
         ),
         gen_type = NULL,
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
@@ -473,8 +485,7 @@ testthat::test_that(
         ),
         gen_type = NULL,
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one control area EIC per request!"
+      )
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
@@ -490,17 +501,23 @@ testthat::test_that(
         gen_type = NULL,
         tidy_output = TRUE,
         security_token = NULL
-      ),
-      info = "alid security token should be provided!"
+      )
     )
   }
 )
-
 
 
 testthat::test_that(
   desc = "gen_day_ahead_forecast() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_day_ahead_forecast(
         eic = "10YFR-RTE------C",
@@ -528,8 +545,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_day_ahead_forecast(
@@ -543,8 +559,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area/bidding zone/country EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_day_ahead_forecast(
@@ -558,8 +573,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one EIC per request!"
+      )
     )
     testthat::expect_error(
       object = gen_day_ahead_forecast(
@@ -573,17 +587,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "gen_wind_solar_forecasts() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = gen_wind_solar_forecasts(
         eic = "10YFR-RTE------C",
@@ -610,8 +630,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one EIC per request!"
+      )
     )
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
@@ -625,8 +644,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area/bidding zone/country EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
@@ -641,8 +659,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
@@ -656,8 +673,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )

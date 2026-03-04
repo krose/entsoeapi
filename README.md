@@ -1,4 +1,6 @@
-# README - entsoeapi <img src="man/figures/logo.png" align="right" height="139"/>
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# entsoeapi <img src="man/figures/logo.png" align="right" height="120" width="120"/>
 
 <!-- badges: start -->
 
@@ -9,7 +11,20 @@
 
 <!-- badges: end -->
 
-The goal of `entsoeapi` package is to create an easy wrapper for querying the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s Market, Load, Generation, Transmission, Outages & Balancing data which are available on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.
+The goal of `entsoeapi` package is to create an easy wrapper around the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)’s data and transform them to tabular format without effort. (The downloadable data are available interactively on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.)
+
+The package helps with
+
+-   displaying the queried endpoint URL to easier double check
+-   upfront checking of function arguments’ validity to avoid useless API calls
+-   query pagination, by allowing the user to not worry about it at all since the package does all necessary requests
+-   unpacking compressed file responses
+-   caching data to enhance processing speed
+-   converting XML structures to tabular ones
+-   composing consistent and detailed outputs
+-   providing related, but not API accessible data (for instance: business_types)
+-   automatic assigning definitions to codes
+-   calculating and adding timestamps to data points (the response xml does not contain such information explicitly)
 
 ------------------------------------------------------------------------
 
@@ -83,36 +98,63 @@ The goal of `entsoeapi` package is to create an easy wrapper for querying the EN
         -   shares_of_fcr_capacity (187.2) (beta test version)
         -   rr_and_frr_actual_capacity (188.4 & 189.3) (beta test version)
         -   rr_actual_capacity (189.3) (beta test version)
+        -   sharing_of_frr_capacity (SO GL 190.1) (beta test version)
 
-All the function calls convert the xml responses to tabular data. Be aware, that not all endpoints are implemented. If you want to use an unimplemented endpoint, please submit an [issue](https://github.com/krose/entsoeapi/issues/new/choose) and we'll do our best to resolve it.\
+Be aware, that not all API endpoints are implemented in this package, and not every endpoint provides data.
+
+If you would like to use an unimplemented endpoint, please submit an [issue](https://github.com/krose/entsoeapi/issues/new/choose) and we’ll do our best to resolve it.
+
+If the endpoint is already implemented, but the related function gives back an empty table, then check the response XML in a browser using the request URL displayed in the console just after issuing the function call. Another verification option might be to check the response on the [Entsoe-e Transparency Platform](https://transparency.entsoe.eu/).
+
+In case of beta test version functions there may be unique quirks which are not handled yet. So please, compare the resulting tables to the data fn the [Entsoe-e Transparency Platform](https://transparency.entsoe.eu/).
+
 <b>IMPORTANT!</b>\
 Since the underlying engine has fairly been standardized with the introduction of version 0.7.0.0, there are significant (breaking) changes between the 0.7.0.0 and the previous versions.
 
 ## Installation
 
-You can install this under development version from [GitHub](https://github.com/krose/entsoeapi) with:
+You can install the development version of entsoeapi from [GitHub](https://github.com/krose/entsoeapi) with:
 
 ``` r
-install.packages("devtools")
+if (!require("devtools", quietly = TRUE)) install.packages("devtools", quiet = TRUE)
 devtools::install_github(repo = "krose/entsoeapi", ref = "master")
 ```
 
 ## Security token
 
-Read [here](https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token) how to get a security token. You should also create a `.Renviron` file in your working directory with a security token and call it ENTSOE_PAT.
+Read [here](https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token) how to get a security token. You should also create a `.Renviron` file in your working directory with a security token and call it `ENTSOE_PAT`.
 
-``` shell
-ENTSOE_PAT = "your_security_token"
+``` r
+if (!require("usethis", quietly = TRUE)) install.packages("usethis", quiet = TRUE)
+usethis::edit_r_environ()
 ```
+
+`ENTSOE_PAT = "your_security_token"`
 
 ## Examples
 
 You use the eic codes to get the data. Let’s try to find the eic code for Germany.
 
 ``` r
+if (!require("dplyr", quietly = TRUE)) install.packages("dplyr", quiet = TRUE)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 entsoeapi::all_approved_eic() |>
   dplyr::filter(EicLongName == "Germany") |>
   dplyr::glimpse()
+#> ℹ downloading X_eicCodes.csv file ...
+#> ℹ downloading Y_eicCodes.csv file ...
+#> ℹ downloading Z_eicCodes.csv file ...
+#> ℹ downloading T_eicCodes.csv file ...
+#> ℹ downloading V_eicCodes.csv file ...
+#> ℹ downloading W_eicCodes.csv file ...
+#> ℹ downloading A_eicCodes.csv file ...
 #> Rows: 1
 #> Columns: 11
 #> $ EicCode                         <chr> "10Y1001A1001A83F"
@@ -131,51 +173,158 @@ entsoeapi::all_approved_eic() |>
 For some of the data you need to translate the generation codes.
 
 ``` r
-dplyr::glimpse(entsoeapi::asset_types)
-#> Rows: 90
-#> Columns: 3
-#> $ code        <chr> "A01", "A02", "A03", "A04", "A05", "A06", "A07", "A0…
-#> $ title       <chr> "Tieline", "Line", "Resource Object", "Generation", …
-#> $ description <chr> "A high voltage line used for cross border energy in…
+if (!require("knitr", quietly = TRUE)) install.packages("knitr", quiet = TRUE)
+entsoeapi::asset_types |>
+  knitr::kable(format = "html")
 ```
 
-Let’s get the demand in Germany.
+| code | title | description |
+|:---|:---|:---|
+| A01 | Tie line | A high voltage line used for cross border energy interconnections. |
+| A02 | Line | A specific electric line within a country. |
+| A03 | Resource Object | A resource that can either produce or consume energy. |
+| A04 | Generation | A resource that can produce energy. |
+| A05 | Load | A resource that can consume energy. |
+| A06 | Phase Shift Transformer | An electrical device for controlling the power flow through specific lines in a power transmission network. |
+| A07 | Circuit Breaker | An electrical switch designed to protect an electrical circuit from damage caused by overcurrent/overload or short circuit. |
+| A08 | Busbar | A specific element within a substation to connect grid elements for energy distribution purposes. |
+| A09 | Capacitor | A transmission element designed to inject reactive power into the transmission network. |
+| A10 | Inductor | A transmission element designed to compensate reactive power in the transmission network. |
+| A11 | Power plant connection | All the network equipment that link the generating unit to the grid. |
+| A12 | FACTS | Flexible Alternating Current Transmission System |
+| A13 | Production unit | A production unit is a composition of one or several generation units. |
+| A14 | Internal tie line | An internal tie line is a line between two scheduling areas within the same bidding zone. |
+| B01 | Biomass | A resource using biomass for energy. |
+| B02 | Fossil Brown coal/Lignite | A resource using Fossil Brown coal/Lignite for energy. |
+| B03 | Fossil Coal-derived gas | A resource using Fossil Coal-derived gas for energy. |
+| B04 | Fossil Gas | A resource using Fossil Gas for energy. |
+| B05 | Fossil Hard coal | A resource using Fossil Hard coal for energy. |
+| B06 | Fossil Oil | A resource using Fossil Oil for energy. |
+| B07 | Fossil Oil shale | A resource using Fossil Oil shale for energy. |
+| B08 | Fossil Peat | A resource using Fossil Peat for energy. |
+| B09 | Geothermal | A resource using Geothermal for energy. |
+| B10 | Hydro-electric pure pumped storage head installation | Unit in which moving water energy is converted to electricity using flowing water to generate electricity with a large dam and reservoirs. Pure pumped storage plants store water in an upper reservoir with no natural inflows. |
+| B11 | Hydro Run-of-river head installation | Unit in which moving water energy is converted to electricity using flowing water to generate electricity in the absence of a large dam and reservoirs. |
+| B12 | Hydro-electric storage head installation | Unit in which moving water energy is converted to electricity using flowing water to generate electricity with a large dam and reservoirs. |
+| B13 | Marine unspecified | Unit in which marine energy is converted to electricity with equipment/devices not specified. |
+| B14 | Nuclear unspecified | A unit in which the heat source is a nuclear reactor of type that is not specified in other nuclear types. |
+| B15 | Other renewable | A resource using Other renewable for energy. |
+| B16 | Solar unspecified | Unit in which solar energy is converted to electricity with equipment/devices not specified. |
+| B17 | Waste | A resource using Waste for energy. |
+| B18 | Wind Offshore | Unit in which wind energy is converted to electricity using wind farms constructed in bodies of water, usually in the ocean. |
+| B19 | Wind Onshore | Unit in which wind energy is converted to electricity using wind farms constructed on land. |
+| B20 | Other unspecified | Other unspecified technology. |
+| B21 | AC Link | Overhead line or cable which is used to transmit electrical power via Alternative Current. |
+| B22 | DC Link | Overhead line or cable which is used to transmit electrical power via Direct Current. |
+| B23 | Substation | An assembly of equipment in an electric power system through which electric energy is passed for transmission, transformation, distribution or switching. |
+| B24 | Transformer | Electrical device that transfers energy from one voltage level to another voltage level. |
+| B25 | Energy storage | A resource that stores energy. It could be gas, electricity, etc. |
+| B26 | Demand Side Response | A resource that change its electricity consumption patterns in response to a signal or incentive. |
+| B27 | Dispatchable hydro resource | A resource referring to dispatchable hydro generation. |
+| B28 | Solar photovoltaic | Unit in which solar energy is converted to electricity using a technology based on the photoelectric effect. |
+| B29 | Solar concentration | Unit in which solar energy is converted to electricity using mirrors to concentrate the sun’s energy to drive traditional steam turbines or engines. |
+| B30 | Wind unspecified | Unit in which wind energy is converted to electricity with equipment/devices not specified. |
+| B31 | Hydro-electric unspecified | Unit in which moving water energy is converted to electricity with equipment/devices not specified. |
+| B32 | Hydro-electric mixed pumped storage head installation | Unit in which moving water energy is converted to electricity using flowing water to generate electricity with a large dam and reservoirs. Mixed pumped storage plants use a combination of pumped storage and conventional hydroelectric plants with an upper reservoir that is replenished in part by natural inflows from a stream or river. |
+| B33 | Marine tidal | Unit in which marine energy from tides is converted to electricity. |
+| B34 | Marine wave | Unit in which marine energy from waves is converted to electricity. |
+| B35 | Marine currents | Unit in which marine energy from currents is converted to electricity. |
+| B36 | Marine pressure | Unit in which marine energy from pressure is converted to electricity. |
+| B37 | Thermal unspecified | Unit in which heat energy is converted to electricity with equipment/devices not specified in other thermal types. |
+| B38 | Thermal combined cycle gas turbine with heat recovery | Unit in which heat energy is converted to electricity called Combined Cycle Gas Turbine. The power is generated by the single or multiple gas turbine(s) in combination with the steam turbine(s). The unit might be equipped with waste heat recovery (e.g. to district heating network). |
+| B39 | Thermal steam turbine with back-pressure turbine (open cycle) | Unit in which heat energy is converted to electricity. The power is generated with the steam that is expanded in the back-pressure steam turbine with or without heat output (e.g. to district heating network). |
+| B40 | Thermal steam turbine with condensation turbine (closed cycle) | Unit in which heat energy is converted to electricity. The power is generated with the steam that is expanded in the condensation steam turbine with or without heat output (e.g. to district heating network). |
+| B41 | Thermal gas turbine with heat recovery | Unit in which heat energy is converted to electricity called Simple Cycle Gas Turbine. The power is generated by the gas turbine and the flue gas waste heat is recovered (e.g. to district heating network). |
+| B42 | Thermal internal combustion engine | An internal combustion engine is a heat engine in which the combustion of a fuel occurs with an oxidizer (usually air) in a combustion chamber that is an integral part of the working fluid flow circuit (e.g. reciprocating engine). The unit might be equipped with waste heat recovery (e.g. to district heating network). |
+| B43 | Thermal micro-turbine | Unit in which heat energy is converted to electricity called Simple Cycle Gas Turbine. The power is generated by the gas turbine (capacity less than 500kWe). The unit might be equipped with waste heat recovery (e.g. to district heating network). |
+| B44 | Thermal Stirling engine | A Stirling engine is a heat engine that is operated by the cyclic compression and expansion of air or other gas (the working fluid) at different temperatures, resulting in a net conversion of heat energy to mechanical work. |
+| B45 | Thermal fuel cell | A fuel cell is an electrochemical cell that converts the chemical energy of a fuel (e.g. hydrogen) and an oxidizing agent (e.g. oxygen) into electricity through a pair of redox reactions. |
+| B46 | Thermal steam engine | A steam engine is a heat engine that performs mechanical work using steam as its working fluid. The steam engine uses the force produced by steam pressure to push a piston back and forth inside a cylinder. |
+| B47 | Thermal organic Rankine cycle | The Organic Rankine Cycle (ORC) is named for its use of an organic, high molecular mass fluid with a liquid-vapor phase change, or boiling point, occurring at a lower temperature than the water-steam phase change. The fluid allows Rankine cycle heat recovery from lower temperature sources such as biomass combustion, industrial waste heat, geothermal heat, solar ponds etc. The low-temperature heat is converted into useful work, that can itself be converted into electricity. |
+| B48 | Thermal gas turbine without heat recovery | Unit in which heat energy is converted to electricity called Simple Cycle Gas Turbine. The power is generated by the gas turbine and there is no flue gas waste heat recovery. |
+| B49 | Nuclear heavy water reactor | A unit in which the heat source is a pressurized heavy-water reactor (PHWR) that is a nuclear reactor that uses heavy water (deuterium oxide D2O) as its coolant and neutron moderator. |
+| B50 | Nuclear light water reactor | A unit in which the heat source is a light-water reactor (LWR) that is a type of thermal-neutron reactor that uses normal water, as both its coolant and neutron moderator � furthermore a solid form of fissile elements is used as fuel. |
+| B51 | Nuclear breeder | A unit in which the heat source is a nuclear reactor that generates more fissile material than it consumes. |
+| B52 | Nuclear graphite reactor | A unit in which the heat source is a graphite-moderated reactor that is a nuclear reactor that uses carbon as a neutron moderator, which allows natural uranium to be used as nuclear fuel. |
+| B53 | Temporary energy storage | A resource that is temporarily connected to the grid and that may store energy when connected, such as an electric vehicle. |
+| B54 | Permanent energy storage | A resource that is permanently connected to the grid and that may store energy when connected, such as a pumped hydro. |
+| B55 | Electric vehicle battery | A resource using electric vehicle batteries, commercial and private. The reason for separating vehicle batteries and non-vehicle batteries is that the vehicle batteries not necessarily is connected to the charger. |
+| B56 | Heat pump specified | A heat pump is a device that uses work to transfer heat from a cool space to a warm space by transferring thermal energy using a refrigeration cycle |
+| B57 | Heat pump electrical | A heat pump is a device that uses electricity to transfer heat from a cool space to a warm space by transferring thermal energy using a refrigeration cycle. |
+| B58 | Heat pump absorption | A heat pump is a device that uses absorption technology to transfer heat from a cool space to a warm space by transferring thermal energy using a refrigeration cycle. |
+| B59 | Auxiliary power unit | A technology that provides energy as a backup. |
+| B60 | Water electrolysis unspecified | Unspecified water electrolysis. |
+| B61 | Water electrolysis low temperature unspecified | Unspecified water electrolysis at low temperature as in an Alkaline or Proto-Exchange Membrane (PEM) fuel cell. |
+| B62 | Water electrolysis low temperature main product | Main product water electrolysis at low temperature as in an Alkaline or Proto-Exchange Membrane (PEM) fuel cell. |
+| B63 | Water electrolysis high temperature unspecified | Unspecified water electrolysis at high temperature as in a Solid Oxide Electrolysis Cell (SOEC) fuel cell. |
+| B64 | Steam methane reforming unspecified | Unspecified methane reforming. |
+| B65 | Steam methane reforming without CCS/CCU unspecified | Main product methane reforming without Carbon Capture and Sequestration (CCS)/Carbon Capture and Use (CCU). |
+| B66 | Steam methane reforming with CCS/CCU unspecified | Unspecified methane reforming with Carbon Capture and Sequestration (CCS)/Carbon Capture and Use (CCU). |
+| B67 | Steam methane reforming with CCS/CCU main product | Main product methane reforming with Carbon Capture and Sequestration (CCS)/Carbon Capture and Use (CCU). |
+| B68 | Partial oxidation unspecified | Unspecified partial oxidation. |
+| B69 | Autothermal reforming unspecified | Unspecified autothermal reforming. |
+| B70 | Methanol reforming unspecified | Unspecified methanol reforming. |
+| B71 | Ammonia reforming unspecified | Unspecified ammonia reforming. |
+| B72 | Ammonia gasification | Unspecified gasification. |
+| B73 | Chlor-alkali electrolysis unspecified | Unspecified alkali electrolysis. |
+| B74 | Chlor-alkali electrolysis by-product | Alkali electrolysis product. |
+| B75 | ACDC converter | ACDC converters are electrical circuits that transform alternating current (AC) into direct current (DC) and vice versa. |
+| B76 | Converter | Electrical device that converts current between AC and DC. |
+
+Let’s get the demand of 2020-01-01 in Germany.
 
 ``` r
+if (!require("dplyr", quietly = TRUE)) install.packages("dplyr")
 entsoeapi::load_actual_total(
   eic = "10Y1001A1001A83F",
   period_start = lubridate::ymd("2020-01-01", tz = "CET"),
   period_end = lubridate::ymd("2020-01-02", tz = "CET")
 ) |>
   dplyr::glimpse()
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
+#> <- HTTP/2 200 
+#> <- date: Tue, 03 Mar 2026 15:58:38 GMT
+#> <- content-type: text/xml
+#> <- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- vary: accept-encoding
+#> <- content-encoding: gzip
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <-
+#> ✔ response has arrived
+#> ℹ pulling Y_eicCodes.csv file from cache
 #> Rows: 96
 #> Columns: 21
-#> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A83F", "10Y1001A1001A83F", "1…
-#> $ ts_out_bidding_zone_domain_name <chr> "Germany", "Germany", "Germany", "Germany"…
-#> $ type                            <chr> "A65", "A65", "A65", "A65", "A65", "A65", …
-#> $ type_def                        <chr> "System total load", "System total load", …
-#> $ process_type                    <chr> "A16", "A16", "A16", "A16", "A16", "A16", …
-#> $ process_type_def                <chr> "Realised", "Realised", "Realised", "Reali…
-#> $ ts_object_aggregation           <chr> "A01", "A01", "A01", "A01", "A01", "A01", …
-#> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "A…
-#> $ ts_business_type                <chr> "A04", "A04", "A04", "A04", "A04", "A04", …
-#> $ ts_business_type_def            <chr> "Consumption", "Consumption", "Consumption…
-#> $ created_date_time               <dttm> 2024-10-05 19:48:09, 2024-10-05 19:48:09,…
-#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00,…
-#> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00,…
-#> $ ts_resolution                   <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M…
-#> $ ts_time_interval_start          <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00,…
-#> $ ts_time_interval_end            <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00,…
-#> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ ts_point_dt_start               <dttm> 2019-12-31 23:00:00, 2019-12-31 23:15:00,…
-#> $ ts_point_quantity               <dbl> 43881.80, 43639.59, 43330.90, 43149.49, 43…
-#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", …
+#> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A83F", "10Y1001A1001A83F"…
+#> $ ts_out_bidding_zone_domain_name <chr> "Germany", "Germany", "Germany", "Germ…
+#> $ type                            <chr> "A65", "A65", "A65", "A65", "A65", "A6…
+#> $ type_def                        <chr> "System total load", "System total loa…
+#> $ process_type                    <chr> "A16", "A16", "A16", "A16", "A16", "A1…
+#> $ process_type_def                <chr> "Realised", "Realised", "Realised", "R…
+#> $ ts_object_aggregation           <chr> "A01", "A01", "A01", "A01", "A01", "A0…
+#> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area"…
+#> $ ts_business_type                <chr> "A04", "A04", "A04", "A04", "A04", "A0…
+#> $ ts_business_type_def            <chr> "Consumption", "Consumption", "Consump…
+#> $ created_date_time               <dttm> 2026-03-03 15:58:38, 2026-03-03 15:58…
+#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+#> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
+#> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
+#> $ ts_resolution                   <chr> "PT15M", "PT15M", "PT15M", "PT15M", "P…
+#> $ ts_time_interval_start          <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
+#> $ ts_time_interval_end            <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
+#> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+#> $ ts_point_dt_start               <dttm> 2019-12-31 23:00:00, 2019-12-31 23:15…
+#> $ ts_point_quantity               <dbl> 43881.80, 43639.59, 43330.90, 43149.49…
+#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MA…
 ```
 
 This is basically how all the functions work, so let’s try to get the production data too.
 
 ``` r
+if (!require("dplyr", quietly = TRUE)) install.packages("dplyr")
 entsoeapi::gen_per_prod_type(
   eic = "10Y1001A1001A83F", 
   period_start = lubridate::ymd("2020-01-01", tz = "CET"),
@@ -184,31 +333,49 @@ entsoeapi::gen_per_prod_type(
   tidy_output = TRUE
 ) |>
   dplyr::glimpse()
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
+#> <- HTTP/2 200 
+#> <- date: Tue, 03 Mar 2026 15:58:40 GMT
+#> <- content-type: text/xml
+#> <- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- vary: accept-encoding
+#> <- content-encoding: gzip
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <-
+#> ✔ response has arrived
 #> Rows: 1,632
 #> Columns: 25
-#> $ ts_in_bidding_zone_domain_mrid  <chr> "10Y1001A1001A83F", "10Y1001A1001A83F", "10Y1001…
-#> $ ts_in_bidding_zone_domain_name  <chr> "Germany", "Germany", "Germany", "Germany", "Ger…
-#> $ ts_out_bidding_zone_domain_mrid <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ ts_out_bidding_zone_domain_name <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-#> $ type                            <chr> "A75", "A75", "A75", "A75", "A75", "A75", "A75",…
-#> $ type_def                        <chr> "Actual generation per type", "Actual generation…
-#> $ process_type                    <chr> "A16", "A16", "A16", "A16", "A16", "A16", "A16",…
-#> $ process_type_def                <chr> "Realised", "Realised", "Realised", "Realised", …
-#> $ ts_object_aggregation           <chr> "A08", "A08", "A08", "A08", "A08", "A08", "A08",…
-#> $ ts_object_aggregation_def       <chr> "Resource type", "Resource type", "Resource type…
-#> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01",…
-#> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Produ…
-#> $ ts_mkt_psr_type                 <chr> "B01", "B01", "B01", "B01", "B01", "B01", "B01",…
-#> $ ts_mkt_psr_type_def             <chr> "Biomass", "Biomass", "Biomass", "Biomass", "Bio…
-#> $ created_date_time               <dttm> 2026-02-24 11:19:58, 2026-02-24 11:19:58, 2026-…
-#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-…
-#> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00, 2020-…
-#> $ ts_resolution                   <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT…
-#> $ ts_time_interval_start          <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-…
-#> $ ts_time_interval_end            <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00:00, 2020-…
-#> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ ts_point_dt_start               <dttm> 2019-12-31 23:00:00, 2019-12-31 23:15:00, 2019-…
-#> $ ts_point_quantity               <dbl> 4809.13, 4803.04, 4787.15, 4787.26, 4784.65, 476…
-#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW",…
+#> $ ts_in_bidding_zone_domain_mrid  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+#> $ ts_in_bidding_zone_domain_name  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+#> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A83F", "10Y1001A1001A83F"…
+#> $ ts_out_bidding_zone_domain_name <chr> "Germany", "Germany", "Germany", "Germ…
+#> $ type                            <chr> "A75", "A75", "A75", "A75", "A75", "A7…
+#> $ type_def                        <chr> "Actual generation per type", "Actual …
+#> $ process_type                    <chr> "A16", "A16", "A16", "A16", "A16", "A1…
+#> $ process_type_def                <chr> "Realised", "Realised", "Realised", "R…
+#> $ ts_object_aggregation           <chr> "A08", "A08", "A08", "A08", "A08", "A0…
+#> $ ts_object_aggregation_def       <chr> "Resource type", "Resource type", "Res…
+#> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01", "A0…
+#> $ ts_business_type_def            <chr> "Production", "Production", "Productio…
+#> $ ts_mkt_psr_type                 <chr> "B10", "B10", "B10", "B10", "B10", "B1…
+#> $ ts_mkt_psr_type_def             <chr> "Hydro-electric pure pumped storage he…
+#> $ created_date_time               <dttm> 2026-03-03 15:58:40, 2026-03-03 15:58…
+#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+#> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
+#> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
+#> $ ts_resolution                   <chr> "PT15M", "PT15M", "PT15M", "PT15M", "P…
+#> $ ts_time_interval_start          <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
+#> $ ts_time_interval_end            <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
+#> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+#> $ ts_point_dt_start               <dttm> 2019-12-31 23:00:00, 2019-12-31 23:15…
+#> $ ts_point_quantity               <dbl> 194.92, 225.11, 286.19, 397.02, 284.99…
+#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MA…
 ```
+
+## Code of Conduct
+
+Please note that the entsoeapi project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

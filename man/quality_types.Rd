@@ -14,7 +14,6 @@ quality_types
 List Quality Types
 }
 \examples{
-
 str(entsoeapi::quality_types)
 
 }

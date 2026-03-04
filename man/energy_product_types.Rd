@@ -14,7 +14,6 @@ energy_product_types
 List Energy Product Types
 }
 \examples{
-
 str(entsoeapi::energy_product_types)
 
 }

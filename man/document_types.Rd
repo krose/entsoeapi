@@ -14,7 +14,6 @@ document_types
 List Document Types
 }
 \examples{
-
 str(entsoeapi::document_types)
 
 }

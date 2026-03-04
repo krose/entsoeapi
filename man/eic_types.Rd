@@ -14,7 +14,6 @@ eic_types
 List EIC Types
 }
 \examples{
-
 str(entsoeapi::eic_types)
 
 }

@@ -14,7 +14,6 @@ price_direction_types
 List Price Direction Types
 }
 \examples{
-
 str(entsoeapi::price_direction_types)
 
 }

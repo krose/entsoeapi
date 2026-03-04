@@ -14,7 +14,6 @@ rights_types
 List Rights Types
 }
 \examples{
-
 str(entsoeapi::rights_types)
 
 }

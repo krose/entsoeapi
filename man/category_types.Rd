@@ -14,7 +14,6 @@ category_types
 List Category Types
 }
 \examples{
-
 str(entsoeapi::category_types)
 
 }

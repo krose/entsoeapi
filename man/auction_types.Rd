@@ -14,7 +14,6 @@ auction_types
 List Auction Types
 }
 \examples{
-
 str(entsoeapi::auction_types)
 
 }

@@ -7,11 +7,12 @@
 m <- cachem::cache_mem(max_age = 3600)
 
 
-
 utils::globalVariables(
   c(
     "allocation_mode_types",
     "analog_types",
+    "api_req_safe",
+    "area_eic",
     "asset_types",
     "auction_types",
     "business_types",
@@ -23,11 +24,16 @@ utils::globalVariables(
     "currency_types",
     "curve_types",
     "direction_types",
+    "doc_status",
     "eic_types",
     "energy_product_types",
+    "extract_response",
     "fuel_types",
+    "get_all_allocated_eic",
+    "get_eiccodes",
     "hvdc_mode_types",
     "indicator_types",
+    "m",
     "market_product_types",
     "message_types",
     "object_aggregation_types",
@@ -39,23 +45,22 @@ utils::globalVariables(
     "role_types",
     "status_types",
     "tariff_types",
+    "there_is_provider",
     "timeframe_types",
+    "TimeSeries.mRID",
     "transmission_pair_eic_dict",
+    "ts_point_position",
+    "ts_resolution",
+    "ts_resolution_ok",
+    "ts_resolution_real_length",
+    "ts_resolution_requ_length",
+    "ts_time_interval_start",
     "unit_multiplier",
     "unit_of_measure_types",
     "unit_symbol_types",
-    "area_eic",
-    "m",
-    "ts_resolution",
-    "ts_time_interval_start",
-    "ts_point_position",
-    "ts_resolution_requ_length",
-    "ts_resolution_real_length",
-    "ts_resolution_ok",
-    "TimeSeries.mRID"
+    "url_posixct_format"
   )
 )
-
 
 
 #' @title
@@ -70,8 +75,12 @@ utils::globalVariables(
 grouping_by_common_strings <- function(vector_list) {
   n <- length(vector_list)
 
-  if (n == 0) return(list())
-  if (n == 1) return(list(1L))
+  if (n == 0L) {
+    return(list())
+  }
+  if (n == 1L) {
+    return(list(1L))
+  }
 
   # Build an inverted index: string -> vector indices containing that string
   string_to_indices <- new.env(hash = TRUE)
@@ -126,7 +135,6 @@ grouping_by_common_strings <- function(vector_list) {
 }
 
 
-
 #' @title
 #' Calculate the Number of Children for a Given Nodeset
 #'
@@ -139,11 +147,12 @@ grouping_by_common_strings <- function(vector_list) {
 number_of_children <- function(nodeset) {
   have_no_child <- purrr::map_lgl(
     xml2::xml_children(nodeset),
-    ~xml2::xml_children(.x) |> unlist(recursive = FALSE) |> is.null()
+    ~ xml2::xml_children(.x) |>
+      unlist(recursive = FALSE) |>
+      is.null()
   )
   sum(have_no_child == FALSE)
 }
-
 
 
 #' @title
@@ -182,14 +191,13 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
       # adjust column names accordingly
       purrr::map(
         unique_names,
-        ~named_vect[names(named_vect) == .x]
+        ~ named_vect[names(named_vect) == .x]
       ) |>
         data.table::as.data.table() |>
         stats::setNames(nm = unique_names)
     }
   )
 }
-
 
 
 #' @title
@@ -220,7 +228,7 @@ extract_leaf_twig_branch <- function(nodesets) {
           xml2::xml_path()
         child_nodesets <- purrr::map(
           my_xml_paths,
-          ~xml2::xml_find_all(x = scnd_ns, xpath = .x)
+          ~ xml2::xml_find_all(x = scnd_ns, xpath = .x)
         )
 
         # convert the childless child nodes into a table
@@ -247,7 +255,7 @@ extract_leaf_twig_branch <- function(nodesets) {
         } else {
           compound_tbls[[2L]] <- seq_along(nodeset_groups) |>
             purrr::map(
-              ~nodeset_tbls[nodeset_groups[[.x]]] |>
+              ~ nodeset_tbls[nodeset_groups[[.x]]] |>
                 data.table::rbindlist(use.names = TRUE, fill = TRUE)
             ) |>
             dplyr::bind_cols()
@@ -259,7 +267,6 @@ extract_leaf_twig_branch <- function(nodesets) {
           dplyr::bind_cols()
 
         compound_tbl
-
       }
     ) |>
     data.table::rbindlist(use.names = TRUE, fill = TRUE)
@@ -281,7 +288,6 @@ extract_leaf_twig_branch <- function(nodesets) {
 #'
 #' @noRd
 tidy_or_not <- function(tbl, tidy_output = FALSE) {
-
   # detect if there is any 'bid_ts_' column names
   bid_ts_cols <- stringr::str_subset(
     string = names(tbl),
@@ -360,7 +366,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
 
   # if curve_type not defined or 'A01', then
   if (is.null(curve_type) || curve_type == "A01") {
-
     # do nothing in this case
     Sys.sleep(time = 0)
 
@@ -389,7 +394,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
 
     # check if there is any need to adjust the timeseries data points
     if (nrow(tbl_adj) > 0L) {
-
       # remove the to be adjusted rows from the base 'tbl'
       # or in other words stash the records with 'ok' resolution
       tbl <- base::subset(x = tbl, subset = ts_resolution_ok)
@@ -407,7 +411,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
       ) |>
         unique() |>
         purrr::pmap(
-          ~tibble::tibble(
+          ~ tibble::tibble(
             ts_time_interval_start = ..1,
             ts_time_interval_end = ..2,
             ts_point_position = seq.int(from = 1, to = ..3),
@@ -450,20 +454,13 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           "ts_point_position"
         )
       )
-
     }
-
   } else {
-
     # hints: https://eepublicdownloads.entsoe.eu/clean-documents/EDI/
     # Library/cim_based/
     # Introduction_of_different_Timeseries_possibilities__curvetypes
     # __with_ENTSO-E_electronic_document_v1.4.pdf
-    stop(
-      sprintf("The curve type is not defined, but %s!", curve_type),
-      call. = FALSE
-    )
-
+    cli::cli_abort("The curve type is not defined, but {curve_type}!")
   }
 
   # calculate the 'ts_point_dt_start' values accordingly
@@ -477,14 +474,13 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
         from = min(ts_time_interval_start),
         length.out = max(ts_point_position),
         by = unique(by),
-      )[ts_point_position] |>  # handle the unusual case of any missing period
+      )[ts_point_position] |> # handle the unusual case of any missing period
         as.POSIXct(tz = "UTC")
     ) |>
     dplyr::ungroup()
 
   # if tidy output is needed, then
   if (tidy_output == TRUE) {
-
     # set the not_needed_cols
     not_needed_cols <- c(
       "ts_point_position", "by", "ts_resolution_requ_length",
@@ -497,9 +493,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
       y = names(tbl)
     )
     tbl[not_needed_cols] <- list(NULL)
-
   } else {
-
     # set the not_needed_cols
     not_needed_cols <- c(
       "ts_point_dt_start", "by", "ts_resolution_requ_length",
@@ -518,7 +512,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
       tbl,
       ts_point = tidyselect::all_of(ts_point_cols)
     )
-
   }
 
   # convert the original 'bid_ts_' column names back
@@ -533,7 +526,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
   # return
   tbl
 }
-
 
 
 #' @title
@@ -579,12 +571,11 @@ calc_offset_urls <- function(reason, query_string) {
   all_offset_seq <- (seq(all_offset_nr) - 1L) * docs_allowed
 
   # recompose offset URLs
-  message("*** The request has been rephrased. ***")
+  cli::cli_alert_info("*** The request has been rephrased. ***")
   query_string <- query_string |>
     gsub(pattern = "\\&offset=[0-9]+", replacement = "")
   paste0(query_string, "&offset=", all_offset_seq)
 }
-
 
 
 #' @title
@@ -602,17 +593,15 @@ read_zipped_xml <- function(temp_file_path) {
 
   # read the xml content from each the decompressed files
   en_cont_list <- unzipped_files$result |>
-    purrr::map(~{
+    purrr::map(~ {
       xml_content <- xml2::read_xml(.x)
-      message(.x, " has been read in")
+      cli::cli_alert_success("{.x} has been read in")
       return(xml_content)
     })
 
   # return with the xml content list
   en_cont_list
-
 }
-
 
 
 #' @title
@@ -626,21 +615,13 @@ api_req <- function(
   query_string = NULL,
   security_token = NULL
 ) {
-  if (is.null(query_string)) {
-    stop("The argument 'query_string' is missing!", call. = FALSE)
-  }
-  if (is.null(security_token)) {
-    stop(
-      "The argument 'security_token' is not provided!",
-      call. = FALSE
-    )
-  } else {
-    # add the canonical API prefix and suffix to the request url
-    url <- paste0(
-      api_scheme, api_domain, api_name, query_string, "&securityToken="
-    )
-    cat(url, "<...>\n", sep = "")
-  }
+  checkmate::assert_string(query_string)
+  checkmate::assert_string(security_token)
+  url <- paste0(
+    api_scheme, api_domain, api_name, query_string, "&securityToken="
+  )
+  cli::cli_h1("API call")
+  cli::cli_alert("{url}<...>")
 
   # retrieve data from the API
   req <- httr2::request(base_url = paste0(url, security_token)) |>
@@ -657,11 +638,10 @@ api_req <- function(
 
   if (is.null(x = resp$error)) {
     result_obj <- resp$result
-    message("response has arrived")
+    cli::cli_alert_success("response has arrived")
 
     # if the get request is successful, then ...
     if (httr2::resp_status(resp = result_obj) == 200) {
-
       # retrieve content-type from response headers
       rhct <- httr2::resp_content_type(resp = result_obj)
       expt_zip <- c(
@@ -675,7 +655,6 @@ api_req <- function(
 
       # if the request is a zip file, then ...
       if (rhct %in% expt_zip) {
-
         # save raw data to disk from memory
         temp_file_path <- tempfile(fileext = ".zip")
         writeBin(
@@ -688,29 +667,22 @@ api_req <- function(
 
         # return with the xml content list
         en_cont_list
-
       } else if (rhct %in% expt_xml) {
-
         # read the xml content from the response and return
         result_obj |>
           httr2::resp_body_xml(encoding = "UTF-8")
-
       } else {
-
-        stop(
-          sprintf("Not known response content-type: %s",
-                  result_obj$headers$`content-type`),
-          call. = FALSE
+        cli::cli_abort(
+          "Not known response content-type: {result_obj$headers$`content-type`}"
         )
-
       }
     }
-
   } else {
     error_obj <- resp$error
 
     # retrieve content-type from response headers
-    if (is.null(error_obj$resp)) stop(error_obj$parent$message, call. = FALSE)
+    if (isTRUE(error_obj$status == 503)) cli::cli_abort(error_obj$message)
+    if (is.null(error_obj$resp)) cli::cli_abort(error_obj$parent$message)
     rhct <- httr2::resp_content_type(resp = error_obj$resp)
     expt_html <- c("text/html")
     expt_xml <- c("text/xml", "application/xml")
@@ -724,10 +696,8 @@ api_req <- function(
         xmlconvert::xml_to_list() |>
         purrr::pluck("body")
 
-      stop(
-        sprintf("%s: %s", response_reason_code, response_reason_text),
-        call. = FALSE
-      )
+      sprintf("/s: %s", response_reason_code, response_reason_text) |>
+        cli::cli_abort()
     }
 
     if (rhct %in% expt_xml) {
@@ -739,11 +709,11 @@ api_req <- function(
 
       if (!is.list(response_reason) ||
             !identical(names(response_reason), c("code", "text"))) {
-        stop(
-          sprintf("%s: %s",
-                  httr2::resp_status(error_obj$resp),
-                  httr2::resp_status_desc(error_obj$resp)),
-          call. = FALSE
+        cli::cli_abort(
+          paste(
+            "{httr2::resp_status(error_obj$resp)}:",
+            "{httr2::resp_status_desc(error_obj$resp)}"
+          )
         )
       }
 
@@ -781,7 +751,7 @@ api_req <- function(
             # recursively call the api_req() function itself
             en_cont_list <- offset_query_strings |>
               purrr::map(
-                ~api_req(
+                ~ api_req(
                   query_string = .x,
                   security_token = security_token
                 )
@@ -791,12 +761,9 @@ api_req <- function(
           }
         }
 
-        stop(paste(response_reason, collapse = "\n"), call. = FALSE)
+        cli::cli_abort(paste(response_reason, collapse = "\n"))
       } else {
-        stop(
-          sprintf("%s: %s", response_reason$code, response_reason$text),
-          call. = FALSE
-        )
+        cli::cli_abort("{response_reason$code}: {response_reason$text}")
       }
     }
 
@@ -805,12 +772,10 @@ api_req <- function(
       response_reason <- error_obj$resp |>
         httr2::resp_body_json(encoding = "utf-8") |>
         purrr::pluck("uuAppErrorMap", "URI_FORMAT_ERROR")
-      stop(response_reason$message, call. = FALSE)
+      cli::cli_abort(response_reason$message)
     }
-
   }
 }
-
 
 
 #' @title
@@ -820,13 +785,11 @@ api_req <- function(
 api_req_safe <- purrr::safely(api_req)
 
 
-
 #' @title
 #' safely call req_perform() function
 #'
 #' @noRd
 req_perform_safe <- purrr::safely(httr2::req_perform)
-
 
 
 #' @title
@@ -839,43 +802,39 @@ url_posixct_format <- function(x) {
   } else if (inherits(x = x, what = "POSIXct")) {
     y <- strftime(x = x, format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
   } else if (inherits(x = x, what = "character")) {
-    y <- lubridate::parse_date_time(x = x,
-                                    orders = c("%Y-%m-%d %H:%M:%S",
-                                               "%Y-%m-%d %H:%M",
-                                               "%Y-%m-%d",
-                                               "%Y.%m.%d %H:%M:%S",
-                                               "%Y.%m.%d %H:%M",
-                                               "%Y.%m.%d",
-                                               "%Y%m%d%H%M%S",
-                                               "%Y%m%d%H%M",
-                                               "%Y%m%d"),
-                                    tz = "UTC",
-                                    quiet = TRUE) |>
+    y <- lubridate::parse_date_time(
+      x = x,
+      orders = c(
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%d %H:%M",
+        "%Y-%m-%d",
+        "%Y.%m.%d %H:%M:%S",
+        "%Y.%m.%d %H:%M",
+        "%Y.%m.%d",
+        "%Y%m%d%H%M%S",
+        "%Y%m%d%H%M",
+        "%Y%m%d"
+      ),
+      tz = "UTC",
+      quiet = TRUE
+    ) |>
       strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
     if (is.na(y)) {
-      stop(
+      cli::cli_abort(
         paste(
           "Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text",
           "are supported by the converter."
-        ),
-        call. = FALSE
+        )
       )
     } else {
-      warning(
-        "The ", x, " value has been interpreted as UTC!",
-        call. = FALSE
-      )
+      cli::cli_alert_warning("The {x} value has been interpreted as UTC!")
     }
   } else {
-    stop(
-      "The argument is not in an acceptable timestamp format!",
-      call. = FALSE
-    )
+    cli::cli_abort("The argument is not in an acceptable timestamp format!")
   }
 
   y
 }
-
 
 
 #' @title
@@ -904,12 +863,18 @@ get_eiccodes <- function(
   )
   if (is.null(content$error)) {
     lns <- content$result |>
-      stringr::str_replace_all(pattern = "tutkimustehdas;\\sImatra",
-                               replacement = "tutkimustehdas, Imatra") |>
-      stringr::str_replace_all(pattern = "; S\\.L\\.;",
-                               replacement = ", S.L.;") |>
-      stringr::str_replace_all(pattern = "\\$amp;",
-                               replacement = "&")
+      stringr::str_replace_all(
+        pattern = "tutkimustehdas;\\sImatra",
+        replacement = "tutkimustehdas, Imatra"
+      ) |>
+      stringr::str_replace_all(
+        pattern = "; S\\.L\\.;",
+        replacement = ", S.L.;"
+      ) |>
+      stringr::str_replace_all(
+        pattern = "\\$amp;",
+        replacement = "&"
+      )
 
     # reading lines as they would be a csv
     eiccodes <- data.table::fread(
@@ -921,7 +886,7 @@ get_eiccodes <- function(
 
     # trimming character columns
     eiccodes <- eiccodes |>
-      purrr::map(~{
+      purrr::map(~ {
         if (is.character(.x)) {
           utf8::utf8_encode(x = .x) |>
             trimws(which = "both")
@@ -933,12 +898,10 @@ get_eiccodes <- function(
 
     # return
     eiccodes
-
   } else {
-    stop(content$error$message, call. = FALSE)
+    cli::cli_abort(content$error$message)
   }
 }
-
 
 
 #' @title
@@ -977,7 +940,7 @@ get_all_allocated_eic <- function() {
   resp <- req_perform_safe(req = req)
 
   if (is.null(resp$error)) {
-    message("response has arrived")
+    cli::cli_alert_success("response has arrived")
 
     # read the xml content from each the decompressed files
     en_cont <- httr2::resp_body_raw(resp = resp$result) |>
@@ -1009,14 +972,16 @@ get_all_allocated_eic <- function() {
         # compose a sub table from the second level data
         second_level_length <- nodesets[children_of_nodes > 0L] |>
           length()
+        prb_envir2 <- parent.frame()
+        cli::cli_progress_bar(
+          name = "converting",
+          total = second_level_length,
+          .envir = prb_envir2
+        )
         second_level_tbl <- nodesets[children_of_nodes > 0L] |>
           purrr::imap(
             \(scnd_ns, idx) {
-              times <- second_level_length - idx + 1L
-              if (times %% 1000L == 0L) {
-                thsnd_idx <- (idx - 1L) %/% 1000L + 1L
-                message(thsnd_idx, " ", rep(x = "<", times = times %/% 1000L))
-              }
+              cli::cli_progress_update(.envir = prb_envir2)
               # extract as named list
               nodeset_list <- xmlconvert::xml_to_list(
                 xml = scnd_ns,
@@ -1045,19 +1010,21 @@ get_all_allocated_eic <- function() {
           ) |>
           purrr::compact() |>
           data.table::rbindlist(use.names = TRUE, fill = TRUE) |>
-          dplyr::rename(dplyr::any_of(c(eic_code = "mRID",
-                                        docStatusValue = "docStatus")))
+          dplyr::rename(dplyr::any_of(c(
+            eic_code = "mRID",
+            docStatusValue = "docStatus"
+          )))
 
         # combine the first level and the second levels tables together
         dplyr::bind_cols(first_level_tbl, second_level_tbl)
       },
       error = \(e) {
-        stop("The XML document has an unexpected tree structure!\n", e)
+        cli::cli_abort("The XML document has an unexpected tree structure! {e}")
       }
     )
 
     if (nrow(result_tbl) == 0L) {
-      stop("The XML document has an unexpected tree structure!")
+      cli::cli_abort("The XML document has an unexpected tree structure!")
     }
 
     # rename columns to snakecase
@@ -1079,12 +1046,10 @@ get_all_allocated_eic <- function() {
 
     # return with the xml content list
     tibble::as_tibble(result_tbl)
-
   } else {
-    stop(sprintf("%s\n%s", resp$error$message, req$url))
+    cli::cli_abort("{resp$error$message} {req$url}")
   }
 }
-
 
 
 #' @title
@@ -1098,15 +1063,15 @@ unpack_xml <- function(section, parent_name = NULL) {
     tbl <- tibble::tibble()
   } else {
     names(result_vector) <- stringr::str_c(parent_name,
-                                           xml2::xml_name(section),
-                                           names(result_vector),
-                                           sep = ".")
+      xml2::xml_name(section),
+      names(result_vector),
+      sep = "."
+    )
     tbl <- tibble::as_tibble_row(result_vector)
   }
   # return
   tbl
 }
-
 
 
 #' @title
@@ -1118,12 +1083,7 @@ unpack_xml <- function(section, parent_name = NULL) {
 #'
 #' @noRd
 my_snakecase <- function(tbl) {
-  if (isFALSE(is.data.frame(tbl))) {
-    stop(
-      "The provided argument is not a valid data frame!",
-      call. = FALSE
-    )
-  }
+  checkmate::assert_data_frame(tbl)
   names(tbl) |>
     stringr::str_replace_all(
       c(
@@ -1179,7 +1139,6 @@ my_snakecase <- function(tbl) {
 }
 
 
-
 #' @title
 #' create a specific merge function which adds the needed definitions
 #'
@@ -1201,7 +1160,6 @@ def_merge <- function(x, y, code_name, definition_name) {
 }
 
 
-
 #' @title
 #' create a specific merge function which adds the EIC names
 #'
@@ -1218,7 +1176,6 @@ eic_name_merge <- function(x, y, eic_code_name, eic_name_name) {
     all.x = TRUE
   )
 }
-
 
 
 #' @title
@@ -1349,12 +1306,11 @@ add_type_names <- function(tbl) {
     )
   }
   if (length(affected_cols) == 0L) {
-    cat("No additional type names added!", sep = "\n")
+    cli::cli_alert_info("No additional type names added!")
   }
 
   tbl
 }
-
 
 
 #' @title
@@ -1389,13 +1345,11 @@ get_area_eic_name <- function() {
   # check if there is any cached value of 'area_eic_name'
   aen_cache_key <- "area_eic_name_key"
   if (m$exists(key = aen_cache_key)) {
-
     # recall area_eic_name values
     area_eic_name <- m$get(
       key = aen_cache_key,
       missing = get_data()
     )
-
   } else {
     # download area_eic() table & convert to data.table
     # in order to join faster
@@ -1407,7 +1361,6 @@ get_area_eic_name <- function() {
 
   area_eic_name
 }
-
 
 
 #' @title
@@ -1439,13 +1392,11 @@ get_resource_object_eic <- function(
 
   # check if there is any cached value of 'area_eic_name'
   if (m$exists(key = roe_cache_key)) {
-
     # recall resource_object_eic_name values
     resource_object_eic <- m$get(
       key = roe_cache_key,
       missing = get_data()
     )
-
   } else {
     # download resource_object_eic() table & convert to data.table
     # in order to join faster
@@ -1460,13 +1411,11 @@ get_resource_object_eic <- function(
 }
 
 
-
 #' @title
 #' add names to EIC codes
 #'
 #' @noRd
 add_eic_names <- function(tbl) {
-
   # convert tbl to data.table in order to join faster
   tbl <- data.table::data.table(tbl)
 
@@ -1480,7 +1429,6 @@ add_eic_names <- function(tbl) {
 
   # add names to eic codes
   if ("ts_registered_resource_mrid" %in% names(tbl)) {
-
     # download & convert resource_object_eic() table to data.table
     # in order to join faster
     resource_object_eic <- get_resource_object_eic()
@@ -1488,9 +1436,11 @@ add_eic_names <- function(tbl) {
     affected_cols <- c(affected_cols, "ts_registered_resource_mrid")
     tbl <- tbl |>
       dplyr::select(!tidyselect::any_of("ts_registered_resource_name")) |>
-      merge(y = resource_object_eic,
-            by = "ts_registered_resource_mrid",
-            all.x = TRUE)
+      merge(
+        y = resource_object_eic,
+        by = "ts_registered_resource_mrid",
+        all.x = TRUE
+      )
   }
   if ("ts_bidding_zone_domain_mrid" %in% names(tbl)) {
     affected_cols <- c(affected_cols, "ts_bidding_zone_domain_mrid")
@@ -1612,12 +1562,11 @@ add_eic_names <- function(tbl) {
       )
   }
   if (length(affected_cols) == 0L) {
-    cat("No additional eic names added!", sep = "\n")
+    cli::cli_alert_info("No additional eic names added!")
   }
 
   tbl
 }
-
 
 
 #' @title
@@ -1756,12 +1705,11 @@ add_definitions <- function(tbl) {
     )
   }
   if (length(affected_cols) == 0L) {
-    cat("No additional definitions added!", sep = "\n")
+    cli::cli_alert_info("No additional definitions added!")
   }
 
   tbl
 }
-
 
 
 #' @title
@@ -1771,20 +1719,14 @@ add_definitions <- function(tbl) {
 xml_to_table <- function(xml_content, tidy_output = FALSE) {
   is_xml_document <- inherits(x = xml_content, what = "xml_document")
   if (isFALSE(is_xml_document)) {
-    stop(
-      "The 'xml_content' should be an xml document!",
-      call. = FALSE
-    )
+    cli::cli_abort("The 'xml_content' should be an xml document!")
   }
 
   # extract nodesets from the XML document and process
   result_tbl <- tryCatch(
     expr = xml2::xml_contents(xml_content) |> extract_leaf_twig_branch(),
     error = \(e) {
-      stop(
-        sprintf("The XML document has an unexpected tree structure!\n%s", e),
-        call. = FALSE
-      )
+      cli::cli_abort("The XML document has an unexpected tree structure! {e}")
     }
   )
 
@@ -1816,7 +1758,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     dplyr::mutate(
       dplyr::across(
         tidyselect::matches("[t|T]ime$|start$|end$"),
-        ~as.POSIXct(
+        ~ as.POSIXct(
           x = .x,
           tryFormats = c(
             "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
@@ -1831,7 +1773,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
           match = "number$|position$|quantity$|nominalP$|amount$",
           ignore.case = TRUE
         ),
-        ~as.numeric(x = .x)
+        ~ as.numeric(x = .x)
       )
     )
 
@@ -1965,8 +1907,10 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     "constraint_ts_monitored_ptdf_domain_quantity",
     "constraint_ts_monitored_flow_based_study_domain_margin_quantity"
   )
-  needed_cols <- base::intersect(x = needed_cols,
-                                 y = names(result_tbl))
+  needed_cols <- base::intersect(
+    x = needed_cols,
+    y = names(result_tbl)
+  )
 
   # check if any columns left to keep
   if (length(needed_cols)) {
@@ -1975,11 +1919,15 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
       dplyr::select(tidyselect::all_of(needed_cols))
 
     # reorder the rows
-    sort_cols <- base::intersect(x = c("created_date_time", "ts_mrid",
-                                       "ts_business_type", "ts_mkt_psr_type",
-                                       "ts_time_interval_start",
-                                       "ts_point_dt_start"),
-                                 y = names(result_tbl))
+    sort_cols <- base::intersect(
+      x = c(
+        "created_date_time", "ts_mrid",
+        "ts_business_type", "ts_mkt_psr_type",
+        "ts_time_interval_start",
+        "ts_point_dt_start"
+      ),
+      y = names(result_tbl)
+    )
     result_dtbl <- data.table::as.data.table(result_tbl)
     data.table::setkeyv(x = result_dtbl, cols = sort_cols)
 
@@ -1988,16 +1936,10 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
 
     # return
     result_tbl
-
   } else {
-    stop(
-      "There is no interesting column in the result table!",
-      call. = FALSE
-    )
+    cli::cli_abort("There is no interesting column in the result table!")
   }
-
 }
-
 
 
 #' @title
@@ -2005,19 +1947,16 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
 #'
 #' @noRd
 extract_response <- function(content, tidy_output = TRUE) {
-
   # check if the content is in the required list format
   is_in_format <- is.list(content) &&
     length(content) == 2L &&
     all(names(content) == c("result", "error"))
   if (is_in_format) {
-
     # extract the possible failure reason
     reason <- content$error
 
     # if valid content got
     if (is.null(reason)) {
-
       # check if the response is list
       result_is_list <- inherits(x = content$result, what = "list")
 
@@ -2026,43 +1965,47 @@ extract_response <- function(content, tidy_output = TRUE) {
       if (result_is_list) {
         # convert XMLs to one table
         response_length <- length(content$result)
+        prb_envir <- parent.frame()
+        cli::cli_progress_bar(
+          name = "processing xml list",
+          total = response_length,
+          .envir = prb_envir
+        )
         result_tbl <- content$result |>
           purrr::imap(
-                      \(x, idx) {
-                        times <- response_length - idx + 1L
-                        if (times > 1L) {
-                          message(
-                            idx, " ", rep(x = "<", times = times)
-                          )
-                        }
-                        if (is.null(x)) {
-                          NULL
-                        } else {
-                          if (inherits(x = x, what = "list")) {
-                            all_doc <- purrr::map_lgl(
-                              x, inherits, what = "xml_document"
-                            ) |>
-                              all()
-                            if (all_doc) {
-                              purrr::map(
-                                x, xml_to_table, tidy_output = tidy_output
-                              ) |>
-                                purrr::compact() |>
-                                data.table::rbindlist(
-                                  use.names = TRUE,
-                                  fill = TRUE
-                                )
-                            } else {
-                              NULL
-                            }
-                          } else {
-                            xml_to_table(
-                              xml_content = x,
-                              tidy_output = tidy_output
-                            )
-                          }
-                        }
-                      }) |>
+            \(x, idx) {
+              cli::cli_progress_update(.envir = prb_envir)
+              if (is.null(x)) {
+                NULL
+              } else {
+                if (inherits(x = x, what = "list")) {
+                  all_doc <- purrr::map_lgl(
+                    x, inherits,
+                    what = "xml_document"
+                  ) |>
+                    all()
+                  if (all_doc) {
+                    purrr::map(
+                      x, xml_to_table,
+                      tidy_output = tidy_output
+                    ) |>
+                      purrr::compact() |>
+                      data.table::rbindlist(
+                        use.names = TRUE,
+                        fill = TRUE
+                      )
+                  } else {
+                    NULL
+                  }
+                } else {
+                  xml_to_table(
+                    xml_content = x,
+                    tidy_output = tidy_output
+                  )
+                }
+              }
+            }
+          ) |>
           purrr::compact() |>
           data.table::rbindlist(use.names = TRUE, fill = TRUE) |>
           tibble::as_tibble()
@@ -2076,18 +2019,30 @@ extract_response <- function(content, tidy_output = TRUE) {
 
       # return
       result_tbl
-
     } else {
-
-      stop(reason$message, call. = FALSE)
-
+      cli::cli_abort(reason$message)
     }
   } else {
-
-    stop(
-      "The content is not in the required list format!",
-      call. = FALSE
-    )
-
+    cli::cli_abort("The content is not in the required list format!")
   }
+}
+
+
+#' @title
+#' check if the Entso-e API provider is up and ready
+#'
+#' @noRd
+there_is_provider <- function(
+  api_scheme = "https://",
+  api_domain = "web-api.tp.entsoe.eu/",
+  api_name = "api?"
+) {
+  req <- paste0(
+    api_scheme, api_domain, api_name, "foo=bar&securityToken=baz"
+  ) |>
+    httr2::request() |>
+    httr2::req_method(method = "GET") |>
+    httr2::req_retry(max_tries = 1L)
+  resp <- req_perform_safe(req)
+  if (resp$error$message == "HTTP 401 Unauthorized.") TRUE else FALSE
 }

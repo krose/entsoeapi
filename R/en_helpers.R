@@ -1,14 +1,14 @@
 utils::globalVariables(
   c(
-    "get_eiccodes",
-    "type_def",
-    "type",
+    "area_eic",
+    "doc_status",
     "eic_code_status",
     "eic_code_status_value",
-    "doc_status"
+    "get_eiccodes",
+    "type",
+    "type_def"
   )
 )
-
 
 
 #' @title
@@ -18,7 +18,6 @@ utils::globalVariables(
 #'
 #' @noRd
 mh <- cachem::cache_mem(max_age = 3600)
-
 
 
 #' @title
@@ -51,25 +50,20 @@ party_eic <- function() {
   # check if there is any cached value of 'party_eic_name'
   cache_key <- "party_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -101,25 +95,20 @@ area_eic <- function() {
   # check if there is any cached value of 'area_eic_name'
   cache_key <- "area_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -153,25 +142,20 @@ accounting_point_eic <- function() {
   # check if there is any cached value of 'accounting_point_eic_name'
   cache_key <- "accounting_point_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -205,25 +189,20 @@ tie_line_eic <- function() {
   # check if there is any cached value of 'tie_line_eic_name'
   cache_key <- "tie_line_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -256,25 +235,20 @@ location_eic <- function() {
   # check if there is any cached value of 'location_eic_name'
   cache_key <- "location_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -308,25 +282,20 @@ resource_object_eic <- function() {
   # check if there is any cached value of 'resource_object_eic_name'
   cache_key <- "resource_object_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -365,25 +334,20 @@ substation_eic <- function() {
   # check if there is any cached value of 'substation_eic_name'
   cache_key <- "substation_eic_df_key"
   if (mh$exists(key = cache_key)) {
-
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_eiccodes(f = f))
-    message("\npulling ", f, " file from cache")
-
+    cli::cli_alert_info("pulling {f} file from cache")
   } else {
-
     # download and import the csv file
-    message("\ndownloading ", f, " file ...")
+    cli::cli_alert_info("downloading {f} file ...")
     res_df <- get_eiccodes(f = f)
 
     # cache res_df as cache_key
     mh$set(key = cache_key, value = res_df)
-
   }
 
   res_df
 }
-
 
 
 #' @title
@@ -411,18 +375,19 @@ substation_eic <- function() {
 #' str(eic_all)
 #'
 all_approved_eic <- function() {
-  list(party_eic(),
-       area_eic(),
-       accounting_point_eic(),
-       tie_line_eic(),
-       location_eic(),
-       resource_object_eic(),
-       substation_eic()) |>
+  list(
+    party_eic(),
+    area_eic(),
+    accounting_point_eic(),
+    tie_line_eic(),
+    location_eic(),
+    resource_object_eic(),
+    substation_eic()
+  ) |>
     data.table::rbindlist(use.names = TRUE, fill = TRUE) |>
     unique() |>
     tibble::as_tibble()
 }
-
 
 
 #' @title
@@ -457,10 +422,10 @@ all_allocated_eic <- function() {
   if (mh$exists(key = cache_key)) {
     # recall res_df values
     res_df <- mh$get(key = cache_key, missing = get_all_allocated_eic())
-    message("\npulling all_allocated_eic table from cache")
+    cli::cli_alert_info("pulling all_allocated_eic table from cache")
   } else {
     # download and import the csv file
-    message("\ndownloading all_allocated_eic table ...")
+    cli::cli_alert_info("downloading all_allocated_eic table ...")
     res_df <- get_all_allocated_eic()
 
     # cache res_df as cache_key

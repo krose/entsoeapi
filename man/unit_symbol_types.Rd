@@ -14,7 +14,6 @@ unit_symbol_types
 List Unit Symbol Types
 }
 \examples{
-
 str(entsoeapi::unit_symbol_types)
 
 }

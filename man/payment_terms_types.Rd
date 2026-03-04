@@ -14,7 +14,6 @@ payment_terms_types
 List Payment Terms Types
 }
 \examples{
-
 str(entsoeapi::payment_terms_types)
 
 }

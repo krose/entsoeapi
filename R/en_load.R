@@ -44,24 +44,20 @@ utils::globalVariables(
 load_actual_total <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -86,7 +82,6 @@ load_actual_total <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -127,24 +122,20 @@ load_actual_total <- function(
 load_day_ahead_total_forecast <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -169,7 +160,6 @@ load_day_ahead_total_forecast <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -208,24 +198,20 @@ load_day_ahead_total_forecast <- function(
 load_week_ahead_total_forecast <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -250,7 +236,6 @@ load_week_ahead_total_forecast <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -286,27 +271,23 @@ load_week_ahead_total_forecast <- function(
 #'
 #' str(df)
 #'
-load_month_ahead_total_forecast <- function(
+load_month_ahead_total_forecast <- function( # nolint: object_length_linter
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -331,7 +312,6 @@ load_month_ahead_total_forecast <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -370,23 +350,18 @@ load_month_ahead_total_forecast <- function(
 load_year_ahead_total_forecast <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -411,7 +386,6 @@ load_year_ahead_total_forecast <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -447,26 +421,21 @@ load_year_ahead_total_forecast <- function(
 #'
 #' str(df)
 #'
-load_year_ahead_forecast_margin <- function(
+load_year_ahead_forecast_margin <- function( # nolint: object_length_linter
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format

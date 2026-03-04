@@ -14,7 +14,6 @@ role_types
 List Role Types
 }
 \examples{
-
 str(entsoeapi::role_types)
 
 }

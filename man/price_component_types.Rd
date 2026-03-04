@@ -14,7 +14,6 @@ price_component_types
 List Price Component Types
 }
 \examples{
-
 str(entsoeapi::price_component_types)
 
 }

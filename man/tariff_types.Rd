@@ -14,7 +14,6 @@ tariff_types
 List Tariff Types
 }
 \examples{
-
 str(entsoeapi::tariff_types)
 
 }

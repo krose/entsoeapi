@@ -1,6 +1,14 @@
 testthat::test_that(
   desc = "elastic_demands() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = result_full <- elastic_demands(
         eic = "10YCZ-CEPS-----N",
@@ -119,7 +127,10 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       ),
-      regexp = "The 'process_type' should be 'A47' or 'A51'."
+      regexp = paste0(
+        "Assertion on 'process_type' failed: ",
+        "Must be a subset of \\{'A47','A51'\\}, not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = elastic_demands(
@@ -135,16 +146,26 @@ testthat::test_that(
         ),
         tidy_output = TRUE
       ),
-      regexp = "The 'process_type' should be 'A47' or 'A51'."
+      regexp = paste0(
+        "Assertion on 'process_type' failed: ",
+        "Must be element of set \\{'A47','A51'\\}, but is 'INVALID'"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "netted_volumes() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = netted_volumes(
         eic = "10YCZ-CEPS-----N",
@@ -244,10 +265,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "exchanged_volumes() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_error(
       object = exchanged_volumes(
         eic = "10YCZ-CEPS-----N",
@@ -397,10 +425,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "balancing_border_cap_limit() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     for (pt in c("A47", "A51", "A63")) {
       testthat::expect_no_error(
         object = balancing_border_cap_limit(
@@ -588,7 +623,10 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One 'in' control area EIC should be provided"
+      regexp = paste0(
+        "Assertion on 'eic_in' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = balancing_border_cap_limit(
@@ -599,16 +637,26 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One 'out' control area EIC should be provided"
+      regexp = paste0(
+        "Assertion on 'eic_out' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "exchanged_volumes_per_border() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = exchanged_volumes_per_border(
         acquiring_eic = "10YCZ-CEPS-----N",
@@ -628,7 +676,10 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One acquiring EIC should be provided"
+      regexp = paste0(
+        "Assertion on 'acquiring_eic' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = exchanged_volumes_per_border(
@@ -639,7 +690,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "This wrapper only supports one acquiring EIC per request"
+      regexp = "Assertion on 'acquiring_eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = exchanged_volumes_per_border(
@@ -684,7 +735,10 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One connecting EIC should be provided"
+      regexp = paste(
+        "Assertion on 'connecting_eic' failed:",
+        "Must be of type 'string', not 'NULL'."
+      )
     )
     testthat::expect_error(
       object = exchanged_volumes_per_border(
@@ -695,16 +749,23 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "This wrapper only supports one connecting EIC per request"
+      regexp = "Assertion on 'connecting_eic' failed: Must have length 1"
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "hvdc_link_constrains() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = hvdc_link_constrains(
         eic_in = "10YDK-1--------W",
@@ -722,7 +783,10 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One 'in' domain EIC should be provided"
+      regexp = paste0(
+        "Assertion on 'eic_in' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -732,7 +796,10 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One 'out' domain EIC should be provided"
+      regexp = paste0(
+        "Assertion on 'eic_out' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -742,7 +809,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "This wrapper only supports one in and one out EIC per request"
+      regexp = "Assertion on 'eic_in' failed: Must have length 1"
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -763,7 +830,11 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = "Valid security token should be provided"
+      regexp = paste(
+        "Assertion on 'security_token' failed:",
+        "All elements must have at least 1 characters,",
+        "but element 1 has 0 characters"
+      )
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -774,7 +845,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "This wrapper only supports one interconnector EIC per request"
+      regexp = "Assertion on 'eic_ic' failed: Must have length 1."
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -785,16 +856,26 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "The 'process_type' should be 'A47', 'A51' or 'A63'"
+      regexp = paste(
+        "Assertion on 'process_type' failed:",
+        "Must be element of set \\{'A47','A51','A63'\\}, but is 'INVALID'"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "changes_to_bid_availability() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     for (bt in paste0("C", 40L:46L)) {
       testthat::expect_no_error(
         object = changes_to_bid_availability(
@@ -822,7 +903,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One control area EIC should be provided"
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = changes_to_bid_availability(
@@ -831,7 +912,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "This wrapper only supports one control area EIC per request"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = changes_to_bid_availability(
@@ -842,8 +923,8 @@ testthat::test_that(
         tidy_output = TRUE
       ),
       regexp = paste(
-        "The 'business_type' should be 'C40', 'C41', 'C42',",
-        "'C43', 'C44', 'C45', 'C46'"
+        "Assertion on 'business_type' failed: Must be element of set",
+        "\\{'C40','C41','C42','C43','C44','C45','C46'\\}, but is 'INVALID'"
       )
     )
     testthat::expect_error(
@@ -854,7 +935,11 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = "Valid security token should be provided"
+      regexp = paste(
+        "Assertion on 'security_token' failed:",
+        "All elements must have at least 1 characters,",
+        "but element 1 has 0 characters"
+      )
     )
     testthat::expect_error(
       object = changes_to_bid_availability(
@@ -869,10 +954,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "current_balancing_state() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = current_balancing_state(
         eic = "10YCZ-CEPS-----N",
@@ -922,10 +1014,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "balancing_energy_bids() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = balancing_energy_bids(
         eic = "10YCZ-CEPS-----N",
@@ -966,10 +1065,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "aggregated_balancing_energy_bids() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = aggregated_balancing_energy_bids(
         eic = "10YCZ-CEPS-----N",
@@ -1034,10 +1140,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "procured_balancing_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = procured_balancing_capacity(
         eic = "10YCZ-CEPS-----N",
@@ -1113,10 +1226,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "allocation_of_cross_zonal_balancing_cap() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = allocation_of_cross_zonal_balancing_cap(
         eic_acquiring = "10YAT-APG------L",
@@ -1195,10 +1315,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "contracted_reserves() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
@@ -1283,10 +1410,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "activated_balancing_prices() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = activated_balancing_prices(
         eic = "10YCZ-CEPS-----N",
@@ -1334,12 +1468,19 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
   desc = "imbalance_prices() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = imbalance_prices(
         eic = "10YCZ-CEPS-----N",
@@ -1387,12 +1528,19 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
   desc = "imbalance_volumes() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = imbalance_volumes(
         eic = "10YCZ-CEPS-----N",
@@ -1442,10 +1590,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "financial_expenses_and_income_for_balancing() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = financial_expenses_and_income_for_balancing(
         eic = "10YCZ-CEPS-----N",
@@ -1495,10 +1650,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "fcr_total_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = fcr_total_capacity(
         eic = "10YEU-CONT-SYNC0",
@@ -1514,7 +1676,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "One area EIC should be provided"
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = fcr_total_capacity(
@@ -1523,7 +1685,7 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "This wrapper only supports one area EIC per request"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = fcr_total_capacity(
@@ -1542,16 +1704,27 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = "Valid security token should be provided"
+      regexp = paste(
+        "Assertion on 'security_token' failed:",
+        "All elements must have at least 1 characters,",
+        "but element 1 has 0 characters."
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "shares_of_fcr_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = shares_of_fcr_capacity(
         eic = "10YDE-VE-------2",
@@ -1616,10 +1789,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "rr_and_frr_actual_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = rr_and_frr_actual_capacity(
         eic = "10YAT-APG------L",
@@ -1679,16 +1859,26 @@ testthat::test_that(
         period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
         tidy_output = TRUE
       ),
-      regexp = "The 'business_type' should be 'C77', 'C78' or 'C79'."
+      regexp = paste0(
+        "Assertion on 'business_type' failed: ",
+        "Must be element of set \\{'C77','C78','C79'\\}, but is 'INVALID'."
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "rr_actual_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = rr_actual_capacity(
         eic = "10YCZ-CEPS-----N",
@@ -1729,82 +1919,89 @@ testthat::test_that(
 )
 
 
-
-# testthat::test_that(
-#   desc = "sharing_of_frr_capacity() works",
-#   code = {
-#     # Note: [A26, A56, C22] combination is not available via the public API.
-#     # The happy path for sharing_of_frr_capacity() cannot be exercised
-#     # without a mock.
-#     testthat::expect_error(
-#       object = sharing_of_frr_capacity(
-#         eic_acquiring = NULL,
-#         eic_connecting = "10YAT-APG------L",
-#         process_type = "A56",
-#         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-#         tidy_output = TRUE
-#       ),
-#       info = "One acquiring domain EIC should be provided."
-#     )
-#     testthat::expect_error(
-#       object = sharing_of_frr_capacity(
-#         eic_acquiring = "10YCB-GERMANY--8",
-#         eic_connecting = NULL,
-#         process_type = "A56",
-#         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-#         tidy_output = TRUE
-#       ),
-#       info = "One connecting domain EIC should be provided."
-#     )
-#     testthat::expect_error(
-#       object = sharing_of_frr_capacity(
-#         eic_acquiring = c("10YCB-GERMANY--8", "10YDE-VE-------2"),
-#         eic_connecting = "10YAT-APG------L",
-#         process_type = "A56",
-#         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-#         tidy_output = TRUE
-#       ),
-#       info = paste(
-#         "This wrapper only supports one acquiring and",
-#         "one connecting EIC per request."
-#       )
-#     )
-#     testthat::expect_error(
-#       object = sharing_of_frr_capacity(
-#         eic_acquiring = "10YCB-GERMANY--8",
-#         eic_connecting = "10YAT-APG------L",
-#         process_type = "INVALID",
-#         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-#         tidy_output = TRUE
-#       ),
-#       info = "The 'process_type' should be 'A56' (FRR) or 'A46' (RR)."
-#     )
-#     testthat::expect_error(
-#       object = sharing_of_frr_capacity(
-#         eic_acquiring = "10YCB-GERMANY--8",
-#         eic_connecting = "10YAT-APG------L",
-#         process_type = "A56",
-#         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#         period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-#         tidy_output = TRUE
-#       ),
-#       info = "One year range limit should be applied!"
-#     )
-#     testthat::expect_error(
-#       object = sharing_of_frr_capacity(
-#         eic_acquiring = "10YCB-GERMANY--8",
-#         eic_connecting = "10YAT-APG------L",
-#         process_type = "A56",
-#         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-#         tidy_output = TRUE,
-#         security_token = ""
-#       ),
-#       info = "Valid security token should be provided."
-#     )
-#   }
-# )
+testthat::test_that(
+  desc = "sharing_of_frr_capacity() works",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    # Note: [A26, A56, C22] combination is not available via the public API.
+    # The happy path for sharing_of_frr_capacity() cannot be exercised
+    # without a mock.
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = NULL,
+        eic_connecting = "10YAT-APG------L",
+        process_type = "A56",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      info = "One acquiring domain EIC should be provided."
+    )
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = "10YCB-GERMANY--8",
+        eic_connecting = NULL,
+        process_type = "A56",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      info = "One connecting domain EIC should be provided."
+    )
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = c("10YCB-GERMANY--8", "10YDE-VE-------2"),
+        eic_connecting = "10YAT-APG------L",
+        process_type = "A56",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      info = paste(
+        "This wrapper only supports one acquiring and",
+        "one connecting EIC per request."
+      )
+    )
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = "10YCB-GERMANY--8",
+        eic_connecting = "10YAT-APG------L",
+        process_type = "INVALID",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      info = "The 'process_type' should be 'A56' (FRR) or 'A46' (RR)."
+    )
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = "10YCB-GERMANY--8",
+        eic_connecting = "10YAT-APG------L",
+        process_type = "A56",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      info = "One year range limit should be applied!"
+    )
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = "10YCB-GERMANY--8",
+        eic_connecting = "10YAT-APG------L",
+        process_type = "A56",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = ""
+      ),
+      info = "Valid security token should be provided."
+    )
+  }
+)

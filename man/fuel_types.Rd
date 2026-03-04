@@ -14,7 +14,6 @@ fuel_types
 List Fuel Types
 }
 \examples{
-
 str(entsoeapi::fuel_types)
 
 }

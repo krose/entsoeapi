@@ -14,7 +14,6 @@ coordinate_system_types
 List Coordinate System Types
 }
 \examples{
-
 str(entsoeapi::coordinate_system_types)
 
 }

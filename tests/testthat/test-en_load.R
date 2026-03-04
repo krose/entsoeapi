@@ -1,6 +1,14 @@
 testthat::test_that(
   desc = "load_actual_total() works and returns valid output structure",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     result <- testthat::expect_no_error(
       object = load_actual_total(
         eic = "10Y1001A1001A83F",
@@ -30,8 +38,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_actual_total(
@@ -45,8 +52,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one control area EIC per request!"
+      )
     )
     testthat::expect_error(
       object = load_actual_total(
@@ -61,8 +67,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_actual_total(
@@ -76,17 +81,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
-
 
 
 testthat::test_that(
   desc = "load_day_ahead_total_forecast() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     result <- testthat::expect_no_error(
       object = load_day_ahead_total_forecast(
         eic = "10Y1001A1001A83F",
@@ -116,8 +127,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_day_ahead_total_forecast(
@@ -131,8 +141,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one control area EIC per request.!"
+      )
     )
     testthat::expect_error(
       object = load_day_ahead_total_forecast(
@@ -147,8 +156,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_day_ahead_total_forecast(
@@ -162,17 +170,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "load_week_ahead_total_forecast() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     result <- testthat::expect_no_error(
       object = load_week_ahead_total_forecast(
         eic = "10Y1001A1001A83F",
@@ -202,8 +216,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_week_ahead_total_forecast(
@@ -217,8 +230,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one control area EIC per request!"
+      )
     )
     testthat::expect_error(
       object = load_week_ahead_total_forecast(
@@ -233,8 +245,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_week_ahead_total_forecast(
@@ -248,17 +259,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "load_month_ahead_total_forecast() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     result <- testthat::expect_no_error(
       object = load_month_ahead_total_forecast(
         eic = "10Y1001A1001A82H",
@@ -288,8 +305,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_month_ahead_total_forecast(
@@ -303,8 +319,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "his wrapper only supports one control area EIC per request!"
+      )
     )
     testthat::expect_error(
       object = load_month_ahead_total_forecast(
@@ -319,8 +334,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_month_ahead_total_forecast(
@@ -334,17 +348,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "load_year_ahead_total_forecast() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     result <- testthat::expect_no_error(
       object = load_year_ahead_total_forecast(
         eic = "10Y1001A1001A83F",
@@ -374,8 +394,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_year_ahead_total_forecast(
@@ -389,8 +408,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one control area EIC per request!"
+      )
     )
     testthat::expect_error(
       object = load_year_ahead_total_forecast(
@@ -405,8 +423,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_year_ahead_total_forecast(
@@ -420,17 +437,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "load_year_ahead_forecast_margin() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     result <- testthat::expect_no_error(
       object = load_year_ahead_forecast_margin(
         eic = "10Y1001A1001A83F",
@@ -460,8 +483,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One control area EIC should be provided.!"
+      )
     )
     testthat::expect_error(
       object = load_year_ahead_forecast_margin(
@@ -475,8 +497,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "This wrapper only supports one control area EIC per request!"
+      )
     )
     testthat::expect_error(
       object = load_year_ahead_forecast_margin(
@@ -491,8 +512,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = load_year_ahead_forecast_margin(
@@ -506,8 +526,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!!"
+      )
     )
   }
 )

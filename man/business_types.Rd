@@ -14,7 +14,6 @@ business_types
 List Business Types
 }
 \examples{
-
 str(entsoeapi::business_types)
 
 }

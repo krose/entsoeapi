@@ -14,7 +14,6 @@ curve_types
 List Curve Types
 }
 \examples{
-
 str(entsoeapi::curve_types)
 
 }

@@ -7,7 +7,6 @@ utils::globalVariables(
 )
 
 
-
 #' @title
 #' Get Elastic Demands (IFs aFRR 3.4 & mFRR 3.4)
 #'
@@ -52,23 +51,13 @@ elastic_demands <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (is.null(process_type) || !process_type %in% c("A47", "A51")) {
-    stop("The 'process_type' should be 'A47' or 'A51'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(process_type, choices = c("A47", "A51"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -94,7 +83,6 @@ elastic_demands <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -140,18 +128,12 @@ netted_volumes <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one day
   if (difftime(period_end, period_start, units = "day") > 1L) {
-    stop("One day range limit should be applied!")
+    cli::cli_abort("One day range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -177,7 +159,6 @@ netted_volumes <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -241,24 +222,13 @@ exchanged_volumes <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (is.null(process_type) || !process_type %in% c("A51", "A60", "A61")) {
-    stop("The 'process_type' should be 'A51', 'A60' or 'A61'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(process_type, choices = c("A51", "A60", "A61"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one day
   if (difftime(period_end, period_start, units = "day") > 1L) {
-    stop("One day range limit should be applied!")
+    cli::cli_abort("One day range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -284,7 +254,6 @@ exchanged_volumes <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -338,24 +307,14 @@ balancing_border_cap_limit <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one in and only one out eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (!process_type %in% c("A47", "A51", "A63")) {
-    stop("The 'process_type' should be 'A47', 'A51' or 'A63'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(process_type, choices = c("A47", "A51", "A63"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -382,7 +341,6 @@ balancing_border_cap_limit <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -434,33 +392,14 @@ exchanged_volumes_per_border <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one acquiring_eic provided
-  if (is.null(acquiring_eic)) {
-    stop("One acquiring EIC should be provided.")
-  }
-  if (length(acquiring_eic) > 1L) {
-    stop("This wrapper only supports one acquiring EIC per request.")
-  }
-
-  # check if only one connecting_eic provided
-  if (is.null(connecting_eic)) {
-    stop("One connecting EIC should be provided.")
-  }
-  if (length(connecting_eic) > 1L) {
-    stop("This wrapper only supports one connecting EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (is.null(process_type) || !process_type %in% c("A51", "A60", "A61")) {
-    stop("The 'process_type' should be 'A51', 'A60' or 'A61'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(acquiring_eic)
+  checkmate::assert_string(connecting_eic)
+  checkmate::assert_choice(process_type, choices = c("A51", "A60", "A61"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one day
   if (difftime(period_end, period_start, units = "day") > 1L) {
-    stop("One day range limit should be applied!")
+    cli::cli_abort("One day range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -486,7 +425,6 @@ exchanged_volumes_per_border <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -540,27 +478,15 @@ hvdc_link_constrains <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' domain EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' domain EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-  if (length(eic_ic) > 1L) {
-    stop("This wrapper only supports one interconnector EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (!process_type %in% c("A47", "A51", "A63")) {
-    stop("The 'process_type' should be 'A47', 'A51' or 'A63'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(eic_ic, null.ok = TRUE)
+  checkmate::assert_choice(process_type, choices = c("A47", "A51", "A63"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -588,7 +514,6 @@ hvdc_link_constrains <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -642,29 +567,16 @@ changes_to_bid_availability <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if proper business_type provided
-  if (is.null(business_type) || !business_type %in% c(
-    "C40", "C41", "C42", "C43", "C44", "C45", "C46"
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(
+    business_type,
+    choices = c("C40", "C41", "C42", "C43", "C44", "C45", "C46")
   )
-  ) {
-    stop(
-      "The 'business_type' should be 'C40', 'C41', ",
-      "'C42', 'C43', 'C44', 'C45', 'C46'."
-    )
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -690,7 +602,6 @@ changes_to_bid_availability <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -733,18 +644,12 @@ current_balancing_state <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than 100 days
   if (difftime(period_end, period_start, units = "day") > 100L) {
-    stop("100 day range limit should be applied!")
+    cli::cli_abort("100 day range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -769,7 +674,6 @@ current_balancing_state <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -813,14 +717,8 @@ balancing_energy_bids <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One connecting domain EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one connecting domain EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -845,7 +743,6 @@ balancing_energy_bids <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -882,7 +779,7 @@ balancing_energy_bids <- function(
 #'
 #' str(df)
 #'
-aggregated_balancing_energy_bids <- function(
+aggregated_balancing_energy_bids <- function( # nolint: object_length_linter
   eic = NULL,
   process_type = NULL,
   period_start = lubridate::ymd(
@@ -896,26 +793,16 @@ aggregated_balancing_energy_bids <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (
-    is.null(process_type) ||
-      !process_type %in% c("A51", "A46", "A47", "A60", "A61")
-  ) {
-    stop("The 'process_type' should be 'A51', 'A46', 'A47', 'A60' or 'A61'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(
+    process_type,
+    choices = c("A51", "A46", "A47", "A60", "A61")
+  )
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -940,7 +827,6 @@ aggregated_balancing_energy_bids <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -989,24 +875,10 @@ procured_balancing_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (is.null(process_type) || !process_type %in% c("A51", "A52", "A47")) {
-    stop("The 'process_type' should be 'A51', 'A52' or 'A47'.")
-  }
-
-  # check if none or only one type_market_agreement provided
-  if (!is.null(type_market_agreement) && length(type_market_agreement) > 1L) {
-    stop("None or one 'type_market_agreement' should be provided.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(process_type, choices = c("A51", "A52", "A47"))
+  checkmate::assert_string(type_market_agreement, null.ok = TRUE)
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -1040,7 +912,6 @@ procured_balancing_capacity <- function(
 }
 
 
-
 #' @title
 #' Get Allocation of Cross-Zonal Balancing Capacity (GL EB 12.3.H&I)
 #'
@@ -1069,7 +940,7 @@ procured_balancing_capacity <- function(
 #'
 #' str(df)
 #'
-allocation_of_cross_zonal_balancing_cap <- function(
+allocation_of_cross_zonal_balancing_cap <- function( # nolint: object_length_linter
   eic_acquiring = NULL,
   eic_connecting = NULL,
   type_market_agreement = NULL,
@@ -1084,27 +955,14 @@ allocation_of_cross_zonal_balancing_cap <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_acquiring)) {
-    stop("One acquiring domain EIC should be provided.")
-  }
-  if (is.null(eic_connecting)) {
-    stop("One connecting domain EIC should be provided.")
-  }
-  if (length(eic_acquiring) > 1L || length(eic_connecting) > 1L) {
-    stop(
-      "This wrapper only supports one acquiring and one connecting EIC ",
-      "per request."
-    )
-  }
-
-  # check if none or only one type_market_agreement provided
-  if (!is.null(type_market_agreement) && length(type_market_agreement) > 1L) {
-    stop("None or one 'type_market_agreement' should be provided.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(
+    x = eic_acquiring, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
+  )
+  checkmate::assert_string(
+    x = eic_connecting, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
+  )
+  checkmate::assert_string(type_market_agreement, null.ok = TRUE)
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -1137,7 +995,6 @@ allocation_of_cross_zonal_balancing_cap <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1198,22 +1055,9 @@ contracted_reserves <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if type_market_agreement is provided
-  if (is.null(type_market_agreement)) {
-    stop("A 'type_market_agreement' value should be provided.")
-  }
-  if (length(type_market_agreement) > 1L) {
-    stop("Only one 'type_market_agreement' value should be provided.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(type_market_agreement)
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -1246,7 +1090,6 @@ contracted_reserves <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1293,18 +1136,12 @@ activated_balancing_prices <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -1334,7 +1171,6 @@ activated_balancing_prices <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1377,18 +1213,12 @@ imbalance_prices <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -1412,7 +1242,6 @@ imbalance_prices <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1455,18 +1284,12 @@ imbalance_volumes <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -1490,7 +1313,6 @@ imbalance_volumes <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1520,7 +1342,7 @@ imbalance_volumes <- function(
 #'
 #' str(df)
 #'
-financial_expenses_and_income_for_balancing <- function(
+financial_expenses_and_income_for_balancing <- function( # nolint: object_length_linter
   eic = NULL,
   period_start = lubridate::ymd(
     Sys.Date() - lubridate::days(x = 7L),
@@ -1533,18 +1355,12 @@ financial_expenses_and_income_for_balancing <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -1568,7 +1384,6 @@ financial_expenses_and_income_for_balancing <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1611,18 +1426,12 @@ fcr_total_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -1647,7 +1456,6 @@ fcr_total_capacity <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1695,23 +1503,13 @@ shares_of_fcr_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one area EIC per request.")
-  }
-
-  # check if proper business_type provided
-  if (is.null(business_type) || !business_type %in% c("C23", "B95")) {
-    stop("The 'business_type' should be 'C23' or 'B95'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(business_type, choices = c("C23", "B95"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -1736,7 +1534,6 @@ shares_of_fcr_capacity <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1788,24 +1585,10 @@ rr_and_frr_actual_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one area EIC per request.")
-  }
-
-  # check if proper process_type provided
-  if (is.null(process_type) || !process_type %in% c("A56", "A46")) {
-    stop("The 'process_type' should be 'A56' (FRR) or 'A46' (RR).")
-  }
-
-  # check if proper process_type provided
-  if (is.null(business_type) || !business_type %in% c("C77", "C78", "C79")) {
-    stop("The 'business_type' should be 'C77', 'C78' or 'C79'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(process_type, choices = c("A56", "A46"))
+  checkmate::assert_choice(business_type, choices = c("C77", "C78", "C79"))
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -1830,7 +1613,6 @@ rr_and_frr_actual_capacity <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -1871,14 +1653,8 @@ rr_actual_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -1905,103 +1681,91 @@ rr_actual_capacity <- function(
 }
 
 
-
-#' #' @title
-#' #' Get Sharing of FRR Capacity (SO GL 190.1)
-#' #'
-#' #' @description
-#' #' Sharing of Frequency Restoration Reserve capacity between areas.
-#' #' One year range limit applies.
-#' #'
-#' #' @param eic_acquiring Energy Identification Code of the acquiring domain
-#' #' @param eic_connecting Energy Identification Code of the connecting domain
-#' #' @param process_type type of reserve
-#' #'                     "A56" FRR
-#' #'                     "A46" RR
-#' #' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
-#' #'                     One year range limit applies
-#' #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
-#' #'                   One year range limit applies
-#' #' @param tidy_output Defaults to TRUE. flatten nested tables
-#' #' @param security_token Security token for ENTSO-E transparency platform
-#' #'
-#' #' export
-#' #'
-#' #' @examples
-#' #' df <- entsoeapi::sharing_of_frr_capacity(
-#' #'   eic_acquiring = "10YCB-GERMANY--8",
-#' #'   eic_connecting = "10YAT-APG------L",
-#' #'   process_type = "A56",
-#' #'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-#' #'   period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-#' #'   tidy_output = TRUE
-#' #' )
-#' #'
-#' #' str(df)
-#' #'
-#' sharing_of_frr_capacity <- function(
-#'   eic_acquiring = NULL,
-#'   eic_connecting = NULL,
-#'   process_type = NULL,
-#'   period_start = lubridate::ymd(
-#'     Sys.Date() - lubridate::days(x = 7L),
-#'     tz = "CET"
-#'   ),
-#'   period_end = lubridate::ymd(
-#'     Sys.Date(),
-#'     tz = "CET"
-#'   ),
-#'   tidy_output = TRUE,
-#'   security_token = Sys.getenv("ENTSOE_PAT")
-#' ) {
-#'   # check if only one eic provided
-#'   if (is.null(eic_acquiring)) {
-#'     stop("One acquiring domain EIC should be provided.")
-#'   }
-#'   if (is.null(eic_connecting)) {
-#'     stop("One connecting domain EIC should be provided.")
-#'   }
-#'   if (length(eic_acquiring) > 1L || length(eic_connecting) > 1L) {
-#'     stop(
-#'       "This wrapper only supports one acquiring and one connecting EIC ",
-#'       "per request."
-#'     )
-#'   }
+#' @title
+#' Get Sharing of FRR Capacity (SO GL 190.1)
 #'
-#'   # check if proper process_type provided
-#'   if (is.null(process_type) || !process_type %in% c("A56", "A46")) {
-#'     stop("The 'process_type' should be 'A56' (FRR) or 'A46' (RR).")
-#'   }
+#' @description
+#' Sharing of Frequency Restoration Reserve capacity between areas.
+#' One year range limit applies.
 #'
-#'   # check if valid security token is provided
-#'   if (security_token == "") stop("Valid security token should be provided.")
+#' @param eic_acquiring Energy Identification Code of the acquiring domain
+#' @param eic_connecting Energy Identification Code of the connecting domain
+#' @param process_type type of reserve
+#'                     "A56" FRR
+#'                     "A46" RR
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE. flatten nested tables
+#' @param security_token Security token for ENTSO-E transparency platform
 #'
-#'   # check if the requested period is not longer than one year
-#'   if (difftime(period_end, period_start, units = "day") > 365L) {
-#'     stop("One year range limit should be applied!")
-#'   }
+#' @export
 #'
-#'   # convert timestamps into accepted format
-#'   period_start <- url_posixct_format(period_start)
-#'   period_end <- url_posixct_format(period_end)
+#' @examples
+#' \dontrun{
+#' df <- entsoeapi::sharing_of_frr_capacity(
+#'   eic_acquiring = "10YCB-GERMANY--8",
+#'   eic_connecting = "10YAT-APG------L",
+#'   process_type = "A56",
+#'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
 #'
-#'   # compose GET request url
-#'   query_string <- paste0(
-#'     "documentType=A26",
-#'     "&BusinessType=C22",
-#'     "&processType=", process_type,
-#'     "&Acquiring_Domain=", eic_acquiring,
-#'     "&Connecting_Domain=", eic_connecting,
-#'     "&periodStart=", period_start,
-#'     "&periodEnd=", period_end
-#'   )
-#'
-#'   # send GET request
-#'   en_cont_list <- api_req_safe(
-#'     query_string = query_string,
-#'     security_token = security_token
-#'   )
-#'
-#'   # return with the extracted the response
-#'   extract_response(content = en_cont_list, tidy_output = tidy_output)
+#' str(df)
 #' }
+#'
+sharing_of_frr_capacity <- function(
+  eic_acquiring = NULL,
+  eic_connecting = NULL,
+  process_type = NULL,
+  period_start = lubridate::ymd(
+    Sys.Date() - lubridate::days(x = 7L),
+    tz = "CET"
+  ),
+  period_end = lubridate::ymd(
+    Sys.Date(),
+    tz = "CET"
+  ),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  checkmate::assert_string(
+    x = eic_acquiring, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
+  )
+  checkmate::assert_string(
+    x = eic_connecting, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
+  )
+  checkmate::assert_choice(process_type, choices = c("A56", "A46"))
+  checkmate::assert_string(security_token, min.chars = 1L)
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    cli::cli_abort("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url
+  query_string <- paste0(
+    "documentType=A26",
+    "&BusinessType=C22",
+    "&processType=", process_type,
+    "&Acquiring_Domain=", eic_acquiring,
+    "&Connecting_Domain=", eic_connecting,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted the response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}

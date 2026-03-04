@@ -14,7 +14,6 @@ currency_types
 List Currency Types
 }
 \examples{
-
 str(entsoeapi::currency_types)
 
 }
