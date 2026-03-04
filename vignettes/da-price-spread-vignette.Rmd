@@ -13,8 +13,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.width = 10,
   fig.height = 6,
-  out.width = '98%',
-  out.height = '98%'
+  out.width = "98%",
+  out.height = "98%"
 )
 ```
 
