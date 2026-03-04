@@ -978,7 +978,7 @@ allocated_transfer_capacities_3rd_countries <- function( # nolint: object_length
     if (!is.null(auction_category)) {
       paste0("&auction.Category=", auction_category)
     } else {
-      ""
+      "" # nocov
     },
     if (!is.null(position)) {
       paste0(
@@ -986,7 +986,7 @@ allocated_transfer_capacities_3rd_countries <- function( # nolint: object_length
         as.integer(position)
       )
     } else {
-      ""
+      "" # nocov
     },
     "&periodStart=", period_start,
     "&periodEnd=", period_end

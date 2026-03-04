@@ -1019,7 +1019,7 @@ get_all_allocated_eic <- function() {
         dplyr::bind_cols(first_level_tbl, second_level_tbl)
       },
       error = \(e) {
-        cli::cli_abort("The XML document has an unexpected tree structure! {e}")
+        cli::cli_abort("The XML document has an unexpected tree structure! {e}") # nocov
       }
     )
 
