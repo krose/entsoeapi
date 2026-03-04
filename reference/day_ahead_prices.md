@@ -50,7 +50,7 @@ df1 <- entsoeapi::day_ahead_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201910312300&periodEnd=201911302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:08:10 GMT
+#> <- date: Wed, 04 Mar 2026 22:12:52 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_201910312300-201911302300.xml"
 #> <- x-content-type-options: nosniff
@@ -76,7 +76,7 @@ str(df1)
 #>  $ ts_auction_type_def                  : chr [1:720] "Implicit" "Implicit" "Implicit" "Implicit" ...
 #>  $ ts_business_type                     : chr [1:720] "A62" "A62" "A62" "A62" ...
 #>  $ ts_business_type_def                 : chr [1:720] "Spot price" "Spot price" "Spot price" "Spot price" ...
-#>  $ created_date_time                    : POSIXct[1:720], format: "2026-03-04 22:08:10" "2026-03-04 22:08:10" ...
+#>  $ created_date_time                    : POSIXct[1:720], format: "2026-03-04 22:12:52" "2026-03-04 22:12:52" ...
 #>  $ revision_number                      : num [1:720] 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ ts_resolution                        : chr [1:720] "PT60M" "PT60M" "PT60M" "PT60M" ...
 #>  $ ts_time_interval_start               : POSIXct[1:720], format: "2019-10-31 23:00:00" "2019-10-31 23:00:00" ...
@@ -97,7 +97,7 @@ df2 <- entsoeapi::day_ahead_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202602122300&periodEnd=202602122300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:08:10 GMT
+#> <- date: Wed, 04 Mar 2026 22:12:52 GMT
 #> <- content-type: text/xml
 #> <- content-length: 963
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -110,7 +110,7 @@ df2 <- entsoeapi::day_ahead_prices(
 #> ℹ No additional eic names added!
 str(df2)
 #> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:08:10"
+#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:12:52"
 #>  $ reason_code      : chr "999"
 #>  $ reason_text      : chr "No matching data found for Data item ENERGY_PRICES [12.1.D] (10Y1001A1001A82H, 10Y1001A1001A82H) and interval 2"| __truncated__
 ```

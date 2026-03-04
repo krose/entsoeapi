@@ -60,16 +60,16 @@ df1 <- entsoeapi::exchanged_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A51&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208162200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:08:23 GMT
+#> <- date: Wed, 04 Mar 2026 22:13:03 GMT
 #> <- content-type: application/zip
-#> <- content-length: 179305
+#> <- content-length: 179308
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202208152200-202208162200.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmpb5sMb4/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
+#> ✔ /tmp/RtmpSo3AKG/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
 str(df1)
 #> tibble [43,200 × 23] (S3: tbl_df/tbl/data.frame)
 #>  $ area_domain_mrid             : chr [1:43200] "10Y1001C--00090V" "10Y1001C--00090V" "10Y1001C--00090V" "10Y1001C--00090V" ...
@@ -86,7 +86,7 @@ str(df1)
 #>  $ process_type_def             : chr [1:43200] "Automatic frequency restoration reserve" "Automatic frequency restoration reserve" "Automatic frequency restoration reserve" "Automatic frequency restoration reserve" ...
 #>  $ ts_business_type             : chr [1:43200] "B09" "B09" "B09" "B09" ...
 #>  $ ts_business_type_def         : chr [1:43200] "Net position" "Net position" "Net position" "Net position" ...
-#>  $ created_date_time            : POSIXct[1:43200], format: "2026-03-04 22:08:23" "2026-03-04 22:08:23" ...
+#>  $ created_date_time            : POSIXct[1:43200], format: "2026-03-04 22:13:03" "2026-03-04 22:13:03" ...
 #>  $ revision_number              : num [1:43200] 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ ts_resolution                : chr [1:43200] "PT4S" "PT4S" "PT4S" "PT4S" ...
 #>  $ ts_time_interval_start       : POSIXct[1:43200], format: "2022-08-15 22:00:00" "2022-08-15 22:00:00" ...
@@ -107,16 +107,16 @@ df2 <- entsoeapi::exchanged_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A60&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202407102200&periodEnd=202407112200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:08:34 GMT
+#> <- date: Wed, 04 Mar 2026 22:13:15 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1171
+#> <- content-length: 1172
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202407102200-202407112200.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmpb5sMb4/001-NETTED_AND_EXCHANGED_VOLUMES_202407102200-202407112200.xml has been read in
+#> ✔ /tmp/RtmpSo3AKG/001-NETTED_AND_EXCHANGED_VOLUMES_202407102200-202407112200.xml has been read in
 #> ℹ No additional definitions added!
 
 str(df2)
@@ -133,7 +133,7 @@ str(df2)
 #>  $ process_type_def             : chr [1:96] "Scheduled activation mFRR" "Scheduled activation mFRR" "Scheduled activation mFRR" "Scheduled activation mFRR" ...
 #>  $ ts_business_type             : chr [1:96] "B09" "B09" "B09" "B09" ...
 #>  $ ts_business_type_def         : chr [1:96] "Net position" "Net position" "Net position" "Net position" ...
-#>  $ created_date_time            : POSIXct[1:96], format: "2026-03-04 22:08:34" "2026-03-04 22:08:34" ...
+#>  $ created_date_time            : POSIXct[1:96], format: "2026-03-04 22:13:15" "2026-03-04 22:13:15" ...
 #>  $ revision_number              : num [1:96] 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ ts_resolution                : chr [1:96] "PT15M" "PT15M" "PT15M" "PT15M" ...
 #>  $ ts_time_interval_start       : POSIXct[1:96], format: "2024-07-10 22:00:00" "2024-07-10 22:00:00" ...

@@ -53,16 +53,16 @@ df <- entsoeapi::netted_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A63&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208162200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:09:14 GMT
+#> <- date: Wed, 04 Mar 2026 22:13:49 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1785
+#> <- content-length: 1782
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202208152200-202208162200.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmpb5sMb4/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
+#> ✔ /tmp/RtmpSo3AKG/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
 
 str(df)
 #> tibble [96 × 23] (S3: tbl_df/tbl/data.frame)
@@ -80,7 +80,7 @@ str(df)
 #>  $ process_type_def             : chr [1:96] "Imbalance Netting" "Imbalance Netting" "Imbalance Netting" "Imbalance Netting" ...
 #>  $ ts_business_type             : chr [1:96] "B09" "B09" "B09" "B09" ...
 #>  $ ts_business_type_def         : chr [1:96] "Net position" "Net position" "Net position" "Net position" ...
-#>  $ created_date_time            : POSIXct[1:96], format: "2026-03-04 22:09:14" "2026-03-04 22:09:14" ...
+#>  $ created_date_time            : POSIXct[1:96], format: "2026-03-04 22:13:49" "2026-03-04 22:13:49" ...
 #>  $ revision_number              : num [1:96] 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ ts_resolution                : chr [1:96] "PT15M" "PT15M" "PT15M" "PT15M" ...
 #>  $ ts_time_interval_start       : POSIXct[1:96], format: "2022-08-15 22:00:00" "2022-08-15 22:00:00" ...

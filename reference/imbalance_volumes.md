@@ -50,16 +50,16 @@ df <- entsoeapi::imbalance_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A86&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:09:05 GMT
+#> <- date: Wed, 04 Mar 2026 22:13:40 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1097
+#> <- content-length: 1096
 #> <- content-disposition: attachment; filename="Total_Imbalance_Volumes_r3_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmpb5sMb4/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpSo3AKG/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
 
 str(df)
 #> tibble [24 × 21] (S3: tbl_df/tbl/data.frame)
@@ -75,7 +75,7 @@ str(df)
 #>  $ ts_flow_direction_def        : chr [1:24] "UP" "UP" "UP" "UP" ...
 #>  $ ts_business_type             : chr [1:24] "A19" "A19" "A19" "A19" ...
 #>  $ ts_business_type_def         : chr [1:24] "Balance energy deviation" "Balance energy deviation" "Balance energy deviation" "Balance energy deviation" ...
-#>  $ created_date_time            : POSIXct[1:24], format: "2026-03-04 22:09:05" "2026-03-04 22:09:05" ...
+#>  $ created_date_time            : POSIXct[1:24], format: "2026-03-04 22:13:40" "2026-03-04 22:13:40" ...
 #>  $ revision_number              : num [1:24] 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ ts_resolution                : chr [1:24] "PT60M" "PT60M" "PT60M" "PT60M" ...
 #>  $ ts_time_interval_start       : POSIXct[1:24], format: "2023-12-31 23:00:00" "2023-12-31 23:00:00" ...

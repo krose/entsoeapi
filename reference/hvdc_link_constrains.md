@@ -68,7 +68,7 @@ df <- entsoeapi::hvdc_link_constrains(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A99&processType=A63&BusinessType=B06&In_Domain=10YAT-APG------L&Out_Domain=10YDE-RWENET---I&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:09:04 GMT
+#> <- date: Wed, 04 Mar 2026 22:13:39 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1014
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -82,7 +82,7 @@ df <- entsoeapi::hvdc_link_constrains(
 
 str(df)
 #> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:09:04"
+#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:13:39"
 #>  $ reason_code      : chr "999"
 #>  $ reason_text      : chr "No matching data found for Data item PERMANENT_LIMITATIONS_TO_CROSS_BORDER_CAPACITY_ON_HVDC_LINES_R3 [IFs 4.5] "| __truncated__
 ```
