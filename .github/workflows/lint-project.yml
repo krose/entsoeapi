@@ -23,9 +23,10 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install lintr
-        run: install.packages("lintr")
-        shell: Rscript {0}
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::lintr, local::.
+          needs: lint
 
       - name: Lint root directory
         run: lintr::lint_package()
