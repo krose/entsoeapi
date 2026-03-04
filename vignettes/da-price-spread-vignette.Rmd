@@ -2,7 +2,7 @@
 title: "Day-Ahead Price Spread Vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{da-price-spread-vignette}
+  %\VignetteIndexEntry{Day-Ahead Price Spread Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
