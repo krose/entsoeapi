@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# entsoeapi <img src="man/figures/logo.png" align="right" height="120" width="120"/>
+# entsoeapi ![hexa sticker](man/figures/logo.png){width="120" height="120"}
 
 <!-- badges: start -->
 
