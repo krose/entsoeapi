@@ -30,7 +30,7 @@ Imports:
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-URL: https://github.com/krose/entsoeapi
+URL: https://krose.github.io/entsoeapi, https://krose.github.io/entsoeapi/
 BugReports: https://github.com/krose/entsoeapi/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3

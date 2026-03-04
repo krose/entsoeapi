@@ -1,0 +1,12 @@
+url: https://krose.github.io/entsoeapi/
+navbar:
+  structure:
+    left:
+      - home
+      - reference
+      - articles
+template:
+  bootstrap: 5
+  bootswatch: cyborg
+code:
+  width: 80
