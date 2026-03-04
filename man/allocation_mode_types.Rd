@@ -14,7 +14,6 @@ allocation_mode_types
 List Allocation Mode Types
 }
 \examples{
-
 str(entsoeapi::allocation_mode_types)
 
 }

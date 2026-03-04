@@ -1,0 +1,114 @@
+---
+title: "Day-Ahead Price Spread Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Day-Ahead Price Spread Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "98%",
+  out.height = "98%"
+)
+```
+
+```{r setup}
+library(entsoeapi)
+library(dplyr) |> suppressPackageStartupMessages()
+library(lubridate) |> suppressPackageStartupMessages()
+library(cli)
+library(ggplot2)
+```
+
+#### Look for the Polish market EIC and set the start and the end of scope dates
+
+```{r preset constants}
+pl_eic <- all_approved_eic() |>
+  filter(EicLongName == "Poland") |>
+  select("EicCode") |>
+  unlist()
+
+from_ts <- force_tz(time = as.Date("2026-01-01"), tzone = "CET")
+till_ts <- from_ts + weeks(x = 1L)
+
+cli_inform("Polish EIC: '{pl_eic}'")
+cli_inform("from: {from_ts}")
+cli_inform("till: {till_ts}")
+```
+
+#### Query the Polish DA prices within the pre-set period
+
+```{r query da prices}
+da_prices <- entsoeapi::day_ahead_prices(
+  eic = pl_eic,
+  period_start = from_ts,
+  period_end = till_ts,
+  tidy_output = TRUE
+)
+glimpse(da_prices)
+```
+
+#### Calculate the daily minimum and maximum prices and the spread
+
+```{r calculate the daily spreads}
+da_spreads <- da_prices |>
+  select(c(ts_point_dt_start, ts_point_price_amount)) |>
+  mutate(
+    ts_point_dt_start = with_tz(time = ts_point_dt_start, tzone = "CET")
+  ) |>
+  mutate(ts_point_date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
+  group_by(ts_point_date) |>
+  mutate(
+    max_price = max(ts_point_price_amount, na.rm = TRUE),
+    min_price = min(ts_point_price_amount, na.rm = TRUE)
+  ) |>
+  mutate(
+    price_spread = max_price - min_price
+  ) |>
+  select(c(ts_point_date, min_price, max_price, price_spread)) |>
+  unique()
+```
+
+#### Plot the daily minimum and maximum prices and the spread
+
+```{r plot the daily spreads}
+ggplot(data = da_spreads) +
+  geom_segment(
+    mapping = aes(
+      x = ts_point_date,
+      xend = ts_point_date,
+      y = min_price,
+      yend = max_price
+    ),
+    linewidth = 10,
+    color = "tomato"
+  ) +
+  geom_text(
+    mapping = aes(
+      x = ts_point_date,
+      y = max_price + 10,
+      label = price_spread
+    ),
+    size = 4
+  ) +
+  scale_x_date(
+    breaks = da_spreads$ts_point_date,
+    date_labels = "%Y-%m-%d"
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Polish Daily Spread of Day-Ahead prices",
+    subtitle = paste("PT15M,", from_ts, till_ts),
+    x = "delivery date",
+    y = "day-ahead price spread"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```

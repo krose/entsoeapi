@@ -14,7 +14,6 @@ object_aggregation_types
 List Object Aggregation Types
 }
 \examples{
-
 str(entsoeapi::object_aggregation_types)
 
 }

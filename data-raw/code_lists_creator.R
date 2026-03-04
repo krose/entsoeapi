@@ -15,7 +15,7 @@ out_main_dir <- fs::path_wd("data-raw")
 # Build and perform the request
 httr2::request(base_url = url) |>
   httr2::req_headers(Authorization = Sys.getenv("ENTSOE_PAT")) |>
-  httr2::req_perform(path = tmp)  # streams directly to disk
+  httr2::req_perform(path = tmp) # streams directly to disk
 
 # Extract the archive
 archive::archive_extract(archive = tmp, dir = out_main_dir)
@@ -58,7 +58,9 @@ parse_simple_type <- function(node) {
   )
 
   # skip non-enum types
-  if (length(enum_nodes) == 0L) return(NULL)
+  if (length(enum_nodes) == 0L) {
+    return(NULL)
+  }
 
   data.table::data.table(
     list_name = xml2::xml_attr(x = node, attr = "name") |>
@@ -111,7 +113,7 @@ parse_simple_type <- function(node) {
     ) |>
       purrr::modify(gsub, pattern = "\\n", replacement = " ") |>
       purrr::modify_if(is.character, trimws, which = "both") |>
-      purrr::discard(~collapse::allNA(.x))
+      purrr::discard(~ collapse::allNA(.x))
   )
 }
 

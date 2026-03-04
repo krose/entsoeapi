@@ -14,7 +14,6 @@ timeframe_types
 List Timeframe Types
 }
 \examples{
-
 str(entsoeapi::timeframe_types)
 
 }

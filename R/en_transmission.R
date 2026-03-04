@@ -51,42 +51,32 @@ utils::globalVariables(
 #'
 #' str(df)
 #'
-expansion_and_dismantling_project <- function(
+expansion_and_dismantling_project <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   business_type = NULL,
   doc_status = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if business_type value is valid
-  if (isFALSE(business_type %in% c("B01", "B02"))) {
-    stop(
-      "The 'business_type' parameter should be 'B01', 'B02'."
-    )
-  }
-
-  # check if doc_status value is valid
-  if (isFALSE(doc_status %in% c("A01", "A02", "A05", "A09", "A13", "X01"))) {
-    stop(
-      "The 'doc_status' parameter should be 'A01', 'A02' ",
-      "A05', 'A09', 'A13' or 'X01'."
-    )
-  }
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    business_type,
+    choices = c("B01", "B02"), null.ok = TRUE
+  )
+  checkmate::assert_choice(
+    doc_status,
+    choices = c("A01", "A02", "A05", "A09", "A13", "X01"),
+    null.ok = TRUE
+  )
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -112,7 +102,6 @@ expansion_and_dismantling_project <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -148,29 +137,25 @@ expansion_and_dismantling_project <- function(
 #'
 #' str(df)
 #'
-intraday_cross_border_transfer_limits <- function(
+intraday_cross_border_transfer_limits <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -195,7 +180,6 @@ intraday_cross_border_transfer_limits <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -240,25 +224,21 @@ forecasted_transfer_capacities <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -284,7 +264,6 @@ forecasted_transfer_capacities <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -328,25 +307,21 @@ day_ahead_commercial_sched <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -372,7 +347,6 @@ day_ahead_commercial_sched <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -417,24 +391,19 @@ total_commercial_sched <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -460,7 +429,6 @@ total_commercial_sched <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -507,25 +475,21 @@ cross_border_physical_flows <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -550,7 +514,6 @@ cross_border_physical_flows <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title title
@@ -586,21 +549,17 @@ redispatching_cross_border <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -625,7 +584,6 @@ redispatching_cross_border <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -658,20 +616,16 @@ redispatching_cross_border <- function(
 redispatching_internal <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -696,7 +650,6 @@ redispatching_internal <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title title
@@ -734,21 +687,17 @@ countertrading <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic_in)) stop("One 'in' control area EIC should be provided.")
-  if (is.null(eic_out)) stop("One 'out' control area EIC should be provided.")
-  if (length(eic_in) > 1L || length(eic_out) > 1L) {
-    stop("This wrapper only supports one in and one out EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -772,7 +721,6 @@ countertrading <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -811,30 +759,25 @@ countertrading <- function(
 costs_of_congestion_management <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 31L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if event_nature value is valid
-  if (isFALSE(event_nature %in% c("A46", "B03", "B04"))) {
-    stop("The 'event_nature' parameter should be 'A46', 'B03', 'B04' or NULL.")
-  }
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    event_nature,
+    choices = c("A46", "B03", "B04"), null.ok = TRUE
+  )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format

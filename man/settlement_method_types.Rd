@@ -14,7 +14,6 @@ settlement_method_types
 List Settlement Method Types
 }
 \examples{
-
 str(entsoeapi::settlement_method_types)
 
 }

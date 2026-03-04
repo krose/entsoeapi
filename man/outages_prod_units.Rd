@@ -51,13 +51,17 @@ available generation capacity during the period specified.
 }
 \examples{
 df <- entsoeapi::outages_prod_units(
-  eic                 = "10YFR-RTE------C",
-  period_start        = lubridate::ymd(x = Sys.Date() +
-                                         lubridate::days(x = 1L),
-                                       tz = "CET"),
-  period_end          = lubridate::ymd(x = Sys.Date() +
-                                         lubridate::days(x = 2L),
-                                       tz = "CET")
+  eic = "10YFR-RTE------C",
+  period_start = lubridate::ymd(
+    x = Sys.Date() +
+      lubridate::days(x = 1L),
+    tz = "CET"
+  ),
+  period_end = lubridate::ymd(
+    x = Sys.Date() +
+      lubridate::days(x = 2L),
+    tz = "CET"
+  )
 )
 
 str(df)

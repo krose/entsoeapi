@@ -14,7 +14,6 @@ reason_code_types
 List Reason Code Types
 }
 \examples{
-
 str(entsoeapi::reason_code_types)
 
 }

@@ -14,7 +14,6 @@ classification_types
 List Classification Types
 }
 \examples{
-
 str(entsoeapi::classification_types)
 
 }

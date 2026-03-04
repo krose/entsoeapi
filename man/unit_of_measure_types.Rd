@@ -14,7 +14,6 @@ unit_of_measure_types
 List Unit of Measure Types
 }
 \examples{
-
 str(entsoeapi::unit_of_measure_types)
 
 }

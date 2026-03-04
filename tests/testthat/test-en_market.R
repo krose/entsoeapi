@@ -1,6 +1,14 @@
 testthat::test_that(
   desc = "day_ahead_prices() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = day_ahead_prices(
         eic = "10YCZ-CEPS-----N",
@@ -27,8 +35,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = day_ahead_prices(
@@ -42,8 +49,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one in and one out EIC per request.!"
+      )
     )
     testthat::expect_error(
       object = day_ahead_prices(
@@ -58,8 +64,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = day_ahead_prices(
@@ -73,17 +78,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "total_nominated_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = total_nominated_capacity(
         eic_in = "10YDE-VE-------2",
@@ -113,8 +124,7 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = total_nominated_capacity(
@@ -129,8 +139,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = total_nominated_capacity(
@@ -145,8 +154,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One 'out' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = total_nominated_capacity(
@@ -161,8 +169,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "his wrapper only supports one in and one out EIC per request!"
+      )
     )
     testthat::expect_error(
       object = total_nominated_capacity(
@@ -177,17 +184,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "already_allocated_total_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = already_allocated_total_capacity(
         eic_in = "10YDE-VE-------2",
@@ -220,8 +233,7 @@ testthat::test_that(
         auction_category = "A04",
         contract_type = "A01",
         tidy_output = FALSE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = already_allocated_total_capacity(
@@ -238,8 +250,7 @@ testthat::test_that(
         auction_category = "A04",
         contract_type = "A01",
         tidy_output = FALSE
-      ),
-      info = "One 'out' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = already_allocated_total_capacity(
@@ -256,8 +267,7 @@ testthat::test_that(
         auction_category = "A04",
         contract_type = "A01",
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one in and one out EIC per request!"
+      )
     )
     testthat::expect_error(
       object = already_allocated_total_capacity(
@@ -275,8 +285,7 @@ testthat::test_that(
         contract_type = "A01",
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = already_allocated_total_capacity(
@@ -293,17 +302,23 @@ testthat::test_that(
         auction_category = "A04",
         contract_type = "A01",
         tidy_output = FALSE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "implicit_offered_transfer_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = implicit_offered_transfer_capacity(
         eic_in = "10Y1001A1001A82H",
@@ -333,8 +348,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
@@ -349,8 +363,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'out' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
@@ -365,8 +378,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one in and one out EIC per request!"
+      )
     )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
@@ -382,8 +394,7 @@ testthat::test_that(
         ),
         contract_type = "A99",
         tidy_output = FALSE
-      ),
-      info = "The 'contract_type' parameter should be 'A01' or 'A07'!"
+      )
     )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
@@ -399,8 +410,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
@@ -416,8 +426,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "ABC"
-      ),
-      info = "Unauthorized. Missing or invalid security token!"
+      )
     )
     testthat::expect_error(
       object = implicit_offered_transfer_capacity(
@@ -432,17 +441,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "explicit_offered_transfer_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = explicit_offered_transfer_capacity(
         eic_in = "10YBE----------2",
@@ -472,8 +487,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = explicit_offered_transfer_capacity(
@@ -488,8 +502,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'out' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = explicit_offered_transfer_capacity(
@@ -504,8 +517,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one in and one out EIC per request!"
+      )
     )
     testthat::expect_error(
       object = explicit_offered_transfer_capacity(
@@ -521,10 +533,6 @@ testthat::test_that(
         ),
         contract_type = "A99",
         tidy_output = FALSE
-      ),
-      info = paste(
-        "The 'contract_type' parameter should be ",
-        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
       )
     )
     testthat::expect_error(
@@ -541,8 +549,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = explicit_offered_transfer_capacity(
@@ -558,8 +565,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "ABC"
-      ),
-      info = "Unauthorized. Missing or invalid security token!"
+      )
     )
     testthat::expect_error(
       object = explicit_offered_transfer_capacity(
@@ -574,17 +580,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "continuous_offered_transfer_capacity() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = continuous_offered_transfer_capacity(
         eic_in = "10YNL----------L",
@@ -613,8 +625,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = continuous_offered_transfer_capacity(
@@ -629,8 +640,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'out' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = continuous_offered_transfer_capacity(
@@ -645,8 +655,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one in and one out EIC per request!"
+      )
     )
     testthat::expect_error(
       object = continuous_offered_transfer_capacity(
@@ -662,8 +671,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = continuous_offered_transfer_capacity(
@@ -679,8 +687,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "ABC"
-      ),
-      info = "Unauthorized. Missing or invalid security token!"
+      )
     )
     testthat::expect_error(
       object = continuous_offered_transfer_capacity(
@@ -695,17 +702,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "flow_based_allocations() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = flow_based_allocations(
         eic = "10YDOM-REGION-1V",
@@ -735,8 +748,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = flow_based_allocations(
@@ -750,8 +762,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one EIC per request!"
+      )
     )
     testthat::expect_error(
       object = flow_based_allocations(
@@ -766,10 +777,6 @@ testthat::test_that(
         ),
         process_type = "A99",
         tidy_output = FALSE
-      ),
-      info = paste(
-        "The 'process_type' parameter should be",
-        "'A32', 'A33', 'A43' or 'A44'!"
       )
     )
     testthat::expect_error(
@@ -785,8 +792,7 @@ testthat::test_that(
         ),
         archive = "yes",
         tidy_output = FALSE
-      ),
-      info = "The 'archive' argument should be TRUE or FALSE!"
+      )
     )
     testthat::expect_error(
       object = flow_based_allocations(
@@ -801,8 +807,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = flow_based_allocations(
@@ -817,17 +822,23 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "ABC"
-      ),
-      info = "Unauthorized. Missing or invalid security token!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "auction_revenue() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = auction_revenue(
         eic_in = "10YBA-JPCC-----D",
@@ -857,8 +868,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'in' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = auction_revenue(
@@ -873,8 +883,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One 'out' control area EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = auction_revenue(
@@ -889,8 +898,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one in and one out EIC per request!"
+      )
     )
     testthat::expect_error(
       object = auction_revenue(
@@ -906,10 +914,6 @@ testthat::test_that(
         ),
         contract_type = "A99",
         tidy_output = FALSE
-      ),
-      info = paste(
-        "The 'contract_type' parameter should be",
-        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
       )
     )
     testthat::expect_error(
@@ -926,8 +930,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = auction_revenue(
@@ -943,8 +946,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "ABC"
-      ),
-      info = "Unauthorized. Missing or invalid security token!"
+      )
     )
     testthat::expect_error(
       object = auction_revenue(
@@ -959,17 +961,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "net_positions() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = net_positions(
         eic = "10YCZ-CEPS-----N",
@@ -997,8 +1005,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One bidding zone EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = net_positions(
@@ -1012,8 +1019,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one EIC per request!"
+      )
     )
     testthat::expect_error(
       object = net_positions(
@@ -1028,8 +1034,7 @@ testthat::test_that(
         ),
         contract_type = "A99",
         tidy_output = FALSE
-      ),
-      info = "The 'contract_type' parameter should be 'A01' or 'A07'!"
+      )
     )
     testthat::expect_error(
       object = net_positions(
@@ -1044,8 +1049,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = net_positions(
@@ -1060,8 +1064,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "ABC"
-      ),
-      info = "Unauthorized. Missing or invalid security token!"
+      )
     )
     testthat::expect_error(
       object = net_positions(
@@ -1075,17 +1078,23 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One year range limit should be applied!"
+      )
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "congestion_income() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_no_error(
       object = congestion_income(
         eic = "10YDOM-1001A083J",
@@ -1129,8 +1138,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "One border or bidding zone EIC should be provided!"
+      )
     )
     testthat::expect_error(
       object = congestion_income(
@@ -1144,8 +1152,7 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE
-      ),
-      info = "This wrapper only supports one EIC per request!"
+      )
     )
     testthat::expect_error(
       object = congestion_income(
@@ -1160,10 +1167,6 @@ testthat::test_that(
         ),
         contract_type = "A99",
         tidy_output = FALSE
-      ),
-      info = paste(
-        "The 'contract_type' parameter should be",
-        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'!"
       )
     )
     testthat::expect_error(
@@ -1179,8 +1182,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      ),
-      info = "Valid security token should be provided!"
+      )
     )
     testthat::expect_error(
       object = congestion_income(
@@ -1202,10 +1204,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "allocated_transfer_capacities_3rd_countries() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     df <- allocated_transfer_capacities_3rd_countries(
       eic_in = "10YSK-SEPS-----K",
       eic_out = "10YUA-WEPS-----0",
@@ -1283,7 +1292,10 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       ),
-      regexp = "One 'in' control area EIC should be provided"
+      regexp = paste0(
+        "Assertion on 'eic_in' failed: ",
+        "Must be of type 'string', not 'NULL'."
+      )
     )
     testthat::expect_error(
       object = allocated_transfer_capacities_3rd_countries(
@@ -1299,7 +1311,10 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       ),
-      regexp = "One 'out' control area EIC should be provided"
+      regexp = paste(
+        "Assertion on 'eic_out' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = allocated_transfer_capacities_3rd_countries(
@@ -1315,7 +1330,7 @@ testthat::test_that(
         ),
         tidy_output = FALSE
       ),
-      regexp = "This wrapper only supports one in and one out EIC per request"
+      regexp = "Assertion on 'eic_in' failed: Must have length 1."
     )
     testthat::expect_error(
       object = allocated_transfer_capacities_3rd_countries(
@@ -1333,8 +1348,9 @@ testthat::test_that(
         tidy_output = FALSE
       ),
       regexp = paste(
-        "The 'contract_type' parameter should be",
-        "'A01', 'A02', 'A03', 'A04', 'A06', 'A07' or 'A08'"
+        "Assertion on 'contract_type' failed:",
+        "Must be element of set",
+        "\\{'A01','A02','A03','A04','A06','A07','A08'\\}, but is 'A99'"
       )
     )
     testthat::expect_error(
@@ -1352,7 +1368,11 @@ testthat::test_that(
         auction_category = "A99",
         tidy_output = FALSE
       ),
-      regexp = "The 'auction_category' should be 'A01', 'A02', 'A03' or 'A04'"
+      regexp = paste(
+        "Assertion on 'auction_category'",
+        "failed: Must be element of set \\{'A01','A02','A03','A04'\\},",
+        "but is 'A99'"
+      )
     )
     testthat::expect_error(
       object = allocated_transfer_capacities_3rd_countries(
@@ -1369,7 +1389,7 @@ testthat::test_that(
         position = 0L,
         tidy_output = FALSE
       ),
-      regexp = "The 'position' parameter should be a positive integer"
+      regexp = "Assertion on 'position' failed: Must be >= 1"
     )
     testthat::expect_error(
       object = allocated_transfer_capacities_3rd_countries(
@@ -1386,7 +1406,11 @@ testthat::test_that(
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "Valid security token should be provided"
+      regexp = paste(
+        "Assertion on 'security_token' failed:",
+        "All elements must have at least 1 characters,",
+        "but element 1 has 0 characters."
+      )
     )
     testthat::expect_error(
       object = allocated_transfer_capacities_3rd_countries(

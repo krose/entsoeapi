@@ -43,13 +43,13 @@ utils::globalVariables(
 #' df <- entsoeapi::outages_both(
 #'   eic = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(
-#'                    x = Sys.Date() + lubridate::days(x = 1L),
-#'                    tz = "CET"
-#'                  ),
+#'     x = Sys.Date() + lubridate::days(x = 1L),
+#'     tz = "CET"
+#'   ),
 #'   period_end = lubridate::ymd(
-#'                  x = Sys.Date() + lubridate::days(x = 2L),
-#'                  tz = "CET"
-#'                )
+#'     x = Sys.Date() + lubridate::days(x = 2L),
+#'     tz = "CET"
+#'   )
 #' )
 #'
 #' str(df)
@@ -57,28 +57,34 @@ utils::globalVariables(
 outages_both <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  tbl_gu <- try(outages_gen_units(eic = eic,
-                                  period_start = period_start,
-                                  period_end = period_end,
-                                  doc_status = doc_status,
-                                  event_nature = event_nature,
-                                  tidy_output = tidy_output,
-                                  security_token = security_token))
-  tbl_pu <- try(outages_prod_units(eic = eic,
-                                   period_start = period_start,
-                                   period_end = period_end,
-                                   doc_status = doc_status,
-                                   event_nature = event_nature,
-                                   tidy_output = tidy_output,
-                                   security_token = security_token))
+  tbl_gu <- try(outages_gen_units(
+    eic = eic,
+    period_start = period_start,
+    period_end = period_end,
+    doc_status = doc_status,
+    event_nature = event_nature,
+    tidy_output = tidy_output,
+    security_token = security_token
+  ))
+  tbl_pu <- try(outages_prod_units(
+    eic = eic,
+    period_start = period_start,
+    period_end = period_end,
+    doc_status = doc_status,
+    event_nature = event_nature,
+    tidy_output = tidy_output,
+    security_token = security_token
+  ))
 
   if (inherits(tbl_gu, "try-error")) {
     message(
@@ -101,7 +107,6 @@ outages_both <- function(
     purrr::compact() |>
     data.table::rbindlist(use.names = TRUE, fill = TRUE)
 }
-
 
 
 #' @title
@@ -142,13 +147,13 @@ outages_both <- function(
 #' df <- entsoeapi::outages_gen_units(
 #'   eic = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(
-#'                    x = Sys.Date() + lubridate::days(x = 1L),
-#'                    tz = "CET"
-#'                  ),
+#'     x = Sys.Date() + lubridate::days(x = 1L),
+#'     tz = "CET"
+#'   ),
 #'   period_end = lubridate::ymd(
-#'                  x = Sys.Date() + lubridate::days(x = 2L),
-#'                  tz = "CET"
-#'                )
+#'     x = Sys.Date() + lubridate::days(x = 2L),
+#'     tz = "CET"
+#'   )
 #' )
 #'
 #' str(df)
@@ -156,36 +161,30 @@ outages_both <- function(
 outages_gen_units <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if doc_status value is valid
-  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
-    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
-  }
-
-  # check if event_nature value is valid
-  if (isFALSE(event_nature %in% c("A53", "A54"))) {
-    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
-  }
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    doc_status,
+    choices = c("A05", "A09", "A13"), null.ok = TRUE
+  )
+  checkmate::assert_choice(
+    event_nature,
+    choices = c("A53", "A54"), null.ok = TRUE
+  )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -215,7 +214,6 @@ outages_gen_units <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -253,13 +251,17 @@ outages_gen_units <- function(
 #'
 #' @examples
 #' df <- entsoeapi::outages_prod_units(
-#'   eic                 = "10YFR-RTE------C",
-#'   period_start        = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 1L),
-#'                                        tz = "CET"),
-#'   period_end          = lubridate::ymd(x = Sys.Date() +
-#'                                          lubridate::days(x = 2L),
-#'                                        tz = "CET")
+#'   eic = "10YFR-RTE------C",
+#'   period_start = lubridate::ymd(
+#'     x = Sys.Date() +
+#'       lubridate::days(x = 1L),
+#'     tz = "CET"
+#'   ),
+#'   period_end = lubridate::ymd(
+#'     x = Sys.Date() +
+#'       lubridate::days(x = 2L),
+#'     tz = "CET"
+#'   )
 #' )
 #'
 #' str(df)
@@ -267,36 +269,30 @@ outages_gen_units <- function(
 outages_prod_units <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if doc_status value is valid
-  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
-    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
-  }
-
-  # check if event_nature value is valid
-  if (isFALSE(event_nature %in% c("A53", "A54"))) {
-    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
-  }
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    doc_status,
+    choices = c("A05", "A09", "A13"), null.ok = TRUE
+  )
+  checkmate::assert_choice(
+    event_nature,
+    choices = c("A53", "A54"), null.ok = TRUE
+  )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -326,7 +322,6 @@ outages_prod_units <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -362,9 +357,9 @@ outages_prod_units <- function(
 #' df <- entsoeapi::outages_offshore_grid(
 #'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(
-#'                    x = Sys.Date() -lubridate::days(x = 365L),
-#'                    tz = "CET"
-#'                  ),
+#'     x = Sys.Date() - lubridate::days(x = 365L),
+#'     tz = "CET"
+#'   ),
 #'   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
 #' )
 #'
@@ -373,30 +368,25 @@ outages_prod_units <- function(
 outages_offshore_grid <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   doc_status = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if doc_status value is valid
-  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
-    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
-  }
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    doc_status,
+    choices = c("A05", "A09", "A13"), null.ok = TRUE
+  )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -423,7 +413,6 @@ outages_offshore_grid <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -476,9 +465,11 @@ outages_offshore_grid <- function(
 outages_cons_units <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   period_start_update = NULL,
   period_end_update = NULL,
   doc_status = NULL,
@@ -486,28 +477,20 @@ outages_cons_units <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if doc_status value is valid
-  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
-    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
-  }
-
-  # check if event_nature value is valid
-  if (isFALSE(event_nature %in% c("A53", "A54"))) {
-    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
-  }
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    doc_status,
+    choices = c("A05", "A09", "A13"), null.ok = TRUE
+  )
+  checkmate::assert_choice(
+    event_nature,
+    choices = c("A53", "A54"), null.ok = TRUE
+  )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -530,9 +513,11 @@ outages_cons_units <- function(
     query_string <- paste0(query_string, "&businessType=", event_nature)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    query_string <- paste0(query_string,
-                           "&periodStartUpdate=", period_start_update,
-                           "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(
+      query_string,
+      "&periodStartUpdate=", period_start_update,
+      "&periodEndUpdate=", period_end_update
+    )
   }
 
   # send GET request
@@ -544,7 +529,6 @@ outages_cons_units <- function(
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
-
 
 
 #' @title
@@ -585,17 +569,17 @@ outages_cons_units <- function(
 #'   eic_in = "10YFR-RTE------C",
 #'   eic_out = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(
-#'                    x = Sys.Date() + lubridate::days(x = 1),
-#'                    tz = "CET"
-#'                  ),
+#'     x = Sys.Date() + lubridate::days(x = 1),
+#'     tz = "CET"
+#'   ),
 #'   period_end = lubridate::ymd(
-#'                  x = Sys.Date() + lubridate::days(x = 2),
-#'                  tz = "CET"
-#'                ),
+#'     x = Sys.Date() + lubridate::days(x = 2),
+#'     tz = "CET"
+#'   ),
 #'   period_start_update = lubridate::ymd(
-#'                           x = Sys.Date() -lubridate::days(x = 7),
-#'                           tz = "CET"
-#'                         ),
+#'     x = Sys.Date() - lubridate::days(x = 7),
+#'     tz = "CET"
+#'   ),
 #'   period_end_update = lubridate::ymd(x = Sys.Date(), tz = "CET")
 #' )
 #'
@@ -605,9 +589,11 @@ outages_transmission_grid <- function(
   eic_in = NULL,
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 3L),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   period_start_update = NULL,
   period_end_update = NULL,
   doc_status = NULL,
@@ -615,32 +601,21 @@ outages_transmission_grid <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic per direction provided
-  if (is.null(eic_in)) stop("One IN control area EIC should be provided.")
-  if (length(eic_in) > 1L) {
-    stop("This wrapper only supports one IN control area EIC per request.")
-  }
-  if (is.null(eic_out)) stop("One OUT control area EIC should be provided.")
-  if (length(eic_out) > 1L) {
-    stop("This wrapper only supports one OUT control area EIC per request.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
-
-  # check if doc_status value is valid
-  if (isFALSE(doc_status %in% c("A05", "A09", "A13"))) {
-    stop("The 'doc_status' parameter should be 'A05', 'A09', 'A13' or NULL.")
-  }
-
-  # check if event_nature value is valid
-  if (isFALSE(event_nature %in% c("A53", "A54"))) {
-    stop("The 'event_nature' parameter should be 'A53', 'A54' or NULL.")
-  }
+  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_string(security_token, min.chars = 1L)
+  checkmate::assert_choice(
+    doc_status,
+    choices = c("A05", "A09", "A13"), null.ok = TRUE
+  )
+  checkmate::assert_choice(
+    event_nature,
+    choices = c("A53", "A54"), null.ok = TRUE
+  )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -664,9 +639,11 @@ outages_transmission_grid <- function(
     query_string <- paste0(query_string, "&businessType=", event_nature)
   }
   if (!is.null(period_start_update) && !is.null(period_end_update)) {
-    query_string <- paste0(query_string,
-                           "&periodStartUpdate=", period_start_update,
-                           "&periodEndUpdate=", period_end_update)
+    query_string <- paste0(
+      query_string,
+      "&periodStartUpdate=", period_start_update,
+      "&periodEndUpdate=", period_end_update
+    )
   }
 
   # send GET request
@@ -677,9 +654,7 @@ outages_transmission_grid <- function(
 
   # return with the extracted the response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
-
 }
-
 
 
 #' @title
@@ -728,37 +703,27 @@ outages_transmission_grid <- function(
 outages_fallbacks <- function(
   eic = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L),
-                                tz = "CET"),
+    tz = "CET"
+  ),
   period_end = lubridate::ymd(Sys.Date(),
-                              tz = "CET"),
+    tz = "CET"
+  ),
   process_type = "A63",
   event_nature = "A53",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  # check if only one eic provided
-  if (is.null(eic)) stop("One control area EIC should be provided.")
-  if (length(eic) > 1L) {
-    stop("This wrapper only supports one control area EIC per request.")
-  }
-
-  # check if valid process_type provided
-  if (!process_type %in% c("A47", "A51", "A63")) {
-    stop("The 'process_type' parameter should be 'A47', 'A51' or 'A63'.")
-  }
-
-  # check if valid event_nature provided
-  if (!event_nature %in% c("C47", "A53", "A54", "A83")) {
-    stop("The 'event_nature' parameter should be ",
-         "'C47', 'A53', 'A54' or 'A83'.")
-  }
-
-  # check if valid security token is provided
-  if (security_token == "") stop("Valid security token should be provided.")
+  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  checkmate::assert_choice(process_type, choices = c("A47", "A51", "A63"))
+  checkmate::assert_choice(
+    event_nature,
+    choices = c("C47", "A53", "A54", "A83")
+  )
+  checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    stop("One year range limit should be applied!")
+    cli::cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format

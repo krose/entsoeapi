@@ -14,7 +14,6 @@ indicator_types
 List Indicator Types
 }
 \examples{
-
 str(entsoeapi::indicator_types)
 
 }

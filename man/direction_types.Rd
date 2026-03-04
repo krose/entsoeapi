@@ -14,7 +14,6 @@ direction_types
 List Direction Types
 }
 \examples{
-
 str(entsoeapi::direction_types)
 
 }

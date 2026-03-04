@@ -14,7 +14,6 @@ message_types
 List Message Types
 }
 \examples{
-
 str(entsoeapi::message_types)
 
 }

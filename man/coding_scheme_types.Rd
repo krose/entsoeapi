@@ -14,7 +14,6 @@ coding_scheme_types
 List Coding Scheme Types
 }
 \examples{
-
 str(entsoeapi::coding_scheme_types)
 
 }

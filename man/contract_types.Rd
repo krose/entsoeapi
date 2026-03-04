@@ -14,7 +14,6 @@ contract_types
 List Contract Types
 }
 \examples{
-
 str(entsoeapi::contract_types)
 
 }

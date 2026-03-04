@@ -14,7 +14,6 @@ process_types
 List Process Types
 }
 \examples{
-
 str(entsoeapi::process_types)
 
 }

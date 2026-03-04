@@ -14,7 +14,6 @@ unit_multiplier
 List Unit Multiplier
 }
 \examples{
-
 str(entsoeapi::unit_multiplier)
 
 }

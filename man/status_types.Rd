@@ -14,7 +14,6 @@ status_types
 List Status Types
 }
 \examples{
-
 str(entsoeapi::status_types)
 
 }

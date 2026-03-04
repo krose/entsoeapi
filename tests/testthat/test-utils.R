@@ -260,10 +260,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "extract_leaf_twig_branch() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     url_sample_2 <- paste(
       "documentType=A73",
       "processType=A16",
@@ -414,7 +421,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "read_zipped_xml() works",
   code = {
@@ -427,12 +433,16 @@ testthat::test_that(
     xml_sample_file <- tempfile(fileext = "xml")
     zip_xml_sample_file <- tempfile(fileext = ".zip")
     data.table::fwrite(x = mtcars, file = csv_sample_file, sep = ";")
-    zip(zipfile = zip_sample_file,
-        files = c(csv_sample_file))
+    zip(
+      zipfile = zip_sample_file,
+      files = c(csv_sample_file)
+    )
     cd_cat_xml <- xml2::read_xml(xml2::xml2_example(path = "cd_catalog.xml"))
     xml2::write_xml(x = cd_cat_xml, file = xml_sample_file)
-    zip(zipfile = zip_xml_sample_file,
-        files = c(xml_sample_file))
+    zip(
+      zipfile = zip_xml_sample_file,
+      files = c(xml_sample_file)
+    )
     testthat::expect_warning(
       object = read_zipped_xml(temp_file_path = tempfile()),
       info = "In .f(...) : error 1 in extracting from zip file"
@@ -450,7 +460,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -488,10 +497,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "api_req() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     url_sample_1 <- paste(
       "documentType=A73",
       "processType=A16",
@@ -555,18 +571,24 @@ testthat::test_that(
         query_string = NULL,
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      regexp = "The argument 'query_string' is missing!"
+      regexp = paste(
+        "Assertion on 'query_string' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = api_req(),
-      regexp = "The argument 'query_string' is missing!"
+      regexp = paste(
+        "Assertion on 'query_string' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = api_req(
         query_string = NA,
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      regexp = "Input parameter does not exist: NA"
+      regexp = "Assertion on 'query_string' failed: May not be NA."
     )
     testthat::expect_error(
       object = api_req(
@@ -589,7 +611,10 @@ testthat::test_that(
       object = api_req(
         query_string = url_sample_1
       ),
-      regexp = "The argument 'security_token' is not provided"
+      regexp = paste(
+        "Assertion on 'security_token' failed:",
+        "Must be of type 'string', not 'NULL'."
+      )
     )
     testthat::expect_s3_class(
       object = api_req(
@@ -603,7 +628,7 @@ testthat::test_that(
         query_string = url_sample_2,
         security_token = Sys.getenv("ENTSOE_PAT")
       ) |>
-        purrr::map(~inherits(x = .x, what = "xml_document")) |>
+        purrr::map(~ inherits(x = .x, what = "xml_document")) |>
         unlist() |>
         all(),
       info = "The url value should be printed in console!"
@@ -612,10 +637,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "api_req_safe() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     url_sample_1 <- paste(
       "documentType=A73",
       "processType=A16",
@@ -658,7 +690,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "url_posixct_format() works",
   code = {
@@ -699,18 +730,21 @@ testthat::test_that(
         stringr::str_like(pattern = "[0-9]{12}"),
       info = "The result of this functions should be 12 digit length string!"
     )
-    testthat::expect_warning(
+    testthat::expect_message(
       object = url_posixct_format(x = "20240722210000"),
-      info = "The 'x' value has been interpreted as UTC!"
+      regexp = "The .+ value has been interpreted as UTC!"
     )
   }
 )
 
 
-
 testthat::test_that(
   desc = "get_eiccodes() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     testthat::expect_contains(
       object = get_eiccodes(
         f = "Y_eicCodes.csv"
@@ -777,15 +811,14 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "unpack_xml() works",
   code = {
     testthat::expect_equal(
       object = xml2::xml2_example(path = "order-schema.xml") |>
         xml2::read_xml() |>
-        unpack_xml(parent_name = "foo")
-      |> dim(),
+        unpack_xml(parent_name = "foo") |>
+        dim(),
       expected = c(1L, 4L)
     )
     testthat::expect_contains(
@@ -816,7 +849,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -913,7 +945,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "my_snakecase() works",
   code = {
@@ -958,11 +989,13 @@ testthat::test_that(
     )
     testthat::expect_error(
       object = my_snakecase(tbl = NULL),
-      info = "The argument 'tbl' is missing!"
+      regexp = paste(
+        "Assertion on 'tbl' failed:",
+        "Must be of type 'data.frame', not 'NULL'."
+      )
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1067,10 +1100,13 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "add_eic_names() works",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     df <- data.frame(
       ts_in_domain_mrid = c(
         "16YAOGUADIANA--T",
@@ -1141,7 +1177,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "add_definitions() works",
   code = {
@@ -1210,10 +1245,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "xml_to_table() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     url_sample_1 <- paste(
       "documentType=A73",
       "processType=A16",
@@ -1346,10 +1388,17 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "extract_response() works",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     url_sample_2 <- paste(
       "documentType=A73",
       "processType=A16",
@@ -1436,7 +1485,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = paste(
     "get_all_allocated_eic() returns a tibble",
@@ -1485,7 +1533,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc =
     "get_all_allocated_eic() joins doc_status from message_types correctly",
@@ -1514,7 +1561,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1547,7 +1593,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "get_all_allocated_eic() stops on empty response body",
   code = {
@@ -1563,7 +1608,6 @@ testthat::test_that(
     testthat::expect_error(object = get_all_allocated_eic())
   }
 )
-
 
 
 testthat::test_that(
@@ -1593,7 +1637,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc =
     "get_all_allocated_eic() returns one row per EICCode_MarketDocument node",
@@ -1621,7 +1664,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1656,7 +1698,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = paste(
     "get_all_allocated_eic() stops with error message",
@@ -1668,8 +1709,7 @@ testthat::test_that(
       list(message = paste(
         "Could not resolve host:",
         "eepublicdownloads.blob.core.windows.net"
-      )
-      )
+      ))
     )
     httr2_err <- structure(
       class = c("httr2_failure", "httr2_error", "error", "condition"),
@@ -1694,7 +1734,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "tidy_or_not() stops on unknown curve_type",
   code = {
@@ -1711,7 +1750,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1749,18 +1787,21 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "add_eic_names() adds names for additional domain mrid columns",
   code = {
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     eic_val <- "16YAOGUADIANA--T"
     df <- data.frame(
-      area_domain_mrid              = eic_val,
-      ts_acquiring_domain_mrid      = eic_val,
-      ts_connecting_domain_mrid     = eic_val,
-      bid_ts_acquiring_domain_mrid  = eic_val,
+      area_domain_mrid = eic_val,
+      ts_acquiring_domain_mrid = eic_val,
+      ts_connecting_domain_mrid = eic_val,
+      bid_ts_acquiring_domain_mrid = eic_val,
       bid_ts_connecting_domain_mrid = eic_val,
-      domain_mrid                   = eic_val,
+      domain_mrid = eic_val,
       constraint_ts_monitored_ptdf_domain_mrid = eic_val,
       stringsAsFactors = FALSE
     )
@@ -1788,7 +1829,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "add_definitions() unites multiple ts_reason_code columns",
   code = {
@@ -1807,7 +1847,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1833,7 +1872,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "extract_response() returns empty tibble for NULL result element",
   code = {
@@ -1843,7 +1881,6 @@ testthat::test_that(
     testthat::expect_equal(object = nrow(result), expected = 0L)
   }
 )
-
 
 
 testthat::test_that(
@@ -1861,7 +1898,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "extract_response() returns empty tibble for list of non-documents",
   code = {
@@ -1871,7 +1907,6 @@ testthat::test_that(
     testthat::expect_equal(object = nrow(result), expected = 0L)
   }
 )
-
 
 
 testthat::test_that(
@@ -1896,7 +1931,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1925,7 +1959,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1958,7 +1991,6 @@ testthat::test_that(
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1996,7 +2028,6 @@ testthat::test_that(
 )
 
 
-
 testthat::test_that(
   desc = "api_req() stops with curl error message on no internet connection",
   code = {
@@ -2028,6 +2059,122 @@ testthat::test_that(
         security_token = "dummy_token"
       ),
       regexp = "Could not resolve host: web-api\\.tp\\.entsoe\\.eu"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "api_req() stops with HTTP 503 message on service unavailable",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "text/html"),
+          body = charToRaw("Service Unavailable")
+        )
+      }
+    )
+    testthat::expect_error(
+      object = api_req(
+        query_string = "documentType=A73",
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "there_is_provider() returns TRUE on 401 Unauthorized",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 401L,
+          headers = list("content-type" = "text/html"),
+          body = charToRaw("Unauthorized")
+        )
+      }
+    )
+    testthat::expect_true(
+      object = there_is_provider()
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "there_is_provider() returns FALSE on 503 Service Unavailable",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          headers = list("content-type" = "text/html"),
+          body = charToRaw("Service Unavailable")
+        )
+      }
+    )
+    testthat::expect_false(
+      object = there_is_provider()
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "there_is_provider() returns FALSE on network/curl error",
+  code = {
+    curl_err <- structure(
+      class = c("curl_error", "error", "condition"),
+      list(message = "Could not resolve host: web-api.tp.entsoe.eu")
+    )
+    httr2_err <- structure(
+      class = c("httr2_failure", "httr2_error", "error", "condition"),
+      list(
+        message = "Failed to perform HTTP request.",
+        resp = NULL,
+        parent = curl_err
+      )
+    )
+    httr2::local_mocked_responses(
+      mock = function(req) stop(httr2_err)
+    )
+    testthat::expect_false(
+      object = there_is_provider()
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "there_is_provider() uses custom api_scheme, api_domain, and api_name",
+  code = {
+    captured_url <- NULL
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        captured_url <<- req$url
+        httr2::response(
+          status_code = 401L,
+          headers = list("content-type" = "text/html"),
+          body = charToRaw("Unauthorized")
+        )
+      }
+    )
+    testthat::expect_true(
+      object = there_is_provider(
+        api_scheme = "http://",
+        api_domain = "test.example.com/",
+        api_name = "api?"
+      )
+    )
+    testthat::expect_match(
+      object = captured_url,
+      regexp = "test\\.example\\.com"
     )
   }
 )
