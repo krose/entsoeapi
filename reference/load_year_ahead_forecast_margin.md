@@ -1,0 +1,89 @@
+# Get Year-Ahead Forecast Margin (8.1)
+
+It is defined as a difference between yearly forecast of available
+generation capacity and yearly forecast of total load, taking into
+account the forecast of total generation capacity forecast of
+availability of generation and forecast of reserves contracted for
+system services.
+
+## Usage
+
+``` r
+load_year_ahead_forecast_margin(
+  eic = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
+  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+)
+```
+
+## Arguments
+
+- eic:
+
+  Energy Identification Code of the bidding zone/ country/control area
+
+- period_start:
+
+  POSIXct or YYYY-MM-DD HH:MM:SS format One year range limit applies
+
+- period_end:
+
+  POSIXct or YYYY-MM-DD HH:MM:SS format One year range limit applies
+
+- tidy_output:
+
+  Defaults to TRUE. If TRUE, then flatten nested tables.
+
+- security_token:
+
+  Security token for ENTSO-E transparency platform
+
+## Examples
+
+``` r
+df <- entsoeapi::load_year_ahead_forecast_margin(
+  eic = "10Y1001A1001A82H",
+  period_start = lubridate::ymd(x = "2019-01-01", tz = "CET"),
+  period_end = lubridate::ymd(x = "2019-12-31", tz = "CET"),
+  tidy_output = TRUE
+)
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A70&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201812312300&periodEnd=201912302300&securityToken=<...>
+#> <- HTTP/2 200 
+#> <- date: Wed, 04 Mar 2026 22:09:12 GMT
+#> <- content-type: text/xml
+#> <- content-length: 1550
+#> <- content-disposition: inline; filename="Year Ahead Forecast Margin_201812312300-201912302300.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- 
+#> ✔ response has arrived
+
+str(df)
+#> tibble [1 × 21] (S3: tbl_df/tbl/data.frame)
+#>  $ ts_out_bidding_zone_domain_mrid: chr "10Y1001A1001A82H"
+#>  $ ts_out_bidding_zone_domain_name: chr "Germany_Luxemburg"
+#>  $ type                           : chr "A70"
+#>  $ type_def                       : chr "Load forecast margin"
+#>  $ process_type                   : chr "A33"
+#>  $ process_type_def               : chr "Year ahead"
+#>  $ ts_object_aggregation          : chr "A01"
+#>  $ ts_object_aggregation_def      : chr "Area"
+#>  $ ts_business_type               : chr "A91"
+#>  $ ts_business_type_def           : chr "positive forecast margin"
+#>  $ created_date_time              : POSIXct[1:1], format: "2026-03-04 22:09:12"
+#>  $ revision_number                : num 1
+#>  $ time_period_time_interval_start: POSIXct[1:1], format: "2018-12-31 23:00:00"
+#>  $ time_period_time_interval_end  : POSIXct[1:1], format: "2019-12-31 23:00:00"
+#>  $ ts_resolution                  : chr "P1Y"
+#>  $ ts_time_interval_start         : POSIXct[1:1], format: "2018-12-31 23:00:00"
+#>  $ ts_time_interval_end           : POSIXct[1:1], format: "2019-12-31 23:00:00"
+#>  $ ts_mrid                        : num 1
+#>  $ ts_point_dt_start              : POSIXct[1:1], format: "2018-12-31 23:00:00"
+#>  $ ts_point_quantity              : num 2964
+#>  $ ts_quantity_measure_unit_name  : chr "MAW"
+```
