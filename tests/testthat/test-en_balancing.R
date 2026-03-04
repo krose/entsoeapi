@@ -1471,6 +1471,38 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "activated_balancing_prices() covers business_type branch with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = activated_balancing_prices(
+        eic = "10YCZ-CEPS-----N",
+        business_type = "A63",
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "imbalance_prices() works",
   code = {
     testthat::skip_if_not(
@@ -2002,6 +2034,39 @@ testthat::test_that(
         security_token = ""
       ),
       info = "Valid security token should be provided."
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "sharing_of_frr_capacity() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = sharing_of_frr_capacity(
+        eic_acquiring = "10YCB-GERMANY--8",
+        eic_connecting = "10YAT-APG------L",
+        process_type = "A56",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE
+      ),
+      regexp = "HTTP 503"
     )
   }
 )

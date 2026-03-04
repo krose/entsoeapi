@@ -473,3 +473,32 @@ testthat::test_that(
     )
   }
 )
+
+
+testthat::test_that(
+  desc = "all_allocated_eic() uses cache on second call",
+  code = {
+    mh$reset()
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = xml_fixture
+        )
+      }
+    )
+    # First call populates the cache
+    tbl1 <- all_allocated_eic()
+    # Second call hits the cache (covers lines 424-425)
+    tbl2 <- all_allocated_eic()
+    testthat::expect_identical(tbl1, tbl2)
+  }
+)
