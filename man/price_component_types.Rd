@@ -3,7 +3,8 @@
 \docType{data}
 \name{price_component_types}
 \alias{price_component_types}
-\title{List Price Component Types}
+\title{List price component types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 3 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 3 ro
 price_component_types
 }
 \description{
-List Price Component Types
+List price component types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::price_component_types)
+dplyr::glimpse(entsoeapi::price_component_types)
 
 }
 \keyword{datasets}

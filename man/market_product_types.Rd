@@ -3,7 +3,8 @@
 \docType{data}
 \name{market_product_types}
 \alias{market_product_types}
-\title{List Market Product Types}
+\title{List market product types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 14 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 14 r
 market_product_types
 }
 \description{
-List Market Product Types
+List market product types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::market_product_types)
+dplyr::glimpse(entsoeapi::market_product_types)
 
 }
 \keyword{datasets}

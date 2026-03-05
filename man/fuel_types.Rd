@@ -3,7 +3,8 @@
 \docType{data}
 \name{fuel_types}
 \alias{fuel_types}
-\title{List Fuel Types}
+\title{List fuel types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 55 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 55 r
 fuel_types
 }
 \description{
-List Fuel Types
+List fuel types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::fuel_types)
+dplyr::glimpse(entsoeapi::fuel_types)
 
 }
 \keyword{datasets}

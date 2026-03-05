@@ -3,7 +3,7 @@
 \docType{data}
 \name{transmission_pair_eic_dict}
 \alias{transmission_pair_eic_dict}
-\title{List Transmission Pair EIC Dictionary}
+\title{List transmission pair EIC Dictionary}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 114 rows and 8 columns.
 }
@@ -11,10 +11,10 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 114 
 transmission_pair_eic_dict
 }
 \description{
-List Transmission Pair EIC Dictionary
+List transmission pair EIC Dictionary
 }
 \examples{
-str(entsoeapi::transmission_pair_eic_dict)
+dplyr::glimpse(entsoeapi::transmission_pair_eic_dict)
 
 }
 \keyword{datasets}

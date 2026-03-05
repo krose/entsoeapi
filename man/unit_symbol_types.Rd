@@ -3,7 +3,8 @@
 \docType{data}
 \name{unit_symbol_types}
 \alias{unit_symbol_types}
-\title{List Unit Symbol Types}
+\title{List unit symbol types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 11 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 11 r
 unit_symbol_types
 }
 \description{
-List Unit Symbol Types
+List unit symbol types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::unit_symbol_types)
+dplyr::glimpse(entsoeapi::unit_symbol_types)
 
 }
 \keyword{datasets}

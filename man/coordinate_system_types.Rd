@@ -3,7 +3,8 @@
 \docType{data}
 \name{coordinate_system_types}
 \alias{coordinate_system_types}
-\title{List Coordinate System Types}
+\title{List coordinate system types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 4 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 4 ro
 coordinate_system_types
 }
 \description{
-List Coordinate System Types
+List coordinate system types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::coordinate_system_types)
+dplyr::glimpse(entsoeapi::coordinate_system_types)
 
 }
 \keyword{datasets}

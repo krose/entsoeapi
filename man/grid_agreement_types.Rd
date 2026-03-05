@@ -3,7 +3,8 @@
 \docType{data}
 \name{grid_agreement_types}
 \alias{grid_agreement_types}
-\title{List Grid Agreement Types}
+\title{List grid agreement types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 4 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 4 ro
 grid_agreement_types
 }
 \description{
-List Grid Agreement Types
+List grid agreement types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::grid_agreement_types)
+dplyr::glimpse(entsoeapi::grid_agreement_types)
 
 }
 \keyword{datasets}

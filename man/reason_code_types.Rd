@@ -3,18 +3,20 @@
 \docType{data}
 \name{reason_code_types}
 \alias{reason_code_types}
-\title{List Reason Code Types}
+\title{List reason code types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 163 rows and 3 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 166 rows and 3 columns.
 }
 \usage{
 reason_code_types
 }
 \description{
-List Reason Code Types
+List reason code types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::reason_code_types)
+dplyr::glimpse(entsoeapi::reason_code_types)
 
 }
 \keyword{datasets}

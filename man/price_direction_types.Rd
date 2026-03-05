@@ -3,7 +3,8 @@
 \docType{data}
 \name{price_direction_types}
 \alias{price_direction_types}
-\title{List Price Direction Types}
+\title{List price direction types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 2 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 2 ro
 price_direction_types
 }
 \description{
-List Price Direction Types
+List price direction types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::price_direction_types)
+dplyr::glimpse(entsoeapi::price_direction_types)
 
 }
 \keyword{datasets}

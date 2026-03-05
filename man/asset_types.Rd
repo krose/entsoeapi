@@ -3,7 +3,8 @@
 \docType{data}
 \name{asset_types}
 \alias{asset_types}
-\title{List Asset Types}
+\title{List asset types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 90 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 90 r
 asset_types
 }
 \description{
-List Asset Types
+List asset types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::asset_types)
+dplyr::glimpse(entsoeapi::asset_types)
 
 }
 \keyword{datasets}

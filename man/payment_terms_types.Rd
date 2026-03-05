@@ -3,7 +3,8 @@
 \docType{data}
 \name{payment_terms_types}
 \alias{payment_terms_types}
-\title{List Payment Terms Types}
+\title{List payment terms types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 3 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 3 ro
 payment_terms_types
 }
 \description{
-List Payment Terms Types
+List payment terms types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::payment_terms_types)
+dplyr::glimpse(entsoeapi::payment_terms_types)
 
 }
 \keyword{datasets}

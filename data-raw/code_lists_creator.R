@@ -5,10 +5,13 @@ converts them to tables and places those in the data/ folder.
 
 
 # set the latest code list URL (use AI for search)
-url <- "https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z"
+url <- c(
+  "https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.7z",
+  "https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip"
+)[[-1L]]
 
 # set the working files and folders
-tmp <- tempfile(fileext = ".7z")
+tmp <- tempfile(fileext = ".zip")
 out_main_dir <- fs::path_wd("data-raw")
 
 # ── 1. Download and extract the archive ──────────────────────────────────────
@@ -34,7 +37,7 @@ xsd_path <- fs::dir_ls(
   type = "file",
   regexp = "codelists\\.xsd$"
 ) |>
-  purrr::pluck(1L)
+  purrr::pluck(-1L)
 message("Using: ", xsd_path)
 
 # ── 3. Parse the XSD ─────────────────────────────────────────────────────────

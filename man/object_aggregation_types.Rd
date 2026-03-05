@@ -3,7 +3,8 @@
 \docType{data}
 \name{object_aggregation_types}
 \alias{object_aggregation_types}
-\title{List Object Aggregation Types}
+\title{List object aggregation types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 16 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 16 r
 object_aggregation_types
 }
 \description{
-List Object Aggregation Types
+List object aggregation types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::object_aggregation_types)
+dplyr::glimpse(entsoeapi::object_aggregation_types)
 
 }
 \keyword{datasets}

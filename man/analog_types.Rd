@@ -3,7 +3,8 @@
 \docType{data}
 \name{analog_types}
 \alias{analog_types}
-\title{List Analog Types}
+\title{List analog types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 42 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 42 r
 analog_types
 }
 \description{
-List Analog Types
+List analog types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::analog_types)
+dplyr::glimpse(entsoeapi::analog_types)
 
 }
 \keyword{datasets}

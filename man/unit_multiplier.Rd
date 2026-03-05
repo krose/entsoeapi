@@ -3,7 +3,8 @@
 \docType{data}
 \name{unit_multiplier}
 \alias{unit_multiplier}
-\title{List Unit Multiplier}
+\title{List unit multiplier based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 1 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 1 ro
 unit_multiplier
 }
 \description{
-List Unit Multiplier
+List unit multiplier based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::unit_multiplier)
+dplyr::glimpse(entsoeapi::unit_multiplier)
 
 }
 \keyword{datasets}

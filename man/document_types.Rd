@@ -3,7 +3,8 @@
 \docType{data}
 \name{document_types}
 \alias{document_types}
-\title{List Document Types}
+\title{List document types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 103 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 103 
 document_types
 }
 \description{
-List Document Types
+List document types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::document_types)
+dplyr::glimpse(entsoeapi::document_types)
 
 }
 \keyword{datasets}

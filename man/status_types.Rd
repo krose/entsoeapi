@@ -3,7 +3,8 @@
 \docType{data}
 \name{status_types}
 \alias{status_types}
-\title{List Status Types}
+\title{List status types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 76 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 76 r
 status_types
 }
 \description{
-List Status Types
+List status types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::status_types)
+dplyr::glimpse(entsoeapi::status_types)
 
 }
 \keyword{datasets}

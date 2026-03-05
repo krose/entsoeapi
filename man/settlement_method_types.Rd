@@ -3,7 +3,8 @@
 \docType{data}
 \name{settlement_method_types}
 \alias{settlement_method_types}
-\title{List Settlement Method Types}
+\title{List settlement method types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 2 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 2 ro
 settlement_method_types
 }
 \description{
-List Settlement Method Types
+List settlement method types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::settlement_method_types)
+dplyr::glimpse(entsoeapi::settlement_method_types)
 
 }
 \keyword{datasets}

@@ -3,7 +3,8 @@
 \docType{data}
 \name{message_types}
 \alias{message_types}
-\title{List Message Types}
+\title{List message types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 150 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 150 
 message_types
 }
 \description{
-List Message Types
+List message types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::message_types)
+dplyr::glimpse(entsoeapi::message_types)
 
 }
 \keyword{datasets}

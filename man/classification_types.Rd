@@ -3,7 +3,8 @@
 \docType{data}
 \name{classification_types}
 \alias{classification_types}
-\title{List Classification Types}
+\title{List classification types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 2 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 2 ro
 classification_types
 }
 \description{
-List Classification Types
+List classification types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::classification_types)
+dplyr::glimpse(entsoeapi::classification_types)
 
 }
 \keyword{datasets}

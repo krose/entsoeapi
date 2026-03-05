@@ -3,7 +3,8 @@
 \docType{data}
 \name{eic_types}
 \alias{eic_types}
-\title{List EIC Types}
+\title{List EIC types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 7 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 7 ro
 eic_types
 }
 \description{
-List EIC Types
+List EIC types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::eic_types)
+dplyr::glimpse(entsoeapi::eic_types)
 
 }
 \keyword{datasets}
