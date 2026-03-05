@@ -24,7 +24,8 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of `entsoeapi` package is to create an easy wrapper around the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s data and transform them to tabular format without effort. (The downloadable data are available interactively on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.)
+The goal of `entsoeapi` package is to create an easy wrapper around the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s data and transform them to tabular format without effort.
+(The downloadable data are available interactively on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.)
 
 The package helps with
 

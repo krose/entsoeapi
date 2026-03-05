@@ -9,4 +9,4 @@ template:
   bootstrap: 5
   bootswatch: cyborg
 code:
-  width: 80
+  width: 120

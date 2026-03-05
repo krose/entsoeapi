@@ -3,7 +3,8 @@
 \docType{data}
 \name{coding_scheme_types}
 \alias{coding_scheme_types}
-\title{List Coding Scheme Types}
+\title{List coding scheme types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 51 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 51 r
 coding_scheme_types
 }
 \description{
-List Coding Scheme Types
+List coding scheme types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::coding_scheme_types)
+dplyr::glimpse(entsoeapi::coding_scheme_types)
 
 }
 \keyword{datasets}

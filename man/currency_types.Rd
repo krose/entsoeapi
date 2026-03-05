@@ -3,7 +3,8 @@
 \docType{data}
 \name{currency_types}
 \alias{currency_types}
-\title{List Currency Types}
+\title{List currency types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 23 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 23 r
 currency_types
 }
 \description{
-List Currency Types
+List currency types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::currency_types)
+dplyr::glimpse(entsoeapi::currency_types)
 
 }
 \keyword{datasets}

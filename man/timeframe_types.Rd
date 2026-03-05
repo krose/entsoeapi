@@ -3,7 +3,8 @@
 \docType{data}
 \name{timeframe_types}
 \alias{timeframe_types}
-\title{List Timeframe Types}
+\title{List timeframe types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 46 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 46 r
 timeframe_types
 }
 \description{
-List Timeframe Types
+List timeframe types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::timeframe_types)
+dplyr::glimpse(entsoeapi::timeframe_types)
 
 }
 \keyword{datasets}

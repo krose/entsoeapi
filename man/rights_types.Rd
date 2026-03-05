@@ -3,7 +3,8 @@
 \docType{data}
 \name{rights_types}
 \alias{rights_types}
-\title{List Rights Types}
+\title{List rights types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 6 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 6 ro
 rights_types
 }
 \description{
-List Rights Types
+List rights types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::rights_types)
+dplyr::glimpse(entsoeapi::rights_types)
 
 }
 \keyword{datasets}

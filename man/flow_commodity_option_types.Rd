@@ -3,7 +3,8 @@
 \docType{data}
 \name{flow_commodity_option_types}
 \alias{flow_commodity_option_types}
-\title{List Flow Commodity Types}
+\title{List flow commodity types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 4 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 4 ro
 flow_commodity_option_types
 }
 \description{
-List Flow Commodity Types
+List flow commodity types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::flow_commodity_option_types)
+dplyr::glimpse(entsoeapi::flow_commodity_option_types)
 
 }
 \keyword{datasets}

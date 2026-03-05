@@ -3,7 +3,8 @@
 \docType{data}
 \name{curve_types}
 \alias{curve_types}
-\title{List Curve Types}
+\title{List curve types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 5 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 5 ro
 curve_types
 }
 \description{
-List Curve Types
+List curve types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::curve_types)
+dplyr::glimpse(entsoeapi::curve_types)
 
 }
 \keyword{datasets}

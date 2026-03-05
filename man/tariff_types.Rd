@@ -3,7 +3,8 @@
 \docType{data}
 \name{tariff_types}
 \alias{tariff_types}
-\title{List Tariff Types}
+\title{List tariff types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 7 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 7 ro
 tariff_types
 }
 \description{
-List Tariff Types
+List tariff types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::tariff_types)
+dplyr::glimpse(entsoeapi::tariff_types)
 
 }
 \keyword{datasets}

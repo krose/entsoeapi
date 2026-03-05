@@ -3,7 +3,8 @@
 \docType{data}
 \name{contract_types}
 \alias{contract_types}
-\title{List Contract Types}
+\title{List contract types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 16 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 16 r
 contract_types
 }
 \description{
-List Contract Types
+List contract types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::contract_types)
+dplyr::glimpse(entsoeapi::contract_types)
 
 }
 \keyword{datasets}

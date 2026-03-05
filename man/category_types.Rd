@@ -3,7 +3,8 @@
 \docType{data}
 \name{category_types}
 \alias{category_types}
-\title{List Category Types}
+\title{List category types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 4 rows and 3 columns.
 }
@@ -11,10 +12,11 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 4 ro
 category_types
 }
 \description{
-List Category Types
+List category types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 }
 \examples{
-str(entsoeapi::category_types)
+dplyr::glimpse(entsoeapi::category_types)
 
 }
 \keyword{datasets}
