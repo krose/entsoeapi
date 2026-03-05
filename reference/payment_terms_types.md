@@ -1,6 +1,7 @@
-# List Payment Terms Types
+# List payment terms types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Payment Terms Types
+List payment terms types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::payment_terms_types)
-#> Classes ‘data.table’ and 'data.frame':   3 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03"
-#>  $ title      : chr  "Pay as bid" "Pay as cleared" "No payment terms"
-#>  $ description: chr  "The amount to be paid shall correspond to the amount bid." "The amount to be paid shall correspond to the amount calculated for clearing." "There are no payment terms to be used."
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::payment_terms_types)
+#> Rows: 3
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03"
+#> $ title       <chr> "Pay as bid", "Pay as cleared", "No payment terms"
+#> $ description <chr> "The amount to be paid shall correspond to the amount bid.", "The amount to be paid shall correspo…
 ```

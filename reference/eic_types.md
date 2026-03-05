@@ -1,6 +1,7 @@
-# List EIC Types
+# List EIC types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List EIC Types
+List EIC types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::eic_types)
-#> Classes ‘data.table’ and 'data.frame':   7 obs. of  3 variables:
-#>  $ code       : chr  "A" "T" "V" "W" ...
-#>  $ title      : chr  "Substation" "Tieline" "Location" "Resource Object" ...
-#>  $ description: chr  "An EIC code to substations." "An EIC code to identify tielines." "An EIC code to identify locations." "An EIC code to identify resource objects." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::eic_types)
+#> Rows: 7
+#> Columns: 3
+#> $ code        <chr> "A", "T", "V", "W", "X", "Y", "Z"
+#> $ title       <chr> "Substation", "Tieline", "Location", "Resource Object", "Party", "Area or Domain", "Measurement po…
+#> $ description <chr> "An EIC code to substations.", "An EIC code to identify tielines.", "An EIC code to identify locat…
 ```

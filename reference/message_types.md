@@ -1,6 +1,7 @@
-# List Message Types
+# List message types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Message Types
+List message types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::message_types)
-#> Classes ‘data.table’ and 'data.frame':   150 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04" ...
-#>  $ title      : chr  "Balance responsible schedule" "Allocated capacity schedule" "Balance area schedule" "System Operator area schedule" ...
-#>  $ description: chr  "A schedule which has been prepared by a balance responsible party providing planned schedule information." "A schedule which has been prepared by a capacity allocator providing allocated capacity." "A schedule that provides the planned schedule information for a balance area." "A compilation of all external schedules concerning two System Operator areas or a connector concerning two Syst"| __truncated__ ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::message_types)
+#> Rows: 150
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", …
+#> $ title       <chr> "Balance responsible schedule", "Allocated capacity schedule", "Balance area schedule", "System Op…
+#> $ description <chr> "A schedule which has been prepared by a balance responsible party providing planned schedule info…
 ```

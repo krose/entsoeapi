@@ -21,7 +21,7 @@ show the import value."><meta property="og:image" content="https://krose.github.
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,19 +116,19 @@ One day range limit applies</p></dd>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=B17&amp;processType=A51&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;Connecting_Domain=10YCZ-CEPS-----N&amp;periodStart=202208152200&amp;periodEnd=202208162200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 04 Mar 2026 22:13:03 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:12:14 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 179308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 179306</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202208152200-202208162200.zip"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpSo3AKG/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpksiKAO/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tibble [43,200 × 23] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ area_domain_mrid             : chr [1:43200] "10Y1001C--00090V" "10Y1001C--00090V" "10Y1001C--00090V" "10Y1001C--00090V" ...</span>
@@ -145,13 +145,13 @@ One day range limit applies</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ process_type_def             : chr [1:43200] "Automatic frequency restoration reserve" "Automatic frequency restoration reserve" "Automatic frequency restoration reserve" "Automatic frequency restoration reserve" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type             : chr [1:43200] "B09" "B09" "B09" "B09" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type_def         : chr [1:43200] "Net position" "Net position" "Net position" "Net position" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time            : POSIXct[1:43200], format: "2026-03-04 22:13:03" "2026-03-04 22:13:03" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time            : POSIXct[1:43200], format: "2026-03-05 16:12:14" "2026-03-05 16:12:14" "2026-03-05 16:12:14" "2026-03-05 16:12:14" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ revision_number              : num [1:43200] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_resolution                : chr [1:43200] "PT4S" "PT4S" "PT4S" "PT4S" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start       : POSIXct[1:43200], format: "2022-08-15 22:00:00" "2022-08-15 22:00:00" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end         : POSIXct[1:43200], format: "2022-08-16 22:00:00" "2022-08-16 22:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start       : POSIXct[1:43200], format: "2022-08-15 22:00:00" "2022-08-15 22:00:00" "2022-08-15 22:00:00" "2022-08-15 22:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end         : POSIXct[1:43200], format: "2022-08-16 22:00:00" "2022-08-16 22:00:00" "2022-08-16 22:00:00" "2022-08-16 22:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_mrid                      : num [1:43200] 1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start            : POSIXct[1:43200], format: "2022-08-15 22:00:00" "2022-08-15 22:00:04" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start            : POSIXct[1:43200], format: "2022-08-15 22:00:00" "2022-08-15 22:00:04" "2022-08-15 22:00:08" "2022-08-15 22:00:12" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_quantity            : num [1:43200] 0.0011 0.0011 0 0 0 0 0 0.004 0.0098 0.0105 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_quantity_measure_unit_name: chr [1:43200] "MWH" "MWH" "MWH" "MWH" ...</span>
 <span class="r-in"><span></span></span>
@@ -163,19 +163,19 @@ One day range limit applies</p></dd>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=B17&amp;processType=A60&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;Connecting_Domain=10YCZ-CEPS-----N&amp;periodStart=202407102200&amp;periodEnd=202407112200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 04 Mar 2026 22:13:15 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:12:25 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 1172</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 1174</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202407102200-202407112200.zip"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpSo3AKG/001-NETTED_AND_EXCHANGED_VOLUMES_202407102200-202407112200.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpksiKAO/001-NETTED_AND_EXCHANGED_VOLUMES_202407102200-202407112200.xml has been read in</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
@@ -192,13 +192,13 @@ One day range limit applies</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ process_type_def             : chr [1:96] "Scheduled activation mFRR" "Scheduled activation mFRR" "Scheduled activation mFRR" "Scheduled activation mFRR" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type             : chr [1:96] "B09" "B09" "B09" "B09" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type_def         : chr [1:96] "Net position" "Net position" "Net position" "Net position" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time            : POSIXct[1:96], format: "2026-03-04 22:13:15" "2026-03-04 22:13:15" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time            : POSIXct[1:96], format: "2026-03-05 16:12:25" "2026-03-05 16:12:25" "2026-03-05 16:12:25" "2026-03-05 16:12:25" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ revision_number              : num [1:96] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_resolution                : chr [1:96] "PT15M" "PT15M" "PT15M" "PT15M" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start       : POSIXct[1:96], format: "2024-07-10 22:00:00" "2024-07-10 22:00:00" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end         : POSIXct[1:96], format: "2024-07-11 22:00:00" "2024-07-11 22:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start       : POSIXct[1:96], format: "2024-07-10 22:00:00" "2024-07-10 22:00:00" "2024-07-10 22:00:00" "2024-07-10 22:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end         : POSIXct[1:96], format: "2024-07-11 22:00:00" "2024-07-11 22:00:00" "2024-07-11 22:00:00" "2024-07-11 22:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_mrid                      : num [1:96] 1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start            : POSIXct[1:96], format: "2024-07-10 22:00:00" "2024-07-10 22:15:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start            : POSIXct[1:96], format: "2024-07-10 22:00:00" "2024-07-10 22:15:00" "2024-07-10 22:30:00" "2024-07-10 22:45:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_quantity            : num [1:96] 0 0 0 0 0 0 0 0 0 0 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_quantity_measure_unit_name: chr [1:96] "MWH" "MWH" "MWH" "MWH" ...</span>
 <span class="r-in"><span></span></span>

@@ -54,10 +54,10 @@ df <- entsoeapi::shares_of_fcr_capacity(
   tidy_output = TRUE
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&businessType=C23&area_Domain=10YDE-VE-------2&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:14:30 GMT
+#> <- date: Thu, 05 Mar 2026 16:13:39 GMT
 #> <- content-type: text/xml
 #> <- content-length: 957
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -71,7 +71,7 @@ df <- entsoeapi::shares_of_fcr_capacity(
 
 str(df)
 #> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:14:30"
+#>  $ created_date_time: POSIXct[1:1], format: "2026-03-05 16:13:39"
 #>  $ reason_code      : chr "999"
 #>  $ reason_text      : chr "No matching data found for Data item SHARE_OF_CAPACITY_R3 [SO GL 187.2] (10YDE-VE-------2) and interval 2021-12"| __truncated__
 ```

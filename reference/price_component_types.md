@@ -1,6 +1,7 @@
-# List Price Component Types
+# List price component types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Price Component Types
+List price component types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::price_component_types)
-#> Classes ‘data.table’ and 'data.frame':   3 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03"
-#>  $ title      : chr  "Scarcity" "Incentive" "Financial neutrality"
-#>  $ description: chr  "A scarcity component to be used in nationally defined scarcity situations." "An incentive component to be used to fulfil nationally defined boundary conditions." "A component related to the financial neutrality of the connecting TSO."
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::price_component_types)
+#> Rows: 3
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03"
+#> $ title       <chr> "Scarcity", "Incentive", "Financial neutrality"
+#> $ description <chr> "A scarcity component to be used in nationally defined scarcity situations.", "An incentive compon…
 ```

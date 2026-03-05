@@ -1,6 +1,7 @@
-# List Timeframe Types
+# List timeframe types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Timeframe Types
+List timeframe types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::timeframe_types)
-#> Classes ‘data.table’ and 'data.frame':   46 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04" ...
-#>  $ title      : chr  "Real time" "Intraday" "Hour-1" "Hour-2" ...
-#>  $ description: chr  "The information provided concerns real time timeframe." "The information provided concerns an intra day timeframe." "The information provided concerns 1 hour ahead for given delivery hour." "The information provided concerns 2 hours ahead for given delivery hour." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::timeframe_types)
+#> Rows: 46
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", …
+#> $ title       <chr> "Real time", "Intraday", "Hour-1", "Hour-2", "Hour-3", "Hour-4", "Hour-5", "Hour-6", "Hour-7", "Ho…
+#> $ description <chr> "The information provided concerns real time timeframe.", "The information provided concerns an in…
 ```

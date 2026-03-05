@@ -1,6 +1,7 @@
-# List Coding Scheme Types
+# List coding scheme types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Coding Scheme Types
+List coding scheme types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::coding_scheme_types)
-#> Classes ‘data.table’ and 'data.frame':   51 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A10" ...
-#>  $ title      : chr  "EIC" "CGM" "ISO" "Coding scheme which are part of GS1 system" ...
-#>  $ description: chr  "The coding scheme is the Energy Identification Coding Scheme (EIC), maintained by ENTSO-E." "The coding scheme used for Common Grid Model Exchange Standard (CGMES)." "The coding scheme for the preceding attribute is a code maintained by International Organization for Standardiz"| __truncated__ "The coding schemes maintained by GS1." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::coding_scheme_types)
+#> Rows: 51
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A10", "NAD", "NAL", "NAM", "NAT", "NAZ", "NBA", "NBE", "NBG", "NCH", "NCS", …
+#> $ title       <chr> "EIC", "CGM", "ISO", "Coding scheme which are part of GS1 system", "Andorra National coding scheme…
+#> $ description <chr> "The coding scheme is the Energy Identification Coding Scheme (EIC), maintained by ENTSO-E.", "The…
 ```

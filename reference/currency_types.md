@@ -1,6 +1,7 @@
-# List Currency Types
+# List currency types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Currency Types
+List currency types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::currency_types)
-#> Classes ‘data.table’ and 'data.frame':   23 obs. of  3 variables:
-#>  $ code       : chr  "BAM" "BGN" "CHF" "CZK" ...
-#>  $ title      : chr  "Bosnian convertible marka" "Bulgarian lev" "Swiss Franc" "Czech Koruna" ...
-#>  $ description: chr  "The Legal tender of Bosnia and Herzegovina." "The Legal tender of Bulgaria." "The Legal tender of Switzerland." "The legal tender of the Czech Republic." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::currency_types)
+#> Rows: 23
+#> Columns: 3
+#> $ code        <chr> "BAM", "BGN", "CHF", "CZK", "DKK", "EUR", "GBP", "HRK", "HUF", "ISK", "LEK", "LTL", "MKD", "NOK", …
+#> $ title       <chr> "Bosnian convertible marka", "Bulgarian lev", "Swiss Franc", "Czech Koruna", "Danish Kroner ", "EU…
+#> $ description <chr> "The Legal tender of Bosnia and Herzegovina.", "The Legal tender of Bulgaria.", "The Legal tender …
 ```

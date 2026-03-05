@@ -18,6 +18,7 @@
 <url><loc>https://krose.github.io/entsoeapi/reference/already_allocated_total_capacity.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/analog_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/area_eic.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/reference/area_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/asset_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/auction_revenue.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/auction_types.html</loc></url>
@@ -29,6 +30,7 @@
 <url><loc>https://krose.github.io/entsoeapi/reference/classification_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/coding_scheme_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/congestion_income.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/reference/connection_category_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacity.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/contract_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/contracted_reserves.html</loc></url>
@@ -39,6 +41,7 @@
 <url><loc>https://krose.github.io/entsoeapi/reference/currency_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/current_balancing_state.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/curve_types.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/reference/customer_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/day_ahead_prices.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/direction_types.html</loc></url>
@@ -112,6 +115,7 @@
 <url><loc>https://krose.github.io/entsoeapi/reference/shares_of_fcr_capacity.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/sharing_of_frr_capacity.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/status_types.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/reference/sub_area_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/substation_eic.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/tariff_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/tie_line_eic.html</loc></url>

@@ -52,10 +52,10 @@ df <- entsoeapi::load_year_ahead_total_forecast(
   tidy_output = TRUE
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201910312300&periodEnd=201911292300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:13:47 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:59 GMT
 #> <- content-type: text/xml
 #> <- content-length: 962
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -69,7 +69,7 @@ df <- entsoeapi::load_year_ahead_total_forecast(
 
 str(df)
 #> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:13:47"
+#>  $ created_date_time: POSIXct[1:1], format: "2026-03-05 16:12:59"
 #>  $ reason_code      : chr "999"
 #>  $ reason_text      : chr "No matching data found for Data item TOTAL_LOAD_FORECAST [6.1.C&D&E] (10Y1001A1001A82H) and interval 2019-10-31"| __truncated__
 ```

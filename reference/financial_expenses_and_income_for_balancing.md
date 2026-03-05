@@ -47,19 +47,19 @@ df <- entsoeapi::financial_expenses_and_income_for_balancing(
   tidy_output = TRUE
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A87&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:13:18 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:28 GMT
 #> <- content-type: application/zip
-#> <- content-length: 889
+#> <- content-length: 888
 #> <- content-disposition: attachment; filename="Financial_expenses_and_income_for_balancing_202112312300-202201012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpSo3AKG/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202112312300-202201312300.xml has been read in
+#> ✔ /tmp/RtmpksiKAO/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202112312300-202201312300.xml has been read in
 
 str(df)
 #> tibble [2 × 18] (S3: tbl_df/tbl/data.frame)
@@ -73,7 +73,7 @@ str(df)
 #>  $ process_type_def        : chr [1:2] "Realised" "Realised"
 #>  $ ts_business_type        : chr [1:2] "A99" "A99"
 #>  $ ts_business_type_def    : chr [1:2] "Financial information" "Financial information"
-#>  $ created_date_time       : POSIXct[1:2], format: "2026-03-04 22:13:18" "2026-03-04 22:13:18"
+#>  $ created_date_time       : POSIXct[1:2], format: "2026-03-05 16:12:28" "2026-03-05 16:12:28"
 #>  $ revision_number         : num [1:2] 1 1
 #>  $ ts_resolution           : chr [1:2] "P1M" "P1M"
 #>  $ ts_time_interval_start  : POSIXct[1:2], format: "2021-12-31 23:00:00" "2021-12-31 23:00:00"

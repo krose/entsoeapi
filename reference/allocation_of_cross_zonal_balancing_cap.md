@@ -58,10 +58,10 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
   tidy_output = TRUE
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A38&processType=A46&Acquiring_Domain=10YAT-APG------L&Connecting_Domain=10YCH-SWISSGRIDZ&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:39 GMT
+#> <- date: Thu, 05 Mar 2026 16:11:47 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1001
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -75,7 +75,7 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 
 str(df)
 #> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:12:39"
+#>  $ created_date_time: POSIXct[1:1], format: "2026-03-05 16:11:47"
 #>  $ reason_code      : chr "999"
 #>  $ reason_text      : chr "No matching data found for Data item ALLOCATION_AND_USE_CROSS_ZONAL_CAPACITY [GL EB 12.3.H&I] (10YAT-APG------L"| __truncated__
 ```

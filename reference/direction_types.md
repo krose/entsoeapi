@@ -1,6 +1,7 @@
-# List Direction Types
+# List direction types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Direction Types
+List direction types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::direction_types)
-#> Classes ‘data.table’ and 'data.frame':   4 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04"
-#>  $ title      : chr  "UP" "DOWN" "UP and DOWN" "Stable"
-#>  $ description: chr  "Up signifies that the available power can be used by the Purchasing area to increase energy." "Down signifies that the available power can be used by the Purchasing area to decrease energy." "Up and Down signifies that the UP and Down values are equal." "The direction at a given instant in time is considered to be stable."
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::direction_types)
+#> Rows: 4
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04"
+#> $ title       <chr> "UP", "DOWN", "UP and DOWN", "Stable"
+#> $ description <chr> "Up signifies that the available power can be used by the Purchasing area to increase energy.", "D…
 ```

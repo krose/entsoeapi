@@ -21,7 +21,7 @@ the power absorbed by energy storage resources
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,10 +106,10 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A65&amp;processType=A32&amp;outBiddingZone_Domain=10Y1001A1001A82H&amp;periodStart=201910312300&amp;periodEnd=201911292300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 04 Mar 2026 22:13:45 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:12:57 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Total Load Forecast 201910312300-201911292300.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -132,15 +132,15 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_object_aggregation_def      : chr [1:8] "Area" "Area" "Area" "Area" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type               : chr [1:8] "A60" "A60" "A60" "A60" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type_def           : chr [1:8] "Minimum possible" "Minimum possible" "Minimum possible" "Minimum possible" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time              : POSIXct[1:8], format: "2026-03-04 22:13:45" "2026-03-04 22:13:45" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time              : POSIXct[1:8], format: "2026-03-05 16:12:57" "2026-03-05 16:12:57" "2026-03-05 16:12:57" "2026-03-05 16:12:57" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ revision_number                : num [1:8] 1 1 1 1 1 1 1 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ time_period_time_interval_start: POSIXct[1:8], format: "2019-11-03 23:00:00" "2019-11-03 23:00:00" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ time_period_time_interval_end  : POSIXct[1:8], format: "2019-12-01 23:00:00" "2019-12-01 23:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ time_period_time_interval_start: POSIXct[1:8], format: "2019-11-03 23:00:00" "2019-11-03 23:00:00" "2019-11-03 23:00:00" "2019-11-03 23:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ time_period_time_interval_end  : POSIXct[1:8], format: "2019-12-01 23:00:00" "2019-12-01 23:00:00" "2019-12-01 23:00:00" "2019-12-01 23:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_resolution                  : chr [1:8] "P7D" "P7D" "P7D" "P7D" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start         : POSIXct[1:8], format: "2019-11-03 23:00:00" "2019-11-03 23:00:00" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end           : POSIXct[1:8], format: "2019-12-01 23:00:00" "2019-12-01 23:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start         : POSIXct[1:8], format: "2019-11-03 23:00:00" "2019-11-03 23:00:00" "2019-11-03 23:00:00" "2019-11-03 23:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end           : POSIXct[1:8], format: "2019-12-01 23:00:00" "2019-12-01 23:00:00" "2019-12-01 23:00:00" "2019-12-01 23:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_mrid                        : num [1:8] 1 1 1 1 2 2 2 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start              : POSIXct[1:8], format: "2019-11-03 23:00:00" "2019-11-10 23:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start              : POSIXct[1:8], format: "2019-11-03 23:00:00" "2019-11-10 23:00:00" "2019-11-17 23:00:00" "2019-11-24 23:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_quantity              : num [1:8] 39637 41090 41767 42639 70446 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_quantity_measure_unit_name  : chr [1:8] "MAW" "MAW" "MAW" "MAW" ...</span>
 <span class="r-in"><span></span></span>

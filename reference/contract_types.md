@@ -1,6 +1,7 @@
-# List Contract Types
+# List contract types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Contract Types
+List contract types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::contract_types)
-#> Classes ‘data.table’ and 'data.frame':   16 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04" ...
-#>  $ title      : chr  "Daily contract" "Weekly contract" "Monthly contract" "Yearly contract" ...
-#>  $ description: chr  "The condition under which capacity is allocated and handled is by daily auction or a daily transmission allocation procedure." "The condition under which capacity is allocated and handled is by weekly auction or a weekly transmission alloc"| __truncated__ "The condition under which capacity is allocated and handled is by monthly auction or a monthly transmission all"| __truncated__ "The condition under which capacity is allocated and handled is by yearly auction or a yearly transmission alloc"| __truncated__ ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::contract_types)
+#> Rows: 16
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", …
+#> $ title       <chr> "Daily contract", "Weekly contract", "Monthly contract", "Yearly contract", "Total contract", "Lon…
+#> $ description <chr> "The condition under which capacity is allocated and handled is by daily auction or a daily transm…
 ```

@@ -44,10 +44,10 @@ df <- entsoeapi::gen_installed_capacity_per_pt(
   year = 2020
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A68&processType=A33&in_Domain=10YFR-RTE------C&psrType=B05&periodStart=202001010000&periodEnd=202101010000&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:13:25 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:35 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1692
 #> <- content-disposition: inline; filename="Installed Generation Capacity Aggregated_202001010000-202101010000.xml"
@@ -70,7 +70,7 @@ str(df)
 #>  $ ts_business_type_def           : chr "Installed generation"
 #>  $ ts_mkt_psr_type                : chr "B05"
 #>  $ ts_mkt_psr_type_def            : chr "Fossil Hard coal"
-#>  $ created_date_time              : POSIXct[1:1], format: "2026-03-04 22:13:25"
+#>  $ created_date_time              : POSIXct[1:1], format: "2026-03-05 16:12:35"
 #>  $ revision_number                : num 1
 #>  $ time_period_time_interval_start: POSIXct[1:1], format: "2019-12-31 23:00:00"
 #>  $ time_period_time_interval_end  : POSIXct[1:1], format: "2020-12-31 23:00:00"

@@ -52,10 +52,10 @@ df <- entsoeapi::elastic_demands(
   tidy_output = TRUE
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&securityToken=<...>
 #> <- HTTP/2 400 
-#> <- date: Wed, 04 Mar 2026 22:12:53 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:04 GMT
 #> <- content-type: text/xml
 #> <- content-length: 905
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -65,10 +65,10 @@ df <- entsoeapi::elastic_demands(
 #> <- 
 #> ℹ *** The request has been rephrased. ***
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=0&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:53 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:04 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202401090930-202403141000.xml"
 #> <- x-content-type-options: nosniff
@@ -79,10 +79,10 @@ df <- entsoeapi::elastic_demands(
 #> <- 
 #> ✔ response has arrived
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=100&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:54 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:04 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403150500-202403300815.xml"
 #> <- x-content-type-options: nosniff
@@ -93,10 +93,10 @@ df <- entsoeapi::elastic_demands(
 #> <- 
 #> ✔ response has arrived
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:54 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:05 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403300815-202404300500.xml"
 #> <- x-content-type-options: nosniff
@@ -107,10 +107,10 @@ df <- entsoeapi::elastic_demands(
 #> <- 
 #> ✔ response has arrived
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:54 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:05 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405021230-202405310445.xml"
 #> <- x-content-type-options: nosniff
@@ -121,10 +121,10 @@ df <- entsoeapi::elastic_demands(
 #> <- 
 #> ✔ response has arrived
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=400&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:54 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:05 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405310445-202406270400.xml"
 #> <- x-content-type-options: nosniff
@@ -135,10 +135,10 @@ df <- entsoeapi::elastic_demands(
 #> <- 
 #> ✔ response has arrived
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=500&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:54 GMT
+#> <- date: Thu, 05 Mar 2026 16:12:05 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202406270400-202410220545.xml"
 #> <- x-content-type-options: nosniff
@@ -152,13 +152,13 @@ df <- entsoeapi::elastic_demands(
 #> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
 #> ℹ No additional definitions added!
 #> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
-#> processing xml list ■■■■■■■■■■■■■■■■                  50% | ETA:  2s
 #> ℹ No additional definitions added!
-#> processing xml list ■■■■■■■■■■■■■■■■                  50% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
 #> ℹ No additional definitions added!
-#> processing xml list ■■■■■■■■■■■■■■■■                  50% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  1s
 #> ℹ No additional definitions added!
-#> processing xml list ■■■■■■■■■■■■■■■■                  50% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  1s
 #> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 #> ℹ No additional definitions added!
 
@@ -180,14 +180,14 @@ str(df)
 #>  $ process_type_def                               : chr [1:585] "Manual frequency restoration reserve" "Manual frequency restoration reserve" "Manual frequency restoration reserve" "Manual frequency restoration reserve" ...
 #>  $ bid_ts_flow_direction                          : chr [1:585] "A01" "A01" "A01" "A01" ...
 #>  $ bid_ts_flow_direction_def                      : chr [1:585] "UP" "UP" "UP" "UP" ...
-#>  $ created_date_time                              : POSIXct[1:585], format: "2026-03-04 22:12:53" "2026-03-04 22:12:53" ...
+#>  $ created_date_time                              : POSIXct[1:585], format: "2026-03-05 16:12:04" "2026-03-05 16:12:04" "2026-03-05 16:12:04" "2026-03-05 16:12:04" ...
 #>  $ revision_number                                : num [1:585] 1 1 1 1 1 1 1 1 1 1 ...
-#>  $ reserve_bid_period_time_interval_start         : POSIXct[1:585], format: "2024-01-09 09:30:00" "2024-01-09 09:30:00" ...
-#>  $ reserve_bid_period_time_interval_end           : POSIXct[1:585], format: "2024-03-14 10:00:00" "2024-03-14 10:00:00" ...
+#>  $ reserve_bid_period_time_interval_start         : POSIXct[1:585], format: "2024-01-09 09:30:00" "2024-01-09 09:30:00" "2024-01-09 09:30:00" "2024-01-09 09:30:00" ...
+#>  $ reserve_bid_period_time_interval_end           : POSIXct[1:585], format: "2024-03-14 10:00:00" "2024-03-14 10:00:00" "2024-03-14 10:00:00" "2024-03-14 10:00:00" ...
 #>  $ bid_ts_resolution                              : chr [1:585] "PT15M" "PT15M" "PT15M" "PT15M" ...
-#>  $ bid_ts_time_interval_start                     : POSIXct[1:585], format: "2024-01-09 09:30:00" "2024-01-10 07:45:00" ...
-#>  $ bid_ts_time_interval_end                       : POSIXct[1:585], format: "2024-01-09 09:45:00" "2024-01-10 08:00:00" ...
-#>  $ bid_ts_point_dt_start                          : POSIXct[1:585], format: "2024-01-09 09:30:00" "2024-01-10 07:45:00" ...
+#>  $ bid_ts_time_interval_start                     : POSIXct[1:585], format: "2024-01-09 09:30:00" "2024-01-10 07:45:00" "2024-01-17 06:30:00" "2024-01-17 06:45:00" ...
+#>  $ bid_ts_time_interval_end                       : POSIXct[1:585], format: "2024-01-09 09:45:00" "2024-01-10 08:00:00" "2024-01-17 06:45:00" "2024-01-17 07:00:00" ...
+#>  $ bid_ts_point_dt_start                          : POSIXct[1:585], format: "2024-01-09 09:30:00" "2024-01-10 07:45:00" "2024-01-17 06:30:00" "2024-01-17 06:45:00" ...
 #>  $ bid_ts_point_quantity                          : num [1:585] 85 100 100 100 110 110 200 200 100 50 ...
 #>  $ bid_ts_point_energy_price_amount               : num [1:585] 720 999 1000 1000 1300 1300 1300 1300 1000 450 ...
 #>  $ bid_ts_currency_unit_name                      : chr [1:585] "EUR" "EUR" "EUR" "EUR" ...

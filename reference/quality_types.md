@@ -1,6 +1,7 @@
-# List Quality Types
+# List quality types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Quality Types
+List quality types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::quality_types)
-#> Classes ‘data.table’ and 'data.frame':   7 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04" ...
-#>  $ title      : chr  "Adjusted" "Not available" "Estimated" "As provided" ...
-#>  $ description: chr  "The contents of the object have been adjusted." "The contents of the object are not available." "The contents of the object are estimated. The code is typically used when measured values are missing and an es"| __truncated__ "The contents of the object are as provided." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::quality_types)
+#> Rows: 7
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04", "A05", "A06", "A07"
+#> $ title       <chr> "Adjusted", "Not available", "Estimated", "As provided", "Incomplete", "Calculated", "Temporary"
+#> $ description <chr> "The contents of the object have been adjusted.", "The contents of the object are not available.",…
 ```

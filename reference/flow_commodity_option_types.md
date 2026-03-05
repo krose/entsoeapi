@@ -1,6 +1,7 @@
-# List Flow Commodity Types
+# List flow commodity types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Flow Commodity Types
+List flow commodity types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::flow_commodity_option_types)
-#> Classes ‘data.table’ and 'data.frame':   4 obs. of  3 variables:
-#>  $ code       : chr  "E17" "E18" "E19" "E20"
-#>  $ title      : chr  "Consumption" "Production" "Combined" "Exchange"
-#>  $ description: chr  "The coded identification of the type of entity, e.g. consumption metering point." "The coded identification of the type of entity, e.g. production metering point." "The coded identification of the type of entity, e.g. combined consumption and production metering point." "The coded identification of the type of entity, e.g. exchange metering point."
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::flow_commodity_option_types)
+#> Rows: 4
+#> Columns: 3
+#> $ code        <chr> "E17", "E18", "E19", "E20"
+#> $ title       <chr> "Consumption", "Production", "Combined", "Exchange"
+#> $ description <chr> "The coded identification of the type of entity, e.g. consumption metering point.", "The coded ide…
 ```

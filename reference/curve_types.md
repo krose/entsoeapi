@@ -1,6 +1,7 @@
-# List Curve Types
+# List curve types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Curve Types
+List curve types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::curve_types)
-#> Classes ‘data.table’ and 'data.frame':   5 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04" ...
-#>  $ title      : chr  "Sequential fixed size block" "Point" "Variable sized Block" "Overlapping breakpoint" ...
-#>  $ description: chr  "The curve is made of successive Intervals of time (Blocks) of constant duration (size), where the size of the B"| __truncated__ "The curve is made of successive instants of time (Points)." "The curve is made of successive Intervals of time (Blocks) of variable duration (size), where the end date and "| __truncated__ "The curve is made of successive Intervals of time of variable duration (size), where the end date and end time "| __truncated__ ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::curve_types)
+#> Rows: 5
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04", "A05"
+#> $ title       <chr> "Sequential fixed size block", "Point", "Variable sized Block", "Overlapping breakpoint", "Non-ove…
+#> $ description <chr> "The curve is made of successive Intervals of time (Blocks) of constant duration (size), where the…
 ```

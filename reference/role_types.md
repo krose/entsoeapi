@@ -1,6 +1,7 @@
-# List Role Types
+# List role types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Role Types
+List role types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::role_types)
-#> Classes ‘data.table’ and 'data.frame':   59 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03" "A04" ...
-#>  $ title      : chr  "Trade responsible party" "Consumption responsible party" "Combined power exchange (not to be used)" "System operator" ...
-#>  $ description: chr  "Refer to role model definitions in the ENTSO-E Harmonised Role Model Document." "Refer to role model definitions in the ENTSO-E Harmonised Role Model Document." "This role is no longer in the ENTSO-E Harmonised Role Model Document." "Refer to role model definitions in the ENTSO-E Harmonised Role Model Document." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::role_types)
+#> Rows: 59
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12", "A13", "A14", …
+#> $ title       <chr> "Trade responsible party", "Consumption responsible party", "Combined power exchange (not to be us…
+#> $ description <chr> "Refer to role model definitions in the ENTSO-E Harmonised Role Model Document.", "Refer to role m…
 ```

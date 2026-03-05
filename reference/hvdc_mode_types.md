@@ -1,6 +1,7 @@
-# List HVDC Mode Types
+# List HVDC mode types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List HVDC Mode Types
+List HVDC mode types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::hvdc_mode_types)
-#> Classes ‘data.table’ and 'data.frame':   3 obs. of  3 variables:
-#>  $ code       : chr  "A01" "A02" "A03"
-#>  $ title      : chr  "Setpoint schedule" "Proportional external signal" "AC emulation"
-#>  $ description: chr  "The code for the \"power setpoint\" mode of operation of the HVDC link." "The code for the \"Proportional external signal\" mode of operation of the HVDC link." "The code for the \"AC emulation\" mode of operation of the HVDC link."
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::hvdc_mode_types)
+#> Rows: 3
+#> Columns: 3
+#> $ code        <chr> "A01", "A02", "A03"
+#> $ title       <chr> "Setpoint schedule", "Proportional external signal", "AC emulation"
+#> $ description <chr> "The code for the \"power setpoint\" mode of operation of the HVDC link.", "The code for the \"Pro…
 ```

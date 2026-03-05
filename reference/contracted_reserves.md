@@ -66,10 +66,10 @@ df <- entsoeapi::contracted_reserves(
   tidy_output = TRUE
 )
 #> 
-#> ── API call ────────────────────────────────────────────────────────────────────
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A81&businessType=B95&type_MarketAgreement.Type=A13&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 04 Mar 2026 22:12:45 GMT
+#> <- date: Thu, 05 Mar 2026 16:11:54 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1000
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -83,7 +83,7 @@ df <- entsoeapi::contracted_reserves(
 
 str(df)
 #> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-04 22:12:45"
+#>  $ created_date_time: POSIXct[1:1], format: "2026-03-05 16:11:54"
 #>  $ reason_code      : chr "999"
 #>  $ reason_text      : chr "No matching data found for Data item AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3 [17.1.B&C] "| __truncated__
 ```

@@ -13,13 +13,13 @@ Source:
 
 Rose K, Budai S (2026). *entsoeapi: An R Wrapper for the European
 Network of Transmission System Operators for Electricity Application
-Programming Interface*. R package version 0.9.4.0,
-<https://krose.github.io/entsoeapi>.
+Programming Interface*. R package version 0.9.5.0,
+<https://github.com/krose/entsoeapi/>.
 
     @Manual{,
       title = {entsoeapi: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface},
       author = {Kenneth Rose and Sándor Budai},
       year = {2026},
-      note = {R package version 0.9.4.0},
-      url = {https://krose.github.io/entsoeapi},
+      note = {R package version 0.9.5.0},
+      url = {https://github.com/krose/entsoeapi/},
     }

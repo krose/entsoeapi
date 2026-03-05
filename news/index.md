@@ -1,5 +1,19 @@
 # Changelog
 
+## entsoeapi v0.9.5.0 (2026-03-05)
+
+### New functionality
+
+- new area_types were introduced — 2 codes: A01, A02
+- new sub_area_types were introduced — 7 codes: A01–A07
+- new connection_category_types were introduced — 10 codes: E03–E12
+- new customer_types were introduced — 4 codes: A01–A04
+
+### Miscellaneous
+
+- business_types got new value — C96
+- reason_code_types got new values — B83, B84, B85
+
 ## entsoeapi v0.9.4.0 (2026-03-04)
 
 ### New functionality

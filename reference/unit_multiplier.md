@@ -1,6 +1,7 @@
-# List Unit Multiplier
+# List unit multiplier based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Unit Multiplier
+List unit multiplier based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::unit_multiplier)
-#> Classes ‘data.table’ and 'data.frame':   1 obs. of  3 variables:
-#>  $ code       : chr "1"
-#>  $ title      : chr "none"
-#>  $ description: chr "No multiplier or equivalently multiply by 1."
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::unit_multiplier)
+#> Rows: 1
+#> Columns: 3
+#> $ code        <chr> "1"
+#> $ title       <chr> "none"
+#> $ description <chr> "No multiplier or equivalently multiply by 1."
 ```

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,10 +104,10 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A31&amp;auction.Type=A01&amp;contract_MarketAgreement.Type=A01&amp;in_Domain=10Y1001A1001A82H&amp;out_Domain=10YDK-1--------W&amp;periodStart=202308152200&amp;periodEnd=202308162200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 04 Mar 2026 22:13:41 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:12:53 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="OFFERED_TRANSFER_CAPACITIES_IMPLICIT_202308152200-202308162200.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -133,13 +133,13 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_auction_type_def                  : chr [1:24] "Implicit" "Implicit" "Implicit" "Implicit" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type                     : chr [1:24] "A31" "A31" "A31" "A31" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type_def                 : chr [1:24] "Offered Capacity" "Offered Capacity" "Offered Capacity" "Offered Capacity" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time                    : POSIXct[1:24], format: "2026-03-04 22:13:41" "2026-03-04 22:13:41" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time                    : POSIXct[1:24], format: "2026-03-05 16:12:53" "2026-03-05 16:12:53" "2026-03-05 16:12:53" "2026-03-05 16:12:53" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ revision_number                      : num [1:24] 1 1 1 1 1 1 1 1 1 1 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_resolution                        : chr [1:24] "PT60M" "PT60M" "PT60M" "PT60M" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start               : POSIXct[1:24], format: "2023-08-15 22:00:00" "2023-08-15 22:00:00" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end                 : POSIXct[1:24], format: "2023-08-16 22:00:00" "2023-08-16 22:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_start               : POSIXct[1:24], format: "2023-08-15 22:00:00" "2023-08-15 22:00:00" "2023-08-15 22:00:00" "2023-08-15 22:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_time_interval_end                 : POSIXct[1:24], format: "2023-08-16 22:00:00" "2023-08-16 22:00:00" "2023-08-16 22:00:00" "2023-08-16 22:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_mrid                              : num [1:24] 1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start                    : POSIXct[1:24], format: "2023-08-15 22:00:00" "2023-08-15 23:00:00" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_dt_start                    : POSIXct[1:24], format: "2023-08-15 22:00:00" "2023-08-15 23:00:00" "2023-08-16 00:00:00" "2023-08-16 01:00:00" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_point_quantity                    : num [1:24] 2500 2500 2500 2500 2500 2500 2500 2500 2500 2500 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_quantity_measure_unit_name        : chr [1:24] "MAW" "MAW" "MAW" "MAW" ...</span>
 <span class="r-in"><span></span></span>

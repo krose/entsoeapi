@@ -1,6 +1,7 @@
-# List Unit Symbol Types
+# List unit symbol types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
-List Unit Symbol Types
+List unit symbol types based on
+'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 
 ## Usage
 
@@ -16,10 +17,10 @@ rows and 3 columns.
 ## Examples
 
 ``` r
-str(entsoeapi::unit_symbol_types)
-#> Classes ‘data.table’ and 'data.frame':   11 obs. of  3 variables:
-#>  $ code       : chr  "AMP" "C62" "DD" "GKH" ...
-#>  $ title      : chr  "Ampere" "One" "degree (unit of angle)" "grams per kilowatt hour" ...
-#>  $ description: chr  "The unit of electrical current in the International system of Units (SI) equivalent to one Coulomb per second." "A unit for dimensionless quantities, also called quantities of dimension one." "A unit of measurement of angles expressed in a 0 to 360 degree gradient." "It represents the mass rate of emissions per unit of work accomplished." ...
-#>  - attr(*, ".internal.selfref")=<externalptr> 
+dplyr::glimpse(entsoeapi::unit_symbol_types)
+#> Rows: 11
+#> Columns: 3
+#> $ code        <chr> "AMP", "C62", "DD", "GKH", "HTZ", "KVT", "MAR", "MAW", "MVA", "OHM", "P1"
+#> $ title       <chr> "Ampere", "One", "degree (unit of angle)", "grams per kilowatt hour", "Hertz", "kV", "MVAr", "MW",…
+#> $ description <chr> "The unit of electrical current in the International system of Units (SI) equivalent to one Coulom…
 ```
