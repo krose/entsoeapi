@@ -74,6 +74,6 @@ df <- entsoeapi::outages_transmission_grid(
   period_end_update = lubridate::ymd(x = Sys.Date(), tz = "CET")
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

@@ -51,6 +51,6 @@ df <- entsoeapi::hvdc_link_constrains(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

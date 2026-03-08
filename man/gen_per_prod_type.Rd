@@ -43,6 +43,7 @@ df <- entsoeapi::gen_per_prod_type(
   gen_type     = NULL,
   tidy_output  = TRUE
 )
-str(df)
+
+dplyr::glimpse(df)
 
 }

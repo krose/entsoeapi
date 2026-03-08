@@ -51,7 +51,7 @@ df1 <- entsoeapi::flow_based_allocations(
   tidy_output = TRUE
 )
 
-str(df1)
+dplyr::glimpse(df1)
 
 df2 <- entsoeapi::flow_based_allocations(
   eic = "10YDOM-REGION-1V",
@@ -62,6 +62,6 @@ df2 <- entsoeapi::flow_based_allocations(
   tidy_output = TRUE
 )
 
-str(df2)
+dplyr::glimpse(df2)
 
 }

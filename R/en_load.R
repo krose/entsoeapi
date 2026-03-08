@@ -39,7 +39,7 @@ utils::globalVariables(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 load_actual_total <- function(
   eic = NULL,
@@ -117,7 +117,7 @@ load_actual_total <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 load_day_ahead_total_forecast <- function(
   eic = NULL,
@@ -193,7 +193,7 @@ load_day_ahead_total_forecast <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 load_week_ahead_total_forecast <- function(
   eic = NULL,
@@ -269,7 +269,7 @@ load_week_ahead_total_forecast <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 load_month_ahead_total_forecast <- function( # nolint: object_length_linter
   eic = NULL,
@@ -345,7 +345,7 @@ load_month_ahead_total_forecast <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 load_year_ahead_total_forecast <- function(
   eic = NULL,
@@ -419,7 +419,7 @@ load_year_ahead_total_forecast <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 load_year_ahead_forecast_margin <- function( # nolint: object_length_linter
   eic = NULL,

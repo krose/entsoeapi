@@ -22,6 +22,6 @@ It covers market participants.
 \examples{
 eic_party <- entsoeapi::party_eic()
 
-str(eic_party)
+dplyr::glimpse(eic_party)
 
 }

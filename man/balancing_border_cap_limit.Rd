@@ -50,6 +50,6 @@ df <- entsoeapi::balancing_border_cap_limit(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

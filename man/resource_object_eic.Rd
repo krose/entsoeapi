@@ -23,6 +23,6 @@ and that is reported in a schedule.
 \examples{
 eic_resource_object <- entsoeapi::resource_object_eic()
 
-str(eic_resource_object)
+dplyr::glimpse(eic_resource_object)
 
 }

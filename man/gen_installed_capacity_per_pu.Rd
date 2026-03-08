@@ -33,6 +33,7 @@ df <- entsoeapi::gen_installed_capacity_per_pu(
   year     = 2020,
   psr_type = "B05"
 )
-str(df)
+
+dplyr::glimpse(df)
 
 }

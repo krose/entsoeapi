@@ -46,6 +46,6 @@ df <- entsoeapi::aggregated_balancing_energy_bids(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

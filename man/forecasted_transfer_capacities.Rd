@@ -40,7 +40,7 @@ df1 <- entsoeapi::forecasted_transfer_capacities(
   tidy_output = TRUE
 )
 
-str(df1)
+dplyr::glimpse(df1)
 
 df2 <- entsoeapi::forecasted_transfer_capacities(
   eic_in = "10YDK-1--------W",
@@ -50,6 +50,6 @@ df2 <- entsoeapi::forecasted_transfer_capacities(
   tidy_output = TRUE
 )
 
-str(df2)
+dplyr::glimpse(df2)
 
 }

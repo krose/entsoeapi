@@ -47,6 +47,6 @@ df <- entsoeapi::load_day_ahead_total_forecast(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

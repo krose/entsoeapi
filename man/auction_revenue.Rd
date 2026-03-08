@@ -56,6 +56,6 @@ df <- entsoeapi::auction_revenue(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

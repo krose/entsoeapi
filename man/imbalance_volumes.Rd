@@ -37,6 +37,6 @@ df <- entsoeapi::imbalance_volumes(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

@@ -43,6 +43,6 @@ df <- entsoeapi::activated_balancing_prices(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

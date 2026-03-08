@@ -28,6 +28,6 @@ armoured substation and underground substation.
 \examples{
 eic_substation <- entsoeapi::substation_eic()
 
-str(eic_substation)
+dplyr::glimpse(eic_substation)
 
 }

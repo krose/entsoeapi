@@ -23,6 +23,6 @@ excluding HVDC interconnectors.
 \examples{
 eic_tie_line <- entsoeapi::tie_line_eic()
 
-str(eic_tie_line)
+dplyr::glimpse(eic_tie_line)
 
 }

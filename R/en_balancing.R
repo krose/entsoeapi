@@ -35,7 +35,7 @@ utils::globalVariables(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 elastic_demands <- function(
   eic = NULL,
@@ -113,7 +113,7 @@ elastic_demands <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 netted_volumes <- function(
   eic = NULL,
@@ -196,7 +196,8 @@ netted_volumes <- function(
 #'   period_end = lubridate::ymd(x = "2022-08-17", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
-#' str(df1)
+#'
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::exchanged_volumes(
 #'   eic = "10YCZ-CEPS-----N",
@@ -206,7 +207,7 @@ netted_volumes <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df2)
+#' dplyr::glimpse(df2)
 #'
 exchanged_volumes <- function(
   eic = NULL,
@@ -290,7 +291,7 @@ exchanged_volumes <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 balancing_border_cap_limit <- function(
   eic_in = NULL,
@@ -375,7 +376,7 @@ balancing_border_cap_limit <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 exchanged_volumes_per_border <- function(
   acquiring_eic = NULL,
@@ -460,7 +461,7 @@ exchanged_volumes_per_border <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 hvdc_link_constrains <- function(
   eic_in = NULL,
@@ -551,7 +552,7 @@ hvdc_link_constrains <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 changes_to_bid_availability <- function(
   eic = NULL,
@@ -629,7 +630,7 @@ changes_to_bid_availability <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 current_balancing_state <- function(
   eic = NULL,
@@ -701,7 +702,7 @@ current_balancing_state <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 balancing_energy_bids <- function(
   eic = NULL,
@@ -777,7 +778,7 @@ balancing_energy_bids <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 aggregated_balancing_energy_bids <- function( # nolint: object_length_linter
   eic = NULL,
@@ -858,7 +859,7 @@ aggregated_balancing_energy_bids <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 procured_balancing_capacity <- function(
   eic = NULL,
@@ -938,7 +939,7 @@ procured_balancing_capacity <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 allocation_of_cross_zonal_balancing_cap <- function( # nolint: object_length_linter
   eic_acquiring = NULL,
@@ -1037,7 +1038,7 @@ allocation_of_cross_zonal_balancing_cap <- function( # nolint: object_length_lin
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 contracted_reserves <- function(
   eic = NULL,
@@ -1119,7 +1120,7 @@ contracted_reserves <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 activated_balancing_prices <- function(
   eic = NULL,
@@ -1198,7 +1199,7 @@ activated_balancing_prices <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 imbalance_prices <- function(
   eic = NULL,
@@ -1269,7 +1270,7 @@ imbalance_prices <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 imbalance_volumes <- function(
   eic = NULL,
@@ -1340,7 +1341,7 @@ imbalance_volumes <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 financial_expenses_and_income_for_balancing <- function( # nolint: object_length_linter
   eic = NULL,
@@ -1411,7 +1412,7 @@ financial_expenses_and_income_for_balancing <- function( # nolint: object_length
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 fcr_total_capacity <- function(
   eic = NULL,
@@ -1487,7 +1488,7 @@ fcr_total_capacity <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 shares_of_fcr_capacity <- function(
   eic = NULL,
@@ -1568,7 +1569,7 @@ shares_of_fcr_capacity <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 rr_and_frr_actual_capacity <- function(
   eic = NULL,
@@ -1638,7 +1639,7 @@ rr_and_frr_actual_capacity <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 rr_actual_capacity <- function(
   eic = NULL,
@@ -1713,7 +1714,7 @@ rr_actual_capacity <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #' }
 #'
 sharing_of_frr_capacity <- function(

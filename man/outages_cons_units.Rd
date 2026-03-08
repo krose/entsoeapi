@@ -65,6 +65,6 @@ df <- entsoeapi::outages_cons_units(
   period_end = lubridate::ymd(x = "2024-04-11", tz = "CET")
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

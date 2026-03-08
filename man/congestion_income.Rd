@@ -52,6 +52,6 @@ df <- entsoeapi::congestion_income(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

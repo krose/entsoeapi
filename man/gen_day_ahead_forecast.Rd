@@ -38,6 +38,7 @@ df <- entsoeapi::gen_day_ahead_forecast(
   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
   tidy_output  = TRUE
 )
-str(df)
+
+dplyr::glimpse(df)
 
 }

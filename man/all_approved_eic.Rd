@@ -23,6 +23,6 @@ https://www.entsoe.eu/data/energy-identification-codes-eic/#eic-documentation
 \examples{
 eic_all <- entsoeapi::all_approved_eic()
 
-str(eic_all)
+dplyr::glimpse(eic_all)
 
 }

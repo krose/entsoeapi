@@ -68,6 +68,6 @@ df <- entsoeapi::allocated_transfer_capacities_3rd_countries(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

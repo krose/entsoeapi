@@ -56,6 +56,6 @@ df <- entsoeapi::explicit_offered_transfer_capacity(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

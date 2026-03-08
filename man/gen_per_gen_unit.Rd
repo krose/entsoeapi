@@ -42,6 +42,7 @@ df <- entsoeapi::gen_per_gen_unit(
   gen_type     = c("B04", "B05"),
   tidy_output  = TRUE
 )
-str(df)
+
+dplyr::glimpse(df)
 
 }

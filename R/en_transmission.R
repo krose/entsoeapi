@@ -49,7 +49,7 @@ utils::globalVariables(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 expansion_and_dismantling_project <- function( # nolint: object_length_linter
   eic_in = NULL,
@@ -135,7 +135,7 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 intraday_cross_border_transfer_limits <- function( # nolint: object_length_linter
   eic_in = NULL,
@@ -208,7 +208,7 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df1)
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::forecasted_transfer_capacities(
 #'   eic_in = "10YDK-1--------W",
@@ -218,7 +218,7 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df2)
+#' dplyr::glimpse(df2)
 #'
 forecasted_transfer_capacities <- function(
   eic_in = NULL,
@@ -292,7 +292,7 @@ forecasted_transfer_capacities <- function(
 #'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
-#' str(df1)
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::day_ahead_commercial_sched(
 #'   eic_in = "10YDK-1--------W",
@@ -301,7 +301,7 @@ forecasted_transfer_capacities <- function(
 #'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
-#' str(df2)
+#' dplyr::glimpse(df2)
 #'
 day_ahead_commercial_sched <- function(
   eic_in = NULL,
@@ -376,7 +376,8 @@ day_ahead_commercial_sched <- function(
 #'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
-#' str(df1)
+#'
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::total_commercial_sched(
 #'   eic_in = "10YDK-1--------W",
@@ -385,7 +386,8 @@ day_ahead_commercial_sched <- function(
 #'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
-#' str(df2)
+#'
+#' dplyr::glimpse(df2)
 #'
 total_commercial_sched <- function(
   eic_in = NULL,
@@ -459,7 +461,7 @@ total_commercial_sched <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df1)
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::cross_border_physical_flows(
 #'   eic_in = "10YCZ-CEPS-----N",
@@ -469,7 +471,7 @@ total_commercial_sched <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df2)
+#' dplyr::glimpse(df2)
 #'
 cross_border_physical_flows <- function(
   eic_in = NULL,
@@ -543,7 +545,7 @@ cross_border_physical_flows <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 redispatching_cross_border <- function(
   eic_in = NULL,
@@ -611,7 +613,7 @@ redispatching_cross_border <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 redispatching_internal <- function(
   eic = NULL,
@@ -681,7 +683,7 @@ redispatching_internal <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 countertrading <- function(
   eic_in = NULL,
@@ -754,7 +756,7 @@ countertrading <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 costs_of_congestion_management <- function(
   eic = NULL,

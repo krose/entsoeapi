@@ -26,7 +26,7 @@ library(cli)
 library(ggplot2)
 ```
 
-#### Look for the Polish market EIC and set the start and the end of scope dates
+### Look for the Polish market EIC and set the start and the end of scope dates
 
 ```{r preset constants}
 pl_eic <- all_approved_eic() |>
@@ -42,7 +42,7 @@ cli_inform("from: {from_ts}")
 cli_inform("till: {till_ts}")
 ```
 
-#### Query the Polish DA prices within the pre-set period
+### Query the Polish DA prices within the pre-set period
 
 ```{r query da prices}
 da_prices <- entsoeapi::day_ahead_prices(
@@ -54,7 +54,7 @@ da_prices <- entsoeapi::day_ahead_prices(
 glimpse(da_prices)
 ```
 
-#### Calculate the daily minimum and maximum prices and the spread
+### Calculate the daily minimum and maximum prices and the spread
 
 ```{r calculate the daily spreads}
 da_spreads <- da_prices |>
@@ -75,7 +75,7 @@ da_spreads <- da_prices |>
   unique()
 ```
 
-#### Plot the daily minimum and maximum prices and the spread
+### Plot the daily minimum and maximum prices and the spread
 
 ```{r plot the daily spreads}
 ggplot(data = da_spreads) +
@@ -103,7 +103,7 @@ ggplot(data = da_spreads) +
   ) +
   theme_minimal() +
   labs(
-    title = "Polish Daily Spread of Day-Ahead prices",
+    title = "Polish Daily Spread of Day-Ahead Prices",
     subtitle = paste("PT15M,", from_ts, till_ts),
     x = "delivery date",
     y = "day-ahead price spread"

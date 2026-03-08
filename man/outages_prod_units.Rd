@@ -64,6 +64,6 @@ df <- entsoeapi::outages_prod_units(
   )
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

@@ -37,7 +37,7 @@ df1 <- entsoeapi::day_ahead_prices(
   tidy_output = TRUE
 )
 
-str(df1)
+dplyr::glimpse(df1)
 
 df2 <- entsoeapi::day_ahead_prices(
   eic = "10Y1001A1001A82H",
@@ -45,6 +45,6 @@ df2 <- entsoeapi::day_ahead_prices(
   period_end = lubridate::ymd(x = "2026-02-13", tz = "CET"),
   tidy_output = TRUE
 )
-str(df2)
+dplyr::glimpse(df2)
 
 }

@@ -37,6 +37,6 @@ df <- entsoeapi::financial_expenses_and_income_for_balancing(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

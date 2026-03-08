@@ -23,6 +23,6 @@ can take place and for which commercial business processes are defined.
 \examples{
 eic_accounting_point <- entsoeapi::accounting_point_eic()
 
-str(eic_accounting_point)
+dplyr::glimpse(eic_accounting_point)
 
 }

@@ -45,6 +45,6 @@ df <- entsoeapi::load_actual_total(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

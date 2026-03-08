@@ -45,6 +45,6 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

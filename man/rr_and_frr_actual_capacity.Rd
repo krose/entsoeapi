@@ -48,6 +48,6 @@ df <- entsoeapi::rr_and_frr_actual_capacity(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

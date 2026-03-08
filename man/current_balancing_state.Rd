@@ -37,6 +37,6 @@ df <- entsoeapi::current_balancing_state(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

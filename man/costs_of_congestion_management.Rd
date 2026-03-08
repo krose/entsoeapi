@@ -45,6 +45,6 @@ df <- entsoeapi::costs_of_congestion_management(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }
