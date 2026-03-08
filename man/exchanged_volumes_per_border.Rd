@@ -48,6 +48,6 @@ df <- entsoeapi::exchanged_volumes_per_border(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

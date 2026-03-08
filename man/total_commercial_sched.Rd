@@ -41,7 +41,8 @@ df1 <- entsoeapi::total_commercial_sched(
   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
   tidy_output = TRUE
 )
-str(df1)
+
+dplyr::glimpse(df1)
 
 df2 <- entsoeapi::total_commercial_sched(
   eic_in = "10YDK-1--------W",
@@ -50,6 +51,7 @@ df2 <- entsoeapi::total_commercial_sched(
   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
   tidy_output = TRUE
 )
-str(df2)
+
+dplyr::glimpse(df2)
 
 }

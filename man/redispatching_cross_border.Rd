@@ -42,6 +42,6 @@ df <- entsoeapi::redispatching_cross_border(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

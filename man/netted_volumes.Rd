@@ -40,6 +40,6 @@ df <- entsoeapi::netted_volumes(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

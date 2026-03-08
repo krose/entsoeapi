@@ -58,6 +58,6 @@ df <- entsoeapi::contracted_reserves(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

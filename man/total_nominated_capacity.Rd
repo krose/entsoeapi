@@ -43,6 +43,6 @@ df <- entsoeapi::total_nominated_capacity(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

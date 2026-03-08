@@ -289,13 +289,14 @@ extract_leaf_twig_branch <- function(nodesets) {
 #' @noRd
 tidy_or_not <- function(tbl, tidy_output = FALSE) {
   # detect if there is any 'bid_ts_' column names
-  bid_ts_cols <- stringr::str_subset(
+  have_bid_ts_col <- stringr::str_detect(
     string = names(tbl),
     pattern = "^bid_ts_"
-  )
+  ) |>
+    any()
 
   # convert the original 'bid_ts_' column names to 'ts_'
-  if (length(bid_ts_cols) > 0L) {
+  if (have_bid_ts_col) {
     names(tbl) <- names(tbl) |>
       stringr::str_replace_all(
         pattern = "^bid_ts_",
@@ -318,7 +319,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
   # if there is no ts_point_ column
   if (length(ts_point_cols) == 0L) {
     # convert the original 'bid_ts_' column names back
-    if (length(bid_ts_cols) > 0L) {
+    if (have_bid_ts_col) {
       names(tbl) <- names(tbl) |>
         stringr::str_replace_all(
           pattern = "^ts_",
@@ -437,9 +438,9 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
         data.table::as.data.table()
 
       # fill the missing values with the last observation carry forward method
-      group_cols <- c("ts_resolution", "ts_mrid")
+      group_cols_adj <- c("ts_resolution", "ts_mrid")
       tbl_adj <- tbl_adj |>
-        dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols))) |>
+        dplyr::group_by(dplyr::across(tidyselect::all_of(group_cols_adj))) |>
         tidyr::fill(dplyr::everything()) |>
         dplyr::ungroup()
 
@@ -515,7 +516,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
   }
 
   # convert the original 'bid_ts_' column names back
-  if (length(bid_ts_cols) > 0L) {
+  if (have_bid_ts_col) {
     names(tbl) <- names(tbl) |>
       stringr::str_replace_all(
         pattern = "^ts_",

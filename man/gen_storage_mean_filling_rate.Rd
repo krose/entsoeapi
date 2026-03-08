@@ -40,6 +40,7 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
   period_end   = lubridate::ymd(x = "2021-02-15", tz = "CET"),
   tidy_output  = TRUE
 )
-str(df)
+
+dplyr::glimpse(df)
 
 }

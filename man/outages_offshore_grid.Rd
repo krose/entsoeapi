@@ -53,6 +53,6 @@ df <- entsoeapi::outages_offshore_grid(
   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

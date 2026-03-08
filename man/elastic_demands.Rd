@@ -42,6 +42,6 @@ df <- entsoeapi::elastic_demands(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

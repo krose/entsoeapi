@@ -41,7 +41,7 @@ mh <- cachem::cache_mem(max_age = 3600)
 #' @examples
 #' eic_party <- entsoeapi::party_eic()
 #'
-#' str(eic_party)
+#' dplyr::glimpse(eic_party)
 #'
 party_eic <- function() {
   # set the link of the csv file
@@ -86,7 +86,7 @@ party_eic <- function() {
 #' @examples
 #' eic_area <- entsoeapi::area_eic()
 #'
-#' str(eic_area)
+#' dplyr::glimpse(eic_area)
 #'
 area_eic <- function() {
   # set the link of the csv file
@@ -133,7 +133,7 @@ area_eic <- function() {
 #' @examples
 #' eic_accounting_point <- entsoeapi::accounting_point_eic()
 #'
-#' str(eic_accounting_point)
+#' dplyr::glimpse(eic_accounting_point)
 #'
 accounting_point_eic <- function() {
   # set the link of the csv file
@@ -180,7 +180,7 @@ accounting_point_eic <- function() {
 #' @examples
 #' eic_tie_line <- entsoeapi::tie_line_eic()
 #'
-#' str(eic_tie_line)
+#' dplyr::glimpse(eic_tie_line)
 #'
 tie_line_eic <- function() {
   # set the link of the csv file
@@ -226,7 +226,7 @@ tie_line_eic <- function() {
 #' @examples
 #' eic_location <- entsoeapi::location_eic()
 #'
-#' str(eic_location)
+#' dplyr::glimpse(eic_location)
 #'
 location_eic <- function() {
   # set the link of the csv file
@@ -273,7 +273,7 @@ location_eic <- function() {
 #' @examples
 #' eic_resource_object <- entsoeapi::resource_object_eic()
 #'
-#' str(eic_resource_object)
+#' dplyr::glimpse(eic_resource_object)
 #'
 resource_object_eic <- function() {
   # set the link of the csv file
@@ -325,7 +325,7 @@ resource_object_eic <- function() {
 #' @examples
 #' eic_substation <- entsoeapi::substation_eic()
 #'
-#' str(eic_substation)
+#' dplyr::glimpse(eic_substation)
 #'
 substation_eic <- function() {
   # set the link of the csv file
@@ -372,7 +372,7 @@ substation_eic <- function() {
 #' @examples
 #' eic_all <- entsoeapi::all_approved_eic()
 #'
-#' str(eic_all)
+#' dplyr::glimpse(eic_all)
 #'
 all_approved_eic <- function() {
   list(

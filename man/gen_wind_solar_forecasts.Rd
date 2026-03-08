@@ -41,8 +41,9 @@ df_list <- entsoeapi::gen_wind_solar_forecasts(
   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
   tidy_output  = TRUE
 )
-str(df_list$`Day-ahead`)
-str(df_list$`Intraday`)
-str(df_list$`Current`)
+
+dplyr::glimpse(df_list$`Day-ahead`)
+dplyr::glimpse(df_list$`Intraday`)
+dplyr::glimpse(df_list$`Current`)
 
 }

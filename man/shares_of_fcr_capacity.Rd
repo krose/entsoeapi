@@ -43,6 +43,6 @@ df <- entsoeapi::shares_of_fcr_capacity(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

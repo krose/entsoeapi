@@ -1,3 +1,13 @@
+# entsoeapi v0.9.5.1 (2026-03-09)
+
+## New functionality
+
+-   None.
+
+## Miscellaneous
+
+-   There seemed to be a bug in the tidy output of some functions (unrelated dates occurred twice in the tidy output). This issue has been resolved.
+
 # entsoeapi v0.9.5.0 (2026-03-05)
 
 ## New functionality

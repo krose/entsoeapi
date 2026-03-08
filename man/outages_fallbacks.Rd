@@ -58,6 +58,6 @@ df <- entsoeapi::outages_fallbacks(
   process_type = "A51",
   event_nature = "C47")
 
-str(df)
+dplyr::glimpse(df)
 
 }

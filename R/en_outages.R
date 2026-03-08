@@ -52,7 +52,7 @@ utils::globalVariables(
 #'   )
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_both <- function(
   eic = NULL,
@@ -156,7 +156,7 @@ outages_both <- function(
 #'   )
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_gen_units <- function(
   eic = NULL,
@@ -264,7 +264,7 @@ outages_gen_units <- function(
 #'   )
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_prod_units <- function(
   eic = NULL,
@@ -363,7 +363,7 @@ outages_prod_units <- function(
 #'   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_offshore_grid <- function(
   eic = NULL,
@@ -460,7 +460,7 @@ outages_offshore_grid <- function(
 #'   period_end = lubridate::ymd(x = "2024-04-11", tz = "CET")
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_cons_units <- function(
   eic = NULL,
@@ -583,7 +583,7 @@ outages_cons_units <- function(
 #'   period_end_update = lubridate::ymd(x = Sys.Date(), tz = "CET")
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_transmission_grid <- function(
   eic_in = NULL,
@@ -698,7 +698,7 @@ outages_transmission_grid <- function(
 #'   process_type = "A51",
 #'   event_nature = "C47")
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 outages_fallbacks <- function(
   eic = NULL,

@@ -33,7 +33,8 @@ utils::globalVariables(
 #'   psr_type = "B05",
 #'   year = 2020
 #' )
-#' str(df)
+#'
+#' dplyr::glimpse(df)
 #'
 gen_installed_capacity_per_pt <- function(
   eic = NULL,
@@ -98,7 +99,8 @@ gen_installed_capacity_per_pt <- function(
 #'   year     = 2020,
 #'   psr_type = "B05"
 #' )
-#' str(df)
+#'
+#' dplyr::glimpse(df)
 #'
 gen_installed_capacity_per_pu <- function(
   eic = NULL,
@@ -176,7 +178,8 @@ gen_installed_capacity_per_pu <- function(
 #'   gen_type     = NULL,
 #'   tidy_output  = TRUE
 #' )
-#' str(df)
+#'
+#' dplyr::glimpse(df)
 #'
 gen_per_prod_type <- function(
   eic = NULL,
@@ -254,7 +257,8 @@ gen_per_prod_type <- function(
 #'   period_end   = lubridate::ymd(x = "2021-02-15", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
-#' str(df)
+#'
+#' dplyr::glimpse(df)
 #'
 gen_storage_mean_filling_rate <- function(
   eic = NULL,
@@ -325,7 +329,8 @@ gen_storage_mean_filling_rate <- function(
 #'   gen_type     = c("B04", "B05"),
 #'   tidy_output  = TRUE
 #' )
-#' str(df)
+#'
+#' dplyr::glimpse(df)
 #'
 gen_per_gen_unit <- function(
   eic = NULL,
@@ -489,7 +494,8 @@ gen_per_gen_unit <- function(
 #'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
-#' str(df)
+#'
+#' dplyr::glimpse(df)
 #'
 gen_day_ahead_forecast <- function(
   eic = NULL,
@@ -561,9 +567,10 @@ gen_day_ahead_forecast <- function(
 #'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
 #'   tidy_output  = TRUE
 #' )
-#' str(df_list$`Day-ahead`)
-#' str(df_list$`Intraday`)
-#' str(df_list$`Current`)
+#'
+#' dplyr::glimpse(df_list$`Day-ahead`)
+#' dplyr::glimpse(df_list$`Intraday`)
+#' dplyr::glimpse(df_list$`Current`)
 #'
 gen_wind_solar_forecasts <- function(
   eic = NULL,

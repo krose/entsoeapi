@@ -22,6 +22,6 @@ It covers an endpoint, or an IT-system.
 \examples{
 eic_location <- entsoeapi::location_eic()
 
-str(eic_location)
+dplyr::glimpse(eic_location)
 
 }

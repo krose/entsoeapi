@@ -42,6 +42,6 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

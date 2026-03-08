@@ -49,7 +49,8 @@ df1 <- entsoeapi::exchanged_volumes(
   period_end = lubridate::ymd(x = "2022-08-17", tz = "CET"),
   tidy_output = TRUE
 )
-str(df1)
+
+dplyr::glimpse(df1)
 
 df2 <- entsoeapi::exchanged_volumes(
   eic = "10YCZ-CEPS-----N",
@@ -59,6 +60,6 @@ df2 <- entsoeapi::exchanged_volumes(
   tidy_output = TRUE
 )
 
-str(df2)
+dplyr::glimpse(df2)
 
 }

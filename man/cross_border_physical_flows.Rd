@@ -42,7 +42,7 @@ df1 <- entsoeapi::cross_border_physical_flows(
   tidy_output = TRUE
 )
 
-str(df1)
+dplyr::glimpse(df1)
 
 df2 <- entsoeapi::cross_border_physical_flows(
   eic_in = "10YCZ-CEPS-----N",
@@ -52,6 +52,6 @@ df2 <- entsoeapi::cross_border_physical_flows(
   tidy_output = TRUE
 )
 
-str(df2)
+dplyr::glimpse(df2)
 
 }

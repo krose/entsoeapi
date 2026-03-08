@@ -42,7 +42,7 @@ utils::globalVariables(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 implicit_offered_transfer_capacity <- function( # nolint: object_length_linter
   eic_in = NULL,
@@ -133,7 +133,7 @@ implicit_offered_transfer_capacity <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 explicit_offered_transfer_capacity <- function( # nolint: object_length_linter
   eic_in = NULL,
@@ -216,7 +216,7 @@ explicit_offered_transfer_capacity <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 continuous_offered_transfer_capacity <- function( # nolint: object_length_linter
   eic_in = NULL,
@@ -300,7 +300,7 @@ continuous_offered_transfer_capacity <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df1)
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::flow_based_allocations(
 #'   eic = "10YDOM-REGION-1V",
@@ -311,7 +311,7 @@ continuous_offered_transfer_capacity <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df2)
+#' dplyr::glimpse(df2)
 #'
 flow_based_allocations <- function(
   eic = NULL,
@@ -400,7 +400,7 @@ flow_based_allocations <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 auction_revenue <- function(
   eic_in = NULL,
@@ -483,7 +483,7 @@ auction_revenue <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 total_nominated_capacity <- function(
   eic_in = NULL,
@@ -578,7 +578,7 @@ total_nominated_capacity <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 already_allocated_total_capacity <- function( # nolint: object_length_linter
   eic_in = NULL,
@@ -664,7 +664,7 @@ already_allocated_total_capacity <- function( # nolint: object_length_linter
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df1)
+#' dplyr::glimpse(df1)
 #'
 #' df2 <- entsoeapi::day_ahead_prices(
 #'   eic = "10Y1001A1001A82H",
@@ -672,7 +672,7 @@ already_allocated_total_capacity <- function( # nolint: object_length_linter
 #'   period_end = lubridate::ymd(x = "2026-02-13", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
-#' str(df2)
+#' dplyr::glimpse(df2)
 #'
 day_ahead_prices <- function(
   eic = NULL,
@@ -747,7 +747,7 @@ day_ahead_prices <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 net_positions <- function(
   eic = NULL,
@@ -834,7 +834,7 @@ net_positions <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 congestion_income <- function(
   eic = NULL,
@@ -934,7 +934,7 @@ congestion_income <- function(
 #'   tidy_output = TRUE
 #' )
 #'
-#' str(df)
+#' dplyr::glimpse(df)
 #'
 allocated_transfer_capacities_3rd_countries <- function( # nolint: object_length_linter
   eic_in = NULL,

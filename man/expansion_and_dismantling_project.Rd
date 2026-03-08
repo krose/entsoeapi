@@ -58,6 +58,6 @@ df <- entsoeapi::expansion_and_dismantling_project(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

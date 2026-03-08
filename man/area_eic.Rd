@@ -21,6 +21,6 @@ https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 \examples{
 eic_area <- entsoeapi::area_eic()
 
-str(eic_area)
+dplyr::glimpse(eic_area)
 
 }

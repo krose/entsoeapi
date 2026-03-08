@@ -49,6 +49,6 @@ df <- entsoeapi::changes_to_bid_availability(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

@@ -43,6 +43,6 @@ df <- entsoeapi::load_year_ahead_forecast_margin(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }

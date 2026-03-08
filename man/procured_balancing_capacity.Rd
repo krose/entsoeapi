@@ -45,6 +45,6 @@ df <- entsoeapi::procured_balancing_capacity(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 
 }
