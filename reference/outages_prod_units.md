@@ -78,7 +78,7 @@ df <- entsoeapi::outages_prod_units(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603082300&periodEnd=202603092300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:49:23 GMT
+#> <- date: Sun, 08 Mar 2026 23:53:38 GMT
 #> <- content-type: application/zip
 #> <- content-length: 7337
 #> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_202504090830-202607311500.zip"
@@ -87,13 +87,13 @@ df <- entsoeapi::outages_prod_units(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmp1B5Fz8/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603091600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603091600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603131600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603091230-202603091530.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603091300-202603091500.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603091300-202603091500.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603091600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603091600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603131600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603091230-202603091530.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603091300-202603091500.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603091300-202603091500.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 7

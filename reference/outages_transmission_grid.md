@@ -95,7 +95,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603082300&periodEnd=202603092300&periodStartUpdate=202602282300&periodEndUpdate=202603072300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:49:24 GMT
+#> <- date: Sun, 08 Mar 2026 23:53:39 GMT
 #> <- content-type: application/zip
 #> <- content-length: 5187
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202602020630-202604151500.zip"
@@ -104,11 +104,11 @@ df <- entsoeapi::outages_transmission_grid(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmp1B5Fz8/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603101600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/Rtmp1B5Fz8/005-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603101600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
+#> ✔ /tmp/RtmpJ8b70P/005-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 15

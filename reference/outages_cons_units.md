@@ -81,7 +81,7 @@ df <- entsoeapi::outages_cons_units(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A76&biddingZone_Domain=10YFI-1--------U&periodStart=202404092200&periodEnd=202404102200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:48:59 GMT
+#> <- date: Sun, 08 Mar 2026 23:53:15 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Unavailability_of_consumption_units_aggregated_202404100400-202404100900.xml"
 #> <- x-content-type-options: nosniff
@@ -103,7 +103,7 @@ dplyr::glimpse(df)
 #> $ process_type_def                   <chr> "Outage information"
 #> $ ts_business_type                   <chr> "A53"
 #> $ ts_business_type_def               <chr> "Planned maintenance"
-#> $ created_date_time                  <dttm> 2026-03-08 23:48:59
+#> $ created_date_time                  <dttm> 2026-03-08 23:53:15
 #> $ reason_code                        <chr> "A95"
 #> $ reason_text                        <chr> "  - Complementary information"
 #> $ revision_number                    <dbl> 1
