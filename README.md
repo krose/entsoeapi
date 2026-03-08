@@ -1,8 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# entsoeapi <img src="man/figures/logo.png" width="120" height="120"
-alt="hexa sticker" />
+# entsoeapi <img src="man/figures/logo.png" width="120" height="120" alt="hexa sticker" />
 
 <!-- badges: start -->
 
