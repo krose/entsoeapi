@@ -13,7 +13,7 @@ specific consumption units are not provided."><meta property="og:image" content=
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,7 +132,7 @@ Defaults to NULL which means both of them.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A76&amp;biddingZone_Domain=10YFI-1--------U&amp;periodStart=202404092200&amp;periodEnd=202404102200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:13:07 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Sun, 08 Mar 2026 23:48:59 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Unavailability_of_consumption_units_aggregated_202404100400-202404100900.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -143,26 +143,27 @@ Defaults to NULL which means both of them.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> tibble [1 × 18] (S3: tbl_df/tbl/data.frame)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_bidding_zone_domain_mrid       : chr "10YFI-1--------U"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_bidding_zone_domain_name       : chr "Finland"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type                              : chr "A76"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ type_def                          : chr "Load unavailability"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ process_type                      : chr "A26"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ process_type_def                  : chr "Outage information"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type                  : chr "A53"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_business_type_def              : chr "Planned maintenance"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time                 : POSIXct[1:1], format: "2026-03-05 16:13:07"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ reason_code                       : chr "A95"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ reason_text                       : chr "  - Complementary information"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ revision_number                   : num 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unavailability_time_interval_start: POSIXct[1:1], format: "2024-04-10 04:00:00"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ unavailability_time_interval_end  : POSIXct[1:1], format: "2024-04-10 09:00:00"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_available_period_resolution    : chr "PT60M"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_mrid                           : num 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_available_period_point_quantity: num 171</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ts_quantity_measure_unit_name     : chr "MAW"</span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_bidding_zone_domain_mrid        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10YFI-1--------U"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_bidding_zone_domain_name        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Finland"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ type                               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A76"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ type_def                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Load unavailability"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A26"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type_def                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Outage information"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A53"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Planned maintenance"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-08 23:48:59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_code                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A95"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_text                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "  - Complementary information"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ unavailability_time_interval_start <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-04-10 04:00:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ unavailability_time_interval_end   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-04-10 09:00:00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_available_period_resolution     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT60M"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mrid                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_available_period_point_quantity <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 171</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_quantity_measure_unit_name      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MAW"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

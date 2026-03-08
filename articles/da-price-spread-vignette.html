@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,10 +74,10 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cli.r-lib.org" class="external-link">cli</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="look-for-the-polish-market-eic-and-set-the-start-and-the-end-of-scope-dates">Look for the Polish market EIC and set the start and the end of
+<div class="section level3">
+<h3 id="look-for-the-polish-market-eic-and-set-the-start-and-the-end-of-scope-dates">Look for the Polish market EIC and set the start and the end of
 scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-market-eic-and-set-the-start-and-the-end-of-scope-dates"></a>
-</h4>
+</h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pl_eic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/all_approved_eic.html">all_approved_eic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">EicLongName</span> <span class="op">==</span> <span class="st">"Poland"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -101,9 +101,9 @@ scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-mark
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli_inform</a></span><span class="op">(</span><span class="st">"till: {till_ts}"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; till: 2026-01-08</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="query-the-polish-da-prices-within-the-pre-set-period">Query the Polish DA prices within the pre-set period<a class="anchor" aria-label="anchor" href="#query-the-polish-da-prices-within-the-pre-set-period"></a>
-</h4>
+<div class="section level3">
+<h3 id="query-the-polish-da-prices-within-the-pre-set-period">Query the Polish DA prices within the pre-set period<a class="anchor" aria-label="anchor" href="#query-the-polish-da-prices-within-the-pre-set-period"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da_prices</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu"><a href="../reference/day_ahead_prices.html">day_ahead_prices</a></span><span class="op">(</span></span>
 <span>  eic <span class="op">=</span> <span class="va">pl_eic</span>,</span>
@@ -115,7 +115,7 @@ scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-mark
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10YPL-AREA-----S&amp;out_Domain=10YPL-AREA-----S&amp;periodStart=202512312300&amp;periodEnd=202601072300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:13:55 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Sun, 08 Mar 2026 23:49:54 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202512312300-202601072300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>
@@ -142,7 +142,7 @@ scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-mark
 <span><span class="co">#&gt; $ ts_auction_type_def                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"S…</span></span>
-<span><span class="co">#&gt; $ created_date_time                     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-05 16:13:55<span style="color: #949494;">, </span>2026-03-05 16:13:55<span style="color: #949494;">, </span>2026-03-05 16:13:55<span style="color: #949494;">, </span>2026-03-…</span></span>
+<span><span class="co">#&gt; $ created_date_time                     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-08 23:49:54<span style="color: #949494;">, </span>2026-03-08 23:49:54<span style="color: #949494;">, </span>2026-03-08 23:49:54<span style="color: #949494;">, </span>2026-03-…</span></span>
 <span><span class="co">#&gt; $ revision_number                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ ts_resolution                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>…</span></span>
 <span><span class="co">#&gt; $ ts_time_interval_start                <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-…</span></span>
@@ -153,9 +153,9 @@ scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-mark
 <span><span class="co">#&gt; $ ts_currency_unit_name                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"E…</span></span>
 <span><span class="co">#&gt; $ ts_price_measure_unit_name            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"M…</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="calculate-the-daily-minimum-and-maximum-prices-and-the-spread">Calculate the daily minimum and maximum prices and the spread<a class="anchor" aria-label="anchor" href="#calculate-the-daily-minimum-and-maximum-prices-and-the-spread"></a>
-</h4>
+<div class="section level3">
+<h3 id="calculate-the-daily-minimum-and-maximum-prices-and-the-spread">Calculate the daily minimum and maximum prices and the spread<a class="anchor" aria-label="anchor" href="#calculate-the-daily-minimum-and-maximum-prices-and-the-spread"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">da_spreads</span> <span class="op">&lt;-</span> <span class="va">da_prices</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ts_point_dt_start</span>, <span class="va">ts_point_price_amount</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -174,9 +174,9 @@ scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-mark
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">ts_point_date</span>, <span class="va">min_price</span>, <span class="va">max_price</span>, <span class="va">price_spread</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="plot-the-daily-minimum-and-maximum-prices-and-the-spread">Plot the daily minimum and maximum prices and the spread<a class="anchor" aria-label="anchor" href="#plot-the-daily-minimum-and-maximum-prices-and-the-spread"></a>
-</h4>
+<div class="section level3">
+<h3 id="plot-the-daily-minimum-and-maximum-prices-and-the-spread">Plot the daily minimum and maximum prices and the spread<a class="anchor" aria-label="anchor" href="#plot-the-daily-minimum-and-maximum-prices-and-the-spread"></a>
+</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">da_spreads</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html" class="external-link">geom_segment</a></span><span class="op">(</span></span>
@@ -203,7 +203,7 @@ scope dates<a class="anchor" aria-label="anchor" href="#look-for-the-polish-mark
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Polish Daily Spread of Day-Ahead prices"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Polish Daily Spread of Day-Ahead Prices"</span>,</span>
 <span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"PT15M,"</span>, <span class="va">from_ts</span>, <span class="va">till_ts</span><span class="op">)</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"delivery date"</span>,</span>
 <span>    y <span class="op">=</span> <span class="st">"day-ahead price spread"</span></span>

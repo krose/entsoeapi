@@ -60,6 +60,6 @@ df <- entsoeapi::sharing_of_frr_capacity(
   tidy_output = TRUE
 )
 
-str(df)
+dplyr::glimpse(df)
 } # }
 ```

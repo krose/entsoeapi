@@ -56,7 +56,7 @@ df <- entsoeapi::balancing_energy_bids(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B74&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 05 Mar 2026 16:11:51 GMT
+#> <- date: Sun, 08 Mar 2026 23:47:47 GMT
 #> <- content-type: text/xml
 #> <- content-length: 968
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -68,9 +68,10 @@ df <- entsoeapi::balancing_energy_bids(
 #> ℹ No additional type names added!
 #> ℹ No additional eic names added!
 
-str(df)
-#> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)
-#>  $ created_date_time: POSIXct[1:1], format: "2026-03-05 16:11:51"
-#>  $ reason_code      : chr "999"
-#>  $ reason_text      : chr "No matching data found for Data item BALANCING_ENERGY_BIDS_R3 [GL EB 12.3.B&C] (10YCZ-CEPS-----N) and interval "| __truncated__
+dplyr::glimpse(df)
+#> Rows: 1
+#> Columns: 3
+#> $ created_date_time <dttm> 2026-03-08 23:47:47
+#> $ reason_code       <chr> "999"
+#> $ reason_text       <chr> "No matching data found for Data item BALANCING_ENERGY_BIDS_R3 [GL EB 12.3.B&C] (10YCZ-CEPS…
 ```

@@ -8,7 +8,7 @@ library(cli)
 library(ggplot2)
 ```
 
-#### Look for the Polish market EIC and set the start and the end of scope dates
+### Look for the Polish market EIC and set the start and the end of scope dates
 
 ``` r
 pl_eic <- all_approved_eic() |>
@@ -34,7 +34,7 @@ cli_inform("till: {till_ts}")
 #> till: 2026-01-08
 ```
 
-#### Query the Polish DA prices within the pre-set period
+### Query the Polish DA prices within the pre-set period
 
 ``` r
 da_prices <- entsoeapi::day_ahead_prices(
@@ -47,7 +47,7 @@ da_prices <- entsoeapi::day_ahead_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YPL-AREA-----S&out_Domain=10YPL-AREA-----S&periodStart=202512312300&periodEnd=202601072300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 05 Mar 2026 16:13:55 GMT
+#> <- date: Sun, 08 Mar 2026 23:49:54 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
 #> <- x-content-type-options: nosniff
@@ -74,7 +74,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def                   <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", …
 #> $ ts_business_type                      <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A…
 #> $ ts_business_type_def                  <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "S…
-#> $ created_date_time                     <dttm> 2026-03-05 16:13:55, 2026-03-05 16:13:55, 2026-03-05 16:13:55, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-08 23:49:54, 2026-03-08 23:49:54, 2026-03-08 23:49:54, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ ts_resolution                         <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", …
 #> $ ts_time_interval_start                <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-…
@@ -86,7 +86,7 @@ glimpse(da_prices)
 #> $ ts_price_measure_unit_name            <chr> "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "M…
 ```
 
-#### Calculate the daily minimum and maximum prices and the spread
+### Calculate the daily minimum and maximum prices and the spread
 
 ``` r
 da_spreads <- da_prices |>
@@ -107,7 +107,7 @@ da_spreads <- da_prices |>
   unique()
 ```
 
-#### Plot the daily minimum and maximum prices and the spread
+### Plot the daily minimum and maximum prices and the spread
 
 ``` r
 ggplot(data = da_spreads) +
@@ -135,7 +135,7 @@ ggplot(data = da_spreads) +
   ) +
   theme_minimal() +
   labs(
-    title = "Polish Daily Spread of Day-Ahead prices",
+    title = "Polish Daily Spread of Day-Ahead Prices",
     subtitle = paste("PT15M,", from_ts, till_ts),
     x = "delivery date",
     y = "day-ahead price spread"

@@ -53,7 +53,7 @@ df <- entsoeapi::load_year_ahead_forecast_margin(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A70&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201812312300&periodEnd=201912302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 05 Mar 2026 16:12:59 GMT
+#> <- date: Sun, 08 Mar 2026 23:48:50 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1550
 #> <- content-disposition: inline; filename="Year Ahead Forecast Margin_201812312300-201912302300.xml"
@@ -63,27 +63,28 @@ df <- entsoeapi::load_year_ahead_forecast_margin(
 #> <- 
 #> ✔ response has arrived
 
-str(df)
-#> tibble [1 × 21] (S3: tbl_df/tbl/data.frame)
-#>  $ ts_out_bidding_zone_domain_mrid: chr "10Y1001A1001A82H"
-#>  $ ts_out_bidding_zone_domain_name: chr "Germany_Luxemburg"
-#>  $ type                           : chr "A70"
-#>  $ type_def                       : chr "Load forecast margin"
-#>  $ process_type                   : chr "A33"
-#>  $ process_type_def               : chr "Year ahead"
-#>  $ ts_object_aggregation          : chr "A01"
-#>  $ ts_object_aggregation_def      : chr "Area"
-#>  $ ts_business_type               : chr "A91"
-#>  $ ts_business_type_def           : chr "positive forecast margin"
-#>  $ created_date_time              : POSIXct[1:1], format: "2026-03-05 16:12:59"
-#>  $ revision_number                : num 1
-#>  $ time_period_time_interval_start: POSIXct[1:1], format: "2018-12-31 23:00:00"
-#>  $ time_period_time_interval_end  : POSIXct[1:1], format: "2019-12-31 23:00:00"
-#>  $ ts_resolution                  : chr "P1Y"
-#>  $ ts_time_interval_start         : POSIXct[1:1], format: "2018-12-31 23:00:00"
-#>  $ ts_time_interval_end           : POSIXct[1:1], format: "2019-12-31 23:00:00"
-#>  $ ts_mrid                        : num 1
-#>  $ ts_point_dt_start              : POSIXct[1:1], format: "2018-12-31 23:00:00"
-#>  $ ts_point_quantity              : num 2964
-#>  $ ts_quantity_measure_unit_name  : chr "MAW"
+dplyr::glimpse(df)
+#> Rows: 1
+#> Columns: 21
+#> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A82H"
+#> $ ts_out_bidding_zone_domain_name <chr> "Germany_Luxemburg"
+#> $ type                            <chr> "A70"
+#> $ type_def                        <chr> "Load forecast margin"
+#> $ process_type                    <chr> "A33"
+#> $ process_type_def                <chr> "Year ahead"
+#> $ ts_object_aggregation           <chr> "A01"
+#> $ ts_object_aggregation_def       <chr> "Area"
+#> $ ts_business_type                <chr> "A91"
+#> $ ts_business_type_def            <chr> "positive forecast margin"
+#> $ created_date_time               <dttm> 2026-03-08 23:48:50
+#> $ revision_number                 <dbl> 1
+#> $ time_period_time_interval_start <dttm> 2018-12-31 23:00:00
+#> $ time_period_time_interval_end   <dttm> 2019-12-31 23:00:00
+#> $ ts_resolution                   <chr> "P1Y"
+#> $ ts_time_interval_start          <dttm> 2018-12-31 23:00:00
+#> $ ts_time_interval_end            <dttm> 2019-12-31 23:00:00
+#> $ ts_mrid                         <dbl> 1
+#> $ ts_point_dt_start               <dttm> 2018-12-31 23:00:00
+#> $ ts_point_quantity               <dbl> 2964
+#> $ ts_quantity_measure_unit_name   <chr> "MAW"
 ```

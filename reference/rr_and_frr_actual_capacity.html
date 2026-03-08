@@ -9,7 +9,7 @@ Replacement Reserve (RR)."><meta property="og:image" content="https://krose.gith
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,7 +107,7 @@ defaults to "C78"</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A26&amp;processType=A56&amp;businessType=C78&amp;Area_Domain=10YAT-APG------L&amp;periodStart=202112312300&amp;periodEnd=202203312200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 05 Mar 2026 16:13:38 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Sun, 08 Mar 2026 23:49:33 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="acknowledgement.xml"</span>
@@ -119,11 +119,12 @@ defaults to "C78"</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional type names added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional eic names added!</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> tibble [1 × 3] (S3: tbl_df/tbl/data.frame)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ created_date_time: POSIXct[1:1], format: "2026-03-05 16:13:38"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ reason_code      : chr "999"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ reason_text      : chr "No matching data found for Data item FRR_RR_ACTUAL_CAPACITY [SO GL 188.4&amp;189.3] (10YAT-APG------L) and interval"| __truncated__</span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-08 23:49:33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_code       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "999"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_text       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "No matching data found for Data item FRR_RR_ACTUAL_CAPACITY [SO GL 188.4&amp;189.3] (10YAT-APG…</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
