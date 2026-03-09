@@ -29,14 +29,14 @@
 
 ## 5. Merge & Tag
 
--   [ ] Merge `develop` → `master` (PR or direct)
+-   [ ] Merge `develop` → `main` (PR or direct)
 -   [ ] Create a git tag: `git tag v0.9.5.1 && git push origin v0.9.5.1`
 -   [ ] Create a GitHub Release with the `NEWS.md` entry as release notes
 
 ## 6. Pkgdown Site
 
 -   [ ] `pkgdown::build_site()` locally — no errors
--   [ ] Push to `master` to trigger the `pkgdown.yaml` workflow
+-   [ ] Push to `main` to trigger the `pkgdown.yaml` workflow
 -   [ ] Verify live site at <https://krose.github.io/entsoeapi/>
 
 ## 7. (When ready) CRAN Submission

@@ -11,3 +11,4 @@ sandbox/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+devel.R
