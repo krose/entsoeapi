@@ -49,16 +49,16 @@ df <- entsoeapi::imbalance_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A85&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 09 Mar 2026 12:42:18 GMT
+#> <- date: Mon, 09 Mar 2026 20:05:01 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1565
+#> <- content-length: 1564
 #> <- content-disposition: attachment; filename="Imbalance Prices_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpS3eVcZ/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/Rtmp1NLnYK/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 72
@@ -73,7 +73,7 @@ dplyr::glimpse(df)
 #> $ process_type_def           <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "Realised",…
 #> $ ts_business_type           <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19",…
 #> $ ts_business_type_def       <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy deviation",…
-#> $ created_date_time          <dttm> 2026-03-09 12:42:18, 2026-03-09 12:42:18, 2026-03-09 12:42:18, 2026-03-09 12:42:18…
+#> $ created_date_time          <dttm> 2026-03-09 20:05:01, 2026-03-09 20:05:01, 2026-03-09 20:05:01, 2026-03-09 20:05:01…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution              <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start     <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00…

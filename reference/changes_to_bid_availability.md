@@ -59,7 +59,7 @@ df <- entsoeapi::changes_to_bid_availability(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B45&processType=A47&businessType=C46&ControlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 09 Mar 2026 12:41:17 GMT
+#> <- date: Mon, 09 Mar 2026 20:03:53 GMT
 #> <- content-type: text/xml
 #> <- content-length: 983
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -74,7 +74,7 @@ df <- entsoeapi::changes_to_bid_availability(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-09 12:41:17
+#> $ created_date_time <dttm> 2026-03-09 20:03:53
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item CHANGES_TO_BID_AVAILABILITY [IFs: mFRR 9.9 aFRR 9.6&9…
 ```

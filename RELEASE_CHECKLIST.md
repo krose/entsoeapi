@@ -43,7 +43,7 @@ Vignettes render without error: `devtools::build_vignettes()`
 
 ## 5. Merge & Tag
 
-Merge `develop` → `master` (PR or direct)
+Merge `develop` → `main` (PR or direct)
 
 Create a git tag: `git tag v0.9.5.1 && git push origin v0.9.5.1`
 
@@ -54,7 +54,7 @@ Create a GitHub Release with the `NEWS.md` entry as release notes
 [`pkgdown::build_site()`](https://pkgdown.r-lib.org/reference/build_site.html)
 locally — no errors
 
-Push to `master` to trigger the `pkgdown.yaml` workflow
+Push to `main` to trigger the `pkgdown.yaml` workflow
 
 Verify live site at <https://krose.github.io/entsoeapi/>
 

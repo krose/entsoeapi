@@ -133,7 +133,7 @@ You can install the development version of entsoeapi from
 
 ``` r
 if (!require("devtools", quietly = TRUE)) install.packages("devtools", quiet = TRUE)
-devtools::install_github(repo = "krose/entsoeapi", ref = "master")
+devtools::install_github(repo = "krose/entsoeapi", ref = "main")
 ```
 
 ## Security token

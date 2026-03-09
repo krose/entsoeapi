@@ -11,6 +11,7 @@
 - There seemed to be a bug in the tidy output of some functions
   (unrelated dates occurred twice in the tidy output). This issue has
   been resolved.
+- The “master” git branch renamed to “main”.
 
 ## entsoeapi v0.9.5.0 (2026-03-05)
 
