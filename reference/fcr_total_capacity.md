@@ -50,7 +50,7 @@ df <- entsoeapi::fcr_total_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&businessType=A25&area_Domain=10YEU-CONT-SYNC0&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:52:36 GMT
+#> <- date: Mon, 09 Mar 2026 12:41:52 GMT
 #> <- content-type: text/xml
 #> <- content-length: 958
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -65,7 +65,7 @@ df <- entsoeapi::fcr_total_capacity(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-08 23:52:36
+#> $ created_date_time <dttm> 2026-03-09 12:41:52
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item FCR_TOTAL_CAPACITY_R3 [SO GL 187.2] (10YEU-CONT-SYNC0…
 ```

@@ -60,16 +60,16 @@ df1 <- entsoeapi::exchanged_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A51&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208162200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:52:22 GMT
+#> <- date: Mon, 09 Mar 2026 12:41:38 GMT
 #> <- content-type: application/zip
-#> <- content-length: 179309
+#> <- content-length: 179310
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202208152200-202208162200.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJ8b70P/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
+#> ✔ /tmp/RtmpS3eVcZ/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
 
 dplyr::glimpse(df1)
 #> Rows: 43,200
@@ -88,7 +88,7 @@ dplyr::glimpse(df1)
 #> $ process_type_def              <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration rese…
 #> $ ts_business_type              <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B0…
 #> $ ts_business_type_def          <chr> "Net position", "Net position", "Net position", "Net position", "Net position", …
-#> $ created_date_time             <dttm> 2026-03-08 23:52:22, 2026-03-08 23:52:22, 2026-03-08 23:52:22, 2026-03-08 23:52…
+#> $ created_date_time             <dttm> 2026-03-09 12:41:38, 2026-03-09 12:41:38, 2026-03-09 12:41:38, 2026-03-09 12:41…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", …
 #> $ ts_time_interval_start        <dttm> 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00…
@@ -109,16 +109,16 @@ df2 <- entsoeapi::exchanged_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A60&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202407102200&periodEnd=202407112200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:52:34 GMT
+#> <- date: Mon, 09 Mar 2026 12:41:50 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1174
+#> <- content-length: 1173
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202407102200-202407112200.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJ8b70P/001-NETTED_AND_EXCHANGED_VOLUMES_202407102200-202407112200.xml has been read in
+#> ✔ /tmp/RtmpS3eVcZ/001-NETTED_AND_EXCHANGED_VOLUMES_202407102200-202407112200.xml has been read in
 #> ℹ No additional definitions added!
 
 dplyr::glimpse(df2)
@@ -136,7 +136,7 @@ dplyr::glimpse(df2)
 #> $ process_type_def              <chr> "Scheduled activation mFRR", "Scheduled activation mFRR", "Scheduled activation …
 #> $ ts_business_type              <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B0…
 #> $ ts_business_type_def          <chr> "Net position", "Net position", "Net position", "Net position", "Net position", …
-#> $ created_date_time             <dttm> 2026-03-08 23:52:34, 2026-03-08 23:52:34, 2026-03-08 23:52:34, 2026-03-08 23:52…
+#> $ created_date_time             <dttm> 2026-03-09 12:41:50, 2026-03-09 12:41:50, 2026-03-09 12:41:50, 2026-03-09 12:41…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M",…
 #> $ ts_time_interval_start        <dttm> 2024-07-10 22:00:00, 2024-07-10 22:00:00, 2024-07-10 22:00:00, 2024-07-10 22:00…

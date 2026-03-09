@@ -27,7 +27,7 @@ eic_tie_line <- entsoeapi::tie_line_eic()
 #> ℹ pulling T_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_tie_line)
-#> Rows: 12,956
+#> Rows: 12,954
 #> Columns: 11
 #> $ EicCode                         <chr> "10T-1001-10010AS", "10T1001A1001A012", "10T1001A1001A020", "10T1001A1001A03Z"…
 #> $ EicDisplayName                  <chr> "L_KOM-KOSB", "L_UROSEV_SKOPJE", "L_PRIZRE_FIERZA", "L_PEC_RIBAREVIN", "L_NIS_…

@@ -50,16 +50,16 @@ df <- entsoeapi::financial_expenses_and_income_for_balancing(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A87&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 08 Mar 2026 23:52:36 GMT
+#> <- date: Mon, 09 Mar 2026 12:41:53 GMT
 #> <- content-type: application/zip
-#> <- content-length: 887
+#> <- content-length: 889
 #> <- content-disposition: attachment; filename="Financial_expenses_and_income_for_balancing_202112312300-202201012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJ8b70P/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202112312300-202201312300.xml has been read in
+#> ✔ /tmp/RtmpS3eVcZ/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202112312300-202201312300.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 2
@@ -74,7 +74,7 @@ dplyr::glimpse(df)
 #> $ process_type_def         <chr> "Realised", "Realised"
 #> $ ts_business_type         <chr> "A99", "A99"
 #> $ ts_business_type_def     <chr> "Financial information", "Financial information"
-#> $ created_date_time        <dttm> 2026-03-08 23:52:36, 2026-03-08 23:52:36
+#> $ created_date_time        <dttm> 2026-03-09 12:41:53, 2026-03-09 12:41:53
 #> $ revision_number          <dbl> 1, 1
 #> $ ts_resolution            <chr> "P1M", "P1M"
 #> $ ts_time_interval_start   <dttm> 2021-12-31 23:00:00, 2021-12-31 23:00:00
