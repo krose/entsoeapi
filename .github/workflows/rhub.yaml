@@ -31,11 +31,6 @@ jobs:
       containers: ${{ steps.rhub-setup.outputs.containers }}
       platforms: ${{ steps.rhub-setup.outputs.platforms }}
 
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
-      R_KEEP_PKG_SOURCE: yes
-
     steps:
     # NO NEED TO CHECKOUT HERE
     - uses: r-hub/actions/setup@v1
@@ -61,14 +56,20 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+        env:
+          ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
       - uses: r-hub/actions/setup-deps@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+        env:
+          ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
       - uses: r-hub/actions/run-check@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+        env:
+          ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
 
   other-platforms:
     needs: setup
@@ -86,14 +87,20 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+        env:
+          ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+        env:
+          ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
       - uses: r-hub/actions/setup-deps@v1
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+        env:
+          ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
