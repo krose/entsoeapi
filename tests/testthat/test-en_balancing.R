@@ -1473,6 +1473,14 @@ testthat::test_that(
 testthat::test_that(
   desc = "activated_balancing_prices() covers business_type branch with mock",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -2042,6 +2050,14 @@ testthat::test_that(
 testthat::test_that(
   desc = "sharing_of_frr_capacity() covers happy path with mock",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(

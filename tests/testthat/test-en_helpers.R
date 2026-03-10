@@ -440,6 +440,14 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() stops on XML with unexpected structure",
   code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
     req_url <- paste0(
       "https://eepublicdownloads.blob.core.windows.net/",
       "cio-lio/xml/allocated-eic-codes.xml"
