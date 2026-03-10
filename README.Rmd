@@ -162,6 +162,7 @@ For some of the data you need to translate the generation codes.
 ```{r example 2}
 if (!require("knitr", quietly = TRUE)) install.packages("knitr", quiet = TRUE)
 entsoeapi::asset_types |>
+  head(n = 12L) |>
   knitr::kable(format = "html")
 ```
 
