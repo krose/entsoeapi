@@ -55,7 +55,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&securityToken=<...>
 #> <- HTTP/2 400 
-#> <- date: Tue, 10 Mar 2026 17:31:15 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:02 GMT
 #> <- content-type: text/xml
 #> <- content-length: 905
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -68,7 +68,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=0&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:16 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:03 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202401090930-202403141000.xml"
 #> <- x-content-type-options: nosniff
@@ -82,7 +82,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=100&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:17 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:03 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403150500-202403300815.xml"
 #> <- x-content-type-options: nosniff
@@ -96,7 +96,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:17 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:03 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403300815-202404300500.xml"
 #> <- x-content-type-options: nosniff
@@ -110,7 +110,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:18 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:04 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405021230-202405310445.xml"
 #> <- x-content-type-options: nosniff
@@ -124,7 +124,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=400&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:19 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:04 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405310445-202406270400.xml"
 #> <- x-content-type-options: nosniff
@@ -138,7 +138,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202410312300&offset=500&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:20 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:04 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202406270400-202410220545.xml"
 #> <- x-content-type-options: nosniff
@@ -181,7 +181,7 @@ dplyr::glimpse(df)
 #> $ process_type_def                                <chr> "Manual frequency restoration reserve", "Manual frequency rest…
 #> $ bid_ts_flow_direction                           <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01",…
 #> $ bid_ts_flow_direction_def                       <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
-#> $ created_date_time                               <dttm> 2026-03-10 17:31:16, 2026-03-10 17:31:16, 2026-03-10 17:31:16…
+#> $ created_date_time                               <dttm> 2026-03-10 19:48:03, 2026-03-10 19:48:03, 2026-03-10 19:48:03…
 #> $ revision_number                                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ reserve_bid_period_time_interval_start          <dttm> 2024-01-09 09:30:00, 2024-01-09 09:30:00, 2024-01-09 09:30:00…
 #> $ reserve_bid_period_time_interval_end            <dttm> 2024-03-14 10:00:00, 2024-03-14 10:00:00, 2024-03-14 10:00:00…

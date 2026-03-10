@@ -95,7 +95,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603102300&periodEnd=202603112300&periodStartUpdate=202603022300&periodEndUpdate=202603092300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:32:56 GMT
+#> <- date: Tue, 10 Mar 2026 19:49:33 GMT
 #> <- content-type: application/zip
 #> <- content-length: 6188
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202602020630-202604151500.zip"
@@ -104,12 +104,12 @@ df <- entsoeapi::outages_transmission_grid(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpLV7XFO/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
-#> ✔ /tmp/RtmpLV7XFO/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/RtmpLV7XFO/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/RtmpLV7XFO/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
-#> ✔ /tmp/RtmpLV7XFO/005-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603110630-202603111600.xml has been read in
-#> ✔ /tmp/RtmpLV7XFO/006-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603110630-202603111600.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/005-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603110630-202603111600.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/006-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603110630-202603111600.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 16

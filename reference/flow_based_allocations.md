@@ -63,7 +63,7 @@ df1 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A43&in_Domain=10Y1001A1001A91G&out_Domain=10Y1001A1001A91G&periodStart=202412312300&periodEnd=202512312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:46 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:28 GMT
 #> <- content-type: text/xml
 #> <- content-length: 972
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -78,7 +78,7 @@ df1 <- entsoeapi::flow_based_allocations(
 dplyr::glimpse(df1)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-10 17:31:46
+#> $ created_date_time <dttm> 2026-03-10 19:48:28
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item FLOW_BASED_ALLOCATIONS [11.1.B] (10Y1001A1001A91G, 10…
 
@@ -94,7 +94,7 @@ df2 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A32&StorageType=archive&in_Domain=10YDOM-REGION-1V&out_Domain=10YDOM-REGION-1V&periodStart=201812302300&periodEnd=201812312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 17:31:46 GMT
+#> <- date: Tue, 10 Mar 2026 19:48:28 GMT
 #> <- content-type: application/zip
 #> <- content-disposition: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"
 #> <- x-content-type-options: nosniff
@@ -102,7 +102,7 @@ df2 <- entsoeapi::flow_based_allocations(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpLV7XFO/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
+#> ✔ /tmp/RtmpDj0v66/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
 #> Warning: Item 4 has 24 rows but longest item has 9440; recycled with remainder.
 #> ℹ No additional definitions added!
 
