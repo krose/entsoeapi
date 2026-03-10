@@ -1022,7 +1022,7 @@ get_all_allocated_eic <- function() {
       error = \(e) {
         cli::cli_abort(
           "The XML document has an unexpected tree structure! {e}"
-        ) # nocov
+        )
       }
     )
 
