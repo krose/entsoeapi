@@ -7,7 +7,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
+has_pat <- nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -18,7 +20,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r load packages, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
 library(entsoeapi)
 library(dplyr) |> suppressPackageStartupMessages()
 library(lubridate) |> suppressPackageStartupMessages()
@@ -28,7 +30,7 @@ library(ggplot2)
 
 ### Look for the Polish market EIC and set the start and the end of scope dates
 
-```{r preset constants}
+```{r preset constants, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
 pl_eic <- all_approved_eic() |>
   filter(EicLongName == "Poland") |>
   select("EicCode") |>
@@ -44,7 +46,7 @@ cli_inform("till: {till_ts}")
 
 ### Query the Polish DA prices within the pre-set period
 
-```{r query da prices}
+```{r query da prices, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
 da_prices <- entsoeapi::day_ahead_prices(
   eic = pl_eic,
   period_start = from_ts,
@@ -56,7 +58,7 @@ glimpse(da_prices)
 
 ### Calculate the daily minimum and maximum prices and the spread
 
-```{r calculate the daily spreads}
+```{r calculate the daily spreads, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
 da_spreads <- da_prices |>
   select(c(ts_point_dt_start, ts_point_price_amount)) |>
   mutate(
@@ -77,7 +79,7 @@ da_spreads <- da_prices |>
 
 ### Plot the daily minimum and maximum prices and the spread
 
-```{r plot the daily spreads}
+```{r plot the daily spreads, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
 ggplot(data = da_spreads) +
   geom_segment(
     mapping = aes(
