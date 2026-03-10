@@ -93,23 +93,23 @@ df <- entsoeapi::outages_transmission_grid(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603092300&periodEnd=202603102300&periodStartUpdate=202603012300&periodEndUpdate=202603082300&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603102300&periodEnd=202603112300&periodStartUpdate=202603022300&periodEndUpdate=202603092300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 09 Mar 2026 20:05:46 GMT
+#> <- date: Tue, 10 Mar 2026 17:32:56 GMT
 #> <- content-type: application/zip
-#> <- content-length: 6192
+#> <- content-length: 6188
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202602020630-202604151500.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmp1NLnYK/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
-#> ✔ /tmp/Rtmp1NLnYK/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603101600.xml has been read in
-#> ✔ /tmp/Rtmp1NLnYK/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/Rtmp1NLnYK/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/Rtmp1NLnYK/005-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
-#> ✔ /tmp/Rtmp1NLnYK/006-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603100630-202603101600.xml has been read in
+#> ✔ /tmp/RtmpLV7XFO/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
+#> ✔ /tmp/RtmpLV7XFO/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
+#> ✔ /tmp/RtmpLV7XFO/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
+#> ✔ /tmp/RtmpLV7XFO/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmpLV7XFO/005-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603110630-202603111600.xml has been read in
+#> ✔ /tmp/RtmpLV7XFO/006-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603110630-202603111600.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 16
@@ -137,6 +137,6 @@ dplyr::glimpse(df)
 #> $ unavailability_time_interval_end   <dttm> 2026-03-20 16:00:00, 2026-03-20 16:00:00, 2026-03-20 16:00:00, 2026-03-20 …
 #> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "P…
 #> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-#> $ ts_available_period_point_quantity <dbl> 3000, 3200, 3000, 4000, 6000, 3700, 1200, 3700, 3700, 3700, 3700, 1200, 355…
+#> $ ts_available_period_point_quantity <dbl> 3000, 3200, 3000, 4000, 6000, 3700, 1200, 3700, 3700, 3700, 1200, 3550, 430…
 #> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"…
 ```

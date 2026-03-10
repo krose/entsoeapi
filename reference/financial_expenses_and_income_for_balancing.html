@@ -33,7 +33,7 @@ One year range limit applies."><meta property="og:image" content="https://krose.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Financial Expenses and Income for Balancing (17.1.I)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/master/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
       <div class="d-none name"><code>financial_expenses_and_income_for_balancing.Rd</code></div>
     </div>
 
@@ -92,7 +92,7 @@ One year range limit applies</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A87&amp;controlArea_Domain=10YCZ-CEPS-----N&amp;periodStart=202112312300&amp;periodEnd=202201012300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Mon, 09 Mar 2026 20:04:34 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 10 Mar 2026 17:31:45 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 888</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Financial_expenses_and_income_for_balancing_202112312300-202201012300.zip"</span>
@@ -101,7 +101,7 @@ One year range limit applies</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp1NLnYK/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202112312300-202201312300.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpLV7XFO/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202112312300-202201312300.xml has been read in</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 2</span>
@@ -116,7 +116,7 @@ One year range limit applies</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type_def         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Realised"<span style="color: #949494;">, </span>"Realised"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A99"<span style="color: #949494;">, </span>"A99"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Financial information"<span style="color: #949494;">, </span>"Financial information"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-09 20:04:34<span style="color: #949494;">, </span>2026-03-09 20:04:34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-10 17:31:45<span style="color: #949494;">, </span>2026-03-10 17:31:45</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_resolution            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "P1M"<span style="color: #949494;">, </span>"P1M"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_start   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-12-31 23:00:00<span style="color: #949494;">, </span>2021-12-31 23:00:00</span>

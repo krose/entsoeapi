@@ -31,7 +31,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Flow Based Allocations (11.1.B)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/master/R/en_market.R" class="external-link"><code>R/en_market.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_market.R" class="external-link"><code>R/en_market.R</code></a></small>
       <div class="d-none name"><code>flow_based_allocations.Rd</code></div>
     </div>
 
@@ -108,7 +108,7 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=B09&amp;processType=A43&amp;in_Domain=10Y1001A1001A91G&amp;out_Domain=10Y1001A1001A91G&amp;periodStart=202412312300&amp;periodEnd=202512312300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Mon, 09 Mar 2026 20:04:35 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 10 Mar 2026 17:31:46 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 972</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="acknowledgement.xml"</span>
@@ -123,7 +123,7 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-09 20:04:35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-10 17:31:46</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_code       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "999"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_text       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "No matching data found for Data item FLOW_BASED_ALLOCATIONS [11.1.B] (10Y1001A1001A91G, 10…</span>
 <span class="r-in"><span></span></span>
@@ -139,7 +139,7 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=B09&amp;processType=A32&amp;StorageType=archive&amp;in_Domain=10YDOM-REGION-1V&amp;out_Domain=10YDOM-REGION-1V&amp;periodStart=201812302300&amp;periodEnd=201812312300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Mon, 09 Mar 2026 20:04:35 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 10 Mar 2026 17:31:46 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -147,7 +147,7 @@ If TRUE, then flatten nested tables.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp1NLnYK/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpLV7XFO/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Item 4 has 24 rows but longest item has 9440; recycled with remainder.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
 <span class="r-in"><span></span></span>

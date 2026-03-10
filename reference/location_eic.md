@@ -26,7 +26,7 @@ eic_location <- entsoeapi::location_eic()
 #> ℹ pulling V_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_location)
-#> Rows: 1,038
+#> Rows: 1,040
 #> Columns: 11
 #> $ EicCode                         <chr> "10V1001C--002139", "10V1001C--00212B", "10V000000000001T", "10V000000000002R"…
 #> $ EicDisplayName                  <chr> "TSCNET_3_FB", "TSCNET_4_OPC_STA", "ECP_TP_TEST_EP", "ECP_TP_PROD_EP", "ECP_TP…

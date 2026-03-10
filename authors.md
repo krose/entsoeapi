@@ -9,7 +9,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/krose/entsoeapi/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/krose/entsoeapi/blob/main/DESCRIPTION)
 
 Rose K, Budai S (2026). *entsoeapi: An R Wrapper for the European
 Network of Transmission System Operators for Electricity Application

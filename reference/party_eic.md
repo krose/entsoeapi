@@ -26,7 +26,7 @@ eic_party <- entsoeapi::party_eic()
 #> ℹ pulling X_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_party)
-#> Rows: 14,809
+#> Rows: 14,814
 #> Columns: 11
 #> $ EicCode                         <chr> "26X00000001515-Y", "26X00000105734-O", "26X00000105740-W", "10X1001A1001A094"…
 #> $ EicDisplayName                  <chr> "LA_220", "IT-GEO____SPA", "IT-BETA_ENERGYS", "ELIA", "ENERGINET-DK", "FINGRID…

@@ -50,7 +50,7 @@ df <- entsoeapi::rr_actual_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A46&businessType=C77&area_Domain=10YAT-APG------L&periodStart=202112312300&periodEnd=202203312200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 09 Mar 2026 20:05:57 GMT
+#> <- date: Tue, 10 Mar 2026 17:33:07 GMT
 #> <- content-type: text/xml
 #> <- content-length: 969
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -65,7 +65,7 @@ df <- entsoeapi::rr_actual_capacity(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-09 20:05:57
+#> $ created_date_time <dttm> 2026-03-10 17:33:07
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item FRR_RR_ACTUAL_CAPACITY [SO GL 188.4&189.3] (10YAT-APG…
 ```

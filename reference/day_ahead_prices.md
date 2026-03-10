@@ -50,7 +50,7 @@ df1 <- entsoeapi::day_ahead_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201910312300&periodEnd=201911302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 09 Mar 2026 20:04:03 GMT
+#> <- date: Tue, 10 Mar 2026 17:31:13 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_201910312300-201911302300.xml"
 #> <- x-content-type-options: nosniff
@@ -77,7 +77,7 @@ dplyr::glimpse(df1)
 #> $ ts_auction_type_def                   <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", …
 #> $ ts_business_type                      <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A…
 #> $ ts_business_type_def                  <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "S…
-#> $ created_date_time                     <dttm> 2026-03-09 20:04:03, 2026-03-09 20:04:03, 2026-03-09 20:04:03, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-10 17:31:13, 2026-03-10 17:31:13, 2026-03-10 17:31:13, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ ts_resolution                         <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", …
 #> $ ts_time_interval_start                <dttm> 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-…
@@ -98,7 +98,7 @@ df2 <- entsoeapi::day_ahead_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202602122300&periodEnd=202602122300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 09 Mar 2026 20:04:04 GMT
+#> <- date: Tue, 10 Mar 2026 17:31:14 GMT
 #> <- content-type: text/xml
 #> <- content-length: 963
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -112,7 +112,7 @@ df2 <- entsoeapi::day_ahead_prices(
 dplyr::glimpse(df2)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-09 20:04:04
+#> $ created_date_time <dttm> 2026-03-10 17:31:14
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item ENERGY_PRICES [12.1.D] (10Y1001A1001A82H, 10Y1001A100…
 ```
