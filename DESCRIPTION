@@ -1,17 +1,21 @@
 Package: entsoeapi
 Type: Package
-Title: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface
-Version: 0.9.5.1
-Authors@R: c(person("Kenneth", "Rose",  role="aut",           email="kennethrose82@gmail.com"),
-             person("Sándor",  "Budai", role=c("aut", "cre"), email="sbudai.ga@gmail.com"))
-Description: Simple and standardized wrappers around Entso-E API's Market, Load, Generation,
-             Transmission, Outages & Balancing endpoints to retrieve common data,
-             and convert them into tabular format.
+Title: R Client for the 'ENTSO-E' Transparency Platform API
+Version: 0.9.6
+Authors@R: c(person("Kenneth", "Rose",  role=c("aut", "cph"), email="kennethrose82@gmail.com"),
+             person("Sándor",  "Budai", role=c("aut", "cre", "cph"), email="sbudai.ga@gmail.com"))
+Description: Provides a standardized R client for the 'ENTSO-E' (European Network of
+             Transmission System Operators for Electricity) Transparency Platform API.
+             Covers Market, Load, Generation, Transmission, Outages, and Balancing
+             endpoints. Automatically handles query pagination, XML-to-tabular conversion,
+             response caching, and code list lookups. Requires a registered 'ENTSO-E'
+             security token.
 License: MIT + file LICENSE
-Imports: 
+Imports:
     cachem,
     cli,
     checkmate,
+    curl,
     data.table,
     dplyr,
     fs,

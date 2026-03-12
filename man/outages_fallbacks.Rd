@@ -42,6 +42,10 @@ Defaults to "A53".}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 It publishes of application of fall back procedures by participants
 in European platforms as a result of disconnection of DSO from

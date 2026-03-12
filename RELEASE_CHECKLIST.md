@@ -2,7 +2,7 @@
 
 ## 1. Prepare
 
--   [ ] All planned changes merged into `develop`
+-   [ ] All planned changes merged into `devel`
 -   [ ] `NEWS.md` updated — new version header, all changes documented
 -   [ ] Version bumped in `DESCRIPTION` (follow semver: major.minor.patch)
 -   [ ] `RoxygenNote` in `DESCRIPTION` matches installed roxygen2 version
@@ -30,7 +30,7 @@
 ## 5. Merge & Tag
 
 -   [ ] Merge `develop` → `main` (PR or direct)
--   [ ] Create a git tag: `git tag v0.9.5.1 && git push origin v0.9.5.1`
+-   [ ] Create a git tag: `git tag v0.9.6 && git push origin v0.9.6`
 -   [ ] Create a GitHub Release with the `NEWS.md` entry as release notes
 
 ## 6. Pkgdown Site
@@ -41,7 +41,7 @@
 
 ## 7. (When ready) CRAN Submission
 
--   [ ] `rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c(1L, 3L, 5L), branch = "main")`— multi-platform check
+-   [ ] `rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows"", "macos-arm64", "linux"), branch = "main")`— multi-platform check
 -   [ ] `devtools::spell_check()` — no spelling errors in docs
 -   [ ] Review [CRAN policies](https://cran.r-project.org/web/packages/policies.html)
 -   [ ] `devtools::submit_cran()` or upload via <https://cran.r-project.org/submit.html>

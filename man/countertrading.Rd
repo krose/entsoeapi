@@ -27,6 +27,10 @@ countertrading(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Buying or cancelling generation on different side of the border
 to relieve congested cross-border lines that exceeds its capacity.
@@ -35,6 +39,7 @@ matching counter trades
 100 documents limit applies!!
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 # Counter trading between Germany and Denmark.
 df <- entsoeapi::countertrading(
   eic_in = "10Y1001A1001A82H",
@@ -45,5 +50,5 @@ df <- entsoeapi::countertrading(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

@@ -22,12 +22,17 @@ codes from asset_types table}
 
 \item{security_token}{Security token}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 The sum of installed net generation capacity (MW) for all
 existing production units equal to or exceeding 1 MW
 installed generation capacity, per production type.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_installed_capacity_per_pt(
   eic = "10YFR-RTE------C",
   psr_type = "B05",
@@ -35,5 +40,5 @@ df <- entsoeapi::gen_installed_capacity_per_pt(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

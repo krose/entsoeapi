@@ -25,9 +25,11 @@ utils::globalVariables(
 #' @param year YYYY format
 #' @param security_token Security token
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_installed_capacity_per_pt(
 #'   eic = "10YFR-RTE------C",
 #'   psr_type = "B05",
@@ -42,7 +44,7 @@ gen_installed_capacity_per_pt <- function(
   year = lubridate::year(Sys.Date()),
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
   checkmate::assert_integerish(year, len = 1L)
 
@@ -71,7 +73,7 @@ gen_installed_capacity_per_pt <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = TRUE)
 }
 
@@ -91,9 +93,11 @@ gen_installed_capacity_per_pt <- function(
 #'             as required by the law.
 #' @param security_token Security token
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_installed_capacity_per_pu(
 #'   eic      = "10YDE-VE-------2",
 #'   year     = 2020,
@@ -108,7 +112,7 @@ gen_installed_capacity_per_pu <- function(
   psr_type = NULL,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
   checkmate::assert_integerish(year, len = 1L)
 
@@ -144,7 +148,7 @@ gen_installed_capacity_per_pu <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = TRUE)
 }
 
@@ -168,9 +172,11 @@ gen_installed_capacity_per_pu <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_per_prod_type(
 #'   eic          = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -191,7 +197,7 @@ gen_per_prod_type <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -224,7 +230,7 @@ gen_per_prod_type <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -248,9 +254,11 @@ gen_per_prod_type <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_storage_mean_filling_rate(
 #'   eic          = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -269,7 +277,7 @@ gen_storage_mean_filling_rate <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -296,7 +304,7 @@ gen_storage_mean_filling_rate <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -319,9 +327,11 @@ gen_storage_mean_filling_rate <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_per_gen_unit(
 #'   eic          = "10YDE-VE-------2",
 #'   period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
@@ -344,7 +354,7 @@ gen_per_gen_unit <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
@@ -454,7 +464,7 @@ gen_per_gen_unit <- function(
         security_token = security_token
       )
 
-      # return with the extracted the response
+      # return with the extracted response
       extract_response(
         content = en_cont_list,
         tidy_output = tidy_output
@@ -485,9 +495,11 @@ gen_per_gen_unit <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_day_ahead_forecast(
 #'   eic          = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -506,7 +518,7 @@ gen_day_ahead_forecast <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -533,7 +545,7 @@ gen_day_ahead_forecast <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -558,9 +570,11 @@ gen_day_ahead_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df_list <- entsoeapi::gen_wind_solar_forecasts(
 #'   eic          = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -580,7 +594,7 @@ gen_wind_solar_forecasts <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -616,7 +630,7 @@ gen_wind_solar_forecasts <- function(
         security_token = security_token
       )
 
-      # return with the extracted the response
+      # return with the extracted response
       extract_response(
         content = en_cont_list,
         tidy_output = tidy_output

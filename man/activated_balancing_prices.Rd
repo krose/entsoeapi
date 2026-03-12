@@ -31,11 +31,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Prices of activated balancing energy and aFRR cross-border marginal prices.
 One year range limit applies.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::activated_balancing_prices(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
@@ -44,5 +49,5 @@ df <- entsoeapi::activated_balancing_prices(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

@@ -37,10 +37,15 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Implicit offered transfer capacity values.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::implicit_offered_transfer_capacity(
   eic_in = "10Y1001A1001A82H",
   eic_out = "10YDK-1--------W",
@@ -51,5 +56,5 @@ df <- entsoeapi::implicit_offered_transfer_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

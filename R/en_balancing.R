@@ -24,9 +24,11 @@ utils::globalVariables(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::elastic_demands(
 #'   eic = "10YCZ-CEPS-----N",
 #'   process_type = "A47",
@@ -51,7 +53,7 @@ elastic_demands <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(process_type, choices = c("A47", "A51"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -80,7 +82,7 @@ elastic_demands <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -103,9 +105,11 @@ elastic_demands <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::netted_volumes(
 #'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2022-08-16", tz = "CET"),
@@ -128,7 +132,7 @@ netted_volumes <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one day
@@ -156,7 +160,7 @@ netted_volumes <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -186,9 +190,11 @@ netted_volumes <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df1 <- entsoeapi::exchanged_volumes(
 #'   eic = "10YCZ-CEPS-----N",
 #'   process_type = "A51",
@@ -223,7 +229,7 @@ exchanged_volumes <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(process_type, choices = c("A51", "A60", "A61"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -252,7 +258,7 @@ exchanged_volumes <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -279,9 +285,11 @@ exchanged_volumes <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::balancing_border_cap_limit(
 #'   eic_in = "10YDE-RWENET---I",
 #'   eic_out = "10YBE----------2",
@@ -308,8 +316,8 @@ balancing_border_cap_limit <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
-  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic_in, var_name = "eic_in")
+  assert_eic(eic = eic_out, var_name = "eic_out")
   checkmate::assert_choice(process_type, choices = c("A47", "A51", "A63"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -339,7 +347,7 @@ balancing_border_cap_limit <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -364,9 +372,11 @@ balancing_border_cap_limit <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::exchanged_volumes_per_border(
 #'   acquiring_eic = "10YBE----------2",
 #'   connecting_eic = "10YFR-RTE------C",
@@ -393,8 +403,8 @@ exchanged_volumes_per_border <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(acquiring_eic)
-  checkmate::assert_string(connecting_eic)
+  assert_eic(eic = acquiring_eic, var_name = "acquiring_eic")
+  assert_eic(eic = connecting_eic, var_name = "connecting_eic")
   checkmate::assert_choice(process_type, choices = c("A51", "A60", "A61"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -423,7 +433,7 @@ exchanged_volumes_per_border <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -449,9 +459,11 @@ exchanged_volumes_per_border <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::hvdc_link_constrains(
 #'   eic_in = "10YAT-APG------L",
 #'   eic_out = "10YDE-RWENET---I",
@@ -479,9 +491,9 @@ hvdc_link_constrains <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic_in, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
-  checkmate::assert_string(x = eic_out, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
-  checkmate::assert_string(eic_ic, null.ok = TRUE)
+  assert_eic(eic = eic_in, var_name = "eic_in")
+  assert_eic(eic = eic_out, var_name = "eic_out")
+  assert_eic(eic = eic_ic, var_name = "eic_ic", null_ok = TRUE)
   checkmate::assert_choice(process_type, choices = c("A47", "A51", "A63"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -512,7 +524,7 @@ hvdc_link_constrains <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -541,9 +553,11 @@ hvdc_link_constrains <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::changes_to_bid_availability(
 #'   eic = "10YCZ-CEPS-----N",
 #'   business_type = "C46",
@@ -568,7 +582,7 @@ changes_to_bid_availability <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(
     business_type,
     choices = c("C40", "C41", "C42", "C43", "C44", "C45", "C46")
@@ -600,7 +614,7 @@ changes_to_bid_availability <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -620,9 +634,11 @@ changes_to_bid_availability <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::current_balancing_state(
 #'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
@@ -645,7 +661,7 @@ current_balancing_state <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than 100 days
@@ -672,7 +688,7 @@ current_balancing_state <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -691,9 +707,11 @@ current_balancing_state <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::balancing_energy_bids(
 #'   eic = "10YCZ-CEPS-----N",
 #'   process_type = "A47",
@@ -718,7 +736,7 @@ balancing_energy_bids <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
@@ -741,7 +759,7 @@ balancing_energy_bids <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -767,9 +785,11 @@ balancing_energy_bids <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::aggregated_balancing_energy_bids(
 #'   eic = "10YCZ-CEPS-----N",
 #'   process_type = "A51",
@@ -794,7 +814,7 @@ aggregated_balancing_energy_bids <- function( # nolint: object_length_linter
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(
     process_type,
     choices = c("A51", "A46", "A47", "A60", "A61")
@@ -825,7 +845,7 @@ aggregated_balancing_energy_bids <- function( # nolint: object_length_linter
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -848,9 +868,11 @@ aggregated_balancing_energy_bids <- function( # nolint: object_length_linter
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::procured_balancing_capacity(
 #'   eic = "10YCZ-CEPS-----N",
 #'   process_type = "A51",
@@ -876,7 +898,7 @@ procured_balancing_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(process_type, choices = c("A51", "A52", "A47"))
   checkmate::assert_string(type_market_agreement, null.ok = TRUE)
   checkmate::assert_string(security_token, min.chars = 1L)
@@ -908,7 +930,7 @@ procured_balancing_capacity <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -928,9 +950,11 @@ procured_balancing_capacity <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 #'   eic_acquiring = "10YAT-APG------L",
 #'   eic_connecting = "10YCH-SWISSGRIDZ",
@@ -956,12 +980,8 @@ allocation_of_cross_zonal_balancing_cap <- function( # nolint: object_length_lin
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(
-    x = eic_acquiring, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
-  )
-  checkmate::assert_string(
-    x = eic_connecting, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
-  )
+  assert_eic(eic = eic_acquiring, var_name = "eic_acquiring")
+  assert_eic(eic = eic_connecting, var_name = "eic_connecting")
   checkmate::assert_string(type_market_agreement, null.ok = TRUE)
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -993,7 +1013,7 @@ allocation_of_cross_zonal_balancing_cap <- function( # nolint: object_length_lin
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1027,9 +1047,11 @@ allocation_of_cross_zonal_balancing_cap <- function( # nolint: object_length_lin
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::contracted_reserves(
 #'   eic = "10YCZ-CEPS-----N",
 #'   type_market_agreement = "A13",
@@ -1056,7 +1078,7 @@ contracted_reserves <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(type_market_agreement)
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -1088,7 +1110,7 @@ contracted_reserves <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1110,9 +1132,11 @@ contracted_reserves <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::activated_balancing_prices(
 #'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
@@ -1137,7 +1161,7 @@ activated_balancing_prices <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -1169,7 +1193,7 @@ activated_balancing_prices <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1189,9 +1213,11 @@ activated_balancing_prices <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::imbalance_prices(
 #'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
@@ -1214,7 +1240,7 @@ imbalance_prices <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -1240,7 +1266,7 @@ imbalance_prices <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1260,9 +1286,11 @@ imbalance_prices <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::imbalance_volumes(
 #'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
@@ -1285,7 +1313,7 @@ imbalance_volumes <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -1311,7 +1339,7 @@ imbalance_volumes <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1331,9 +1359,11 @@ imbalance_volumes <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::financial_expenses_and_income_for_balancing(
 #'   eic = "10YCZ-CEPS-----N",
 #'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
@@ -1356,7 +1386,7 @@ financial_expenses_and_income_for_balancing <- function( # nolint: object_length
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -1382,7 +1412,7 @@ financial_expenses_and_income_for_balancing <- function( # nolint: object_length
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1402,9 +1432,11 @@ financial_expenses_and_income_for_balancing <- function( # nolint: object_length
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::fcr_total_capacity(
 #'   eic = "10YEU-CONT-SYNC0",
 #'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
@@ -1427,7 +1459,7 @@ fcr_total_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -1454,7 +1486,7 @@ fcr_total_capacity <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1477,9 +1509,11 @@ fcr_total_capacity <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::shares_of_fcr_capacity(
 #'   eic = "10YDE-VE-------2",
 #'   business_type = "C23",
@@ -1504,7 +1538,7 @@ shares_of_fcr_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(business_type, choices = c("C23", "B95"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -1532,7 +1566,7 @@ shares_of_fcr_capacity <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1558,9 +1592,11 @@ shares_of_fcr_capacity <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::rr_and_frr_actual_capacity(
 #'   eic = "10YAT-APG------L",
 #'   process_type = "A56",
@@ -1586,7 +1622,7 @@ rr_and_frr_actual_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_choice(process_type, choices = c("A56", "A46"))
   checkmate::assert_choice(business_type, choices = c("C77", "C78", "C79"))
   checkmate::assert_string(security_token, min.chars = 1L)
@@ -1611,7 +1647,7 @@ rr_and_frr_actual_capacity <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1629,9 +1665,11 @@ rr_and_frr_actual_capacity <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::rr_actual_capacity(
 #'   eic = "10YAT-APG------L",
 #'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
@@ -1654,7 +1692,7 @@ rr_actual_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
@@ -1677,7 +1715,7 @@ rr_actual_capacity <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -1701,21 +1739,21 @@ rr_actual_capacity <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' df <- entsoeapi::sharing_of_frr_capacity(
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' df <- try(entsoeapi::sharing_of_frr_capacity(
 #'   eic_acquiring = "10YCB-GERMANY--8",
 #'   eic_connecting = "10YAT-APG------L",
 #'   process_type = "A56",
 #'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
 #'   period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
 #'   tidy_output = TRUE
-#' )
+#' ))
 #'
-#' dplyr::glimpse(df)
-#' }
+#' if (!inherits(df, "try-error")) dplyr::glimpse(df)
 #'
 sharing_of_frr_capacity <- function(
   eic_acquiring = NULL,
@@ -1732,12 +1770,8 @@ sharing_of_frr_capacity <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(
-    x = eic_acquiring, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
-  )
-  checkmate::assert_string(
-    x = eic_connecting, n.chars = 16L, pattern = "^[A-Z0-9-]*$"
-  )
+  assert_eic(eic = eic_acquiring, var_name = "eic_acquiring")
+  assert_eic(eic = eic_connecting, var_name = "eic_connecting")
   checkmate::assert_choice(process_type, choices = c("A56", "A46"))
   checkmate::assert_string(security_token, min.chars = 1L)
 
@@ -1767,6 +1801,6 @@ sharing_of_frr_capacity <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }

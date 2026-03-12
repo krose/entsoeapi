@@ -21,8 +21,9 @@ A resource that can either produce or consume energy
 and that is reported in a schedule.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 eic_resource_object <- entsoeapi::resource_object_eic()
 
 dplyr::glimpse(eic_resource_object)
-
+\dontshow{\}) # examplesIf}
 }

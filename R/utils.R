@@ -64,6 +64,66 @@ utils::globalVariables(
 
 
 #' @title
+#' Character-to-integer lookup table for EIC checksum validation
+#'
+#' @noRd
+possible_eic_chars <- rlang::set_names(
+  x  = 0L:36L,
+  nm = c(as.character(0:9), LETTERS, "-")
+)
+
+
+#' @title
+#' Assert that an EIC code is syntactically valid
+#'
+#' @description
+#' Throws an informative error if `eic` is not a syntactically valid
+#' Energy Identification Code (EIC). Validity requires all three conditions
+#' to hold: the string must be exactly 16 characters long, the first 15
+#' characters must belong to the EIC alphabet (`[A-Z0-9-]`), and the 16th
+#' character must match the check character computed by the ENTSO-E
+#' weighted-modulo-37 algorithm. Called for its side-effect; returns
+#' invisibly on success.
+#'
+#' @param eic A length-one character string to assert.
+#' @param var_name `[character(1)]` Name used for `eic` in error messages.
+#'   Passed through to `checkmate` assertion functions.
+#' @param null_ok `[logical(1)]` If `TRUE`, `NULL` is accepted without error.
+#'
+#' @return Invisibly returns `eic`. Called for its side-effect (assertion).
+#'
+#' @noRd
+assert_eic <- function(eic, var_name = "eic", null_ok = FALSE) {
+  if (is.null(eic) && isTRUE(null_ok)) return(invisible(eic))
+
+  checkmate::assert_string(
+    x = eic,
+    n.chars = 16L,
+    pattern = "^[A-Z0-9-]*$",
+    .var.name = var_name
+  )
+
+  eic_char_vector <- stringr::str_sub(string = eic, start = 1L, end = 15L) |>
+    stringr::str_split_1(pattern = "")
+  vals <- possible_eic_chars[eic_char_vector]
+  total_sum <- sum(vals * 16L:2L)
+
+  char_idx  <- (36L - (total_sum - 1L) %% 37L) + 1L
+  exp_char <- names(possible_eic_chars)[char_idx]
+  checksum_char <- stringr::str_sub(string = eic, start = 16L, end = 16L)
+
+  if (checksum_char == exp_char) {
+    invisible(eic)
+  } else {
+    cli::cli_abort(c(
+      "Invalid EIC checksum character in {.arg {var_name}}",
+      "x" = "Expected {.val {exp_char}}, got {.val {checksum_char}}"
+    ))
+  }
+}
+
+
+#' @title
 #' Organize list of strings into group
 #'
 #' @description
@@ -365,12 +425,9 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
       )
     )
 
-  # if curve_type not defined or 'A01', then
-  if (is.null(curve_type) || curve_type == "A01") {
-    # do nothing in this case
-    Sys.sleep(time = 0)
-
-    # if curve_type is 'A03', then
+  # if curve_type is 'A01' or absent, do nothing; otherwise branch by type
+  if (length(curve_type) == 0L || curve_type == "A01") {
+    # no adjustment needed
   } else if (curve_type == "A03") {
     ts_resolution_requ_length <- ts_resolution_real_length <- ts_mrid <- NULL
     ts_resolution_ok <- ts_time_interval_start <- ts_time_interval_end <- NULL
@@ -481,7 +538,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     dplyr::ungroup()
 
   # if tidy output is needed, then
-  if (tidy_output == TRUE) {
+  if (isTRUE(tidy_output)) {
     # set the not_needed_cols
     not_needed_cols <- c(
       "ts_point_position", "by", "ts_resolution_requ_length",
@@ -593,15 +650,16 @@ read_zipped_xml <- function(temp_file_path) {
   )
 
   # read the xml content from each the decompressed files
-  en_cont_list <- unzipped_files$result |>
-    purrr::map(~ {
-      xml_content <- xml2::read_xml(.x)
-      cli::cli_alert_success("{.x} has been read in")
-      return(xml_content)
-    })
-
-  # return with the xml content list
-  en_cont_list
+  if (is.null(unzipped_files$error)) {
+    unzipped_files$result |>
+      purrr::map(~ {
+        xml_content <- xml2::read_xml(.x)
+        cli::cli_alert_success("{.x} has been read in")
+        return(xml_content)
+      })
+  } else {
+    cli::cli_abort(conditionMessage(unzipped_files$error))
+  }
 }
 
 
@@ -634,7 +692,6 @@ api_req <- function(
       body_resp = FALSE
     ) |>
     httr2::req_timeout(seconds = 60)
-  resp <- "No response."
   resp <- req_perform_safe(req = req)
 
   if (is.null(x = resp$error)) {
@@ -687,7 +744,7 @@ api_req <- function(
     rhct <- httr2::resp_content_type(resp = error_obj$resp)
     expt_html <- c("text/html")
     expt_xml <- c("text/xml", "application/xml")
-    expt_json <- c("text/xml", "application/json")
+    expt_json <- c("text/json", "application/json")
 
     if (rhct %in% expt_html) {
       # extract reason code and text
@@ -697,7 +754,7 @@ api_req <- function(
         xmlconvert::xml_to_list() |>
         purrr::pluck("body")
 
-      sprintf("/s: %s", response_reason_code, response_reason_text) |>
+      sprintf("%s: %s", response_reason_code, response_reason_text) |>
         cli::cli_abort()
     }
 
@@ -1094,11 +1151,11 @@ my_snakecase <- function(tbl) {
         "TimeSeries" = "ts",
         "^process" = "",
         "unavailability_Time_Period" = "unavailability",
-        "ts.[p|P]roduction_RegisteredResource.pSRType" = "ts.production",
-        "ts.[p|P]roduction_RegisteredResource" = "ts.production",
-        "ts.[a|A]sset_RegisteredResource.pSRType" = "ts.asset",
-        "ts.[a|A]sset_RegisteredResource" = "ts.asset",
-        "[p|P]owerSystemResources" = "psr",
+        "ts.[pP]roduction_RegisteredResource.pSRType" = "ts.production",
+        "ts.[pP]roduction_RegisteredResource" = "ts.production",
+        "ts.[aA]sset_RegisteredResource.pSRType" = "ts.asset",
+        "ts.[aA]sset_RegisteredResource" = "ts.asset",
+        "[pP]owerSystemResources" = "psr",
         "eICCode" = "eicCode",
         "aCERCode" = "acerCode",
         "vATCode" = "vatCode",
@@ -1202,7 +1259,7 @@ add_type_names <- function(tbl) {
 
   # define an empty vector to collect those column names
   # which will get definitions by add_type_names() function
-  affected_cols <- c()
+  affected_cols <- character(0)
 
   # add type definitions to codes
   if ("type" %in% names(tbl)) {
@@ -2032,20 +2089,44 @@ extract_response <- function(content, tidy_output = TRUE) {
 
 
 #' @title
-#' check if the Entso-e API provider is up and ready
+#' Check if the ENTSO-E API provider is reachable
 #'
-#' @noRd
+#' @description
+#' Sends a probe request to the ENTSO-E Transparency Platform API and returns
+#' `TRUE` if the server responds with HTTP 401 Unauthorized (meaning the
+#' endpoint is up but the dummy token was rejected). Returns `FALSE` when there
+#' is no internet connection or when the server is unreachable. Primarily
+#' intended as an `@examplesIf` guard in package documentation.
+#'
+#' @param api_scheme Character. URL scheme, default `"https://"`.
+#' @param api_domain Character. API host, default `"web-api.tp.entsoe.eu/"`.
+#' @param api_name   Character. API path prefix, default `"api?"`.
+#'
+#' @return A single logical value.
+#'
+#' @examples
+#' \donttest{
+#'   there_is_provider()
+#' }
+#'
+#' @export
 there_is_provider <- function(
   api_scheme = "https://",
   api_domain = "web-api.tp.entsoe.eu/",
   api_name = "api?"
 ) {
-  req <- paste0(
-    api_scheme, api_domain, api_name, "foo=bar&securityToken=baz"
-  ) |>
-    httr2::request() |>
-    httr2::req_method(method = "GET") |>
-    httr2::req_retry(max_tries = 1L)
-  resp <- req_perform_safe(req)
-  if (resp$error$message == "HTTP 401 Unauthorized.") TRUE else FALSE
+  if (curl::has_internet()) {
+    req <- paste0(
+      api_scheme, api_domain, api_name, "foo=bar&securityToken=baz"
+    ) |>
+      httr2::request() |>
+      httr2::req_method(method = "GET") |>
+      httr2::req_retry(max_tries = 1L)
+    resp <- req_perform_safe(req)
+    if (!is.null(resp$error$resp) &&
+          httr2::resp_status(resp$error$resp) == 401L) TRUE else FALSE
+  } else {
+    FALSE
+  }
+
 }

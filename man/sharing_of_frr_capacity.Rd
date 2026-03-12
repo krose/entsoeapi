@@ -33,22 +33,25 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Sharing of Frequency Restoration Reserve capacity between areas.
 One year range limit applies.
 }
 \examples{
-\dontrun{
-df <- entsoeapi::sharing_of_frr_capacity(
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
+df <- try(entsoeapi::sharing_of_frr_capacity(
   eic_acquiring = "10YCB-GERMANY--8",
   eic_connecting = "10YAT-APG------L",
   process_type = "A56",
   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
   tidy_output = TRUE
-)
+))
 
-dplyr::glimpse(df)
-}
-
+if (!inherits(df, "try-error")) dplyr::glimpse(df)
+\dontshow{\}) # examplesIf}
 }

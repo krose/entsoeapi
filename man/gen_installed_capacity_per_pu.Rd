@@ -23,11 +23,16 @@ codes from asset_types table}
 
 \item{security_token}{Security token}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 The installed generation capacities (MW) at the beginning of the year
 for all the production units, including the planned ones.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_installed_capacity_per_pu(
   eic      = "10YDE-VE-------2",
   year     = 2020,
@@ -35,5 +40,5 @@ df <- entsoeapi::gen_installed_capacity_per_pu(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

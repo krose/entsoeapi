@@ -38,7 +38,7 @@ mh <- cachem::cache_mem(max_age = 3600)
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_party <- entsoeapi::party_eic()
 #'
 #' dplyr::glimpse(eic_party)
@@ -83,7 +83,7 @@ party_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_area <- entsoeapi::area_eic()
 #'
 #' dplyr::glimpse(eic_area)
@@ -130,7 +130,7 @@ area_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_accounting_point <- entsoeapi::accounting_point_eic()
 #'
 #' dplyr::glimpse(eic_accounting_point)
@@ -177,7 +177,7 @@ accounting_point_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_tie_line <- entsoeapi::tie_line_eic()
 #'
 #' dplyr::glimpse(eic_tie_line)
@@ -223,7 +223,7 @@ tie_line_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_location <- entsoeapi::location_eic()
 #'
 #' dplyr::glimpse(eic_location)
@@ -270,7 +270,7 @@ location_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_resource_object <- entsoeapi::resource_object_eic()
 #'
 #' dplyr::glimpse(eic_resource_object)
@@ -322,7 +322,7 @@ resource_object_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_substation <- entsoeapi::substation_eic()
 #'
 #' dplyr::glimpse(eic_substation)
@@ -369,7 +369,7 @@ substation_eic <- function() {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' eic_all <- entsoeapi::all_approved_eic()
 #'
 #' dplyr::glimpse(eic_all)

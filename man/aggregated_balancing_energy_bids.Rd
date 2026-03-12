@@ -33,11 +33,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Aggregated balancing energy bids.
 One year range limit applies.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::aggregated_balancing_energy_bids(
   eic = "10YCZ-CEPS-----N",
   process_type = "A51",
@@ -47,5 +52,5 @@ df <- entsoeapi::aggregated_balancing_energy_bids(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

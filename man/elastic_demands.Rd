@@ -30,10 +30,15 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Elastic demands for scheduled activation of standard aFRR/mFRR product.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::elastic_demands(
   eic = "10YCZ-CEPS-----N",
   process_type = "A47",
@@ -43,5 +48,5 @@ df <- entsoeapi::elastic_demands(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

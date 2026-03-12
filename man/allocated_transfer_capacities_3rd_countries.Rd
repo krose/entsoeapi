@@ -51,12 +51,17 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Capacity allocated outside the EU via explicit auction (auction.Type=A02).
 Minimum time interval in query response ranges from part of day to year,
 depending on the selected contract type. A 100-document limit applies.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::allocated_transfer_capacities_3rd_countries(
   eic_in = "10YSK-SEPS-----K",
   eic_out = "10YUA-WEPS-----0",
@@ -69,5 +74,5 @@ df <- entsoeapi::allocated_transfer_capacities_3rd_countries(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

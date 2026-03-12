@@ -28,11 +28,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Day-ahead commercial exchanges in aggregated form between
 bidding zones per direction and market time unit.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df1 <- entsoeapi::day_ahead_commercial_sched(
   eic_in = "10YCZ-CEPS-----N",
   eic_out = "10YSK-SEPS-----K",
@@ -50,5 +55,5 @@ df2 <- entsoeapi::day_ahead_commercial_sched(
   tidy_output = TRUE
 )
 dplyr::glimpse(df2)
-
+\dontshow{\}) # examplesIf}
 }

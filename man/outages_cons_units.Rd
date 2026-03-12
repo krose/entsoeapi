@@ -52,6 +52,10 @@ Defaults to NULL which means both of them.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Unavailability of consumption units in aggregated form.
 All planned and forced outages in selected area are
@@ -59,6 +63,7 @@ aggregated according to the market time unit. The list of
 specific consumption units are not provided.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::outages_cons_units(
   eic = "10YFI-1--------U",
   period_start = lubridate::ymd(x = "2024-04-10", tz = "CET"),
@@ -66,5 +71,5 @@ df <- entsoeapi::outages_cons_units(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

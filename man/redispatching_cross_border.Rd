@@ -27,12 +27,17 @@ redispatching_cross_border(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Changes in production and load (increase or decrease) to
 relieve congested internal lines that exceeds its capacity.
 100 documents limit applies!!
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 # Germany's cross-border redispatching between TenneT and 50Hertz TSO.
 df <- entsoeapi::redispatching_cross_border(
   eic_in = "10YDE-EON------1",
@@ -43,5 +48,5 @@ df <- entsoeapi::redispatching_cross_border(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

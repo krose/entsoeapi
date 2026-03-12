@@ -28,6 +28,10 @@ codes from asset_types table}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Actual net generation output (MW) and optionally
 consumption data from all generation units.
@@ -35,6 +39,7 @@ Data are aggregated as an average of generation outputs
 or consumption.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_per_gen_unit(
   eic          = "10YDE-VE-------2",
   period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
@@ -44,5 +49,5 @@ df <- entsoeapi::gen_per_gen_unit(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

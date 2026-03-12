@@ -27,6 +27,10 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 A respective forecast of wind and solar power net
 generation (MW) per area and each market time unit
@@ -35,6 +39,7 @@ The elements of the result list are representing
 each related forecast time range.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df_list <- entsoeapi::gen_wind_solar_forecasts(
   eic          = "10YFR-RTE------C",
   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -45,5 +50,5 @@ df_list <- entsoeapi::gen_wind_solar_forecasts(
 dplyr::glimpse(df_list$`Day-ahead`)
 dplyr::glimpse(df_list$`Intraday`)
 dplyr::glimpse(df_list$`Current`)
-
+\dontshow{\}) # examplesIf}
 }

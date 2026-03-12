@@ -36,11 +36,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Changes to bid availability for scheduled activation products.
 100 documents limit applies; paging is handled transparently.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::changes_to_bid_availability(
   eic = "10YCZ-CEPS-----N",
   business_type = "C46",
@@ -50,5 +55,5 @@ df <- entsoeapi::changes_to_bid_availability(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

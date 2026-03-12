@@ -27,9 +27,11 @@ utils::globalVariables(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' # German average daily load.
 #' df <- entsoeapi::load_actual_total(
 #'   eic = "10Y1001A1001A83F",
@@ -52,7 +54,7 @@ load_actual_total <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -79,7 +81,7 @@ load_actual_total <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -105,9 +107,11 @@ load_actual_total <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' # German average daily load.
 #' df <- entsoeapi::load_day_ahead_total_forecast(
 #'   eic = "10Y1001A1001A83F",
@@ -130,7 +134,7 @@ load_day_ahead_total_forecast <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -157,7 +161,7 @@ load_day_ahead_total_forecast <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -183,9 +187,11 @@ load_day_ahead_total_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::load_week_ahead_total_forecast(
 #'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
@@ -206,7 +212,7 @@ load_week_ahead_total_forecast <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -233,7 +239,7 @@ load_week_ahead_total_forecast <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -259,9 +265,11 @@ load_week_ahead_total_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::load_month_ahead_total_forecast(
 #'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
@@ -282,7 +290,7 @@ load_month_ahead_total_forecast <- function( # nolint: object_length_linter
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -309,7 +317,7 @@ load_month_ahead_total_forecast <- function( # nolint: object_length_linter
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -335,9 +343,11 @@ load_month_ahead_total_forecast <- function( # nolint: object_length_linter
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::load_year_ahead_total_forecast(
 #'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
@@ -356,7 +366,7 @@ load_year_ahead_total_forecast <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -383,7 +393,7 @@ load_year_ahead_total_forecast <- function(
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
@@ -409,9 +419,11 @@ load_year_ahead_total_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
 #' @export
 #'
-#' @examples
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::load_year_ahead_forecast_margin(
 #'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-01-01", tz = "CET"),
@@ -430,7 +442,7 @@ load_year_ahead_forecast_margin <- function( # nolint: object_length_linter
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  checkmate::assert_string(x = eic, n.chars = 16L, pattern = "^[A-Z0-9-]*$")
+  assert_eic(eic = eic)
   checkmate::assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
@@ -457,6 +469,6 @@ load_year_ahead_forecast_margin <- function( # nolint: object_length_linter
     security_token = security_token
   )
 
-  # return with the extracted the response
+  # return with the extracted response
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }

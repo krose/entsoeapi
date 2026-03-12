@@ -25,11 +25,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Financial expenses and income for balancing of the control area.
 One year range limit applies.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::financial_expenses_and_income_for_balancing(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
@@ -38,5 +43,5 @@ df <- entsoeapi::financial_expenses_and_income_for_balancing(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

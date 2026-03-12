@@ -21,8 +21,9 @@ An entity under balance responsibility where balance supplier change
 can take place and for which commercial business processes are defined.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 eic_accounting_point <- entsoeapi::accounting_point_eic()
 
 dplyr::glimpse(eic_accounting_point)
-
+\dontshow{\}) # examplesIf}
 }

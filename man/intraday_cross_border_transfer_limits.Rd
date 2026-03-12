@@ -37,6 +37,7 @@ A data frame with intraday cross-border transfer limits
 intraday cross-border transfer limits of DC links
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::intraday_cross_border_transfer_limits(
   eic_in = "10YFR-RTE------C",
   eic_out = "11Y0-0000-0265-K",
@@ -46,5 +47,5 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

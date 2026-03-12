@@ -38,12 +38,17 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Congestion income from implicit and flow-based allocations.
 For implicit allocations, In_Domain and Out_Domain must be the same
 border EIC code. For flow-based, both must be the same bidding zone EIC.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::congestion_income(
   eic = "10YDOM-1001A083J",
   period_start = lubridate::ymd(x = "2016-01-01", tz = "CET"),
@@ -53,5 +58,5 @@ df <- entsoeapi::congestion_income(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

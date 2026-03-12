@@ -31,6 +31,10 @@ One day range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 The net position informs whether the given area imports
 or exports energy.
@@ -42,6 +46,7 @@ Those rows which hold the queried eic value in the
 show the import value.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df1 <- entsoeapi::exchanged_volumes(
   eic = "10YCZ-CEPS-----N",
   process_type = "A51",
@@ -61,5 +66,5 @@ df2 <- entsoeapi::exchanged_volumes(
 )
 
 dplyr::glimpse(df2)
-
+\dontshow{\}) # examplesIf}
 }

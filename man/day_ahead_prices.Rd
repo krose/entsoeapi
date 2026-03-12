@@ -25,11 +25,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Prices in currency/MWh created on spot (Day-Ahead) market.
 The data is delivered for each market time unit.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df1 <- entsoeapi::day_ahead_prices(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
@@ -46,5 +51,5 @@ df2 <- entsoeapi::day_ahead_prices(
   tidy_output = TRUE
 )
 dplyr::glimpse(df2)
-
+\dontshow{\}) # examplesIf}
 }

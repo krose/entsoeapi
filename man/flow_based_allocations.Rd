@@ -38,10 +38,15 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Flow based capacity allocated, for all time horizons.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df1 <- entsoeapi::flow_based_allocations(
   eic = "10Y1001A1001A91G",
   period_start = lubridate::ymd(x = "2025-01-01", tz = "CET"),
@@ -63,5 +68,5 @@ df2 <- entsoeapi::flow_based_allocations(
 )
 
 dplyr::glimpse(df2)
-
+\dontshow{\}) # examplesIf}
 }

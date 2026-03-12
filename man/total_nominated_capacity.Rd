@@ -28,6 +28,10 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Aggregated capacity nominated by market participants from
 time horizons (including Intra-Day) corresponding to explicit
@@ -35,6 +39,7 @@ allocations, agreed between the TSOs and confirmed
 to the market.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::total_nominated_capacity(
   eic_in = "10YDE-VE-------2",
   eic_out = "10YCZ-CEPS-----N",
@@ -44,5 +49,5 @@ df <- entsoeapi::total_nominated_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

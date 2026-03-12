@@ -26,11 +26,16 @@ balancing_energy_bids(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Balancing energy bids submitted by BSPs.
 100 documents limit applies; paging is handled transparently.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::balancing_energy_bids(
   eic = "10YCZ-CEPS-----N",
   process_type = "A47",
@@ -40,5 +45,5 @@ df <- entsoeapi::balancing_energy_bids(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

@@ -29,11 +29,16 @@ allocation_of_cross_zonal_balancing_cap(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Use of allocated cross-zonal balancing capacity between
 an acquiring and a connecting domain.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
   eic_acquiring = "10YAT-APG------L",
   eic_connecting = "10YCH-SWISSGRIDZ",
@@ -43,5 +48,5 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

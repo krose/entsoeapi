@@ -21,8 +21,9 @@ Further details are under:
 https://www.entsoe.eu/data/energy-identification-codes-eic/#eic-documentation
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 eic_all <- entsoeapi::all_approved_eic()
 
 dplyr::glimpse(eic_all)
-
+\dontshow{\}) # examplesIf}
 }

@@ -24,8 +24,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of `entsoeapi` package is to create an easy wrapper around the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s data and transform them to tabular format without effort.
-(The downloadable data are available interactively on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.)
+The goal of `entsoeapi` package is to create an easy wrapper around the ENTSO-E [API](https://documenter.getpostman.com/view/7009892/2s93JtP3F6)'s data and transform them to tabular format without effort. (The downloadable data are available interactively on the ENTSO-E [transparency platform](https://transparency.entsoe.eu/) website as well.)
 
 The package helps with
 
@@ -137,7 +136,7 @@ devtools::install_github(repo = "krose/entsoeapi", ref = "main")
 
 ## Security token
 
-Read [here](https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token) how to get a security token. You should also create a `.Renviron` file in your working directory with a security token and call it `ENTSOE_PAT`.
+Read the related ENTSO-E Transparency Platform documentation [here](https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token) about how to get a security token. You should also create a `.Renviron` file in your working directory with a security token and call it `ENTSOE_PAT`.
 
 ```{r edit renviron, eval=FALSE}
 if (!require("usethis", quietly = TRUE)) install.packages("usethis", quiet = TRUE)

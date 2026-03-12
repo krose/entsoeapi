@@ -36,11 +36,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 This data item publish limitations on borders requested by
 participating or affected TSOs.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::balancing_border_cap_limit(
   eic_in = "10YDE-RWENET---I",
   eic_out = "10YBE----------2",
@@ -51,5 +56,5 @@ df <- entsoeapi::balancing_border_cap_limit(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

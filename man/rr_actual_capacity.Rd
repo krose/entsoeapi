@@ -23,11 +23,16 @@ rr_actual_capacity(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Actual capacity of Replacement Reserve (RR).
 Process type is hardcoded to A46 (Replacement Reserve).
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::rr_actual_capacity(
   eic = "10YAT-APG------L",
   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
@@ -36,5 +41,5 @@ df <- entsoeapi::rr_actual_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

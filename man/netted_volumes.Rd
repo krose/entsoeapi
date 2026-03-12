@@ -25,6 +25,10 @@ One day range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 The net position informs whether the given area imports or exports energy.
 Those rows which hold the queried eic value in the
@@ -33,6 +37,7 @@ Those rows which hold the queried eic value in the
 'ts_acquiring_domain_mrid' column show the import value.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::netted_volumes(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2022-08-16", tz = "CET"),
@@ -41,5 +46,5 @@ df <- entsoeapi::netted_volumes(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

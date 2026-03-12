@@ -26,8 +26,9 @@ They can be classified as normal outside substation,
 armoured substation and underground substation.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 eic_substation <- entsoeapi::substation_eic()
 
 dplyr::glimpse(eic_substation)
-
+\dontshow{\}) # examplesIf}
 }

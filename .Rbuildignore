@@ -12,3 +12,6 @@ sandbox/
 ^docs$
 ^pkgdown$
 devel.R
+^RELEASE_CHECKLIST\.md$
+^cran-comments\.md$
+^\.urlchecker$
