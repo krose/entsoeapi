@@ -63,7 +63,7 @@ df <- entsoeapi::balancing_energy_bids(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B74&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 09:21:48 GMT
+#> <- date: Thu, 12 Mar 2026 10:21:15 GMT
 #> <- content-type: text/xml
 #> <- content-length: 968
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -78,7 +78,7 @@ df <- entsoeapi::balancing_energy_bids(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-12 09:21:48
+#> $ created_date_time <dttm> 2026-03-12 10:21:15
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item BALANCING_ENERGY_BIDS_R3 [GL EB 12.3.B&C] (10YCZ-CEPS…
 ```

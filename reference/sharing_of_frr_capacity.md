@@ -69,7 +69,7 @@ df <- try(entsoeapi::sharing_of_frr_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&BusinessType=C22&processType=A56&Acquiring_Domain=10YCB-GERMANY--8&Connecting_Domain=10YAT-APG------L&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 400 
-#> <- date: Thu, 12 Mar 2026 09:24:46 GMT
+#> <- date: Thu, 12 Mar 2026 10:23:26 GMT
 #> <- content-type: text/xml
 #> <- content-length: 969
 #> <- content-disposition: inline; filename="acknowledgement.xml"

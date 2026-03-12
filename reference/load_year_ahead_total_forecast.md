@@ -62,7 +62,7 @@ df <- entsoeapi::load_year_ahead_total_forecast(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201910312300&periodEnd=201911292300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 09:23:37 GMT
+#> <- date: Thu, 12 Mar 2026 10:22:39 GMT
 #> <- content-type: text/xml
 #> <- content-length: 962
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -77,7 +77,7 @@ df <- entsoeapi::load_year_ahead_total_forecast(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-12 09:23:37
+#> $ created_date_time <dttm> 2026-03-12 10:22:39
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item TOTAL_LOAD_FORECAST [6.1.C&D&E] (10Y1001A1001A82H) an…
 ```
