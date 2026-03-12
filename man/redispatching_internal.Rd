@@ -23,12 +23,17 @@ redispatching_internal(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Changes in production and load (increase or decrease) to
 relieve internal congestion lines that exceeds its capacity.
 100 documents limit applies!!
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 # Netherlands' internal redispatching.
 df <- entsoeapi::redispatching_internal(
   eic = "10YNL----------L",
@@ -38,5 +43,5 @@ df <- entsoeapi::redispatching_internal(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

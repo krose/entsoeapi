@@ -37,6 +37,10 @@ Defaults to NULL.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Unavailability of the off-shore grid that reduce wind power
 feed-in during at least one market time unit.
@@ -44,6 +48,7 @@ Wind power fed in at the time of the change in the availability
 is provided.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::outages_offshore_grid(
   eic = "10Y1001A1001A82H",
   period_start = lubridate::ymd(
@@ -54,5 +59,5 @@ df <- entsoeapi::outages_offshore_grid(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

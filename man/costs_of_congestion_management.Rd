@@ -31,12 +31,17 @@ Defaults to NULL which means both of them.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Costs of TSO for redispatching and counter trading together
 with costs for any other remedial actions taken to relieve
 congested lines in transmission grid.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 # Belgium's Costs of Congestion Management
 df <- entsoeapi::costs_of_congestion_management(
   eic = "10YBE----------2",
@@ -46,5 +51,5 @@ df <- entsoeapi::costs_of_congestion_management(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

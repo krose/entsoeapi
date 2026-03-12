@@ -48,6 +48,7 @@ A data frame with expansion or dismantling projects
 Query the interconnector network evolution or dismantling
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::expansion_and_dismantling_project(
   eic_in = "10YSK-SEPS-----K",
   eic_out = "10YHU-MAVIR----U",
@@ -59,5 +60,5 @@ df <- entsoeapi::expansion_and_dismantling_project(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

@@ -48,6 +48,10 @@ Defaults to NULL which means both of them.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 The planned and forced unavailability, including changes in
 unavailability of interconnections in the transmission grid
@@ -56,6 +60,7 @@ one market time unit including information about new
 net transfer capacity.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::outages_transmission_grid(
   eic_in = "10YFR-RTE------C",
   eic_out = "10Y1001A1001A82H",
@@ -75,5 +80,5 @@ df <- entsoeapi::outages_transmission_grid(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

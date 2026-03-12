@@ -43,6 +43,10 @@ Defaults to NULL which means both of them.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 The planned and forced unavailability of generation units
 expected to last at least one market time unit up to 3 years
@@ -51,6 +55,7 @@ The "available capacity during the event" means the minimum
 available generation capacity during the period specified.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::outages_gen_units(
   eic = "10YFR-RTE------C",
   period_start = lubridate::ymd(
@@ -64,5 +69,5 @@ df <- entsoeapi::outages_gen_units(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

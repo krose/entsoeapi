@@ -463,6 +463,21 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "read_zipped_xml() aborts when unzip throws an error",
+  code = {
+    testthat::local_mocked_bindings(
+      unzip = function(...) stop("cannot open the connection"),
+      .package = "utils"
+    )
+    testthat::expect_error(
+      object = read_zipped_xml(temp_file_path = tempfile()),
+      regexp = "cannot open the connection"
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "calc_offset_urls() works",
   code = {
     url_sample_3 <- paste(
@@ -2221,7 +2236,7 @@ testthat::test_that(
         httr2::response(
           status_code = 401L,
           headers = list("content-type" = "text/html"),
-          body = charToRaw("Unauthorized")
+          body = charToRaw("Unauthorized 401")
         )
       }
     )
@@ -2300,6 +2315,104 @@ testthat::test_that(
     testthat::expect_match(
       object = captured_url,
       regexp = "test\\.example\\.com"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = paste(
+    "there_is_provider() returns FALSE when",
+    "there is no internet connection"
+  ),
+  code = {
+    testthat::local_mocked_bindings(
+      has_internet = function() FALSE,
+      .package = "curl"
+    )
+    testthat::expect_false(object = there_is_provider())
+  }
+)
+
+
+testthat::test_that(
+  desc = "assert_eic() returns invisibly for valid EIC codes",
+  code = {
+    testthat::expect_invisible(result <- assert_eic(eic = "10YCZ-CEPS-----N"))
+    testthat::expect_identical(object = result, expected = "10YCZ-CEPS-----N")
+    testthat::expect_invisible(result <- assert_eic(eic = "10YHU-MAVIR----U"))
+    testthat::expect_identical(object = result, expected = "10YHU-MAVIR----U")
+    testthat::expect_invisible(result <- assert_eic(eic = "10YDE-VE-------2"))
+    testthat::expect_identical(object = result, expected = "10YDE-VE-------2")
+    testthat::expect_invisible(result <- assert_eic(eic = "10YFI-1--------U"))
+    testthat::expect_identical(object = result, expected = "10YFI-1--------U")
+    testthat::expect_invisible(result <- assert_eic(eic = "10YNO-0--------C"))
+    testthat::expect_identical(object = result, expected = "10YNO-0--------C")
+  }
+)
+
+
+testthat::test_that(
+  desc = "assert_eic() throws for wrong check character",
+  code = {
+    # "10YCZ-CEPS-----N" is valid; replacing N with X gives wrong check char
+    testthat::expect_error(
+      object = assert_eic(eic = "10YCZ-CEPS-----X"),
+      regexp = "Expected.*N.*got.*X"
+    )
+    # "10YHU-MAVIR----U" is valid; replacing U with Z gives wrong check char
+    testthat::expect_error(
+      object = assert_eic(eic = "10YHU-MAVIR----Z"),
+      regexp = "Expected.*U.*got.*Z"
+    )
+    # "10YDE-VE-------2" is valid; replacing 2 with 3 gives wrong check char
+    testthat::expect_error(
+      object = assert_eic(eic = "10YDE-VE-------3"),
+      regexp = "Expected.*2.*got.*3"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "assert_eic() throws for strings with wrong length",
+  code = {
+    testthat::expect_error(assert_eic(eic = ""))
+    testthat::expect_error(assert_eic(eic = "10YCZ-CEPS----N"))
+    testthat::expect_error(assert_eic(eic = "10YCZ-CEPS------N"))
+  }
+)
+
+
+testthat::test_that(
+  desc = "assert_eic() throws for strings with disallowed characters",
+  code = {
+    testthat::expect_error(assert_eic(eic = "10YCZ-CEPS----!N"))
+    testthat::expect_error(assert_eic(eic = "10ycz-ceps-----n"))
+  }
+)
+
+
+testthat::test_that(
+  desc = "assert_eic() respects null_ok argument",
+  code = {
+    testthat::expect_invisible(result <- assert_eic(eic = NULL, null_ok = TRUE))
+    testthat::expect_null(object = result)
+    testthat::expect_error(assert_eic(eic = NULL, null_ok = FALSE))
+  }
+)
+
+
+testthat::test_that(
+  desc = "assert_eic() uses var_name in error messages",
+  code = {
+    testthat::expect_error(
+      assert_eic(eic = "BAD-EIC-CODE----", var_name = "my_eic"),
+      regexp = "my_eic"
+    )
+    testthat::expect_error(
+      object = assert_eic(eic = "SHORT", var_name = "my_eic"),
+      regexp = "my_eic"
     )
   }
 )

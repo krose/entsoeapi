@@ -38,10 +38,15 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Permanent allocation limitations to cross-border capacity on HVDC lines.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::hvdc_link_constrains(
   eic_in = "10YAT-APG------L",
   eic_out = "10YDE-RWENET---I",
@@ -52,5 +57,5 @@ df <- entsoeapi::hvdc_link_constrains(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

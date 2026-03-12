@@ -30,11 +30,16 @@ One year range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Shares of Frequency Containment Reserve capacity per area.
 One year range limit applies.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::shares_of_fcr_capacity(
   eic = "10YDE-VE-------2",
   business_type = "C23",
@@ -44,5 +49,5 @@ df <- entsoeapi::shares_of_fcr_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

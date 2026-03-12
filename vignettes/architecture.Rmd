@@ -1,0 +1,543 @@
+---
+title: "Architecture: API Pipeline, XML Engine & Caching"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Architecture: API Pipeline, XML Engine & Caching}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Overview
+
+This document describes three interconnected internal systems that power every
+data-retrieval function in `entsoeapi`:
+
+1. **API Request Pipeline** — validates user input, builds the ENTSO-E query URL,
+   sends the HTTP request, handles errors, and transparently paginates oversized
+   queries.
+2. **XML-to-Table Engine** — converts raw XML (or lists of XML documents from
+   paginated responses) into clean, typed, enriched R tibbles.
+3. **Caching System** — stores EIC code tables and lookup tables in memory for
+   one hour to avoid redundant downloads during a session.
+
+The three systems form a strict linear pipeline. A user-facing function (e.g.,
+`load_actual_total()`) calls the API pipeline, which produces one or more XML
+documents. Those documents are handed to the XML-to-table engine, which calls
+into the caching system to enrich results with human-readable names and
+definitions before returning a tibble to the user.
+
+---
+
+## Architecture Diagram
+
+```
+User function
+  |
+  v
+[Validate params / url_posixct_format]
+  |
+  v
+[Build query string]
+  |
+  v
+[api_req_safe]  <-----------------------------+
+  |                                           |
+  v                                           |
+[api_req --> GET request, 60s timeout]        |
+  |                                           |
+  +-- HTTP 200 / zip --> [read_zipped_xml] ---+-- [extract_response]
+  |                                           |         |
+  +-- HTTP 200 / xml --> [resp_body_xml] ----+         v
+  |                                               [xml_to_table, per document]
+  +-- error 503       --> [cli_abort]                   |
+  |                                                     v
+  +-- error HTML      --> [cli_abort]            [extract_leaf/twig/branch]
+  |                                                     |
+  +-- code 999 / exceeds max                            v
+       --> [calc_offset_urls / pagination]       [Type conversions]
+            |                                          |
+            +-> [api_req] (loop)                       v
+                                               [my_snakecase / column rename]
+                                                       |
+                                                       v
+                                               [tidy_or_not: A01 / A03 curve]
+                                                       |
+                                                       v
+                                               [add_type_names / add_eic_names
+                                                add_definitions]
+                                                       |
+                                            +----------+----------+
+                                            |                     |
+                                     Cache hit?               Cache miss
+                                            |                     |
+                                     [return cached]    [download CSV / XML,
+                                      lookup table]      cache result]
+                                            |                     |
+                                            +----------+----------+
+                                                       |
+                                                       v
+                                               [Whitelist columns, sort rows]
+                                                       |
+                                                       v
+                                               Tibble returned to user
+```
+
+---
+
+## 1. API Request Pipeline
+
+### 1.1 User-facing functions
+
+**Location:** `R/en_load.R`, `R/en_generation.R`, `R/en_transmission.R`,
+`R/en_market.R`, `R/en_outages.R`, `R/en_balancing.R`
+
+Every public function follows the same four-step structure:
+
+**Step 1 — Argument validation.** Each parameter is checked with `checkmate`
+before any network call is made. Common checks:
+
+- EIC codes: two-stage check — `checkmate::assert_string()` first enforces
+  exactly 16 characters matching `^[A-Z0-9-]*$`, then `assert_eic()` verifies
+  the 16th character is the correct weighted-modulo-37 checksum of the first 15
+  characters (see below).
+- Security token: non-empty string (sourced from `Sys.getenv("ENTSOE_PAT")`)
+- Time ranges: difference between `period_end` and `period_start` must not
+  exceed 365 days
+- Categorical parameters (e.g., `business_type`, `process_type`): validated
+  against allowed values via `checkmate::assert_choice()`
+
+**EIC checksum validation — `assert_eic()` and `.eic_chars`**
+(`R/utils.R`): The ENTSO-E EIC standard defines a check character at position
+16. The lookup table `.eic_chars` maps the 37 allowed characters (`0–9`, `A–Z`,
+`-`) to integers 0–36. `assert_eic()` computes a weighted sum of the first 15
+characters (weights 16 down to 2), derives the expected check character via
+`(36 - (sum - 1) %% 37) + 1`, and returns `FALSE` if it does not match the
+actual 16th character. This function is not exported; it is called internally
+immediately after each `checkmate::assert_string()` EIC check.
+
+**Step 2 — Timestamp conversion.** `url_posixct_format()` (`R/utils.R`)
+converts the user-supplied `period_start` / `period_end` to the format required
+by the API: `YYYYMMDDHHMM` in UTC. Accepts POSIXct objects or character strings
+in nine common formats. Aborts with a clear message if the input cannot be
+parsed. Warns when character input is interpreted as UTC.
+
+**Step 3 — Query string assembly.** Each function hard-codes the ENTSO-E
+document type and process type codes for its endpoint, then appends the
+user-supplied EIC code(s) and converted timestamps. Optional parameters (e.g.,
+`business_type`) are appended conditionally with `if (!is.null(...))`.
+
+**Step 4 — Pipeline invocation.**
+
+```r
+en_cont_list <- api_req_safe(query_string, security_token)
+extract_response(content = en_cont_list, tidy_output = tidy_output)
+```
+
+### 1.2 `api_req_safe()`
+
+**Location:** `R/utils.R`
+
+```r
+api_req_safe <- purrr::safely(api_req)
+```
+
+A one-liner that wraps `api_req()` with `purrr::safely()`. All R-level
+exceptions are caught and returned as `list(result = NULL, error = <condition>)`
+rather than halting execution. This standardised return shape is what
+`extract_response()` expects.
+
+### 1.3 `api_req()`
+
+**Location:** `R/utils.R`
+
+The core HTTP function. Steps:
+
+1. **URL construction.** Assembles the full URL from hard-coded constants:
+   - Scheme: `https://`
+   - Domain: `web-api.tp.entsoe.eu/`
+   - Path: `api?`
+   - Appends `query_string` and `&securityToken={token}`
+   - Logs the URL to the console with the token replaced by `<...>` to prevent
+     credential leakage.
+
+2. **Request configuration.** Uses `httr2::request()` with:
+   - Method: GET
+   - Verbose: response headers only (`req_verbose(header_req=FALSE, header_resp=TRUE)`)
+   - Timeout: 60 seconds
+
+3. **Execution.** Sent via `purrr::safely(httr2::req_perform)` — another safety
+   wrapper so network errors are captured, not thrown.
+
+4. **HTTP 200 — response routing.**
+   - `application/zip` or `application/octet-stream`: body saved to a temp
+     file, then decompressed by `read_zipped_xml()`.
+   - `text/xml` or `application/xml`: parsed directly with
+     `httr2::resp_body_xml(encoding = "UTF-8")`.
+   - Unknown content-type: aborts with an informative message.
+
+5. **HTTP errors — error handling.** See section 1.4.
+
+6. **Returns** either a single `xml_document`, a list of `xml_document` objects
+   (paginated or zipped responses), or calls `cli::cli_abort()`.
+
+### 1.4 Error handling
+
+| Error type | Condition | Action |
+|---|---|---|
+| Network / R exception | `req_perform_safe()` returns `$error` | Propagated via `api_req_safe()` |
+| 503 Service Unavailable | HTTP status 503 | Immediate `cli_abort()` |
+| HTML error page | Response body is HTML | Extract status + body, `cli_abort()` |
+| XML error — code 999, exceeds max | Body is XML, reason code 999, message contains "exceeds the allowed maximum" | Trigger pagination (see 1.5) |
+| XML error — code 999, forbidden | Same as above but query matches a forbidden pattern | `cli_abort()` with reason text |
+| XML error — other codes | Body is XML, other reason codes | `cli_abort()` with reason text |
+| JSON error | Body is JSON | Extract `uuAppErrorMap.URI_FORMAT_ERROR`, `cli_abort()` |
+
+### 1.5 Automatic pagination
+
+**Location:** `calc_offset_urls()` in `R/utils.R`
+
+When the ENTSO-E API returns an XML error with reason code 999 and a message
+indicating the result set exceeds the allowed maximum, `api_req()` automatically
+splits the request into smaller chunks:
+
+1. The error message is parsed with regex to extract both the *requested* and
+   the *allowed* document counts.
+2. The number of offset requests needed is calculated:
+   `ceiling(docs_requested / docs_allowed)`.
+3. Each offset query is built by stripping any existing `&offset=` from the
+   original query string and appending `&offset=0`, `&offset=N`,
+   `&offset=2N`, …
+4. `api_req()` calls itself recursively for each offset query string.
+5. All responses are collected and returned as a list, which the XML-to-table
+   engine processes element by element.
+
+Pagination is suppressed (and the request is aborted instead) for endpoints
+known not to support offsets, identified by six hard-coded regex patterns
+covering document types A63, A65, B09, A91, A92, and A94 with specific
+business or storage types.
+
+### 1.6 `read_zipped_xml()`
+
+**Location:** `R/utils.R`
+
+Called when the API returns a zip archive. Decompresses the temp file with
+`purrr::safely(utils::unzip)`, then reads each extracted XML file with
+`xml2::read_xml()`. Returns a list of `xml_document` objects — the same shape
+as a paginated response, so `extract_response()` handles both identically.
+
+---
+
+## 2. XML-to-Table Engine
+
+### 2.1 `extract_response()`
+
+**Location:** `R/utils.R`
+
+Entry point called by every user-facing function. Accepts the
+`list(result, error)` from `api_req_safe()`.
+
+- If `$error` is not `NULL`: re-throws the error with `cli::cli_abort()`.
+- If `$result` is a list (paginated or zipped): iterates with `purrr::imap()`,
+  calling `xml_to_table()` on each element, showing a progress bar, then
+  combines all results with `data.table::rbindlist()` and converts to a tibble.
+- If `$result` is a single `xml_document`: calls `xml_to_table()` directly.
+- Returns a tibble, or `NULL` if the API returned no data.
+
+### 2.2 `xml_to_table()`
+
+**Location:** `R/utils.R`
+
+Core orchestrator. Receives a single `xml_document` and returns a tibble by
+running a fixed transformation sequence:
+
+1. XML parsing → raw wide data frame
+2. Date/time column merging
+3. Type conversions (DateTime, numeric)
+4. Column name normalization
+5. Time series restructuring
+6. Metadata enrichment (type names, EIC names, definitions)
+7. Column whitelist filtering
+8. Row ordering
+
+### 2.3 XML parsing
+
+**Location:** `extract_leaf_twig_branch()`, `extract_nodesets()`,
+`grouping_by_common_strings()` in `R/utils.R`
+
+The ENTSO-E XML schema uses three nesting levels, which the engine labels:
+
+| Level | Definition | Example element |
+|---|---|---|
+| Leaf | No children | `<quantity>100</quantity>` |
+| Twig | Has direct children only | `<Period><resolution>…</resolution></Period>` |
+| Branch | Has grandchild nodes | `<TimeSeries><Period><Point>…</Point></Period></TimeSeries>` |
+
+`extract_nodesets()` converts XML nodesets to `data.table` objects using
+`xml2::as_list()`, constructing dotted column names from the element hierarchy
+(e.g., `TimeSeries.mRID`). `NULL` values become `NA_character_`.
+
+`grouping_by_common_strings()` solves the connected-components problem: it
+groups sub-tables that share column names (using a union-find algorithm) so they
+can be bound horizontally with `dplyr::bind_cols()`. This handles the fact that
+different ENTSO-E endpoints nest related fields at different depths.
+
+### 2.4 Column name normalization — `my_snakecase()`
+
+**Location:** `R/utils.R`
+
+Two-pass renaming:
+
+**Pass 1 — domain-specific substitutions** (applied before snakecase conversion):
+
+| Pattern | Replacement |
+|---|---|
+| `mRID` | `mrid` |
+| `TimeSeries` | `ts` |
+| `^process` | *(removed)* |
+| `unavailability_Time_Period` | `unavailability` |
+| XML namespace / attribute artifacts | *(removed)* |
+
+**Pass 2 — standard snakecase** via `snakecase::to_snake_case()`, followed by
+cleanup passes that collapse redundant fragments (e.g.,
+`psr_type_psr_type` → `psr_type`).
+
+### 2.5 Time series handling — `tidy_or_not()`
+
+**Location:** `R/utils.R`
+
+The ENTSO-E API encodes time series as a start timestamp plus a resolution and a
+sequence of positional data points — there are no per-point timestamps in the
+XML. `tidy_or_not()` reconstructs absolute timestamps and offers two output
+shapes:
+
+**Curve type A01 (regular intervals):** Points are evenly spaced; timestamps are
+calculated as `time_interval_start + (position - 1) × resolution`.
+
+**Curve type A03 (irregular / broken intervals):** Some positions may be
+missing. The engine builds a complete positional frame and performs a full join
+to fill gaps, carrying forward the last observed value.
+
+**Supported resolutions:** PT4S, PT1M, PT15M, PT30M, PT60M, P1D, P7D, P1M, P1Y.
+
+**`tidy_output = TRUE` (default):** One row per data point. The
+`ts_point_dt_start` column contains the reconstructed timestamp. Internal
+bookkeeping columns (`ts_point_position`, `ts_resolution_*`, `by`) are removed.
+
+**`tidy_output = FALSE`:** One row per time period. All data points are nested
+into a `ts_point` list-column. The reconstructed `ts_point_dt_start` column is
+removed.
+
+### 2.6 Metadata enrichment
+
+Three functions run in sequence after time series restructuring, each joining
+additional columns:
+
+**`add_type_names()`** (`R/utils.R`) — joins human-readable definitions from
+built-in package data tables (e.g., `business_types`, `asset_types`,
+`process_types`) using `def_merge()`. Produces `_def` suffix columns alongside
+each code column (e.g., `ts_business_type` → `ts_business_type_def`).
+
+**`add_eic_names()`** (`R/utils.R`) — joins EIC code long names from
+`area_eic()` and `resource_object_eic()` (both cached; see section 3) using
+`eic_name_merge()`. Produces `_name` suffix columns alongside each `_mrid`
+column (e.g., `ts_in_domain_mrid` → `ts_in_domain_name`).
+
+**`add_definitions()`** (`R/utils.R`) — joins further definitions: auction
+categories, flow directions, reason codes (with multi-code merging via `" - "`
+separator), and object aggregation types.
+
+### 2.7 Column whitelist and row ordering
+
+After enrichment, `xml_to_table()` applies a hard-coded whitelist of ~90 allowed
+column names. Any column not on the list is silently dropped. This prevents
+internal XML artefacts from leaking into user-visible output and keeps the API
+stable across ENTSO-E schema changes.
+
+Rows are then sorted by: `created_date_time`, `ts_mrid`, `ts_business_type`,
+`ts_mkt_psr_type`, `ts_time_interval_start`, `ts_point_dt_start` (when present).
+
+---
+
+## 3. Caching System
+
+### 3.1 Two cache objects
+
+The package maintains two independent in-memory caches, both with a 1-hour
+maximum age:
+
+| Object | Initialised in | Caches |
+|---|---|---|
+| `m` | `R/utils.R` (top of file) | EIC name lookup tables used during XML enrichment |
+| `mh` | `R/en_helpers.R` (top of file) | Full EIC code tibbles downloaded by `*_eic()` functions |
+
+Both are `cachem::cache_mem(max_age = 3600)` objects. The max age is
+hard-coded and is not user-configurable.
+
+### 3.2 What gets cached
+
+**Via `mh`** (one key per EIC function):
+
+| Cache key | Source | Function |
+|---|---|---|
+| `party_eic_df_key` | CSV download | `party_eic()` |
+| `area_eic_df_key` | CSV download | `area_eic()` |
+| `accounting_point_eic_df_key` | CSV download | `accounting_point_eic()` |
+| `tie_line_eic_df_key` | CSV download | `tie_line_eic()` |
+| `location_eic_df_key` | CSV download | `location_eic()` |
+| `resource_object_eic_df_key` | CSV download | `resource_object_eic()` |
+| `substation_eic_df_key` | CSV download | `substation_eic()` |
+| `all_allocated_eic_df_key` | XML download + parse | `all_allocated_eic()` |
+
+**Via `m`** (used inside the XML-to-table engine):
+
+| Cache key | Content |
+|---|---|
+| `area_eic_name_key` | Subset of `area_eic()`: EicCode + EicLongName columns |
+| `resource_object_eic_name_key` | Subset of `resource_object_eic()`: EicCode + EicLongName columns |
+
+**Not cached:** API responses. Every call to `load_actual_total()`,
+`gen_per_prod_type()`, etc. makes a fresh HTTP request. Only slow, stable
+reference data (EIC registries, type definitions) is cached.
+
+### 3.3 Cache hit/miss pattern
+
+All EIC functions use the same template:
+
+```r
+cache_key <- "unique_key_name"
+
+if (mh$exists(key = cache_key)) {
+  res_df <- mh$get(key = cache_key, missing = fallback_expr)
+  cli::cli_alert_info("pulling {f} file from cache")
+} else {
+  cli::cli_alert_info("downloading {f} file ...")
+  res_df <- download_and_transform()
+  mh$set(key = cache_key, value = res_df)
+}
+```
+
+The `cli::cli_alert_info()` calls make the cache source visible to the user in
+the console.
+
+### 3.4 Double-caching during EIC name enrichment
+
+`add_eic_names()` calls `get_area_eic_name()` and `get_resource_object_eic()`,
+which use cache `m`. If `m` misses, those helpers call `area_eic()` /
+`resource_object_eic()`, which use cache `mh`. This means the same underlying
+data may be stored at two levels simultaneously:
+
+- `mh` holds the full EIC tibble (all columns).
+- `m` holds a narrowed subset (EicCode + EicLongName only) ready for joining.
+
+After both caches are warm, subsequent API calls within the same session perform
+zero downloads for EIC enrichment.
+
+### 3.5 Cache invalidation
+
+Invalidation is entirely automatic. `cachem` expires entries silently after
+`max_age` seconds. There is no manual cache-clear API, no environment variable
+to disable caching, and no cache versioning. Restarting the R session clears
+both caches.
+
+---
+
+## 4. End-to-End Data Flow
+
+The following traces a call to `load_actual_total()`:
+
+```
+load_actual_total(eic, period_start, period_end, tidy_output = TRUE)
+  │
+  ├─ checkmate: assert EIC format, token presence, ≤365-day range
+  ├─ url_posixct_format(period_start / period_end) → "YYYYMMDDHHMM" UTC
+  ├─ Build query string: "documentType=A65&processType=A16&outBiddingZone_Domain=…"
+  │
+  └─ api_req_safe(query_string, security_token)
+       └─ api_req()
+            ├─ Build URL: https://web-api.tp.entsoe.eu/api?{query}&securityToken=<...>
+            ├─ GET, 60s timeout, log masked URL
+            ├─ HTTP 200 / text/xml → resp_body_xml()  [or zip → read_zipped_xml()]
+            └─ HTTP error → calc_offset_urls() + recurse  [or cli_abort()]
+     │
+     └─ extract_response(list(result, error), tidy_output)
+          ├─ error? → cli_abort()
+          ├─ list of XML? → imap + progress bar
+          │
+          └─ xml_to_table(xml_doc, tidy_output)
+               ├─ extract_leaf_twig_branch() → raw wide data frame
+               ├─ Merge date+time columns
+               ├─ Convert DateTime → POSIXct(UTC), numeric columns → numeric
+               ├─ my_snakecase() → normalised column names
+               ├─ tidy_or_not() → one row per data point (A01/A03 handled)
+               ├─ add_type_names()  → join built-in type tables (no network)
+               ├─ add_eic_names()   → get_area_eic_name() [cache m / mh]
+               ├─ add_definitions() → join built-in definition tables (no network)
+               ├─ Filter to whitelist columns
+               └─ Sort rows
+          │
+          └─ rbindlist() + as_tibble() if multiple XML docs
+     │
+     └─ tibble returned to user  (or NULL)
+```
+
+---
+
+## 5. Configuration Reference
+
+| Setting | Value | Location |
+|---|---|---|
+| API base URL | `https://web-api.tp.entsoe.eu/api?` | `api_req()` in `R/utils.R` |
+| HTTP method | GET | `api_req()` in `R/utils.R` |
+| HTTP timeout | 60 seconds | `api_req()` in `R/utils.R` |
+| Security token env var | `ENTSOE_PAT` | All user-facing functions |
+| Verbose logging | Response headers only | `api_req()` in `R/utils.R` |
+| Cache max age | 3600 seconds (1 hour) | Top of `R/utils.R` and `R/en_helpers.R` |
+| Pagination trigger phrase | `"exceeds the allowed maximum"` | `api_req()` in `R/utils.R` |
+| Forbidden offset doc types | A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02 | `api_req()` in `R/utils.R` |
+| XML encoding | UTF-8 | `api_req()` and `xml_to_table()` |
+| ZIP content types | `application/zip`, `application/octet-stream` | `api_req()` in `R/utils.R` |
+
+---
+
+## 6. Code References
+
+| Component | File | Key Symbols |
+|---|---|---|
+| EIC checksum validation | `R/utils.R` | `assert_eic()`, `.eic_chars` |
+| Cache (general) | `R/utils.R` | `m` |
+| Cache (EIC helpers) | `R/en_helpers.R` | `mh` |
+| HTTP request | `R/utils.R` | `api_req()`, `api_req_safe()` |
+| Timestamp formatting | `R/utils.R` | `url_posixct_format()` |
+| Zip decompression | `R/utils.R` | `read_zipped_xml()` |
+| Pagination | `R/utils.R` | `calc_offset_urls()` |
+| XML engine entry | `R/utils.R` | `extract_response()` |
+| XML engine core | `R/utils.R` | `xml_to_table()` |
+| XML parsing | `R/utils.R` | `extract_leaf_twig_branch()`, `extract_nodesets()`, `grouping_by_common_strings()` |
+| Column naming | `R/utils.R` | `my_snakecase()` |
+| Time series | `R/utils.R` | `tidy_or_not()` |
+| Type enrichment | `R/utils.R` | `add_type_names()`, `def_merge()` |
+| EIC enrichment | `R/utils.R` | `add_eic_names()`, `eic_name_merge()`, `get_area_eic_name()`, `get_resource_object_eic()` |
+| Definition enrichment | `R/utils.R` | `add_definitions()` |
+| EIC download functions | `R/en_helpers.R` | `party_eic()`, `area_eic()`, `resource_object_eic()`, `all_allocated_eic()`, et al. |
+| Built-in type tables | `R/data.R` | `asset_types`, `business_types`, `process_types`, `message_types`, et al. |
+
+---
+
+## 7. Glossary
+
+| Term | Definition |
+|---|---|
+| EIC | Energy Identification Code — a 16-character alphanumeric code (digits, uppercase letters, `-`) identifying market participants, bidding zones, transmission lines, etc. on the ENTSO-E platform; the 16th character is a weighted-modulo-37 checksum of the first 15 |
+| Document type | A 3-character ENTSO-E code (e.g., A65) identifying the category of data being requested |
+| Process type | A 3-character ENTSO-E code (e.g., A16) qualifying the sub-type of a document type |
+| Curve type A01 | Regular time series: data points are evenly spaced at the given resolution |
+| Curve type A03 | Broken / irregular time series: some positional slots may be absent; gaps are filled during tidy conversion |
+| Tidy output | One row per data point, with an explicit `ts_point_dt_start` timestamp column (`tidy_output = TRUE`) |
+| Nested output | One row per time period, with all data points collected into a `ts_point` list-column (`tidy_output = FALSE`) |
+| Offset pagination | Mechanism by which `api_req()` splits an oversized query into multiple requests using `&offset=N` parameters, transparent to the caller |
+| `ENTSOE_PAT` | R environment variable holding the user's ENTSO-E security token |
+| `cachem` | R package providing in-memory and disk caches with automatic expiry, used by both `m` and `mh` cache objects |

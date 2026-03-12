@@ -25,11 +25,16 @@ current_balancing_state(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Current balancing state of the control area.
 100 day range limit applies.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::current_balancing_state(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
@@ -38,5 +43,5 @@ df <- entsoeapi::current_balancing_state(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

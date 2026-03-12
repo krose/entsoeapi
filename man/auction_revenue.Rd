@@ -43,10 +43,15 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Explicit Allocations - Auction Revenue.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::auction_revenue(
   eic_in = "10YBA-JPCC-----D",
   eic_out = "10YHR-HEP------M",
@@ -57,5 +62,5 @@ df <- entsoeapi::auction_revenue(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

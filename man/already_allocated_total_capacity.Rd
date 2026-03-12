@@ -50,12 +50,17 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Total capacity allocated, for all time horizons
 (including Intra-Day) after each allocation process
 per market time unit.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::already_allocated_total_capacity(
   eic_in = "10YDE-VE-------2",
   eic_out = "10YCZ-CEPS-----N",
@@ -65,5 +70,5 @@ df <- entsoeapi::already_allocated_total_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

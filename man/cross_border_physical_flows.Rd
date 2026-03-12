@@ -29,11 +29,16 @@ but 1 year range limit applies.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 It is the measured real flow of energy between
 the neighbouring areas on the cross borders.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df1 <- entsoeapi::cross_border_physical_flows(
   eic_in = "10Y1001A1001A83F",
   eic_out = "10YCZ-CEPS-----N",
@@ -53,5 +58,5 @@ df2 <- entsoeapi::cross_border_physical_flows(
 )
 
 dplyr::glimpse(df2)
-
+\dontshow{\}) # examplesIf}
 }

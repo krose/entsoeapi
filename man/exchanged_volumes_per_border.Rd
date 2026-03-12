@@ -34,11 +34,16 @@ One day range limit applies}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Netted and exchanged balancing energy volumes on a specific border between
 an acquiring and a connecting domain.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::exchanged_volumes_per_border(
   acquiring_eic = "10YBE----------2",
   connecting_eic = "10YFR-RTE------C",
@@ -49,5 +54,5 @@ df <- entsoeapi::exchanged_volumes_per_border(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

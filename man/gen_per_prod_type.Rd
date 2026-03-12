@@ -31,11 +31,16 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Actual aggregated net generation output (MW) or consumption
 per market time unit and per production type.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_per_prod_type(
   eic          = "10YFR-RTE------C",
   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -45,5 +50,5 @@ df <- entsoeapi::gen_per_prod_type(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

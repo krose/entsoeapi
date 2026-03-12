@@ -35,11 +35,16 @@ defaults to "C78"}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Actual capacity of Frequency Restoration Reserve (FRR) or
 Replacement Reserve (RR).
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::rr_and_frr_actual_capacity(
   eic = "10YAT-APG------L",
   process_type = "A56",
@@ -49,5 +54,5 @@ df <- entsoeapi::rr_and_frr_actual_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

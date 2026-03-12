@@ -1,3 +1,19 @@
+# entsoeapi v0.9.6 (2026-03-12)
+
+## New functionality
+
+-   Additional EIC assertion check has been added to each user facing functions.
+-   The there_is_provider() has been turned to user-facing function.
+-   The `architecture` vignette has been composed and added.
+
+## Miscellaneous
+
+-   Across all R files @examples blocks replaced by @examplesIf blocks — since they require an ENTSOE_PAT env var that isn't available in CI.
+-   @return section has been added to each exported function.
+-   The cran-comments.md has been created and has been added to .Rbuildignore.
+-   the .urlchecker config file has been created and has been added to .Rbuildignore.
+-   The DESCRIPTION and the LICENSE documents have been updated.
+
 # entsoeapi v0.9.5.1 (2026-03-09)
 
 ## New functionality
@@ -78,7 +94,7 @@
 
 ## Miscellaneous
 
--   The built-in type list tables have been updated according to "<https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z>".
+-   The built-in type list tables have been updated according to the ENTSO-E code list version 93.
 -   The 'ts_in_bidding_zone_domain_mrid' and 'ts_out_bidding_zone_domain_mrid' column related issue have been resolved in `gen_per_gen_unit()` query's tidy results.
 
 # entsoeapi v0.9.0.1 (2026-02-14)

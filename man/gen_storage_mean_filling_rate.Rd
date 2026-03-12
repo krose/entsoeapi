@@ -28,12 +28,17 @@ If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Aggregated weekly average filling rate of all water reservoir
 and hydro storage plants (MWh) per area, including the same
 week value of the previous year.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_storage_mean_filling_rate(
   eic          = "10YFR-RTE------C",
   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
@@ -42,5 +47,5 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

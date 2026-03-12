@@ -32,11 +32,16 @@ procured_balancing_capacity(
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
+\value{
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
+is available for the given parameters.
+}
 \description{
 Procured balancing capacity by TSOs.
 100 documents limit applies; paging is handled transparently.
 }
 \examples{
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::procured_balancing_capacity(
   eic = "10YCZ-CEPS-----N",
   process_type = "A51",
@@ -46,5 +51,5 @@ df <- entsoeapi::procured_balancing_capacity(
 )
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }
