@@ -41,7 +41,7 @@
 
 ## 7. (When ready) CRAN Submission
 
--   [ ] `rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows"", "macos-arm64", "linux"), branch = "main")`— multi-platform check
+-   [ ] `rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")`— multi-platform check
 -   [ ] `devtools::spell_check()` — no spelling errors in docs
 -   [ ] Review [CRAN policies](https://cran.r-project.org/web/packages/policies.html)
 -   [ ] `devtools::submit_cran()` or upload via <https://cran.r-project.org/submit.html>

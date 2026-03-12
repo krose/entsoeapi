@@ -54,7 +54,7 @@ the European platform, unavailability of European platform itself
 used on the platform fails or does not find solution.
 }
 \examples{
-#'
+\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::outages_fallbacks(
   eic = "10YBE----------2",
   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
@@ -63,5 +63,5 @@ df <- entsoeapi::outages_fallbacks(
   event_nature = "C47")
 
 dplyr::glimpse(df)
-
+\dontshow{\}) # examplesIf}
 }

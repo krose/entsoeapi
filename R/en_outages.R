@@ -704,7 +704,7 @@ outages_transmission_grid <- function(
 #'   is available for the given parameters.
 #' @export
 #'
-#' @examples#'
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::outages_fallbacks(
 #'   eic = "10YBE----------2",
 #'   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
