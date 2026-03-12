@@ -40,7 +40,7 @@ used on the platform fails or does not find solution."><meta property="og:image"
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Fall-Back Procedures. (IFs IN 7.2, mFRR 3.11, aFRR 3.10)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.6/R/en_outages.R" class="external-link"><code>R/en_outages.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_outages.R" class="external-link"><code>R/en_outages.R</code></a></small>
       <div class="d-none name"><code>outages_fallbacks.Rd</code></div>
     </div>
 
@@ -118,8 +118,7 @@ is available for the given parameters.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#'</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">outages_fallbacks</span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">outages_fallbacks</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  eic <span class="op">=</span> <span class="st">"10YBE----------2"</span>,</span></span>
 <span class="r-in"><span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2023-01-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-01-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
@@ -129,7 +128,7 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A53&amp;biddingZone_Domain=10YBE----------2&amp;processType=A51&amp;businessType=C47&amp;periodStart=202212312300&amp;periodEnd=202312312300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 12 Mar 2026 10:22:48 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Thu, 12 Mar 2026 13:05:00 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 4696</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Fall-backs_202305222200-202309080130.zip"</span>
@@ -138,12 +137,12 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpqMxwAp/001-FALL_BACKS_202305222200-202305232200.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpqMxwAp/002-FALL_BACKS_202306262200-202306270900.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpqMxwAp/003-FALL_BACKS_202307202200-202307211245.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpqMxwAp/004-FALL_BACKS_202308232200-202308232230.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpqMxwAp/005-FALL_BACKS_202308272200-202308280445.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpqMxwAp/006-FALL_BACKS_202309072200-202309080130.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpTwjAk9/001-FALL_BACKS_202305222200-202305232200.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpTwjAk9/002-FALL_BACKS_202306262200-202306270900.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpTwjAk9/003-FALL_BACKS_202307202200-202307211245.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpTwjAk9/004-FALL_BACKS_202308232200-202308232230.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpTwjAk9/005-FALL_BACKS_202308272200-202308280445.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpTwjAk9/006-FALL_BACKS_202309072200-202309080130.xml has been read in</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 6</span>
@@ -166,7 +165,6 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ unavailability_time_interval_end   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-05-23 22:00:00<span style="color: #949494;">, </span>2023-06-27 09:00:00<span style="color: #949494;">, </span>2023-07-21 12:45:00<span style="color: #949494;">, </span>2023-08-23 2…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mrid                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_quantity_measure_unit_name      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"</span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -32,7 +32,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.svg" class="logo" alt=""><h1>Release Checklist — entsoeapi</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.6/RELEASE_CHECKLIST.md" class="external-link"><code>RELEASE_CHECKLIST.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/RELEASE_CHECKLIST.md" class="external-link"><code>RELEASE_CHECKLIST.md</code></a></small>
     </div>
 
 <div id="release-checklist--entsoeapi" class="section level1">
@@ -80,7 +80,7 @@
 </ul></div>
 <div class="section level2">
 <h2 id="id_7-when-ready-cran-submission">7. (When ready) CRAN Submission<a class="anchor" aria-label="anchor" href="#id_7-when-ready-cran-submission"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><code>rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows"", "macos-arm64", "linux"), branch = "main")</code>— multi-platform check</label></li>
+<ul class="task-list"><li><label><input type="checkbox"><code>rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")</code>— multi-platform check</label></li>
 <li><label><input type="checkbox"><code>devtools::spell_check()</code> — no spelling errors in docs</label></li>
 <li><label><input type="checkbox">Review <a href="https://cran.r-project.org/web/packages/policies.html" class="external-link">CRAN policies</a></label></li>
 <li><label><input type="checkbox"><code>devtools::submit_cran()</code> or upload via <a href="https://cran.r-project.org/submit.html" class="external-link uri">https://cran.r-project.org/submit.html</a></label></li>

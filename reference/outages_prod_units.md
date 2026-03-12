@@ -85,7 +85,7 @@ df <- entsoeapi::outages_prod_units(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603122300&periodEnd=202603132300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 10:23:12 GMT
+#> <- date: Thu, 12 Mar 2026 13:05:39 GMT
 #> <- content-type: application/zip
 #> <- content-length: 3272
 #> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_202504090830-202607311500.zip"
@@ -94,9 +94,9 @@ df <- entsoeapi::outages_prod_units(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpqMxwAp/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603130600-202603131600.xml has been read in
-#> ✔ /tmp/RtmpqMxwAp/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132000-202603160500.xml has been read in
-#> ✔ /tmp/RtmpqMxwAp/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
+#> ✔ /tmp/RtmpTwjAk9/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603130600-202603131600.xml has been read in
+#> ✔ /tmp/RtmpTwjAk9/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132000-202603160500.xml has been read in
+#> ✔ /tmp/RtmpTwjAk9/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 3

@@ -60,7 +60,7 @@ Verify live site at <https://krose.github.io/entsoeapi/>
 
 ## 7. (When ready) CRAN Submission
 
-`rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows"", "macos-arm64", "linux"), branch = "main")`—
+`rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")`—
 multi-platform check
 
 `devtools::spell_check()` — no spelling errors in docs

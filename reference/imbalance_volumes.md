@@ -57,7 +57,7 @@ df <- entsoeapi::imbalance_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A86&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 10:22:30 GMT
+#> <- date: Thu, 12 Mar 2026 13:04:04 GMT
 #> <- content-type: application/zip
 #> <- content-length: 1094
 #> <- content-disposition: attachment; filename="Total_Imbalance_Volumes_r3_202312312300-202401012300.zip"
@@ -66,7 +66,7 @@ df <- entsoeapi::imbalance_volumes(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpqMxwAp/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpTwjAk9/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 24
@@ -83,7 +83,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
 #> $ ts_business_type              <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A1…
 #> $ ts_business_type_def          <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy deviatio…
-#> $ created_date_time             <dttm> 2026-03-12 10:22:30, 2026-03-12 10:22:30, 2026-03-12 10:22:30, 2026-03-12 10:22…
+#> $ created_date_time             <dttm> 2026-03-12 13:04:04, 2026-03-12 13:04:04, 2026-03-12 13:04:04, 2026-03-12 13:04…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…
