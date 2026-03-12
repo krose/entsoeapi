@@ -2,24 +2,23 @@
 
 ## Authors
 
-- **Kenneth Rose**. Author.
+- **Kenneth Rose**. Author, copyright holder.
 
-- **Sándor Budai**. Author, maintainer.
+- **Sándor Budai**. Author, maintainer, copyright holder.
 
 ## Citation
 
 Source:
 [`DESCRIPTION`](https://github.com/krose/entsoeapi/blob/main/DESCRIPTION)
 
-Rose K, Budai S (2026). *entsoeapi: An R Wrapper for the European
-Network of Transmission System Operators for Electricity Application
-Programming Interface*. R package version 0.9.5.1,
+Rose K, Budai S (2026). *entsoeapi: R Client for the 'ENTSO-E'
+Transparency Platform API*. R package version 0.9.6,
 <https://github.com/krose/entsoeapi/>.
 
     @Manual{,
-      title = {entsoeapi: An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface},
+      title = {entsoeapi: R Client for the 'ENTSO-E' Transparency Platform API},
       author = {Kenneth Rose and Sándor Budai},
       year = {2026},
-      note = {R package version 0.9.5.1},
+      note = {R package version 0.9.6},
       url = {https://github.com/krose/entsoeapi/},
     }

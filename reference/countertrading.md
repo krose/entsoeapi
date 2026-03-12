@@ -44,6 +44,13 @@ countertrading(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -59,7 +66,7 @@ df <- entsoeapi::countertrading(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A91&in_Domain=10Y1001A1001A82H&out_Domain=10YDK-1--------W&periodStart=202408312200&periodEnd=202409302200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:55 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:56 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Countertrading_202409041000-202409221200.xml"
 #> <- x-content-type-options: nosniff
@@ -85,7 +92,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
 #> $ ts_business_type              <chr> "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B0…
 #> $ ts_business_type_def          <chr> "Counter trade", "Counter trade", "Counter trade", "Counter trade", "Counter tra…
-#> $ created_date_time             <dttm> 2026-03-10 19:47:55, 2026-03-10 19:47:55, 2026-03-10 19:47:55, 2026-03-10 19:47…
+#> $ created_date_time             <dttm> 2026-03-12 09:21:56, 2026-03-12 09:21:56, 2026-03-12 09:21:56, 2026-03-12 09:21…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1

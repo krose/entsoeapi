@@ -56,6 +56,13 @@ already_allocated_total_capacity(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -70,7 +77,7 @@ df <- entsoeapi::already_allocated_total_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&businessType=A29&contract_MarketAgreement.Type=A01&auction.Category=A04&in_Domain=10YDE-VE-------2&out_Domain=10YCZ-CEPS-----N&periodStart=202501312300&periodEnd=202502012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:48 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:44 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1581
 #> <- content-disposition: inline; filename="TOTAL_CAPACITY_ALLOCATED_202501312300-202502012300.xml"
@@ -97,7 +104,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_category_def               <chr> "Base", "Base", "Base", "Base", "Base", "Base", "Base", "Base", "Base", …
 #> $ ts_business_type                      <chr> "A29", "A29", "A29", "A29", "A29", "A29", "A29", "A29", "A29", "A29", "A…
 #> $ ts_business_type_def                  <chr> "Already allocated capacity (AAC)", "Already allocated capacity (AAC)", …
-#> $ created_date_time                     <dttm> 2026-03-10 19:47:48, 2026-03-10 19:47:48, 2026-03-10 19:47:48, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-12 09:21:44, 2026-03-12 09:21:44, 2026-03-12 09:21:44, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                         <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", …
 #> $ ts_time_interval_start                <dttm> 2025-01-31 23:00:00, 2025-01-31 23:00:00, 2025-01-31 23:00:00, 2025-01-3…

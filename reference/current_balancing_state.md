@@ -37,6 +37,13 @@ current_balancing_state(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -50,7 +57,7 @@ df <- entsoeapi::current_balancing_state(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A86&businessType=B33&Area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:57 GMT
+#> <- date: Thu, 12 Mar 2026 09:22:01 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Current_balancing_state_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff
@@ -74,7 +81,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
 #> $ ts_business_type              <chr> "B33", "B33", "B33", "B33", "B33", "B33", "B33", "B33", "B33", "B33", "B33", "B3…
 #> $ ts_business_type_def          <chr> "Area Control error (ACE)", "Area Control error (ACE)", "Area Control error (ACE…
-#> $ created_date_time             <dttm> 2026-03-10 19:47:57, 2026-03-10 19:47:57, 2026-03-10 19:47:57, 2026-03-10 19:47…
+#> $ created_date_time             <dttm> 2026-03-12 09:22:01, 2026-03-12 09:22:01, 2026-03-12 09:22:01, 2026-03-12 09:22…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", …
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00…

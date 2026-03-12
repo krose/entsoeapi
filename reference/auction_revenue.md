@@ -49,6 +49,13 @@ auction_revenue(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -64,7 +71,7 @@ df <- entsoeapi::auction_revenue(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A25&businessType=B07&contract_MarketAgreement.Type=A01&in_Domain=10YBA-JPCC-----D&out_Domain=10YHR-HEP------M&periodStart=202308242200&periodEnd=202308252200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:49 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:46 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Auction_Revenue_202308242200-202308252200.xml"
 #> <- x-content-type-options: nosniff
@@ -92,7 +99,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_type_def                   <chr> "Explicit", "Explicit", "Explicit", "Explicit", "Explicit", "Explicit", …
 #> $ ts_business_type                      <chr> "B07", "B07", "B07", "B07", "B07", "B07", "B07", "B07", "B07", "B07", "B…
 #> $ ts_business_type_def                  <chr> "Auction revenue", "Auction revenue", "Auction revenue", "Auction revenu…
-#> $ created_date_time                     <dttm> 2026-03-10 19:47:49, 2026-03-10 19:47:49, 2026-03-10 19:47:49, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-12 09:21:46, 2026-03-12 09:21:46, 2026-03-12 09:21:46, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                         <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", …
 #> $ ts_time_interval_start                <dttm> 2023-08-24 22:00:00, 2023-08-24 22:00:00, 2023-08-24 22:00:00, 2023-08-2…

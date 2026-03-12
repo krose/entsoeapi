@@ -46,6 +46,13 @@ congestion_income(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -60,7 +67,7 @@ df <- entsoeapi::congestion_income(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A25&businessType=B10&contract_MarketAgreement.Type=A01&in_Domain=10YDOM-1001A083J&out_Domain=10YDOM-1001A083J&periodStart=201512312300&periodEnd=201601012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:53 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:51 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1674
 #> <- content-disposition: inline; filename="Implicit_Allocations_Congestion_income_201512312300-201601012300.xml"
@@ -86,7 +93,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_type_def                   <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", …
 #> $ ts_business_type                      <chr> "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B…
 #> $ ts_business_type_def                  <chr> "Congestion income", "Congestion income", "Congestion income", "Congesti…
-#> $ created_date_time                     <dttm> 2026-03-10 19:47:53, 2026-03-10 19:47:53, 2026-03-10 19:47:53, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-12 09:21:51, 2026-03-12 09:21:51, 2026-03-12 09:21:51, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                         <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", …
 #> $ ts_time_interval_start                <dttm> 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-3…

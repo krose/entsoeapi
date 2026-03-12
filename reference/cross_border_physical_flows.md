@@ -43,6 +43,13 @@ cross_border_physical_flows(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -57,7 +64,7 @@ df1 <- entsoeapi::cross_border_physical_flows(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A83F&out_Domain=10YCZ-CEPS-----N&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:56 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:58 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Physical Flows_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -80,7 +87,7 @@ dplyr::glimpse(df1)
 #> $ type_def                      <chr> "Aggregated energy data report", "Aggregated energy data report", "Aggregated en…
 #> $ ts_business_type              <chr> "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A6…
 #> $ ts_business_type_def          <chr> "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Ener…
-#> $ created_date_time             <dttm> 2026-03-10 19:47:56, 2026-03-10 19:47:56, 2026-03-10 19:47:56, 2026-03-10 19:47…
+#> $ created_date_time             <dttm> 2026-03-12 09:21:58, 2026-03-12 09:21:58, 2026-03-12 09:21:58, 2026-03-12 09:21…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:…
@@ -101,7 +108,7 @@ df2 <- entsoeapi::cross_border_physical_flows(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:56 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:59 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Physical Flows_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -124,7 +131,7 @@ dplyr::glimpse(df2)
 #> $ type_def                      <chr> "Aggregated energy data report", "Aggregated energy data report", "Aggregated en…
 #> $ ts_business_type              <chr> "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A6…
 #> $ ts_business_type_def          <chr> "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Ener…
-#> $ created_date_time             <dttm> 2026-03-10 19:47:56, 2026-03-10 19:47:56, 2026-03-10 19:47:56, 2026-03-10 19:47…
+#> $ created_date_time             <dttm> 2026-03-12 09:21:59, 2026-03-12 09:21:59, 2026-03-12 09:21:59, 2026-03-12 09:21…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:…

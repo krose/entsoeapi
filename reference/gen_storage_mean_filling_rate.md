@@ -41,6 +41,13 @@ gen_storage_mean_filling_rate(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -54,7 +61,7 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A72&processType=A16&in_Domain=10YFR-RTE------C&periodStart=202001312300&periodEnd=202102142300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:48:47 GMT
+#> <- date: Thu, 12 Mar 2026 09:23:08 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregate Filling Rate of Water Reservoirs_202001312300-202102142300.xml"
 #> <- x-content-type-options: nosniff
@@ -78,7 +85,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "…
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
-#> $ created_date_time               <dttm> 2026-03-10 19:48:47, 2026-03-10 19:48:47, 2026-03-10 19:48:47, 2026-03-10 19:…
+#> $ created_date_time               <dttm> 2026-03-12 09:23:08, 2026-03-12 09:23:08, 2026-03-12 09:23:08, 2026-03-12 09:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2020-01-26 23:00:00, 2020-01-26 23:00:00, 2020-01-26 23:00:00, 2020-01-26 23:…
 #> $ time_period_time_interval_end   <dttm> 2021-02-14 23:00:00, 2021-02-14 23:00:00, 2021-02-14 23:00:00, 2021-02-14 23:…

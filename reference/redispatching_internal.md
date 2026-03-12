@@ -38,6 +38,13 @@ redispatching_internal(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -52,7 +59,7 @@ df <- entsoeapi::redispatching_internal(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A63&businessType=A85&in_Domain=10YNL----------L&out_Domain=10YNL----------L&periodStart=202310312300&periodEnd=202311302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:49:42 GMT
+#> <- date: Thu, 12 Mar 2026 09:24:42 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Redispatching_Internal_202310312300-202311052300.xml"
 #> <- x-content-type-options: nosniff
@@ -83,7 +90,7 @@ dplyr::glimpse(df)
 #> $ ts_mkt_psr_type               <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Load", "Load", "Load", "Load", "Load", "Load", "Load", "Load", "Load", "Load", …
 #> $ ts_psr_type                   <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B2…
-#> $ created_date_time             <dttm> 2026-03-10 19:49:42, 2026-03-10 19:49:42, 2026-03-10 19:49:42, 2026-03-10 19:49…
+#> $ created_date_time             <dttm> 2026-03-12 09:24:42, 2026-03-12 09:24:42, 2026-03-12 09:24:42, 2026-03-12 09:24…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…

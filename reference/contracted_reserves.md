@@ -55,6 +55,13 @@ contracted_reserves(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -69,7 +76,7 @@ df <- entsoeapi::contracted_reserves(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A81&businessType=B95&type_MarketAgreement.Type=A13&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:54 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:53 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1000
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -84,7 +91,7 @@ df <- entsoeapi::contracted_reserves(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-10 19:47:54
+#> $ created_date_time <dttm> 2026-03-12 09:21:53
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CO…
 ```

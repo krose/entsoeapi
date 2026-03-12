@@ -15,7 +15,7 @@ and that is reported in a schedule."><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,7 +26,8 @@ and that is reported in a schedule."><meta property="og:image" content="https://
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
+    <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -71,7 +72,7 @@ and that is reported in a schedule.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling W_eicCodes.csv file from cache</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">eic_resource_object</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 34,269</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 34,272</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ EicCode                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "26WAI-PONTE10003"<span style="color: #949494;">, </span>"26WIMPI-00680951"<span style="color: #949494;">, </span>"26WIMPI-0073522R"<span style="color: #949494;">, </span>"26WIMPI-0077109F"…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ EicDisplayName                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "0_868"<span style="color: #949494;">, </span>"IM-0068095"<span style="color: #949494;">, </span>"IM-0073522"<span style="color: #949494;">, </span>"IM-0077109"<span style="color: #949494;">, </span>"IM-0080544"<span style="color: #949494;">, </span>"IM-0083490"<span style="color: #949494;">,</span>…</span>
@@ -84,7 +85,6 @@ and that is reported in a schedule.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ MarketParticipantVatCode        <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ EicTypeFunctionList             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Production Unit"<span style="color: #949494;">, </span>"Production Unit"<span style="color: #949494;">, </span>"Production Unit"<span style="color: #949494;">, </span>"Production Unit"<span style="color: #949494;">, </span>"P…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ type                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"W"…</span>
-<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

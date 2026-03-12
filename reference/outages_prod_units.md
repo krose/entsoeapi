@@ -58,6 +58,13 @@ outages_prod_units(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -76,54 +83,48 @@ df <- entsoeapi::outages_prod_units(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603102300&periodEnd=202603112300&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603122300&periodEnd=202603132300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:49:32 GMT
+#> <- date: Thu, 12 Mar 2026 09:24:30 GMT
 #> <- content-type: application/zip
-#> <- content-length: 9799
+#> <- content-length: 3272
 #> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_202504090830-202607311500.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpDj0v66/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603090600-202603131600.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202603111600.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603110600-202603111600.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603110600-202603111600.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603110700-202603111500.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603110700-202603111600.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603110700-202603111600.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603111230-202603111330.xml has been read in
-#> ✔ /tmp/RtmpDj0v66/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
+#> ✔ /tmp/RtmpmagTKD/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603130600-202603131600.xml has been read in
+#> ✔ /tmp/RtmpmagTKD/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132000-202603160500.xml has been read in
+#> ✔ /tmp/RtmpmagTKD/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
 
 dplyr::glimpse(df)
-#> Rows: 9
+#> Rows: 3
 #> Columns: 26
-#> $ ts_bidding_zone_domain_mrid        <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
-#> $ ts_bidding_zone_domain_name        <chr> "France", "France", "France", "France", "France", "France", "France", "Fran…
-#> $ ts_production_mrid                 <chr> "17W100P100P0312Q", "17W100P100P0317G", "17W100P100P02837", "17W100P100P027…
-#> $ ts_production_name                 <chr> "RANDENS", "SAINT PIERRE COGNET", "COMBE D'AVRIEUX", "COCHE", "RANDENS", "A…
-#> $ ts_production_location_name        <chr> "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRAN…
-#> $ type                               <chr> "A77", "A77", "A77", "A77", "A77", "A77", "A77", "A77", "A77"
+#> $ ts_bidding_zone_domain_mrid        <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C"
+#> $ ts_bidding_zone_domain_name        <chr> "France", "France", "France"
+#> $ ts_production_mrid                 <chr> "17W100P100P02837", "17W100P100P0280D", "17W100P100P0279Z"
+#> $ ts_production_name                 <chr> "COMBE D'AVRIEUX", "BATHIE", "AIGLE"
+#> $ ts_production_location_name        <chr> "FRANCE", "FRANCE", "FRANCE"
+#> $ type                               <chr> "A77", "A77", "A77"
 #> $ type_def                           <chr> "Production unavailability", "Production unavailability", "Production unava…
-#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"
-#> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information", "Outage i…
-#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A54"
-#> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
-#> $ ts_production_psr_type             <chr> "B11", "B11", "B12", "B10", "B11", "B12", "B12", "B11", "B12"
-#> $ ts_production_psr_type_def         <chr> "Hydro Run-of-river head installation", "Hydro Run-of-river head installati…
-#> $ created_date_time                  <dttm> 2025-10-07 23:59:23, 2026-03-04 09:02:34, 2026-03-10 07:37:42, 2026-03-10 1…
-#> $ reason_code                        <chr> "B19", "B19", "A95", "A95", "A95", "B19", "A95", "B19", "B18"
-#> $ reason_text                        <chr> "Foreseen maintenance", "L'indisponibilité prévue n'aura pas lieu du 10/03/…
-#> $ revision_number                    <dbl> 1, 2, 3, 3, 2, 2, 1, 1, 4
-#> $ unavailability_time_interval_start <dttm> 2026-03-09 06:00:00, 2026-03-10 06:00:00, 2026-03-11 06:00:00, 2026-03-11 0…
-#> $ unavailability_time_interval_end   <dttm> 2026-03-13 16:00:00, 2026-03-11 16:00:00, 2026-03-11 16:00:00, 2026-03-11 1…
-#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M"
-#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1
-#> $ ts_production_psr_nominal_p        <dbl> 124.0, 101.0, 123.0, 384.0, 124.0, 360.0, 189.2, 150.0, 360.0
-#> $ ts_available_period_point_quantity <dbl> 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 16.2, 262.0
-#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
-#> $ doc_status_value                   <chr> NA, "A09", NA, "A09", NA, "A09", NA, NA, NA
-#> $ doc_status                         <chr> NA, "Finalised schedule", NA, "Finalised schedule", NA, "Finalised schedul…
+#> $ process_type                       <chr> "A26", "A26", "A26"
+#> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information"
+#> $ ts_business_type                   <chr> "A53", "A53", "A54"
+#> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Unplanned outage"
+#> $ ts_production_psr_type             <chr> "B12", "B12", "B12"
+#> $ ts_production_psr_type_def         <chr> "Hydro-electric storage head installation", "Hydro-electric storage head in…
+#> $ created_date_time                  <dttm> 2026-03-10 07:38:37, 2026-03-05 14:50:08, 2025-10-08 04:21:54
+#> $ reason_code                        <chr> "A95", "B19", "B18"
+#> $ reason_text                        <chr> "Des variations de puissance pour essais sont possibles --- Power variation…
+#> $ revision_number                    <dbl> 3, 2, 4
+#> $ unavailability_time_interval_start <dttm> 2026-03-13 06:00:00, 2026-03-13 20:00:00, 2025-04-09 08:30:00
+#> $ unavailability_time_interval_end   <dttm> 2026-03-13 16:00:00, 2026-03-16 05:00:00, 2026-07-31 15:00:00
+#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M"
+#> $ ts_mrid                            <dbl> 1, 1, 1
+#> $ ts_production_psr_nominal_p        <dbl> 123, 600, 360
+#> $ ts_available_period_point_quantity <dbl> 0, 0, 262
+#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW"
+#> $ doc_status_value                   <chr> NA, "A09", NA
+#> $ doc_status                         <chr> NA, "Finalised schedule", NA
 ```

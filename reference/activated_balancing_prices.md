@@ -47,6 +47,13 @@ activated_balancing_prices(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -60,7 +67,7 @@ df <- entsoeapi::activated_balancing_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A84&processType=A16&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:30 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:16 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="PRICES_OF_ACTIVATED_BALANCING_ENERGY_R3_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff
@@ -87,7 +94,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def       <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration reserve…
 #> $ ts_mkt_psr_type            <chr> "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03",…
 #> $ ts_mkt_psr_type_def        <chr> "Resource Object", "Resource Object", "Resource Object", "Resource Object", "Resour…
-#> $ created_date_time          <dttm> 2026-03-10 19:47:30, 2026-03-10 19:47:30, 2026-03-10 19:47:30, 2026-03-10 19:47:30…
+#> $ created_date_time          <dttm> 2026-03-12 09:21:16, 2026-03-12 09:21:16, 2026-03-12 09:21:16, 2026-03-12 09:21:16…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution              <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start     <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00…

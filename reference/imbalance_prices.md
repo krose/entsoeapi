@@ -36,6 +36,13 @@ imbalance_prices(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -49,16 +56,16 @@ df <- entsoeapi::imbalance_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A85&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:48:51 GMT
+#> <- date: Thu, 12 Mar 2026 09:23:24 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1562
+#> <- content-length: 1563
 #> <- content-disposition: attachment; filename="Imbalance Prices_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpDj0v66/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpmagTKD/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
 
 dplyr::glimpse(df)
 #> Rows: 72
@@ -73,7 +80,7 @@ dplyr::glimpse(df)
 #> $ process_type_def           <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "Realised",…
 #> $ ts_business_type           <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19",…
 #> $ ts_business_type_def       <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy deviation",…
-#> $ created_date_time          <dttm> 2026-03-10 19:48:51, 2026-03-10 19:48:51, 2026-03-10 19:48:51, 2026-03-10 19:48:51…
+#> $ created_date_time          <dttm> 2026-03-12 09:23:24, 2026-03-12 09:23:24, 2026-03-12 09:23:24, 2026-03-12 09:23:24…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution              <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start     <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00…

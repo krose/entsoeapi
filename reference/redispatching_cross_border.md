@@ -43,6 +43,13 @@ redispatching_cross_border(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -58,7 +65,7 @@ df <- entsoeapi::redispatching_cross_border(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A63&businessType=A46&in_Domain=10YDE-EON------1&out_Domain=10YDE-VE-------2&periodStart=202408312200&periodEnd=202409302200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:49:41 GMT
+#> <- date: Thu, 12 Mar 2026 09:24:39 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Redispatching_Cross_Border_202409010900-202409291445.xml"
 #> <- x-content-type-options: nosniff
@@ -86,7 +93,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "System Operator redispatching", "System Operator redispatching", "System Operat…
 #> $ ts_mkt_psr_type               <chr> "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Generation", "Generation", "Generation", "Generation", "Generation", "Generatio…
-#> $ created_date_time             <dttm> 2026-03-10 19:49:41, 2026-03-10 19:49:41, 2026-03-10 19:49:41, 2026-03-10 19:49…
+#> $ created_date_time             <dttm> 2026-03-12 09:24:39, 2026-03-12 09:24:39, 2026-03-12 09:24:39, 2026-03-12 09:24…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…

@@ -42,6 +42,13 @@ aggregated_balancing_energy_bids(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -56,7 +63,7 @@ df <- entsoeapi::aggregated_balancing_energy_bids(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A24&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:32 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:19 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="AGGREGATED_BALANCING_ENERGY_BIDS_R3_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff
@@ -80,7 +87,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", …
 #> $ ts_business_type              <chr> "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A1…
 #> $ ts_business_type_def          <chr> "Aggregated energy data", "Aggregated energy data", "Aggregated energy data", "A…
-#> $ created_date_time             <dttm> 2026-03-10 19:47:32, 2026-03-10 19:47:32, 2026-03-10 19:47:32, 2026-03-10 19:47…
+#> $ created_date_time             <dttm> 2026-03-12 09:21:19, 2026-03-12 09:21:19, 2026-03-12 09:21:19, 2026-03-12 09:21…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00…

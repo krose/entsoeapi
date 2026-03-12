@@ -50,6 +50,13 @@ balancing_border_cap_limit(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -65,7 +72,7 @@ df <- entsoeapi::balancing_border_cap_limit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A31&BusinessType=A26&processType=A51&In_Domain=10YDE-RWENET---I&Out_Domain=10YBE----------2&periodStart=202206212200&periodEnd=202206222200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:51 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:48 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Balancing Border Capacity Limitations_202206212200-202206222200.xml"
 #> <- x-content-type-options: nosniff
@@ -93,7 +100,7 @@ dplyr::glimpse(df)
 #> $ process_type_def       <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration reserve", "…
 #> $ ts_business_type       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A2…
 #> $ ts_business_type_def   <chr> "Available transfer capacity (ATC)", "Available transfer capacity (ATC)", "Available tr…
-#> $ created_date_time      <dttm> 2026-03-10 19:47:51, 2026-03-10 19:47:51, 2026-03-10 19:47:51, 2026-03-10 19:47:51, 20…
+#> $ created_date_time      <dttm> 2026-03-12 09:21:48, 2026-03-12 09:21:48, 2026-03-12 09:21:48, 2026-03-12 09:21:48, 20…
 #> $ ts_reason_code         <chr> "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B4…
 #> $ ts_reason_text         <chr> "Operational security constraints", "Operational security constraints", "Operational se…
 #> $ revision_number        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …

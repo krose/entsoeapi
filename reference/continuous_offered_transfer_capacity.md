@@ -41,6 +41,13 @@ continuous_offered_transfer_capacity(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -55,7 +62,7 @@ df <- entsoeapi::continuous_offered_transfer_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A31&auction.Type=A08&contract_MarketAgreement.Type=A07&in_Domain=10YNL----------L&out_Domain=10YBE----------2&periodStart=202405152200&periodEnd=202405162200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:53 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:52 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Offered Transfer Capacities Continuous_202405152200-202405162200.xml"
 #> <- x-content-type-options: nosniff
@@ -82,7 +89,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_type_def                   <chr> "Continuous", "Continuous", "Continuous", "Continuous", "Continuous", "C…
 #> $ ts_business_type                      <chr> "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A…
 #> $ ts_business_type_def                  <chr> "Offered Capacity", "Offered Capacity", "Offered Capacity", "Offered Cap…
-#> $ created_date_time                     <dttm> 2026-03-10 19:47:53, 2026-03-10 19:47:53, 2026-03-10 19:47:53, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-12 09:21:52, 2026-03-12 09:21:52, 2026-03-12 09:21:52, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ ts_resolution                         <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", …
 #> $ ts_time_interval_start                <dttm> 2024-05-15 22:00:00, 2024-05-15 22:00:00, 2024-05-15 22:00:00, 2024-05-…

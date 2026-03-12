@@ -69,6 +69,13 @@ outages_cons_units(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -81,7 +88,7 @@ df <- entsoeapi::outages_cons_units(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A76&biddingZone_Domain=10YFI-1--------U&periodStart=202404092200&periodEnd=202404102200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:49:07 GMT
+#> <- date: Thu, 12 Mar 2026 09:23:50 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Unavailability_of_consumption_units_aggregated_202404100400-202404100900.xml"
 #> <- x-content-type-options: nosniff
@@ -103,7 +110,7 @@ dplyr::glimpse(df)
 #> $ process_type_def                   <chr> "Outage information"
 #> $ ts_business_type                   <chr> "A53"
 #> $ ts_business_type_def               <chr> "Planned maintenance"
-#> $ created_date_time                  <dttm> 2026-03-10 19:49:07
+#> $ created_date_time                  <dttm> 2026-03-12 09:23:50
 #> $ reason_code                        <chr> "A95"
 #> $ reason_text                        <chr> "  - Complementary information"
 #> $ revision_number                    <dbl> 1

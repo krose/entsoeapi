@@ -45,6 +45,13 @@ changes_to_bid_availability(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -59,7 +66,7 @@ df <- entsoeapi::changes_to_bid_availability(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B45&processType=A47&businessType=C46&ControlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:47:52 GMT
+#> <- date: Thu, 12 Mar 2026 09:21:49 GMT
 #> <- content-type: text/xml
 #> <- content-length: 983
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -74,7 +81,7 @@ df <- entsoeapi::changes_to_bid_availability(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-10 19:47:52
+#> $ created_date_time <dttm> 2026-03-12 09:21:49
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item CHANGES_TO_BID_AVAILABILITY [IFs: mFRR 9.9 aFRR 9.6&9…
 ```

@@ -261,6 +261,8 @@
 - [`tariff_types`](https://krose.github.io/entsoeapi/reference/tariff_types.md)
   : List tariff types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
+- [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md)
+  : Check if the ENTSO-E API provider is reachable
 - [`tie_line_eic()`](https://krose.github.io/entsoeapi/reference/tie_line_eic.md)
   : Get Tie Line T Energy Identification Codes
 - [`timeframe_types`](https://krose.github.io/entsoeapi/reference/timeframe_types.md)

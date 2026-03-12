@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface • entsoeapi</title>
+<title>R Client for the ENTSO-E Transparency Platform API • entsoeapi</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,9 +15,9 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="An R Wrapper for the European Network of Transmission System Operators for Electricity Application Programming Interface">
-<meta name="description" content="Simple and standardized wrappers around Entso-E API's Market, Load, Generation, Transmission, Outages &amp; Balancing endpoints to retrieve common data, and convert them into tabular format.">
-<meta property="og:description" content="Simple and standardized wrappers around Entso-E API's Market, Load, Generation, Transmission, Outages &amp; Balancing endpoints to retrieve common data, and convert them into tabular format.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="R Client for the ENTSO-E Transparency Platform API">
+<meta name="description" content="Provides a standardized R client for the ENTSO-E (European Network of Transmission System Operators for Electricity) Transparency Platform API. Covers Market, Load, Generation, Transmission, Outages, and Balancing endpoints. Automatically handles query pagination, XML-to-tabular conversion, response caching, and code list lookups. Requires a registered ENTSO-E security token.">
+<meta property="og:description" content="Provides a standardized R client for the ENTSO-E (European Network of Transmission System Operators for Electricity) Transparency Platform API. Covers Market, Load, Generation, Transmission, Outages, and Balancing endpoints. Automatically handles query pagination, XML-to-tabular conversion, response caching, and code list lookups. Requires a registered ENTSO-E security token.">
 <meta property="og:image" content="https://krose.github.io/entsoeapi/logo.svg">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+<li><a class="dropdown-item" href="articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
+    <li><a class="dropdown-item" href="articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
   </ul>
 </li>
       </ul>
@@ -191,7 +192,7 @@ Since the underlying engine has fairly been standardized with the introduction o
 <div class="section level2">
 <h2 id="security-token">Security token<a class="anchor" aria-label="anchor" href="#security-token"></a>
 </h2>
-<p>Read <a href="https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token" class="external-link">here</a> how to get a security token. You should also create a <code>.Renviron</code> file in your working directory with a security token and call it <code>ENTSOE_PAT</code>.</p>
+<p>Read the related ENTSO-E Transparency Platform documentation <a href="https://transparencyplatform.zendesk.com/hc/en-us/articles/12845911031188-How-to-get-security-token" class="external-link">here</a> about how to get a security token. You should also create a <code>.Renviron</code> file in your working directory with a security token and call it <code>ENTSOE_PAT</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://usethis.r-lib.org" class="external-link">"usethis"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"usethis"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -400,7 +401,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ── API call ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A65&amp;processType=A16&amp;outBiddingZone_Domain=10Y1001A1001A83F&amp;periodStart=201912312300&amp;periodEnd=202001012300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- date: Tue, 10 Mar 2026 18:15:50 GMT</span></span>
+<span><span class="co">#&gt; &lt;- date: Thu, 12 Mar 2026 07:24:10 GMT</span></span>
 <span><span class="co">#&gt; &lt;- content-type: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- x-content-type-options: nosniff</span></span>
@@ -423,7 +424,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_object_aggregation_def       &lt;chr&gt; "Area", "Area", "Area", "Area", "Area"…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                &lt;chr&gt; "A04", "A04", "A04", "A04", "A04", "A0…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def            &lt;chr&gt; "Consumption", "Consumption", "Consump…</span></span>
-<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-10 18:15:50, 2026-03-10 18:15…</span></span>
+<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-12 07:24:10, 2026-03-12 07:24…</span></span>
 <span><span class="co">#&gt; $ revision_number                 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_start &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:00…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_end   &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>
@@ -449,7 +450,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ── API call ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A75&amp;processType=A16&amp;in_Domain=10Y1001A1001A83F&amp;periodStart=201912312300&amp;periodEnd=202001012300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- date: Tue, 10 Mar 2026 18:15:52 GMT</span></span>
+<span><span class="co">#&gt; &lt;- date: Thu, 12 Mar 2026 07:24:13 GMT</span></span>
 <span><span class="co">#&gt; &lt;- content-type: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- x-content-type-options: nosniff</span></span>
@@ -461,10 +462,10 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ✔ response has arrived</span></span>
 <span><span class="co">#&gt; Rows: 1,632</span></span>
 <span><span class="co">#&gt; Columns: 25</span></span>
-<span><span class="co">#&gt; $ ts_in_bidding_zone_domain_mrid  &lt;chr&gt; "10Y1001A1001A83F", "10Y1001A1001A83F"…</span></span>
-<span><span class="co">#&gt; $ ts_in_bidding_zone_domain_name  &lt;chr&gt; "Germany", "Germany", "Germany", "Germ…</span></span>
-<span><span class="co">#&gt; $ ts_out_bidding_zone_domain_mrid &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
-<span><span class="co">#&gt; $ ts_out_bidding_zone_domain_name &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ ts_in_bidding_zone_domain_mrid  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ ts_in_bidding_zone_domain_name  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span><span class="co">#&gt; $ ts_out_bidding_zone_domain_mrid &lt;chr&gt; "10Y1001A1001A83F", "10Y1001A1001A83F"…</span></span>
+<span><span class="co">#&gt; $ ts_out_bidding_zone_domain_name &lt;chr&gt; "Germany", "Germany", "Germany", "Germ…</span></span>
 <span><span class="co">#&gt; $ type                            &lt;chr&gt; "A75", "A75", "A75", "A75", "A75", "A7…</span></span>
 <span><span class="co">#&gt; $ type_def                        &lt;chr&gt; "Actual generation per type", "Actual …</span></span>
 <span><span class="co">#&gt; $ process_type                    &lt;chr&gt; "A16", "A16", "A16", "A16", "A16", "A1…</span></span>
@@ -473,9 +474,9 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_object_aggregation_def       &lt;chr&gt; "Resource type", "Resource type", "Res…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                &lt;chr&gt; "A01", "A01", "A01", "A01", "A01", "A0…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def            &lt;chr&gt; "Production", "Production", "Productio…</span></span>
-<span><span class="co">#&gt; $ ts_mkt_psr_type                 &lt;chr&gt; "B01", "B01", "B01", "B01", "B01", "B0…</span></span>
-<span><span class="co">#&gt; $ ts_mkt_psr_type_def             &lt;chr&gt; "Biomass", "Biomass", "Biomass", "Biom…</span></span>
-<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-10 18:15:52, 2026-03-10 18:15…</span></span>
+<span><span class="co">#&gt; $ ts_mkt_psr_type                 &lt;chr&gt; "B10", "B10", "B10", "B10", "B10", "B1…</span></span>
+<span><span class="co">#&gt; $ ts_mkt_psr_type_def             &lt;chr&gt; "Hydro-electric pure pumped storage he…</span></span>
+<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-12 07:24:13, 2026-03-12 07:24…</span></span>
 <span><span class="co">#&gt; $ revision_number                 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_start &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:00…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_end   &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>
@@ -484,7 +485,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_time_interval_end            &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>
 <span><span class="co">#&gt; $ ts_mrid                         &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ ts_point_dt_start               &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:15…</span></span>
-<span><span class="co">#&gt; $ ts_point_quantity               &lt;dbl&gt; 4809.13, 4803.04, 4787.15, 4787.26, 47…</span></span>
+<span><span class="co">#&gt; $ ts_point_quantity               &lt;dbl&gt; 194.92, 225.11, 286.19, 397.02, 284.99…</span></span>
 <span><span class="co">#&gt; $ ts_quantity_measure_unit_name   &lt;chr&gt; "MAW", "MAW", "MAW", "MAW", "MAW", "MA…</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -526,8 +527,8 @@ Flexible Alternating Current Transmission System
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Kenneth Rose <br><small class="roles"> Author </small>   </li>
-<li>Sándor Budai <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Kenneth Rose <br><small class="roles"> Author, copyright holder </small>   </li>
+<li>Sándor Budai <br><small class="roles"> Author, maintainer, copyright holder </small>   </li>
 </ul>
 </div>
 

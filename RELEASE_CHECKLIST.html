@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
+    <li><a class="dropdown-item" href="articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
@@ -38,7 +39,7 @@
 
 <div class="section level2">
 <h2 id="id_1-prepare">1. Prepare<a class="anchor" aria-label="anchor" href="#id_1-prepare"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox">All planned changes merged into <code>develop</code></label></li>
+<ul class="task-list"><li><label><input type="checkbox">All planned changes merged into <code>devel</code></label></li>
 <li><label><input type="checkbox"><code>NEWS.md</code> updated — new version header, all changes documented</label></li>
 <li><label><input type="checkbox">Version bumped in <code>DESCRIPTION</code> (follow semver: major.minor.patch)</label></li>
 <li><label><input type="checkbox"><code>RoxygenNote</code> in <code>DESCRIPTION</code> matches installed roxygen2 version</label></li>
@@ -68,7 +69,7 @@
 <div class="section level2">
 <h2 id="id_5-merge--tag">5. Merge &amp; Tag<a class="anchor" aria-label="anchor" href="#id_5-merge--tag"></a></h2>
 <ul class="task-list"><li><label><input type="checkbox">Merge <code>develop</code> → <code>main</code> (PR or direct)</label></li>
-<li><label><input type="checkbox">Create a git tag: <code>git tag v0.9.5.1 &amp;&amp; git push origin v0.9.5.1</code></label></li>
+<li><label><input type="checkbox">Create a git tag: <code>git tag v0.9.6 &amp;&amp; git push origin v0.9.6</code></label></li>
 <li><label><input type="checkbox">Create a GitHub Release with the <code>NEWS.md</code> entry as release notes</label></li>
 </ul></div>
 <div class="section level2">
@@ -79,7 +80,7 @@
 </ul></div>
 <div class="section level2">
 <h2 id="id_7-when-ready-cran-submission">7. (When ready) CRAN Submission<a class="anchor" aria-label="anchor" href="#id_7-when-ready-cran-submission"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox"><code>rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c(1L, 3L, 5L), branch = "main")</code>— multi-platform check</label></li>
+<ul class="task-list"><li><label><input type="checkbox"><code>rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows"", "macos-arm64", "linux"), branch = "main")</code>— multi-platform check</label></li>
 <li><label><input type="checkbox"><code>devtools::spell_check()</code> — no spelling errors in docs</label></li>
 <li><label><input type="checkbox">Review <a href="https://cran.r-project.org/web/packages/policies.html" class="external-link">CRAN policies</a></label></li>
 <li><label><input type="checkbox"><code>devtools::submit_cran()</code> or upload via <a href="https://cran.r-project.org/submit.html" class="external-link uri">https://cran.r-project.org/submit.html</a></label></li>

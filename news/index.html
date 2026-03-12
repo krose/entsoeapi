@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
+    <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -34,6 +35,23 @@
       <small>Source: <a href="https://github.com/krose/entsoeapi/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.9.6" id="entsoeapi-v096-2026-03-12">entsoeapi v0.9.6 (2026-03-12)<a class="anchor" aria-label="anchor" href="#entsoeapi-v096-2026-03-12"></a></h2>
+<div class="section level3">
+<h3 id="new-functionality-0-9-6">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-0-9-6"></a></h3>
+<ul><li>Additional EIC assertion check has been added to each user facing functions.</li>
+<li>The there_is_provider() has been turned to user-facing function.</li>
+<li>The <code>architecture</code> vignette has been composed and added.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-0-9-6">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-9-6"></a></h3>
+<ul><li>Across all R files <a href="https://github.com/examples" class="external-link">@examples</a> blocks replaced by <a href="https://github.com/examplesIf" class="external-link">@examplesIf</a> blocks — since they require an ENTSOE_PAT env var that isn’t available in CI.</li>
+<li>@return section has been added to each exported function.</li>
+<li>The cran-comments.md has been created and has been added to .Rbuildignore.</li>
+<li>the .urlchecker config file has been created and has been added to .Rbuildignore.</li>
+<li>The DESCRIPTION and the LICENSE documents have been updated.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.5.1" id="entsoeapi-v0951-2026-03-09">entsoeapi v0.9.5.1 (2026-03-09)<a class="anchor" aria-label="anchor" href="#entsoeapi-v0951-2026-03-09"></a></h2>
 <div class="section level3">
@@ -120,7 +138,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-0-9-1-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-9-1-0"></a></h3>
-<ul><li>The built-in type list tables have been updated according to “<a href="https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z" class="external-link uri">https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z</a>”.</li>
+<ul><li>The built-in type list tables have been updated according to the ENTSO-E code list version 93.</li>
 <li>The ‘ts_in_bidding_zone_domain_mrid’ and ‘ts_out_bidding_zone_domain_mrid’ column related issue have been resolved in <code><a href="../reference/gen_per_gen_unit.html">gen_per_gen_unit()</a></code> query’s tidy results.</li>
 </ul></div>
 </div>

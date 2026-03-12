@@ -42,6 +42,13 @@ load_month_ahead_total_forecast(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
@@ -55,7 +62,7 @@ df <- entsoeapi::load_month_ahead_total_forecast(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A32&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201910312300&periodEnd=201911292300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 10 Mar 2026 19:48:57 GMT
+#> <- date: Thu, 12 Mar 2026 09:23:35 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Total Load Forecast 201910312300-201911292300.xml"
 #> <- x-content-type-options: nosniff
@@ -79,7 +86,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area"
 #> $ ts_business_type                <chr> "A60", "A60", "A60", "A60", "A61", "A61", "A61", "A61"
 #> $ ts_business_type_def            <chr> "Minimum possible", "Minimum possible", "Minimum possible", "Minimum possible"…
-#> $ created_date_time               <dttm> 2026-03-10 19:48:57, 2026-03-10 19:48:57, 2026-03-10 19:48:57, 2026-03-10 19:4…
+#> $ created_date_time               <dttm> 2026-03-12 09:23:35, 2026-03-12 09:23:35, 2026-03-12 09:23:35, 2026-03-12 09:2…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1
 #> $ time_period_time_interval_start <dttm> 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:0…
 #> $ time_period_time_interval_end   <dttm> 2019-12-01 23:00:00, 2019-12-01 23:00:00, 2019-12-01 23:00:00, 2019-12-01 23:0…

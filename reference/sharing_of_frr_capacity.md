@@ -47,19 +47,39 @@ sharing_of_frr_capacity(
 
   Security token for ENTSO-E transparency platform
 
+## Value
+
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data, or `NULL` if no data is available for the given
+parameters.
+
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-df <- entsoeapi::sharing_of_frr_capacity(
+df <- try(entsoeapi::sharing_of_frr_capacity(
   eic_acquiring = "10YCB-GERMANY--8",
   eic_connecting = "10YAT-APG------L",
   process_type = "A56",
   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
   tidy_output = TRUE
-)
+))
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A26&BusinessType=C22&processType=A56&Acquiring_Domain=10YCB-GERMANY--8&Connecting_Domain=10YAT-APG------L&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
+#> <- HTTP/2 400 
+#> <- date: Thu, 12 Mar 2026 09:24:46 GMT
+#> <- content-type: text/xml
+#> <- content-length: 969
+#> <- content-disposition: inline; filename="acknowledgement.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- 
+#> Error in extract_response(content = en_cont_list, tidy_output = tidy_output) : 
+#>   999 The combination of [DOCUMENT_TYPE=A26, PROCESS_TYPE=A56, BUSINESS_TYPE=C22] is not valid, or the requested
+#> data is not allowed to be fetched via this service.
 
-dplyr::glimpse(df)
-} # }
+if (!inherits(df, "try-error")) dplyr::glimpse(df)
 ```
