@@ -107,7 +107,7 @@ outages_both <- function(
   # append the results and return
   list(tbl_gu, tbl_pu) |>
     purrr::compact() |>
-    data.table::rbindlist(use.names = TRUE, fill = TRUE)
+    dplyr::bind_rows()
 }
 
 

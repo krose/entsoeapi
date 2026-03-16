@@ -5,7 +5,7 @@
 \alias{transmission_pair_eic_dict}
 \title{List transmission pair EIC Dictionary}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 114 rows and 8 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 114 rows and 8 columns.
 }
 \usage{
 transmission_pair_eic_dict

@@ -4,6 +4,7 @@
 sandbox/
 test-coverage.yml
 .claude/
+.opencode/
 inst/doc
 /doc/
 /Meta/

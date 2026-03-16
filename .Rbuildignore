@@ -6,6 +6,7 @@ sandbox/
 ^LICENSE\.md$
 ^\.github$
 .claude/
+.opencode/
 ^doc$
 ^Meta$
 ^_pkgdown\.yml$

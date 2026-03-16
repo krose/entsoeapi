@@ -110,14 +110,24 @@ before any network call is made. Common checks:
 - Categorical parameters (e.g., `business_type`, `process_type`): validated
   against allowed values via `checkmate::assert_choice()`
 
-**EIC checksum validation — `assert_eic()` and `.eic_chars`**
+**`there_is_provider()`** (`R/utils.R`, exported): A lightweight connectivity
+check that sends a dummy request to the ENTSO-E API and returns `TRUE` when the
+server responds with HTTP 401 (meaning the endpoint is reachable but the token
+was rejected as expected). Returns `FALSE` when no internet connection is
+available or the server is unreachable. Its primary role is as an
+`@examplesIf` guard in package documentation, ensuring examples are only
+executed when the API is accessible.
+
+**EIC checksum validation — `assert_eic()` and `possible_eic_chars`**
 (`R/utils.R`): The ENTSO-E EIC standard defines a check character at position
-16. The lookup table `.eic_chars` maps the 37 allowed characters (`0–9`, `A–Z`,
-`-`) to integers 0–36. `assert_eic()` computes a weighted sum of the first 15
-characters (weights 16 down to 2), derives the expected check character via
-`(36 - (sum - 1) %% 37) + 1`, and returns `FALSE` if it does not match the
-actual 16th character. This function is not exported; it is called internally
-immediately after each `checkmate::assert_string()` EIC check.
+16. The named integer vector `possible_eic_chars` maps the 37 allowed characters
+(`0–9`, `A–Z`, `-`) to integers 0–36. `assert_eic()` computes a weighted sum of
+the first 15 characters (weights 16 down to 2), derives the expected check
+character via `(36 - (sum - 1) %% 37) + 1`, and aborts with an informative
+message if it does not match the actual 16th character. An optional
+`null_ok = TRUE` argument allows `NULL` to pass validation (used by functions
+that accept an optional EIC parameter). This function is not exported; it is
+called internally immediately after each `checkmate::assert_string()` EIC check.
 
 **Step 2 — Timestamp conversion.** `url_posixct_format()` (`R/utils.R`)
 converts the user-supplied `period_start` / `period_end` to the format required
@@ -156,10 +166,11 @@ rather than halting execution. This standardised return shape is what
 
 The core HTTP function. Steps:
 
-1. **URL construction.** Assembles the full URL from hard-coded constants:
-   - Scheme: `https://`
-   - Domain: `web-api.tp.entsoe.eu/`
-   - Path: `api?`
+1. **URL construction.** Assembles the full URL from package-level constants
+   defined in `R/constants.R`:
+   - Scheme: `.api_scheme` (`"https://"`)
+   - Domain: `.api_domain` (`"web-api.tp.entsoe.eu/"`)
+   - Path: `.api_name` (`"api?"`)
    - Appends `query_string` and `&securityToken={token}`
    - Logs the URL to the console with the token replaced by `<...>` to prevent
      credential leakage.
@@ -167,7 +178,7 @@ The core HTTP function. Steps:
 2. **Request configuration.** Uses `httr2::request()` with:
    - Method: GET
    - Verbose: response headers only (`req_verbose(header_req=FALSE, header_resp=TRUE)`)
-   - Timeout: 60 seconds
+   - Timeout: `.req_timeout` seconds (60, defined in `R/constants.R`)
 
 3. **Execution.** Sent via `purrr::safely(httr2::req_perform)` — another safety
    wrapper so network errors are captured, not thrown.
@@ -374,8 +385,9 @@ maximum age:
 | `m` | `R/utils.R` (top of file) | EIC name lookup tables used during XML enrichment |
 | `mh` | `R/en_helpers.R` (top of file) | Full EIC code tibbles downloaded by `*_eic()` functions |
 
-Both are `cachem::cache_mem(max_age = 3600)` objects. The max age is
-hard-coded and is not user-configurable.
+Both are `cachem::cache_mem(max_age = .max_age)` objects, where `.max_age` is
+the package-level constant `3600` (defined in `R/constants.R`). The max age is
+not user-configurable.
 
 ### 3.2 What gets cached
 
@@ -490,12 +502,12 @@ load_actual_total(eic, period_start, period_end, tidy_output = TRUE)
 
 | Setting | Value | Location |
 |---|---|---|
-| API base URL | `https://web-api.tp.entsoe.eu/api?` | `api_req()` in `R/utils.R` |
+| API base URL | `https://web-api.tp.entsoe.eu/api?` | `.api_scheme`, `.api_domain`, `.api_name` in `R/constants.R` |
 | HTTP method | GET | `api_req()` in `R/utils.R` |
-| HTTP timeout | 60 seconds | `api_req()` in `R/utils.R` |
+| HTTP timeout | 60 seconds (`.req_timeout`) | `R/constants.R`, applied in `api_req()` |
 | Security token env var | `ENTSOE_PAT` | All user-facing functions |
 | Verbose logging | Response headers only | `api_req()` in `R/utils.R` |
-| Cache max age | 3600 seconds (1 hour) | Top of `R/utils.R` and `R/en_helpers.R` |
+| Cache max age | 3600 seconds / 1 hour (`.max_age`) | `R/constants.R`, applied in `R/utils.R` and `R/en_helpers.R` |
 | Pagination trigger phrase | `"exceeds the allowed maximum"` | `api_req()` in `R/utils.R` |
 | Forbidden offset doc types | A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02 | `api_req()` in `R/utils.R` |
 | XML encoding | UTF-8 | `api_req()` and `xml_to_table()` |
@@ -507,7 +519,9 @@ load_actual_total(eic, period_start, period_end, tidy_output = TRUE)
 
 | Component | File | Key Symbols |
 |---|---|---|
-| EIC checksum validation | `R/utils.R` | `assert_eic()`, `.eic_chars` |
+| Package constants | `R/constants.R` | `.api_scheme`, `.api_domain`, `.api_name`, `.req_timeout`, `.max_age` |
+| EIC checksum validation | `R/utils.R` | `assert_eic()`, `possible_eic_chars` |
+| Provider check | `R/utils.R` | `there_is_provider()` |
 | Cache (general) | `R/utils.R` | `m` |
 | Cache (EIC helpers) | `R/en_helpers.R` | `mh` |
 | HTTP request | `R/utils.R` | `api_req()`, `api_req_safe()` |
@@ -540,4 +554,5 @@ load_actual_total(eic, period_start, period_end, tidy_output = TRUE)
 | Nested output | One row per time period, with all data points collected into a `ts_point` list-column (`tidy_output = FALSE`) |
 | Offset pagination | Mechanism by which `api_req()` splits an oversized query into multiple requests using `&offset=N` parameters, transparent to the caller |
 | `ENTSOE_PAT` | R environment variable holding the user's ENTSO-E security token |
+| `there_is_provider()` | Exported helper that returns `TRUE` when the ENTSO-E API endpoint is reachable; used as an `@examplesIf` guard throughout the package |
 | `cachem` | R package providing in-memory and disk caches with automatic expiry, used by both `m` and `mh` cache objects |

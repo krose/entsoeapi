@@ -1,7 +1,7 @@
 Package: entsoeapi
 Type: Package
 Title: R Client for the 'ENTSO-E' Transparency Platform API
-Version: 0.9.6
+Version: 0.9.7
 Authors@R: c(person("Kenneth", "Rose",  role=c("aut", "cph"), email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre", "cph"), email="sbudai.ga@gmail.com"))
 Description: Provides a standardized R client for the 'ENTSO-E' (European Network of
@@ -15,10 +15,7 @@ Imports:
     cachem,
     cli,
     checkmate,
-    curl,
-    data.table,
     dplyr,
-    fs,
     httr2,
     lubridate,
     purrr,
@@ -26,8 +23,6 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    tidyselect,
-    utf8,
     utils,
     xml2,
     xmlconvert
@@ -46,9 +41,10 @@ Suggests:
     ggplot2
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-Collate: 
+Collate:
     'entsoeapi-package.R'
     'data.R'
+    'constants.R'
     'utils.R'
     'en_helpers.R'
     'en_market.R'

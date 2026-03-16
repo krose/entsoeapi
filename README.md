@@ -491,7 +491,7 @@ entsoeapi::load_actual_total(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 11:09:36 GMT
+#> <- date: Mon, 16 Mar 2026 21:35:56 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -501,6 +501,7 @@ entsoeapi::load_actual_total(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <-
 #> ✔ response has arrived
+#> ℹ downloading area_eic_name table ...
 #> ℹ pulling Y_eicCodes.csv file from cache
 #> Rows: 96
 #> Columns: 21
@@ -514,7 +515,7 @@ entsoeapi::load_actual_total(
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_business_type_def            <chr> "Consumption", "Consumption", "Consump…
-#> $ created_date_time               <dttm> 2026-03-12 11:09:36, 2026-03-12 11:09…
+#> $ created_date_time               <dttm> 2026-03-16 21:35:56, 2026-03-16 21:35…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
@@ -544,7 +545,7 @@ entsoeapi::gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 11:09:40 GMT
+#> <- date: Mon, 16 Mar 2026 21:36:01 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -554,6 +555,7 @@ entsoeapi::gen_per_prod_type(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <-
 #> ✔ response has arrived
+#> ℹ pulling area_eic_name table from cache
 #> Rows: 1,632
 #> Columns: 25
 #> $ ts_in_bidding_zone_domain_mrid  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
@@ -570,7 +572,7 @@ entsoeapi::gen_per_prod_type(
 #> $ ts_business_type_def            <chr> "Production", "Production", "Productio…
 #> $ ts_mkt_psr_type                 <chr> "B10", "B10", "B10", "B10", "B10", "B1…
 #> $ ts_mkt_psr_type_def             <chr> "Hydro-electric pure pumped storage he…
-#> $ created_date_time               <dttm> 2026-03-12 11:09:40, 2026-03-12 11:09…
+#> $ created_date_time               <dttm> 2026-03-16 21:36:01, 2026-03-16 21:36…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
@@ -585,7 +587,9 @@ entsoeapi::gen_per_prod_type(
 
 ## Code of Conduct
 
+## Code of Conduct
+
 Please note that the entsoeapi project is released with a [Contributor
 Code of
-Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+Conduct](https://krose.github.io/entsoeapi/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.

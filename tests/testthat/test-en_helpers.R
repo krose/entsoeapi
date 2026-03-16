@@ -274,7 +274,7 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    mh$reset()
+    m$reset()
     testthat::expect_no_error(
       object = tbl <- all_allocated_eic()
     )
@@ -320,7 +320,7 @@ testthat::test_that(
     httr2::with_mocked_responses(
       mock = mock_list,
       code = {
-        mh$reset()
+        m$reset()
         testthat::expect_error(
           object = all_allocated_eic(),
           regexp = "Can't retrieve empty body"
@@ -334,7 +334,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() errors on HTTP error response",
   code = {
-    mh$reset()
+    m$reset()
     xml_error_body <- paste0(
       '<?xml version="1.0" encoding="utf-8"?>',
       "<root><Reason>Service Unavailable</Reason></root>"
@@ -361,7 +361,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() parses XML content-type response",
   code = {
-    mh$reset()
+    m$reset()
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -407,7 +407,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() parses ZIP/octet-stream content-type response",
   code = {
-    mh$reset()
+    m$reset()
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -472,7 +472,7 @@ testthat::test_that(
     httr2::with_mocked_responses(
       mock = mock_list,
       code = {
-        mh$reset()
+        m$reset()
         testthat::expect_error(
           object = all_allocated_eic(),
           regexp = "The XML document has an unexpected tree structure"
@@ -486,7 +486,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() uses cache on second call",
   code = {
-    mh$reset()
+    m$reset()
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
