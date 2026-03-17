@@ -70,7 +70,7 @@ df1 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A43&in_Domain=10Y1001A1001A91G&out_Domain=10Y1001A1001A91G&periodStart=202412312300&periodEnd=202512312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 13:13:13 GMT
+#> <- date: Tue, 17 Mar 2026 22:10:26 GMT
 #> <- content-type: text/xml
 #> <- content-length: 972
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -86,7 +86,7 @@ df1 <- entsoeapi::flow_based_allocations(
 dplyr::glimpse(df1)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-17 13:13:13
+#> $ created_date_time <dttm> 2026-03-17 22:10:26
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item FLOW_BASED_ALLOCATIONS [11.1.B] (10Y1001A1001A91G, 10…
 
@@ -102,7 +102,7 @@ df2 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A32&StorageType=archive&in_Domain=10YDOM-REGION-1V&out_Domain=10YDOM-REGION-1V&periodStart=201812302300&periodEnd=201812312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 13:13:14 GMT
+#> <- date: Tue, 17 Mar 2026 22:10:27 GMT
 #> <- content-type: application/zip
 #> <- content-disposition: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"
 #> <- x-content-type-options: nosniff
@@ -110,7 +110,7 @@ df2 <- entsoeapi::flow_based_allocations(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmprrGJ3T/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
+#> ✔ /tmp/RtmpOgumiW/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
 #> Warning: XML column lengths are not exact multiples of the maximum (9440); recycling with truncation.
 #> ℹ pulling area_eic_name table from cache
 #> ℹ No additional definitions added!

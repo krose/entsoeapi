@@ -102,7 +102,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603172300&periodEnd=202603182300&periodStartUpdate=202603092300&periodEndUpdate=202603162300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 13:14:57 GMT
+#> <- date: Tue, 17 Mar 2026 22:12:04 GMT
 #> <- content-type: application/zip
 #> <- content-length: 3149
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202602020630-202604151500.zip"
@@ -111,9 +111,9 @@ df <- entsoeapi::outages_transmission_grid(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmprrGJ3T/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
-#> ✔ /tmp/RtmprrGJ3T/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
-#> ✔ /tmp/RtmprrGJ3T/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603170630-202603201600.xml has been read in
+#> ✔ /tmp/RtmpOgumiW/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
+#> ✔ /tmp/RtmpOgumiW/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmpOgumiW/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603170630-202603201600.xml has been read in
 #> ℹ pulling area_eic_name table from cache
 #> ℹ pulling area_eic_name table from cache
 #> ℹ pulling area_eic_name table from cache

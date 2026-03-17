@@ -76,7 +76,7 @@ df <- entsoeapi::expansion_and_dismantling_project(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A90&in_Domain=10YSK-SEPS-----K&out_Domain=10YHU-MAVIR----U&periodStart=202212312300&periodEnd=202301012300&businessType=B01&DocStatus=A05&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 13:13:06 GMT
+#> <- date: Tue, 17 Mar 2026 22:10:20 GMT
 #> <- content-type: text/xml
 #> <- content-length: 984
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -92,7 +92,7 @@ df <- entsoeapi::expansion_and_dismantling_project(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-17 13:13:06
+#> $ created_date_time <dttm> 2026-03-17 22:10:20
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item EXPANSION_AND_DISMANTLING_PROJECTS_R3 [9.1] (10YSK-SE…
 ```
