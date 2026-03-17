@@ -5,9 +5,9 @@
 \title{Check if the ENTSO-E API provider is reachable}
 \usage{
 there_is_provider(
-  api_scheme = "https://",
-  api_domain = "web-api.tp.entsoe.eu/",
-  api_name = "api?"
+  api_scheme = .api_scheme,
+  api_domain = .api_domain,
+  api_name = .api_name
 )
 }
 \arguments{
@@ -28,8 +28,6 @@ is no internet connection or when the server is unreachable. Primarily
 intended as an \verb{@examplesIf} guard in package documentation.
 }
 \examples{
-\donttest{
-  there_is_provider()
-}
+there_is_provider()
 
 }

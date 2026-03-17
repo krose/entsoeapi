@@ -401,10 +401,9 @@ gen_per_gen_unit <- function(
   if (is.null(gen_type)) {
     par_matrix <- par_matrix |>
       dplyr::mutate(
-        periodEnd = data.table::shift(
+        periodEnd = dplyr::lead(
           x = periodStart,
-          type = "lead",
-          fill = as.POSIXct(
+          default = as.POSIXct(
             x = period_end,
             format = "%Y%m%d%H%M",
             tz = "UTC"
@@ -415,10 +414,9 @@ gen_per_gen_unit <- function(
     par_matrix <- par_matrix |>
       dplyr::group_by(psrType) |>
       dplyr::mutate(
-        periodEnd = data.table::shift(
+        periodEnd = dplyr::lead(
           x = periodStart,
-          type = "lead",
-          fill = as.POSIXct(
+          default = as.POSIXct(
             x = period_end,
             format = "%Y%m%d%H%M",
             tz = "UTC"

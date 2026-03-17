@@ -6,13 +6,13 @@ converts them to tables and places those in the data/ folder.
 
 # set the latest code list URL (use AI for search)
 url <- c(
-  "https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.7z",
+  "https://www.entsoe.eu/Documents/EDI/Library/CodelistV93.7z",
   "https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip"
 )[[-1L]]
 
 # set the working files and folders
-tmp <- tempfile(fileext = ".zip")
-out_main_dir <- fs::path_wd("data-raw")
+tmp <- base::tempfile(fileext = ".zip")
+out_main_dir <- base::normalizePath("data-raw")
 
 # ── 1. Download and extract the archive ──────────────────────────────────────
 # Build and perform the request
@@ -21,21 +21,16 @@ httr2::request(base_url = url) |>
   httr2::req_perform(path = tmp) # streams directly to disk
 
 # Extract the archive
-archive::archive_extract(archive = tmp, dir = out_main_dir)
+decomp_files <- archive::archive_extract(archive = tmp, dir = out_main_dir)
 
-
-out_dir <- fs::dir_ls(
-  path = out_main_dir,
-  type = "directory",
-  glob = "*Codelist*"
-)
+out_dir <- paste(out_main_dir, decomp_files[[1L]], sep = "/")
 
 # ── 2. Locate the XSD file ───────────────────────────────────────────────────
-xsd_path <- fs::dir_ls(
-  path = out_main_dir,
-  recurse = TRUE,
-  type = "file",
-  regexp = "codelists\\.xsd$"
+xsd_path <- list.files(
+  path = out_dir,
+  recursive = TRUE,
+  full.names = TRUE,
+  pattern = "codelists\\.xsd$"
 ) |>
   purrr::pluck(-1L)
 message("Using: ", xsd_path)
@@ -65,7 +60,7 @@ parse_simple_type <- function(node) {
     return(NULL)
   }
 
-  data.table::data.table(
+  tibble::tibble(
     list_name = xml2::xml_attr(x = node, attr = "name") |>
       stringr::str_remove(
         pattern = "Standard"
@@ -124,11 +119,12 @@ parse_simple_type <- function(node) {
 code_lists_combined <- simple_types |>
   purrr::map(parse_simple_type) |>
   purrr::compact() |>
-  data.table::rbindlist(use.names = TRUE, fill = TRUE)
+  dplyr::bind_rows()
 
 # ── 6. Split into a named list of individual tables ──────────────────────────
 code_lists <- code_lists_combined |>
-  split(by = "list_name", keep.by = FALSE)
+  base::split(f = code_lists_combined$list_name) |>
+  purrr::map(~base::subset(x = .x, select = c(code, title, description)))
 
 # ── 7. Inspect ───────────────────────────────────────────────────────────────
 # number of code list tables

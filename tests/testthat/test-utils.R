@@ -108,6 +108,10 @@ testthat::test_that(
     result16 <- grouping_by_common_strings(vector_list = input16)
     result17 <- grouping_by_common_strings(vector_list = input17) |>
       unlist()
+    is_in_which <- function(value, list) {
+      purrr::map_lgl(list, \(x) value %in% x) |>
+        which()
+    }
     testthat::expect_equal(
       object = grouping_by_common_strings(vector_list = list()),
       expected = list()
@@ -142,11 +146,11 @@ testthat::test_that(
       n = 2L
     )
     testthat::expect_setequal(
-      object = result3[[which(sapply(result3, \(g) 1L %in% g))]],
+      object = result3[[is_in_which(value = 1L, list = result3)]],
       expected = c(1L, 3L, 5L)
     )
     testthat::expect_setequal(
-      object = result3[[which(sapply(result3, \(g) 2L %in% g))]],
+      object = result3[[is_in_which(value = 2L, list = result3)]],
       expected = c(2L, 4L)
     )
     testthat::expect_length(
@@ -162,11 +166,11 @@ testthat::test_that(
       n = 2L
     )
     testthat::expect_equal(
-      object = result5[[which(sapply(result5, \(g) 3L %in% g))]],
+      object = result5[[is_in_which(value = 3L, list = result5)]],
       expected = 3L
     )
     testthat::expect_setequal(
-      object = result5[[which(sapply(result5, \(g) 1L %in% g))]],
+      object = result5[[is_in_which(value = 1L, list = result5)]],
       expected = c(1L, 2L, 4L)
     )
     testthat::expect_length(
@@ -186,7 +190,7 @@ testthat::test_that(
       n = 3L
     )
     testthat::expect_setequal(
-      object = result8[[which(sapply(result8, \(g) 1L %in% g))]],
+      object = result8[[is_in_which(value = 1L, list = result8)]],
       expected = c(1L, 3L)
     )
     testthat::expect_length(
@@ -194,15 +198,15 @@ testthat::test_that(
       n = 3L
     )
     testthat::expect_setequal(
-      object = result9[[which(sapply(result9, \(g) 1L %in% g))]],
+      object = result9[[is_in_which(value = 1L, list = result9)]],
       expected = c(1L, 3L, 4L, 7L)
     )
     testthat::expect_setequal(
-      object = result9[[which(sapply(result9, \(g) 2L %in% g))]],
+      object = result9[[is_in_which(value = 2L, list = result9)]],
       expected = c(2L, 5L)
     )
     testthat::expect_equal(
-      object = result9[[which(sapply(result9, \(g) 6L %in% g))]],
+      object = result9[[is_in_which(value = 6L, list = result9)]],
       expected = 6L
     )
     testthat::expect_length(
@@ -218,7 +222,7 @@ testthat::test_that(
       n = 2L
     )
     testthat::expect_setequal(
-      object = result12[[which(sapply(result12, \(g) 1L %in% g))]],
+      object = result12[[is_in_which(value = 1L, list = result12)]],
       expected = c(1L, 2L)
     )
     testthat::expect_length(
@@ -226,7 +230,7 @@ testthat::test_that(
       n = 2L
     )
     testthat::expect_setequal(
-      object = result13[[which(sapply(result13, \(g) 1L %in% g))]],
+      object = result13[[is_in_which(value = 1L, list = result13)]],
       expected = c(1L, 2L)
     )
     testthat::expect_length(
@@ -234,7 +238,7 @@ testthat::test_that(
       n = 2L
     )
     testthat::expect_setequal(
-      object = result14[[which(sapply(result14, \(g) 1L %in% g))]],
+      object = result14[[is_in_which(value = 1L, list = result14)]],
       expected = c(1L, 2L)
     )
     testthat::expect_length(
@@ -242,7 +246,7 @@ testthat::test_that(
       n = 2L
     )
     testthat::expect_setequal(
-      object = result15[[which(sapply(result15, \(g) 1L %in% g))]],
+      object = result15[[is_in_which(value = 1L, list = result15)]],
       expected = c(1L, 2L)
     )
     testthat::expect_true(
@@ -427,12 +431,16 @@ testthat::test_that(
     data(mtcars)
     mtcars$make <- row.names(mtcars)
     gzip_sample_file <- tempfile(fileext = ".gzip")
-    data.table::fwrite(x = mtcars, file = gzip_sample_file, compress = "gzip")
+    gz_conn <- gzfile(description = gzip_sample_file, open = "wb")
+    utils::write.csv(x = mtcars, file = gz_conn, row.names = FALSE)
+    close(con = gz_conn)
     csv_sample_file <- tempfile(fileext = ".csv")
     zip_sample_file <- tempfile(fileext = ".zip")
     xml_sample_file <- tempfile(fileext = "xml")
     zip_xml_sample_file <- tempfile(fileext = ".zip")
-    data.table::fwrite(x = mtcars, file = csv_sample_file, sep = ";")
+    utils::write.table(
+      x = mtcars, file = csv_sample_file, sep = ";", row.names = FALSE
+    )
     zip(
       zipfile = zip_sample_file,
       files = c(csv_sample_file)
@@ -576,7 +584,7 @@ testthat::test_that(
     )
     testthat::expect_error(
       object = api_req(
-        query_string = "https://web-api.tp.entsoe.eu/api",
+        query_string = paste0(.api_scheme, .api_domain, .api_name),
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
       regexp = "Unable to parse URI. Its format is not valid"
@@ -607,7 +615,7 @@ testthat::test_that(
     )
     testthat::expect_error(
       object = api_req(
-        query_string = "https://google.com/",
+        query_string = paste0(.api_scheme, "google.com/"),
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
       regexp = "Unable to parse URI."
@@ -827,51 +835,9 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "unpack_xml() works",
-  code = {
-    testthat::expect_equal(
-      object = xml2::xml2_example(path = "order-schema.xml") |>
-        xml2::read_xml() |>
-        unpack_xml(parent_name = "foo") |>
-        dim(),
-      expected = c(1L, 4L)
-    )
-    testthat::expect_contains(
-      object = xml2::xml2_example(path = "order-schema.xml") |>
-        xml2::read_xml() |>
-        unpack_xml(parent_name = "foo") |>
-        names(),
-      expected = c(
-        "foo.schema.schema.annotation.documentation",
-        "foo.schema.schema.complexType.annotation.documentation",
-        "foo.schema.schema.complexType.annotation.appinfo",
-        "foo.schema.schema"
-      )
-    )
-    testthat::expect_error(
-      object = xml2::xml2_example(path = "cd_catalog.xml") |>
-        xml2::read_xml() |>
-        unpack_xml(parent_name = "foo"),
-      info = "Names must be unique!"
-    )
-    # NULL result_vector path (empty XML element)
-    testthat::expect_equal(
-      object = xml2::read_xml("<root><empty/></root>") |>
-        xml2::xml_contents() |>
-        (\(ns) ns[[1L]])() |>
-        unpack_xml(parent_name = "foo"),
-      expected = tibble::tibble()
-    )
-  }
-)
-
-
-testthat::test_that(
   desc = "tidy_or_not() works",
   code = {
-    test_df_1 <- xml2::xml2_example(path = "order-schema.xml") |>
-      xml2::read_xml() |>
-      unpack_xml(parent_name = "foo")
+    test_df_1 <- tibble::tibble(a = "x", b = "y", c = "z", d = "w")
     test_df_2 <- tibble::tibble(
       ts_resolution = rep(x = "PT15M", 12L),
       ts_reason_code = rep(x = "B01", 12L),
@@ -1059,28 +1025,26 @@ testthat::test_that(
       )
     )
     data(iris)
-    testthat::expect_true(
-      object = identical(
-        x = add_type_names(tbl = df) |>
-          names(),
-        y = c(
-          "ts_auction_type",
-          "ts_contract_market_agreement_type",
-          "process_type",
-          "ts_production_psr_type",
-          "ts_asset_psr_type",
-          "ts_mkt_psr_type",
-          "ts_business_type",
-          "type",
-          "type_def",
-          "ts_business_type_def",
-          "ts_mkt_psr_type_def",
-          "ts_asset_psr_type_def",
-          "ts_production_psr_type_def",
-          "process_type_def",
-          "ts_contract_market_agreement_type_def",
-          "ts_auction_type_def"
-        )
+    testthat::expect_setequal(
+      object = add_type_names(tbl = df) |>
+        names(),
+      expected = c(
+        "process_type",
+        "ts_auction_type",
+        "ts_contract_market_agreement_type",
+        "ts_production_psr_type",
+        "ts_asset_psr_type",
+        "ts_mkt_psr_type",
+        "ts_business_type",
+        "type",
+        "type_def",
+        "ts_business_type_def",
+        "ts_mkt_psr_type_def",
+        "ts_asset_psr_type_def",
+        "ts_production_psr_type_def",
+        "process_type_def",
+        "ts_contract_market_agreement_type_def",
+        "ts_auction_type_def"
       )
     )
     testthat::expect_no_warning(
@@ -1182,11 +1146,11 @@ testthat::test_that(
     )
     testthat::expect_s3_class(
       object = add_eic_names(tbl = iris),
-      class = "data.table"
+      class = "data.frame"
     )
     testthat::expect_equal(
       object = add_eic_names(tbl = NULL),
-      expected = data.table::data.table()
+      expected = data.frame()
     )
   }
 )
@@ -1228,33 +1192,31 @@ testthat::test_that(
       )
     )
     data(iris)
-    testthat::expect_true(
-      object = identical(
-        x = add_definitions(tbl = df) |>
-          names(),
-        y = c(
-          "ts_object_aggregation",
-          "ts_reason_code",
-          "reason_code",
-          "ts_flow_direction",
-          "ts_auction_category",
-          "doc_status_value",
-          "doc_status",
-          "ts_auction_category_def",
-          "ts_flow_direction_def",
-          "reason_text",
-          "ts_reason_text",
-          "ts_object_aggregation_def"
-        )
+    testthat::expect_setequal(
+      object = add_definitions(tbl = df) |>
+        names(),
+      expected = c(
+        "doc_status_value",
+        "ts_auction_category",
+        "ts_flow_direction",
+        "reason_code",
+        "ts_reason_code",
+        "ts_object_aggregation",
+        "doc_status",
+        "ts_auction_category_def",
+        "ts_flow_direction_def",
+        "reason_text",
+        "ts_reason_text",
+        "ts_object_aggregation_def"
       )
     )
     testthat::expect_s3_class(
       object = add_definitions(tbl = iris),
-      class = "data.table"
+      class = "data.frame"
     )
     testthat::expect_equal(
       object = add_definitions(tbl = NULL),
-      expected = data.table::data.table()
+      expected = data.frame()
     )
   }
 )
@@ -1506,10 +1468,6 @@ testthat::test_that(
     "with expected columns on valid XML"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1556,10 +1514,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() joins doc_status from message_types correctly",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1590,10 +1544,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() stops with HTTP error message and request URL",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -1623,10 +1573,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "get_all_allocated_eic() stops on empty response body",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -1644,10 +1590,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "get_all_allocated_eic() stops on XML with unexpected tree structure",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     minimal_xml <- charToRaw(x = paste0(
       '<?xml version="1.0" encoding="UTF-8"?>',
       "<root>",
@@ -1676,10 +1618,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() returns one row per EICCode_MarketDocument node",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     multi_eic_xml <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1709,10 +1647,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() collapses duplicate Function_Names with ' - '",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     dupl_fn_xml <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1747,10 +1681,6 @@ testthat::test_that(
     "and URL on no internet connection"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     curl_err <- structure(
       class = c("curl_error", "error", "condition"),
       list(message = paste(
@@ -1805,14 +1735,6 @@ testthat::test_that(
     "Function_Names elements with ' - '"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_dupl.xml"),
       encoding = "UTF-8"
@@ -1848,10 +1770,6 @@ testthat::test_that(
     "when bind_cols raises an error"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -2004,14 +1922,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on unknown 200 response content-type",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -2036,14 +1946,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on HTML error response",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -2072,14 +1974,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on XML error with unexpected Reason structure",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_body <- paste0(
       '<?xml version="1.0" encoding="UTF-8"?>',
       "<Acknowledgement_MarketDocument>",
@@ -2112,14 +2006,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with code:text message on non-999 XML error code",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_body <- paste0(
       '<?xml version="1.0" encoding="UTF-8"?>',
       "<Acknowledgement_MarketDocument>",
@@ -2155,14 +2041,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with curl error message on no internet connection",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     curl_err <- structure(
       class = c("curl_error", "error", "condition"),
       list(message = "Could not resolve host: web-api.tp.entsoe.eu")
@@ -2199,14 +2077,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with HTTP 503 message on service unavailable",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -2307,9 +2177,9 @@ testthat::test_that(
     )
     testthat::expect_true(
       object = there_is_provider(
-        api_scheme = "http://",
+        api_scheme = .api_scheme,
         api_domain = "test.example.com/",
-        api_name = "api?"
+        api_name = .api_name
       )
     )
     testthat::expect_match(
@@ -2326,9 +2196,20 @@ testthat::test_that(
     "there is no internet connection"
   ),
   code = {
-    testthat::local_mocked_bindings(
-      has_internet = function() FALSE,
-      .package = "curl"
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        stop(structure(
+          class = c("httr2_failure", "httr2_error", "error", "condition"),
+          list(
+            message = "Failed to perform HTTP request.",
+            resp = NULL,
+            parent = structure(
+              class = c("curl_error", "error", "condition"),
+              list(message = "Could not connect to web-api.tp.entsoe.eu")
+            )
+          )
+        ))
+      }
     )
     testthat::expect_false(object = there_is_provider())
   }

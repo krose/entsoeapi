@@ -2,6 +2,7 @@
 
 ## 1. Prepare
 
+-   [ ] The package name is valid and available `pak::pkg_name_check("entsoeapi")`
 -   [ ] All planned changes merged into `devel`
 -   [ ] `NEWS.md` updated — new version header, all changes documented
 -   [ ] Version bumped in `DESCRIPTION` (follow semver: major.minor.patch)

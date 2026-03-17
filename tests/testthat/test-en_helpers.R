@@ -1,4 +1,15 @@
 testthat::test_that(
+  desc = "all_approved_eic() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = all_approved_eic("foo"),
+      regexp = 'unused argument \\("foo"\\)'
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "all_approved_eic() works",
   code = {
     testthat::skip_if_not(
@@ -21,8 +32,15 @@ testthat::test_that(
       object = names(tbl),
       expected = c("EicCode", "EicLongName")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "party_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = all_approved_eic("foo"),
+      object = party_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -55,8 +73,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "X")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "area_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = party_eic("foo"),
+      object = area_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -89,8 +114,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "Y")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "accounting_point_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = area_eic("foo"),
+      object = accounting_point_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -123,8 +155,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "Z")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "tie_line_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = accounting_point_eic("foo"),
+      object = tie_line_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -157,8 +196,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "T")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "location_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = tie_line_eic("foo"),
+      object = location_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -191,8 +237,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "V")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "resource_object_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = location_eic("foo"),
+      object = resource_object_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -225,8 +278,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "W")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "substation_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = resource_object_eic("foo"),
+      object = substation_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -259,8 +319,15 @@ testthat::test_that(
     testthat::expect_true(
       object = all(tbl$type == "A")
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "all_allocated_eic() validates inputs",
+  code = {
     testthat::expect_error(
-      object = substation_eic("foo"),
+      object = all_allocated_eic("foo"),
       regexp = 'unused argument \\("foo"\\)'
     )
   }
@@ -274,7 +341,7 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    mh$reset()
+    m$reset()
     testthat::expect_no_error(
       object = tbl <- all_allocated_eic()
     )
@@ -294,10 +361,6 @@ testthat::test_that(
         "long_name",
         "display_name"
       )
-    )
-    testthat::expect_error(
-      object = all_allocated_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
     )
   }
 )
@@ -320,7 +383,7 @@ testthat::test_that(
     httr2::with_mocked_responses(
       mock = mock_list,
       code = {
-        mh$reset()
+        m$reset()
         testthat::expect_error(
           object = all_allocated_eic(),
           regexp = "Can't retrieve empty body"
@@ -334,7 +397,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() errors on HTTP error response",
   code = {
-    mh$reset()
+    m$reset()
     xml_error_body <- paste0(
       '<?xml version="1.0" encoding="utf-8"?>',
       "<root><Reason>Service Unavailable</Reason></root>"
@@ -361,7 +424,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() parses XML content-type response",
   code = {
-    mh$reset()
+    m$reset()
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -407,7 +470,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() parses ZIP/octet-stream content-type response",
   code = {
-    mh$reset()
+    m$reset()
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -472,7 +535,7 @@ testthat::test_that(
     httr2::with_mocked_responses(
       mock = mock_list,
       code = {
-        mh$reset()
+        m$reset()
         testthat::expect_error(
           object = all_allocated_eic(),
           regexp = "The XML document has an unexpected tree structure"
@@ -486,7 +549,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() uses cache on second call",
   code = {
-    mh$reset()
+    m$reset()
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
