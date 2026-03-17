@@ -83,7 +83,7 @@ df <- entsoeapi::outages_both(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202603172300&periodEnd=202603182300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:11:28 GMT
+#> <- date: Tue, 17 Mar 2026 22:17:25 GMT
 #> <- content-type: application/zip
 #> <- content-length: 70705
 #> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_201803250000-209912310100.zip"
@@ -92,69 +92,69 @@ df <- entsoeapi::outages_both(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOgumiW/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_201803250000-203408312200.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202002220100-209912310100.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202006292130-209912310100.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202103312200-202712312300.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504251500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202505130600-202603251600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202508260500-202605261500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202510312125-202606172030.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202511240600-202606121500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512120600-202608141500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601022200-202609112100.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601162300-202604122200.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302000-202604202205.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302300-202604302200.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602132100-202605142000.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602132300-202605142200.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602202230-202604012130.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230500-202610021500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230600-202603261600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230700-202611071500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602251400-202603301400.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272130-202604082130.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272130-202604082205.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/024-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272200-202606042100.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/025-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202604122200.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/026-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202604302100.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/027-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202612312300.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/028-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603020600-202611131600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/029-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603062300-202603190800.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/030-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202610211400.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/031-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132100-202604252000.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/032-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603140700-202603180500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/033-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603161600-202603180700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/034-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170600-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/035-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170600-202603201700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/036-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170600-202603271600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/037-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180130-202603180200.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/038-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180500-202603180915.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/039-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/040-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/041-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603201700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/042-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/043-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/044-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/045-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180830-202603181700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/046-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180915-202603181800.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/047-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181000-202603181700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/048-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181400-202603181500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/049-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181430-202603181500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/050-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181630-202603181700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/051-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181630-202603181700.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/052-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181800-202603191400.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/053-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202405181730-202603301500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/054-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202511171553-202604070500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/055-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512120655-202604301500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/056-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512312300-202612312300.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/057-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601061455-202604201500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/058-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601181900-202603261530.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/059-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601240700-202604101500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/060-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603031730-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/061-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603031749-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/062-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603060700-202603271530.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/063-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170052-202603201100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_201803250000-203408312200.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202002220100-209912310100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202006292130-209912310100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202103312200-202712312300.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504251500-202604241500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202505130600-202603251600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202508260500-202605261500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202510312125-202606172030.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202511240600-202606121500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512120600-202608141500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601022200-202609112100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601162300-202604122200.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302000-202604202205.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302300-202604302200.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602132100-202605142000.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602132300-202605142200.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602202230-202604012130.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230500-202610021500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230600-202603261600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230700-202611071500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602251400-202603301400.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272130-202604082130.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272130-202604082205.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/024-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272200-202606042100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/025-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202604122200.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/026-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202604302100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/027-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202612312300.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/028-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603020600-202611131600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/029-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603062300-202603190800.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/030-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202610211400.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/031-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132100-202604252000.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/032-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603140700-202603180500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/033-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603161600-202603180700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/034-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170600-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/035-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170600-202603201700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/036-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170600-202603271600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/037-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180130-202603180200.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/038-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180500-202603180915.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/039-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/040-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/041-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603201700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/042-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/043-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/044-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/045-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180830-202603181700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/046-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180915-202603181800.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/047-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181000-202603181700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/048-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181400-202603181500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/049-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181430-202603181500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/050-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181630-202603181700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/051-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181630-202603181700.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/052-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181800-202603191400.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/053-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202405181730-202603301500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/054-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202511171553-202604070500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/055-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512120655-202604301500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/056-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512312300-202612312300.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/057-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601061455-202604201500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/058-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601181900-202603261530.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/059-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601240700-202604101500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/060-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603031730-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/061-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603031749-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/062-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603060700-202603271530.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/063-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603170052-202603201100.xml has been read in
 #> ℹ pulling area_eic_name table from cache
 #> ℹ pulling area_eic_name table from cache
 #> ℹ pulling area_eic_name table from cache
@@ -194,80 +194,80 @@ df <- entsoeapi::outages_both(
 #> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
 #> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■                       33% | ETA:  2s
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> ℹ pulling area_eic_name table from cache
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        84% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■                   48% | ETA:  2s
 #> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 #> ℹ pulling area_eic_name table from cache
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603172300&periodEnd=202603182300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:11:33 GMT
+#> <- date: Tue, 17 Mar 2026 22:17:29 GMT
 #> <- content-type: application/zip
 #> <- content-length: 6465
 #> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_202504090830-202607311500.zip"
@@ -276,12 +276,12 @@ df <- entsoeapi::outages_both(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOgumiW/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181300.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181630.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181100.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181400-202603181500.xml has been read in
-#> ✔ /tmp/RtmpOgumiW/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181300.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181630.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181100.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181400-202603181500.xml has been read in
+#> ✔ /tmp/RtmpCEPnwY/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
 #> ℹ pulling area_eic_name table from cache
 #> ℹ pulling area_eic_name table from cache
 #> ℹ pulling area_eic_name table from cache
