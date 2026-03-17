@@ -75,7 +75,7 @@ df <- entsoeapi::hvdc_link_constrains(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A99&processType=A63&BusinessType=B06&In_Domain=10YAT-APG------L&Out_Domain=10YDE-RWENET---I&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:03:59 GMT
+#> <- date: Tue, 17 Mar 2026 13:13:53 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1014
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -85,12 +85,13 @@ df <- entsoeapi::hvdc_link_constrains(
 #> <- 
 #> ✔ response has arrived
 #> ℹ No additional type names added!
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional eic names added!
 
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-12 13:03:58
+#> $ created_date_time <dttm> 2026-03-17 13:13:53
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item PERMANENT_LIMITATIONS_TO_CROSS_BORDER_CAPACITY_ON_HVD…
 ```

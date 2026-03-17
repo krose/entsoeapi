@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -401,7 +401,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ── API call ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A65&amp;processType=A16&amp;outBiddingZone_Domain=10Y1001A1001A83F&amp;periodStart=201912312300&amp;periodEnd=202001012300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- date: Thu, 12 Mar 2026 11:09:36 GMT</span></span>
+<span><span class="co">#&gt; &lt;- date: Mon, 16 Mar 2026 21:35:56 GMT</span></span>
 <span><span class="co">#&gt; &lt;- content-type: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- x-content-type-options: nosniff</span></span>
@@ -411,6 +411,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; &lt;- strict-transport-security: max-age=15724800; includeSubDomains</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; ✔ response has arrived</span></span>
+<span><span class="co">#&gt; ℹ downloading area_eic_name table ...</span></span>
 <span><span class="co">#&gt; ℹ pulling Y_eicCodes.csv file from cache</span></span>
 <span><span class="co">#&gt; Rows: 96</span></span>
 <span><span class="co">#&gt; Columns: 21</span></span>
@@ -424,7 +425,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_object_aggregation_def       &lt;chr&gt; "Area", "Area", "Area", "Area", "Area"…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                &lt;chr&gt; "A04", "A04", "A04", "A04", "A04", "A0…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def            &lt;chr&gt; "Consumption", "Consumption", "Consump…</span></span>
-<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-12 11:09:36, 2026-03-12 11:09…</span></span>
+<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-16 21:35:56, 2026-03-16 21:35…</span></span>
 <span><span class="co">#&gt; $ revision_number                 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_start &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:00…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_end   &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>
@@ -450,7 +451,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ── API call ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A75&amp;processType=A16&amp;in_Domain=10Y1001A1001A83F&amp;periodStart=201912312300&amp;periodEnd=202001012300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- date: Thu, 12 Mar 2026 11:09:40 GMT</span></span>
+<span><span class="co">#&gt; &lt;- date: Mon, 16 Mar 2026 21:36:01 GMT</span></span>
 <span><span class="co">#&gt; &lt;- content-type: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- x-content-type-options: nosniff</span></span>
@@ -460,6 +461,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; &lt;- strict-transport-security: max-age=15724800; includeSubDomains</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; ✔ response has arrived</span></span>
+<span><span class="co">#&gt; ℹ pulling area_eic_name table from cache</span></span>
 <span><span class="co">#&gt; Rows: 1,632</span></span>
 <span><span class="co">#&gt; Columns: 25</span></span>
 <span><span class="co">#&gt; $ ts_in_bidding_zone_domain_mrid  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
@@ -476,7 +478,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_business_type_def            &lt;chr&gt; "Production", "Production", "Productio…</span></span>
 <span><span class="co">#&gt; $ ts_mkt_psr_type                 &lt;chr&gt; "B10", "B10", "B10", "B10", "B10", "B1…</span></span>
 <span><span class="co">#&gt; $ ts_mkt_psr_type_def             &lt;chr&gt; "Hydro-electric pure pumped storage he…</span></span>
-<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-12 11:09:40, 2026-03-12 11:09…</span></span>
+<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-16 21:36:01, 2026-03-16 21:36…</span></span>
 <span><span class="co">#&gt; $ revision_number                 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_start &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:00…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_end   &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>
@@ -491,7 +493,11 @@ Flexible Alternating Current Transmission System
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
-<p>Please note that the entsoeapi project is released with a <a href="https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+</div>
+<div class="section level2">
+<h2 id="code-of-conduct-1">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct-1"></a>
+</h2>
+<p>Please note that the entsoeapi project is released with a <a href="https://krose.github.io/entsoeapi/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -513,6 +519,7 @@ Flexible Alternating Current Transmission System
 <div class="community">
 <h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>

@@ -11,7 +11,7 @@ status_types
 
 ## Format
 
-An object of class `data.table` (inherits from `data.frame`) with 76
+An object of class `tbl_df` (inherits from `tbl`, `data.frame`) with 76
 rows and 3 columns.
 
 ## Examples

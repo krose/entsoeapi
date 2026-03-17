@@ -10,7 +10,7 @@ transmission_pair_eic_dict
 
 ## Format
 
-An object of class `data.table` (inherits from `data.frame`) with 114
+An object of class `tbl_df` (inherits from `tbl`, `data.frame`) with 114
 rows and 8 columns.
 
 ## Examples

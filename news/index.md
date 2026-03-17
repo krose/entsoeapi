@@ -1,6 +1,24 @@
 # Changelog
 
-## entsoeapi v0.9.6 (2026-03-12)
+## entsoeapi v0.9.7 (2026-03-17)
+
+### New functionality
+
+- None.
+
+### Miscellaneous
+
+- The code base simplified.
+- The package level constants have been placed into a standalone file.
+- These dependency (Imports) packages removed from the code: `curl`,
+  `data.table`, `fs`, `tidyselect`, `utf8`
+- The sapply() calls have been removed from some unit tests.
+- The global assignment operators have been removed from the code.
+- The .github/CONTRIBUTING.md file has been created and added.
+- The DESCRIPTION document has been updated.
+- A contributor guide has been added.
+
+## entsoeapi v0.9.6 (2026-03-12),
 
 ### New functionality
 
@@ -17,7 +35,7 @@
 - @return section has been added to each exported function.
 - The cran-comments.md has been created and has been added to
   .Rbuildignore.
-- the .urlchecker config file has been created and has been added to
+- The .urlchecker config file has been created and has been added to
   .Rbuildignore.
 - The DESCRIPTION and the LICENSE documents have been updated.
 

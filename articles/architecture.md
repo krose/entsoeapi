@@ -103,14 +103,26 @@ Every public function follows the same four-step structure:
   validated against allowed values via
   [`checkmate::assert_choice()`](https://mllg.github.io/checkmate/reference/checkChoice.html)
 
-**EIC checksum validation — `assert_eic()` and `.eic_chars`**
+**[`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md)**
+(`R/utils.R`, exported): A lightweight connectivity check that sends a
+dummy request to the ENTSO-E API and returns `TRUE` when the server
+responds with HTTP 401 (meaning the endpoint is reachable but the token
+was rejected as expected). Returns `FALSE` when no internet connection
+is available or the server is unreachable. Its primary role is as an
+`@examplesIf` guard in package documentation, ensuring examples are only
+executed when the API is accessible.
+
+**EIC checksum validation — `assert_eic()` and `possible_eic_chars`**
 (`R/utils.R`): The ENTSO-E EIC standard defines a check character at
-position 16. The lookup table `.eic_chars` maps the 37 allowed
-characters (`0–9`, `A–Z`, `-`) to integers 0–36. `assert_eic()` computes
-a weighted sum of the first 15 characters (weights 16 down to 2),
-derives the expected check character via `(36 - (sum - 1) %% 37) + 1`,
-and returns `FALSE` if it does not match the actual 16th character. This
-function is not exported; it is called internally immediately after each
+position 16. The named integer vector `possible_eic_chars` maps the 37
+allowed characters (`0–9`, `A–Z`, `-`) to integers 0–36. `assert_eic()`
+computes a weighted sum of the first 15 characters (weights 16 down to
+2), derives the expected check character via
+`(36 - (sum - 1) %% 37) + 1`, and aborts with an informative message if
+it does not match the actual 16th character. An optional
+`null_ok = TRUE` argument allows `NULL` to pass validation (used by
+functions that accept an optional EIC parameter). This function is not
+exported; it is called internally immediately after each
 [`checkmate::assert_string()`](https://mllg.github.io/checkmate/reference/checkString.html)
 EIC check.
 
@@ -155,12 +167,12 @@ expects.
 
 The core HTTP function. Steps:
 
-1.  **URL construction.** Assembles the full URL from hard-coded
-    constants:
+1.  **URL construction.** Assembles the full URL from package-level
+    constants defined in `R/constants.R`:
 
-    - Scheme: `https://`
-    - Domain: `web-api.tp.entsoe.eu/`
-    - Path: `api?`
+    - Scheme: `.api_scheme` (`"https://"`)
+    - Domain: `.api_domain` (`"web-api.tp.entsoe.eu/"`)
+    - Path: `.api_name` (`"api?"`)
     - Appends `query_string` and `&securityToken={token}`
     - Logs the URL to the console with the token replaced by `<...>` to
       prevent credential leakage.
@@ -172,7 +184,7 @@ The core HTTP function. Steps:
     - Method: GET
     - Verbose: response headers only
       (`req_verbose(header_req=FALSE, header_resp=TRUE)`)
-    - Timeout: 60 seconds
+    - Timeout: `.req_timeout` seconds (60, defined in `R/constants.R`)
 
 3.  **Execution.** Sent via `purrr::safely(httr2::req_perform)` —
     another safety wrapper so network errors are captured, not thrown.
@@ -401,8 +413,9 @@ The package maintains two independent in-memory caches, both with a
 | `m`    | `R/utils.R` (top of file)      | EIC name lookup tables used during XML enrichment       |
 | `mh`   | `R/en_helpers.R` (top of file) | Full EIC code tibbles downloaded by `*_eic()` functions |
 
-Both are `cachem::cache_mem(max_age = 3600)` objects. The max age is
-hard-coded and is not user-configurable.
+Both are `cachem::cache_mem(max_age = .max_age)` objects, where
+`.max_age` is the package-level constant `3600` (defined in
+`R/constants.R`). The max age is not user-configurable.
 
 ### 3.2 What gets cached
 
@@ -522,18 +535,18 @@ The following traces a call to
 
 ## 5. Configuration Reference
 
-| Setting                    | Value                                                | Location                                |
-|----------------------------|------------------------------------------------------|-----------------------------------------|
-| API base URL               | `https://web-api.tp.entsoe.eu/api?`                  | `api_req()` in `R/utils.R`              |
-| HTTP method                | GET                                                  | `api_req()` in `R/utils.R`              |
-| HTTP timeout               | 60 seconds                                           | `api_req()` in `R/utils.R`              |
-| Security token env var     | `ENTSOE_PAT`                                         | All user-facing functions               |
-| Verbose logging            | Response headers only                                | `api_req()` in `R/utils.R`              |
-| Cache max age              | 3600 seconds (1 hour)                                | Top of `R/utils.R` and `R/en_helpers.R` |
-| Pagination trigger phrase  | `"exceeds the allowed maximum"`                      | `api_req()` in `R/utils.R`              |
-| Forbidden offset doc types | A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02 | `api_req()` in `R/utils.R`              |
-| XML encoding               | UTF-8                                                | `api_req()` and `xml_to_table()`        |
-| ZIP content types          | `application/zip`, `application/octet-stream`        | `api_req()` in `R/utils.R`              |
+| Setting                    | Value                                                | Location                                                     |
+|----------------------------|------------------------------------------------------|--------------------------------------------------------------|
+| API base URL               | `https://web-api.tp.entsoe.eu/api?`                  | `.api_scheme`, `.api_domain`, `.api_name` in `R/constants.R` |
+| HTTP method                | GET                                                  | `api_req()` in `R/utils.R`                                   |
+| HTTP timeout               | 60 seconds (`.req_timeout`)                          | `R/constants.R`, applied in `api_req()`                      |
+| Security token env var     | `ENTSOE_PAT`                                         | All user-facing functions                                    |
+| Verbose logging            | Response headers only                                | `api_req()` in `R/utils.R`                                   |
+| Cache max age              | 3600 seconds / 1 hour (`.max_age`)                   | `R/constants.R`, applied in `R/utils.R` and `R/en_helpers.R` |
+| Pagination trigger phrase  | `"exceeds the allowed maximum"`                      | `api_req()` in `R/utils.R`                                   |
+| Forbidden offset doc types | A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02 | `api_req()` in `R/utils.R`                                   |
+| XML encoding               | UTF-8                                                | `api_req()` and `xml_to_table()`                             |
+| ZIP content types          | `application/zip`, `application/octet-stream`        | `api_req()` in `R/utils.R`                                   |
 
 ------------------------------------------------------------------------
 
@@ -541,7 +554,9 @@ The following traces a call to
 
 | Component               | File             | Key Symbols                                                                                                                                                                                                                                                                      |
 |-------------------------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| EIC checksum validation | `R/utils.R`      | `assert_eic()`, `.eic_chars`                                                                                                                                                                                                                                                     |
+| Package constants       | `R/constants.R`  | `.api_scheme`, `.api_domain`, `.api_name`, `.req_timeout`, `.max_age`                                                                                                                                                                                                            |
+| EIC checksum validation | `R/utils.R`      | `assert_eic()`, `possible_eic_chars`                                                                                                                                                                                                                                             |
+| Provider check          | `R/utils.R`      | [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md)                                                                                                                                                                                        |
 | Cache (general)         | `R/utils.R`      | `m`                                                                                                                                                                                                                                                                              |
 | Cache (EIC helpers)     | `R/en_helpers.R` | `mh`                                                                                                                                                                                                                                                                             |
 | HTTP request            | `R/utils.R`      | `api_req()`, `api_req_safe()`                                                                                                                                                                                                                                                    |
@@ -563,15 +578,16 @@ The following traces a call to
 
 ## 7. Glossary
 
-| Term              | Definition                                                                                                                                                                                                                                                           |
-|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| EIC               | Energy Identification Code — a 16-character alphanumeric code (digits, uppercase letters, `-`) identifying market participants, bidding zones, transmission lines, etc. on the ENTSO-E platform; the 16th character is a weighted-modulo-37 checksum of the first 15 |
-| Document type     | A 3-character ENTSO-E code (e.g., A65) identifying the category of data being requested                                                                                                                                                                              |
-| Process type      | A 3-character ENTSO-E code (e.g., A16) qualifying the sub-type of a document type                                                                                                                                                                                    |
-| Curve type A01    | Regular time series: data points are evenly spaced at the given resolution                                                                                                                                                                                           |
-| Curve type A03    | Broken / irregular time series: some positional slots may be absent; gaps are filled during tidy conversion                                                                                                                                                          |
-| Tidy output       | One row per data point, with an explicit `ts_point_dt_start` timestamp column (`tidy_output = TRUE`)                                                                                                                                                                 |
-| Nested output     | One row per time period, with all data points collected into a `ts_point` list-column (`tidy_output = FALSE`)                                                                                                                                                        |
-| Offset pagination | Mechanism by which `api_req()` splits an oversized query into multiple requests using `&offset=N` parameters, transparent to the caller                                                                                                                              |
-| `ENTSOE_PAT`      | R environment variable holding the user’s ENTSO-E security token                                                                                                                                                                                                     |
-| `cachem`          | R package providing in-memory and disk caches with automatic expiry, used by both `m` and `mh` cache objects                                                                                                                                                         |
+| Term                                                                                      | Definition                                                                                                                                                                                                                                                           |
+|-------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| EIC                                                                                       | Energy Identification Code — a 16-character alphanumeric code (digits, uppercase letters, `-`) identifying market participants, bidding zones, transmission lines, etc. on the ENTSO-E platform; the 16th character is a weighted-modulo-37 checksum of the first 15 |
+| Document type                                                                             | A 3-character ENTSO-E code (e.g., A65) identifying the category of data being requested                                                                                                                                                                              |
+| Process type                                                                              | A 3-character ENTSO-E code (e.g., A16) qualifying the sub-type of a document type                                                                                                                                                                                    |
+| Curve type A01                                                                            | Regular time series: data points are evenly spaced at the given resolution                                                                                                                                                                                           |
+| Curve type A03                                                                            | Broken / irregular time series: some positional slots may be absent; gaps are filled during tidy conversion                                                                                                                                                          |
+| Tidy output                                                                               | One row per data point, with an explicit `ts_point_dt_start` timestamp column (`tidy_output = TRUE`)                                                                                                                                                                 |
+| Nested output                                                                             | One row per time period, with all data points collected into a `ts_point` list-column (`tidy_output = FALSE`)                                                                                                                                                        |
+| Offset pagination                                                                         | Mechanism by which `api_req()` splits an oversized query into multiple requests using `&offset=N` parameters, transparent to the caller                                                                                                                              |
+| `ENTSOE_PAT`                                                                              | R environment variable holding the user’s ENTSO-E security token                                                                                                                                                                                                     |
+| [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md) | Exported helper that returns `TRUE` when the ENTSO-E API endpoint is reachable; used as an `@examplesIf` guard throughout the package                                                                                                                                |
+| `cachem`                                                                                  | R package providing in-memory and disk caches with automatic expiry, used by both `m` and `mh` cache objects                                                                                                                                                         |

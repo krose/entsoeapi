@@ -100,24 +100,26 @@ df <- entsoeapi::outages_transmission_grid(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603122300&periodEnd=202603132300&periodStartUpdate=202603042300&periodEndUpdate=202603112300&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603172300&periodEnd=202603182300&periodStartUpdate=202603092300&periodEndUpdate=202603162300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:05:40 GMT
+#> <- date: Tue, 17 Mar 2026 13:14:57 GMT
 #> <- content-type: application/zip
-#> <- content-length: 4129
-#> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202602020630-202603201600.zip"
+#> <- content-length: 3149
+#> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202602020630-202604151500.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpTwjAk9/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
-#> ✔ /tmp/RtmpTwjAk9/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/RtmpTwjAk9/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202603131600.xml has been read in
-#> ✔ /tmp/RtmpTwjAk9/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603130630-202603131600.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202602020630-202603201600.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603170630-202603201600.xml has been read in
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
 
 dplyr::glimpse(df)
-#> Rows: 10
+#> Rows: 11
 #> Columns: 25
 #> $ ts_in_domain_mrid                  <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
 #> $ ts_in_domain_name                  <chr> "France", "France", "France", "France", "France", "France", "France", "Fran…
@@ -126,22 +128,22 @@ dplyr::glimpse(df)
 #> $ ts_asset_location_name             <chr> "intra-zonal", "intra-zonal", "intra-zonal", "intra-zonal", "intra-zonal", …
 #> $ ts_asset_mrid                      <chr> "17T-FR-000000309", "17T-FR-000000309", "17T-FR-000000309", "17T-FR-0000003…
 #> $ ts_asset_name                      <chr> "L 400kV N0 2 MOULAINE-VIGY", "L 400kV N0 2 MOULAINE-VIGY", "L 400kV N0 2 M…
-#> $ type                               <chr> "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78"
+#> $ type                               <chr> "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78"
 #> $ type_def                           <chr> "Transmission unavailability", "Transmission unavailability", "Transmission…
-#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"
+#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"
 #> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information", "Outage i…
-#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53"
+#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53"
 #> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
-#> $ ts_asset_psr_type                  <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21"
+#> $ ts_asset_psr_type                  <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21"
 #> $ ts_asset_psr_type_def              <chr> "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link"…
 #> $ created_date_time                  <dttm> 2026-03-11 14:58:27, 2026-03-11 14:58:27, 2026-03-11 14:58:27, 2026-03-11 1…
-#> $ reason_code                        <chr> "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19"
+#> $ reason_code                        <chr> "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19"
 #> $ reason_text                        <chr> "Foreseen maintenance", "Foreseen maintenance", "Foreseen maintenance", "Fo…
-#> $ revision_number                    <dbl> 4, 4, 4, 4, 4, 4, 4, 3, 3, 3
+#> $ revision_number                    <dbl> 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 5
 #> $ unavailability_time_interval_start <dttm> 2026-02-02 06:30:00, 2026-02-02 06:30:00, 2026-02-02 06:30:00, 2026-02-02 0…
 #> $ unavailability_time_interval_end   <dttm> 2026-03-20 16:00:00, 2026-03-20 16:00:00, 2026-03-20 16:00:00, 2026-03-20 1…
 #> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "P…
-#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-#> $ ts_available_period_point_quantity <dbl> 3000, 3200, 3000, 4000, 6000, 3700, 1700, 3700, 3700, 3700
-#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
+#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+#> $ ts_available_period_point_quantity <dbl> 3000, 3200, 3000, 4000, 6000, 3700, 1700, 3700, 1700, 1200, 1700
+#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
 ```

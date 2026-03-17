@@ -68,7 +68,7 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A38&processType=A46&Acquiring_Domain=10YAT-APG------L&Connecting_Domain=10YCH-SWISSGRIDZ&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:01:13 GMT
+#> <- date: Tue, 17 Mar 2026 13:11:37 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1001
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -78,12 +78,13 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 #> <- 
 #> ✔ response has arrived
 #> ℹ No additional type names added!
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional eic names added!
 
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-12 13:01:13
+#> $ created_date_time <dttm> 2026-03-17 13:11:37
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item ALLOCATION_AND_USE_CROSS_ZONAL_CAPACITY [GL EB 12.3.H…
 ```

@@ -65,7 +65,7 @@ df <- entsoeapi::redispatching_cross_border(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A63&businessType=A46&in_Domain=10YDE-EON------1&out_Domain=10YDE-VE-------2&periodStart=202408312200&periodEnd=202409302200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:05:57 GMT
+#> <- date: Tue, 17 Mar 2026 13:15:20 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Redispatching_Cross_Border_202409010900-202409291445.xml"
 #> <- x-content-type-options: nosniff
@@ -75,6 +75,53 @@ df <- entsoeapi::redispatching_cross_border(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
+#> New names:
+#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...20`
+#> • `TimeSeries.Reason.code...9` -> `TimeSeries.Reason.code...26`
+#> • `TimeSeries.Reason.code...10` -> `TimeSeries.Reason.code...27`
+#> ℹ pulling area_eic_name table from cache
 
 dplyr::glimpse(df)
 #> Rows: 524
@@ -93,7 +140,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "System Operator redispatching", "System Operator redispatching", "System Operat…
 #> $ ts_mkt_psr_type               <chr> "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Generation", "Generation", "Generation", "Generation", "Generation", "Generatio…
-#> $ created_date_time             <dttm> 2026-03-12 13:05:57, 2026-03-12 13:05:57, 2026-03-12 13:05:57, 2026-03-12 13:05…
+#> $ created_date_time             <dttm> 2026-03-17 13:15:20, 2026-03-17 13:15:20, 2026-03-17 13:15:20, 2026-03-17 13:15…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
@@ -102,6 +149,6 @@ dplyr::glimpse(df)
 #> $ ts_time_interval_end          <dttm> 2024-09-01 15:00:00, 2024-09-01 15:00:00, 2024-09-01 15:00:00, 2024-09-01 15:00…
 #> $ ts_mrid                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2,…
 #> $ ts_point_dt_start             <dttm> 2024-09-01 09:00:00, 2024-09-01 09:15:00, 2024-09-01 09:30:00, 2024-09-01 09:45…
-#> $ ts_point_quantity             <dbl> 25.00, 25.00, 25.00, 25.00, 25.00, 70.00, 70.00, 70.00, 70.00, 70.00, 70.00, 70.…
+#> $ ts_point_quantity             <dbl> 25.00, 51.25, 51.25, 51.25, 51.25, 70.00, 51.25, 51.25, 51.25, 51.25, 51.25, 51.…
 #> $ ts_quantity_measure_unit_name <chr> "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MW…
 ```

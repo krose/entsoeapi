@@ -61,7 +61,7 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A93&in_Domain=10YFR-RTE------C&out_Domain=11Y0-0000-0265-K&periodStart=202308152200&periodEnd=202308162200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:04:08 GMT
+#> <- date: Tue, 17 Mar 2026 13:13:56 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1452
 #> <- content-disposition: inline; filename="Cross-Border Capacity for DC Links Intraday_202308152200-202308162200.xml"
@@ -70,6 +70,7 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional definitions added!
 
 dplyr::glimpse(df)
@@ -83,7 +84,7 @@ dplyr::glimpse(df)
 #> $ type_def                      <chr> "DC link capacity", "DC link capacity", "DC link capacity", "DC link capacity", …
 #> $ ts_business_type              <chr> "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B0…
 #> $ ts_business_type_def          <chr> "DC link constraint", "DC link constraint", "DC link constraint", "DC link const…
-#> $ created_date_time             <dttm> 2026-03-12 13:04:08, 2026-03-12 13:04:08, 2026-03-12 13:04:08, 2026-03-12 13:04…
+#> $ created_date_time             <dttm> 2026-03-17 13:13:56, 2026-03-17 13:13:56, 2026-03-17 13:13:56, 2026-03-17 13:13…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-08-15 22:00:00, 2023-08-15 22:00:00, 2023-08-15 22:00:00, 2023-08-15 22:00:…

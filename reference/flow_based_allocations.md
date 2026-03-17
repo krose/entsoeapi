@@ -70,7 +70,7 @@ df1 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A43&in_Domain=10Y1001A1001A91G&out_Domain=10Y1001A1001A91G&periodStart=202412312300&periodEnd=202512312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:03:17 GMT
+#> <- date: Tue, 17 Mar 2026 13:13:13 GMT
 #> <- content-type: text/xml
 #> <- content-length: 972
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -80,12 +80,13 @@ df1 <- entsoeapi::flow_based_allocations(
 #> <- 
 #> ✔ response has arrived
 #> ℹ No additional type names added!
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional eic names added!
 
 dplyr::glimpse(df1)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-12 13:03:17
+#> $ created_date_time <dttm> 2026-03-17 13:13:13
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item FLOW_BASED_ALLOCATIONS [11.1.B] (10Y1001A1001A91G, 10…
 
@@ -101,7 +102,7 @@ df2 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A32&StorageType=archive&in_Domain=10YDOM-REGION-1V&out_Domain=10YDOM-REGION-1V&periodStart=201812302300&periodEnd=201812312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:03:19 GMT
+#> <- date: Tue, 17 Mar 2026 13:13:14 GMT
 #> <- content-type: application/zip
 #> <- content-disposition: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"
 #> <- x-content-type-options: nosniff
@@ -109,8 +110,9 @@ df2 <- entsoeapi::flow_based_allocations(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpTwjAk9/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
-#> Warning: Item 4 has 24 rows but longest item has 9440; recycled with remainder.
+#> ✔ /tmp/RtmprrGJ3T/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
+#> Warning: XML column lengths are not exact multiples of the maximum (9440); recycling with truncation.
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional definitions added!
 
 dplyr::glimpse(df2)
@@ -133,8 +135,8 @@ dplyr::glimpse(df2)
 #> $ ts_time_interval_end                                            <dttm> 2018-12-31 23:00:00, 2018-12-31 23:00:00, 201…
 #> $ ts_mrid                                                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 #> $ ts_point_dt_start                                               <dttm> 2018-12-30 23:00:00, 2018-12-30 23:00:00, 201…
-#> $ constraint_ts_monitored_ptdf_domain_mrid                        <chr> "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y10…
-#> $ constraint_ts_monitored_ptdf_domain_name                        <chr> "Germany_Luxemburg", "Germany_Luxemburg", "Ger…
-#> $ constraint_ts_monitored_ptdf_domain_quantity                    <dbl> 0.01671, -0.07213, 0.00000, 0.00551, -0.01502,…
-#> $ constraint_ts_monitored_flow_based_study_domain_margin_quantity <dbl> 541, 602, 590, 877, 889, 889, 1739, 980, 286, …
+#> $ constraint_ts_monitored_ptdf_domain_mrid                        <chr> "10YAT-APG------L", "10YNL----------L", "10YFR…
+#> $ constraint_ts_monitored_ptdf_domain_name                        <chr> "Austria", "Netherlands", "France", "Germany_L…
+#> $ constraint_ts_monitored_ptdf_domain_quantity                    <dbl> 0.12228, 0.21714, 0.10229, 0.01671, -0.10559, …
+#> $ constraint_ts_monitored_flow_based_study_domain_margin_quantity <dbl> 888, 420, 360, 541, 890, 1446, 919, 816, 602, …
 ```

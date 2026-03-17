@@ -11,7 +11,7 @@ connection_category_types
 
 ## Format
 
-An object of class `data.table` (inherits from `data.frame`) with 10
+An object of class `tbl_df` (inherits from `tbl`, `data.frame`) with 10
 rows and 3 columns.
 
 ## Examples

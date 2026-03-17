@@ -66,7 +66,7 @@ df <- entsoeapi::countertrading(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A91&in_Domain=10Y1001A1001A82H&out_Domain=10YDK-1--------W&periodStart=202408312200&periodEnd=202409302200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:02:09 GMT
+#> <- date: Tue, 17 Mar 2026 13:12:11 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Countertrading_202409041000-202409221200.xml"
 #> <- x-content-type-options: nosniff
@@ -76,6 +76,7 @@ df <- entsoeapi::countertrading(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
+#> ℹ pulling area_eic_name table from cache
 
 dplyr::glimpse(df)
 #> Rows: 20
@@ -92,7 +93,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
 #> $ ts_business_type              <chr> "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B0…
 #> $ ts_business_type_def          <chr> "Counter trade", "Counter trade", "Counter trade", "Counter trade", "Counter tra…
-#> $ created_date_time             <dttm> 2026-03-12 13:02:09, 2026-03-12 13:02:09, 2026-03-12 13:02:09, 2026-03-12 13:02…
+#> $ created_date_time             <dttm> 2026-03-17 13:12:11, 2026-03-17 13:12:11, 2026-03-17 13:12:11, 2026-03-17 13:12…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1

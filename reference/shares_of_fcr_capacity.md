@@ -64,7 +64,7 @@ df <- entsoeapi::shares_of_fcr_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&businessType=C23&area_Domain=10YDE-VE-------2&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:06:08 GMT
+#> <- date: Tue, 17 Mar 2026 13:15:40 GMT
 #> <- content-type: text/xml
 #> <- content-length: 957
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -74,12 +74,13 @@ df <- entsoeapi::shares_of_fcr_capacity(
 #> <- 
 #> ✔ response has arrived
 #> ℹ No additional type names added!
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional eic names added!
 
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-12 13:06:08
+#> $ created_date_time <dttm> 2026-03-17 13:15:40
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item SHARE_OF_CAPACITY_R3 [SO GL 187.2] (10YDE-VE-------2)…
 ```

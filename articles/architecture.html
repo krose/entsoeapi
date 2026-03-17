@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -179,16 +179,28 @@ below).</li>
 <code><a href="https://mllg.github.io/checkmate/reference/checkChoice.html" class="external-link">checkmate::assert_choice()</a></code>
 </li>
 </ul>
+<p><strong><code><a href="../reference/there_is_provider.html">there_is_provider()</a></code></strong>
+(<code>R/utils.R</code>, exported): A lightweight connectivity check
+that sends a dummy request to the ENTSO-E API and returns
+<code>TRUE</code> when the server responds with HTTP 401 (meaning the
+endpoint is reachable but the token was rejected as expected). Returns
+<code>FALSE</code> when no internet connection is available or the
+server is unreachable. Its primary role is as an
+<code>@examplesIf</code> guard in package documentation, ensuring
+examples are only executed when the API is accessible.</p>
 <p><strong>EIC checksum validation — <code>assert_eic()</code> and
-<code>.eic_chars</code></strong> (<code>R/utils.R</code>): The ENTSO-E
-EIC standard defines a check character at position 16. The lookup table
-<code>.eic_chars</code> maps the 37 allowed characters
-(<code>0–9</code>, <code>A–Z</code>, <code>-</code>) to integers 0–36.
-<code>assert_eic()</code> computes a weighted sum of the first 15
-characters (weights 16 down to 2), derives the expected check character
-via <code>(36 - (sum - 1) %% 37) + 1</code>, and returns
-<code>FALSE</code> if it does not match the actual 16th character. This
-function is not exported; it is called internally immediately after each
+<code>possible_eic_chars</code></strong> (<code>R/utils.R</code>): The
+ENTSO-E EIC standard defines a check character at position 16. The named
+integer vector <code>possible_eic_chars</code> maps the 37 allowed
+characters (<code>0–9</code>, <code>A–Z</code>, <code>-</code>) to
+integers 0–36. <code>assert_eic()</code> computes a weighted sum of the
+first 15 characters (weights 16 down to 2), derives the expected check
+character via <code>(36 - (sum - 1) %% 37) + 1</code>, and aborts with
+an informative message if it does not match the actual 16th character.
+An optional <code>null_ok = TRUE</code> argument allows
+<code>NULL</code> to pass validation (used by functions that accept an
+optional EIC parameter). This function is not exported; it is called
+internally immediately after each
 <code><a href="https://mllg.github.io/checkmate/reference/checkString.html" class="external-link">checkmate::assert_string()</a></code> EIC check.</p>
 <p><strong>Step 2 — Timestamp conversion.</strong>
 <code>url_posixct_format()</code> (<code>R/utils.R</code>) converts the
@@ -227,14 +239,12 @@ rather than halting execution. This standardised return shape is what
 <ol style="list-style-type: decimal">
 <li>
 <p><strong>URL construction.</strong> Assembles the full URL from
-hard-coded constants:</p>
+package-level constants defined in <code>R/constants.R</code>:</p>
 <ul>
-<li>Scheme: <code>https://</code>
-</li>
-<li>Domain: <code>web-api.tp.entsoe.eu/</code>
-</li>
-<li>Path: <code>api?</code>
-</li>
+<li>Scheme: <code>.api_scheme</code> (<code>"https://"</code>)</li>
+<li>Domain: <code>.api_domain</code>
+(<code>"web-api.tp.entsoe.eu/"</code>)</li>
+<li>Path: <code>.api_name</code> (<code>"api?"</code>)</li>
 <li>Appends <code>query_string</code> and
 <code>&amp;securityToken={token}</code>
 </li>
@@ -249,7 +259,8 @@ hard-coded constants:</p>
 <li>Method: GET</li>
 <li>Verbose: response headers only
 (<code>req_verbose(header_req=FALSE, header_resp=TRUE)</code>)</li>
-<li>Timeout: 60 seconds</li>
+<li>Timeout: <code>.req_timeout</code> seconds (60, defined in
+<code>R/constants.R</code>)</li>
 </ul>
 </li>
 <li><p><strong>Execution.</strong> Sent via
@@ -610,8 +621,10 @@ functions</td>
 </tr>
 </tbody>
 </table>
-<p>Both are <code>cachem::cache_mem(max_age = 3600)</code> objects. The
-max age is hard-coded and is not user-configurable.</p>
+<p>Both are <code>cachem::cache_mem(max_age = .max_age)</code> objects,
+where <code>.max_age</code> is the package-level constant
+<code>3600</code> (defined in <code>R/constants.R</code>). The max age
+is not user-configurable.</p>
 </div>
 <div class="section level3">
 <h3 id="what-gets-cached">3.2 What gets cached<a class="anchor" aria-label="anchor" href="#what-gets-cached"></a>
@@ -804,7 +817,8 @@ cache versioning. Restarting the R session clears both caches.</p>
 <td>API base URL</td>
 <td><code>https://web-api.tp.entsoe.eu/api?</code></td>
 <td>
-<code>api_req()</code> in <code>R/utils.R</code>
+<code>.api_scheme</code>, <code>.api_domain</code>,
+<code>.api_name</code> in <code>R/constants.R</code>
 </td>
 </tr>
 <tr class="even">
@@ -816,9 +830,9 @@ cache versioning. Restarting the R session clears both caches.</p>
 </tr>
 <tr class="odd">
 <td>HTTP timeout</td>
-<td>60 seconds</td>
+<td>60 seconds (<code>.req_timeout</code>)</td>
 <td>
-<code>api_req()</code> in <code>R/utils.R</code>
+<code>R/constants.R</code>, applied in <code>api_req()</code>
 </td>
 </tr>
 <tr class="even">
@@ -835,8 +849,10 @@ cache versioning. Restarting the R session clears both caches.</p>
 </tr>
 <tr class="even">
 <td>Cache max age</td>
-<td>3600 seconds (1 hour)</td>
-<td>Top of <code>R/utils.R</code> and <code>R/en_helpers.R</code>
+<td>3600 seconds / 1 hour (<code>.max_age</code>)</td>
+<td>
+<code>R/constants.R</code>, applied in <code>R/utils.R</code> and
+<code>R/en_helpers.R</code>
 </td>
 </tr>
 <tr class="odd">
@@ -890,11 +906,25 @@ cache versioning. Restarting the R session clears both caches.</p>
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td>Package constants</td>
+<td><code>R/constants.R</code></td>
+<td>
+<code>.api_scheme</code>, <code>.api_domain</code>,
+<code>.api_name</code>, <code>.req_timeout</code>,
+<code>.max_age</code>
+</td>
+</tr>
+<tr class="even">
 <td>EIC checksum validation</td>
 <td><code>R/utils.R</code></td>
 <td>
-<code>assert_eic()</code>, <code>.eic_chars</code>
+<code>assert_eic()</code>, <code>possible_eic_chars</code>
 </td>
+</tr>
+<tr class="odd">
+<td>Provider check</td>
+<td><code>R/utils.R</code></td>
+<td><code><a href="../reference/there_is_provider.html">there_is_provider()</a></code></td>
 </tr>
 <tr class="even">
 <td>Cache (general)</td>
@@ -1062,6 +1092,12 @@ transparent to the caller</td>
 token</td>
 </tr>
 <tr class="even">
+<td><code><a href="../reference/there_is_provider.html">there_is_provider()</a></code></td>
+<td>Exported helper that returns <code>TRUE</code> when the ENTSO-E API
+endpoint is reachable; used as an <code>@examplesIf</code> guard
+throughout the package</td>
+</tr>
+<tr class="odd">
 <td><code>cachem</code></td>
 <td>R package providing in-memory and disk caches with automatic expiry,
 used by both <code>m</code> and <code>mh</code> cache objects</td>

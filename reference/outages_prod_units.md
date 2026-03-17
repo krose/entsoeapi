@@ -83,48 +83,59 @@ df <- entsoeapi::outages_prod_units(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603122300&periodEnd=202603132300&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202603172300&periodEnd=202603182300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:05:39 GMT
+#> <- date: Tue, 17 Mar 2026 13:14:55 GMT
 #> <- content-type: application/zip
-#> <- content-length: 3272
+#> <- content-length: 7767
 #> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_202504090830-202607311500.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpTwjAk9/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603130600-202603131600.xml has been read in
-#> ✔ /tmp/RtmpTwjAk9/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132000-202603160500.xml has been read in
-#> ✔ /tmp/RtmpTwjAk9/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181600.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180600-202603181630.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603180700-202603181100.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603181400-202603181500.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
+#> ✔ /tmp/RtmprrGJ3T/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603171101-202603181101.xml has been read in
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
+#> ℹ pulling area_eic_name table from cache
 
 dplyr::glimpse(df)
-#> Rows: 3
+#> Rows: 7
 #> Columns: 26
-#> $ ts_bidding_zone_domain_mrid        <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C"
-#> $ ts_bidding_zone_domain_name        <chr> "France", "France", "France"
-#> $ ts_production_mrid                 <chr> "17W100P100P02837", "17W100P100P0280D", "17W100P100P0279Z"
-#> $ ts_production_name                 <chr> "COMBE D'AVRIEUX", "BATHIE", "AIGLE"
-#> $ ts_production_location_name        <chr> "FRANCE", "FRANCE", "FRANCE"
-#> $ type                               <chr> "A77", "A77", "A77"
+#> $ ts_bidding_zone_domain_mrid        <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
+#> $ ts_bidding_zone_domain_name        <chr> "France", "France", "France", "France", "France", "France", "France"
+#> $ ts_production_mrid                 <chr> "17W100P100P02837", "17W100P100P0297X", "17W100P100P02837", "17W100P100P030…
+#> $ ts_production_name                 <chr> "COMBE D'AVRIEUX", "SAINTE CROIX", "COMBE D'AVRIEUX", "SAUSSAZ", "REVIN", "…
+#> $ doc_status_value                   <chr> "A09", NA, NA, NA, NA, NA, NA
+#> $ doc_status                         <chr> "Finalised schedule", NA, NA, NA, NA, NA, NA
+#> $ ts_production_location_name        <chr> "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "FRANCE"
+#> $ type                               <chr> "A77", "A77", "A77", "A77", "A77", "A77", "A77"
 #> $ type_def                           <chr> "Production unavailability", "Production unavailability", "Production unava…
-#> $ process_type                       <chr> "A26", "A26", "A26"
-#> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information"
-#> $ ts_business_type                   <chr> "A53", "A53", "A54"
-#> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Unplanned outage"
-#> $ ts_production_psr_type             <chr> "B12", "B12", "B12"
+#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26"
+#> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information", "Outage i…
+#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A54", "A54"
+#> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
+#> $ ts_production_psr_type             <chr> "B12", "B12", "B12", "B11", "B10", "B12", "B20"
 #> $ ts_production_psr_type_def         <chr> "Hydro-electric storage head installation", "Hydro-electric storage head in…
-#> $ created_date_time                  <dttm> 2026-03-10 07:38:37, 2026-03-05 14:50:08, 2025-10-08 04:21:54
-#> $ reason_code                        <chr> "A95", "B19", "B18"
+#> $ created_date_time                  <dttm> 2026-03-10 07:37:42, 2026-03-16 09:02:32, 2026-03-16 15:30:30, 2026-03-17 1…
+#> $ reason_code                        <chr> "A95", "A95", "A95", "B19", "B19", "B18", "A95"
 #> $ reason_text                        <chr> "Des variations de puissance pour essais sont possibles --- Power variation…
-#> $ revision_number                    <dbl> 3, 2, 4
-#> $ unavailability_time_interval_start <dttm> 2026-03-13 06:00:00, 2026-03-13 20:00:00, 2025-04-09 08:30:00
-#> $ unavailability_time_interval_end   <dttm> 2026-03-13 16:00:00, 2026-03-16 05:00:00, 2026-07-31 15:00:00
-#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M"
-#> $ ts_mrid                            <dbl> 1, 1, 1
-#> $ ts_production_psr_nominal_p        <dbl> 123, 600, 360
-#> $ ts_available_period_point_quantity <dbl> 0, 0, 262
-#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW"
-#> $ doc_status_value                   <chr> NA, "A09", NA
-#> $ doc_status                         <chr> NA, "Finalised schedule", NA
+#> $ revision_number                    <dbl> 3, 3, 5, 1, 1, 4, 1
+#> $ unavailability_time_interval_start <dttm> 2026-03-18 06:00:00, 2026-03-18 06:00:00, 2026-03-18 06:00:00, 2026-03-18 0…
+#> $ unavailability_time_interval_end   <dttm> 2026-03-18 16:00:00, 2026-03-18 16:00:00, 2026-03-18 16:30:00, 2026-03-18 1…
+#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M"
+#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1
+#> $ ts_production_psr_nominal_p        <dbl> 123.0, 132.3, 123.0, 150.0, 800.0, 360.0, 105.0
+#> $ ts_available_period_point_quantity <dbl> 0, 0, 0, 0, 0, 262, 0
+#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
 ```

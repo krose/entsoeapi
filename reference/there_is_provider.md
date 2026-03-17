@@ -11,9 +11,9 @@ documentation.
 
 ``` r
 there_is_provider(
-  api_scheme = "https://",
-  api_domain = "web-api.tp.entsoe.eu/",
-  api_name = "api?"
+  api_scheme = .api_scheme,
+  api_domain = .api_domain,
+  api_name = .api_name
 )
 ```
 
@@ -38,8 +38,6 @@ A single logical value.
 ## Examples
 
 ``` r
-# \donttest{
-  there_is_provider()
+there_is_provider()
 #> [1] TRUE
-# }
 ```

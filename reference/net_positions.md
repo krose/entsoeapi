@@ -63,7 +63,7 @@ df <- entsoeapi::net_positions(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A25&businessType=B09&contract_MarketAgreement.Type=A01&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=201512302300&periodEnd=201512312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Thu, 12 Mar 2026 13:04:30 GMT
+#> <- date: Tue, 17 Mar 2026 13:14:08 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Implicit Allocations Net Positions Daily_201512302300-201512312300.xml"
 #> <- x-content-type-options: nosniff
@@ -73,6 +73,7 @@ df <- entsoeapi::net_positions(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
+#> ℹ pulling area_eic_name table from cache
 #> ℹ No additional definitions added!
 
 dplyr::glimpse(df)
@@ -90,7 +91,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_type_def                   <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", …
 #> $ ts_business_type                      <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B…
 #> $ ts_business_type_def                  <chr> "Net position", "Net position", "Net position", "Net position", "Net pos…
-#> $ created_date_time                     <dttm> 2026-03-12 13:04:30, 2026-03-12 13:04:30, 2026-03-12 13:04:30, 2026-03-…
+#> $ created_date_time                     <dttm> 2026-03-17 13:14:08, 2026-03-17 13:14:08, 2026-03-17 13:14:08, 2026-03-…
 #> $ revision_number                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                         <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", …
 #> $ ts_time_interval_start                <dttm> 2015-12-30 23:00:00, 2015-12-31 00:00:00, 2015-12-31 01:00:00, 2015-12-3…
