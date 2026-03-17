@@ -1238,7 +1238,8 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1268,7 +1269,8 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1328,7 +1330,8 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1358,7 +1361,8 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1389,7 +1393,8 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1419,7 +1424,8 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
