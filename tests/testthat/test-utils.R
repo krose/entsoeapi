@@ -1468,10 +1468,6 @@ testthat::test_that(
     "with expected columns on valid XML"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1518,10 +1514,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() joins doc_status from message_types correctly",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1552,10 +1544,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() stops with HTTP error message and request URL",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -1585,10 +1573,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "get_all_allocated_eic() stops on empty response body",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -1606,10 +1590,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "get_all_allocated_eic() stops on XML with unexpected tree structure",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     minimal_xml <- charToRaw(x = paste0(
       '<?xml version="1.0" encoding="UTF-8"?>',
       "<root>",
@@ -1638,10 +1618,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() returns one row per EICCode_MarketDocument node",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     multi_eic_xml <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1671,10 +1647,6 @@ testthat::test_that(
   desc =
     "get_all_allocated_eic() collapses duplicate Function_Names with ' - '",
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     dupl_fn_xml <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1709,10 +1681,6 @@ testthat::test_that(
     "and URL on no internet connection"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     curl_err <- structure(
       class = c("curl_error", "error", "condition"),
       list(message = paste(
@@ -1767,14 +1735,6 @@ testthat::test_that(
     "Function_Names elements with ' - '"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_dupl.xml"),
       encoding = "UTF-8"
@@ -1810,10 +1770,6 @@ testthat::test_that(
     "when bind_cols raises an error"
   ),
   code = {
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_fixture <- readLines(
       con = testthat::test_path("fixtures", "get_allocated_eic_min.xml"),
       encoding = "UTF-8"
@@ -1966,14 +1922,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on unknown 200 response content-type",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -1998,14 +1946,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on HTML error response",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -2034,14 +1974,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on XML error with unexpected Reason structure",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_body <- paste0(
       '<?xml version="1.0" encoding="UTF-8"?>',
       "<Acknowledgement_MarketDocument>",
@@ -2074,14 +2006,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with code:text message on non-999 XML error code",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     xml_body <- paste0(
       '<?xml version="1.0" encoding="UTF-8"?>',
       "<Acknowledgement_MarketDocument>",
@@ -2117,14 +2041,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with curl error message on no internet connection",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     curl_err <- structure(
       class = c("curl_error", "error", "condition"),
       list(message = "Could not resolve host: web-api.tp.entsoe.eu")
@@ -2161,14 +2077,6 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with HTTP 503 message on service unavailable",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
