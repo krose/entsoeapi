@@ -615,8 +615,10 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        tidy_output = TRUE
-      )
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -645,8 +647,10 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        tidy_output = TRUE
-      )
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -675,8 +679,10 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        tidy_output = TRUE
-      )
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -705,8 +711,10 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        tidy_output = TRUE
-      )
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -735,8 +743,10 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        tidy_output = TRUE
-      )
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -765,8 +775,10 @@ testthat::test_that(
         eic = "10Y1001A1001A83F",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        tidy_output = TRUE
-      )
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
     )
   }
 )

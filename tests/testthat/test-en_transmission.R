@@ -15,7 +15,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Assertion on 'eic_in' failed: Must have length 1"
     )
     testthat::expect_error(
       object = cross_border_physical_flows(
@@ -30,7 +31,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Assertion on 'eic_out' failed: Must be of type 'string'"
     )
     testthat::expect_error(
       object = cross_border_physical_flows(
@@ -45,7 +47,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Assertion on 'eic_in' failed: Must be of type 'string'"
     )
     testthat::expect_error(
       object = cross_border_physical_flows(
@@ -60,8 +63,9 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = FALSE,
-        security_token = ""
-      )
+        security_token = "Assertion on 'security_token' failed"
+      ),
+      regexp = ""
     )
     testthat::expect_error(
       object = cross_border_physical_flows(
@@ -93,7 +97,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
   }
 )
@@ -1332,9 +1337,13 @@ testthat::test_that(
       object = expansion_and_dismantling_project(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
+        business_type = "B01",
+        doc_status = "A01",
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1362,9 +1371,11 @@ testthat::test_that(
       object = intraday_cross_border_transfer_limits(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1392,9 +1403,11 @@ testthat::test_that(
       object = forecasted_transfer_capacities(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1422,9 +1435,11 @@ testthat::test_that(
       object = day_ahead_commercial_sched(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1452,9 +1467,11 @@ testthat::test_that(
       object = total_commercial_sched(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1482,9 +1499,11 @@ testthat::test_that(
       object = cross_border_physical_flows(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1512,9 +1531,11 @@ testthat::test_that(
       object = redispatching_cross_border(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-01", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1541,9 +1562,11 @@ testthat::test_that(
     testthat::expect_error(
       object = redispatching_internal(
         eic = "10YFR-RTE------C",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-01", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1571,9 +1594,11 @@ testthat::test_that(
       object = countertrading(
         eic_in = "10YFR-RTE------C",
         eic_out = "10YDE-VE-------2",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-01", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
@@ -1600,9 +1625,11 @@ testthat::test_that(
     testthat::expect_error(
       object = costs_of_congestion_management(
         eic = "10YFR-RTE------C",
-        period = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_start = lubridate::ymd("2020-01-01", tz = "CET"),
+        period_end = lubridate::ymd("2020-01-02", tz = "CET"),
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "HTTP 503"
     )
   }
 )
