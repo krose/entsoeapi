@@ -439,6 +439,98 @@ exchanged_volumes_per_border <- function(
 
 
 #' @title
+#' Get Netted & Exchanged Volumes Per Border (IFs 3.10, 3.16 & 3.17)
+#'
+#' @description
+#' Netted and exchanged balancing energy volumes on a specific border.
+#' Covers imbalance netting (3.10), aFRR exchange (3.16), and
+#' mFRR exchange (3.17) per border between an acquiring and a
+#' connecting domain.
+#'
+#' @param acquiring_eic Energy Identification Code of the acquiring area
+#' @param connecting_eic Energy Identification Code of the connecting area
+#' @param process_type type of balancing process
+#'                     "A51" aFRR
+#'                     "A60" mFRR with scheduled activation
+#'                     "A61" mFRR with direct activation
+#'                     "A63" Imbalance Netting
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One day range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One day range limit applies
+#' @param tidy_output Defaults to TRUE. flatten nested tables
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
+#' @export
+#'
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' df <- entsoeapi::netted_volumes_per_border(
+#'   acquiring_eic = "10YBE----------2",
+#'   connecting_eic = "10YFR-RTE------C",
+#'   process_type = "A63",
+#'   period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
+#'
+#' dplyr::glimpse(df)
+#'
+netted_volumes_per_border <- function(
+  acquiring_eic = NULL,
+  connecting_eic = NULL,
+  process_type = NULL,
+  period_start = lubridate::ymd(
+    Sys.Date() - lubridate::days(x = 7L),
+    tz = "CET"
+  ),
+  period_end = lubridate::ymd(
+    Sys.Date(),
+    tz = "CET"
+  ),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  assert_eic(eic = acquiring_eic, var_name = "acquiring_eic")
+  assert_eic(eic = connecting_eic, var_name = "connecting_eic")
+  checkmate::assert_choice(
+    process_type,
+    choices = c("A51", "A60", "A61", "A63")
+  )
+  checkmate::assert_string(security_token, min.chars = 1L)
+
+  # check if the requested period is not longer than one day
+  if (difftime(period_end, period_start, units = "day") > 1L) {
+    cli::cli_abort("One day range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url
+  query_string <- paste0(
+    "documentType=A30",
+    "&processType=", process_type,
+    "&Acquiring_domain=", acquiring_eic,
+    "&Connecting_Domain=", connecting_eic,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
+
+
+#' @title
 #' Get HVDC Link Constraints (IFs 4.5)
 #'
 #' @description

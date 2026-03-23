@@ -1906,3 +1906,504 @@ testthat::test_that(
     )
   }
 )
+
+
+# ---- implicit_offered_transfer_capacities ----
+
+testthat::test_that(
+  desc = "implicit_offered_transfer_capacities() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = NULL,
+        eic_out = "10YDK-1--------W",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = "10Y1001A1001A82H",
+        eic_out = NULL,
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = c("10Y1001A1001A82H", "10YDK-1--------W"),
+        eic_out = c("10YDK-1--------W", "10Y1001A1001A82H"),
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = "10Y1001A1001A82H",
+        eic_out = "10YDK-1--------W",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      )
+    )
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = "10Y1001A1001A82H",
+        eic_out = "10YDK-1--------W",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      )
+    )
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = "10Y1001A1001A82H",
+        eic_out = "10YDK-1--------W",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "implicit_offered_transfer_capacities() works",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_no_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = "10Y1001A1001A82H",
+        eic_out = "10YDK-1--------W",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "implicit_offered_transfer_capacities() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = implicit_offered_transfer_capacities(
+        eic_in = "10Y1001A1001A82H",
+        eic_out = "10YDK-1--------W",
+        period_start = lubridate::ymd(x = "2023-08-16", tz = "CET"),
+        period_end = lubridate::ymd(x = "2023-08-17", tz = "CET"),
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)
+
+
+# ---- explicit_offered_transfer_capacities ----
+
+testthat::test_that(
+  desc = "explicit_offered_transfer_capacities() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = NULL,
+        eic_out = "10YGB----------A",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = "10YBE----------2",
+        eic_out = NULL,
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = c("10YBE----------2", "10YGB----------A"),
+        eic_out = c("10YGB----------A", "10YBE----------2"),
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = "10YBE----------2",
+        eic_out = "10YGB----------A",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      )
+    )
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = "10YBE----------2",
+        eic_out = "10YGB----------A",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      )
+    )
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = "10YBE----------2",
+        eic_out = "10YGB----------A",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-08-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "explicit_offered_transfer_capacities() works",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_no_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = "10YBE----------2",
+        eic_out = "10YGB----------A",
+        period_start = lubridate::ymd(
+          x = "2023-08-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2023-08-17",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "explicit_offered_transfer_capacities() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = explicit_offered_transfer_capacities(
+        eic_in = "10YBE----------2",
+        eic_out = "10YGB----------A",
+        period_start = lubridate::ymd(x = "2023-08-16", tz = "CET"),
+        period_end = lubridate::ymd(x = "2023-08-17", tz = "CET"),
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)
+
+
+# ---- continuous_offered_transfer_capacities ----
+
+testthat::test_that(
+  desc = "continuous_offered_transfer_capacities() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = NULL,
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = NULL,
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = c("10YNL----------L", "10YBE----------2"),
+        eic_out = c("10YBE----------2", "10YNL----------L"),
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      )
+    )
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      )
+    )
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2025-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "continuous_offered_transfer_capacities() works",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_no_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "continuous_offered_transfer_capacities() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = continuous_offered_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(x = "2024-05-16", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-05-17", tz = "CET"),
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)

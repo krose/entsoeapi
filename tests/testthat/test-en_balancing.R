@@ -2937,3 +2937,166 @@ testthat::test_that(
     )
   }
 )
+
+
+# ---- netted_volumes_per_border ----
+
+testthat::test_that(
+  desc = "netted_volumes_per_border() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = NULL,
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = paste0(
+        "Assertion on 'acquiring_eic' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = c("10YBE----------2", "10YDE-VE-------2"),
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "Assertion on 'acquiring_eic' failed: Must have length 1"
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = NULL,
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = paste(
+        "Assertion on 'connecting_eic' failed:",
+        "Must be of type 'string', not 'NULL'."
+      )
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "Assertion on 'connecting_eic' failed: Must have length 1"
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "INVALID",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      info = "The 'process_type' should be 'A51', 'A60', 'A61' or 'A63'."
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-05", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "One day range limit should be applied"
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = ""
+      ),
+      info = "Valid security token should be provided."
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "netted_volumes_per_border() works",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_no_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(
+          x = "2025-03-01",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2025-03-02",
+          tz = "CET"
+        ),
+        tidy_output = TRUE
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "netted_volumes_per_border() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)

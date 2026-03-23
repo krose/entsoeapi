@@ -272,6 +272,257 @@ continuous_offered_transfer_capacity <- function( # nolint: object_length_linter
 
 
 #' @title
+#' Get Implicit Offered Transfer Capacities — Day-Ahead & Intraday (11.1)
+#'
+#' @description
+#' Convenience wrapper that queries **both** day-ahead (A01) and intraday (A07)
+#' implicit offered transfer capacities and returns the combined result.
+#'
+#' @param eic_in Energy Identification Code of the bidding zone
+#'               or control area (TSO)
+#' @param eic_out Energy Identification Code of the bidding zone
+#'                or control area (TSO)
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
+#' @export
+#'
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' df <- entsoeapi::implicit_offered_transfer_capacities(
+#'   eic_in = "10Y1001A1001A82H",
+#'   eic_out = "10YDK-1--------W",
+#'   period_start = lubridate::ymd(x = "2023-08-16", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2023-08-17", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
+#'
+#' dplyr::glimpse(df)
+#'
+implicit_offered_transfer_capacities <- function( # nolint: object_length_linter
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+    tz = "CET"
+  ),
+  period_end = lubridate::ymd(Sys.Date(),
+    tz = "CET"
+  ),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  assert_eic(eic = eic_in, var_name = "eic_in")
+  assert_eic(eic = eic_out, var_name = "eic_out")
+  checkmate::assert_string(security_token, min.chars = 1L)
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    cli::cli_abort("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # query both day-ahead (A01) and intraday (A07) contract types
+  contract_types <- c("A01", "A07")
+
+  results <- purrr::map(contract_types, function(ct) {
+    query_string <- paste0(
+      "documentType=A31",
+      "&auction.Type=A01",
+      "&contract_MarketAgreement.Type=", ct,
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period_start,
+      "&periodEnd=", period_end
+    )
+
+    en_cont_list <- api_req_safe(
+      query_string = query_string,
+      security_token = security_token
+    )
+
+    extract_response(content = en_cont_list, tidy_output = tidy_output)
+  })
+
+  dplyr::bind_rows(results)
+}
+
+
+#' @title
+#' Get Explicit Offered Transfer Capacities — All Contract Types (11.1.A)
+#'
+#' @description
+#' Convenience wrapper that queries explicit offered transfer capacities
+#' across **all** contract types (day-ahead, weekly, monthly, yearly,
+#' long-term, intraday, quarterly) and returns the combined result.
+#'
+#' @param eic_in Energy Identification Code of the bidding zone
+#'               or control area (TSO)
+#' @param eic_out Energy Identification Code of the bidding zone
+#'                or control area (TSO)
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
+#' @export
+#'
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' df <- entsoeapi::explicit_offered_transfer_capacities(
+#'   eic_in = "10YBE----------2",
+#'   eic_out = "10YGB----------A",
+#'   period_start = lubridate::ymd(x = "2023-08-16", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2023-08-17", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
+#'
+#' dplyr::glimpse(df)
+#'
+explicit_offered_transfer_capacities <- function( # nolint: object_length_linter
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+    tz = "CET"
+  ),
+  period_end = lubridate::ymd(Sys.Date(),
+    tz = "CET"
+  ),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  assert_eic(eic = eic_in, var_name = "eic_in")
+  assert_eic(eic = eic_out, var_name = "eic_out")
+  checkmate::assert_string(security_token, min.chars = 1L)
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    cli::cli_abort("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # query all valid contract types
+  contract_types <- c("A01", "A02", "A03", "A04", "A06", "A07", "A08")
+
+  results <- purrr::map(contract_types, function(ct) {
+    query_string <- paste0(
+      "documentType=A31",
+      "&auction.Type=A02",
+      "&contract_MarketAgreement.Type=", ct,
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period_start,
+      "&periodEnd=", period_end
+    )
+
+    en_cont_list <- api_req_safe(
+      query_string = query_string,
+      security_token = security_token
+    )
+
+    extract_response(content = en_cont_list, tidy_output = tidy_output)
+  })
+
+  dplyr::bind_rows(results)
+}
+
+
+#' @title
+#' Get Continuous Offered Transfer Capacities (11.1)
+#'
+#' @description
+#' Continuous offered transfer capacities for the intraday continuous market.
+#'
+#' @param eic_in Energy Identification Code of the bidding zone
+#'               or control area (TSO)
+#' @param eic_out Energy Identification Code of the bidding zone
+#'                or control area (TSO)
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE.
+#'                    If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
+#'   is available for the given parameters.
+#' @export
+#'
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' df <- entsoeapi::continuous_offered_transfer_capacities(
+#'   eic_in = "10YNL----------L",
+#'   eic_out = "10YBE----------2",
+#'   period_start = lubridate::ymd(x = "2024-05-16", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2024-05-17", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
+#'
+#' dplyr::glimpse(df)
+#'
+continuous_offered_transfer_capacities <- function( # nolint: object_length_linter
+  eic_in = NULL,
+  eic_out = NULL,
+  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+    tz = "CET"
+  ),
+  period_end = lubridate::ymd(Sys.Date(),
+    tz = "CET"
+  ),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  assert_eic(eic = eic_in, var_name = "eic_in")
+  assert_eic(eic = eic_out, var_name = "eic_out")
+  checkmate::assert_string(security_token, min.chars = 1L)
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    cli::cli_abort("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A31",
+    "&auction.Type=A08",
+    "&contract_MarketAgreement.Type=A07",
+    "&in_Domain=", eic_in,
+    "&out_Domain=", eic_out,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
+
+
+#' @title
 #' Get Flow Based Allocations (11.1.B)
 #'
 #' @description
