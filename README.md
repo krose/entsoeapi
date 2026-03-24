@@ -40,18 +40,17 @@ The package helps with
 
 - Already available ENTSO-E API endpoints:
   - MARKET
-    - implicit_offered_transfer_capacities (11.1) (beta test version)
-    - explicit_offered_transfer_capacities (11.1.A) (beta test version)
-    - continuous_offered_transfer_capacities (11.1) (beta test version)
-    - flow_based_allocations (11.1.B) (beta test version)
-    - auction_revenue (12.1.A) (beta test version)
+    - implicit_offered_transfer_capacities (11.1)
+    - explicit_offered_transfer_capacities (11.1.A)
+    - continuous_offered_transfer_capacities (11.1)
+    - flow_based_allocations (11.1.B)
+    - auction_revenue (12.1.A)
     - total_nominated_capacity (12.1.B)
     - already_allocated_total_capacity (12.1.C)
     - day_ahead_prices (12.1.D)
-    - net_positions (12.1.E) (beta test version)
-    - congestion_income (12.1.E) (beta test version)
-    - allocated_transfer_capacities_3rd_countries (12.1.H) (beta test
-      version)
+    - net_positions (12.1.E)
+    - congestion_income (12.1.E)
+    - allocated_transfer_capacities_3rd_countries (12.1.H)
   - LOAD
     - load_actual_total (6.1.A)
     - load_day_ahead_total_forecast (6.1.B)
@@ -68,8 +67,9 @@ The package helps with
     - gen_per_prod_type (16.1.B&C)
     - the gen_storage_mean_filling_rate (16.1.D)
   - TRANSMISSION
-    - expansion_and_dismantling_project (9.1) (beta test version)
-    - intraday_cross_border_transfer_limits (11.3) (beta test version)
+    - expansion_and_dismantling_project (9.1) (no data available on the
+      ENTSO-E API yet, as of 24 March 2026)
+    - intraday_cross_border_transfer_limits (11.3)
     - forecasted_transfer_capacities (11.1.A)
     - day_ahead_commercial_sched (12.1.F)
     - total_commercial_sched (12.1.F)
@@ -91,29 +91,31 @@ The package helps with
     - netted_volumes (IFs IN 3.10)
     - elastic_demands (IF mFRR 3.4)
     - balancing_border_cap_limit (IFs 4.3 & 4.4)
-    - exchanged_volumes_per_border (3.10, 3.16 & 3.17) (beta test
-      version)
-    - netted_volumes_per_border (3.10, 3.16 & 3.17) (beta test version)
-    - hvdc_link_constrains (4.5) (beta test version)
-    - changes_to_bid_availability (mFRR 9.9, aFRR 9.6&9.8) (beta test
-      version)
-    - current_balancing_state (12.3.A) (beta test version)
-    - balancing_energy_bids (12.3.B&C) (beta test version)
-    - aggregated_balancing_energy_bids (12.3.E) (beta test version)
-    - procured_balancing_capacity (12.3.F) (beta test version)
-    - allocation_of_cross_zonal_balancing_cap (12.3.H&I) (beta test
-      version)
-    - contracted_reserves (17.1.B&C) (beta test version)
-    - activated_balancing_prices (17.1.F) (beta test version)
-    - imbalance_prices (17.1.G) (beta test version)
-    - imbalance_volumes (17.1.H) (beta test version)
-    - financial_expenses_and_income_for_balancing (17.1.I) (beta test
-      version)
-    - fcr_total_capacity (187.2) (beta test version)
-    - shares_of_fcr_capacity (187.2) (beta test version)
-    - rr_and_frr_actual_capacity (188.4 & 189.3) (beta test version)
-    - rr_actual_capacity (189.3) (beta test version)
-    - sharing_of_frr_capacity (SO GL 190.1) (beta test version)
+    - exchanged_volumes_per_border (3.10, 3.16 & 3.17)
+    - netted_volumes_per_border (3.10, 3.16 & 3.17) (no data available
+      on the ENTSO-E API yet, as of 24 March 2026)
+    - hvdc_link_constrains (4.5) (no data available on the ENTSO-E API
+      yet, as of 24 March 2026)
+    - changes_to_bid_availability (mFRR 9.9, aFRR 9.6&9.8) (no data
+      available on the ENTSO-E API yet, as of 24 March 2026)
+    - current_balancing_state (12.3.A)
+    - balancing_energy_bids (12.3.B&C) (no data available on the ENTSO-E
+      API yet, as of 24 March 2026)
+    - (12.3.D)
+    - aggregated_balancing_energy_bids (12.3.E)
+    - procured_balancing_capacity (12.3.F)
+    - allocation_of_cross_zonal_balancing_cap (12.3.H&I) (no data
+      available on the ENTSO-E API yet, as of 24 March 2026)
+    - contracted_reserves (17.1.B&C)
+    - activated_balancing_prices (17.1.F)
+    - imbalance_prices (17.1.G)
+    - imbalance_volumes (17.1.H)
+    - financial_expenses_and_income (17.1.I)
+    - fcr_total_capacity (187.2)
+    - rr_and_frr_actual_capacity (188.4 & 189.3)
+    - shares_of_fcr_capacity (187.2)
+    - sharing_of_rr_and_frr_capacity (SO GL 190.1) (no data available on
+      the ENTSO-E API yet, as of 24 March 2026)
 
 Be aware, that not all API endpoints are implemented in this package,
 and not every endpoint provides data.
@@ -180,28 +182,42 @@ if (!require("dplyr", quietly = TRUE)) install.packages("dplyr", quiet = TRUE)
 #> 
 #>     intersect, setdiff, setequal, union
 entsoeapi::all_approved_eic() |>
-  dplyr::filter(EicLongName == "Germany") |>
+  dplyr::filter(eic_long_name == "Germany") |>
   dplyr::glimpse()
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading X_eicCodes.csv file ...
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading Y_eicCodes.csv file ...
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading Z_eicCodes.csv file ...
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading T_eicCodes.csv file ...
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading V_eicCodes.csv file ...
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading W_eicCodes.csv file ...
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ downloading A_eicCodes.csv file ...
 #> Rows: 1
 #> Columns: 11
-#> $ EicCode                         <chr> "10Y1001A1001A83F"
-#> $ EicDisplayName                  <chr> "DE"
-#> $ EicLongName                     <chr> "Germany"
-#> $ EicParent                       <chr> NA
-#> $ EicResponsibleParty             <chr> NA
-#> $ EicStatus                       <chr> "Active"
-#> $ MarketParticipantPostalCode     <chr> NA
-#> $ MarketParticipantIsoCountryCode <chr> NA
-#> $ MarketParticipantVatCode        <chr> NA
-#> $ EicTypeFunctionList             <chr> "Member State"
-#> $ type                            <chr> "Y"
+#> $ eic_code                            <chr> "10Y1001A1001A83F"
+#> $ eic_display_name                    <chr> "DE"
+#> $ eic_long_name                       <chr> "Germany"
+#> $ eic_parent                          <chr> NA
+#> $ eic_responsible_party               <chr> NA
+#> $ eic_status                          <chr> "Active"
+#> $ market_participant_postal_code      <chr> NA
+#> $ market_participant_iso_country_code <chr> NA
+#> $ market_participant_vat_code         <chr> NA
+#> $ eic_type_function_list              <chr> "Member State"
+#> $ type                                <chr> "Y"
 ```
 
 For some of the data you need to translate the generation codes.
@@ -491,7 +507,7 @@ entsoeapi::load_actual_total(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 16 Mar 2026 21:35:56 GMT
+#> <- date: Tue, 24 Mar 2026 18:52:37 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -501,8 +517,12 @@ entsoeapi::load_actual_total(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <-
 #> ✔ response has arrived
-#> ℹ downloading area_eic_name table ...
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────
 #> ℹ pulling Y_eicCodes.csv file from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> Rows: 96
 #> Columns: 21
 #> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A83F", "10Y1001A1001A83F"…
@@ -515,7 +535,7 @@ entsoeapi::load_actual_total(
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_business_type_def            <chr> "Consumption", "Consumption", "Consump…
-#> $ created_date_time               <dttm> 2026-03-16 21:35:56, 2026-03-16 21:35…
+#> $ created_date_time               <dttm> 2026-03-24 18:52:37, 2026-03-24 18:52…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
@@ -545,7 +565,7 @@ entsoeapi::gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 16 Mar 2026 21:36:01 GMT
+#> <- date: Tue, 24 Mar 2026 18:52:38 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -555,7 +575,9 @@ entsoeapi::gen_per_prod_type(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <-
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> Rows: 1,632
 #> Columns: 25
 #> $ ts_in_bidding_zone_domain_mrid  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
@@ -572,7 +594,7 @@ entsoeapi::gen_per_prod_type(
 #> $ ts_business_type_def            <chr> "Production", "Production", "Productio…
 #> $ ts_mkt_psr_type                 <chr> "B10", "B10", "B10", "B10", "B10", "B1…
 #> $ ts_mkt_psr_type_def             <chr> "Hydro-electric pure pumped storage he…
-#> $ created_date_time               <dttm> 2026-03-16 21:36:01, 2026-03-16 21:36…
+#> $ created_date_time               <dttm> 2026-03-24 18:52:38, 2026-03-24 18:52…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…

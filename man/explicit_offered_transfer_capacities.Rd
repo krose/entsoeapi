@@ -9,6 +9,7 @@ explicit_offered_transfer_capacities(
   eic_out = NULL,
   period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
   period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  contract_type = "A01",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -26,14 +27,24 @@ One year range limit applies}
 \item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
 One year range limit applies}
 
+\item{contract_type}{Contract market agreement type, valid values
+can be checked from contract_types table;
+"A01" = Daily
+"A02" = Weekly
+"A03" = Monthly
+"A04" = Yearly
+"A06" = Long Term
+"A07" = Intraday
+"A08" = Quarterly
+Defaults to "A01" (Daily)}
+
 \item{tidy_output}{Defaults to TRUE.
 If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Convenience wrapper that queries explicit offered transfer capacities
@@ -47,9 +58,29 @@ df <- entsoeapi::explicit_offered_transfer_capacities(
   eic_out = "10YGB----------A",
   period_start = lubridate::ymd(x = "2023-08-16", tz = "CET"),
   period_end = lubridate::ymd(x = "2023-08-17", tz = "CET"),
+  contract_type = "A01",
   tidy_output = TRUE
 )
 
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other market endpoints: 
+\code{\link{aggregated_bids}()},
+\code{\link{allocated_transfer_capacities_3rd_countries}()},
+\code{\link{already_allocated_total_capacity}()},
+\code{\link{auction_revenue}()},
+\code{\link{congestion_income}()},
+\code{\link{continuous_offered_transfer_capacities}()},
+\code{\link{continuous_offered_transfer_capacity}()},
+\code{\link{energy_prices}()},
+\code{\link{explicit_offered_transfer_capacity}()},
+\code{\link{flow_based_allocations}()},
+\code{\link{implicit_offered_transfer_capacities}()},
+\code{\link{implicit_offered_transfer_capacity}()},
+\code{\link{intraday_prices}()},
+\code{\link{net_positions}()},
+\code{\link{total_nominated_capacity}()}
+}
+\concept{market endpoints}

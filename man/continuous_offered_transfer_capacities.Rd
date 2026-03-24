@@ -32,8 +32,7 @@ If TRUE, then flatten nested tables.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Continuous offered transfer capacities for the intraday continuous market.
@@ -51,3 +50,22 @@ df <- entsoeapi::continuous_offered_transfer_capacities(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other market endpoints: 
+\code{\link{aggregated_bids}()},
+\code{\link{allocated_transfer_capacities_3rd_countries}()},
+\code{\link{already_allocated_total_capacity}()},
+\code{\link{auction_revenue}()},
+\code{\link{congestion_income}()},
+\code{\link{continuous_offered_transfer_capacity}()},
+\code{\link{energy_prices}()},
+\code{\link{explicit_offered_transfer_capacities}()},
+\code{\link{explicit_offered_transfer_capacity}()},
+\code{\link{flow_based_allocations}()},
+\code{\link{implicit_offered_transfer_capacities}()},
+\code{\link{implicit_offered_transfer_capacity}()},
+\code{\link{intraday_prices}()},
+\code{\link{net_positions}()},
+\code{\link{total_nominated_capacity}()}
+}
+\concept{market endpoints}

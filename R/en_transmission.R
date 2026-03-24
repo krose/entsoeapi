@@ -1,12 +1,3 @@
-utils::globalVariables(
-  c(
-    "url_posixct_format",
-    "api_req_safe",
-    "extract_response"
-  )
-)
-
-
 
 #' @title
 #' Get Expansion and Dismantling Projects (9.1)
@@ -33,12 +24,18 @@ utils::globalVariables(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return
-#' A data frame with expansion or dismantling projects
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
 #'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' \dontrun{
 #' df <- entsoeapi::expansion_and_dismantling_project(
 #'   eic_in = "10YSK-SEPS-----K",
 #'   eic_out = "10YHU-MAVIR----U",
@@ -50,14 +47,15 @@ utils::globalVariables(
 #' )
 #'
 #' dplyr::glimpse(df)
+#' }
 #'
 expansion_and_dismantling_project <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   business_type = NULL,
@@ -67,12 +65,12 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
+  assert_string(security_token, min.chars = 1L)
+  assert_choice(
     business_type,
     choices = c("B01", "B02"), null.ok = TRUE
   )
-  checkmate::assert_choice(
+  assert_choice(
     doc_status,
     choices = c("A01", "A02", "A05", "A09", "A13", "X01"),
     null.ok = TRUE
@@ -121,8 +119,13 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return
-#' A data frame with intraday cross-border transfer limits
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -140,10 +143,10 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 intraday_cross_border_transfer_limits <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
@@ -151,11 +154,11 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -194,11 +197,22 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 #'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
 #'                   One year range limit applies
+#' @param market_agreement_type Market agreement type code (mandatory)
+#'                              "A01" Daily
+#'                              "A02" Weekly
+#'                              "A03" Monthly
+#'                              "A04" Yearly
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -207,6 +221,7 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 #'   eic_out = "10YSK-SEPS-----K",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
 #'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   market_agreement_type = "A01",
 #'   tidy_output = TRUE
 #' )
 #'
@@ -217,6 +232,7 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 #'   eic_out = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
 #'   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+#'   market_agreement_type = "A02",
 #'   tidy_output = TRUE
 #' )
 #'
@@ -225,22 +241,23 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 forecasted_transfer_capacities <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = lubridate::ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
+  market_agreement_type = "A01",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_choice(
+    x = market_agreement_type,
+    choices = c("A01", "A02", "A03", "A04")
+  )
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -250,7 +267,7 @@ forecasted_transfer_capacities <- function(
   # compose GET request url for the denoted period
   query_string <- paste0(
     "documentType=A61",
-    "&contract_MarketAgreement.Type=A01",
+    "&contract_MarketAgreement.Type=", market_agreement_type,
     "&in_Domain=", eic_in,
     "&out_Domain=", eic_out,
     "&periodStart=", period_start,
@@ -284,8 +301,14 @@ forecasted_transfer_capacities <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -310,10 +333,10 @@ forecasted_transfer_capacities <- function(
 day_ahead_commercial_sched <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
@@ -321,11 +344,11 @@ day_ahead_commercial_sched <- function(
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -370,8 +393,14 @@ day_ahead_commercial_sched <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -398,20 +427,20 @@ day_ahead_commercial_sched <- function(
 total_commercial_sched <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -456,8 +485,14 @@ total_commercial_sched <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -484,10 +519,10 @@ total_commercial_sched <- function(
 cross_border_physical_flows <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
@@ -495,11 +530,11 @@ cross_border_physical_flows <- function(
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -541,8 +576,14 @@ cross_border_physical_flows <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -560,10 +601,10 @@ cross_border_physical_flows <- function(
 redispatching_cross_border <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
@@ -571,7 +612,7 @@ redispatching_cross_border <- function(
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -612,8 +653,14 @@ redispatching_cross_border <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -629,17 +676,17 @@ redispatching_cross_border <- function(
 #'
 redispatching_internal <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -683,8 +730,14 @@ redispatching_internal <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -702,10 +755,10 @@ redispatching_internal <- function(
 countertrading <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
@@ -713,7 +766,7 @@ countertrading <- function(
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -759,8 +812,14 @@ countertrading <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -776,10 +835,10 @@ countertrading <- function(
 #'
 costs_of_congestion_management <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 31L),
+  period_start = ymd(Sys.Date() - days(x = 31L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   event_nature = NULL,
@@ -787,15 +846,15 @@ costs_of_congestion_management <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
+  assert_string(security_token, min.chars = 1L)
+  assert_choice(
     event_nature,
     choices = c("A46", "B03", "B04"), null.ok = TRUE
   )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -813,6 +872,98 @@ costs_of_congestion_management <- function(
   if (!is.null(event_nature)) {
     query_string <- paste0(query_string, "&businessType=", event_nature)
   }
+
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+
+  # return with the extracted response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
+
+
+#' @title
+#' Get Net Transfer Capacities — Week/Month/Year Ahead (11.1)
+#'
+#' @description
+#' Estimated net transfer capacities for the week-ahead,
+#' month-ahead, or year-ahead time frames. For day-ahead
+#' NTC, use [forecasted_transfer_capacities()] instead.
+#'
+#' @param eic_in Energy Identification Code of in domain
+#' @param eic_out Energy Identification Code of out domain
+#' @param contract_type Contract market agreement type:
+#'                      "A02" = Week ahead
+#'                      "A03" = Month ahead
+#'                      "A04" = Year ahead
+#'                      Defaults to "A02" (Week ahead)
+#' @param period_start POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                     One year range limit applies
+#' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
+#'                   One year range limit applies
+#' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
+#' @param security_token Security token for ENTSO-E transparency platform
+#'
+#' @family transmission endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
+#' @export
+#'
+#' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+#' df <- entsoeapi::net_transfer_capacities(
+#'   eic_in = "10YCZ-CEPS-----N",
+#'   eic_out = "10YSK-SEPS-----K",
+#'   contract_type = "A02",
+#'   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2024-02-01", tz = "CET"),
+#'   tidy_output = TRUE
+#' )
+#'
+#' dplyr::glimpse(df)
+#'
+net_transfer_capacities <- function(
+  eic_in = NULL,
+  eic_out = NULL,
+  contract_type = "A02",
+  period_start = ymd(Sys.Date() - days(x = 1L),
+    tz = "CET"
+  ),
+  period_end = ymd(Sys.Date(),
+    tz = "CET"
+  ),
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+) {
+  assert_eic(eic = eic_in, var_name = "eic_in")
+  assert_eic(eic = eic_out, var_name = "eic_out")
+  assert_choice(x = contract_type, choices = c("A02", "A03", "A04"))
+  assert_string(security_token, min.chars = 1L)
+
+  # check if the requested period is not longer than one year
+  if (difftime(period_end, period_start, units = "day") > 365L) {
+    cli_abort("One year range limit should be applied!")
+  }
+
+  # convert timestamps into accepted format
+  period_start <- url_posixct_format(period_start)
+  period_end <- url_posixct_format(period_end)
+
+  # compose GET request url for the denoted period
+  query_string <- paste0(
+    "documentType=A61",
+    "&contract_MarketAgreement.Type=", contract_type,
+    "&in_Domain=", eic_in,
+    "&out_Domain=", eic_out,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
+  )
 
   # send GET request
   en_cont_list <- api_req_safe(

@@ -1,59 +1,11 @@
-utils::globalVariables(
-  c(
-    "allocation_mode_types",
-    "analog_types",
-    "area_types",
-    "asset_types",
-    "auction_types",
-    "business_types",
-    "category_types",
-    "classification_types",
-    "coding_scheme_types",
-    "connection_category_types",
-    "contract_types",
-    "coordinate_system_types",
-    "currency_types",
-    "curve_types",
-    "customer_types",
-    "direction_types",
-    "document_types",
-    "eic_types",
-    "energy_product_types",
-    "flow_commodity_option_types",
-    "fuel_types",
-    "grid_agreement_types",
-    "hvdc_mode_types",
-    "indicator_types",
-    "market_product_types",
-    "message_types",
-    "object_aggregation_types",
-    "payment_terms_types",
-    "price_category_types",
-    "price_component_types",
-    "price_direction_types",
-    "process_types",
-    "quality_types",
-    "reason_code_types",
-    "rights_types",
-    "role_types",
-    "settlement_method_types",
-    "status_types",
-    "sub_area_types",
-    "tariff_types",
-    "timeframe_types",
-    "transmission_pair_eic_dict",
-    "unit_multiplier",
-    "unit_of_measure_types",
-    "unit_symbol_types"
-  )
-)
-
 #' @title
 #' List allocation mode types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::allocation_mode_types)
+#' head(entsoeapi::allocation_mode_types)
 #'
 "allocation_mode_types"
 
@@ -62,8 +14,10 @@ utils::globalVariables(
 #' List asset types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::asset_types)
+#' head(entsoeapi::asset_types)
 #'
 "asset_types"
 
@@ -72,8 +26,10 @@ utils::globalVariables(
 #' List auction types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::auction_types)
+#' head(entsoeapi::auction_types)
 #'
 "auction_types"
 
@@ -81,8 +37,11 @@ utils::globalVariables(
 #' @title
 #' List business types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
+#'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::business_types)
+#' head(entsoeapi::business_types)
 #'
 "business_types"
 
@@ -91,8 +50,10 @@ utils::globalVariables(
 #' List category types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::category_types)
+#' head(entsoeapi::category_types)
 #'
 "category_types"
 
@@ -101,8 +62,10 @@ utils::globalVariables(
 #' List classification types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::classification_types)
+#' head(entsoeapi::classification_types)
 #'
 "classification_types"
 
@@ -111,8 +74,10 @@ utils::globalVariables(
 #' List coding scheme types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::coding_scheme_types)
+#' head(entsoeapi::coding_scheme_types)
 #'
 "coding_scheme_types"
 
@@ -121,8 +86,10 @@ utils::globalVariables(
 #' List connection category types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::connection_category_types)
+#' head(entsoeapi::connection_category_types)
 #'
 "connection_category_types"
 
@@ -131,8 +98,10 @@ utils::globalVariables(
 #' List contract types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::contract_types)
+#' head(entsoeapi::contract_types)
 #'
 "contract_types"
 
@@ -141,8 +110,10 @@ utils::globalVariables(
 #' List currency types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::currency_types)
+#' head(entsoeapi::currency_types)
 #'
 "currency_types"
 
@@ -151,8 +122,10 @@ utils::globalVariables(
 #' List curve types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::curve_types)
+#' head(entsoeapi::curve_types)
 #'
 "curve_types"
 
@@ -161,8 +134,10 @@ utils::globalVariables(
 #' List customer types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::customer_types)
+#' head(entsoeapi::customer_types)
 #'
 "customer_types"
 
@@ -171,8 +146,10 @@ utils::globalVariables(
 #' List direction types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::direction_types)
+#' head(entsoeapi::direction_types)
 #'
 "direction_types"
 
@@ -181,8 +158,10 @@ utils::globalVariables(
 #' List document types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::document_types)
+#' head(entsoeapi::document_types)
 #'
 "document_types"
 
@@ -191,8 +170,10 @@ utils::globalVariables(
 #' List message types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::message_types)
+#' head(entsoeapi::message_types)
 #'
 "message_types"
 
@@ -201,8 +182,10 @@ utils::globalVariables(
 #' List EIC types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::eic_types)
+#' head(entsoeapi::eic_types)
 #'
 "eic_types"
 
@@ -211,8 +194,10 @@ utils::globalVariables(
 #' List energy product types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::energy_product_types)
+#' head(entsoeapi::energy_product_types)
 #'
 "energy_product_types"
 
@@ -221,8 +206,10 @@ utils::globalVariables(
 #' List flow commodity types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::flow_commodity_option_types)
+#' head(entsoeapi::flow_commodity_option_types)
 #'
 "flow_commodity_option_types"
 
@@ -231,8 +218,10 @@ utils::globalVariables(
 #' List grid agreement types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::grid_agreement_types)
+#' head(entsoeapi::grid_agreement_types)
 #'
 "grid_agreement_types"
 
@@ -241,8 +230,10 @@ utils::globalVariables(
 #' List HVDC mode types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::hvdc_mode_types)
+#' head(entsoeapi::hvdc_mode_types)
 #'
 "hvdc_mode_types"
 
@@ -251,8 +242,10 @@ utils::globalVariables(
 #' List indicator types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::indicator_types)
+#' head(entsoeapi::indicator_types)
 #'
 "indicator_types"
 
@@ -261,8 +254,10 @@ utils::globalVariables(
 #' List object aggregation types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::object_aggregation_types)
+#' head(entsoeapi::object_aggregation_types)
 #'
 "object_aggregation_types"
 
@@ -271,8 +266,10 @@ utils::globalVariables(
 #' List payment terms types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::payment_terms_types)
+#' head(entsoeapi::payment_terms_types)
 #'
 "payment_terms_types"
 
@@ -281,8 +278,10 @@ utils::globalVariables(
 #' List price category types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::price_category_types)
+#' head(entsoeapi::price_category_types)
 #'
 "price_category_types"
 
@@ -291,8 +290,10 @@ utils::globalVariables(
 #' List price direction types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::price_direction_types)
+#' head(entsoeapi::price_direction_types)
 #'
 "price_direction_types"
 
@@ -301,8 +302,10 @@ utils::globalVariables(
 #' List process types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::process_types)
+#' head(entsoeapi::process_types)
 #'
 "process_types"
 
@@ -311,8 +314,10 @@ utils::globalVariables(
 #' List quality types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::quality_types)
+#' head(entsoeapi::quality_types)
 #'
 "quality_types"
 
@@ -321,8 +326,10 @@ utils::globalVariables(
 #' List reason code types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::reason_code_types)
+#' head(entsoeapi::reason_code_types)
 #'
 "reason_code_types"
 
@@ -331,8 +338,10 @@ utils::globalVariables(
 #' List rights types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::rights_types)
+#' head(entsoeapi::rights_types)
 #'
 "rights_types"
 
@@ -341,8 +350,10 @@ utils::globalVariables(
 #' List role types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::role_types)
+#' head(entsoeapi::role_types)
 #'
 "role_types"
 
@@ -351,8 +362,10 @@ utils::globalVariables(
 #' List settlement method types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::settlement_method_types)
+#' head(entsoeapi::settlement_method_types)
 #'
 "settlement_method_types"
 
@@ -361,8 +374,10 @@ utils::globalVariables(
 #' List status types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::status_types)
+#' head(entsoeapi::status_types)
 #'
 "status_types"
 
@@ -371,8 +386,10 @@ utils::globalVariables(
 #' List sub-area types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::sub_area_types)
+#' head(entsoeapi::sub_area_types)
 #'
 "sub_area_types"
 
@@ -381,8 +398,10 @@ utils::globalVariables(
 #' List tariff types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::tariff_types)
+#' head(entsoeapi::tariff_types)
 #'
 "tariff_types"
 
@@ -391,8 +410,10 @@ utils::globalVariables(
 #' List unit of measure types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::unit_of_measure_types)
+#' head(entsoeapi::unit_of_measure_types)
 #'
 "unit_of_measure_types"
 
@@ -401,8 +422,10 @@ utils::globalVariables(
 #' List unit symbol types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::unit_symbol_types)
+#' head(entsoeapi::unit_symbol_types)
 #'
 "unit_symbol_types"
 
@@ -411,7 +434,7 @@ utils::globalVariables(
 #' List transmission pair EIC Dictionary
 #'
 #' @examples
-#' dplyr::glimpse(entsoeapi::transmission_pair_eic_dict)
+#' head(entsoeapi::transmission_pair_eic_dict)
 #'
 "transmission_pair_eic_dict"
 
@@ -420,8 +443,10 @@ utils::globalVariables(
 #' List analog types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::analog_types)
+#' head(entsoeapi::analog_types)
 #'
 "analog_types"
 
@@ -430,8 +455,10 @@ utils::globalVariables(
 #' List area types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::area_types)
+#' head(entsoeapi::area_types)
 #'
 "area_types"
 
@@ -440,8 +467,10 @@ utils::globalVariables(
 #' List coordinate system types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::coordinate_system_types)
+#' head(entsoeapi::coordinate_system_types)
 #'
 "coordinate_system_types"
 
@@ -450,8 +479,10 @@ utils::globalVariables(
 #' List fuel types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::fuel_types)
+#' head(entsoeapi::fuel_types)
 #'
 "fuel_types"
 
@@ -460,8 +491,10 @@ utils::globalVariables(
 #' List market product types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::market_product_types)
+#' head(entsoeapi::market_product_types)
 #'
 "market_product_types"
 
@@ -470,8 +503,10 @@ utils::globalVariables(
 #' List price component types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::price_component_types)
+#' head(entsoeapi::price_component_types)
 #'
 "price_component_types"
 
@@ -480,8 +515,10 @@ utils::globalVariables(
 #' List timeframe types based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::timeframe_types)
+#' head(entsoeapi::timeframe_types)
 #'
 "timeframe_types"
 
@@ -490,7 +527,9 @@ utils::globalVariables(
 #' List unit multiplier based on
 #' 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 #'
+#' @family types
+#'
 #' @examples
-#' dplyr::glimpse(entsoeapi::unit_multiplier)
+#' head(entsoeapi::unit_multiplier)
 #'
 "unit_multiplier"

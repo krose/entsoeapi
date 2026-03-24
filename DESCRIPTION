@@ -1,11 +1,12 @@
 Package: entsoeapi
 Type: Package
-Title: R Client for the 'ENTSO-E' Transparency Platform API
-Version: 0.9.7
+Title: Client for the 'ENTSO-E' Transparency Platform API
+Version: 1.0.0
 Authors@R: c(person("Kenneth", "Rose",  role=c("aut", "cph"), email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre", "cph"), email="sbudai.ga@gmail.com"))
 Description: Provides a standardized R client for the 'ENTSO-E' (European Network of
-             Transmission System Operators for Electricity) Transparency Platform API.
+             Transmission System Operators for Electricity) Transparency Platform 
+             <https://transparency.entsoe.eu> API.
              Covers Market, Load, Generation, Transmission, Outages, and Balancing
              endpoints. Automatically handles query pagination, XML-to-tabular conversion,
              response caching, and code list lookups. Requires a registered 'ENTSO-E'
@@ -15,14 +16,13 @@ Imports:
     cachem,
     cli,
     checkmate,
-    dplyr,
+    dplyr (>= 1.1.0),
     httr2,
     lubridate,
-    purrr,
     snakecase,
     stringr,
-    tibble,
     tidyr,
+    tidyselect,
     utils,
     xml2,
     xmlconvert
@@ -33,11 +33,12 @@ URL: https://github.com/krose/entsoeapi/, https://krose.github.io/entsoeapi/
 BugReports: https://github.com/krose/entsoeapi/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Depends: R (>= 4.1.0)
-Suggests: 
+Depends: R (>= 4.2.0)
+Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
+    tibble,
     ggplot2
 VignetteBuilder: knitr
 Config/testthat/edition: 3

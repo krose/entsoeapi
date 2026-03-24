@@ -7,8 +7,8 @@
 day_ahead_commercial_sched(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -29,8 +29,7 @@ One year range limit applies}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Day-ahead commercial exchanges in aggregated form between
@@ -57,3 +56,17 @@ df2 <- entsoeapi::day_ahead_commercial_sched(
 dplyr::glimpse(df2)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other transmission endpoints: 
+\code{\link{costs_of_congestion_management}()},
+\code{\link{countertrading}()},
+\code{\link{cross_border_physical_flows}()},
+\code{\link{expansion_and_dismantling_project}()},
+\code{\link{forecasted_transfer_capacities}()},
+\code{\link{intraday_cross_border_transfer_limits}()},
+\code{\link{net_transfer_capacities}()},
+\code{\link{redispatching_cross_border}()},
+\code{\link{redispatching_internal}()},
+\code{\link{total_commercial_sched}()}
+}
+\concept{transmission endpoints}

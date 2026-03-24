@@ -7,8 +7,8 @@
 intraday_cross_border_transfer_limits(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -31,7 +31,7 @@ One year range limit applies}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A data frame with intraday cross-border transfer limits
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 intraday cross-border transfer limits of DC links
@@ -49,3 +49,17 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other transmission endpoints: 
+\code{\link{costs_of_congestion_management}()},
+\code{\link{countertrading}()},
+\code{\link{cross_border_physical_flows}()},
+\code{\link{day_ahead_commercial_sched}()},
+\code{\link{expansion_and_dismantling_project}()},
+\code{\link{forecasted_transfer_capacities}()},
+\code{\link{net_transfer_capacities}()},
+\code{\link{redispatching_cross_border}()},
+\code{\link{redispatching_internal}()},
+\code{\link{total_commercial_sched}()}
+}
+\concept{transmission endpoints}

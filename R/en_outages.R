@@ -1,12 +1,3 @@
-utils::globalVariables(
-  c(
-    "url_posixct_format",
-    "api_req_safe",
-    "extract_response"
-  )
-)
-
-
 
 #' @title
 #' Get Unavailability of Production & Generation Units (15.1.A&B + 15.1.C&D)
@@ -37,8 +28,13 @@ utils::globalVariables(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom dplyr bind_rows
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -58,10 +54,10 @@ utils::globalVariables(
 #'
 outages_both <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() + days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
+  period_end = ymd(Sys.Date() + days(x = 2L),
     tz = "CET"
   ),
   doc_status = NULL,
@@ -106,8 +102,8 @@ outages_both <- function(
 
   # append the results and return
   list(tbl_gu, tbl_pu) |>
-    purrr::compact() |>
-    dplyr::bind_rows()
+    Filter(f = length) |>
+    bind_rows()
 }
 
 
@@ -134,8 +130,10 @@ outages_both <- function(
 #' @param period_end the ending date of the outage in-scope period
 #'                   in POSIXct or YYYY-MM-DD HH:MM:SS format
 #'                   One year range limit applies
-#' @param doc_status Notification document status. "A05" for active,
-#'                   "A09" for cancelled and "A13" for withdrawn.
+#' @param doc_status Notification document status.
+#'                   "A05" for active,
+#'                   "A09" for cancelled
+#'                   "A13" for withdrawn.
 #'                   Defaults to NULL which means "A05" and "A09" together.
 #' @param event_nature "A53" for planned maintenance.
 #'                      "A54" for unplanned outage.
@@ -143,8 +141,14 @@ outages_both <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -164,10 +168,10 @@ outages_both <- function(
 #'
 outages_gen_units <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() + days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
+  period_end = ymd(Sys.Date() + days(x = 2L),
     tz = "CET"
   ),
   doc_status = NULL,
@@ -176,19 +180,19 @@ outages_gen_units <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
-    doc_status,
+  assert_string(x = security_token, min.chars = 1L)
+  assert_choice(
+    x = doc_status,
     choices = c("A05", "A09", "A13"), null.ok = TRUE
   )
-  checkmate::assert_choice(
-    event_nature,
+  assert_choice(
+    x = event_nature,
     choices = c("A53", "A54"), null.ok = TRUE
   )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -251,8 +255,14 @@ outages_gen_units <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -274,10 +284,10 @@ outages_gen_units <- function(
 #'
 outages_prod_units <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() + days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
+  period_end = ymd(Sys.Date() + days(x = 2L),
     tz = "CET"
   ),
   doc_status = NULL,
@@ -286,19 +296,19 @@ outages_prod_units <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
+  assert_string(x = security_token, min.chars = 1L)
+  assert_choice(
     doc_status,
     choices = c("A05", "A09", "A13"), null.ok = TRUE
   )
-  checkmate::assert_choice(
+  assert_choice(
     event_nature,
     choices = c("A53", "A54"), null.ok = TRUE
   )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -357,15 +367,21 @@ outages_prod_units <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::outages_offshore_grid(
 #'   eic = "10Y1001A1001A82H",
 #'   period_start = lubridate::ymd(
-#'     x = Sys.Date() - lubridate::days(x = 365L),
+#'     x = Sys.Date() - lubridate::days(x = 30L),
 #'     tz = "CET"
 #'   ),
 #'   period_end = lubridate::ymd(x = Sys.Date(), tz = "CET")
@@ -375,10 +391,10 @@ outages_prod_units <- function(
 #'
 outages_offshore_grid <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() + days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
+  period_end = ymd(Sys.Date() + days(x = 2L),
     tz = "CET"
   ),
   doc_status = NULL,
@@ -386,15 +402,15 @@ outages_offshore_grid <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
+  assert_string(x = security_token, min.chars = 1L)
+  assert_choice(
     doc_status,
     choices = c("A05", "A09", "A13"), null.ok = TRUE
   )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -459,8 +475,14 @@ outages_offshore_grid <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -474,10 +496,10 @@ outages_offshore_grid <- function(
 #'
 outages_cons_units <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() + days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L),
+  period_end = ymd(Sys.Date() + days(x = 2L),
     tz = "CET"
   ),
   period_start_update = NULL,
@@ -488,19 +510,19 @@ outages_cons_units <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
+  assert_string(x = security_token, min.chars = 1L)
+  assert_choice(
     doc_status,
     choices = c("A05", "A09", "A13"), null.ok = TRUE
   )
-  checkmate::assert_choice(
+  assert_choice(
     event_nature,
     choices = c("A53", "A54"), null.ok = TRUE
   )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -572,8 +594,14 @@ outages_cons_units <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -600,10 +628,10 @@ outages_cons_units <- function(
 outages_transmission_grid <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() + days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 3L),
+  period_end = ymd(Sys.Date() + days(x = 3L),
     tz = "CET"
   ),
   period_start_update = NULL,
@@ -615,19 +643,19 @@ outages_transmission_grid <- function(
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_choice(
+  assert_string(x = security_token, min.chars = 1L)
+  assert_choice(
     doc_status,
     choices = c("A05", "A09", "A13"), null.ok = TRUE
   )
-  checkmate::assert_choice(
+  assert_choice(
     event_nature,
     choices = c("A53", "A54"), null.ok = TRUE
   )
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -700,8 +728,14 @@ outages_transmission_grid <- function(
 #' @param tidy_output Defaults to TRUE. flatten nested tables
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family outage endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -716,10 +750,10 @@ outages_transmission_grid <- function(
 #'
 outages_fallbacks <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L),
+  period_start = ymd(Sys.Date() - days(x = 7L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   process_type = "A63",
@@ -728,16 +762,16 @@ outages_fallbacks <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_choice(process_type, choices = c("A47", "A51", "A63"))
-  checkmate::assert_choice(
+  assert_choice(process_type, choices = c("A47", "A51", "A63"))
+  assert_choice(
     event_nature,
     choices = c("C47", "A53", "A54", "A83")
   )
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(x = security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format

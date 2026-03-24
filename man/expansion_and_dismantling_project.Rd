@@ -7,8 +7,8 @@
 expansion_and_dismantling_project(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   business_type = NULL,
   doc_status = NULL,
   tidy_output = TRUE,
@@ -42,13 +42,14 @@ in POSIXct or YYYY-MM-DD HH:MM:SS format}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A data frame with expansion or dismantling projects
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Query the interconnector network evolution or dismantling
 }
 \examples{
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
+\dontrun{
 df <- entsoeapi::expansion_and_dismantling_project(
   eic_in = "10YSK-SEPS-----K",
   eic_out = "10YHU-MAVIR----U",
@@ -60,5 +61,20 @@ df <- entsoeapi::expansion_and_dismantling_project(
 )
 
 dplyr::glimpse(df)
+}
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other transmission endpoints: 
+\code{\link{costs_of_congestion_management}()},
+\code{\link{countertrading}()},
+\code{\link{cross_border_physical_flows}()},
+\code{\link{day_ahead_commercial_sched}()},
+\code{\link{forecasted_transfer_capacities}()},
+\code{\link{intraday_cross_border_transfer_limits}()},
+\code{\link{net_transfer_capacities}()},
+\code{\link{redispatching_cross_border}()},
+\code{\link{redispatching_internal}()},
+\code{\link{total_commercial_sched}()}
+}
+\concept{transmission endpoints}

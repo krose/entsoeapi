@@ -3,7 +3,12 @@
 .api_name <- "api?"
 .req_timeout <- 60
 .max_age <- 3600
+.pd_scheme <- "https://"
+.pd_domain <- "eepublicdownloads.blob.core.windows.net"
+.pd_alloc_eic <- "cio-lio/xml/allocated-eic-codes.xml"
+.pd_csv_eic <- "/cio-lio/csv/"
 possible_eic_chars <- stats::setNames(
   object = 0L:36L,
   nm     = c(as.character(0:9), LETTERS, "-")
 )
+user_agent_string <- "entsoeapi (https://krose.github.io/entsoeapi/)"

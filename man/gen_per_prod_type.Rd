@@ -6,8 +6,8 @@
 \usage{
 gen_per_prod_type(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   gen_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -32,8 +32,7 @@ If TRUE, then flatten nested tables.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Actual aggregated net generation output (MW) or consumption
@@ -52,3 +51,13 @@ df <- entsoeapi::gen_per_prod_type(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other generation endpoints: 
+\code{\link{gen_day_ahead_forecast}()},
+\code{\link{gen_installed_capacity_per_pt}()},
+\code{\link{gen_installed_capacity_per_pu}()},
+\code{\link{gen_per_gen_unit}()},
+\code{\link{gen_storage_mean_filling_rate}()},
+\code{\link{gen_wind_solar_forecasts}()}
+}
+\concept{generation endpoints}

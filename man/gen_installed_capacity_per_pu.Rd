@@ -6,8 +6,9 @@
 \usage{
 gen_installed_capacity_per_pu(
   eic = NULL,
-  year = lubridate::year(Sys.Date()),
+  year = year(Sys.Date()),
   psr_type = NULL,
+  tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
@@ -21,11 +22,13 @@ as required by the law.}
 \item{psr_type}{Defaults to NULL, otherwise list of generation type
 codes from asset_types table}
 
+\item{tidy_output}{Defaults to TRUE.
+If TRUE, then flatten nested tables.}
+
 \item{security_token}{Security token}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 The installed generation capacities (MW) at the beginning of the year
@@ -34,11 +37,21 @@ for all the production units, including the planned ones.
 \examples{
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_installed_capacity_per_pu(
-  eic      = "10YDE-VE-------2",
-  year     = 2020,
+  eic = "10YDE-VE-------2",
+  year = 2020,
   psr_type = "B05"
 )
 
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other generation endpoints: 
+\code{\link{gen_day_ahead_forecast}()},
+\code{\link{gen_installed_capacity_per_pt}()},
+\code{\link{gen_per_gen_unit}()},
+\code{\link{gen_per_prod_type}()},
+\code{\link{gen_storage_mean_filling_rate}()},
+\code{\link{gen_wind_solar_forecasts}()}
+}
+\concept{generation endpoints}

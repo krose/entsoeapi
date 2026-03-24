@@ -6,8 +6,8 @@
 \usage{
 outages_fallbacks(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   process_type = "A63",
   event_nature = "A53",
   tidy_output = TRUE,
@@ -43,8 +43,7 @@ Defaults to "A53".}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 It publishes of application of fall back procedures by participants
@@ -65,3 +64,13 @@ df <- entsoeapi::outages_fallbacks(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other outage endpoints: 
+\code{\link{outages_both}()},
+\code{\link{outages_cons_units}()},
+\code{\link{outages_gen_units}()},
+\code{\link{outages_offshore_grid}()},
+\code{\link{outages_prod_units}()},
+\code{\link{outages_transmission_grid}()}
+}
+\concept{outage endpoints}

@@ -6,8 +6,9 @@
 \usage{
 gen_wind_solar_forecasts(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date(), tz = "CET") - lubridate::days(x = 1L),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date(), tz = "CET") - days(x = 1L),
+  period_end = ymd(Sys.Date(), tz = "CET"),
+  process_type = "A18",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -22,33 +23,45 @@ One year range limit applies}
 \item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
 One year range limit applies}
 
+\item{process_type}{type of process
+"A01" Day-ahead
+"A18" Current
+"A40" Intraday
+Defaults to "A18"}
+
 \item{tidy_output}{Defaults to TRUE.
 If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 A respective forecast of wind and solar power net
 generation (MW) per area and each market time unit
 of the following/current day.
-The elements of the result list are representing
-each related forecast time range.
 }
 \examples{
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
-df_list <- entsoeapi::gen_wind_solar_forecasts(
+df <- entsoeapi::gen_wind_solar_forecasts(
   eic          = "10YFR-RTE------C",
   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+  process_type = "A01",
   tidy_output  = TRUE
 )
 
-dplyr::glimpse(df_list$`Day-ahead`)
-dplyr::glimpse(df_list$`Intraday`)
-dplyr::glimpse(df_list$`Current`)
+dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other generation endpoints: 
+\code{\link{gen_day_ahead_forecast}()},
+\code{\link{gen_installed_capacity_per_pt}()},
+\code{\link{gen_installed_capacity_per_pu}()},
+\code{\link{gen_per_gen_unit}()},
+\code{\link{gen_per_prod_type}()},
+\code{\link{gen_storage_mean_filling_rate}()}
+}
+\concept{generation endpoints}

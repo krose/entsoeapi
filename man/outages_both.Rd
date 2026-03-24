@@ -6,8 +6,8 @@
 \usage{
 outages_both(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L), tz = "CET"),
+  period_start = ymd(Sys.Date() + days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date() + days(x = 2L), tz = "CET"),
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
@@ -42,8 +42,7 @@ Defaults to NULL which means both of them.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 The planned and forced unavailability of production and
@@ -68,3 +67,13 @@ df <- entsoeapi::outages_both(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other outage endpoints: 
+\code{\link{outages_cons_units}()},
+\code{\link{outages_fallbacks}()},
+\code{\link{outages_gen_units}()},
+\code{\link{outages_offshore_grid}()},
+\code{\link{outages_prod_units}()},
+\code{\link{outages_transmission_grid}()}
+}
+\concept{outage endpoints}

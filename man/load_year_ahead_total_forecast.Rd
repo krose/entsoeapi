@@ -6,8 +6,8 @@
 \usage{
 load_year_ahead_total_forecast(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -28,8 +28,7 @@ If TRUE, then flatten nested tables.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 It is defined as equal to the year-ahead forecasted sum of
@@ -45,11 +44,20 @@ between neighbouring bidding zones
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::load_year_ahead_total_forecast(
   eic = "10Y1001A1001A82H",
-  period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-  period_end = lubridate::ymd(x = "2019-11-30", tz = "CET"),
+  period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+  period_end = lubridate::ymd(x = "2022-12-31", tz = "CET"),
   tidy_output = TRUE
 )
 
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other load endpoints: 
+\code{\link{load_actual_total}()},
+\code{\link{load_day_ahead_total_forecast}()},
+\code{\link{load_month_ahead_total_forecast}()},
+\code{\link{load_week_ahead_total_forecast}()},
+\code{\link{load_year_ahead_forecast_margin}()}
+}
+\concept{load endpoints}
