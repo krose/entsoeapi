@@ -427,11 +427,7 @@ node_to_rows <- function(node, prefix = NULL) {
           names(row) <- unique_leaf_names
           stacked_rows[[r]] <- row
         }
-        # if no nested children, return directly
-        if (length(nested_idx) == 0L) return(stacked_rows)
-        # otherwise fall through with leaf_row = first row
-        # (will be cross-joined with nested below)
-        leaf_row <- stacked_rows[[1L]]
+        return(stacked_rows)
       } else {
         # nested siblings present or single-row collapse:
         # collapse duplicate names with "|"
@@ -498,10 +494,6 @@ node_to_rows <- function(node, prefix = NULL) {
     return(list())
   }
   if (length(nested_rows) == 0L) {
-    # check if we already built stacked leaf rows
-    if (exists("stacked_rows", inherits = FALSE)) {
-      return(stacked_rows)
-    }
     return(list(leaf_row))
   }
   if (length(leaf_row) == 0L) {
