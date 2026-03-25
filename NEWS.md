@@ -1,4 +1,4 @@
-# entsoeapi v1.0.0 (2026-03-24)
+# entsoeapi v1.0.0 (2026-03-25)
 
 ## New functionality
 
@@ -6,26 +6,32 @@
 -   The `explicit_offered_transfer_capacities()` function has been introduced (we incorrectly stated earlier that this function had been introduced)
 -   The `continuous_offered_transfer_capacities()` function has been introduced (we incorrectly stated earlier that this function had been introduced)
 -   The `netted_volumes_per_border()` function has been introduced (we incorrectly stated earlier that this function had been introduced)
--   The `day_ahead_prices()` function has been renamed to `energy_prices()` and it allows to query day-ahead and intraday prices too.
--   The `aggregated_balancing_energy_bids()` function's `process_type` argument additionally can be set as `A67` or `A68` from now on.
 -   The `eic_functions()` and `all_allocated_eic()` functions have been introduced.
+-   The processing capability of `P3M` data resolution has been added to the engine.
+
+## Changes
+
+-   The `aggregated_balancing_energy_bids()` function's `process_type` argument additionally can be set as `A67` or `A68` from now on.
 -   The "See Also" blocks have been added to each help.
 -   The result table of `imbalance_prices()` call got more columns to display.
 -   The `deactivation_requested_date_and_or_time_date` and the `eic_code_market_participant_street_address` columns have been added to `all_allocated_eic()` function's resulting table.
--   The resulting table's column names converted to snake case in the `party_eic()`, `area_eic()`, `accounting_point_eic()`, `tie_line_eic()`, `location_eic()`, `resource_object_eic()`, `substation_eic()` and `all_approved_eic()` function.
 -   The `gen_installed_capacity_per_pt` and the `gen_installed_capacity_per_pu` functions got a new `tidy_output` argument.
--   The XML extracting engine further and improved by which the `flow_based_allocations` function's resulting table composed properly from now on.
--   The processing capability of `P3M` data resolution has been added.
+-   The XML extracting engine further improved by which the `flow_based_allocations` function's resulting table composed properly from now on.
+-   The `tibble`, `purrr`, `tidyselect` package dependencies (Imports) removed from the code.
 
-## Miscellaneous
+## Possibly breaking changes
 
+-   The `day_ahead_prices()` function has been renamed to `energy_prices()` and it allows to query day-ahead and intraday prices too.
+-   The resulting table's column names converted to snake case in the `party_eic()`, `area_eic()`, `accounting_point_eic()`, `tie_line_eic()`, `location_eic()`, `resource_object_eic()`, `substation_eic()` and `all_approved_eic()` function.
 -   The `financial_expenses_and_income_for_balancing()` renamed to `financial_expenses_and_income()`.
 -   The `sharing_of_frr_capacity()` renamed to `sharing_of_rr_and_frr_capacity()`.
 -   The `rr_actual_capacity()` removed since `rr_and_frr_actual_capacity()` covers its functionality.
 -   The `business_type` argument has been removed from `shares_of_fcr_capacity()` since it did not changed the result table at all.
 -   The `business_type` argument has been removed from `rr_and_frr_actual_capacity()` since it did not changed the result table at all.
 -   The `gen_wind_solar_forecasts()` does not give back list of table by `process_type` from now on; instead `process_type` has been moved into the arguments of the function call.
--   These dependency (Imports) packages removed from the code: `tibble`, `purrr`
+
+## Miscellaneous
+
 -   The code base simplified.
 -   The "architecture" vignette has been updated according to the changes.
 -   The package `DESCRIPTION` document slightly adjusted.

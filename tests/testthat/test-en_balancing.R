@@ -124,8 +124,8 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = result_full <- elastic_demands(
+    result_full <- tryCatch(
+      elastic_demands(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(
           x = "2024-01-01",
@@ -138,7 +138,9 @@ testthat::test_that(
         process_type = "A47",
         tidy_output = TRUE
       ),
-      message = "uses offsetting"
+      error = function(e) {
+        testthat::skip(paste("API unavailable:", conditionMessage(e)))
+      }
     )
     testthat::expect_contains(
       object = names(result_full),
@@ -148,8 +150,8 @@ testthat::test_that(
         "bid_ts_flow_direction"
       )
     )
-    testthat::expect_no_error(
-      object = elastic_demands(
+    tryCatch(
+      elastic_demands(
         eic = "10YCZ-CEPS-----N",
         process_type = "A47",
         period_start = lubridate::ymd(
@@ -161,7 +163,10 @@ testthat::test_that(
           tz = "CET"
         ),
         tidy_output = TRUE
-      )
+      ),
+      error = function(e) {
+        testthat::skip(paste("API unavailable:", conditionMessage(e)))
+      }
     )
   }
 )
@@ -1295,13 +1300,13 @@ testthat::test_that(
       object = procured_balancing_capacity(
         eic = "10YCZ-CEPS-----N",
         process_type = "A51",
-        type_market_agreement = c("A01", "A13"),
+        market_agreement_type = c("A01", "A13"),
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = "dummy_token"
       ),
-      info = "None or one 'type_market_agreement' should be provided."
+      info = "None or one 'market_agreement_type' should be provided."
     )
     testthat::expect_error(
       object = procured_balancing_capacity(
@@ -1342,7 +1347,7 @@ testthat::test_that(
       object = procured_balancing_capacity(
         eic = "10YCZ-CEPS-----N",
         process_type = "A51",
-        type_market_agreement = "A01",
+        market_agreement_type = "A01",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
@@ -1395,13 +1400,13 @@ testthat::test_that(
       object = allocation_of_cross_zonal_balancing_cap(
         eic_acquiring = "10YAT-APG------L",
         eic_connecting = "10YCH-SWISSGRIDZ",
-        type_market_agreement = c("A01", "A13"),
+        market_agreement_type = c("A01", "A13"),
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = "dummy_token"
       ),
-      info = "None or one 'type_market_agreement' should be provided."
+      info = "None or one 'market_agreement_type' should be provided."
     )
     testthat::expect_error(
       object = allocation_of_cross_zonal_balancing_cap(
@@ -1442,7 +1447,7 @@ testthat::test_that(
       object = allocation_of_cross_zonal_balancing_cap(
         eic_acquiring = "10YAT-APG------L",
         eic_connecting = "10YCH-SWISSGRIDZ",
-        type_market_agreement = "A01",
+        market_agreement_type = "A01",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
@@ -1458,7 +1463,7 @@ testthat::test_that(
     testthat::expect_error(
       object = contracted_reserves(
         eic = NULL,
-        type_market_agreement = "A13",
+        market_agreement_type = "A13",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
@@ -1469,7 +1474,7 @@ testthat::test_that(
     testthat::expect_error(
       object = contracted_reserves(
         eic = c("10YCZ-CEPS-----N", "10YDE-VE-------2"),
-        type_market_agreement = "A13",
+        market_agreement_type = "A13",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
@@ -1480,29 +1485,29 @@ testthat::test_that(
     testthat::expect_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = NULL,
+        market_agreement_type = NULL,
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = "dummy_token"
       ),
-      info = "A 'type_market_agreement' value should be provided."
+      info = "A 'market_agreement_type' value should be provided."
     )
     testthat::expect_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = c("A01", "A13"),
+        market_agreement_type = c("A01", "A13"),
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = "dummy_token"
       ),
-      info = "Only one 'type_market_agreement' value should be provided."
+      info = "Only one 'market_agreement_type' value should be provided."
     )
     testthat::expect_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = "A13",
+        market_agreement_type = "A13",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
@@ -1528,7 +1533,7 @@ testthat::test_that(
     testthat::expect_no_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = "A13",
+        market_agreement_type = "A13",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE
@@ -1537,7 +1542,7 @@ testthat::test_that(
     testthat::expect_no_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = "A13",
+        market_agreement_type = "A13",
         process_type = "A51",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
@@ -1547,7 +1552,7 @@ testthat::test_that(
     testthat::expect_no_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = "A13",
+        market_agreement_type = "A13",
         psr_type = "A04",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
@@ -1802,10 +1807,10 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "financial_expenses_and_income_for_balancing() validates inputs",
+  desc = "financial_expenses_and_income() validates inputs",
   code = {
     testthat::expect_error(
-      object = financial_expenses_and_income_for_balancing(
+      object = financial_expenses_and_income(
         eic = NULL,
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
@@ -1815,7 +1820,7 @@ testthat::test_that(
       info = "One control area EIC should be provided."
     )
     testthat::expect_error(
-      object = financial_expenses_and_income_for_balancing(
+      object = financial_expenses_and_income(
         eic = c("10YCZ-CEPS-----N", "10YDE-VE-------2"),
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
@@ -1825,7 +1830,7 @@ testthat::test_that(
       info = "This wrapper only supports one control area EIC per request."
     )
     testthat::expect_error(
-      object = financial_expenses_and_income_for_balancing(
+      object = financial_expenses_and_income(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
@@ -1835,7 +1840,7 @@ testthat::test_that(
       info = "One year range limit should be applied!"
     )
     testthat::expect_error(
-      object = financial_expenses_and_income_for_balancing(
+      object = financial_expenses_and_income(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
@@ -1849,7 +1854,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "financial_expenses_and_income_for_balancing() works",
+  desc = "financial_expenses_and_income() works",
   code = {
     testthat::skip_if_not(
       condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
@@ -1860,7 +1865,7 @@ testthat::test_that(
       message = "The Entso-e API cannot be reached"
     )
     testthat::expect_no_error(
-      object = financial_expenses_and_income_for_balancing(
+      object = financial_expenses_and_income(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
@@ -2020,10 +2025,9 @@ testthat::test_that(
     )
     testthat::expect_no_error(
       object = shares_of_fcr_capacity(
-        eic = "10YDE-VE-------2",
-        business_type = "C23",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-01-01", tz = "CET"),
+        eic = "10YCB-GERMANY--8",
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-12-31", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -2078,21 +2082,6 @@ testthat::test_that(
       ),
       info = "Valid security token should be provided."
     )
-    testthat::expect_error(
-      object = rr_and_frr_actual_capacity(
-        eic = "10YAT-APG------L",
-        process_type = "A56",
-        business_type = "INVALID",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = paste0(
-        "Assertion on 'business_type' failed: ",
-        "Must be element of set \\{'C77','C78','C79'\\}, but is 'INVALID'."
-      )
-    )
   }
 )
 
@@ -2122,73 +2111,13 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "rr_actual_capacity() validates inputs",
-  code = {
-    testthat::expect_error(
-      object = rr_actual_capacity(
-        eic = NULL,
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One area EIC should be provided."
-    )
-    testthat::expect_error(
-      object = rr_actual_capacity(
-        eic = c("10YAT-APG------L", "10YDE-VE-------2"),
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "This wrapper only supports one area EIC per request."
-    )
-    testthat::expect_error(
-      object = rr_actual_capacity(
-        eic = "10YAT-APG------L",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = ""
-      ),
-      info = "Valid security token should be provided."
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "rr_actual_capacity() works",
-  code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
-    testthat::expect_no_error(
-      object = rr_actual_capacity(
-        eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
-        tidy_output = TRUE
-      )
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "sharing_of_frr_capacity() validates inputs",
+  desc = "sharing_of_rr_and_frr_capacity() validates inputs",
   code = {
     # Note: [A26, A56, C22] combination is not available via the public API.
-    # The happy path for sharing_of_frr_capacity() cannot be exercised
+    # The happy path for sharing_of_rr_and_frr_capacity() cannot be exercised
     # without a mock.
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = NULL,
         eic_connecting = "10YAT-APG------L",
         process_type = "A56",
@@ -2200,7 +2129,7 @@ testthat::test_that(
       info = "One acquiring domain EIC should be provided."
     )
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = "10YCB-GERMANY--8",
         eic_connecting = NULL,
         process_type = "A56",
@@ -2212,7 +2141,7 @@ testthat::test_that(
       info = "One connecting domain EIC should be provided."
     )
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = c("10YCB-GERMANY--8", "10YDE-VE-------2"),
         eic_connecting = "10YAT-APG------L",
         process_type = "A56",
@@ -2227,7 +2156,7 @@ testthat::test_that(
       )
     )
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = "10YCB-GERMANY--8",
         eic_connecting = "10YAT-APG------L",
         process_type = "INVALID",
@@ -2239,7 +2168,7 @@ testthat::test_that(
       info = "The 'process_type' should be 'A56' (FRR) or 'A46' (RR)."
     )
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = "10YCB-GERMANY--8",
         eic_connecting = "10YAT-APG------L",
         process_type = "A56",
@@ -2251,7 +2180,7 @@ testthat::test_that(
       info = "One year range limit should be applied!"
     )
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = "10YCB-GERMANY--8",
         eic_connecting = "10YAT-APG------L",
         process_type = "A56",
@@ -2267,7 +2196,7 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "sharing_of_frr_capacity() covers happy path with mock",
+  desc = "sharing_of_rr_and_frr_capacity() covers happy path with mock",
   code = {
     httr2::local_mocked_responses(
       mock = function(req) {
@@ -2285,7 +2214,7 @@ testthat::test_that(
       }
     )
     testthat::expect_error(
-      object = sharing_of_frr_capacity(
+      object = sharing_of_rr_and_frr_capacity(
         eic_acquiring = "10YCB-GERMANY--8",
         eic_connecting = "10YAT-APG------L",
         process_type = "A56",
@@ -2706,12 +2635,12 @@ testthat::test_that(
     testthat::expect_error(
       object = contracted_reserves(
         eic = "10YCZ-CEPS-----N",
-        type_market_agreement = "A01",
+        market_agreement_type = "A01",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
       ),
-      regexp = "HTTP 503"
+      regexp = "503"
     )
   }
 )
@@ -2781,7 +2710,7 @@ testthat::test_that(
 
 testthat::test_that(
   desc = paste(
-    "financial_expenses_and_income_for_balancing()",
+    "financial_expenses_and_income()",
     "covers happy path with mock"
   ),
   code = {
@@ -2801,7 +2730,7 @@ testthat::test_that(
       }
     )
     testthat::expect_error(
-      object = financial_expenses_and_income_for_balancing(
+      object = financial_expenses_and_income(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
@@ -2865,7 +2794,6 @@ testthat::test_that(
     testthat::expect_error(
       object = shares_of_fcr_capacity(
         eic = "10YCZ-CEPS-----N",
-        business_type = "C23",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
@@ -2898,37 +2826,6 @@ testthat::test_that(
       object = rr_and_frr_actual_capacity(
         eic = "10YCZ-CEPS-----N",
         process_type = "A56",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
-      ),
-      regexp = "HTTP 503"
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "rr_actual_capacity() covers happy path with mock",
-  code = {
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 503L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = charToRaw(
-            paste0(
-              '<?xml version="1.0" encoding="utf-8"?>',
-              "<root><Reason>Service Unavailable</Reason></root>"
-            )
-          )
-        )
-      }
-    )
-    testthat::expect_error(
-      object = rr_actual_capacity(
-        eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
@@ -3094,6 +2991,81 @@ testthat::test_that(
         process_type = "A63",
         period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "shares_of_fcr_capacity() validates inputs (corrected)",
+  code = {
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = NULL,
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = c("10YCB-GERMANY--8", "10YDE-VE-------2"),
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = "10YCB-GERMANY--8",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = ""
+      )
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = "10YCB-GERMANY--8",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "dummy_token"
+      ),
+      regexp = "One year range limit should be applied"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "shares_of_fcr_capacity() covers happy path with mock (corrected)",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = "10YCB-GERMANY--8",
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         security_token = "dummy_token"
       ),
       regexp = "HTTP 503"

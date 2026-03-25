@@ -14,7 +14,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     ) |>
       testthat::expect_error()
   }
@@ -82,7 +83,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -99,7 +101,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -116,7 +119,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -131,7 +135,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -146,7 +151,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -161,7 +167,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_gen_units(
@@ -175,7 +182,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
     )
   }
 )
@@ -246,7 +254,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_prod_units(
@@ -263,7 +272,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_prod_units(
@@ -280,7 +290,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_prod_units(
@@ -295,22 +306,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = outages_prod_units(
-        eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "ABC"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = outages_prod_units(
@@ -325,7 +322,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_prod_units(
@@ -339,7 +337,39 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "outages_prod_units() validates inputs 2",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_error(
+      object = outages_prod_units(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-24",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      regexp = "Missing or invalid security token"
     )
   }
 )
@@ -409,7 +439,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_offshore_grid(
@@ -425,7 +456,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_offshore_grid(
@@ -440,22 +472,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = outages_offshore_grid(
-        eic = "10Y1001A1001A82H",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "ABC"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = outages_offshore_grid(
@@ -470,7 +488,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_offshore_grid(
@@ -484,7 +503,39 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "outages_offshore_grid() validates inputs 2",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_error(
+      object = outages_offshore_grid(
+        eic = "10Y1001A1001A82H",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-24",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      regexp = ".*"
     )
   }
 )
@@ -561,7 +612,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_cons_units(
@@ -586,7 +638,8 @@ testthat::test_that(
         ),
         tidy_output = TRUE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_cons_units(
@@ -611,7 +664,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_cons_units(
@@ -634,30 +688,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = outages_cons_units(
-        eic = "10YFI-1--------U",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "ABC"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = outages_cons_units(
@@ -680,7 +712,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_cons_units(
@@ -702,7 +735,47 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "outages_cons_units() validates inputs 2",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_error(
+      object = outages_cons_units(
+        eic = "10YFI-1--------U",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-24",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      regexp = "Missing or invalid security token"
     )
   }
 )
@@ -798,7 +871,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -824,7 +898,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -850,7 +925,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -876,7 +952,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -902,7 +979,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -926,31 +1004,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = outages_transmission_grid(
-        eic_in = "10YFR-RTE------C",
-        eic_out = "10Y1001A1001A82H",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "ABC"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -974,7 +1029,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -998,7 +1054,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
@@ -1020,10 +1077,52 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
     )
   }
 )
+
+
+testthat::test_that(
+  desc = "outages_transmission_grid() validates inputs 2",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_error(
+      object = outages_transmission_grid(
+        eic_in = "10YFR-RTE------C",
+        eic_out = "10Y1001A1001A82H",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-24",
+          tz = "CET"
+        ),
+        period_start_update = lubridate::ymd(
+          x = "2024-10-15",
+          tz = "CET"
+        ),
+        period_end_update = lubridate::ymd(
+          x = "2024-10-22",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      regexp = "Missing or invalid security token"
+    )
+  }
+)
+
 
 
 testthat::test_that(
@@ -1084,7 +1183,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = ""
-      )
+      ),
+      regexp = "All elements must have at least 1 characters"
     )
     testthat::expect_error(
       object = outages_fallbacks(
@@ -1101,7 +1201,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_fallbacks(
@@ -1118,7 +1219,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_fallbacks(
@@ -1133,22 +1235,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = outages_fallbacks(
-        eic = "10YBE----------2",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "ABC"
-      )
+      ),
+      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = outages_fallbacks(
@@ -1163,7 +1251,8 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_fallbacks(
@@ -1177,7 +1266,39 @@ testthat::test_that(
         ),
         tidy_output = FALSE,
         security_token = "dummy_token"
-      )
+      ),
+      regexp = "Must be of type 'string', not 'NULL'"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "outages_fallbacks() validates inputs",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_error(
+      object = outages_fallbacks(
+        eic = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-10-23",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-10-24",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      ),
+      regexp = "Missing or invalid security token"
     )
   }
 )

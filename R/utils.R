@@ -3,7 +3,10 @@ globalVariables(
     "doc_status",
     "TimeSeries.mRID",
     "ts_point_position",
-    "ts_resolution"
+    "ts_resolution",
+    "eic_code",
+    "eic_long_name",
+    "eic_name"
   )
 )
 
@@ -2430,7 +2433,7 @@ there_is_provider <- function(
     request() |>
     req_method(method = "GET") |>
     req_user_agent(string = user_agent_string) |>
-    req_timeout(seconds = 5L) |>
+    req_timeout(seconds = 10L) |>
     req_retry(max_tries = 1L)
   resp <- req_perform_safe(req)
   !is.null(resp$error$resp) && resp_status(resp$error$resp) == 401L

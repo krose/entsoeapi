@@ -2,8 +2,8 @@ testthat::test_that(
   desc = "all_approved_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = all_approved_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = all_approved_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -16,21 +16,24 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- all_approved_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_equal(
-      object = anyNA(tbl$type),
-      expected = FALSE
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- all_approved_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_false(object = anyNA(tbl$type))
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
   }
 )
@@ -40,8 +43,8 @@ testthat::test_that(
   desc = "party_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = party_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = party_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -54,25 +57,26 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- party_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- party_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
-    testthat::expect_true(
-      object = all(tbl$type == "X")
-    )
+    testthat::expect_true(object = all(tbl$type == "X"))
   }
 )
 
@@ -81,8 +85,8 @@ testthat::test_that(
   desc = "area_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = area_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = area_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -95,25 +99,26 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- area_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- area_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
-    testthat::expect_true(
-      object = all(tbl$type == "Y")
-    )
+    testthat::expect_true(object = all(tbl$type == "Y"))
   }
 )
 
@@ -122,8 +127,8 @@ testthat::test_that(
   desc = "accounting_point_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = accounting_point_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = accounting_point_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -136,25 +141,26 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- accounting_point_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- accounting_point_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
-    testthat::expect_true(
-      object = all(tbl$type == "Z")
-    )
+    testthat::expect_true(object = all(tbl$type == "Z"))
   }
 )
 
@@ -163,8 +169,8 @@ testthat::test_that(
   desc = "tie_line_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = tie_line_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = tie_line_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -177,25 +183,26 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- tie_line_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- tie_line_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
-    testthat::expect_true(
-      object = all(tbl$type == "T")
-    )
+    testthat::expect_true(object = all(tbl$type == "T"))
   }
 )
 
@@ -204,8 +211,8 @@ testthat::test_that(
   desc = "location_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = location_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = location_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -218,25 +225,26 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- location_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- location_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
-    testthat::expect_true(
-      object = all(tbl$type == "V")
-    )
+    testthat::expect_true(object = all(tbl$type == "V"))
   }
 )
 
@@ -245,8 +253,8 @@ testthat::test_that(
   desc = "resource_object_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = resource_object_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = resource_object_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -259,25 +267,29 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- resource_object_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
+    testthat::expect_no_error(object = tbl <- resource_object_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
     testthat::expect_gt(
       object = nrow(tbl),
       expected = 0L
     )
-    testthat::expect_contains(
+    testthat::expect_setequal(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c(
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_iso_country_code",
+        "market_participant_postal_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
+        "type"
+      )
     )
-    testthat::expect_true(
-      object = all(tbl$type == "W")
-    )
+    testthat::expect_true(object = all(tbl$type == "W"))
   }
 )
 
@@ -286,8 +298,8 @@ testthat::test_that(
   desc = "substation_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = substation_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = substation_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -300,25 +312,14 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_no_error(
-      object = tbl <- substation_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
+    testthat::expect_no_error(object = tbl <- substation_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
     testthat::expect_contains(
       object = names(tbl),
-      expected = c("EicCode", "EicLongName", "type")
+      expected = c("eic_code", "eic_long_name", "type")
     )
-    testthat::expect_true(
-      object = all(tbl$type == "A")
-    )
+    testthat::expect_true(object = all(tbl$type == "A"))
   }
 )
 
@@ -327,8 +328,8 @@ testthat::test_that(
   desc = "all_allocated_eic() validates inputs",
   code = {
     testthat::expect_error(
-      object = all_allocated_eic("foo"),
-      regexp = 'unused argument \\("foo"\\)'
+      object = all_allocated_eic(url = "foo"),
+      regexp = 'unused argument \\(url = "foo"\\)'
     )
   }
 )
@@ -342,24 +343,29 @@ testthat::test_that(
       message = "The Entso-e API cannot be reached"
     )
     m$reset()
-    testthat::expect_no_error(
-      object = tbl <- all_allocated_eic()
-    )
-    testthat::expect_s3_class(
-      object = tbl,
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_equal(
-      object = anyNA(tbl$created_date_time),
-      expected = FALSE
-    )
-    testthat::expect_contains(
+    testthat::expect_no_error(object = tbl <- all_allocated_eic())
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_false(object = anyNA(tbl$created_date_time))
+    testthat::expect_setequal(
       object = names(tbl),
       expected = c(
+        "revision_number",
+        "created_date_time",
         "eic_code",
+        "doc_status_value",
+        "doc_status",
+        "instance_component_attribute",
         "long_name",
-        "display_name"
+        "display_name",
+        "last_request_date",
+        "deactivation_requested_date_and_or_time_date",
+        "eic_code_market_participant_street_address",
+        "market_participant_vat_code_name",
+        "market_participant_acer_code_name",
+        "description",
+        "responsible_market_participant_mrid",
+        "function_names",
+        "parent_market_document_mrid"
       )
     )
   }
@@ -369,14 +375,13 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() errors with empty response body",
   code = {
-    req_url <- paste0(
-      "https://eepublicdownloads.blob.core.windows.net/",
-      "cio-lio/xml/allocated-eic-codes.xml"
-    )
     mock_list <- list()
-    mock_list[[req_url]] <- httr2::response(
+    mock_list[[1L]] <- httr2::response(
       status_code = 200L,
-      url = req_url,
+      url = paste0(
+        "https://eepublicdownloads.blob.core.windows.net/",
+        "cio-lio/xml/allocated-eic-codes.xml"
+      ),
       headers = list("content-type" = "application/xml"),
       body = raw(0L)
     )
@@ -398,10 +403,11 @@ testthat::test_that(
   desc = "all_allocated_eic() errors on HTTP error response",
   code = {
     m$reset()
-    xml_error_body <- paste0(
-      '<?xml version="1.0" encoding="utf-8"?>',
-      "<root><Reason>Service Unavailable</Reason></root>"
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "error_body.xml"),
+      encoding = "UTF-8"
     ) |>
+      paste(collapse = "\n") |>
       charToRaw()
     httr2::local_mocked_responses(
       mock = function(req) {
@@ -409,7 +415,7 @@ testthat::test_that(
           status_code = 503L,
           url = req$url,
           headers = list("content-type" = "application/xml"),
-          body = xml_error_body
+          body = xml_fixture
         )
       }
     )
@@ -446,10 +452,7 @@ testthat::test_that(
       class = "tbl_df",
       exact = FALSE
     )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
     testthat::expect_contains(
       object = names(tbl),
       expected = c(
@@ -459,10 +462,7 @@ testthat::test_that(
         "instance_component_attribute"
       )
     )
-    testthat::expect_contains(
-      object   = names(tbl),
-      expected = "function_names"
-    )
+    testthat::expect_contains(object = names(tbl), expected = "function_names")
   }
 )
 
@@ -492,10 +492,7 @@ testthat::test_that(
       class = "tbl_df",
       exact = FALSE
     )
-    testthat::expect_gt(
-      object = nrow(tbl),
-      expected = 0L
-    )
+    testthat::expect_gt(object = nrow(tbl), expected = 0L)
   }
 )
 
@@ -503,34 +500,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() stops on XML with unexpected structure",
   code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
-    req_url <- paste0(
-      "https://eepublicdownloads.blob.core.windows.net/",
-      "cio-lio/xml/allocated-eic-codes.xml"
-    )
+    # Minimal XML with no EICCode_MarketDocument second-level nodes; the
+    # setnames() call then fails because the expected EIC column names are
+    # absent, exercising the error path after XML parsing.
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "unexpected_structure.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
     mock_list <- list()
-    mock_list[[req_url]] <- httr2::response(
+    mock_list[[1L]] <- httr2::response(
       status_code = 200L,
-      url = req_url,
+      url = paste0(
+        "https://eepublicdownloads.blob.core.windows.net/",
+        "cio-lio/xml/allocated-eic-codes.xml"
+      ),
       headers = list("content-type" = "application/xml"),
-      # Minimal XML with no EICCode_MarketDocument second-level nodes; the
-      # setnames() call then fails because the expected EIC column names are
-      # absent, exercising the error path after XML parsing.
-      body = paste0(
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        "<root>",
-        "  <docStatusValue>A05</docStatusValue>",
-        "  <simpleLeaf>value</simpleLeaf>",
-        "</root>"
-      ) |>
-        charToRaw()
+      body = xml_fixture
     )
     httr2::with_mocked_responses(
       mock = mock_list,
@@ -568,8 +555,8 @@ testthat::test_that(
     )
     # First call populates the cache
     tbl1 <- all_allocated_eic()
-    # Second call hits the cache (covers lines 424-425)
+    # Second call hits the cache
     tbl2 <- all_allocated_eic()
-    testthat::expect_identical(tbl1, tbl2)
+    testthat::expect_identical(object = tbl1, expected = tbl2)
   }
 )

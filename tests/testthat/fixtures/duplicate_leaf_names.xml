@@ -1,0 +1,5 @@
+<parent>
+  <val>1</val>
+  <val>2</val>
+  <nested><inner>A</inner></nested>
+</parent>

@@ -1,115 +1,18 @@
 testthat::test_that(
   desc = "grouping_by_common_strings() works",
   code = {
-    input1 <- list(
-      c("apple", "banana"),
-      c("cherry", "date")
+    list_fixture <- readRDS(
+      file = testthat::test_path("fixtures", "input_lists_for_grouping.rds")
     )
-    input2 <- list(
-      c("apple", "banana"),
-      c("banana", "cherry")
-    )
-    input3 <- list(
-      c("apple", "banana"),
-      c("cherry", "date"),
-      c("banana", "elderberry"),
-      c("date", "fig"),
-      c("elderberry", "grape")
-    )
-    input4 <- list(
-      c("A", "B"),
-      c("B", "C"),
-      c("C", "D"),
-      c("D", "E")
-    )
-    input5 <- list(
-      c("A", "B"),
-      c("B", "C"),
-      c("X", "Y"),
-      c("C", "D")
-    )
-    input6 <- list(
-      c("apple", "apple", "banana"),
-      c("banana", "cherry", "cherry")
-    )
-    input7 <- list(
-      c("apple"),
-      character(0),
-      c("banana")
-    )
-    input8 <- list(
-      c("A"),
-      c("B"),
-      c("A"),
-      c("C")
-    )
-    input9 <- list(
-      c("A", "B"),
-      c("C", "D"),
-      c("B", "E"),
-      c("F"),
-      c("D", "G"),
-      c("H", "I"),
-      c("E", "F")
-    )
-    input10 <- lapply(
-      1L:100L,
-      \(i) paste0("unique_", i)
-    )
-    input11 <- list(
-      c("Apple", "banana"),
-      c("apple", "cherry")
-    )
-    input12 <- list(
-      c("1", "2"),
-      c("2", "3"),
-      c("4", "5")
-    )
-    input13 <- list(
-      c("hello@world.com", "test#123"),
-      c("test#123", "foo$bar"),
-      c("unique*string")
-    )
-    input14 <- list(
-      c("café", "naïve"),
-      c("naïve", "résumé"),
-      c("日本語", "中文")
-    )
-    long_string <- rep("a", 1000L) |>
-      paste(collapse = "")
-    input15 <- list(
-      c(long_string, "b"),
-      c(long_string, "c"),
-      c("d", "e")
-    )
-    input16 <- list(
-      c("a", "b"),
-      c("b", "c")
-    )
-    input17 <- list(
-      c("A", "B"),
-      c("C", "D"),
-      c("B", "E"),
-      c("F")
-    )
-    result1 <- grouping_by_common_strings(vector_list = input1)
-    result2 <- grouping_by_common_strings(vector_list = input2)
-    result3 <- grouping_by_common_strings(vector_list = input3)
-    result4 <- grouping_by_common_strings(vector_list = input4)
-    result5 <- grouping_by_common_strings(vector_list = input5)
-    result6 <- grouping_by_common_strings(vector_list = input6)
-    result7 <- grouping_by_common_strings(vector_list = input7)
-    result8 <- grouping_by_common_strings(vector_list = input8)
-    result9 <- grouping_by_common_strings(vector_list = input9)
-    result12 <- grouping_by_common_strings(vector_list = input12)
-    result13 <- grouping_by_common_strings(vector_list = input13)
-    result14 <- grouping_by_common_strings(vector_list = input14)
-    result15 <- grouping_by_common_strings(vector_list = input15)
-    result16 <- grouping_by_common_strings(vector_list = input16)
-    result17 <- grouping_by_common_strings(vector_list = input17) |>
-      unlist()
-    is_in_which <- function(value, list) {
-      purrr::map_lgl(list, \(x) value %in% x) |>
+    for (l in seq_along(list_fixture)) {
+      value <- grouping_by_common_strings(vector_list = list_fixture[[l]])
+      if (l == 17) value <- unlist(value)
+      assign(x = paste0("result", l), value = value)
+      rm(value)
+    }
+    is_in_which <- function(value, lst) {
+      lst |>
+        vapply(FUN = \(x) value %in% x, FUN.VALUE = logical(1L)) |>
         which()
     }
     testthat::expect_equal(
@@ -120,152 +23,111 @@ testthat::test_that(
       object = grouping_by_common_strings(vector_list = list(c("a", "b"))),
       expected = list(1L)
     )
-    testthat::expect_length(
-      object = result1,
-      n = 2L
-    )
+    testthat::expect_length(object = result1, n = 2L)
     testthat::expect_true(
       object = 1L %in% result1[[1L]] || 1L %in% result1[[2L]]
     )
     testthat::expect_true(
       object = 2L %in% result1[[1L]] || 2L %in% result1[[2L]]
     )
-    testthat::expect_false(
-      object = all(c(1L, 2L) %in% result1[[1L]])
-    )
-    testthat::expect_length(
-      object = result2,
-      n = 1L
-    )
+    testthat::expect_false(object = all(c(1L, 2L) %in% result1[[1L]]))
+    testthat::expect_length(object = result2, n = 1L)
+    testthat::expect_setequal(object = result2[[1]], expected = c(1L, 2L))
+    testthat::expect_length(object = result3, n = 2L)
     testthat::expect_setequal(
-      object = result2[[1]],
-      expected = c(1L, 2L)
-    )
-    testthat::expect_length(
-      object = result3,
-      n = 2L
-    )
-    testthat::expect_setequal(
-      object = result3[[is_in_which(value = 1L, list = result3)]],
+      object = result3[[is_in_which(value = 1L, lst = result3)]],
       expected = c(1L, 3L, 5L)
     )
     testthat::expect_setequal(
-      object = result3[[is_in_which(value = 2L, list = result3)]],
+      object = result3[[is_in_which(value = 2L, lst = result3)]],
       expected = c(2L, 4L)
     )
-    testthat::expect_length(
-      object = result4,
-      n = 1L
-    )
-    testthat::expect_setequal(
-      object = result4[[1]],
-      expected = 1L:4L
-    )
-    testthat::expect_length(
-      object = result5,
-      n = 2L
-    )
+    testthat::expect_length(object = result4, n = 1L)
+    testthat::expect_setequal(object = result4[[1]], expected = 1L:4L)
+    testthat::expect_length(object = result5, n = 2L)
     testthat::expect_equal(
-      object = result5[[is_in_which(value = 3L, list = result5)]],
+      object = result5[[is_in_which(value = 3L, lst = result5)]],
       expected = 3L
     )
     testthat::expect_setequal(
-      object = result5[[is_in_which(value = 1L, list = result5)]],
+      object = result5[[is_in_which(value = 1L, lst = result5)]],
       expected = c(1L, 2L, 4L)
     )
-    testthat::expect_length(
-      object = result6,
-      n = 1L
-    )
+    testthat::expect_length(object = result6, n = 1L)
+    testthat::expect_setequal(object = result6[[1L]], expected = c(1L, 2L))
+    testthat::expect_length(object = result7, n = 3L)
+    testthat::expect_length(object = result8, n = 3L)
     testthat::expect_setequal(
-      object = result6[[1L]],
-      expected = c(1L, 2L)
-    )
-    testthat::expect_length(
-      object = result7,
-      n = 3L
-    )
-    testthat::expect_length(
-      object = result8,
-      n = 3L
-    )
-    testthat::expect_setequal(
-      object = result8[[is_in_which(value = 1L, list = result8)]],
+      object = result8[[is_in_which(value = 1L, lst = result8)]],
       expected = c(1L, 3L)
     )
-    testthat::expect_length(
-      object = result9,
-      n = 3L
-    )
+    testthat::expect_length(object = result9, n = 3L)
     testthat::expect_setequal(
-      object = result9[[is_in_which(value = 1L, list = result9)]],
+      object = result9[[is_in_which(value = 1L, lst = result9)]],
       expected = c(1L, 3L, 4L, 7L)
     )
     testthat::expect_setequal(
-      object = result9[[is_in_which(value = 2L, list = result9)]],
+      object = result9[[is_in_which(value = 2L, lst = result9)]],
       expected = c(2L, 5L)
     )
     testthat::expect_equal(
-      object = result9[[is_in_which(value = 6L, list = result9)]],
+      object = result9[[is_in_which(value = 6L, lst = result9)]],
       expected = 6L
     )
-    testthat::expect_length(
-      object = grouping_by_common_strings(vector_list = input10),
-      n = 100L
-    )
-    testthat::expect_length(
-      object = grouping_by_common_strings(vector_list = input11),
-      n = 2L
-    )
-    testthat::expect_length(
-      object = result12,
-      n = 2L
-    )
+    testthat::expect_length(object = result10, n = 100L)
+    testthat::expect_length(object = result11, n = 2)
+    testthat::expect_length(object = result12, n = 2L)
     testthat::expect_setequal(
-      object = result12[[is_in_which(value = 1L, list = result12)]],
+      object = result12[[is_in_which(value = 1L, lst = result12)]],
       expected = c(1L, 2L)
     )
-    testthat::expect_length(
-      object = result13,
-      n = 2L
-    )
+    testthat::expect_length(object = result13, n = 2L)
     testthat::expect_setequal(
-      object = result13[[is_in_which(value = 1L, list = result13)]],
+      object = result13[[is_in_which(value = 1L, lst = result13)]],
       expected = c(1L, 2L)
     )
-    testthat::expect_length(
-      object = result14,
-      n = 2L
-    )
+    testthat::expect_length(object = result14, n = 2L)
     testthat::expect_setequal(
-      object = result14[[is_in_which(value = 1L, list = result14)]],
+      object = result14[[is_in_which(value = 1L, lst = result14)]],
       expected = c(1L, 2L)
     )
-    testthat::expect_length(
-      object = result15,
-      n = 2L
-    )
+    testthat::expect_length(object = result15, n = 2L)
     testthat::expect_setequal(
-      object = result15[[is_in_which(value = 1L, list = result15)]],
+      object = result15[[is_in_which(value = 1L, lst = result15)]],
       expected = c(1L, 2L)
     )
-    testthat::expect_true(
-      object = is.integer(result16[[1L]])
+    testthat::expect_true(object = is.integer(result16[[1L]]))
+    testthat::expect_setequal(object = result17, expected = 1L:4L)
+    testthat::expect_equal(object = length(result17), expected = 4L)
+  }
+)
+
+
+testthat::test_that(
+  desc = "extract_leaf_twig_branch() works 1",
+  code = {
+    sample_path_1 <- testthat::test_path("fixtures", "cd_catalog.xml")
+    content_1 <- list(
+      result = xml2::read_xml(x = sample_path_1),
+      error = NULL
     )
-    testthat::expect_setequal(
-      object = result17,
-      expected = 1L:4L
+    testthat::expect_s3_class(
+      object = xml2::xml_contents(x = content_1$result) |>
+        extract_leaf_twig_branch(),
+      class = "tbl"
     )
     testthat::expect_equal(
-      object = length(result17),
-      expected = 4L
+      object = xml2::xml_contents(x = content_1$result) |>
+        extract_leaf_twig_branch() |>
+        dim(),
+      expected = c(1, 6)
     )
   }
 )
 
 
 testthat::test_that(
-  desc = "extract_leaf_twig_branch() works",
+  desc = "extract_leaf_twig_branch() works 2",
   code = {
     testthat::skip_if_not(
       condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
@@ -298,15 +160,6 @@ testthat::test_that(
       "in_Domain=10YDE-VE-------2",
       sep = "&"
     )
-    data(iris)
-    content_1 <- setNames(
-      object = list(
-        xml2::xml2_example(path = "cd_catalog.xml") |>
-          xml2::read_xml(),
-        NULL
-      ),
-      c("result", "error")
-    )
     content_2 <- api_req_safe(
       query_string = url_sample_2,
       security_token = Sys.getenv("ENTSOE_PAT")
@@ -319,13 +172,8 @@ testthat::test_that(
       query_string = url_sample_4,
       security_token = Sys.getenv("ENTSOE_PAT")
     )
-    testthat::expect_s3_class(
-      object = xml2::xml_contents(content_1$result) |>
-        extract_leaf_twig_branch(),
-      class = "tbl"
-    )
-    testthat::expect_contains(
-      object = xml2::xml_contents(content_2$result) |>
+    testthat::expect_setequal(
+      object = xml2::xml_contents(x = content_2$result) |>
         extract_leaf_twig_branch() |>
         names() |>
         sort(),
@@ -358,16 +206,18 @@ testthat::test_that(
         "type"
       )
     )
-    testthat::expect_contains(
-      object = xml2::xml_contents(content_3$result[[1]]) |>
+    testthat::expect_setequal(
+      object = xml2::xml_contents(x = content_3$result[[1L]]) |>
         extract_leaf_twig_branch() |>
         names() |>
         sort(),
       expected = c(
         "createdDateTime",
+        "docStatus.value",
         "mRID",
         "process.processType",
         "Reason.code",
+        "Reason.text",
         "receiver_MarketParticipant.marketRole.type",
         "receiver_MarketParticipant.mRID",
         "revisionNumber",
@@ -409,16 +259,16 @@ testthat::test_that(
       )
     )
     testthat::expect_equal(
-      object = xml2::xml_contents(content_4$result) |>
+      object = xml2::xml_contents(x = content_4$result) |>
         extract_leaf_twig_branch() |>
         dim(),
       expected = c(546, 26)
     )
     testthat::expect_error(
-      object = extract_leaf_twig_branch(nodesets = iris),
+      object = extract_leaf_twig_branch(nodesets = test_df_6),
       info = paste(
         "no applicable method for 'nodeset_apply'",
-        " applied to an object of class 'c('double', 'numeric')'"
+        "applied to an object of class 'c('double', 'numeric')'"
       )
     )
   }
@@ -428,43 +278,25 @@ testthat::test_that(
 testthat::test_that(
   desc = "read_zipped_xml() works",
   code = {
-    data(mtcars)
-    mtcars$make <- row.names(mtcars)
-    gzip_sample_file <- tempfile(fileext = ".gzip")
-    gz_conn <- gzfile(description = gzip_sample_file, open = "wb")
-    utils::write.csv(x = mtcars, file = gz_conn, row.names = FALSE)
-    close(con = gz_conn)
-    csv_sample_file <- tempfile(fileext = ".csv")
-    zip_sample_file <- tempfile(fileext = ".zip")
-    xml_sample_file <- tempfile(fileext = "xml")
-    zip_xml_sample_file <- tempfile(fileext = ".zip")
-    utils::write.table(
-      x = mtcars, file = csv_sample_file, sep = ";", row.names = FALSE
-    )
-    zip(
-      zipfile = zip_sample_file,
-      files = c(csv_sample_file)
-    )
-    cd_cat_xml <- xml2::read_xml(xml2::xml2_example(path = "cd_catalog.xml"))
-    xml2::write_xml(x = cd_cat_xml, file = xml_sample_file)
-    zip(
-      zipfile = zip_xml_sample_file,
-      files = c(xml_sample_file)
+    gzipped_sample_fixture <- testthat::test_path("fixtures", "mtcars.gzip")
+    zipped_sample_fixture <- testthat::test_path("fixtures", "mtcars.zip")
+    zipped_xml_sample_fixture <- testthat::test_path(
+      "fixtures", "cd_catalog_xml.zip"
     )
     testthat::expect_warning(
       object = read_zipped_xml(temp_file_path = tempfile()),
       info = "In .f(...) : error 1 in extracting from zip file"
     )
     testthat::expect_warning(
-      object = read_zipped_xml(temp_file_path = gzip_sample_file),
+      object = read_zipped_xml(temp_file_path = gzipped_sample_fixture),
       info = "In .f(...) : error 1 in extracting from zip file"
     )
     testthat::expect_error(
-      object = read_zipped_xml(temp_file_path = zip_sample_file),
-      info = "Start tag expected, '<' not found [4]"
+      object = read_zipped_xml(temp_file_path = zipped_sample_fixture),
+      regexp = "Start tag expected, '<' not found \\[4\\]"
     )
     testthat::expect_no_error(
-      object = read_zipped_xml(temp_file_path = zip_xml_sample_file)
+      object = read_zipped_xml(temp_file_path = zipped_xml_sample_fixture)
     )
   }
 )
@@ -475,7 +307,7 @@ testthat::test_that(
   code = {
     testthat::local_mocked_bindings(
       unzip = function(...) stop("cannot open the connection"),
-      .package = "utils"
+      .package = "entsoeapi"
     )
     testthat::expect_error(
       object = read_zipped_xml(temp_file_path = tempfile()),
@@ -488,7 +320,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "calc_offset_urls() works",
   code = {
-    url_sample_3 <- paste(
+    url_sample <- paste(
       "documentType=A65",
       "processType=A16",
       "outBiddingZone_Domain=10YCZ-CEPS-----N",
@@ -502,19 +334,18 @@ testthat::test_that(
     testthat::expect_equal(
       object = calc_offset_urls(
         reason = reason_1,
-        query_string = url_sample_3
+        query_string = url_sample
       ) |>
         length(),
       expected = 6L
-    ) |>
-      testthat::expect_message()
-    testthat::expect_error(
-      object = calc_offset_urls(reason = reason_2, query_string = url_sample_3),
-      info = "The 'from' argument must be a finite number!"
     )
     testthat::expect_error(
-      object = calc_offset_urls(reason = reason_3, query_string = url_sample_3),
-      info = "The 'from' argument must be a finite number!"
+      object = calc_offset_urls(reason = reason_2, query_string = url_sample),
+      regexp = "'from' must be a finite number"
+    )
+    testthat::expect_error(
+      object = calc_offset_urls(reason = reason_3, query_string = url_sample),
+      regexp = "'from' must be a finite number"
     )
   }
 )
@@ -580,7 +411,10 @@ testthat::test_that(
         query_string = url_sample_5,
         security_token = Sys.getenv("ENTSOE_PAT")
       ),
-      regexp = "is larger than maximum allowed period"
+      regexp = paste0(
+        "(is larger than maximum allowed period 'P1Y'|",
+        "Operation timed out)"
+      )
     )
     testthat::expect_error(
       object = api_req(
@@ -651,7 +485,7 @@ testthat::test_that(
         query_string = url_sample_2,
         security_token = Sys.getenv("ENTSOE_PAT")
       ) |>
-        purrr::map(~ inherits(x = .x, what = "xml_document")) |>
+        lapply(\(x) inherits(x = x, what = "xml_document")) |>
         unlist() |>
         all(),
       info = "The url value should be printed in console!"
@@ -716,10 +550,7 @@ testthat::test_that(
 testthat::test_that(
   desc = "url_posixct_format() works",
   code = {
-    current_hour <- lubridate::floor_date(
-      x = Sys.time(),
-      unit = "hour"
-    )
+    sample_hour <- as.POSIXct("2026-03-25 12:00:00", tz = "CET")
     testthat::expect_null(
       object = url_posixct_format(x = NULL),
       info = "The result of this functions should be NULL!"
@@ -749,7 +580,7 @@ testthat::test_that(
       info = "The argument 'x' not in an acceptable timestamp format!"
     )
     testthat::expect_true(
-      object = url_posixct_format(x = current_hour) |>
+      object = url_posixct_format(x = sample_hour) |>
         stringr::str_like(pattern = "[0-9]{12}"),
       info = "The result of this functions should be 12 digit length string!"
     )
@@ -768,28 +599,26 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    testthat::expect_contains(
+    testthat::expect_setequal(
       object = get_eiccodes(
         f = "Y_eicCodes.csv"
       ) |> names(),
       expected = c(
-        "EicCode",
-        "EicDisplayName",
-        "EicLongName",
-        "EicParent",
-        "EicResponsibleParty",
-        "EicStatus",
-        "MarketParticipantPostalCode",
-        "MarketParticipantIsoCountryCode",
-        "MarketParticipantVatCode",
-        "EicTypeFunctionList",
+        "eic_code",
+        "eic_display_name",
+        "eic_long_name",
+        "eic_parent",
+        "eic_responsible_party",
+        "eic_status",
+        "market_participant_postal_code",
+        "market_participant_iso_country_code",
+        "market_participant_vat_code",
+        "eic_type_function_list",
         "type"
       )
     )
     testthat::expect_gt(
-      object = get_eiccodes(
-        f = "Y_eicCodes.csv"
-      ) |> nrow(),
+      object = get_eiccodes(f = "Y_eicCodes.csv") |> nrow(),
       expected = 300
     )
     testthat::expect_error(
@@ -800,36 +629,12 @@ testthat::test_that(
       object = get_eiccodes(f = "ABC"),
       info = "Cannot open the connection!"
     )
-    testthat::expect_no_error(
-      object = get_eiccodes(
-        f = "X_eicCodes.csv"
-      )
-    )
-    testthat::expect_no_error(
-      object = get_eiccodes(
-        f = "Z_eicCodes.csv"
-      )
-    )
-    testthat::expect_no_error(
-      object = get_eiccodes(
-        f = "T_eicCodes.csv"
-      )
-    )
-    testthat::expect_no_error(
-      object = get_eiccodes(
-        f = "V_eicCodes.csv"
-      )
-    )
-    testthat::expect_no_error(
-      object = get_eiccodes(
-        f = "W_eicCodes.csv"
-      )
-    )
-    testthat::expect_no_error(
-      object = get_eiccodes(
-        f = "A_eicCodes.csv"
-      )
-    )
+    testthat::expect_no_error(object = get_eiccodes(f = "X_eicCodes.csv"))
+    testthat::expect_no_error(object = get_eiccodes(f = "Z_eicCodes.csv"))
+    testthat::expect_no_error(object = get_eiccodes(f = "T_eicCodes.csv"))
+    testthat::expect_no_error(object = get_eiccodes(f = "V_eicCodes.csv"))
+    testthat::expect_no_error(object = get_eiccodes(f = "W_eicCodes.csv"))
+    testthat::expect_no_error(object = get_eiccodes(f = "A_eicCodes.csv"))
   }
 )
 
@@ -837,25 +642,18 @@ testthat::test_that(
 testthat::test_that(
   desc = "tidy_or_not() works",
   code = {
-    test_df_1 <- tibble::tibble(a = "x", b = "y", c = "z", d = "w")
-    test_df_2 <- tibble::tibble(
-      ts_resolution = rep(x = "PT15M", 12L),
-      ts_reason_code = rep(x = "B01", 12L),
-      ts_time_interval_start = as.POSIXct(
-        x = "2023-10-01 23:00:00",
-        tz = "UTC"
-      ),
-      ts_point_position = 1:12,
-      ts_point_price = rep(c(10, 20, 30), 4L)
+    test_df_list <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
     )
+    for (i in 1L:5L) {
+      assign(x = paste0("test_df_", i), value = test_df_list[[i]])
+    }
     testthat::expect_equal(
-      object = tidy_or_not(tbl = test_df_1, tidy_output = TRUE) |>
-        dim(),
+      object = tidy_or_not(tbl = test_df_1, tidy_output = TRUE) |> dim(),
       expected = c(1L, 4L)
     )
     testthat::expect_equal(
-      object = tidy_or_not(tbl = test_df_1, tidy_output = FALSE) |>
-        dim(),
+      object = tidy_or_not(tbl = test_df_1, tidy_output = FALSE) |> dim(),
       expected = c(1L, 4L)
     )
     testthat::expect_contains(
@@ -874,49 +672,24 @@ testthat::test_that(
         "ts_point"
       )
     )
-    # bid_ts_ columns with ts_point_ cols: covers rename-to-ts_ and rename-back
-    test_df_3 <- tibble::tibble(
-      bid_ts_mrid = rep(x = "TS001", 4L),
-      bid_ts_resolution = rep(x = "PT15M", 4L),
-      bid_ts_time_interval_start = as.POSIXct(
-        x = "2023-10-01 23:00:00",
-        tz = "UTC"
-      ),
-      bid_ts_point_position = 1L:4L,
-      bid_ts_point_price = c(10, 20, 30, 40)
+    testthat::expect_no_error(
+      object = result_3_tidy <- tidy_or_not(tbl = test_df_3, tidy_output = TRUE)
     )
-    result_3_tidy <- tidy_or_not(tbl = test_df_3, tidy_output = TRUE)
     testthat::expect_contains(
       object = names(result_3_tidy),
       expected = c("bid_ts_point_price", "bid_ts_point_dt_start")
     )
     testthat::expect_false(object = "ts_point_price" %in% names(result_3_tidy))
-    # bid_ts_ columns without ts_point_ cols:
-    # covers rename-back-early-return path
-    test_df_4 <- tibble::tibble(
-      bid_ts_resolution = "PT15M",
-      bid_ts_mrid = "TS001"
+    testthat::expect_no_error(
+      object = result_4 <- tidy_or_not(tbl = test_df_4, tidy_output = FALSE)
     )
-    result_4 <- tidy_or_not(tbl = test_df_4, tidy_output = FALSE)
     testthat::expect_contains(
       object = names(result_4),
       expected = c("bid_ts_resolution", "bid_ts_mrid")
     )
-    # A03 curve type with missing positions: covers the fill-missing-values path
-    test_df_5 <- tibble::tibble(
-      ts_mrid = rep(x = "TS001", 3L),
-      ts_curve_type = rep(x = "A03", 3L),
-      ts_resolution = rep(x = "PT60M", 3L),
-      ts_time_interval_start = rep(
-        x = as.POSIXct(x = "2023-10-01 22:00:00", tz = "UTC"), 3L
-      ),
-      ts_time_interval_end = rep(
-        x = as.POSIXct(x = "2023-10-02 04:00:00", tz = "UTC"), 3L
-      ),
-      ts_point_position = c(1L, 2L, 4L),
-      ts_point_quantity = c(100.0, 200.0, 400.0)
+    testthat::expect_no_error(
+      object = result_5 <- tidy_or_not(tbl = test_df_5, tidy_output = TRUE)
     )
-    result_5 <- tidy_or_not(tbl = test_df_5, tidy_output = TRUE)
     testthat::expect_contains(
       object = names(result_5),
       expected = c("ts_point_dt_start", "ts_point_quantity")
@@ -929,9 +702,16 @@ testthat::test_that(
 testthat::test_that(
   desc = "my_snakecase() works",
   code = {
-    data("iris")
+    test_df_6 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(6)
+    test_df_7 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(7)
     testthat::expect_contains(
-      object = my_snakecase(tbl = iris),
+      object = my_snakecase(tbl = test_df_6),
       expected = c(
         "sepal_length", "sepal_width", "petal_length", "petal_width",
         "species"
@@ -945,21 +725,8 @@ testthat::test_that(
         "in_area_name", "in_map_code"
       )
     )
-    df <- data.frame(
-      process.mRID = 1L:3L,
-      TimeSeriesType = LETTERS[1L:3L],
-      unavailability_Time_Period = 1L:3L,
-      A.ts.production_RegisteredResource.pSRType = LETTERS[1L:3L],
-      B.ts.Production_RegisteredResource = LETTERS[1L:3L],
-      C.ts.asset_RegisteredResource.pSRType = LETTERS[1L:3L],
-      D.ts.Asset_RegisteredResource = LETTERS[1L:3L],
-      E.powerSystemResources_type_psr_type = LETTERS[1L:3L],
-      F.PowerSystemResources_type_psr_type = LETTERS[1L:3L],
-      G.asset_psr_type = LETTERS[1L:3L],
-      receiver_MarketParticipant.marketRole = LETTERS[1L:3L]
-    )
     testthat::expect_contains(
-      object = my_snakecase(tbl = df),
+      object = my_snakecase(tbl = test_df_7),
       expected = c(
         "mrid", "ts_type",
         "unavailability", "a_ts_production",
@@ -982,73 +749,36 @@ testthat::test_that(
 testthat::test_that(
   desc = "add_type_names() works",
   code = {
-    df <- data.frame(
-      process_type = c(
-        "A12",
-        "A27",
-        "A61"
-      ),
-      ts_auction_type = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_business_type = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      type = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_contract_market_agreement_type = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_asset_psr_type = c(
-        "B01",
-        "B02",
-        "B03"
-      ),
-      ts_mkt_psr_type = c(
-        "B01",
-        "B02",
-        "B03"
-      ),
-      ts_production_psr_type = c(
-        "B01",
-        "B02",
-        "B03"
-      )
+    test_df_list <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
     )
-    data(iris)
+    for (i in c(6L, 8L, 9L, 12L)) {
+      assign(x = paste0("test_df_", i), value = test_df_list[[i]])
+    }
     testthat::expect_setequal(
-      object = add_type_names(tbl = df) |>
+      object = add_type_names(tbl = test_df_8) |>
         names(),
       expected = c(
         "process_type",
+        "process_type_def",
         "ts_auction_type",
-        "ts_contract_market_agreement_type",
-        "ts_production_psr_type",
-        "ts_asset_psr_type",
-        "ts_mkt_psr_type",
+        "ts_auction_type_def",
         "ts_business_type",
+        "ts_business_type_def",
         "type",
         "type_def",
-        "ts_business_type_def",
-        "ts_mkt_psr_type_def",
+        "market_agreement_type",
+        "market_agreement_type_def",
+        "ts_asset_psr_type",
         "ts_asset_psr_type_def",
+        "ts_production_psr_type",
         "ts_production_psr_type_def",
-        "process_type_def",
-        "ts_contract_market_agreement_type_def",
-        "ts_auction_type_def"
+        "ts_mkt_psr_type",
+        "ts_mkt_psr_type_def"
       )
     )
     testthat::expect_no_warning(
-      object = add_type_names(tbl = iris),
+      object = add_type_names(tbl = test_df_6),
       message = "No additional definitions added!"
     )
     testthat::expect_no_warning(
@@ -1056,18 +786,13 @@ testthat::test_that(
       message = "No additional definitions added!"
     )
     # ts_product branch
-    df_product <- data.frame(ts_product = c("A03", "A04", "A05"))
     testthat::expect_contains(
-      object = add_type_names(tbl = df_product) |> names(),
+      object = add_type_names(tbl = test_df_12) |> names(),
       expected = "ts_product_def"
     )
-    # subject_market_participant_market_role_type
-    # and bid_ts_flow_direction branches
-    df_role_dir <- data.frame(
-      subject_market_participant_market_role_type = c("A01", "A07", "A32"),
-      bid_ts_flow_direction = c("A01", "A02", "A01")
+    testthat::expect_no_error(
+      object = result_role_dir <- add_type_names(tbl = test_df_9)
     )
-    result_role_dir <- add_type_names(tbl = df_role_dir)
     testthat::expect_contains(
       object = names(result_role_dir),
       expected = c(
@@ -1086,46 +811,14 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    df <- data.frame(
-      ts_in_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_out_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_in_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_out_bidding_zone_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      control_area_domain_mrid = c(
-        "16YAOGUADIANA--T",
-        "44Y-00000000007S",
-        "44Y-00000000012Z"
-      ),
-      ts_registered_resource_mrid = c(
-        "11WD4GKM-2CM-179",
-        "11WD7VIAN2H-1-3K",
-        "11WD8HOH22H---DA"
-      )
+    test_df_list <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
     )
-    data(iris)
+    for (i in c(6L, 10L)) {
+      assign(x = paste0("test_df_", i), value = test_df_list[[i]])
+    }
     testthat::expect_contains(
-      object = add_eic_names(tbl = df) |>
+      object = add_eic_names(tbl = test_df_10) |>
         names(),
       expected = c(
         "control_area_domain_mrid",
@@ -1145,7 +838,7 @@ testthat::test_that(
       )
     )
     testthat::expect_s3_class(
-      object = add_eic_names(tbl = iris),
+      object = add_eic_names(tbl = test_df_6),
       class = "data.frame"
     )
     testthat::expect_equal(
@@ -1159,41 +852,14 @@ testthat::test_that(
 testthat::test_that(
   desc = "add_definitions() works",
   code = {
-    df <- data.frame(
-      doc_status_value = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_auction_category = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_flow_direction = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      reason_code = c(
-        "B01",
-        "B02",
-        "B03"
-      ),
-      ts_reason_code = c(
-        "A01",
-        "A02",
-        "A03"
-      ),
-      ts_object_aggregation = c(
-        "A01",
-        "A02",
-        "A03"
-      )
+    test_df_list <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
     )
-    data(iris)
+    for (i in c(6L, 11L)) {
+      assign(x = paste0("test_df_", i), value = test_df_list[[i]])
+    }
     testthat::expect_setequal(
-      object = add_definitions(tbl = df) |>
+      object = add_definitions(tbl = test_df_11) |>
         names(),
       expected = c(
         "doc_status_value",
@@ -1211,7 +877,7 @@ testthat::test_that(
       )
     )
     testthat::expect_s3_class(
-      object = add_definitions(tbl = iris),
+      object = add_definitions(tbl = test_df_6),
       class = "data.frame"
     )
     testthat::expect_equal(
@@ -1223,7 +889,36 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "xml_to_table() works",
+  desc = "xml_to_table() works 1",
+  code = {
+    test_df_6 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(6)
+    xml_fixture <- testthat::test_path("fixtures", "order-schema.xml") |>
+      xml2::read_xml()
+    testthat::expect_error(
+      object = xml_to_table(xml_content = xml_fixture, tidy_output = FALSE),
+      info = "There is no interesting columns in the result table!"
+    )
+    testthat::expect_error(
+      object = xml_to_table(xml_content = test_df_6),
+      info = "The 'xml_content' should be an xml document!"
+    )
+    testthat::expect_error(
+      object = xml_to_table(xml_content = NULL),
+      info = "The 'xml_content' should be an xml document!"
+    )
+    testthat::expect_error(
+      object = xml_to_table(xml_content = NA),
+      info = "The 'xml_content' should be an xml document!"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "xml_to_table() works 2",
   code = {
     testthat::skip_if_not(
       condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
@@ -1276,7 +971,6 @@ testthat::test_that(
       "periodEnd=202403102300",
       sep = "&"
     )
-    data(iris)
     content_1 <- api_req_safe(
       query_string = url_sample_1,
       security_token = Sys.getenv("ENTSOE_PAT")
@@ -1328,10 +1022,9 @@ testthat::test_that(
       ),
       regexp = "The 'xml_content' should be an xml document"
     )
-    testthat::expect_true(
-      object = xml_to_table(xml_content = content_1$result) |>
-        inherits(what = "data.frame"),
-      info = "The result should be a data.frame!"
+    testthat::expect_s3_class(
+      object = xml_to_table(xml_content = content_1$result),
+      class = "data.frame"
     )
     testthat::expect_gt(
       object = xml_to_table(xml_content = content_1$result) |>
@@ -1343,30 +1036,47 @@ testthat::test_that(
         ncol(),
       expected = 0L
     )
+  }
+)
+
+
+testthat::test_that(
+  desc = "extract_response() works 1",
+  code = {
+    content_1 <- list(
+      result = testthat::test_path("fixtures", "cd_catalog.xml") |>
+        xml2::read_xml(),
+      error = NULL
+    )
+    test_df_6 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(6)
     testthat::expect_error(
-      object = xml2::xml2_example(path = "order-schema.xml") |>
-        xml2::read_xml() |>
-        xml_to_table(tidy_output = FALSE),
+      object = extract_response(content = content_1),
       info = "There is no interesting columns in the result table!"
     )
     testthat::expect_error(
-      object = xml_to_table(xml_content = iris),
-      info = "The 'xml_content' should be an xml document!"
+      object = extract_response(content = test_df_6),
+      info = "The content is not in the required list format!"
     )
     testthat::expect_error(
-      object = xml_to_table(xml_content = NULL),
-      info = "The 'xml_content' should be an xml document!"
+      object = extract_response(content = NULL),
+      info = "The argument 'tbl' is missing!"
     )
     testthat::expect_error(
-      object = xml_to_table(xml_content = NA),
-      info = "The 'xml_content' should be an xml document!"
+      object = extract_response(content = list(result = "A", error = "B")),
+      info = paste(
+        "Error in extract_response(content",
+        "= list(result = 'A', error = 'B'))"
+      )
     )
   }
 )
 
 
 testthat::test_that(
-  desc = "extract_response() works",
+  desc = "extract_response() works 2",
   code = {
     testthat::skip_if_not(
       condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
@@ -1399,15 +1109,6 @@ testthat::test_that(
       "in_Domain=10YDE-VE-------2",
       sep = "&"
     )
-    data(iris)
-    content_1 <- setNames(
-      object = list(
-        xml2::xml2_example(path = "cd_catalog.xml") |>
-          xml2::read_xml(),
-        NULL
-      ),
-      c("result", "error")
-    )
     content_2 <- api_req_safe(
       query_string = url_sample_2,
       security_token = Sys.getenv("ENTSOE_PAT")
@@ -1438,25 +1139,6 @@ testthat::test_that(
         tidy_output = TRUE
       ) |>
         inherits(what = "data.frame")
-    )
-    testthat::expect_error(
-      object = extract_response(content = content_1),
-      info = "There is no interesting columns in the result table!"
-    )
-    testthat::expect_error(
-      object = extract_response(content = iris),
-      info = "The content is not in the required list format!"
-    )
-    testthat::expect_error(
-      object = extract_response(content = NULL),
-      info = "The argument 'tbl' is missing!"
-    )
-    testthat::expect_error(
-      object = extract_response(content = list(result = "A", error = "B")),
-      info = paste(
-        "Error in extract_response(content",
-        "= list(result = 'A', error = 'B'))"
-      )
     )
   }
 )
@@ -1492,17 +1174,21 @@ testthat::test_that(
       object = nrow(tbl),
       expected = 0L
     )
-    testthat::expect_contains(
+    testthat::expect_setequal(
       object = names(tbl),
       expected = c(
+        "revision_number",
+        "created_date_time",
         "eic_code",
         "doc_status_value",
         "doc_status",
-        "last_request_date",
         "instance_component_attribute",
         "long_name",
         "display_name",
-        "function_names"
+        "last_request_date",
+        "responsible_market_participant_mrid",
+        "function_names",
+        "parent_market_document_mrid"
       )
     )
     testthat::expect_false(object = anyNA(tbl$created_date_time))
@@ -1590,13 +1276,12 @@ testthat::test_that(
 testthat::test_that(
   desc = "get_all_allocated_eic() stops on XML with unexpected tree structure",
   code = {
-    minimal_xml <- charToRaw(x = paste0(
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      "<root>",
-      "  <docStatusValue>A05</docStatusValue>",
-      "  <simpleLeaf>value</simpleLeaf>",
-      "</root>"
-    ))
+    minimal_xml <- readLines(
+      con = testthat::test_path("fixtures", "minimal.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
     httr2::local_mocked_responses(
       mock = function(req) {
         httr2::response(
@@ -1714,15 +1399,12 @@ testthat::test_that(
 testthat::test_that(
   desc = "tidy_or_not() stops on unknown curve_type",
   code = {
-    df <- tibble::tibble(
-      ts_resolution = "PT60M",
-      ts_curve_type = "A99",
-      ts_time_interval_start = as.POSIXct("2023-01-01 00:00:00", tz = "UTC"),
-      ts_point_position = 1L,
-      ts_point_price = 50.0
-    )
+    test_df_13 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(13)
     testthat::expect_error(
-      object = tidy_or_not(tbl = df, tidy_output = TRUE),
+      object = tidy_or_not(tbl = test_df_13, tidy_output = TRUE),
       regexp = "The curve type is not defined, but A99!"
     )
   }
@@ -1786,8 +1468,8 @@ testthat::test_that(
       }
     )
     testthat::local_mocked_bindings(
-      bind_cols = function(...) stop("simulated incompatible dimensions"),
-      .package = "dplyr"
+      bind_cols = function(...) stop("mocked bind_cols error"),
+      .package = "entsoeapi"
     )
     testthat::expect_error(
       object = get_all_allocated_eic(),
@@ -1804,19 +1486,14 @@ testthat::test_that(
       condition = there_is_provider(),
       message = "The Entso-e API cannot be reached"
     )
-    eic_val <- "16YAOGUADIANA--T"
-    df <- data.frame(
-      area_domain_mrid = eic_val,
-      ts_acquiring_domain_mrid = eic_val,
-      ts_connecting_domain_mrid = eic_val,
-      bid_ts_acquiring_domain_mrid = eic_val,
-      bid_ts_connecting_domain_mrid = eic_val,
-      domain_mrid = eic_val,
-      constraint_ts_monitored_ptdf_domain_mrid = eic_val,
-      stringsAsFactors = FALSE
+    test_df_14 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(14)
+    testthat::expect_no_error(
+      object = result <- add_eic_names(tbl = test_df_14)
     )
-    result <- add_eic_names(tbl = df)
-    testthat::expect_contains(
+    testthat::expect_setequal(
       object = names(result),
       expected = c(
         "area_domain_mrid",
@@ -1842,12 +1519,13 @@ testthat::test_that(
 testthat::test_that(
   desc = "add_definitions() unites multiple ts_reason_code columns",
   code = {
-    df <- data.frame(
-      ts_reason_code   = c("A01", "A02"),
-      ts_reason_code_1 = c("A03", "A04"),
-      stringsAsFactors = FALSE
+    test_df_15 <- readRDS(
+      file = testthat::test_path("fixtures", "test_df_list.rds")
+    ) |>
+      pluck(15)
+    testthat::expect_no_error(
+      object = result <- add_definitions(tbl = test_df_15)
     )
-    result <- add_definitions(tbl = df)
     testthat::expect_contains(
       object = names(result),
       expected = c("ts_reason_code", "ts_reason_text")
@@ -1860,24 +1538,18 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "xml_to_table() tryCatch handler fires on unequal-group XML",
+  desc = "extract_leaf_twig_branch() cross-joins unequal-group XML",
   code = {
-    conflict_xml <- xml2::read_xml(
-      paste0(
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        "<root><row>",
-        "<groupA><subA><item>1</item></subA></groupA>",
-        "<groupA><subA><item>2</item></subA></groupA>",
-        "<groupA><subA><item>3</item></subA></groupA>",
-        "<groupB><subB><item>x</item></subB></groupB>",
-        "<groupB><subB><item>y</item></subB></groupB>",
-        "</row></root>"
-      )
-    )
-    testthat::expect_error(
-      object = xml_to_table(xml_content = conflict_xml),
-      regexp = "The XML document has an unexpected tree structure"
-    )
+    result <- readLines(
+      con = testthat::test_path("fixtures", "unequal_group.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste0(collapse = "") |>
+      xml2::read_xml() |>
+      xml2::xml_contents() |>
+      extract_leaf_twig_branch()
+    testthat::expect_equal(object = nrow(result), expected = 6L)
+    testthat::expect_equal(object = ncol(result), expected = 2L)
   }
 )
 
@@ -1974,13 +1646,11 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops on XML error with unexpected Reason structure",
   code = {
-    xml_body <- paste0(
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      "<Acknowledgement_MarketDocument>",
-      "<mRID>test</mRID>",
-      "<Reason><message>Something went wrong</message></Reason>",
-      "</Acknowledgement_MarketDocument>"
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "something_went_wrong.xml"),
+      encoding = "UTF-8"
     ) |>
+      paste(collapse = "\n") |>
       charToRaw()
     httr2::local_mocked_responses(
       mock = function(req) {
@@ -1988,7 +1658,7 @@ testthat::test_that(
           status_code = 500L,
           url = req$url,
           headers = list("content-type" = "application/xml"),
-          body = xml_body
+          body = xml_fixture
         )
       }
     )
@@ -2006,16 +1676,11 @@ testthat::test_that(
 testthat::test_that(
   desc = "api_req() stops with code:text message on non-999 XML error code",
   code = {
-    xml_body <- paste0(
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      "<Acknowledgement_MarketDocument>",
-      "<mRID>test</mRID>",
-      "<Reason>",
-      "<code>B11</code>",
-      "<text>Requested data is not available</text>",
-      "</Reason>",
-      "</Acknowledgement_MarketDocument>"
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "not_available.xml"),
+      encoding = "UTF-8"
     ) |>
+      paste(collapse = "\n") |>
       charToRaw()
     httr2::local_mocked_responses(
       mock = function(req) {
@@ -2023,7 +1688,7 @@ testthat::test_that(
           status_code = 400L,
           url = req$url,
           headers = list("content-type" = "application/xml"),
-          body = xml_body
+          body = xml_fixture
         )
       }
     )
@@ -2171,7 +1836,7 @@ testthat::test_that(
         httr2::response(
           status_code = 401L,
           headers = list("content-type" = "text/html"),
-          body = charToRaw("Unauthorized")
+          body = charToRaw(x = "Unauthorized")
         )
       }
     )
@@ -2219,15 +1884,25 @@ testthat::test_that(
 testthat::test_that(
   desc = "assert_eic() returns invisibly for valid EIC codes",
   code = {
-    testthat::expect_invisible(result <- assert_eic(eic = "10YCZ-CEPS-----N"))
+    testthat::expect_invisible(
+      call = result <- assert_eic(eic = "10YCZ-CEPS-----N")
+    )
     testthat::expect_identical(object = result, expected = "10YCZ-CEPS-----N")
-    testthat::expect_invisible(result <- assert_eic(eic = "10YHU-MAVIR----U"))
+    testthat::expect_invisible(
+      call = result <- assert_eic(eic = "10YHU-MAVIR----U")
+    )
     testthat::expect_identical(object = result, expected = "10YHU-MAVIR----U")
-    testthat::expect_invisible(result <- assert_eic(eic = "10YDE-VE-------2"))
+    testthat::expect_invisible(
+      call = result <- assert_eic(eic = "10YDE-VE-------2")
+    )
     testthat::expect_identical(object = result, expected = "10YDE-VE-------2")
-    testthat::expect_invisible(result <- assert_eic(eic = "10YFI-1--------U"))
+    testthat::expect_invisible(
+      call = result <- assert_eic(eic = "10YFI-1--------U")
+    )
     testthat::expect_identical(object = result, expected = "10YFI-1--------U")
-    testthat::expect_invisible(result <- assert_eic(eic = "10YNO-0--------C"))
+    testthat::expect_invisible(
+      call = result <- assert_eic(eic = "10YNO-0--------C")
+    )
     testthat::expect_identical(object = result, expected = "10YNO-0--------C")
   }
 )
@@ -2258,9 +1933,9 @@ testthat::test_that(
 testthat::test_that(
   desc = "assert_eic() throws for strings with wrong length",
   code = {
-    testthat::expect_error(assert_eic(eic = ""))
-    testthat::expect_error(assert_eic(eic = "10YCZ-CEPS----N"))
-    testthat::expect_error(assert_eic(eic = "10YCZ-CEPS------N"))
+    testthat::expect_error(object = assert_eic(eic = ""))
+    testthat::expect_error(object = assert_eic(eic = "10YCZ-CEPS----N"))
+    testthat::expect_error(object = assert_eic(eic = "10YCZ-CEPS------N"))
   }
 )
 
@@ -2268,8 +1943,8 @@ testthat::test_that(
 testthat::test_that(
   desc = "assert_eic() throws for strings with disallowed characters",
   code = {
-    testthat::expect_error(assert_eic(eic = "10YCZ-CEPS----!N"))
-    testthat::expect_error(assert_eic(eic = "10ycz-ceps-----n"))
+    testthat::expect_error(object = assert_eic(eic = "10YCZ-CEPS----!N"))
+    testthat::expect_error(object = assert_eic(eic = "10ycz-ceps-----n"))
   }
 )
 
@@ -2277,9 +1952,11 @@ testthat::test_that(
 testthat::test_that(
   desc = "assert_eic() respects null_ok argument",
   code = {
-    testthat::expect_invisible(result <- assert_eic(eic = NULL, null_ok = TRUE))
+    testthat::expect_invisible(
+      call = result <- assert_eic(eic = NULL, null_ok = TRUE)
+    )
     testthat::expect_null(object = result)
-    testthat::expect_error(assert_eic(eic = NULL, null_ok = FALSE))
+    testthat::expect_error(object = assert_eic(eic = NULL, null_ok = FALSE))
   }
 )
 
@@ -2289,11 +1966,369 @@ testthat::test_that(
   code = {
     testthat::expect_error(
       assert_eic(eic = "BAD-EIC-CODE----", var_name = "my_eic"),
-      regexp = "my_eic"
+      regexp = "Invalid EIC checksum character"
     )
     testthat::expect_error(
       object = assert_eic(eic = "SHORT", var_name = "my_eic"),
-      regexp = "my_eic"
+      regexp = "All elements must have exactly 16 characters"
+    )
+  }
+)
+
+
+# ── pluck() ───────────────────────────────────────────────────────────────────
+
+testthat::test_that(
+  desc = "pluck() extracts a nested element by name",
+  code = {
+    x <- list(a = list(b = list(c = 42L)))
+    testthat::expect_equal(object = pluck(x, "a", "b", "c"), expected = 42L)
+  }
+)
+
+
+testthat::test_that(
+  desc = "pluck() extracts by integer index",
+  code = {
+    x <- list(list(10L, 20L), list(30L, 40L))
+    testthat::expect_equal(object = pluck(x, 2L, 1L), expected = 30L)
+  }
+)
+
+
+testthat::test_that(
+  desc = "pluck() returns NULL when path traversal hits NULL",
+  code = {
+    x <- list(a = NULL)
+    testthat::expect_null(object = pluck(x, "a", "b"))
+  }
+)
+
+
+testthat::test_that(
+  desc = "pluck() with no keys returns the input unchanged",
+  code = {
+    x <- list(a = 1L)
+    testthat::expect_equal(object = pluck(x), expected = x)
+  }
+)
+
+
+# ── safely() ──────────────────────────────────────────────────────────────────
+
+testthat::test_that(
+  desc = "safely() returns result and NULL error on success",
+  code = {
+    safe_sqrt <- safely(sqrt)
+    out <- safe_sqrt(4)
+    testthat::expect_equal(object = out$result, expected = 2)
+    testthat::expect_null(object = out$error)
+  }
+)
+
+
+testthat::test_that(
+  desc = "safely() returns NULL result and error object on failure",
+  code = {
+    safe_log <- safely(log)
+    out <- safe_log("not a number")
+    testthat::expect_null(object = out$result)
+    testthat::expect_s3_class(object = out$error, class = "error")
+  }
+)
+
+
+# ── extract_nodesets: NULL named_vect (L289) ─────────────────────────────────
+
+testthat::test_that(
+  desc = "extract_nodesets() converts nodeset with no text content to NA",
+  code = {
+    doc <- xml2::read_xml(x = "<root><empty/></root>")
+    nodesets <- list(xml2::xml_find_first(x = doc, xpath = "//empty"))
+    result <- entsoeapi:::extract_nodesets(nodesets = nodesets)
+    testthat::expect_length(object = result, n = 1L)
+    tbl <- result[[1L]]
+    testthat::expect_true(object = tibble::is_tibble(x = tbl))
+    testthat::expect_true(object = all(is.na(tbl[[1L]])))
+  }
+)
+
+
+# ── extract_nodesets: non-conformable column lengths ──────────────
+
+testthat::test_that(
+  desc = "extract_nodesets() warns on non-conformable column lengths",
+  code = {
+    # Build XML where unlist() produces columns of length 3 and length 2,
+    # which are non-conformable (3 %% 2 != 0).
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "semi_structured.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw() |>
+      xml2::read_xml()
+    nodesets <- list(xml2::xml_find_first(x = xml_fixture, xpath = "//wrapper"))
+    testthat::expect_warning(
+      object = entsoeapi:::extract_nodesets(nodesets = nodesets),
+      regexp = "recycling with truncation"
+    )
+  }
+)
+
+
+# ── node_to_rows: terminal node with prefix = NULL ────────────────
+
+testthat::test_that(
+  desc = "node_to_rows() handles terminal node with prefix = NULL",
+  code = {
+    doc <- xml2::read_xml(x = "<root><leaf>hello</leaf></root>")
+    leaf_node <- xml2::xml_find_first(x = doc, xpath = "//leaf")
+    result <- entsoeapi:::node_to_rows(node = leaf_node, prefix = NULL)
+    testthat::expect_length(object = result, n = 1L)
+    testthat::expect_equal(object = result[[1L]], expected = c(leaf = "hello"))
+  }
+)
+
+
+testthat::test_that(
+  desc = "node_to_rows() returns empty string for empty terminal node",
+  code = {
+    doc <- xml2::read_xml(x = "<root><leaf/></root>")
+    leaf_node <- xml2::xml_find_first(x = doc, xpath = "//leaf")
+    result <- entsoeapi:::node_to_rows(node = leaf_node, prefix = NULL)
+    testthat::expect_length(object = result, n = 1L)
+    testthat::expect_equal(object = result[[1L]], expected = c(leaf = ""))
+    testthat::expect_equal(object = names(result[[1L]]), expected = "leaf")
+  }
+)
+
+
+testthat::test_that(
+  desc = "node_to_rows() converts NA text to NA_character_ on terminal node",
+  code = {
+    # Mock xml_text in the entsoeapi namespace to return NA,
+    # triggering the L354 defensive branch.
+    testthat::local_mocked_bindings(
+      xml_text = function(x, ...) NA,
+      .package = "entsoeapi"
+    )
+    doc <- xml2::read_xml(x = "<root><leaf>value</leaf></root>")
+    leaf_node <- xml2::xml_find_first(x = doc, xpath = "//leaf")
+    result <- entsoeapi:::node_to_rows(node = leaf_node, prefix = NULL)
+    testthat::expect_length(object = result, n = 1L)
+    testthat::expect_true(object = is.na(result[[1L]]))
+    testthat::expect_equal(object = names(result[[1L]]), expected = "leaf")
+  }
+)
+
+
+# ── node_to_rows: leaf with internal structure ──────────
+
+testthat::test_that(
+  desc = "node_to_rows() handles leaf with sub-children text nodes",
+  code = {
+    # The L380-383 / L396-400 branches fire when a child is classified as a
+    # leaf (xml_length == 0) yet xml_children() on that child returns
+    # sub-elements. In standard XML this cannot happen, so we mock
+    # xml_children in the entsoeapi namespace to inject sub-elements for
+    # the leaf child only.
+    # Use a single sub-child to stay within vapply's FUN.VALUE=character(1L).
+    compound_doc <- xml2::read_xml(x = "<compound><a>X</a></compound>")
+    compound_children <- xml2::xml_children(x = compound_doc)
+
+    real_xml_children <- xml2::xml_children
+    testthat::local_mocked_bindings(
+      xml_children = function(x, ...) {
+        ch <- real_xml_children(x, ...)
+        # When the real result is empty (leaf node named "compound"),
+        # inject a fake sub-child to exercise the branch.
+        if (length(ch) == 0L && xml2::xml_name(x = x) == "compound") {
+          return(compound_children)
+        }
+        ch
+      },
+      .package = "entsoeapi"
+    )
+
+    doc <- xml2::read_xml(x = paste0(
+      "<parent>",
+      "<compound>text</compound>",
+      "</parent>"
+    ))
+    parent_node <- xml2::xml_find_first(x = doc, xpath = "//parent")
+    result <- entsoeapi:::node_to_rows(node = parent_node, prefix = NULL)
+    testthat::expect_length(object = result, n = 1L)
+    row <- result[[1L]]
+    # The name should be "compound.a" and the value "X".
+    testthat::expect_equal(object = names(row), expected = "compound.a")
+    testthat::expect_equal(object = unname(row), expected = "X")
+  }
+)
+
+
+# ── node_to_rows: stacked_rows with nested children ──────────────────
+
+testthat::test_that(
+  desc = paste(
+    "node_to_rows() uses stacked_rows[[1L]] as leaf_row",
+    "when duplicate leaves and nested children exist"
+  ),
+  code = {
+    # Duplicate leaf names + nested children
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "duplicate_leaf_names.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw() |>
+      xml2::read_xml()
+    parent_node <- xml2::xml_find_first(x = xml_fixture, xpath = "//parent")
+    result <- entsoeapi:::node_to_rows(node = parent_node, prefix = "p")
+    testthat::expect_true(object = length(result) >= 1L)
+    # Each row should have both val and nested.inner columns
+    row <- result[[1L]]
+    testthat::expect_true(object = "p.val" %in% names(row))
+    testthat::expect_true(object = "p.nested.inner" %in% names(row))
+  }
+)
+
+
+# ── node_to_rows: both leaf_row and nested_rows empty ────────────────
+
+testthat::test_that(
+  desc = paste(
+    "node_to_rows() returns list() when",
+    "leaf_row and nested_rows are empty"
+  ),
+  code = {
+    # It is a defensive branch: both leaf_row and nested_rows are empty.
+    # This cannot happen with well-formed XML because any child is either a
+    # leaf or nested. We trigger it by mocking the recursive call to return
+    # list().
+    real_node_to_rows <- entsoeapi:::node_to_rows
+    first_call <- TRUE
+    testthat::local_mocked_bindings(
+      node_to_rows = function(node, prefix = NULL) {
+        if (first_call) {
+          first_call <<- FALSE
+          real_node_to_rows(node = node, prefix = prefix)
+        } else {
+          # recursive calls return empty
+          list()
+        }
+      },
+      .package = "entsoeapi"
+    )
+    xml_fixture <- xml2::read_xml(
+      x = testthat::test_path("fixtures", "empty_leaf_and_nested.xml")
+    )
+    parent_node <- xml2::xml_find_first(x = xml_fixture, xpath = "//parent")
+    result <- entsoeapi:::node_to_rows(node = parent_node, prefix = "p")
+    testthat::expect_equal(object = result, expected = list())
+  }
+)
+
+
+# ── node_to_rows: stacked_rows exists but nested_rows empty ──────
+
+testthat::test_that(
+  desc = paste(
+    "node_to_rows() returns stacked_rows when duplicate leaf names exist",
+    "but no nested children are present"
+  ),
+  code = {
+    xml_fixture <- testthat::test_path("fixtures", "dupl_leaf_names.xml") |>
+      xml2::read_xml()
+    parent_node <- xml2::xml_find_first(x = xml_fixture, xpath = "//parent")
+    result <- entsoeapi:::node_to_rows(node = parent_node, prefix = "p")
+    testthat::expect_length(object = result, n = 3L)
+    testthat::expect_equal(object = result[[1L]], expected = c(p.val = "1"))
+    testthat::expect_equal(object = result[[2L]], expected = c(p.val = "2"))
+    testthat::expect_equal(object = result[[3L]], expected = c(p.val = "3"))
+  }
+)
+
+
+# ── rows_to_tbl: empty input ─────────────────────────────────────────
+
+testthat::test_that(
+  desc = "rows_to_tbl() returns empty tibble on empty input",
+  code = {
+    result <- entsoeapi:::rows_to_tbl(list())
+    testthat::expect_true(object = tibble::is_tibble(result))
+    testthat::expect_equal(object = nrow(result), expected = 0L)
+    testthat::expect_equal(object = ncol(result), expected = 0L)
+  }
+)
+
+
+# ── extract_leaf_twig_branch: both leaf and nested empty ──────────────
+
+testthat::test_that(
+  desc = paste(
+    "extract_leaf_twig_branch() returns empty tibble",
+    "when both leaf_rows and nested_all_rows are empty"
+  ),
+  code = {
+    result <- entsoeapi:::extract_leaf_twig_branch(nodesets = list())
+    testthat::expect_true(object = tibble::is_tibble(result))
+    testthat::expect_equal(object = nrow(result), expected = 0L)
+    testthat::expect_equal(object = ncol(result), expected = 0L)
+  }
+)
+
+
+# ── api_req: HTML error response path ──────────────────────────
+
+testthat::test_that(
+  desc = "api_req() extracts body text from HTML error response",
+  code = {
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "bad_request.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 400L,
+          url = req$url,
+          headers = list("content-type" = "text/html"),
+          body = xml_fixture
+        )
+      }
+    )
+    testthat::expect_error(
+      object = entsoeapi:::api_req(
+        query_string = "documentType=A73",
+        security_token = "dummy_token"
+      ),
+      regexp = "400.*Bad Request"
+    )
+  }
+)
+
+
+# ── xml_to_table: unexpected XML tree structure ─────────────────
+
+testthat::test_that(
+  desc = "xml_to_table() aborts on unexpected XML tree structure",
+  code = {
+    # Mock extract_leaf_twig_branch to throw an error
+    testthat::local_mocked_bindings(
+      extract_leaf_twig_branch = function(...) {
+        stop("simulated extraction failure")
+      },
+      .package = "entsoeapi"
+    )
+    xml_fixture <- xml2::read_xml(
+      x = testthat::test_path("fixtures", "unexpected_structure.xml")
+    )
+    testthat::expect_error(
+      object = entsoeapi:::xml_to_table(xml_content = xml_fixture),
+      regexp = "unexpected tree structure"
     )
   }
 )

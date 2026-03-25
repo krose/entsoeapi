@@ -34,7 +34,7 @@
 ## 5. Merge & Tag
 
 -   [ ] Push + merge / merge + push: `develop` → `main` (PR or direct)
--   [ ] Create a git tag: `git tag v0.9.8 && git push origin v0.9.8`
+-   [ ] Create a git tag: `git tag v1.0.0 && git push origin v1.0.0`
 -   [ ] Create a GitHub Release with the `NEWS.md` entry as release notes: `gh release create v0.9.8 --title "v0.9.8" --notes "See NEWS.md for changes" --repo krose/entsoeapi`
 
 ## 6. Pkgdown Site
