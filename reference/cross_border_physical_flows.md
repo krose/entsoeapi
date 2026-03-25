@@ -9,8 +9,8 @@ the cross borders.
 cross_border_physical_flows(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -47,8 +47,21 @@ cross_border_physical_flows(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other transmission endpoints:
+[`costs_of_congestion_management()`](https://krose.github.io/entsoeapi/reference/costs_of_congestion_management.md),
+[`countertrading()`](https://krose.github.io/entsoeapi/reference/countertrading.md),
+[`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md),
+[`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md),
+[`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md),
+[`intraday_cross_border_transfer_limits()`](https://krose.github.io/entsoeapi/reference/intraday_cross_border_transfer_limits.md),
+[`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md),
+[`redispatching_cross_border()`](https://krose.github.io/entsoeapi/reference/redispatching_cross_border.md),
+[`redispatching_internal()`](https://krose.github.io/entsoeapi/reference/redispatching_internal.md),
+[`total_commercial_sched()`](https://krose.github.io/entsoeapi/reference/total_commercial_sched.md)
 
 ## Examples
 
@@ -64,7 +77,7 @@ df1 <- entsoeapi::cross_border_physical_flows(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10Y1001A1001A83F&out_Domain=10YCZ-CEPS-----N&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:15:41 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:06 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Physical Flows_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -74,8 +87,8 @@ df1 <- entsoeapi::cross_border_physical_flows(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional definitions added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
 
 dplyr::glimpse(df1)
 #> Rows: 24
@@ -88,7 +101,7 @@ dplyr::glimpse(df1)
 #> $ type_def                      <chr> "Aggregated energy data report", "Aggregated energy data report", "Aggregated en…
 #> $ ts_business_type              <chr> "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A6…
 #> $ ts_business_type_def          <chr> "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Ener…
-#> $ created_date_time             <dttm> 2026-03-17 22:15:41, 2026-03-17 22:15:41, 2026-03-17 22:15:41, 2026-03-17 22:15…
+#> $ created_date_time             <dttm> 2026-03-25 19:09:06, 2026-03-25 19:09:06, 2026-03-25 19:09:06, 2026-03-25 19:09…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:…
@@ -109,7 +122,7 @@ df2 <- entsoeapi::cross_border_physical_flows(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A11&in_Domain=10YCZ-CEPS-----N&out_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:15:43 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:06 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Physical Flows_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -119,8 +132,8 @@ df2 <- entsoeapi::cross_border_physical_flows(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional definitions added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
 
 dplyr::glimpse(df2)
 #> Rows: 24
@@ -133,7 +146,7 @@ dplyr::glimpse(df2)
 #> $ type_def                      <chr> "Aggregated energy data report", "Aggregated energy data report", "Aggregated en…
 #> $ ts_business_type              <chr> "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A66", "A6…
 #> $ ts_business_type_def          <chr> "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Energy flow", "Ener…
-#> $ created_date_time             <dttm> 2026-03-17 22:15:43, 2026-03-17 22:15:43, 2026-03-17 22:15:43, 2026-03-17 22:15…
+#> $ created_date_time             <dttm> 2026-03-25 19:09:06, 2026-03-25 19:09:06, 2026-03-25 19:09:06, 2026-03-25 19:09…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:00, 2019-12-31 23:00:…

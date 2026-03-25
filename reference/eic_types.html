@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>List EIC types based on 'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/R/data.R" class="external-link"><code>R/data.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/data.R" class="external-link"><code>R/data.R</code></a></small>
       <div class="d-none name"><code>eic_types.Rd</code></div>
     </div>
 
@@ -52,15 +52,66 @@
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
     <p>An object of class <code>tbl_df</code> (inherits from <code>tbl</code>, <code>data.frame</code>) with 7 rows and 3 columns.</p>
     </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other types:
+<code><a href="allocation_mode_types.html">allocation_mode_types</a></code>,
+<code><a href="analog_types.html">analog_types</a></code>,
+<code><a href="area_types.html">area_types</a></code>,
+<code><a href="asset_types.html">asset_types</a></code>,
+<code><a href="auction_types.html">auction_types</a></code>,
+<code><a href="business_types.html">business_types</a></code>,
+<code><a href="category_types.html">category_types</a></code>,
+<code><a href="classification_types.html">classification_types</a></code>,
+<code><a href="coding_scheme_types.html">coding_scheme_types</a></code>,
+<code><a href="connection_category_types.html">connection_category_types</a></code>,
+<code><a href="contract_types.html">contract_types</a></code>,
+<code><a href="coordinate_system_types.html">coordinate_system_types</a></code>,
+<code><a href="currency_types.html">currency_types</a></code>,
+<code><a href="curve_types.html">curve_types</a></code>,
+<code><a href="customer_types.html">customer_types</a></code>,
+<code><a href="direction_types.html">direction_types</a></code>,
+<code><a href="document_types.html">document_types</a></code>,
+<code><a href="energy_product_types.html">energy_product_types</a></code>,
+<code><a href="flow_commodity_option_types.html">flow_commodity_option_types</a></code>,
+<code><a href="fuel_types.html">fuel_types</a></code>,
+<code><a href="grid_agreement_types.html">grid_agreement_types</a></code>,
+<code><a href="hvdc_mode_types.html">hvdc_mode_types</a></code>,
+<code><a href="indicator_types.html">indicator_types</a></code>,
+<code><a href="market_product_types.html">market_product_types</a></code>,
+<code><a href="message_types.html">message_types</a></code>,
+<code><a href="object_aggregation_types.html">object_aggregation_types</a></code>,
+<code><a href="payment_terms_types.html">payment_terms_types</a></code>,
+<code><a href="price_category_types.html">price_category_types</a></code>,
+<code><a href="price_component_types.html">price_component_types</a></code>,
+<code><a href="price_direction_types.html">price_direction_types</a></code>,
+<code><a href="process_types.html">process_types</a></code>,
+<code><a href="quality_types.html">quality_types</a></code>,
+<code><a href="reason_code_types.html">reason_code_types</a></code>,
+<code><a href="rights_types.html">rights_types</a></code>,
+<code><a href="role_types.html">role_types</a></code>,
+<code><a href="settlement_method_types.html">settlement_method_types</a></code>,
+<code><a href="status_types.html">status_types</a></code>,
+<code><a href="sub_area_types.html">sub_area_types</a></code>,
+<code><a href="tariff_types.html">tariff_types</a></code>,
+<code><a href="timeframe_types.html">timeframe_types</a></code>,
+<code><a href="unit_multiplier.html">unit_multiplier</a></code>,
+<code><a href="unit_of_measure_types.html">unit_of_measure_types</a></code>,
+<code><a href="unit_symbol_types.html">unit_symbol_types</a></code></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="fu">entsoeapi</span><span class="fu">::</span><span class="va">eic_types</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ code        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A"<span style="color: #949494;">, </span>"T"<span style="color: #949494;">, </span>"V"<span style="color: #949494;">, </span>"W"<span style="color: #949494;">, </span>"X"<span style="color: #949494;">, </span>"Y"<span style="color: #949494;">, </span>"Z"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ title       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Substation"<span style="color: #949494;">, </span>"Tieline"<span style="color: #949494;">, </span>"Location"<span style="color: #949494;">, </span>"Resource Object"<span style="color: #949494;">, </span>"Party"<span style="color: #949494;">, </span>"Area or Domain"<span style="color: #949494;">, </span>"Measurement po…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ description <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "An EIC code to substations."<span style="color: #949494;">, </span>"An EIC code to identify tielines."<span style="color: #949494;">, </span>"An EIC code to identify locat…</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">entsoeapi</span><span class="fu">::</span><span class="va">eic_types</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   code  title           description                              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A     Substation      An EIC code to substations.              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> T     Tieline         An EIC code to identify tielines.        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> V     Location        An EIC code to identify locations.       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> W     Resource Object An EIC code to identify resource objects.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> X     Party           An EIC code to identify parties.         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Y     Area or Domain  An EIC code to identify areas or domains.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

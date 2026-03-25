@@ -13,8 +13,8 @@ both TSO/DSO networks, from which is deduced:
 ``` r
 load_actual_total(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -46,8 +46,16 @@ load_actual_total(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other load endpoints:
+[`load_day_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_day_ahead_total_forecast.md),
+[`load_month_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_month_ahead_total_forecast.md),
+[`load_week_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_week_ahead_total_forecast.md),
+[`load_year_ahead_forecast_margin()`](https://krose.github.io/entsoeapi/reference/load_year_ahead_forecast_margin.md),
+[`load_year_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_year_ahead_total_forecast.md)
 
 ## Examples
 
@@ -62,11 +70,11 @@ df <- entsoeapi::load_actual_total(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=202602142300&periodEnd=202603162300&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=202602222300&periodEnd=202603242300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:17:16 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:45 GMT
 #> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Actual Total Load_202602142300-202603162300.xml"
+#> <- content-disposition: inline; filename="Actual Total Load_202602222300-202603242300.xml"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- vary: accept-encoding
@@ -74,7 +82,9 @@ df <- entsoeapi::load_actual_total(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
 #> Rows: 2,880
@@ -89,15 +99,15 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "…
 #> $ ts_business_type_def            <chr> "Consumption", "Consumption", "Consumption", "Consumption", "Consumption", "Co…
-#> $ created_date_time               <dttm> 2026-03-17 22:17:16, 2026-03-17 22:17:16, 2026-03-17 22:17:16, 2026-03-17 22:…
+#> $ created_date_time               <dttm> 2026-03-25 19:09:45, 2026-03-25 19:09:45, 2026-03-25 19:09:45, 2026-03-25 19:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ time_period_time_interval_start <dttm> 2026-02-14 23:00:00, 2026-02-14 23:00:00, 2026-02-14 23:00:00, 2026-02-14 23:…
-#> $ time_period_time_interval_end   <dttm> 2026-03-16 23:00:00, 2026-03-16 23:00:00, 2026-03-16 23:00:00, 2026-03-16 23:…
+#> $ time_period_time_interval_start <dttm> 2026-02-22 23:00:00, 2026-02-22 23:00:00, 2026-02-22 23:00:00, 2026-02-22 23:…
+#> $ time_period_time_interval_end   <dttm> 2026-03-24 23:00:00, 2026-03-24 23:00:00, 2026-03-24 23:00:00, 2026-03-24 23:…
 #> $ ts_resolution                   <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M…
-#> $ ts_time_interval_start          <dttm> 2026-02-14 23:00:00, 2026-02-14 23:00:00, 2026-02-14 23:00:00, 2026-02-14 23:…
-#> $ ts_time_interval_end            <dttm> 2026-03-16 23:00:00, 2026-03-16 23:00:00, 2026-03-16 23:00:00, 2026-03-16 23:…
+#> $ ts_time_interval_start          <dttm> 2026-02-22 23:00:00, 2026-02-22 23:00:00, 2026-02-22 23:00:00, 2026-02-22 23:…
+#> $ ts_time_interval_end            <dttm> 2026-03-24 23:00:00, 2026-03-24 23:00:00, 2026-03-24 23:00:00, 2026-03-24 23:…
 #> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ ts_point_dt_start               <dttm> 2026-02-14 23:00:00, 2026-02-14 23:15:00, 2026-02-14 23:30:00, 2026-02-14 23:…
-#> $ ts_point_quantity               <dbl> 49747.51, 49516.46, 48864.65, 48834.79, 48174.73, 47753.23, 47509.81, 47242.57…
+#> $ ts_point_dt_start               <dttm> 2026-02-22 23:00:00, 2026-02-22 23:15:00, 2026-02-22 23:30:00, 2026-02-22 23:…
+#> $ ts_point_quantity               <dbl> 46501.95, 46221.41, 45948.63, 44935.72, 44250.48, 44239.59, 44336.85, 44560.02…
 #> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "…
 ```

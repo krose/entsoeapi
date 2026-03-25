@@ -11,8 +11,8 @@ platform fails or does not find solution.
 ``` r
 outages_fallbacks(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   process_type = "A63",
   event_nature = "A53",
   tidy_output = TRUE,
@@ -58,8 +58,17 @@ outages_fallbacks(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other outage endpoints:
+[`outages_both()`](https://krose.github.io/entsoeapi/reference/outages_both.md),
+[`outages_cons_units()`](https://krose.github.io/entsoeapi/reference/outages_cons_units.md),
+[`outages_gen_units()`](https://krose.github.io/entsoeapi/reference/outages_gen_units.md),
+[`outages_offshore_grid()`](https://krose.github.io/entsoeapi/reference/outages_offshore_grid.md),
+[`outages_prod_units()`](https://krose.github.io/entsoeapi/reference/outages_prod_units.md),
+[`outages_transmission_grid()`](https://krose.github.io/entsoeapi/reference/outages_transmission_grid.md)
 
 ## Examples
 
@@ -74,7 +83,7 @@ df <- entsoeapi::outages_fallbacks(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A53&biddingZone_Domain=10YBE----------2&processType=A51&businessType=C47&periodStart=202212312300&periodEnd=202312312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:17:31 GMT
+#> <- date: Wed, 25 Mar 2026 19:10:00 GMT
 #> <- content-type: application/zip
 #> <- content-length: 4696
 #> <- content-disposition: attachment; filename="Fall-backs_202305222200-202309080130.zip"
@@ -83,18 +92,30 @@ df <- entsoeapi::outages_fallbacks(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpCEPnwY/001-FALL_BACKS_202305222200-202305232200.xml has been read in
-#> ✔ /tmp/RtmpCEPnwY/002-FALL_BACKS_202306262200-202306270900.xml has been read in
-#> ✔ /tmp/RtmpCEPnwY/003-FALL_BACKS_202307202200-202307211245.xml has been read in
-#> ✔ /tmp/RtmpCEPnwY/004-FALL_BACKS_202308232200-202308232230.xml has been read in
-#> ✔ /tmp/RtmpCEPnwY/005-FALL_BACKS_202308272200-202308280445.xml has been read in
-#> ✔ /tmp/RtmpCEPnwY/006-FALL_BACKS_202309072200-202309080130.xml has been read in
-#> ℹ pulling area_eic_name table from cache
-#> ℹ pulling area_eic_name table from cache
-#> ℹ pulling area_eic_name table from cache
-#> ℹ pulling area_eic_name table from cache
-#> ℹ pulling area_eic_name table from cache
-#> ℹ pulling area_eic_name table from cache
+#> ✔ /tmp/RtmpADDhvc/001-FALL_BACKS_202305222200-202305232200.xml has been read in
+#> ✔ /tmp/RtmpADDhvc/002-FALL_BACKS_202306262200-202306270900.xml has been read in
+#> ✔ /tmp/RtmpADDhvc/003-FALL_BACKS_202307202200-202307211245.xml has been read in
+#> ✔ /tmp/RtmpADDhvc/004-FALL_BACKS_202308232200-202308232230.xml has been read in
+#> ✔ /tmp/RtmpADDhvc/005-FALL_BACKS_202308272200-202308280445.xml has been read in
+#> ✔ /tmp/RtmpADDhvc/006-FALL_BACKS_202309072200-202309080130.xml has been read in
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
 #> Rows: 6

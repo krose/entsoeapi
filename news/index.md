@@ -1,5 +1,93 @@
 # Changelog
 
+## entsoeapi v1.0.0 (2026-03-25)
+
+### New functionality
+
+- The
+  [`implicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacities.md)
+  function has been introduced (we incorrectly stated earlier that this
+  function had been introduced)
+- The
+  [`explicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacities.md)
+  function has been introduced (we incorrectly stated earlier that this
+  function had been introduced)
+- The
+  [`continuous_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacities.md)
+  function has been introduced (we incorrectly stated earlier that this
+  function had been introduced)
+- The
+  [`netted_volumes_per_border()`](https://krose.github.io/entsoeapi/reference/netted_volumes_per_border.md)
+  function has been introduced (we incorrectly stated earlier that this
+  function had been introduced)
+- The `eic_functions()` and `all_allocated_eic()` functions have been
+  introduced.
+- The processing capability of `P3M` data resolution has been added to
+  the engine.
+
+### Changes
+
+- The
+  [`aggregated_balancing_energy_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_balancing_energy_bids.md)
+  function’s `process_type` argument additionally can be set as `A67` or
+  `A68` from now on.
+- The “See Also” blocks have been added to each help.
+- The result table of
+  [`imbalance_prices()`](https://krose.github.io/entsoeapi/reference/imbalance_prices.md)
+  call got more columns to display.
+- The `deactivation_requested_date_and_or_time_date` and the
+  `eic_code_market_participant_street_address` columns have been added
+  to `all_allocated_eic()` function’s resulting table.
+- The `gen_installed_capacity_per_pt` and the
+  `gen_installed_capacity_per_pu` functions got a new `tidy_output`
+  argument.
+- The XML extracting engine further improved by which the
+  `flow_based_allocations` function’s resulting table composed properly
+  from now on.
+- The `tibble`, `purrr`, `tidyselect` package dependencies (Imports)
+  removed from the code.
+
+### Possibly breaking changes
+
+- The `day_ahead_prices()` function has been renamed to
+  [`energy_prices()`](https://krose.github.io/entsoeapi/reference/energy_prices.md)
+  and it allows to query day-ahead and intraday prices too.
+- The resulting table’s column names converted to snake case in the
+  [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md),
+  [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md),
+  [`accounting_point_eic()`](https://krose.github.io/entsoeapi/reference/accounting_point_eic.md),
+  [`tie_line_eic()`](https://krose.github.io/entsoeapi/reference/tie_line_eic.md),
+  [`location_eic()`](https://krose.github.io/entsoeapi/reference/location_eic.md),
+  [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md),
+  [`substation_eic()`](https://krose.github.io/entsoeapi/reference/substation_eic.md)
+  and
+  [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md)
+  function.
+- The `financial_expenses_and_income_for_balancing()` renamed to
+  [`financial_expenses_and_income()`](https://krose.github.io/entsoeapi/reference/financial_expenses_and_income.md).
+- The `sharing_of_frr_capacity()` renamed to
+  [`sharing_of_rr_and_frr_capacity()`](https://krose.github.io/entsoeapi/reference/sharing_of_rr_and_frr_capacity.md).
+- The `rr_actual_capacity()` removed since
+  [`rr_and_frr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_and_frr_actual_capacity.md)
+  covers its functionality.
+- The `business_type` argument has been removed from
+  [`shares_of_fcr_capacity()`](https://krose.github.io/entsoeapi/reference/shares_of_fcr_capacity.md)
+  since it did not changed the result table at all.
+- The `business_type` argument has been removed from
+  [`rr_and_frr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_and_frr_actual_capacity.md)
+  since it did not changed the result table at all.
+- The
+  [`gen_wind_solar_forecasts()`](https://krose.github.io/entsoeapi/reference/gen_wind_solar_forecasts.md)
+  does not give back list of table by `process_type` from now on;
+  instead `process_type` has been moved into the arguments of the
+  function call.
+
+### Miscellaneous
+
+- The code base simplified.
+- The “architecture” vignette has been updated according to the changes.
+- The package `DESCRIPTION` document slightly adjusted.
+
 ## entsoeapi v0.9.7 (2026-03-17)
 
 ### New functionality
@@ -12,10 +100,11 @@
 - The package level constants have been placed into a standalone file.
 - These dependency (Imports) packages removed from the code: `curl`,
   `data.table`, `fs`, `tidyselect`, `utf8`
-- The sapply() calls have been removed from some unit tests.
+- The [`sapply()`](https://rdrr.io/r/base/lapply.html) calls have been
+  removed from some unit tests.
 - The global assignment operators have been removed from the code.
 - The .github/CONTRIBUTING.md file has been created and added.
-- The DESCRIPTION document has been updated.
+- The `DESCRIPTION` document has been updated.
 - A contributor guide has been added.
 
 ## entsoeapi v0.9.6 (2026-03-12),
@@ -70,9 +159,8 @@
 
 ### New functionality
 
-- The beta version of
-  [`sharing_of_frr_capacity()`](https://krose.github.io/entsoeapi/reference/sharing_of_frr_capacity.md)
-  query has been introduced.
+- The beta version of `sharing_of_frr_capacity()` query has been
+  introduced.
 
 ### Miscellaneous
 
@@ -101,13 +189,11 @@
   [`activated_balancing_prices()`](https://krose.github.io/entsoeapi/reference/activated_balancing_prices.md),
   [`imbalance_prices()`](https://krose.github.io/entsoeapi/reference/imbalance_prices.md),
   [`imbalance_volumes()`](https://krose.github.io/entsoeapi/reference/imbalance_volumes.md),
-  [`financial_expenses_and_income_for_balancing()`](https://krose.github.io/entsoeapi/reference/financial_expenses_and_income_for_balancing.md),
+  `financial_expenses_and_income_for_balancing()`,
   [`fcr_total_capacity()`](https://krose.github.io/entsoeapi/reference/fcr_total_capacity.md),
   [`shares_of_fcr_capacity()`](https://krose.github.io/entsoeapi/reference/shares_of_fcr_capacity.md),
   [`rr_and_frr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_and_frr_actual_capacity.md)
-  and
-  [`rr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_actual_capacity.md)
-  queries have been introduced.
+  and `rr_actual_capacity()` queries have been introduced.
 
 ### Miscellaneous
 
@@ -134,9 +220,10 @@
 
 ### New functionality
 
-- The beta versions of `implicit_offered_transfer_capacities()`,
-  `explicit_offered_transfer_capacities()`,
-  `continuous_offered_transfer_capacities()`,
+- The beta versions of
+  [`implicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacities.md),
+  [`explicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacities.md),
+  [`continuous_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacities.md),
   [`flow_based_allocations()`](https://krose.github.io/entsoeapi/reference/flow_based_allocations.md),
   [`auction_revenue()`](https://krose.github.io/entsoeapi/reference/auction_revenue.md),
   [`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md)
@@ -152,9 +239,10 @@
 
 ### New functionality
 
-- The beta versions of `implicit_offered_transfer_capacities()`,
-  `explicit_offered_transfer_capacities()`,
-  `continuous_offered_transfer_capacities()`,
+- The beta versions of
+  [`implicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacities.md),
+  [`explicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacities.md),
+  [`continuous_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacities.md),
   [`flow_based_allocations()`](https://krose.github.io/entsoeapi/reference/flow_based_allocations.md),
   [`auction_revenue()`](https://krose.github.io/entsoeapi/reference/auction_revenue.md),
   [`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md)
@@ -187,8 +275,7 @@
 ### New functionality
 
 - Pagination functionality has been added to outage queries.
-- Day-ahead market notation has been added for
-  [`day_ahead_prices()`](https://krose.github.io/entsoeapi/reference/day_ahead_prices.md)
+- Day-ahead market notation has been added for `day_ahead_prices()`
   query result where more than one day-ahead auction are available; the
   column named as `ts_classification_sequence_position`.
 - The missing PSR information related issue resolved in
@@ -205,8 +292,7 @@
     [`already_allocated_total_capacity()`](https://krose.github.io/entsoeapi/reference/already_allocated_total_capacity.md)
   - `transm_day_ahead_comm_sched()` \>\>
     [`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md)
-  - `transm_day_ahead_prices()` \>\>
-    [`day_ahead_prices()`](https://krose.github.io/entsoeapi/reference/day_ahead_prices.md)
+  - `transm_day_ahead_prices()` \>\> `day_ahead_prices()`
   - `transm_day_ahead_transf_cap()` \>\>
     [`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md)
   - `transm_total_comm_sched()` \>\>

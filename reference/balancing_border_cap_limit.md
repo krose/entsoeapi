@@ -10,8 +10,8 @@ balancing_border_cap_limit(
   eic_in = NULL,
   eic_out = NULL,
   process_type = "A51",
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -54,8 +54,32 @@ balancing_border_cap_limit(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other balancing endpoints:
+[`activated_balancing_prices()`](https://krose.github.io/entsoeapi/reference/activated_balancing_prices.md),
+[`aggregated_balancing_energy_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_balancing_energy_bids.md),
+[`allocation_of_cross_zonal_balancing_cap()`](https://krose.github.io/entsoeapi/reference/allocation_of_cross_zonal_balancing_cap.md),
+[`balancing_energy_bids()`](https://krose.github.io/entsoeapi/reference/balancing_energy_bids.md),
+[`changes_to_bid_availability()`](https://krose.github.io/entsoeapi/reference/changes_to_bid_availability.md),
+[`contracted_reserves()`](https://krose.github.io/entsoeapi/reference/contracted_reserves.md),
+[`current_balancing_state()`](https://krose.github.io/entsoeapi/reference/current_balancing_state.md),
+[`elastic_demands()`](https://krose.github.io/entsoeapi/reference/elastic_demands.md),
+[`exchanged_volumes()`](https://krose.github.io/entsoeapi/reference/exchanged_volumes.md),
+[`exchanged_volumes_per_border()`](https://krose.github.io/entsoeapi/reference/exchanged_volumes_per_border.md),
+[`fcr_total_capacity()`](https://krose.github.io/entsoeapi/reference/fcr_total_capacity.md),
+[`financial_expenses_and_income()`](https://krose.github.io/entsoeapi/reference/financial_expenses_and_income.md),
+[`hvdc_link_constrains()`](https://krose.github.io/entsoeapi/reference/hvdc_link_constrains.md),
+[`imbalance_prices()`](https://krose.github.io/entsoeapi/reference/imbalance_prices.md),
+[`imbalance_volumes()`](https://krose.github.io/entsoeapi/reference/imbalance_volumes.md),
+[`netted_volumes()`](https://krose.github.io/entsoeapi/reference/netted_volumes.md),
+[`netted_volumes_per_border()`](https://krose.github.io/entsoeapi/reference/netted_volumes_per_border.md),
+[`procured_balancing_capacity()`](https://krose.github.io/entsoeapi/reference/procured_balancing_capacity.md),
+[`rr_and_frr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_and_frr_actual_capacity.md),
+[`shares_of_fcr_capacity()`](https://krose.github.io/entsoeapi/reference/shares_of_fcr_capacity.md),
+[`sharing_of_rr_and_frr_capacity()`](https://krose.github.io/entsoeapi/reference/sharing_of_rr_and_frr_capacity.md)
 
 ## Examples
 
@@ -72,7 +96,7 @@ df <- entsoeapi::balancing_border_cap_limit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A31&BusinessType=A26&processType=A51&In_Domain=10YDE-RWENET---I&Out_Domain=10YBE----------2&periodStart=202206212200&periodEnd=202206222200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:15:04 GMT
+#> <- date: Wed, 25 Mar 2026 19:08:59 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Balancing Border Capacity Limitations_202206212200-202206222200.xml"
 #> <- x-content-type-options: nosniff
@@ -82,7 +106,9 @@ df <- entsoeapi::balancing_border_cap_limit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
 #> Rows: 96
@@ -101,7 +127,7 @@ dplyr::glimpse(df)
 #> $ process_type_def       <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration reserve", "…
 #> $ ts_business_type       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A2…
 #> $ ts_business_type_def   <chr> "Available transfer capacity (ATC)", "Available transfer capacity (ATC)", "Available tr…
-#> $ created_date_time      <dttm> 2026-03-17 22:15:04, 2026-03-17 22:15:04, 2026-03-17 22:15:04, 2026-03-17 22:15:04, 20…
+#> $ created_date_time      <dttm> 2026-03-25 19:08:59, 2026-03-25 19:08:59, 2026-03-25 19:08:59, 2026-03-25 19:08:59, 20…
 #> $ ts_reason_code         <chr> "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B47", "B4…
 #> $ ts_reason_text         <chr> "Operational security constraints", "Operational security constraints", "Operational se…
 #> $ revision_number        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …

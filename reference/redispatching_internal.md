@@ -9,8 +9,8 @@ applies!!
 ``` r
 redispatching_internal(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -42,8 +42,21 @@ redispatching_internal(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other transmission endpoints:
+[`costs_of_congestion_management()`](https://krose.github.io/entsoeapi/reference/costs_of_congestion_management.md),
+[`countertrading()`](https://krose.github.io/entsoeapi/reference/countertrading.md),
+[`cross_border_physical_flows()`](https://krose.github.io/entsoeapi/reference/cross_border_physical_flows.md),
+[`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md),
+[`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md),
+[`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md),
+[`intraday_cross_border_transfer_limits()`](https://krose.github.io/entsoeapi/reference/intraday_cross_border_transfer_limits.md),
+[`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md),
+[`redispatching_cross_border()`](https://krose.github.io/entsoeapi/reference/redispatching_cross_border.md),
+[`total_commercial_sched()`](https://krose.github.io/entsoeapi/reference/total_commercial_sched.md)
 
 ## Examples
 
@@ -59,7 +72,7 @@ df <- entsoeapi::redispatching_internal(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A63&businessType=A85&in_Domain=10YNL----------L&out_Domain=10YNL----------L&periodStart=202310312300&periodEnd=202311302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:18:05 GMT
+#> <- date: Wed, 25 Mar 2026 19:10:24 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Redispatching_Internal_202310312300-202311052300.xml"
 #> <- x-content-type-options: nosniff
@@ -69,41 +82,19 @@ df <- entsoeapi::redispatching_internal(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> New names:
-#> • `TimeSeries.Asset_RegisteredResource.mRID` -> `TimeSeries.Asset_RegisteredResource.mRID...9`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType` -> `TimeSeries.Asset_RegisteredResource.pSRType.psrType...10`
-#> • `TimeSeries.Asset_RegisteredResource.location.name` -> `TimeSeries.Asset_RegisteredResource.location.name...11`
-#> • `TimeSeries.Asset_RegisteredResource.mRID` -> `TimeSeries.Asset_RegisteredResource.mRID...12`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType` -> `TimeSeries.Asset_RegisteredResource.pSRType.psrType...13`
-#> • `TimeSeries.Asset_RegisteredResource.location.name` -> `TimeSeries.Asset_RegisteredResource.location.name...14`
-#> New names:
-#> • `TimeSeries.Asset_RegisteredResource.mRID` -> `TimeSeries.Asset_RegisteredResource.mRID...9`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType` -> `TimeSeries.Asset_RegisteredResource.pSRType.psrType...10`
-#> • `TimeSeries.Asset_RegisteredResource.location.name` -> `TimeSeries.Asset_RegisteredResource.location.name...11`
-#> • `TimeSeries.Asset_RegisteredResource.mRID` -> `TimeSeries.Asset_RegisteredResource.mRID...12`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType` -> `TimeSeries.Asset_RegisteredResource.pSRType.psrType...13`
-#> • `TimeSeries.Asset_RegisteredResource.location.name` -> `TimeSeries.Asset_RegisteredResource.location.name...14`
-#> New names:
-#> • `TimeSeries.Asset_RegisteredResource.mRID` -> `TimeSeries.Asset_RegisteredResource.mRID...20`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType` -> `TimeSeries.Asset_RegisteredResource.pSRType.psrType...21`
-#> • `TimeSeries.Asset_RegisteredResource.location.name` -> `TimeSeries.Asset_RegisteredResource.location.name...22`
-#> • `TimeSeries.Asset_RegisteredResource.mRID...9` -> `TimeSeries.Asset_RegisteredResource.mRID...29`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType...10` ->
-#>   `TimeSeries.Asset_RegisteredResource.pSRType.psrType...30`
-#> • `TimeSeries.Asset_RegisteredResource.location.name...11` -> `TimeSeries.Asset_RegisteredResource.location.name...31`
-#> • `TimeSeries.Asset_RegisteredResource.mRID...12` -> `TimeSeries.Asset_RegisteredResource.mRID...32`
-#> • `TimeSeries.Asset_RegisteredResource.pSRType.psrType...13` ->
-#>   `TimeSeries.Asset_RegisteredResource.pSRType.psrType...33`
-#> • `TimeSeries.Asset_RegisteredResource.location.name...14` -> `TimeSeries.Asset_RegisteredResource.location.name...34`
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 384
-#> Columns: 25
+#> Rows: 392
+#> Columns: 28
 #> $ ts_in_domain_mrid             <chr> "10YNL----------L", "10YNL----------L", "10YNL----------L", "10YNL----------L", …
 #> $ ts_in_domain_name             <chr> "Netherlands", "Netherlands", "Netherlands", "Netherlands", "Netherlands", "Neth…
 #> $ ts_out_domain_mrid            <chr> "10YNL----------L", "10YNL----------L", "10YNL----------L", "10YNL----------L", …
 #> $ ts_out_domain_name            <chr> "Netherlands", "Netherlands", "Netherlands", "Netherlands", "Netherlands", "Neth…
+#> $ ts_asset_location_name        <chr> "Hardenberg - Ommen Dante wit 110 kV", "Hardenberg - Ommen Dante wit 110 kV", "H…
+#> $ ts_asset_mrid                 <chr> "49T000000000436O", "49T000000000436O", "49T000000000436O", "49T000000000436O", …
 #> $ type                          <chr> "A63", "A63", "A63", "A63", "A63", "A63", "A63", "A63", "A63", "A63", "A63", "A6…
 #> $ type_def                      <chr> "Redispatch notice", "Redispatch notice", "Redispatch notice", "Redispatch notic…
 #> $ process_type                  <chr> "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A1…
@@ -114,7 +105,8 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "Internal redispatch", "Internal redispatch", "Internal redispatch", "Internal r…
 #> $ ts_mkt_psr_type               <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Load", "Load", "Load", "Load", "Load", "Load", "Load", "Load", "Load", "Load", …
-#> $ created_date_time             <dttm> 2026-03-17 22:18:05, 2026-03-17 22:18:05, 2026-03-17 22:18:05, 2026-03-17 22:18…
+#> $ ts_psr_type                   <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B2…
+#> $ created_date_time             <dttm> 2026-03-25 19:10:24, 2026-03-25 19:10:24, 2026-03-25 19:10:24, 2026-03-25 19:10…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…

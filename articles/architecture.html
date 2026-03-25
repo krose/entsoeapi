@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Architecture: API Pipeline, XML Engine &amp; Caching</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/vignettes/architecture.Rmd" class="external-link"><code>vignettes/architecture.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/vignettes/architecture.Rmd" class="external-link"><code>vignettes/architecture.Rmd</code></a></small>
       <div class="d-none name"><code>architecture.Rmd</code></div>
     </div>
 
@@ -224,11 +224,12 @@ appended conditionally with <code>if (!is.null(...))</code>.</p>
 </h3>
 <p><strong>Location:</strong> <code>R/utils.R</code></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">api_req_safe</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/safely.html" class="external-link">safely</a></span><span class="op">(</span><span class="va">api_req</span><span class="op">)</span></span></code></pre></div>
-<p>A one-liner that wraps <code>api_req()</code> with
-<code><a href="https://purrr.tidyverse.org/reference/safely.html" class="external-link">purrr::safely()</a></code>. All R-level exceptions are caught and
-returned as <code>list(result = NULL, error = &lt;condition&gt;)</code>
-rather than halting execution. This standardised return shape is what
+<code class="sourceCode R"><span><span class="va">api_req_safe</span> <span class="op">&lt;-</span> <span class="fu">safely</span><span class="op">(</span><span class="va">api_req</span><span class="op">)</span></span></code></pre></div>
+<p>A one-liner that wraps <code>api_req()</code> with the package-local
+<code>safely()</code> helper (a lightweight <code>tryCatch</code>
+wrapper). All R-level exceptions are caught and returned as
+<code>list(result = NULL, error = &lt;condition&gt;)</code> rather than
+halting execution. This standardised return shape is what
 <code>extract_response()</code> expects.</p>
 </div>
 <div class="section level3">
@@ -264,7 +265,7 @@ package-level constants defined in <code>R/constants.R</code>:</p>
 </ul>
 </li>
 <li><p><strong>Execution.</strong> Sent via
-<code>purrr::safely(httr2::req_perform)</code> — another safety wrapper
+<code>safely(httr2::req_perform)</code> (the same package-local wrapper)
 so network errors are captured, not thrown.</p></li>
 <li>
 <p><strong>HTTP 200 — response routing.</strong></p>
@@ -385,8 +386,9 @@ with specific business or storage types.</p>
 </h3>
 <p><strong>Location:</strong> <code>R/utils.R</code></p>
 <p>Called when the API returns a zip archive. Decompresses the temp file
-with <code>purrr::safely(utils::unzip)</code>, then reads each extracted
-XML file with <code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>. Returns a list of
+with <code>safely(utils::unzip)</code> (using the package-local
+wrapper), then reads each extracted XML file with
+<code><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">xml2::read_xml()</a></code>. Returns a list of
 <code>xml_document</code> objects — the same shape as a paginated
 response, so <code>extract_response()</code> handles both
 identically.</p>
@@ -408,7 +410,7 @@ with <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="exter
 <li>If <code>$result</code> is a list (paginated or zipped): iterates
 with <code><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">purrr::imap()</a></code>, calling <code>xml_to_table()</code> on
 each element, showing a progress bar, then combines all results with
-<code><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html" class="external-link">data.table::rbindlist()</a></code> and converts to a tibble.</li>
+<code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">dplyr::bind_rows()</a></code> and converts to a tibble.</li>
 <li>If <code>$result</code> is a single <code>xml_document</code>: calls
 <code>xml_to_table()</code> directly.</li>
 <li>Returns a tibble, or <code>NULL</code> if the API returned no
@@ -575,7 +577,7 @@ categories, flow directions, reason codes (with multi-code merging via
 <h3 id="column-whitelist-and-row-ordering">2.7 Column whitelist and row ordering<a class="anchor" aria-label="anchor" href="#column-whitelist-and-row-ordering"></a>
 </h3>
 <p>After enrichment, <code>xml_to_table()</code> applies a hard-coded
-whitelist of ~90 allowed column names. Any column not on the list is
+whitelist of ~140 allowed column names. Any column not on the list is
 silently dropped. This prevents internal XML artefacts from leaking into
 user-visible output and keeps the API stable across ENTSO-E schema
 changes.</p>

@@ -9,8 +9,8 @@ outputs or consumption.
 ``` r
 gen_per_gen_unit(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   gen_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -48,8 +48,17 @@ gen_per_gen_unit(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other generation endpoints:
+[`gen_day_ahead_forecast()`](https://krose.github.io/entsoeapi/reference/gen_day_ahead_forecast.md),
+[`gen_installed_capacity_per_pt()`](https://krose.github.io/entsoeapi/reference/gen_installed_capacity_per_pt.md),
+[`gen_installed_capacity_per_pu()`](https://krose.github.io/entsoeapi/reference/gen_installed_capacity_per_pu.md),
+[`gen_per_prod_type()`](https://krose.github.io/entsoeapi/reference/gen_per_prod_type.md),
+[`gen_storage_mean_filling_rate()`](https://krose.github.io/entsoeapi/reference/gen_storage_mean_filling_rate.md),
+[`gen_wind_solar_forecasts()`](https://krose.github.io/entsoeapi/reference/gen_wind_solar_forecasts.md)
 
 ## Examples
 
@@ -65,7 +74,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202001302300&periodEnd=202001312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:46 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:28 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001302300-202001312300.xml"
 #> <- x-content-type-options: nosniff
@@ -75,13 +84,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202001302300&periodEnd=202001312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:48 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:28 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001302300-202001312300.xml"
 #> <- x-content-type-options: nosniff
@@ -91,13 +104,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202001312300&periodEnd=202002012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:49 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:29 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
 #> <- x-content-type-options: nosniff
@@ -107,13 +124,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202001312300&periodEnd=202002012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:50 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:29 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
 #> <- x-content-type-options: nosniff
@@ -123,13 +144,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002012300&periodEnd=202002022300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:51 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:29 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
 #> <- x-content-type-options: nosniff
@@ -139,13 +164,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002012300&periodEnd=202002022300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:53 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:30 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
 #> <- x-content-type-options: nosniff
@@ -155,13 +184,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002022300&periodEnd=202002032300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:54 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:30 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
 #> <- x-content-type-options: nosniff
@@ -171,13 +204,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002022300&periodEnd=202002032300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:55 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:31 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
 #> <- x-content-type-options: nosniff
@@ -187,13 +224,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002032300&periodEnd=202002042300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:55 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:31 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002032300-202002042300.xml"
 #> <- x-content-type-options: nosniff
@@ -203,13 +244,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002032300&periodEnd=202002042300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:56 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:31 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002032300-202002042300.xml"
 #> <- x-content-type-options: nosniff
@@ -219,13 +264,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:57 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:32 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002042300-202002052300.xml"
 #> <- x-content-type-options: nosniff
@@ -235,13 +284,17 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:58 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:32 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002042300-202002052300.xml"
 #> <- x-content-type-options: nosniff
@@ -251,8 +304,12 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
 #> Rows: 2,039
@@ -273,7 +330,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
 #> $ ts_mkt_psr_type                 <chr> "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "…
 #> $ ts_mkt_psr_type_def             <chr> "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil …
-#> $ created_date_time               <dttm> 2026-03-17 22:16:46, 2026-03-17 22:16:46, 2026-03-17 22:16:46, 2026-03-17 22:…
+#> $ created_date_time               <dttm> 2026-03-25 19:09:28, 2026-03-25 19:09:28, 2026-03-25 19:09:28, 2026-03-25 19:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:…
 #> $ time_period_time_interval_end   <dttm> 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:…

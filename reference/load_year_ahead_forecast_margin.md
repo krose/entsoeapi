@@ -11,8 +11,8 @@ system services.
 ``` r
 load_year_ahead_forecast_margin(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -44,8 +44,16 @@ load_year_ahead_forecast_margin(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other load endpoints:
+[`load_actual_total()`](https://krose.github.io/entsoeapi/reference/load_actual_total.md),
+[`load_day_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_day_ahead_total_forecast.md),
+[`load_month_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_month_ahead_total_forecast.md),
+[`load_week_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_week_ahead_total_forecast.md),
+[`load_year_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_year_ahead_total_forecast.md)
 
 ## Examples
 
@@ -60,7 +68,7 @@ df <- entsoeapi::load_year_ahead_forecast_margin(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A70&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201812312300&periodEnd=201912302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:17:20 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:49 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1550
 #> <- content-disposition: inline; filename="Year Ahead Forecast Margin_201812312300-201912302300.xml"
@@ -69,7 +77,9 @@ df <- entsoeapi::load_year_ahead_forecast_margin(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
 #> Rows: 1
@@ -84,7 +94,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area"
 #> $ ts_business_type                <chr> "A91"
 #> $ ts_business_type_def            <chr> "positive forecast margin"
-#> $ created_date_time               <dttm> 2026-03-17 22:17:20
+#> $ created_date_time               <dttm> 2026-03-25 19:09:49
 #> $ revision_number                 <dbl> 1
 #> $ time_period_time_interval_start <dttm> 2018-12-31 23:00:00
 #> $ time_period_time_interval_end   <dttm> 2019-12-31 23:00:00

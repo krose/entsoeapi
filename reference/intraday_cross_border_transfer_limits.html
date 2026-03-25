@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Intraday Cross-Border Transfer Limits (11.3)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/R/en_transmission.R" class="external-link"><code>R/en_transmission.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_transmission.R" class="external-link"><code>R/en_transmission.R</code></a></small>
       <div class="d-none name"><code>intraday_cross_border_transfer_limits.Rd</code></div>
     </div>
 
@@ -45,8 +45,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">intraday_cross_border_transfer_limits</span><span class="op">(</span></span>
 <span>  eic_in <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  eic_out <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">days</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
-<span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_start <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">days</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_end <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
 <span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  security_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ENTSOE_PAT"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -86,7 +86,21 @@ One year range limit applies</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with intraday cross-border transfer limits</p>
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other transmission endpoints:
+<code><a href="costs_of_congestion_management.html">costs_of_congestion_management()</a></code>,
+<code><a href="countertrading.html">countertrading()</a></code>,
+<code><a href="cross_border_physical_flows.html">cross_border_physical_flows()</a></code>,
+<code><a href="day_ahead_commercial_sched.html">day_ahead_commercial_sched()</a></code>,
+<code><a href="expansion_and_dismantling_project.html">expansion_and_dismantling_project()</a></code>,
+<code><a href="forecasted_transfer_capacities.html">forecasted_transfer_capacities()</a></code>,
+<code><a href="net_transfer_capacities.html">net_transfer_capacities()</a></code>,
+<code><a href="redispatching_cross_border.html">redispatching_cross_border()</a></code>,
+<code><a href="redispatching_internal.html">redispatching_internal()</a></code>,
+<code><a href="total_commercial_sched.html">total_commercial_sched()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -102,7 +116,7 @@ One year range limit applies</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A93&amp;in_Domain=10YFR-RTE------C&amp;out_Domain=11Y0-0000-0265-K&amp;periodStart=202308152200&amp;periodEnd=202308162200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:17:15 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:42 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 1452</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Cross-Border Capacity for DC Links Intraday_202308152200-202308162200.xml"</span>
@@ -111,8 +125,8 @@ One year range limit applies</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 24</span>
@@ -125,7 +139,7 @@ One year range limit applies</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ type_def                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "DC link capacity"<span style="color: #949494;">, </span>"DC link capacity"<span style="color: #949494;">, </span>"DC link capacity"<span style="color: #949494;">, </span>"DC link capacity"<span style="color: #949494;">, </span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B06"<span style="color: #949494;">, </span>"B0…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "DC link constraint"<span style="color: #949494;">, </span>"DC link constraint"<span style="color: #949494;">, </span>"DC link constraint"<span style="color: #949494;">, </span>"DC link const…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-17 22:17:15<span style="color: #949494;">, </span>2026-03-17 22:17:15<span style="color: #949494;">, </span>2026-03-17 22:17:15<span style="color: #949494;">, </span>2026-03-17 22:17…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-25 19:09:42<span style="color: #949494;">, </span>2026-03-25 19:09:42<span style="color: #949494;">, </span>2026-03-25 19:09:42<span style="color: #949494;">, </span>2026-03-25 19:09…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_resolution                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_start        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-08-15 22:00:00<span style="color: #949494;">, </span>2023-08-15 22:00:00<span style="color: #949494;">, </span>2023-08-15 22:00:00<span style="color: #949494;">, </span>2023-08-15 22:00:…</span>

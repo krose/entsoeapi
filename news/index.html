@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,9 +32,48 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/krose/entsoeapi/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.0" id="entsoeapi-v100-2026-03-25">entsoeapi v1.0.0 (2026-03-25)<a class="anchor" aria-label="anchor" href="#entsoeapi-v100-2026-03-25"></a></h2>
+<div class="section level3">
+<h3 id="new-functionality-1-0-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-0-0"></a></h3>
+<ul><li>The <code><a href="../reference/implicit_offered_transfer_capacities.html">implicit_offered_transfer_capacities()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
+<li>The <code><a href="../reference/explicit_offered_transfer_capacities.html">explicit_offered_transfer_capacities()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
+<li>The <code><a href="../reference/continuous_offered_transfer_capacities.html">continuous_offered_transfer_capacities()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
+<li>The <code><a href="../reference/netted_volumes_per_border.html">netted_volumes_per_border()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
+<li>The <code>eic_functions()</code> and <code>all_allocated_eic()</code> functions have been introduced.</li>
+<li>The processing capability of <code>P3M</code> data resolution has been added to the engine.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-1-0-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-0-0"></a></h3>
+<ul><li>The <code><a href="../reference/aggregated_balancing_energy_bids.html">aggregated_balancing_energy_bids()</a></code> function’s <code>process_type</code> argument additionally can be set as <code>A67</code> or <code>A68</code> from now on.</li>
+<li>The “See Also” blocks have been added to each help.</li>
+<li>The result table of <code><a href="../reference/imbalance_prices.html">imbalance_prices()</a></code> call got more columns to display.</li>
+<li>The <code>deactivation_requested_date_and_or_time_date</code> and the <code>eic_code_market_participant_street_address</code> columns have been added to <code>all_allocated_eic()</code> function’s resulting table.</li>
+<li>The <code>gen_installed_capacity_per_pt</code> and the <code>gen_installed_capacity_per_pu</code> functions got a new <code>tidy_output</code> argument.</li>
+<li>The XML extracting engine further improved by which the <code>flow_based_allocations</code> function’s resulting table composed properly from now on.</li>
+<li>The <code>tibble</code>, <code>purrr</code>, <code>tidyselect</code> package dependencies (Imports) removed from the code.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="possibly-breaking-changes-1-0-0">Possibly breaking changes<a class="anchor" aria-label="anchor" href="#possibly-breaking-changes-1-0-0"></a></h3>
+<ul><li>The <code>day_ahead_prices()</code> function has been renamed to <code><a href="../reference/energy_prices.html">energy_prices()</a></code> and it allows to query day-ahead and intraday prices too.</li>
+<li>The resulting table’s column names converted to snake case in the <code><a href="../reference/party_eic.html">party_eic()</a></code>, <code><a href="../reference/area_eic.html">area_eic()</a></code>, <code><a href="../reference/accounting_point_eic.html">accounting_point_eic()</a></code>, <code><a href="../reference/tie_line_eic.html">tie_line_eic()</a></code>, <code><a href="../reference/location_eic.html">location_eic()</a></code>, <code><a href="../reference/resource_object_eic.html">resource_object_eic()</a></code>, <code><a href="../reference/substation_eic.html">substation_eic()</a></code> and <code><a href="../reference/all_approved_eic.html">all_approved_eic()</a></code> function.</li>
+<li>The <code>financial_expenses_and_income_for_balancing()</code> renamed to <code><a href="../reference/financial_expenses_and_income.html">financial_expenses_and_income()</a></code>.</li>
+<li>The <code>sharing_of_frr_capacity()</code> renamed to <code><a href="../reference/sharing_of_rr_and_frr_capacity.html">sharing_of_rr_and_frr_capacity()</a></code>.</li>
+<li>The <code>rr_actual_capacity()</code> removed since <code><a href="../reference/rr_and_frr_actual_capacity.html">rr_and_frr_actual_capacity()</a></code> covers its functionality.</li>
+<li>The <code>business_type</code> argument has been removed from <code><a href="../reference/shares_of_fcr_capacity.html">shares_of_fcr_capacity()</a></code> since it did not changed the result table at all.</li>
+<li>The <code>business_type</code> argument has been removed from <code><a href="../reference/rr_and_frr_actual_capacity.html">rr_and_frr_actual_capacity()</a></code> since it did not changed the result table at all.</li>
+<li>The <code><a href="../reference/gen_wind_solar_forecasts.html">gen_wind_solar_forecasts()</a></code> does not give back list of table by <code>process_type</code> from now on; instead <code>process_type</code> has been moved into the arguments of the function call.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-1-0-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-0-0"></a></h3>
+<ul><li>The code base simplified.</li>
+<li>The “architecture” vignette has been updated according to the changes.</li>
+<li>The package <code>DESCRIPTION</code> document slightly adjusted.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.7" id="entsoeapi-v097-2026-03-17">entsoeapi v0.9.7 (2026-03-17)<a class="anchor" aria-label="anchor" href="#entsoeapi-v097-2026-03-17"></a></h2>
 <div class="section level3">
@@ -47,10 +86,10 @@
 <li>The package level constants have been placed into a standalone file.</li>
 <li>These dependency (Imports) packages removed from the code: <code>curl</code>, <code>data.table</code>, <code>fs</code>, <code>tidyselect</code>, <code>utf8</code>
 </li>
-<li>The sapply() calls have been removed from some unit tests.</li>
+<li>The <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply()</a></code> calls have been removed from some unit tests.</li>
 <li>The global assignment operators have been removed from the code.</li>
 <li>The .github/CONTRIBUTING.md file has been created and added.</li>
-<li>The DESCRIPTION document has been updated.</li>
+<li>The <code>DESCRIPTION</code> document has been updated.</li>
 <li>A contributor guide has been added.</li>
 </ul></div>
 </div>
@@ -102,7 +141,7 @@
 <h2 class="pkg-version" data-toc-text="0.9.4.0" id="entsoeapi-v0940-2026-03-04">entsoeapi v0.9.4.0 (2026-03-04)<a class="anchor" aria-label="anchor" href="#entsoeapi-v0940-2026-03-04"></a></h2>
 <div class="section level3">
 <h3 id="new-functionality-0-9-4-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-0-9-4-0"></a></h3>
-<ul><li>The beta version of <code><a href="../reference/sharing_of_frr_capacity.html">sharing_of_frr_capacity()</a></code> query has been introduced.</li>
+<ul><li>The beta version of <code>sharing_of_frr_capacity()</code> query has been introduced.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-0-9-4-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-9-4-0"></a></h3>
@@ -119,7 +158,7 @@
 <h2 class="pkg-version" data-toc-text="0.9.3.0" id="entsoeapi-v0930-2026-03-01">entsoeapi v0.9.3.0 (2026-03-01)<a class="anchor" aria-label="anchor" href="#entsoeapi-v0930-2026-03-01"></a></h2>
 <div class="section level3">
 <h3 id="new-functionality-0-9-3-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-0-9-3-0"></a></h3>
-<ul><li>The beta versions of <code><a href="../reference/exchanged_volumes_per_border.html">exchanged_volumes_per_border()</a></code>, <code><a href="../reference/hvdc_link_constrains.html">hvdc_link_constrains()</a></code>, <code><a href="../reference/changes_to_bid_availability.html">changes_to_bid_availability()</a></code>, <code><a href="../reference/current_balancing_state.html">current_balancing_state()</a></code>, <code><a href="../reference/balancing_energy_bids.html">balancing_energy_bids()</a></code>, <code><a href="../reference/aggregated_balancing_energy_bids.html">aggregated_balancing_energy_bids()</a></code>, <code><a href="../reference/procured_balancing_capacity.html">procured_balancing_capacity()</a></code>, <code><a href="../reference/allocation_of_cross_zonal_balancing_cap.html">allocation_of_cross_zonal_balancing_cap()</a></code>, <code><a href="../reference/contracted_reserves.html">contracted_reserves()</a></code>, <code><a href="../reference/activated_balancing_prices.html">activated_balancing_prices()</a></code>, <code><a href="../reference/imbalance_prices.html">imbalance_prices()</a></code>, <code><a href="../reference/imbalance_volumes.html">imbalance_volumes()</a></code>, <code><a href="../reference/financial_expenses_and_income_for_balancing.html">financial_expenses_and_income_for_balancing()</a></code>, <code><a href="../reference/fcr_total_capacity.html">fcr_total_capacity()</a></code>, <code><a href="../reference/shares_of_fcr_capacity.html">shares_of_fcr_capacity()</a></code>, <code><a href="../reference/rr_and_frr_actual_capacity.html">rr_and_frr_actual_capacity()</a></code> and <code><a href="../reference/rr_actual_capacity.html">rr_actual_capacity()</a></code> queries have been introduced.</li>
+<ul><li>The beta versions of <code><a href="../reference/exchanged_volumes_per_border.html">exchanged_volumes_per_border()</a></code>, <code><a href="../reference/hvdc_link_constrains.html">hvdc_link_constrains()</a></code>, <code><a href="../reference/changes_to_bid_availability.html">changes_to_bid_availability()</a></code>, <code><a href="../reference/current_balancing_state.html">current_balancing_state()</a></code>, <code><a href="../reference/balancing_energy_bids.html">balancing_energy_bids()</a></code>, <code><a href="../reference/aggregated_balancing_energy_bids.html">aggregated_balancing_energy_bids()</a></code>, <code><a href="../reference/procured_balancing_capacity.html">procured_balancing_capacity()</a></code>, <code><a href="../reference/allocation_of_cross_zonal_balancing_cap.html">allocation_of_cross_zonal_balancing_cap()</a></code>, <code><a href="../reference/contracted_reserves.html">contracted_reserves()</a></code>, <code><a href="../reference/activated_balancing_prices.html">activated_balancing_prices()</a></code>, <code><a href="../reference/imbalance_prices.html">imbalance_prices()</a></code>, <code><a href="../reference/imbalance_volumes.html">imbalance_volumes()</a></code>, <code>financial_expenses_and_income_for_balancing()</code>, <code><a href="../reference/fcr_total_capacity.html">fcr_total_capacity()</a></code>, <code><a href="../reference/shares_of_fcr_capacity.html">shares_of_fcr_capacity()</a></code>, <code><a href="../reference/rr_and_frr_actual_capacity.html">rr_and_frr_actual_capacity()</a></code> and <code>rr_actual_capacity()</code> queries have been introduced.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-0-9-3-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-9-3-0"></a></h3>
@@ -142,7 +181,7 @@
 <h2 class="pkg-version" data-toc-text="0.9.1.1" id="entsoeapi-v0911-2026-02-21">entsoeapi v0.9.1.1 (2026-02-21)<a class="anchor" aria-label="anchor" href="#entsoeapi-v0911-2026-02-21"></a></h2>
 <div class="section level3">
 <h3 id="new-functionality-0-9-1-1">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-0-9-1-1"></a></h3>
-<ul><li>The beta versions of <code>implicit_offered_transfer_capacities()</code>, <code>explicit_offered_transfer_capacities()</code>, <code>continuous_offered_transfer_capacities()</code>, <code><a href="../reference/flow_based_allocations.html">flow_based_allocations()</a></code>, <code><a href="../reference/auction_revenue.html">auction_revenue()</a></code>, <code><a href="../reference/expansion_and_dismantling_project.html">expansion_and_dismantling_project()</a></code> and <code><a href="../reference/intraday_cross_border_transfer_limits.html">intraday_cross_border_transfer_limits()</a></code> queries have been introduced.</li>
+<ul><li>The beta versions of <code><a href="../reference/implicit_offered_transfer_capacities.html">implicit_offered_transfer_capacities()</a></code>, <code><a href="../reference/explicit_offered_transfer_capacities.html">explicit_offered_transfer_capacities()</a></code>, <code><a href="../reference/continuous_offered_transfer_capacities.html">continuous_offered_transfer_capacities()</a></code>, <code><a href="../reference/flow_based_allocations.html">flow_based_allocations()</a></code>, <code><a href="../reference/auction_revenue.html">auction_revenue()</a></code>, <code><a href="../reference/expansion_and_dismantling_project.html">expansion_and_dismantling_project()</a></code> and <code><a href="../reference/intraday_cross_border_transfer_limits.html">intraday_cross_border_transfer_limits()</a></code> queries have been introduced.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-0-9-1-1">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-9-1-1"></a></h3>
@@ -153,7 +192,7 @@
 <h2 class="pkg-version" data-toc-text="0.9.1.0" id="entsoeapi-v0910-2026-02-20">entsoeapi v0.9.1.0 (2026-02-20)<a class="anchor" aria-label="anchor" href="#entsoeapi-v0910-2026-02-20"></a></h2>
 <div class="section level3">
 <h3 id="new-functionality-0-9-1-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-0-9-1-0"></a></h3>
-<ul><li>The beta versions of <code>implicit_offered_transfer_capacities()</code>, <code>explicit_offered_transfer_capacities()</code>, <code>continuous_offered_transfer_capacities()</code>, <code><a href="../reference/flow_based_allocations.html">flow_based_allocations()</a></code>, <code><a href="../reference/auction_revenue.html">auction_revenue()</a></code>, <code><a href="../reference/expansion_and_dismantling_project.html">expansion_and_dismantling_project()</a></code> and <code><a href="../reference/intraday_cross_border_transfer_limits.html">intraday_cross_border_transfer_limits()</a></code> queries have been introduced.</li>
+<ul><li>The beta versions of <code><a href="../reference/implicit_offered_transfer_capacities.html">implicit_offered_transfer_capacities()</a></code>, <code><a href="../reference/explicit_offered_transfer_capacities.html">explicit_offered_transfer_capacities()</a></code>, <code><a href="../reference/continuous_offered_transfer_capacities.html">continuous_offered_transfer_capacities()</a></code>, <code><a href="../reference/flow_based_allocations.html">flow_based_allocations()</a></code>, <code><a href="../reference/auction_revenue.html">auction_revenue()</a></code>, <code><a href="../reference/expansion_and_dismantling_project.html">expansion_and_dismantling_project()</a></code> and <code><a href="../reference/intraday_cross_border_transfer_limits.html">intraday_cross_border_transfer_limits()</a></code> queries have been introduced.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="miscellaneous-0-9-1-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-0-9-1-0"></a></h3>
@@ -177,7 +216,7 @@
 <div class="section level3">
 <h3 id="new-functionality-0-9-0-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-0-9-0-0"></a></h3>
 <ul><li>Pagination functionality has been added to outage queries.</li>
-<li>Day-ahead market notation has been added for <code><a href="../reference/day_ahead_prices.html">day_ahead_prices()</a></code> query result where more than one day-ahead auction are available; the column named as <code>ts_classification_sequence_position</code>.</li>
+<li>Day-ahead market notation has been added for <code>day_ahead_prices()</code> query result where more than one day-ahead auction are available; the column named as <code>ts_classification_sequence_position</code>.</li>
 <li>The missing PSR information related issue resolved in <code><a href="../reference/gen_per_gen_unit.html">gen_per_gen_unit()</a></code> query results.</li>
 </ul></div>
 <div class="section level3">
@@ -193,7 +232,7 @@
 <code>transm_day_ahead_comm_sched()</code> &gt;&gt; <code><a href="../reference/day_ahead_commercial_sched.html">day_ahead_commercial_sched()</a></code>
 </li>
 <li>
-<code>transm_day_ahead_prices()</code> &gt;&gt; <code><a href="../reference/day_ahead_prices.html">day_ahead_prices()</a></code>
+<code>transm_day_ahead_prices()</code> &gt;&gt; <code>day_ahead_prices()</code>
 </li>
 <li>
 <code>transm_day_ahead_transf_cap()</code> &gt;&gt; <code><a href="../reference/forecasted_transfer_capacities.html">forecasted_transfer_capacities()</a></code>

@@ -9,8 +9,8 @@ transmission grid.
 ``` r
 costs_of_congestion_management(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 31L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 31L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -48,8 +48,21 @@ costs_of_congestion_management(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other transmission endpoints:
+[`countertrading()`](https://krose.github.io/entsoeapi/reference/countertrading.md),
+[`cross_border_physical_flows()`](https://krose.github.io/entsoeapi/reference/cross_border_physical_flows.md),
+[`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md),
+[`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md),
+[`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md),
+[`intraday_cross_border_transfer_limits()`](https://krose.github.io/entsoeapi/reference/intraday_cross_border_transfer_limits.md),
+[`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md),
+[`redispatching_cross_border()`](https://krose.github.io/entsoeapi/reference/redispatching_cross_border.md),
+[`redispatching_internal()`](https://krose.github.io/entsoeapi/reference/redispatching_internal.md),
+[`total_commercial_sched()`](https://krose.github.io/entsoeapi/reference/total_commercial_sched.md)
 
 ## Examples
 
@@ -65,7 +78,7 @@ df <- entsoeapi::costs_of_congestion_management(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A92&in_Domain=10YBE----------2&out_Domain=10YBE----------2&periodStart=201512312300&periodEnd=201612302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:15:33 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:05 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Cost of Congestion Management_201512312300-201612302300.xml"
 #> <- x-content-type-options: nosniff
@@ -75,8 +88,8 @@ df <- entsoeapi::costs_of_congestion_management(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional definitions added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
 
 dplyr::glimpse(df)
 #> Rows: 36
@@ -89,9 +102,9 @@ dplyr::glimpse(df)
 #> $ type_def               <chr> "Congestion costs", "Congestion costs", "Congestion costs", "Congestion costs", "Conges…
 #> $ process_type           <chr> "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A1…
 #> $ process_type_def       <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "Re…
-#> $ ts_business_type       <chr> "A46", "A46", "A46", "A46", "A46", "A46", "A46", "A46", "A46", "A46", "A46", "A46", "B0…
-#> $ ts_business_type_def   <chr> "System Operator redispatching", "System Operator redispatching", "System Operator redi…
-#> $ created_date_time      <dttm> 2026-03-17 22:15:33, 2026-03-17 22:15:33, 2026-03-17 22:15:33, 2026-03-17 22:15:33, 20…
+#> $ ts_business_type       <chr> "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B03", "B0…
+#> $ ts_business_type_def   <chr> "Counter trade", "Counter trade", "Counter trade", "Counter trade", "Counter trade", "C…
+#> $ created_date_time      <dttm> 2026-03-25 19:09:05, 2026-03-25 19:09:05, 2026-03-25 19:09:05, 2026-03-25 19:09:05, 20…
 #> $ revision_number        <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ ts_resolution          <chr> "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1M", "P1…
 #> $ ts_time_interval_start <dttm> 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 23:00:00, 20…

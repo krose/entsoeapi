@@ -9,7 +9,7 @@ Replacement Reserve (RR)."><meta property="og:image" content="https://krose.gith
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@ Replacement Reserve (RR)."><meta property="og:image" content="https://krose.gith
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get RR and FRR Actual Capacity (SO GL 188.4 &amp; 189.3)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
       <div class="d-none name"><code>rr_and_frr_actual_capacity.Rd</code></div>
     </div>
 
@@ -48,9 +48,8 @@ Replacement Reserve (RR).</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rr_and_frr_actual_capacity</span><span class="op">(</span></span>
 <span>  eic <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  process_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  business_type <span class="op">=</span> <span class="st">"C78"</span>,</span>
-<span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">days</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">7L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
-<span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_start <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">days</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">7L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_end <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
 <span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  security_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ENTSOE_PAT"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -68,14 +67,6 @@ Replacement Reserve (RR).</p>
 <dd><p>type of reserve
 "A56" FRR
 "A46" RR</p></dd>
-
-
-<dt id="arg-business-type">business_type<a class="anchor" aria-label="anchor" href="#arg-business-type"></a></dt>
-<dd><p>type of aggregation
-"C77" minimum
-"C78" average
-"C79" max
-defaults to "C78"</p></dd>
 
 
 <dt id="arg-period-start">period_start<a class="anchor" aria-label="anchor" href="#arg-period-start"></a></dt>
@@ -96,42 +87,131 @@ defaults to "C78"</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data, or <code>NULL</code> if no data
-is available for the given parameters.</p>
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other balancing endpoints:
+<code><a href="activated_balancing_prices.html">activated_balancing_prices()</a></code>,
+<code><a href="aggregated_balancing_energy_bids.html">aggregated_balancing_energy_bids()</a></code>,
+<code><a href="allocation_of_cross_zonal_balancing_cap.html">allocation_of_cross_zonal_balancing_cap()</a></code>,
+<code><a href="balancing_border_cap_limit.html">balancing_border_cap_limit()</a></code>,
+<code><a href="balancing_energy_bids.html">balancing_energy_bids()</a></code>,
+<code><a href="changes_to_bid_availability.html">changes_to_bid_availability()</a></code>,
+<code><a href="contracted_reserves.html">contracted_reserves()</a></code>,
+<code><a href="current_balancing_state.html">current_balancing_state()</a></code>,
+<code><a href="elastic_demands.html">elastic_demands()</a></code>,
+<code><a href="exchanged_volumes.html">exchanged_volumes()</a></code>,
+<code><a href="exchanged_volumes_per_border.html">exchanged_volumes_per_border()</a></code>,
+<code><a href="fcr_total_capacity.html">fcr_total_capacity()</a></code>,
+<code><a href="financial_expenses_and_income.html">financial_expenses_and_income()</a></code>,
+<code><a href="hvdc_link_constrains.html">hvdc_link_constrains()</a></code>,
+<code><a href="imbalance_prices.html">imbalance_prices()</a></code>,
+<code><a href="imbalance_volumes.html">imbalance_volumes()</a></code>,
+<code><a href="netted_volumes.html">netted_volumes()</a></code>,
+<code><a href="netted_volumes_per_border.html">netted_volumes_per_border()</a></code>,
+<code><a href="procured_balancing_capacity.html">procured_balancing_capacity()</a></code>,
+<code><a href="shares_of_fcr_capacity.html">shares_of_fcr_capacity()</a></code>,
+<code><a href="sharing_of_rr_and_frr_capacity.html">sharing_of_rr_and_frr_capacity()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">rr_and_frr_actual_capacity</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  eic <span class="op">=</span> <span class="st">"10YAT-APG------L"</span>,</span></span>
-<span class="r-in"><span>  process_type <span class="op">=</span> <span class="st">"A56"</span>,</span></span>
-<span class="r-in"><span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2022-01-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2022-04-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">rr_and_frr_actual_capacity</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  eic <span class="op">=</span> <span class="st">"10YFR-RTE------C"</span>,</span></span>
+<span class="r-in"><span>  process_type <span class="op">=</span> <span class="st">"A46"</span>,</span></span>
+<span class="r-in"><span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-01-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-04-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A26&amp;processType=A56&amp;businessType=C78&amp;Area_Domain=10YAT-APG------L&amp;periodStart=202112312300&amp;periodEnd=202203312200&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A26&amp;processType=A46&amp;businessType=C78&amp;Area_Domain=10YFR-RTE------C&amp;periodStart=202312312300&amp;periodEnd=202403312200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:18:08 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:10:26 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="acknowledgement.xml"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">vary</span>: accept-encoding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-encoding</span>: gzip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional type names added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional eic names added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-17 22:18:08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_code       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "999"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_text       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "No matching data found for Data item FRR_RR_ACTUAL_CAPACITY [SO GL 188.4&amp;189.3] (10YAT-APG…</span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ area_domain_mrid              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10YFR-RTE------C"<span style="color: #949494;">, </span>"10YFR-RTE------C"<span style="color: #949494;">, </span>"10YFR-RTE------C"<span style="color: #949494;">, </span>"10YFR-RTE------C"<span style="color: #949494;">, </span>…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ area_domain_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ type                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ type_def                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Capacity document"<span style="color: #949494;">, </span>"Capacity document"<span style="color: #949494;">, </span>"Capacity document"<span style="color: #949494;">, </span>"Capacity documen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A46"<span style="color: #949494;">, </span>"A46"<span style="color: #949494;">, </span>"A46"<span style="color: #949494;">, </span>"A46"<span style="color: #949494;">, </span>"A46"<span style="color: #949494;">, </span>"A46"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type_def              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Replacement reserve"<span style="color: #949494;">, </span>"Replacement reserve"<span style="color: #949494;">, </span>"Replacement reserve"<span style="color: #949494;">, </span>"Replacemen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_flow_direction             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A02"<span style="color: #949494;">, </span>"A02"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A02"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_flow_direction_def         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "DOWN"<span style="color: #949494;">, </span>"DOWN"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"DOWN"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "C77"<span style="color: #949494;">, </span>"C79"<span style="color: #949494;">, </span>"C78"<span style="color: #949494;">, </span>"C78"<span style="color: #949494;">, </span>"C77"<span style="color: #949494;">, </span>"C79"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Minimum available capacity"<span style="color: #949494;">, </span>"Maximum available capacity"<span style="color: #949494;">, </span>"Average available c…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-25 19:10:26<span style="color: #949494;">, </span>2026-03-25 19:10:26<span style="color: #949494;">, </span>2026-03-25 19:10:26<span style="color: #949494;">, </span>2026-03-25 19:10:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_resolution                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_start        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_end          <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-03-31 22:00:00<span style="color: #949494;">, </span>2024-03-31 22:00:00<span style="color: #949494;">, </span>2024-03-31 22:00:00<span style="color: #949494;">, </span>2024-03-31 22:00:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mrid                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>3<span style="color: #949494;">, </span>4<span style="color: #949494;">, </span>5<span style="color: #949494;">, </span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_point_dt_start             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_point_quantity             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2462<span style="color: #949494;">, </span>27827<span style="color: #949494;">, </span>9967<span style="color: #949494;">, </span>14423<span style="color: #949494;">, </span>2776<span style="color: #949494;">, </span>21779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_quantity_measure_unit_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">rr_and_frr_actual_capacity</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  eic <span class="op">=</span> <span class="st">"10YFR-RTE------C"</span>,</span></span>
+<span class="r-in"><span>  process_type <span class="op">=</span> <span class="st">"A56"</span>,</span></span>
+<span class="r-in"><span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-01-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-04-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A26&amp;processType=A56&amp;businessType=C78&amp;Area_Domain=10YFR-RTE------C&amp;periodStart=202312312300&amp;periodEnd=202403312200&amp;securityToken=&lt;...&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:10:26 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">vary</span>: accept-encoding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-encoding</span>: gzip</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ area_domain_mrid              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10YFR-RTE------C"<span style="color: #949494;">, </span>"10YFR-RTE------C"<span style="color: #949494;">, </span>"10YFR-RTE------C"<span style="color: #949494;">, </span>"10YFR-RTE------C"<span style="color: #949494;">, </span>…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ area_domain_name              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"<span style="color: #949494;">, </span>"France"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ type                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"<span style="color: #949494;">, </span>"A26"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ type_def                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Capacity document"<span style="color: #949494;">, </span>"Capacity document"<span style="color: #949494;">, </span>"Capacity document"<span style="color: #949494;">, </span>"Capacity documen…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A56"<span style="color: #949494;">, </span>"A56"<span style="color: #949494;">, </span>"A56"<span style="color: #949494;">, </span>"A56"<span style="color: #949494;">, </span>"A56"<span style="color: #949494;">, </span>"A56"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type_def              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Frequency restoration reserve"<span style="color: #949494;">, </span>"Frequency restoration reserve"<span style="color: #949494;">, </span>"Frequency res…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_flow_direction             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A02"<span style="color: #949494;">, </span>"A02"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A02"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_flow_direction_def         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "DOWN"<span style="color: #949494;">, </span>"DOWN"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"DOWN"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "C77"<span style="color: #949494;">, </span>"C79"<span style="color: #949494;">, </span>"C78"<span style="color: #949494;">, </span>"C78"<span style="color: #949494;">, </span>"C77"<span style="color: #949494;">, </span>"C79"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Minimum available capacity"<span style="color: #949494;">, </span>"Maximum available capacity"<span style="color: #949494;">, </span>"Average available c…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-25 19:10:26<span style="color: #949494;">, </span>2026-03-25 19:10:26<span style="color: #949494;">, </span>2026-03-25 19:10:26<span style="color: #949494;">, </span>2026-03-25 19:10:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_resolution                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"<span style="color: #949494;">, </span>"P3M"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_start        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_end          <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-03-31 22:00:00<span style="color: #949494;">, </span>2024-03-31 22:00:00<span style="color: #949494;">, </span>2024-03-31 22:00:00<span style="color: #949494;">, </span>2024-03-31 22:00:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mrid                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>3<span style="color: #949494;">, </span>4<span style="color: #949494;">, </span>5<span style="color: #949494;">, </span>6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_point_dt_start             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:00<span style="color: #949494;">, </span>2023-12-31 23:00:…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_point_quantity             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 381<span style="color: #949494;">, </span>9151<span style="color: #949494;">, </span>4604<span style="color: #949494;">, </span>2931<span style="color: #949494;">, </span>1173<span style="color: #949494;">, </span>9348</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_quantity_measure_unit_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -10,8 +10,8 @@ applies!!
 redispatching_cross_border(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -47,8 +47,21 @@ redispatching_cross_border(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other transmission endpoints:
+[`costs_of_congestion_management()`](https://krose.github.io/entsoeapi/reference/costs_of_congestion_management.md),
+[`countertrading()`](https://krose.github.io/entsoeapi/reference/countertrading.md),
+[`cross_border_physical_flows()`](https://krose.github.io/entsoeapi/reference/cross_border_physical_flows.md),
+[`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md),
+[`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md),
+[`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md),
+[`intraday_cross_border_transfer_limits()`](https://krose.github.io/entsoeapi/reference/intraday_cross_border_transfer_limits.md),
+[`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md),
+[`redispatching_internal()`](https://krose.github.io/entsoeapi/reference/redispatching_internal.md),
+[`total_commercial_sched()`](https://krose.github.io/entsoeapi/reference/total_commercial_sched.md)
 
 ## Examples
 
@@ -65,7 +78,7 @@ df <- entsoeapi::redispatching_cross_border(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A63&businessType=A46&in_Domain=10YDE-EON------1&out_Domain=10YDE-VE-------2&periodStart=202408312200&periodEnd=202409302200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:18:03 GMT
+#> <- date: Wed, 25 Mar 2026 19:10:21 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Redispatching_Cross_Border_202409010900-202409291445.xml"
 #> <- x-content-type-options: nosniff
@@ -75,56 +88,12 @@ df <- entsoeapi::redispatching_cross_border(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...9`
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...10`
-#> New names:
-#> • `TimeSeries.Reason.code` -> `TimeSeries.Reason.code...20`
-#> • `TimeSeries.Reason.code...9` -> `TimeSeries.Reason.code...26`
-#> • `TimeSeries.Reason.code...10` -> `TimeSeries.Reason.code...27`
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 524
+#> Rows: 604
 #> Columns: 25
 #> $ ts_in_domain_mrid             <chr> "10YDE-EON------1", "10YDE-EON------1", "10YDE-EON------1", "10YDE-EON------1", …
 #> $ ts_in_domain_name             <chr> "Germany TenneT DE", "Germany TenneT DE", "Germany TenneT DE", "Germany TenneT D…
@@ -140,7 +109,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "System Operator redispatching", "System Operator redispatching", "System Operat…
 #> $ ts_mkt_psr_type               <chr> "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Generation", "Generation", "Generation", "Generation", "Generation", "Generatio…
-#> $ created_date_time             <dttm> 2026-03-17 22:18:03, 2026-03-17 22:18:03, 2026-03-17 22:18:03, 2026-03-17 22:18…
+#> $ created_date_time             <dttm> 2026-03-25 19:10:21, 2026-03-25 19:10:21, 2026-03-25 19:10:21, 2026-03-25 19:10…
 #> $ ts_reason_code                <chr> "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B24", "B2…
 #> $ ts_reason_text                <chr> "Load flow overload", "Load flow overload", "Load flow overload", "Load flow ove…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…

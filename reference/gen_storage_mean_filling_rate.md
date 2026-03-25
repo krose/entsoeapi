@@ -9,8 +9,8 @@ previous year.
 ``` r
 gen_storage_mean_filling_rate(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -45,8 +45,17 @@ gen_storage_mean_filling_rate(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other generation endpoints:
+[`gen_day_ahead_forecast()`](https://krose.github.io/entsoeapi/reference/gen_day_ahead_forecast.md),
+[`gen_installed_capacity_per_pt()`](https://krose.github.io/entsoeapi/reference/gen_installed_capacity_per_pt.md),
+[`gen_installed_capacity_per_pu()`](https://krose.github.io/entsoeapi/reference/gen_installed_capacity_per_pu.md),
+[`gen_per_gen_unit()`](https://krose.github.io/entsoeapi/reference/gen_per_gen_unit.md),
+[`gen_per_prod_type()`](https://krose.github.io/entsoeapi/reference/gen_per_prod_type.md),
+[`gen_wind_solar_forecasts()`](https://krose.github.io/entsoeapi/reference/gen_wind_solar_forecasts.md)
 
 ## Examples
 
@@ -61,7 +70,7 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A72&processType=A16&in_Domain=10YFR-RTE------C&periodStart=202001312300&periodEnd=202102142300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:17:05 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:37 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregate Filling Rate of Water Reservoirs_202001312300-202102142300.xml"
 #> <- x-content-type-options: nosniff
@@ -71,7 +80,9 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
 #> Rows: 55
@@ -86,7 +97,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "…
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
-#> $ created_date_time               <dttm> 2026-03-17 22:17:05, 2026-03-17 22:17:05, 2026-03-17 22:17:05, 2026-03-17 22:…
+#> $ created_date_time               <dttm> 2026-03-25 19:09:37, 2026-03-25 19:09:37, 2026-03-25 19:09:37, 2026-03-25 19:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2020-01-26 23:00:00, 2020-01-26 23:00:00, 2020-01-26 23:00:00, 2020-01-26 23:…
 #> $ time_period_time_interval_end   <dttm> 2021-02-14 23:00:00, 2021-02-14 23:00:00, 2021-02-14 23:00:00, 2021-02-14 23:…

@@ -151,15 +151,14 @@ extract_response(content = en_cont_list, tidy_output = tidy_output)
 **Location:** `R/utils.R`
 
 ``` r
-api_req_safe <- purrr::safely(api_req)
+api_req_safe <- safely(api_req)
 ```
 
-A one-liner that wraps `api_req()` with
-[`purrr::safely()`](https://purrr.tidyverse.org/reference/safely.html).
-All R-level exceptions are caught and returned as
-`list(result = NULL, error = <condition>)` rather than halting
-execution. This standardised return shape is what `extract_response()`
-expects.
+A one-liner that wraps `api_req()` with the package-local `safely()`
+helper (a lightweight `tryCatch` wrapper). All R-level exceptions are
+caught and returned as `list(result = NULL, error = <condition>)` rather
+than halting execution. This standardised return shape is what
+`extract_response()` expects.
 
 ### 1.3 `api_req()`
 
@@ -186,8 +185,8 @@ The core HTTP function. Steps:
       (`req_verbose(header_req=FALSE, header_resp=TRUE)`)
     - Timeout: `.req_timeout` seconds (60, defined in `R/constants.R`)
 
-3.  **Execution.** Sent via `purrr::safely(httr2::req_perform)` —
-    another safety wrapper so network errors are captured, not thrown.
+3.  **Execution.** Sent via `safely(httr2::req_perform)` (the same
+    package-local wrapper) so network errors are captured, not thrown.
 
 4.  **HTTP 200 — response routing.**
 
@@ -244,8 +243,9 @@ with specific business or storage types.
 **Location:** `R/utils.R`
 
 Called when the API returns a zip archive. Decompresses the temp file
-with `purrr::safely(utils::unzip)`, then reads each extracted XML file
-with [`xml2::read_xml()`](http://xml2.r-lib.org/reference/read_xml.md).
+with `safely(utils::unzip)` (using the package-local wrapper), then
+reads each extracted XML file with
+[`xml2::read_xml()`](http://xml2.r-lib.org/reference/read_xml.md).
 Returns a list of `xml_document` objects — the same shape as a paginated
 response, so `extract_response()` handles both identically.
 
@@ -266,7 +266,7 @@ Entry point called by every user-facing function. Accepts the
   [`purrr::imap()`](https://purrr.tidyverse.org/reference/imap.html),
   calling `xml_to_table()` on each element, showing a progress bar, then
   combines all results with
-  [`data.table::rbindlist()`](https://rdrr.io/pkg/data.table/man/rbindlist.html)
+  [`dplyr::bind_rows()`](https://dplyr.tidyverse.org/reference/bind_rows.html)
   and converts to a tibble.
 - If `$result` is a single `xml_document`: calls `xml_to_table()`
   directly.
@@ -390,10 +390,11 @@ merging via `" - "` separator), and object aggregation types.
 
 ### 2.7 Column whitelist and row ordering
 
-After enrichment, `xml_to_table()` applies a hard-coded whitelist of ~90
-allowed column names. Any column not on the list is silently dropped.
-This prevents internal XML artefacts from leaking into user-visible
-output and keeps the API stable across ENTSO-E schema changes.
+After enrichment, `xml_to_table()` applies a hard-coded whitelist of
+~140 allowed column names. Any column not on the list is silently
+dropped. This prevents internal XML artefacts from leaking into
+user-visible output and keeps the API stable across ENTSO-E schema
+changes.
 
 Rows are then sorted by: `created_date_time`, `ts_mrid`,
 `ts_business_type`, `ts_mkt_psr_type`, `ts_time_interval_start`,

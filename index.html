@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>R Client for the ENTSO-E Transparency Platform API • entsoeapi</title>
+<title>Client for the ENTSO-E Transparency Platform API • entsoeapi</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,9 +15,9 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="R Client for the ENTSO-E Transparency Platform API">
-<meta name="description" content="Provides a standardized R client for the ENTSO-E (European Network of Transmission System Operators for Electricity) Transparency Platform API. Covers Market, Load, Generation, Transmission, Outages, and Balancing endpoints. Automatically handles query pagination, XML-to-tabular conversion, response caching, and code list lookups. Requires a registered ENTSO-E security token.">
-<meta property="og:description" content="Provides a standardized R client for the ENTSO-E (European Network of Transmission System Operators for Electricity) Transparency Platform API. Covers Market, Load, Generation, Transmission, Outages, and Balancing endpoints. Automatically handles query pagination, XML-to-tabular conversion, response caching, and code list lookups. Requires a registered ENTSO-E security token.">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Client for the ENTSO-E Transparency Platform API">
+<meta name="description" content="Provides a standardized R client for the ENTSO-E (European Network of Transmission System Operators for Electricity) Transparency Platform &lt;https://transparency.entsoe.eu&gt; API. Covers Market, Load, Generation, Transmission, Outages, and Balancing endpoints. Automatically handles query pagination, XML-to-tabular conversion, response caching, and code list lookups. Requires a registered ENTSO-E security token.">
+<meta property="og:description" content="Provides a standardized R client for the ENTSO-E (European Network of Transmission System Operators for Electricity) Transparency Platform &lt;https://transparency.entsoe.eu&gt; API. Covers Market, Load, Generation, Transmission, Outages, and Balancing endpoints. Automatically handles query pagination, XML-to-tabular conversion, response caching, and code list lookups. Requires a registered ENTSO-E security token.">
 <meta property="og:image" content="https://krose.github.io/entsoeapi/logo.svg">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,17 +86,17 @@
 <ul>
 <li>MARKET
 <ul>
-<li>implicit_offered_transfer_capacities (11.1) (beta test version)</li>
-<li>explicit_offered_transfer_capacities (11.1.A) (beta test version)</li>
-<li>continuous_offered_transfer_capacities (11.1) (beta test version)</li>
-<li>flow_based_allocations (11.1.B) (beta test version)</li>
-<li>auction_revenue (12.1.A) (beta test version)</li>
+<li>implicit_offered_transfer_capacities (11.1)</li>
+<li>explicit_offered_transfer_capacities (11.1.A)</li>
+<li>continuous_offered_transfer_capacities (11.1)</li>
+<li>flow_based_allocations (11.1.B)</li>
+<li>auction_revenue (12.1.A)</li>
 <li>total_nominated_capacity (12.1.B)</li>
 <li>already_allocated_total_capacity (12.1.C)</li>
 <li>day_ahead_prices (12.1.D)</li>
-<li>net_positions (12.1.E) (beta test version)</li>
-<li>congestion_income (12.1.E) (beta test version)</li>
-<li>allocated_transfer_capacities_3rd_countries (12.1.H) (beta test version)</li>
+<li>net_positions (12.1.E)</li>
+<li>congestion_income (12.1.E)</li>
+<li>allocated_transfer_capacities_3rd_countries (12.1.H)</li>
 </ul>
 </li>
 <li>LOAD
@@ -122,8 +122,8 @@
 </li>
 <li>TRANSMISSION
 <ul>
-<li>expansion_and_dismantling_project (9.1) (beta test version)</li>
-<li>intraday_cross_border_transfer_limits (11.3) (beta test version)</li>
+<li>expansion_and_dismantling_project (9.1) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
+<li>intraday_cross_border_transfer_limits (11.3)</li>
 <li>forecasted_transfer_capacities (11.1.A)</li>
 <li>day_ahead_commercial_sched (12.1.F)</li>
 <li>total_commercial_sched (12.1.F)</li>
@@ -151,25 +151,25 @@
 <li>netted_volumes (IFs IN 3.10)</li>
 <li>elastic_demands (IF mFRR 3.4)</li>
 <li>balancing_border_cap_limit (IFs 4.3 &amp; 4.4)</li>
-<li>exchanged_volumes_per_border (3.10, 3.16 &amp; 3.17) (beta test version)</li>
-<li>netted_volumes_per_border (3.10, 3.16 &amp; 3.17) (beta test version)</li>
-<li>hvdc_link_constrains (4.5) (beta test version)</li>
-<li>changes_to_bid_availability (mFRR 9.9, aFRR 9.6&amp;9.8) (beta test version)</li>
-<li>current_balancing_state (12.3.A) (beta test version)</li>
-<li>balancing_energy_bids (12.3.B&amp;C) (beta test version)</li>
-<li>aggregated_balancing_energy_bids (12.3.E) (beta test version)</li>
-<li>procured_balancing_capacity (12.3.F) (beta test version)</li>
-<li>allocation_of_cross_zonal_balancing_cap (12.3.H&amp;I) (beta test version)</li>
-<li>contracted_reserves (17.1.B&amp;C) (beta test version)</li>
-<li>activated_balancing_prices (17.1.F) (beta test version)</li>
-<li>imbalance_prices (17.1.G) (beta test version)</li>
-<li>imbalance_volumes (17.1.H) (beta test version)</li>
-<li>financial_expenses_and_income_for_balancing (17.1.I) (beta test version)</li>
-<li>fcr_total_capacity (187.2) (beta test version)</li>
-<li>shares_of_fcr_capacity (187.2) (beta test version)</li>
-<li>rr_and_frr_actual_capacity (188.4 &amp; 189.3) (beta test version)</li>
-<li>rr_actual_capacity (189.3) (beta test version)</li>
-<li>sharing_of_frr_capacity (SO GL 190.1) (beta test version)</li>
+<li>exchanged_volumes_per_border (3.10, 3.16 &amp; 3.17)</li>
+<li>netted_volumes_per_border (3.10, 3.16 &amp; 3.17) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
+<li>hvdc_link_constrains (4.5) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
+<li>changes_to_bid_availability (mFRR 9.9, aFRR 9.6&amp;9.8) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
+<li>current_balancing_state (12.3.A)</li>
+<li>balancing_energy_bids (12.3.B&amp;C) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
+<li>(12.3.D)</li>
+<li>aggregated_balancing_energy_bids (12.3.E)</li>
+<li>procured_balancing_capacity (12.3.F)</li>
+<li>allocation_of_cross_zonal_balancing_cap (12.3.H&amp;I) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
+<li>contracted_reserves (17.1.B&amp;C)</li>
+<li>activated_balancing_prices (17.1.F)</li>
+<li>imbalance_prices (17.1.G)</li>
+<li>imbalance_volumes (17.1.H)</li>
+<li>financial_expenses_and_income (17.1.I)</li>
+<li>fcr_total_capacity (187.2)</li>
+<li>rr_and_frr_actual_capacity (188.4 &amp; 189.3)</li>
+<li>shares_of_fcr_capacity (187.2)</li>
+<li>sharing_of_rr_and_frr_capacity (SO GL 190.1) (no data available on the ENTSO-E API yet, as of 24 March 2026)</li>
 </ul>
 </li>
 </ul>
@@ -213,28 +213,42 @@ Since the underlying engine has fairly been standardized with the introduction o
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
 <span><span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu"><a href="reference/all_approved_eic.html">all_approved_eic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">EicLongName</span> <span class="op">==</span> <span class="st">"Germany"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">eic_long_name</span> <span class="op">==</span> <span class="st">"Germany"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading X_eicCodes.csv file ...</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading Y_eicCodes.csv file ...</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading Z_eicCodes.csv file ...</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading T_eicCodes.csv file ...</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading V_eicCodes.csv file ...</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading W_eicCodes.csv file ...</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ downloading A_eicCodes.csv file ...</span></span>
 <span><span class="co">#&gt; Rows: 1</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ EicCode                         &lt;chr&gt; "10Y1001A1001A83F"</span></span>
-<span><span class="co">#&gt; $ EicDisplayName                  &lt;chr&gt; "DE"</span></span>
-<span><span class="co">#&gt; $ EicLongName                     &lt;chr&gt; "Germany"</span></span>
-<span><span class="co">#&gt; $ EicParent                       &lt;chr&gt; NA</span></span>
-<span><span class="co">#&gt; $ EicResponsibleParty             &lt;chr&gt; NA</span></span>
-<span><span class="co">#&gt; $ EicStatus                       &lt;chr&gt; "Active"</span></span>
-<span><span class="co">#&gt; $ MarketParticipantPostalCode     &lt;chr&gt; NA</span></span>
-<span><span class="co">#&gt; $ MarketParticipantIsoCountryCode &lt;chr&gt; NA</span></span>
-<span><span class="co">#&gt; $ MarketParticipantVatCode        &lt;chr&gt; NA</span></span>
-<span><span class="co">#&gt; $ EicTypeFunctionList             &lt;chr&gt; "Member State"</span></span>
-<span><span class="co">#&gt; $ type                            &lt;chr&gt; "Y"</span></span></code></pre></div>
+<span><span class="co">#&gt; $ eic_code                            &lt;chr&gt; "10Y1001A1001A83F"</span></span>
+<span><span class="co">#&gt; $ eic_display_name                    &lt;chr&gt; "DE"</span></span>
+<span><span class="co">#&gt; $ eic_long_name                       &lt;chr&gt; "Germany"</span></span>
+<span><span class="co">#&gt; $ eic_parent                          &lt;chr&gt; NA</span></span>
+<span><span class="co">#&gt; $ eic_responsible_party               &lt;chr&gt; NA</span></span>
+<span><span class="co">#&gt; $ eic_status                          &lt;chr&gt; "Active"</span></span>
+<span><span class="co">#&gt; $ market_participant_postal_code      &lt;chr&gt; NA</span></span>
+<span><span class="co">#&gt; $ market_participant_iso_country_code &lt;chr&gt; NA</span></span>
+<span><span class="co">#&gt; $ market_participant_vat_code         &lt;chr&gt; NA</span></span>
+<span><span class="co">#&gt; $ eic_type_function_list              &lt;chr&gt; "Member State"</span></span>
+<span><span class="co">#&gt; $ type                                &lt;chr&gt; "Y"</span></span></code></pre></div>
 <p>For some of the data you need to translate the generation codes.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/" class="external-link">"knitr"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"knitr"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -401,7 +415,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ── API call ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A65&amp;processType=A16&amp;outBiddingZone_Domain=10Y1001A1001A83F&amp;periodStart=201912312300&amp;periodEnd=202001012300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- date: Mon, 16 Mar 2026 21:35:56 GMT</span></span>
+<span><span class="co">#&gt; &lt;- date: Tue, 24 Mar 2026 18:52:37 GMT</span></span>
 <span><span class="co">#&gt; &lt;- content-type: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- x-content-type-options: nosniff</span></span>
@@ -411,8 +425,12 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; &lt;- strict-transport-security: max-age=15724800; includeSubDomains</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; ✔ response has arrived</span></span>
-<span><span class="co">#&gt; ℹ downloading area_eic_name table ...</span></span>
+<span><span class="co">#&gt; ✔ Additional type names have been added!</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── public download ─────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; ℹ pulling Y_eicCodes.csv file from cache</span></span>
+<span><span class="co">#&gt; ✔ Additional eic names have been added!</span></span>
+<span><span class="co">#&gt; ✔ Additional definitions have been added!</span></span>
 <span><span class="co">#&gt; Rows: 96</span></span>
 <span><span class="co">#&gt; Columns: 21</span></span>
 <span><span class="co">#&gt; $ ts_out_bidding_zone_domain_mrid &lt;chr&gt; "10Y1001A1001A83F", "10Y1001A1001A83F"…</span></span>
@@ -425,7 +443,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_object_aggregation_def       &lt;chr&gt; "Area", "Area", "Area", "Area", "Area"…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                &lt;chr&gt; "A04", "A04", "A04", "A04", "A04", "A0…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def            &lt;chr&gt; "Consumption", "Consumption", "Consump…</span></span>
-<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-16 21:35:56, 2026-03-16 21:35…</span></span>
+<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-24 18:52:37, 2026-03-24 18:52…</span></span>
 <span><span class="co">#&gt; $ revision_number                 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_start &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:00…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_end   &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>
@@ -451,7 +469,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; ── API call ────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A75&amp;processType=A16&amp;in_Domain=10Y1001A1001A83F&amp;periodStart=201912312300&amp;periodEnd=202001012300&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- date: Mon, 16 Mar 2026 21:36:01 GMT</span></span>
+<span><span class="co">#&gt; &lt;- date: Tue, 24 Mar 2026 18:52:38 GMT</span></span>
 <span><span class="co">#&gt; &lt;- content-type: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- x-content-type-options: nosniff</span></span>
@@ -461,7 +479,9 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; &lt;- strict-transport-security: max-age=15724800; includeSubDomains</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; ✔ response has arrived</span></span>
-<span><span class="co">#&gt; ℹ pulling area_eic_name table from cache</span></span>
+<span><span class="co">#&gt; ✔ Additional type names have been added!</span></span>
+<span><span class="co">#&gt; ✔ Additional eic names have been added!</span></span>
+<span><span class="co">#&gt; ✔ Additional definitions have been added!</span></span>
 <span><span class="co">#&gt; Rows: 1,632</span></span>
 <span><span class="co">#&gt; Columns: 25</span></span>
 <span><span class="co">#&gt; $ ts_in_bidding_zone_domain_mrid  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
@@ -478,7 +498,7 @@ Flexible Alternating Current Transmission System
 <span><span class="co">#&gt; $ ts_business_type_def            &lt;chr&gt; "Production", "Production", "Productio…</span></span>
 <span><span class="co">#&gt; $ ts_mkt_psr_type                 &lt;chr&gt; "B10", "B10", "B10", "B10", "B10", "B1…</span></span>
 <span><span class="co">#&gt; $ ts_mkt_psr_type_def             &lt;chr&gt; "Hydro-electric pure pumped storage he…</span></span>
-<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-16 21:36:01, 2026-03-16 21:36…</span></span>
+<span><span class="co">#&gt; $ created_date_time               &lt;dttm&gt; 2026-03-24 18:52:38, 2026-03-24 18:52…</span></span>
 <span><span class="co">#&gt; $ revision_number                 &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_start &lt;dttm&gt; 2019-12-31 23:00:00, 2019-12-31 23:00…</span></span>
 <span><span class="co">#&gt; $ time_period_time_interval_end   &lt;dttm&gt; 2020-01-01 23:00:00, 2020-01-01 23:00…</span></span>

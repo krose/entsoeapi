@@ -13,7 +13,7 @@ specific consumption units are not provided."><meta property="og:image" content=
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ specific consumption units are not provided."><meta property="og:image" content=
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Unavailability of Consumption Units. (7.1.A&amp;B)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/R/en_outages.R" class="external-link"><code>R/en_outages.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_outages.R" class="external-link"><code>R/en_outages.R</code></a></small>
       <div class="d-none name"><code>outages_cons_units.Rd</code></div>
     </div>
 
@@ -53,8 +53,8 @@ specific consumption units are not provided.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">outages_cons_units</span><span class="op">(</span></span>
 <span>  eic <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">days</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
-<span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">days</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_start <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">days</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_end <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">days</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
 <span>  period_start_update <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  period_end_update <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  doc_status <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -123,8 +123,17 @@ Defaults to NULL which means both of them.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data, or <code>NULL</code> if no data
-is available for the given parameters.</p>
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other outage endpoints:
+<code><a href="outages_both.html">outages_both()</a></code>,
+<code><a href="outages_fallbacks.html">outages_fallbacks()</a></code>,
+<code><a href="outages_gen_units.html">outages_gen_units()</a></code>,
+<code><a href="outages_offshore_grid.html">outages_offshore_grid()</a></code>,
+<code><a href="outages_prod_units.html">outages_prod_units()</a></code>,
+<code><a href="outages_transmission_grid.html">outages_transmission_grid()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -138,7 +147,7 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A76&amp;biddingZone_Domain=10YFI-1--------U&amp;periodStart=202404092200&amp;periodEnd=202404102200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:17:30 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:59 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Unavailability_of_consumption_units_aggregated_202404100400-202404100900.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -148,7 +157,9 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1</span>
@@ -161,7 +172,7 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type_def                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Outage information"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A53"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Planned maintenance"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-17 22:17:30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time                  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-25 19:09:59</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_code                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A95"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ reason_text                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "  - Complementary information"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1</span>

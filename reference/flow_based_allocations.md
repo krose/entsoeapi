@@ -7,8 +7,8 @@ Flow based capacity allocated, for all time horizons.
 ``` r
 flow_based_allocations(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   process_type = "A43",
   archive = FALSE,
   tidy_output = FALSE,
@@ -52,45 +52,31 @@ flow_based_allocations(
 
 A
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
-with the queried data, or `NULL` if no data is available for the given
-parameters.
+with the queried data.
+
+## See also
+
+Other market endpoints:
+[`aggregated_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_bids.md),
+[`allocated_transfer_capacities_3rd_countries()`](https://krose.github.io/entsoeapi/reference/allocated_transfer_capacities_3rd_countries.md),
+[`already_allocated_total_capacity()`](https://krose.github.io/entsoeapi/reference/already_allocated_total_capacity.md),
+[`auction_revenue()`](https://krose.github.io/entsoeapi/reference/auction_revenue.md),
+[`congestion_income()`](https://krose.github.io/entsoeapi/reference/congestion_income.md),
+[`continuous_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacities.md),
+[`continuous_offered_transfer_capacity()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacity.md),
+[`energy_prices()`](https://krose.github.io/entsoeapi/reference/energy_prices.md),
+[`explicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacities.md),
+[`explicit_offered_transfer_capacity()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacity.md),
+[`implicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacities.md),
+[`implicit_offered_transfer_capacity()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacity.md),
+[`intraday_prices()`](https://krose.github.io/entsoeapi/reference/intraday_prices.md),
+[`net_positions()`](https://krose.github.io/entsoeapi/reference/net_positions.md),
+[`total_nominated_capacity()`](https://krose.github.io/entsoeapi/reference/total_nominated_capacity.md)
 
 ## Examples
 
 ``` r
-df1 <- entsoeapi::flow_based_allocations(
-  eic = "10Y1001A1001A91G",
-  period_start = lubridate::ymd(x = "2025-01-01", tz = "CET"),
-  period_end = lubridate::ymd(x = "2026-01-01", tz = "CET"),
-  process_type = "A43",
-  archive = FALSE,
-  tidy_output = TRUE
-)
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A43&in_Domain=10Y1001A1001A91G&out_Domain=10Y1001A1001A91G&periodStart=202412312300&periodEnd=202512312300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:35 GMT
-#> <- content-type: text/xml
-#> <- content-length: 972
-#> <- content-disposition: inline; filename="acknowledgement.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
-#> <- 
-#> ✔ response has arrived
-#> ℹ No additional type names added!
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional eic names added!
-
-dplyr::glimpse(df1)
-#> Rows: 1
-#> Columns: 3
-#> $ created_date_time <dttm> 2026-03-17 22:16:35
-#> $ reason_code       <chr> "999"
-#> $ reason_text       <chr> "No matching data found for Data item FLOW_BASED_ALLOCATIONS [11.1.B] (10Y1001A1001A91G, 10…
-
-df2 <- entsoeapi::flow_based_allocations(
+df <- entsoeapi::flow_based_allocations(
   eic = "10YDOM-REGION-1V",
   period_start = lubridate::ymd(x = "2018-12-31", tz = "CET"),
   period_end = lubridate::ymd(x = "2019-01-01", tz = "CET"),
@@ -102,7 +88,7 @@ df2 <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A32&StorageType=archive&in_Domain=10YDOM-REGION-1V&out_Domain=10YDOM-REGION-1V&periodStart=201812302300&periodEnd=201812312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:36 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:20 GMT
 #> <- content-type: application/zip
 #> <- content-disposition: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"
 #> <- x-content-type-options: nosniff
@@ -110,12 +96,11 @@ df2 <- entsoeapi::flow_based_allocations(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpCEPnwY/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
-#> Warning: XML column lengths are not exact multiples of the maximum (9440); recycling with truncation.
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional definitions added!
+#> ✔ /tmp/RtmpADDhvc/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
 
-dplyr::glimpse(df2)
+dplyr::glimpse(df)
 #> Rows: 9,440
 #> Columns: 21
 #> $ domain_mrid                                                     <chr> "10YDOM-REGION-1V", "10YDOM-REGION-1V", "10YDO…
@@ -135,8 +120,8 @@ dplyr::glimpse(df2)
 #> $ ts_time_interval_end                                            <dttm> 2018-12-31 23:00:00, 2018-12-31 23:00:00, 201…
 #> $ ts_mrid                                                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 #> $ ts_point_dt_start                                               <dttm> 2018-12-30 23:00:00, 2018-12-30 23:00:00, 201…
-#> $ constraint_ts_monitored_ptdf_domain_mrid                        <chr> "10YAT-APG------L", "10YNL----------L", "10YFR…
-#> $ constraint_ts_monitored_ptdf_domain_name                        <chr> "Austria", "Netherlands", "France", "Germany_L…
-#> $ constraint_ts_monitored_ptdf_domain_quantity                    <dbl> 0.12228, 0.21714, 0.10229, 0.01671, -0.10559, …
-#> $ constraint_ts_monitored_flow_based_study_domain_margin_quantity <dbl> 888, 420, 360, 541, 890, 1446, 919, 816, 602, …
+#> $ constraint_ts_monitored_ptdf_domain_mrid                        <chr> "10YAT-APG------L", "10YBE----------2", "10Y10…
+#> $ constraint_ts_monitored_ptdf_domain_name                        <chr> "Austria", "Belgium", "Germany_Luxemburg", "Fr…
+#> $ constraint_ts_monitored_ptdf_domain_quantity                    <dbl> 0.12228, -0.04419, -0.02456, -0.05096, -0.0400…
+#> $ constraint_ts_monitored_flow_based_study_domain_margin_quantity <dbl> 888, 888, 888, 888, 888, 395, 395, 395, 395, 3…
 ```

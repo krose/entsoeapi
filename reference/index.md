@@ -8,6 +8,8 @@
   : Get Activated Balancing Prices (TR 17.1.F, IF aFRR 3.16)
 - [`aggregated_balancing_energy_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_balancing_energy_bids.md)
   : Get Aggregated Balancing Energy Bids (GL EB 12.3.E)
+- [`aggregated_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_bids.md)
+  : Get Aggregated Bids (12.3.D)
 - [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md)
   : Get all Approved Energy Identification Codes
 - [`allocated_transfer_capacities_3rd_countries()`](https://krose.github.io/entsoeapi/reference/allocated_transfer_capacities_3rd_countries.md)
@@ -59,6 +61,8 @@
 - [`connection_category_types`](https://krose.github.io/entsoeapi/reference/connection_category_types.md)
   : List connection category types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
+- [`continuous_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacities.md)
+  : Get Continuous Offered Transfer Capacities (11.1)
 - [`continuous_offered_transfer_capacity()`](https://krose.github.io/entsoeapi/reference/continuous_offered_transfer_capacity.md)
   : Get Continuous Offered Transfer Capacity (11.1)
 - [`contract_types`](https://krose.github.io/entsoeapi/reference/contract_types.md)
@@ -88,8 +92,6 @@
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 - [`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md)
   : Get Day-Ahead Commercial Schedules (12.1.F)
-- [`day_ahead_prices()`](https://krose.github.io/entsoeapi/reference/day_ahead_prices.md)
-  : Get Day-Ahead Prices (12.1.D)
 - [`direction_types`](https://krose.github.io/entsoeapi/reference/direction_types.md)
   : List direction types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
@@ -101,6 +103,8 @@
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 - [`elastic_demands()`](https://krose.github.io/entsoeapi/reference/elastic_demands.md)
   : Get Elastic Demands (IFs aFRR 3.4 & mFRR 3.4)
+- [`energy_prices()`](https://krose.github.io/entsoeapi/reference/energy_prices.md)
+  : Get Day-Ahead or Intraday Energy Prices (12.1.D)
 - [`energy_product_types`](https://krose.github.io/entsoeapi/reference/energy_product_types.md)
   : List energy product types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
@@ -110,11 +114,14 @@
   : Get Netted & Exchanged Volumes Per Border (IFs 3.10, 3.16 & 3.17)
 - [`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md)
   : Get Expansion and Dismantling Projects (9.1)
+- [`explicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacities.md)
+  : Get Explicit Offered Transfer Capacities — All Contract Types
+  (11.1.A)
 - [`explicit_offered_transfer_capacity()`](https://krose.github.io/entsoeapi/reference/explicit_offered_transfer_capacity.md)
   : Get Explicit Offered Transfer Capacity (11.1.A)
 - [`fcr_total_capacity()`](https://krose.github.io/entsoeapi/reference/fcr_total_capacity.md)
   : Get FCR Total Capacity (SO GL 187.2)
-- [`financial_expenses_and_income_for_balancing()`](https://krose.github.io/entsoeapi/reference/financial_expenses_and_income_for_balancing.md)
+- [`financial_expenses_and_income()`](https://krose.github.io/entsoeapi/reference/financial_expenses_and_income.md)
   : Get Financial Expenses and Income for Balancing (17.1.I)
 - [`flow_based_allocations()`](https://krose.github.io/entsoeapi/reference/flow_based_allocations.md)
   : Get Flow Based Allocations (11.1.B)
@@ -153,6 +160,9 @@
   : Get Imbalance Prices (17.1.G)
 - [`imbalance_volumes()`](https://krose.github.io/entsoeapi/reference/imbalance_volumes.md)
   : Get Imbalance Volumes (17.1.H)
+- [`implicit_offered_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacities.md)
+  : Get Implicit Offered Transfer Capacities — Day-Ahead & Intraday
+  (11.1)
 - [`implicit_offered_transfer_capacity()`](https://krose.github.io/entsoeapi/reference/implicit_offered_transfer_capacity.md)
   : Get Implicit Offered Transfer Capacity (11.1)
 - [`indicator_types`](https://krose.github.io/entsoeapi/reference/indicator_types.md)
@@ -160,6 +170,8 @@
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 - [`intraday_cross_border_transfer_limits()`](https://krose.github.io/entsoeapi/reference/intraday_cross_border_transfer_limits.md)
   : Get Intraday Cross-Border Transfer Limits (11.3)
+- [`intraday_prices()`](https://krose.github.io/entsoeapi/reference/intraday_prices.md)
+  : Get Intraday Prices (12.1.D)
 - [`load_actual_total()`](https://krose.github.io/entsoeapi/reference/load_actual_total.md)
   : Get Actual Total Load (6.1.A)
 - [`load_day_ahead_total_forecast()`](https://krose.github.io/entsoeapi/reference/load_day_ahead_total_forecast.md)
@@ -182,8 +194,12 @@
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 - [`net_positions()`](https://krose.github.io/entsoeapi/reference/net_positions.md)
   : Get Implicit Auction — Net Positions (12.1.E)
+- [`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md)
+  : Get Net Transfer Capacities — Week/Month/Year Ahead (11.1)
 - [`netted_volumes()`](https://krose.github.io/entsoeapi/reference/netted_volumes.md)
   : Get Netted Volumes (IFs IN 3.10)
+- [`netted_volumes_per_border()`](https://krose.github.io/entsoeapi/reference/netted_volumes_per_border.md)
+  : Get Netted & Exchanged Volumes Per Border (IFs 3.10, 3.16 & 3.17)
 - [`object_aggregation_types`](https://krose.github.io/entsoeapi/reference/object_aggregation_types.md)
   : List object aggregation types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
@@ -239,8 +255,6 @@
 - [`role_types`](https://krose.github.io/entsoeapi/reference/role_types.md)
   : List role types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
-- [`rr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_actual_capacity.md)
-  : Get RR Actual Capacity (SO GL 189.3)
 - [`rr_and_frr_actual_capacity()`](https://krose.github.io/entsoeapi/reference/rr_and_frr_actual_capacity.md)
   : Get RR and FRR Actual Capacity (SO GL 188.4 & 189.3)
 - [`settlement_method_types`](https://krose.github.io/entsoeapi/reference/settlement_method_types.md)
@@ -248,8 +262,8 @@
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
 - [`shares_of_fcr_capacity()`](https://krose.github.io/entsoeapi/reference/shares_of_fcr_capacity.md)
   : Get Shares of FCR Capacity (SO GL 187.2)
-- [`sharing_of_frr_capacity()`](https://krose.github.io/entsoeapi/reference/sharing_of_frr_capacity.md)
-  : Get Sharing of FRR Capacity (SO GL 190.1)
+- [`sharing_of_rr_and_frr_capacity()`](https://krose.github.io/entsoeapi/reference/sharing_of_rr_and_frr_capacity.md)
+  : Get Sharing of RR and FRR Capacity (SO GL 190.1)
 - [`status_types`](https://krose.github.io/entsoeapi/reference/status_types.md)
   : List status types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'

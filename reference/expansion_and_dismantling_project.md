@@ -8,8 +8,8 @@ Query the interconnector network evolution or dismantling
 expansion_and_dismantling_project(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   business_type = NULL,
   doc_status = NULL,
   tidy_output = TRUE,
@@ -58,11 +58,28 @@ expansion_and_dismantling_project(
 
 ## Value
 
-A data frame with expansion or dismantling projects
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data.
+
+## See also
+
+Other transmission endpoints:
+[`costs_of_congestion_management()`](https://krose.github.io/entsoeapi/reference/costs_of_congestion_management.md),
+[`countertrading()`](https://krose.github.io/entsoeapi/reference/countertrading.md),
+[`cross_border_physical_flows()`](https://krose.github.io/entsoeapi/reference/cross_border_physical_flows.md),
+[`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md),
+[`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md),
+[`intraday_cross_border_transfer_limits()`](https://krose.github.io/entsoeapi/reference/intraday_cross_border_transfer_limits.md),
+[`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md),
+[`redispatching_cross_border()`](https://krose.github.io/entsoeapi/reference/redispatching_cross_border.md),
+[`redispatching_internal()`](https://krose.github.io/entsoeapi/reference/redispatching_internal.md),
+[`total_commercial_sched()`](https://krose.github.io/entsoeapi/reference/total_commercial_sched.md)
 
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 df <- entsoeapi::expansion_and_dismantling_project(
   eic_in = "10YSK-SEPS-----K",
   eic_out = "10YHU-MAVIR----U",
@@ -72,27 +89,7 @@ df <- entsoeapi::expansion_and_dismantling_project(
   doc_status = "A05",
   tidy_output = TRUE
 )
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A90&in_Domain=10YSK-SEPS-----K&out_Domain=10YHU-MAVIR----U&periodStart=202212312300&periodEnd=202301012300&businessType=B01&DocStatus=A05&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:16:29 GMT
-#> <- content-type: text/xml
-#> <- content-length: 984
-#> <- content-disposition: inline; filename="acknowledgement.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
-#> <- 
-#> ✔ response has arrived
-#> ℹ No additional type names added!
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional eic names added!
 
 dplyr::glimpse(df)
-#> Rows: 1
-#> Columns: 3
-#> $ created_date_time <dttm> 2026-03-17 22:16:29
-#> $ reason_code       <chr> "999"
-#> $ reason_text       <chr> "No matching data found for Data item EXPANSION_AND_DISMANTLING_PROJECTS_R3 [9.1] (10YSK-SE…
+} # }
 ```

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Elastic Demands (IFs aFRR 3.4 &amp; mFRR 3.4)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
       <div class="d-none name"><code>elastic_demands.Rd</code></div>
     </div>
 
@@ -45,8 +45,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">elastic_demands</span><span class="op">(</span></span>
 <span>  eic <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  process_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">days</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">7L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
-<span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_start <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu">days</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">7L</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
+<span>  period_end <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span>
 <span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  security_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ENTSOE_PAT"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -86,8 +86,32 @@ One year range limit applies</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data, or <code>NULL</code> if no data
-is available for the given parameters.</p>
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other balancing endpoints:
+<code><a href="activated_balancing_prices.html">activated_balancing_prices()</a></code>,
+<code><a href="aggregated_balancing_energy_bids.html">aggregated_balancing_energy_bids()</a></code>,
+<code><a href="allocation_of_cross_zonal_balancing_cap.html">allocation_of_cross_zonal_balancing_cap()</a></code>,
+<code><a href="balancing_border_cap_limit.html">balancing_border_cap_limit()</a></code>,
+<code><a href="balancing_energy_bids.html">balancing_energy_bids()</a></code>,
+<code><a href="changes_to_bid_availability.html">changes_to_bid_availability()</a></code>,
+<code><a href="contracted_reserves.html">contracted_reserves()</a></code>,
+<code><a href="current_balancing_state.html">current_balancing_state()</a></code>,
+<code><a href="exchanged_volumes.html">exchanged_volumes()</a></code>,
+<code><a href="exchanged_volumes_per_border.html">exchanged_volumes_per_border()</a></code>,
+<code><a href="fcr_total_capacity.html">fcr_total_capacity()</a></code>,
+<code><a href="financial_expenses_and_income.html">financial_expenses_and_income()</a></code>,
+<code><a href="hvdc_link_constrains.html">hvdc_link_constrains()</a></code>,
+<code><a href="imbalance_prices.html">imbalance_prices()</a></code>,
+<code><a href="imbalance_volumes.html">imbalance_volumes()</a></code>,
+<code><a href="netted_volumes.html">netted_volumes()</a></code>,
+<code><a href="netted_volumes_per_border.html">netted_volumes_per_border()</a></code>,
+<code><a href="procured_balancing_capacity.html">procured_balancing_capacity()</a></code>,
+<code><a href="rr_and_frr_actual_capacity.html">rr_and_frr_actual_capacity()</a></code>,
+<code><a href="shares_of_fcr_capacity.html">shares_of_fcr_capacity()</a></code>,
+<code><a href="sharing_of_rr_and_frr_capacity.html">sharing_of_rr_and_frr_capacity()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -96,14 +120,14 @@ is available for the given parameters.</p>
 <span class="r-in"><span>  eic <span class="op">=</span> <span class="st">"10YCZ-CEPS-----N"</span>,</span></span>
 <span class="r-in"><span>  process_type <span class="op">=</span> <span class="st">"A47"</span>,</span></span>
 <span class="r-in"><span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-01-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-11-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-08-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 400 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:15:57 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:10 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 905</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="acknowledgement.xml"</span>
@@ -114,9 +138,9 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> *** The request has been rephrased. ***</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;offset=0&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;offset=0&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:02 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:10 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202401090930-202403141000.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -128,9 +152,9 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;offset=100&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;offset=100&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:03 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:11 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403150500-202403300815.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -142,9 +166,9 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;offset=200&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;offset=200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:05 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:11 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403300815-202404300500.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -156,9 +180,9 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;offset=300&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;offset=300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:07 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:11 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405021230-202405310445.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -170,9 +194,9 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;offset=400&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;offset=400&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:08 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:11 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405310445-202406270400.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
@@ -184,11 +208,11 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202410312300&amp;offset=500&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A37&amp;processType=A47&amp;businessType=B75&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;periodStart=202312312300&amp;periodEnd=202407312200&amp;offset=500&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:09 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:12 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202406270400-202410220545.xml"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202406270400-202407311045.xml"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">vary</span>: accept-encoding</span>
@@ -196,31 +220,22 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  2s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  2s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  2s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  2s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  50% | ETA:  2s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  1s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  1s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■      </span>  83% | ETA:  1s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> No additional definitions added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 585</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 539</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ domain_mrid                                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10Y1001C--00085O"<span style="color: #949494;">, </span>"10Y1001C--00085O"<span style="color: #949494;">, </span>"10Y1001C--00085O"<span style="color: #949494;">, </span>"1…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ domain_name                                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "mFRR region"<span style="color: #949494;">, </span>"mFRR region"<span style="color: #949494;">, </span>"mFRR region"<span style="color: #949494;">, </span>"mFRR region"<span style="color: #949494;">, </span>"m…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_connecting_domain_mrid                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10Y1001C--00085O"<span style="color: #949494;">, </span>"10Y1001C--00085O"<span style="color: #949494;">, </span>"10Y1001C--00085O"<span style="color: #949494;">, </span>"1…</span>
@@ -237,7 +252,7 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ process_type_def                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Manual frequency restoration reserve"<span style="color: #949494;">, </span>"Manual frequency rest…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_flow_direction                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_flow_direction_def                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"UP"<span style="color: #949494;">, </span>"DOWN"<span style="color: #949494;">, </span>…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time                               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-17 22:16:02<span style="color: #949494;">, </span>2026-03-17 22:16:02<span style="color: #949494;">, </span>2026-03-17 22:16:02…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time                               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-25 19:09:10<span style="color: #949494;">, </span>2026-03-25 19:09:10<span style="color: #949494;">, </span>2026-03-25 19:09:10…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number                                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ reserve_bid_period_time_interval_start          <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-01-09 09:30:00<span style="color: #949494;">, </span>2024-01-09 09:30:00<span style="color: #949494;">, </span>2024-01-09 09:30:00…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ reserve_bid_period_time_interval_end            <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-03-14 10:00:00<span style="color: #949494;">, </span>2024-03-14 10:00:00<span style="color: #949494;">, </span>2024-03-14 10:00:00…</span>
@@ -248,6 +263,7 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_point_quantity                           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 85<span style="color: #949494;">, </span>100<span style="color: #949494;">, </span>100<span style="color: #949494;">, </span>100<span style="color: #949494;">, </span>110<span style="color: #949494;">, </span>110<span style="color: #949494;">, </span>200<span style="color: #949494;">, </span>200<span style="color: #949494;">, </span>100<span style="color: #949494;">, </span>50<span style="color: #949494;">, </span>50<span style="color: #949494;">, </span>50<span style="color: #949494;">, </span>150<span style="color: #949494;">, </span>5…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_point_energy_price_amount                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 720<span style="color: #949494;">, </span>999<span style="color: #949494;">, </span>1000<span style="color: #949494;">, </span>1000<span style="color: #949494;">, </span>1300<span style="color: #949494;">, </span>1300<span style="color: #949494;">, </span>1300<span style="color: #949494;">, </span>1300<span style="color: #949494;">, </span>1000<span style="color: #949494;">, </span>-100<span style="color: #949494;">, </span>450<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_currency_unit_name                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">,</span>…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ bid_ts_quantity_measure_unit_name               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">,</span>…</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

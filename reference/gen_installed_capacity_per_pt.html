@@ -11,7 +11,7 @@ installed generation capacity, per production type."><meta property="og:image" c
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@ installed generation capacity, per production type."><meta property="og:image" c
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Installed Generation Capacity per Production Type (14.1.A)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v0.9.7/R/en_generation.R" class="external-link"><code>R/en_generation.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_generation.R" class="external-link"><code>R/en_generation.R</code></a></small>
       <div class="d-none name"><code>gen_installed_capacity_per_pt.Rd</code></div>
     </div>
 
@@ -51,7 +51,8 @@ installed generation capacity, per production type.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gen_installed_capacity_per_pt</span><span class="op">(</span></span>
 <span>  eic <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  psr_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  year <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html" class="external-link">year</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  year <span class="op">=</span> <span class="fu">year</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  security_token <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ENTSOE_PAT"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -74,14 +75,28 @@ codes from asset_types table</p></dd>
 <dd><p>YYYY format</p></dd>
 
 
+<dt id="arg-tidy-output">tidy_output<a class="anchor" aria-label="anchor" href="#arg-tidy-output"></a></dt>
+<dd><p>Defaults to TRUE.
+If TRUE, then flatten nested tables.</p></dd>
+
+
 <dt id="arg-security-token">security_token<a class="anchor" aria-label="anchor" href="#arg-security-token"></a></dt>
 <dd><p>Security token</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data, or <code>NULL</code> if no data
-is available for the given parameters.</p>
+    <p>A <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with the queried data.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Other generation endpoints:
+<code><a href="gen_day_ahead_forecast.html">gen_day_ahead_forecast()</a></code>,
+<code><a href="gen_installed_capacity_per_pu.html">gen_installed_capacity_per_pu()</a></code>,
+<code><a href="gen_per_gen_unit.html">gen_per_gen_unit()</a></code>,
+<code><a href="gen_per_prod_type.html">gen_per_prod_type()</a></code>,
+<code><a href="gen_storage_mean_filling_rate.html">gen_storage_mean_filling_rate()</a></code>,
+<code><a href="gen_wind_solar_forecasts.html">gen_wind_solar_forecasts()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -95,7 +110,7 @@ is available for the given parameters.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A68&amp;processType=A33&amp;in_Domain=10YFR-RTE------C&amp;psrType=B05&amp;periodStart=202001010000&amp;periodEnd=202101010000&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 17 Mar 2026 22:16:44 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 25 Mar 2026 19:09:26 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 1692</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Installed Generation Capacity Aggregated_202001010000-202101010000.xml"</span>
@@ -104,7 +119,9 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling area_eic_name table from cache</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1</span>
@@ -121,7 +138,7 @@ is available for the given parameters.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Installed generation"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mkt_psr_type                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "B05"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mkt_psr_type_def             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Fossil Hard coal"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-17 22:16:44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-25 19:09:26</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ time_period_time_interval_start <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2019-12-31 23:00:00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ time_period_time_interval_end   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2020-12-31 23:00:00</span>

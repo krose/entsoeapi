@@ -8,8 +8,8 @@ intraday cross-border transfer limits of DC links
 intraday_cross_border_transfer_limits(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -45,7 +45,23 @@ intraday_cross_border_transfer_limits(
 
 ## Value
 
-A data frame with intraday cross-border transfer limits
+A
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+with the queried data.
+
+## See also
+
+Other transmission endpoints:
+[`costs_of_congestion_management()`](https://krose.github.io/entsoeapi/reference/costs_of_congestion_management.md),
+[`countertrading()`](https://krose.github.io/entsoeapi/reference/countertrading.md),
+[`cross_border_physical_flows()`](https://krose.github.io/entsoeapi/reference/cross_border_physical_flows.md),
+[`day_ahead_commercial_sched()`](https://krose.github.io/entsoeapi/reference/day_ahead_commercial_sched.md),
+[`expansion_and_dismantling_project()`](https://krose.github.io/entsoeapi/reference/expansion_and_dismantling_project.md),
+[`forecasted_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/forecasted_transfer_capacities.md),
+[`net_transfer_capacities()`](https://krose.github.io/entsoeapi/reference/net_transfer_capacities.md),
+[`redispatching_cross_border()`](https://krose.github.io/entsoeapi/reference/redispatching_cross_border.md),
+[`redispatching_internal()`](https://krose.github.io/entsoeapi/reference/redispatching_internal.md),
+[`total_commercial_sched()`](https://krose.github.io/entsoeapi/reference/total_commercial_sched.md)
 
 ## Examples
 
@@ -61,7 +77,7 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A93&in_Domain=10YFR-RTE------C&out_Domain=11Y0-0000-0265-K&periodStart=202308152200&periodEnd=202308162200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 17 Mar 2026 22:17:15 GMT
+#> <- date: Wed, 25 Mar 2026 19:09:42 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1452
 #> <- content-disposition: inline; filename="Cross-Border Capacity for DC Links Intraday_202308152200-202308162200.xml"
@@ -70,8 +86,8 @@ df <- entsoeapi::intraday_cross_border_transfer_limits(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ℹ pulling area_eic_name table from cache
-#> ℹ No additional definitions added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
 
 dplyr::glimpse(df)
 #> Rows: 24
@@ -84,7 +100,7 @@ dplyr::glimpse(df)
 #> $ type_def                      <chr> "DC link capacity", "DC link capacity", "DC link capacity", "DC link capacity", …
 #> $ ts_business_type              <chr> "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B06", "B0…
 #> $ ts_business_type_def          <chr> "DC link constraint", "DC link constraint", "DC link constraint", "DC link const…
-#> $ created_date_time             <dttm> 2026-03-17 22:17:15, 2026-03-17 22:17:15, 2026-03-17 22:17:15, 2026-03-17 22:17…
+#> $ created_date_time             <dttm> 2026-03-25 19:09:42, 2026-03-25 19:09:42, 2026-03-25 19:09:42, 2026-03-25 19:09…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-08-15 22:00:00, 2023-08-15 22:00:00, 2023-08-15 22:00:00, 2023-08-15 22:00:…

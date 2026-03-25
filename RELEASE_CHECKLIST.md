@@ -18,6 +18,10 @@ formatting rules
 
 ## 2. Documentation
 
+Run `devtools::spell_check()` — no spelling errors in docs
+
+`urlchecker::url_check()` — no broken URLs in docs
+
 Run `devtools::document()` — regenerate all `.Rd` files and `NAMESPACE`
 
 Run `devtools::build_readme()` — locate README.Rmd and build it into a
@@ -27,46 +31,49 @@ Check that all exported functions have `@examples` or `@examplesIf`
 
 README examples still work (copy-paste test)
 
-Vignettes render without error: `devtools::build_vignettes()`
+Update vignettes if necessary and render without error:
+`devtools::build_vignettes()`
+
+Run `devtools::build_site()` locally — build site locally, checking no
+errors
 
 ## 3. Tests
 
-`devtools::test()` — all tests pass, no unexpected skips
+Run `devtools::run_examples(fresh = TRUE)` — all examples pass, no
+unexpected errors
 
-`covr::package_coverage()` — no significant coverage regression
+Run `devtools::test()` — all tests pass, no unexpected skips
+
+`devtools::test_coverage()` — no significant test coverage regression
 
 ## 4. R CMD CHECK
 
-`devtools::check()` — **0 errors, 0 warnings, 0 notes**
+`devtools::check(cran = TRUE)` — **0 errors, 0 warnings, 0 notes**
 
 - Common notes to fix before CRAN: `LazyData` without
   `LazyDataCompression`, missing `\value` in `.Rd` files
 
-`urlchecker::url_check()` — no broken URLs in docs
-
 ## 5. Merge & Tag
 
-Merge `develop` → `main` (PR or direct)
+Push + merge / merge + push: `develop` → `main` (PR or direct)
 
-Create a git tag: `git tag v0.9.6 && git push origin v0.9.6`
+Create a git tag: `git tag v1.0.0 && git push origin v1.0.0`
 
-Create a GitHub Release with the `NEWS.md` entry as release notes
+Create a GitHub Release with the `NEWS.md` entry as release notes:
+`gh release create v0.9.8 --title "v0.9.8" --notes "See NEWS.md for changes" --repo krose/entsoeapi`
 
 ## 6. Pkgdown Site
 
-[`pkgdown::build_site()`](https://pkgdown.r-lib.org/reference/build_site.html)
-locally — no errors
-
-Push to `main` to trigger the `pkgdown.yaml` workflow
-
-Verify live site at <https://krose.github.io/entsoeapi/>
+The merge to `main` triggered the `pkgdown.yaml` workflow, verify live
+site at <https://krose.github.io/entsoeapi/>
 
 ## 7. (When ready) CRAN Submission
 
-`rhub::rhub_doctor(gh_url = "https://github.com/krose/entsoeapi"); rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")`—
-multi-platform check
+Run `devtools::install()` to install package locally
 
-`devtools::spell_check()` — no spelling errors in docs
+Run
+`rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")`—
+triggers multi-platform check on GitHub
 
 Review [CRAN
 policies](https://cran.r-project.org/web/packages/policies.html)
