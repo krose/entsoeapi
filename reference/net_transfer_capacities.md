@@ -85,7 +85,7 @@ df <- entsoeapi::net_transfer_capacities(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A61&contract_MarketAgreement.Type=A02&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=202312312300&periodEnd=202401312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 25 Mar 2026 19:09:51 GMT
+#> <- date: Wed, 25 Mar 2026 19:16:46 GMT
 #> <- content-type: text/xml
 #> <- content-length: 987
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -99,7 +99,7 @@ df <- entsoeapi::net_transfer_capacities(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-03-25 19:09:51
+#> $ created_date_time <dttm> 2026-03-25 19:16:46
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item FORECASTED_TRANSFER_CAPACITIES_EXPLICIT [11.1] (10YCZ…
 ```

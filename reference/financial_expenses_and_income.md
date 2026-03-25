@@ -80,16 +80,16 @@ df <- entsoeapi::financial_expenses_and_income(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A87&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202201312300&periodEnd=202202282300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 25 Mar 2026 19:09:20 GMT
+#> <- date: Wed, 25 Mar 2026 19:16:13 GMT
 #> <- content-type: application/zip
-#> <- content-length: 895
+#> <- content-length: 898
 #> <- content-disposition: attachment; filename="Financial_expenses_and_income_for_balancing_202201312300-202202282300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpADDhvc/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202201312300-202202282300.xml has been read in
+#> ✔ /tmp/RtmpF6x61X/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202201312300-202202282300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -109,7 +109,7 @@ dplyr::glimpse(df)
 #> $ financial_price_direction_def <chr> "UP", "DOWN"
 #> $ ts_business_type              <chr> "A99", "A99"
 #> $ ts_business_type_def          <chr> "Financial information", "Financial information"
-#> $ created_date_time             <dttm> 2026-03-25 19:09:20, 2026-03-25 19:09:20
+#> $ created_date_time             <dttm> 2026-03-25 19:16:13, 2026-03-25 19:16:13
 #> $ revision_number               <dbl> 1, 1
 #> $ ts_resolution                 <chr> "P1M", "P1M"
 #> $ ts_time_interval_start        <dttm> 2022-01-31 23:00:00, 2022-01-31 23:00:00
