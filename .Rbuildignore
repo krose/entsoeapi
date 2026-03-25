@@ -12,7 +12,7 @@ sandbox/
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-devel.R
+devel/
 ^RELEASE_CHECKLIST\.md$
 ^cran-comments\.md$
 ^\.urlchecker$

@@ -6,8 +6,8 @@
 \usage{
 redispatching_internal(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -24,8 +24,7 @@ redispatching_internal(
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Changes in production and load (increase or decrease) to
@@ -45,3 +44,17 @@ df <- entsoeapi::redispatching_internal(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other transmission endpoints: 
+\code{\link{costs_of_congestion_management}()},
+\code{\link{countertrading}()},
+\code{\link{cross_border_physical_flows}()},
+\code{\link{day_ahead_commercial_sched}()},
+\code{\link{expansion_and_dismantling_project}()},
+\code{\link{forecasted_transfer_capacities}()},
+\code{\link{intraday_cross_border_transfer_limits}()},
+\code{\link{net_transfer_capacities}()},
+\code{\link{redispatching_cross_border}()},
+\code{\link{total_commercial_sched}()}
+}
+\concept{transmission endpoints}

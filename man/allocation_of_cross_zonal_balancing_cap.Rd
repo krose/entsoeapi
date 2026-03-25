@@ -7,9 +7,9 @@
 allocation_of_cross_zonal_balancing_cap(
   eic_acquiring = NULL,
   eic_connecting = NULL,
-  type_market_agreement = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  market_agreement_type = NULL,
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -19,7 +19,10 @@ allocation_of_cross_zonal_balancing_cap(
 
 \item{eic_connecting}{Energy Identification Code of the connecting domain}
 
-\item{type_market_agreement}{Optional market agreement type code}
+\item{market_agreement_type}{Optional market agreement type code
+"A01" Daily
+"A02" Weekly
+"A06" Long term}
 
 \item{period_start}{POSIXct or YYYY-MM-DD HH:MM:SS format}
 
@@ -30,8 +33,7 @@ allocation_of_cross_zonal_balancing_cap(
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Use of allocated cross-zonal balancing capacity between
@@ -39,6 +41,7 @@ an acquiring and a connecting domain.
 }
 \examples{
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
+\dontrun{
 df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
   eic_acquiring = "10YAT-APG------L",
   eic_connecting = "10YCH-SWISSGRIDZ",
@@ -48,5 +51,31 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 )
 
 dplyr::glimpse(df)
+}
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other balancing endpoints: 
+\code{\link{activated_balancing_prices}()},
+\code{\link{aggregated_balancing_energy_bids}()},
+\code{\link{balancing_border_cap_limit}()},
+\code{\link{balancing_energy_bids}()},
+\code{\link{changes_to_bid_availability}()},
+\code{\link{contracted_reserves}()},
+\code{\link{current_balancing_state}()},
+\code{\link{elastic_demands}()},
+\code{\link{exchanged_volumes}()},
+\code{\link{exchanged_volumes_per_border}()},
+\code{\link{fcr_total_capacity}()},
+\code{\link{financial_expenses_and_income}()},
+\code{\link{hvdc_link_constrains}()},
+\code{\link{imbalance_prices}()},
+\code{\link{imbalance_volumes}()},
+\code{\link{netted_volumes}()},
+\code{\link{netted_volumes_per_border}()},
+\code{\link{procured_balancing_capacity}()},
+\code{\link{rr_and_frr_actual_capacity}()},
+\code{\link{shares_of_fcr_capacity}()},
+\code{\link{sharing_of_rr_and_frr_capacity}()}
+}
+\concept{balancing endpoints}

@@ -14,7 +14,7 @@ transmission_pair_eic_dict
 List transmission pair EIC Dictionary
 }
 \examples{
-dplyr::glimpse(entsoeapi::transmission_pair_eic_dict)
+head(entsoeapi::transmission_pair_eic_dict)
 
 }
 \keyword{datasets}

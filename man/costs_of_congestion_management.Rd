@@ -6,8 +6,8 @@
 \usage{
 costs_of_congestion_management(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 31L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 31L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -32,8 +32,7 @@ Defaults to NULL which means both of them.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Costs of TSO for redispatching and counter trading together
@@ -53,3 +52,17 @@ df <- entsoeapi::costs_of_congestion_management(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other transmission endpoints: 
+\code{\link{countertrading}()},
+\code{\link{cross_border_physical_flows}()},
+\code{\link{day_ahead_commercial_sched}()},
+\code{\link{expansion_and_dismantling_project}()},
+\code{\link{forecasted_transfer_capacities}()},
+\code{\link{intraday_cross_border_transfer_limits}()},
+\code{\link{net_transfer_capacities}()},
+\code{\link{redispatching_cross_border}()},
+\code{\link{redispatching_internal}()},
+\code{\link{total_commercial_sched}()}
+}
+\concept{transmission endpoints}

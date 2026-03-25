@@ -734,7 +734,7 @@ testthat::test_that(
       message = "The Entso-e API cannot be reached"
     )
     testthat::expect_no_error(
-      object = gen_wind_solar_forecasts(
+      gen_wind_solar_forecasts(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(
           x = "2020-02-01",

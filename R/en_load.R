@@ -1,12 +1,3 @@
-utils::globalVariables(
-  c(
-    "url_posixct_format",
-    "api_req_safe",
-    "extract_response"
-  )
-)
-
-
 
 #' @title
 #' Get Actual Total Load (6.1.A)
@@ -27,8 +18,14 @@ utils::globalVariables(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family load endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -45,21 +42,21 @@ utils::globalVariables(
 #'
 load_actual_total <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -107,8 +104,14 @@ load_actual_total <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family load endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -125,21 +128,21 @@ load_actual_total <- function(
 #'
 load_day_ahead_total_forecast <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -187,8 +190,14 @@ load_day_ahead_total_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family load endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -203,21 +212,21 @@ load_day_ahead_total_forecast <- function(
 #'
 load_week_ahead_total_forecast <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -265,8 +274,14 @@ load_week_ahead_total_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family load endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -281,21 +296,21 @@ load_week_ahead_total_forecast <- function(
 #'
 load_month_ahead_total_forecast <- function( # nolint: object_length_linter
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -343,15 +358,21 @@ load_month_ahead_total_forecast <- function( # nolint: object_length_linter
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family load endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::load_year_ahead_total_forecast(
 #'   eic = "10Y1001A1001A82H",
-#'   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
-#'   period_end = lubridate::ymd(x = "2019-11-30", tz = "CET"),
+#'   period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+#'   period_end = lubridate::ymd(x = "2022-12-31", tz = "CET"),
 #'   tidy_output = TRUE
 #' )
 #'
@@ -359,19 +380,19 @@ load_month_ahead_total_forecast <- function( # nolint: object_length_linter
 #'
 load_year_ahead_total_forecast <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -419,8 +440,14 @@ load_year_ahead_total_forecast <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family load endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -435,19 +462,19 @@ load_year_ahead_total_forecast <- function(
 #'
 load_year_ahead_forecast_margin <- function( # nolint: object_length_linter
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format

@@ -1,8 +1,5 @@
-utils::globalVariables(
-  c(
-    "url_posixct_format",
-    "api_req_safe",
-    "extract_response",
+globalVariables(
+  names = c(
     "periodEnd",
     "periodStart",
     "psrType"
@@ -23,10 +20,18 @@ utils::globalVariables(
 #' @param psr_type Defaults to NULL, otherwise list of generation type
 #'                 codes from asset_types table
 #' @param year YYYY format
+#' @param tidy_output Defaults to TRUE.
+#'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd year
+#' @importFrom checkmate assert_string assert_integerish
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -41,12 +46,13 @@ utils::globalVariables(
 gen_installed_capacity_per_pt <- function(
   eic = NULL,
   psr_type = NULL,
-  year = lubridate::year(Sys.Date()),
+  year = year(Sys.Date()),
+  tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_integerish(year, len = 1L)
+  assert_string(security_token, min.chars = 1L)
+  assert_integerish(year, len = 1L)
 
   # convert year into the accepted format
   period_start <- paste0(year, "01010000")
@@ -56,15 +62,10 @@ gen_installed_capacity_per_pt <- function(
   query_string <- paste0(
     "documentType=A68",
     "&processType=A33",
-    "&in_Domain=",
-    eic,
-    {
-      if (!is.null(psr_type)) paste0("&psrType=", psr_type)
-    },
-    "&periodStart=",
-    period_start,
-    "&periodEnd=",
-    period_end
+    "&in_Domain=", eic,
+    if (!is.null(psr_type)) paste0("&psrType=", psr_type),
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
   )
 
   # send GET request
@@ -74,7 +75,7 @@ gen_installed_capacity_per_pt <- function(
   )
 
   # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = TRUE)
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -91,16 +92,24 @@ gen_installed_capacity_per_pt <- function(
 #'                 codes from asset_types table
 #' @param year YYYY format Cannot be shown more than 3 years ahead
 #'             as required by the law.
+#' @param tidy_output Defaults to TRUE.
+#'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd year
+#' @importFrom checkmate assert_string assert_integerish
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 #' df <- entsoeapi::gen_installed_capacity_per_pu(
-#'   eic      = "10YDE-VE-------2",
-#'   year     = 2020,
+#'   eic = "10YDE-VE-------2",
+#'   year = 2020,
 #'   psr_type = "B05"
 #' )
 #'
@@ -108,17 +117,18 @@ gen_installed_capacity_per_pt <- function(
 #'
 gen_installed_capacity_per_pu <- function(
   eic = NULL,
-  year = lubridate::year(Sys.Date()),
+  year = year(Sys.Date()),
   psr_type = NULL,
+  tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
-  checkmate::assert_integerish(year, len = 1L)
+  assert_string(security_token, min.chars = 1L)
+  assert_integerish(year, len = 1L)
 
   # check if year is within the legal limit
-  if (year > lubridate::year(x = Sys.Date()) + 3L) {
-    cli::cli_abort(
+  if (year > year(x = Sys.Date()) + 3L) {
+    cli_abort(
       "Cannot be shown more than 3 years ahead as required by the law!"
     )
   }
@@ -131,15 +141,12 @@ gen_installed_capacity_per_pu <- function(
   query_string <- paste0(
     "documentType=A71",
     "&processType=A33",
-    "&in_Domain=",
-    eic,
+    "&in_Domain=", eic,
     {
       if (!is.null(psr_type)) paste0("&psrType=", psr_type)
     },
-    "&periodStart=",
-    period_start,
-    "&periodEnd=",
-    period_end
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
   )
 
   # send GET request
@@ -149,7 +156,7 @@ gen_installed_capacity_per_pu <- function(
   )
 
   # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = TRUE)
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -172,8 +179,14 @@ gen_installed_capacity_per_pu <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -189,20 +202,18 @@ gen_installed_capacity_per_pu <- function(
 #'
 gen_per_prod_type <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   gen_type = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -213,12 +224,9 @@ gen_per_prod_type <- function(
   query_string <- paste0(
     "documentType=A75",
     "&processType=A16",
-    "&in_Domain=",
-    eic,
-    "&periodStart=",
-    period_start,
-    "&periodEnd=",
-    period_end,
+    "&in_Domain=", eic,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end,
     {
       if (!is.null(gen_type)) paste0("&psrType=", gen_type)
     }
@@ -254,8 +262,14 @@ gen_per_prod_type <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -270,19 +284,19 @@ gen_per_prod_type <- function(
 #'
 gen_storage_mean_filling_rate <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L),
+  period_start = ymd(Sys.Date() - days(x = 7L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 380L) {
-    cli::cli_abort("Maximum 380 days range limit should be applied!")
+    cli_abort("Maximum 380 days range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -327,8 +341,15 @@ gen_storage_mean_filling_rate <- function(
 #' @param tidy_output Defaults to TRUE. If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#' @importFrom dplyr mutate lead bind_rows
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -344,10 +365,10 @@ gen_storage_mean_filling_rate <- function(
 #'
 gen_per_gen_unit <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = ymd(Sys.Date() - days(x = 1L),
     tz = "CET"
   ),
-  period_end = lubridate::ymd(Sys.Date(),
+  period_end = ymd(Sys.Date(),
     tz = "CET"
   ),
   gen_type = NULL,
@@ -355,7 +376,7 @@ gen_per_gen_unit <- function(
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
@@ -389,7 +410,7 @@ gen_per_gen_unit <- function(
     "psrType" = gen_type,
     "periodStart" = period_start_list
   ) |>
-    purrr::compact()
+    Filter(f = length)
 
   # create combination matrix dataframe
   par_matrix <- expand.grid(par_list,
@@ -398,51 +419,31 @@ gen_per_gen_unit <- function(
   )
 
   # calculate period end for each period start
-  if (is.null(gen_type)) {
-    par_matrix <- par_matrix |>
-      dplyr::mutate(
-        periodEnd = dplyr::lead(
-          x = periodStart,
-          default = as.POSIXct(
-            x = period_end,
-            format = "%Y%m%d%H%M",
-            tz = "UTC"
-          )
-        )
-      )
-  } else {
-    par_matrix <- par_matrix |>
-      dplyr::group_by(psrType) |>
-      dplyr::mutate(
-        periodEnd = dplyr::lead(
-          x = periodStart,
-          default = as.POSIXct(
-            x = period_end,
-            format = "%Y%m%d%H%M",
-            tz = "UTC"
-          )
-        )
-      ) |>
-      dplyr::ungroup(psrType)
-  }
+  par_matrix <- par_matrix |>
+    mutate(
+      periodEnd = lead(
+        x = periodStart,
+        default = as.POSIXct(x = period_end, format = "%Y%m%d%H%M", tz = "UTC")
+      ),
+      .by = if (!is.null(gen_type)) "psrType"
+    )
 
   # convert the timestamps into accepted format
   par_matrix <- par_matrix |>
-    dplyr::mutate(
+    mutate(
       periodStart = url_posixct_format(periodStart),
       periodEnd = url_posixct_format(periodEnd)
     )
 
   # create the corresponding part of the request URL from the par matrix
-  par_part <- par_matrix |>
-    purrr::pmap(
-      ~{
-        list(...) |>
-          purrr::imap(~ sprintf(fmt = "&%s=%s", .y, .x)) |>
-          paste(collapse = "")
-      }
-    ) |>
-    unlist()
+  # vectorised: paste each column as "&name=value", then collapse across columns
+  par_part <- do.call(
+    what = paste0,
+    args = lapply(
+      names(par_matrix),
+      \(nm) sprintf(fmt = "&%s=%s", nm, par_matrix[[nm]])
+    )
+  )
 
   # compose GET request URL list for a (maximum) 24 hours long period
   query_string_list <- paste0(
@@ -455,7 +456,7 @@ gen_per_gen_unit <- function(
   # iterate (maximum) 24 hours long periods thru
   # and append them into one tibble
   result_tbl_appended <- query_string_list |>
-    purrr::map(\(query_string) {
+    lapply(\(query_string) {
       # send GET request
       en_cont_list <- api_req_safe(
         query_string = query_string,
@@ -468,8 +469,8 @@ gen_per_gen_unit <- function(
         tidy_output = tidy_output
       )
     }) |>
-    purrr::compact() |>
-    dplyr::bind_rows()
+    Filter(f = length) |>
+    bind_rows()
 
   # return with all the generation data
   result_tbl_appended
@@ -493,8 +494,14 @@ gen_per_gen_unit <- function(
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
@@ -509,19 +516,17 @@ gen_per_gen_unit <- function(
 #'
 gen_day_ahead_forecast <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
@@ -555,8 +560,6 @@ gen_day_ahead_forecast <- function(
 #' A respective forecast of wind and solar power net
 #' generation (MW) per area and each market time unit
 #' of the following/current day.
-#' The elements of the result list are representing
-#' each related forecast time range.
 #'
 #' @param eic Energy Identification Code of the control area,
 #'            bidding zone or country
@@ -564,75 +567,72 @@ gen_day_ahead_forecast <- function(
 #'                     One year range limit applies
 #' @param period_end POSIXct or YYYY-MM-DD HH:MM:SS format
 #'                   One year range limit applies
+#' @param process_type type of process
+#'                     "A01" Day-ahead
+#'                     "A18" Current
+#'                     "A40" Intraday
+#'                     Defaults to "A18"
 #' @param tidy_output Defaults to TRUE.
 #'                    If TRUE, then flatten nested tables.
 #' @param security_token Security token for ENTSO-E transparency platform
 #'
-#' @return A [tibble::tibble()] with the queried data, or `NULL` if no data
-#'   is available for the given parameters.
+#' @family generation endpoints
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @importFrom lubridate ymd days
+#' @importFrom checkmate assert_string assert_choice
+#' @importFrom cli cli_abort
+#'
 #' @export
 #'
 #' @examplesIf there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
-#' df_list <- entsoeapi::gen_wind_solar_forecasts(
+#' df <- entsoeapi::gen_wind_solar_forecasts(
 #'   eic          = "10YFR-RTE------C",
 #'   period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
 #'   period_end   = lubridate::ymd(x = "2020-03-01", tz = "CET"),
+#'   process_type = "A01",
 #'   tidy_output  = TRUE
 #' )
 #'
-#' dplyr::glimpse(df_list$`Day-ahead`)
-#' dplyr::glimpse(df_list$`Intraday`)
-#' dplyr::glimpse(df_list$`Current`)
+#' dplyr::glimpse(df)
 #'
 gen_wind_solar_forecasts <- function(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date(), tz = "CET") -
-    lubridate::days(x = 1L),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date(), tz = "CET") - days(x = 1L),
+  period_end = ymd(Sys.Date(), tz = "CET"),
+  process_type = "A18",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  checkmate::assert_string(security_token, min.chars = 1L)
+  assert_choice(x = process_type, choices = c("A01", "A18", "A40"))
+  assert_string(security_token, min.chars = 1L)
 
   # check if the requested period is not longer than one year
   if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli::cli_abort("One year range limit should be applied!")
+    cli_abort("One year range limit should be applied!")
   }
 
   # convert timestamps into accepted format
   period_start <- url_posixct_format(period_start)
   period_end <- url_posixct_format(period_end)
 
-  # compose GET request urls for a (minimum) 24 hours long period
-  process_type <- c("Day-ahead" = "A01", "Intraday" = "A40", "Current" = "A18")
-  query_string_list <- purrr::map(
-    process_type,
-    ~ paste0(
-      "documentType=A69",
-      "&processType=", .x,
-      "&in_Domain=", eic,
-      "&periodStart=", period_start,
-      "&periodEnd=", period_end
-    )
+  # compose GET request url for a (minimum) 24 hours long period
+  query_string <- paste0(
+    "documentType=A69",
+    "&processType=", process_type,
+    "&in_Domain=", eic,
+    "&periodStart=", period_start,
+    "&periodEnd=", period_end
   )
 
-  # iterate over request url list
-  # and return with all the data
-  purrr::map(
-    query_string_list,
-    \(query_string) {
-      # send the GET request against the endpoint
-      en_cont_list <- api_req_safe(
-        query_string = query_string,
-        security_token = security_token
-      )
-
-      # return with the extracted response
-      extract_response(
-        content = en_cont_list,
-        tidy_output = tidy_output
-      )
-    }
+  # send GET request
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
   )
+
+  # return with the extracted response
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }

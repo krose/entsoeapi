@@ -7,8 +7,8 @@
 explicit_offered_transfer_capacity(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   contract_type = "A01",
   tidy_output = FALSE,
   security_token = Sys.getenv("ENTSOE_PAT")
@@ -44,8 +44,7 @@ If TRUE, then flatten nested tables.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Explicit offered transfer capacity values.
@@ -64,3 +63,22 @@ df <- entsoeapi::explicit_offered_transfer_capacity(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other market endpoints: 
+\code{\link{aggregated_bids}()},
+\code{\link{allocated_transfer_capacities_3rd_countries}()},
+\code{\link{already_allocated_total_capacity}()},
+\code{\link{auction_revenue}()},
+\code{\link{congestion_income}()},
+\code{\link{continuous_offered_transfer_capacities}()},
+\code{\link{continuous_offered_transfer_capacity}()},
+\code{\link{energy_prices}()},
+\code{\link{explicit_offered_transfer_capacities}()},
+\code{\link{flow_based_allocations}()},
+\code{\link{implicit_offered_transfer_capacities}()},
+\code{\link{implicit_offered_transfer_capacity}()},
+\code{\link{intraday_prices}()},
+\code{\link{net_positions}()},
+\code{\link{total_nominated_capacity}()}
+}
+\concept{market endpoints}

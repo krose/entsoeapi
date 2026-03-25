@@ -6,8 +6,8 @@
 \usage{
 outages_gen_units(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() + lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date() + lubridate::days(x = 2L), tz = "CET"),
+  period_start = ymd(Sys.Date() + days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date() + days(x = 2L), tz = "CET"),
   doc_status = NULL,
   event_nature = NULL,
   tidy_output = TRUE,
@@ -31,8 +31,10 @@ One year range limit applies}
 in POSIXct or YYYY-MM-DD HH:MM:SS format
 One year range limit applies}
 
-\item{doc_status}{Notification document status. "A05" for active,
-"A09" for cancelled and "A13" for withdrawn.
+\item{doc_status}{Notification document status.
+"A05" for active,
+"A09" for cancelled
+"A13" for withdrawn.
 Defaults to NULL which means "A05" and "A09" together.}
 
 \item{event_nature}{"A53" for planned maintenance.
@@ -44,8 +46,7 @@ Defaults to NULL which means both of them.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 The planned and forced unavailability of generation units
@@ -71,3 +72,13 @@ df <- entsoeapi::outages_gen_units(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other outage endpoints: 
+\code{\link{outages_both}()},
+\code{\link{outages_cons_units}()},
+\code{\link{outages_fallbacks}()},
+\code{\link{outages_offshore_grid}()},
+\code{\link{outages_prod_units}()},
+\code{\link{outages_transmission_grid}()}
+}
+\concept{outage endpoints}

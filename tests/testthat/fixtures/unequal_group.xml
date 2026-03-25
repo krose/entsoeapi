@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <row>
+    <groupA><subA><item>1</item></subA></groupA>
+    <groupA><subA><item>2</item></subA></groupA>
+    <groupA><subA><item>3</item></subA></groupA>
+    <groupB><subB><item>x</item></subB></groupB>
+    <groupB><subB><item>y</item></subB></groupB>
+  </row>
+</root>

@@ -7,7 +7,8 @@
 gen_installed_capacity_per_pt(
   eic = NULL,
   psr_type = NULL,
-  year = lubridate::year(Sys.Date()),
+  year = year(Sys.Date()),
+  tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
 }
@@ -20,11 +21,13 @@ codes from asset_types table}
 
 \item{year}{YYYY format}
 
+\item{tidy_output}{Defaults to TRUE.
+If TRUE, then flatten nested tables.}
+
 \item{security_token}{Security token}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 The sum of installed net generation capacity (MW) for all
@@ -42,3 +45,13 @@ df <- entsoeapi::gen_installed_capacity_per_pt(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other generation endpoints: 
+\code{\link{gen_day_ahead_forecast}()},
+\code{\link{gen_installed_capacity_per_pu}()},
+\code{\link{gen_per_gen_unit}()},
+\code{\link{gen_per_prod_type}()},
+\code{\link{gen_storage_mean_filling_rate}()},
+\code{\link{gen_wind_solar_forecasts}()}
+}
+\concept{generation endpoints}

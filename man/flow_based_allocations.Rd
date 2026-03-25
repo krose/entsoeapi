@@ -6,8 +6,8 @@
 \usage{
 flow_based_allocations(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   process_type = "A43",
   archive = FALSE,
   tidy_output = FALSE,
@@ -39,26 +39,14 @@ If TRUE, then flatten nested tables.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Flow based capacity allocated, for all time horizons.
 }
 \examples{
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
-df1 <- entsoeapi::flow_based_allocations(
-  eic = "10Y1001A1001A91G",
-  period_start = lubridate::ymd(x = "2025-01-01", tz = "CET"),
-  period_end = lubridate::ymd(x = "2026-01-01", tz = "CET"),
-  process_type = "A43",
-  archive = FALSE,
-  tidy_output = TRUE
-)
-
-dplyr::glimpse(df1)
-
-df2 <- entsoeapi::flow_based_allocations(
+df <- entsoeapi::flow_based_allocations(
   eic = "10YDOM-REGION-1V",
   period_start = lubridate::ymd(x = "2018-12-31", tz = "CET"),
   period_end = lubridate::ymd(x = "2019-01-01", tz = "CET"),
@@ -67,6 +55,25 @@ df2 <- entsoeapi::flow_based_allocations(
   tidy_output = TRUE
 )
 
-dplyr::glimpse(df2)
+dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other market endpoints: 
+\code{\link{aggregated_bids}()},
+\code{\link{allocated_transfer_capacities_3rd_countries}()},
+\code{\link{already_allocated_total_capacity}()},
+\code{\link{auction_revenue}()},
+\code{\link{congestion_income}()},
+\code{\link{continuous_offered_transfer_capacities}()},
+\code{\link{continuous_offered_transfer_capacity}()},
+\code{\link{energy_prices}()},
+\code{\link{explicit_offered_transfer_capacities}()},
+\code{\link{explicit_offered_transfer_capacity}()},
+\code{\link{implicit_offered_transfer_capacities}()},
+\code{\link{implicit_offered_transfer_capacity}()},
+\code{\link{intraday_prices}()},
+\code{\link{net_positions}()},
+\code{\link{total_nominated_capacity}()}
+}
+\concept{market endpoints}

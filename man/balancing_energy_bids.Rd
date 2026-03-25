@@ -7,8 +7,8 @@
 balancing_energy_bids(
   eic = NULL,
   process_type = "A47",
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -27,8 +27,7 @@ balancing_energy_bids(
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 Balancing energy bids submitted by BSPs.
@@ -36,6 +35,7 @@ Balancing energy bids submitted by BSPs.
 }
 \examples{
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
+\dontrun{
 df <- entsoeapi::balancing_energy_bids(
   eic = "10YCZ-CEPS-----N",
   process_type = "A47",
@@ -45,5 +45,31 @@ df <- entsoeapi::balancing_energy_bids(
 )
 
 dplyr::glimpse(df)
+}
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other balancing endpoints: 
+\code{\link{activated_balancing_prices}()},
+\code{\link{aggregated_balancing_energy_bids}()},
+\code{\link{allocation_of_cross_zonal_balancing_cap}()},
+\code{\link{balancing_border_cap_limit}()},
+\code{\link{changes_to_bid_availability}()},
+\code{\link{contracted_reserves}()},
+\code{\link{current_balancing_state}()},
+\code{\link{elastic_demands}()},
+\code{\link{exchanged_volumes}()},
+\code{\link{exchanged_volumes_per_border}()},
+\code{\link{fcr_total_capacity}()},
+\code{\link{financial_expenses_and_income}()},
+\code{\link{hvdc_link_constrains}()},
+\code{\link{imbalance_prices}()},
+\code{\link{imbalance_volumes}()},
+\code{\link{netted_volumes}()},
+\code{\link{netted_volumes_per_border}()},
+\code{\link{procured_balancing_capacity}()},
+\code{\link{rr_and_frr_actual_capacity}()},
+\code{\link{shares_of_fcr_capacity}()},
+\code{\link{sharing_of_rr_and_frr_capacity}()}
+}
+\concept{balancing endpoints}

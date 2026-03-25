@@ -1,19 +1,3 @@
-utils::globalVariables(
-  c(
-    "area_eic",
-    "doc_status",
-    "eic_code_status",
-    "eic_code_status_value",
-    "get_eiccodes",
-    "cache_get_or_compute",
-    "type",
-    "type_def"
-  )
-)
-
-#' @importFrom stats setNames
-NULL
-
 #' @title
 #' Download and cache an EIC CSV file
 #'

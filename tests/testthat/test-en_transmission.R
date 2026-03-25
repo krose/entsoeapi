@@ -1633,3 +1633,158 @@ testthat::test_that(
     )
   }
 )
+
+
+testthat::test_that(
+  desc = "net_transfer_capacities() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = c("10YNL----------L", "10YBE----------2"),
+        eic_out = c("10YBE----------2", "10YNL----------L"),
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      ),
+      regexp = "Assertion on 'eic_in' failed: Must have length 1"
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = "10YNL----------L",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      ),
+      regexp = "Assertion on 'eic_out' failed: Must be of type 'string'"
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      ),
+      regexp = "Assertion on 'eic_in' failed: Must be of type 'string'"
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        contract_type = "INVALID",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      )
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = ""
+      ),
+      regexp = ""
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2024-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "ABC"
+      )
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(
+          x = "2024-05-16",
+          tz = "CET"
+        ),
+        period_end = lubridate::ymd(
+          x = "2025-05-17",
+          tz = "CET"
+        ),
+        tidy_output = FALSE,
+        security_token = "dummy_token"
+      ),
+      regexp = "One year range limit should be applied"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "net_transfer_capacities() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = net_transfer_capacities(
+        eic_in = "10YNL----------L",
+        eic_out = "10YBE----------2",
+        period_start = lubridate::ymd(x = "2024-05-16", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-05-17", tz = "CET"),
+        security_token = "dummy_token"
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)

@@ -7,8 +7,9 @@
 forecasted_transfer_capacities(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
+  market_agreement_type = "A01",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -24,13 +25,18 @@ One year range limit applies}
 \item{period_end}{POSIXct or YYYY-MM-DD HH:MM:SS format
 One year range limit applies}
 
+\item{market_agreement_type}{Market agreement type code (mandatory)
+"A01" Daily
+"A02" Weekly
+"A03" Monthly
+"A04" Yearly}
+
 \item{tidy_output}{Defaults to TRUE. If TRUE, then flatten nested tables.}
 
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 forecasted transfer capacities (MW) per direction between areas
@@ -42,6 +48,7 @@ df1 <- entsoeapi::forecasted_transfer_capacities(
   eic_out = "10YSK-SEPS-----K",
   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+  market_agreement_type = "A01",
   tidy_output = TRUE
 )
 
@@ -52,9 +59,24 @@ df2 <- entsoeapi::forecasted_transfer_capacities(
   eic_out = "10Y1001A1001A82H",
   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2019-12-01", tz = "CET"),
+  market_agreement_type = "A02",
   tidy_output = TRUE
 )
 
 dplyr::glimpse(df2)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other transmission endpoints: 
+\code{\link{costs_of_congestion_management}()},
+\code{\link{countertrading}()},
+\code{\link{cross_border_physical_flows}()},
+\code{\link{day_ahead_commercial_sched}()},
+\code{\link{expansion_and_dismantling_project}()},
+\code{\link{intraday_cross_border_transfer_limits}()},
+\code{\link{net_transfer_capacities}()},
+\code{\link{redispatching_cross_border}()},
+\code{\link{redispatching_internal}()},
+\code{\link{total_commercial_sched}()}
+}
+\concept{transmission endpoints}

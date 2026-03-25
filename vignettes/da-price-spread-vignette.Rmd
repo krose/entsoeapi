@@ -8,11 +8,13 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-has_pat <- nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+run_chunks <- identical(Sys.getenv("NOT_CRAN"), "true") &&
+  nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  eval = run_chunks,
   fig.width = 10,
   fig.height = 6,
   out.width = "98%",
@@ -20,21 +22,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r load packages, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
+```{r load packages}
 library(entsoeapi)
-library(dplyr) |> suppressPackageStartupMessages()
-library(lubridate) |> suppressPackageStartupMessages()
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(lubridate))
 library(cli)
 library(ggplot2)
 ```
 
 ### Look for the Polish market EIC and set the start and the end of scope dates
 
-```{r preset constants, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
+```{r preset constants}
 pl_eic <- all_approved_eic() |>
-  filter(EicLongName == "Poland") |>
-  select("EicCode") |>
-  unlist()
+  filter(eic_long_name == "Poland") |>
+  pull(eic_code)
 
 from_ts <- force_tz(time = as.Date("2026-01-01"), tzone = "CET")
 till_ts <- from_ts + weeks(x = 1L)
@@ -46,11 +47,12 @@ cli_inform("till: {till_ts}")
 
 ### Query the Polish DA prices within the pre-set period
 
-```{r query da prices, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
-da_prices <- entsoeapi::day_ahead_prices(
+```{r query da prices}
+da_prices <- energy_prices(
   eic = pl_eic,
   period_start = from_ts,
   period_end = till_ts,
+  contract_type = "A01",
   tidy_output = TRUE
 )
 glimpse(da_prices)
@@ -58,7 +60,7 @@ glimpse(da_prices)
 
 ### Calculate the daily minimum and maximum prices and the spread
 
-```{r calculate the daily spreads, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
+```{r calculate the daily spreads}
 da_spreads <- da_prices |>
   select(c(ts_point_dt_start, ts_point_price_amount)) |>
   mutate(
@@ -66,51 +68,50 @@ da_spreads <- da_prices |>
   ) |>
   mutate(ts_point_date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
   group_by(ts_point_date) |>
-  mutate(
+  summarise(
+    min_price = min(ts_point_price_amount, na.rm = TRUE),
     max_price = max(ts_point_price_amount, na.rm = TRUE),
-    min_price = min(ts_point_price_amount, na.rm = TRUE)
+    .groups = "drop"
   ) |>
-  mutate(
-    price_spread = max_price - min_price
-  ) |>
-  select(c(ts_point_date, min_price, max_price, price_spread)) |>
-  unique()
+  mutate(price_spread = max_price - min_price)
 ```
 
 ### Plot the daily minimum and maximum prices and the spread
 
-```{r plot the daily spreads, eval = identical(Sys.getenv("NOT_CRAN"), "true") && has_pat}
-ggplot(data = da_spreads) +
-  geom_segment(
-    mapping = aes(
-      x = ts_point_date,
-      xend = ts_point_date,
-      y = min_price,
-      yend = max_price
-    ),
-    linewidth = 10,
-    color = "tomato"
-  ) +
-  geom_text(
-    mapping = aes(
-      x = ts_point_date,
-      y = max_price + 10,
-      label = price_spread
-    ),
-    size = 4
-  ) +
-  scale_x_date(
-    breaks = da_spreads$ts_point_date,
-    date_labels = "%Y-%m-%d"
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Polish Daily Spread of Day-Ahead Prices",
-    subtitle = paste("PT15M,", from_ts, till_ts),
-    x = "delivery date",
-    y = "day-ahead price spread"
-  ) +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
+```{r plot the daily spreads}
+print(
+  ggplot(data = da_spreads) +
+    geom_segment(
+      mapping = aes(
+        x = ts_point_date,
+        xend = ts_point_date,
+        y = min_price,
+        yend = max_price
+      ),
+      linewidth = 10,
+      color = "tomato"
+    ) +
+    geom_text(
+      mapping = aes(
+        x = ts_point_date,
+        y = max_price + 10,
+        label = price_spread
+      ),
+      size = 4
+    ) +
+    scale_x_date(
+      breaks = da_spreads$ts_point_date,
+      date_labels = "%Y-%m-%d"
+    ) +
+    theme_minimal() +
+    labs(
+      title = "Polish Daily Spread of Day-Ahead Prices",
+      subtitle = paste("PT15M,", from_ts, till_ts),
+      x = "delivery date",
+      y = "day-ahead price spread"
+    ) +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+)
 ```

@@ -6,8 +6,8 @@
 \usage{
 load_month_ahead_total_forecast(
   eic = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )
@@ -28,8 +28,7 @@ If TRUE, then flatten nested tables.}
 \item{security_token}{Security token for ENTSO-E transparency platform}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data, or \code{NULL} if no data
-is available for the given parameters.
+A \code{\link[tibble:tibble]{tibble::tibble()}} with the queried data.
 }
 \description{
 It is defined as equal to the month-ahead forecasted sum of
@@ -53,3 +52,12 @@ df <- entsoeapi::load_month_ahead_total_forecast(
 dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Other load endpoints: 
+\code{\link{load_actual_total}()},
+\code{\link{load_day_ahead_total_forecast}()},
+\code{\link{load_week_ahead_total_forecast}()},
+\code{\link{load_year_ahead_forecast_margin}()},
+\code{\link{load_year_ahead_total_forecast}()}
+}
+\concept{load endpoints}
