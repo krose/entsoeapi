@@ -27,7 +27,7 @@ eic_area <- entsoeapi::area_eic()
 #> ℹ pulling Y_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_area)
-#> Rows: 1,790
+#> Rows: 1,791
 #> Columns: 11
 #> $ eic_code                            <chr> "10Y1001A1001A008", "10Y1001A1001A016", "10Y1001A1001A39I", "10Y1001A1001A…
 #> $ eic_display_name                    <chr> "BE-FR-NL-MARKET", "GB-NI", "EE", "CB-ES", "SE1", "SE2", "SE3", "SE4", "NO…

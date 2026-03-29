@@ -109,20 +109,20 @@ df <- entsoeapi::outages_transmission_grid(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603252300&periodEnd=202603262300&periodStartUpdate=202603172300&periodEndUpdate=202603242300&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603292200&periodEnd=202603302200&periodStartUpdate=202603212300&periodEndUpdate=202603282300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 25 Mar 2026 19:17:09 GMT
+#> <- date: Sun, 29 Mar 2026 15:51:23 GMT
 #> <- content-type: application/zip
-#> <- content-length: 3113
+#> <- content-length: 3142
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202603090630-202604171500.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpF6x61X/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
-#> ✔ /tmp/RtmpF6x61X/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603230630-202603271600.xml has been read in
-#> ✔ /tmp/RtmpF6x61X/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603260630-202604171500.xml has been read in
+#> ✔ /tmp/Rtmp8QGEwR/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/Rtmp8QGEwR/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603260630-202604171500.xml has been read in
+#> ✔ /tmp/Rtmp8QGEwR/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603300530-202604031500.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -134,31 +134,31 @@ df <- entsoeapi::outages_transmission_grid(
 #> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 7
+#> Rows: 9
 #> Columns: 25
 #> $ ts_in_domain_mrid                  <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
-#> $ ts_in_domain_name                  <chr> "France", "France", "France", "France", "France", "France", "France"
+#> $ ts_in_domain_name                  <chr> "France", "France", "France", "France", "France", "France", "France", "Fran…
 #> $ ts_out_domain_mrid                 <chr> "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A8…
 #> $ ts_out_domain_name                 <chr> "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Lux…
 #> $ ts_asset_location_name             <chr> "intra-zonal", "intra-zonal", "intra-zonal", "intra-zonal", "intra-zonal", …
 #> $ ts_asset_mrid                      <chr> "17T-FR-000000252", "17T-FR-000000252", "17T-FR-000000252", "17T-FR-0000002…
 #> $ ts_asset_name                      <chr> "L 400kV N0 3 LONNY - MASTAING", "L 400kV N0 3 LONNY - MASTAING", "L 400kV …
-#> $ type                               <chr> "A78", "A78", "A78", "A78", "A78", "A78", "A78"
+#> $ type                               <chr> "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78"
 #> $ type_def                           <chr> "Transmission unavailability", "Transmission unavailability", "Transmission…
-#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26"
+#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"
 #> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information", "Outage i…
-#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53"
+#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53"
 #> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
-#> $ ts_asset_psr_type                  <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21"
-#> $ ts_asset_psr_type_def              <chr> "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link"
-#> $ created_date_time                  <dttm> 2026-03-18 16:25:26, 2026-03-18 16:25:26, 2026-03-18 16:25:26, 2026-03-18 1…
-#> $ reason_code                        <chr> "B19", "B19", "B19", "B19", "B19", "B19", "B19"
+#> $ ts_asset_psr_type                  <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21"
+#> $ ts_asset_psr_type_def              <chr> "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link"…
+#> $ created_date_time                  <dttm> 2026-03-26 10:06:42, 2026-03-26 10:06:42, 2026-03-26 10:06:42, 2026-03-26 1…
+#> $ reason_code                        <chr> "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19"
 #> $ reason_text                        <chr> " - Foreseen maintenance", " - Foreseen maintenance", " - Foreseen maintena…
-#> $ revision_number                    <dbl> 8, 8, 8, 8, 3, 8, 8
+#> $ revision_number                    <dbl> 10, 10, 10, 10, 10, 10, 10, 10, 6
 #> $ unavailability_time_interval_start <dttm> 2026-03-09 06:30:00, 2026-03-09 06:30:00, 2026-03-09 06:30:00, 2026-03-09 0…
 #> $ unavailability_time_interval_end   <dttm> 2026-04-15 15:00:00, 2026-04-15 15:00:00, 2026-04-15 15:00:00, 2026-04-15 1…
-#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M"
-#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1
-#> $ ts_available_period_point_quantity <dbl> 3700, 1700, 3000, 1200, 3000, 3000, 1200
-#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
+#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M"
+#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1
+#> $ ts_available_period_point_quantity <dbl> 3700, 1700, 3000, 3500, 1200, 3000, 3500, 1200, 3500
+#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
 ```

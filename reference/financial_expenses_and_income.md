@@ -70,52 +70,14 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::financial_expenses_and_income(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2022-02-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2022-03-01", tz = "CET"),
   tidy_output = TRUE
 )
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A87&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202201312300&periodEnd=202202282300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Wed, 25 Mar 2026 19:16:13 GMT
-#> <- content-type: application/zip
-#> <- content-length: 898
-#> <- content-disposition: attachment; filename="Financial_expenses_and_income_for_balancing_202201312300-202202282300.zip"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
-#> <- 
-#> ✔ response has arrived
-#> ✔ /tmp/RtmpF6x61X/001-FINANCIAL_EXPENSES_AND_INCOME_FOR_BALANCING_R3202201312300-202202282300.xml has been read in
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 2
-#> Columns: 21
-#> $ control_area_domain_mrid      <chr> "10YCZ-CEPS-----N", "10YCZ-CEPS-----N"
-#> $ control_area_domain_name      <chr> "Czech Republic", "Czech Republic"
-#> $ doc_status_value              <chr> "A01", "A01"
-#> $ doc_status                    <chr> "Balance responsible schedule", "Balance responsible schedule"
-#> $ type                          <chr> "A87", "A87"
-#> $ type_def                      <chr> "Financial situation", "Financial situation"
-#> $ process_type                  <chr> "A16", "A16"
-#> $ process_type_def              <chr> "Realised", "Realised"
-#> $ financial_price_direction     <chr> "A01", "A02"
-#> $ financial_price_direction_def <chr> "UP", "DOWN"
-#> $ ts_business_type              <chr> "A99", "A99"
-#> $ ts_business_type_def          <chr> "Financial information", "Financial information"
-#> $ created_date_time             <dttm> 2026-03-25 19:16:13, 2026-03-25 19:16:13
-#> $ revision_number               <dbl> 1, 1
-#> $ ts_resolution                 <chr> "P1M", "P1M"
-#> $ ts_time_interval_start        <dttm> 2022-01-31 23:00:00, 2022-01-31 23:00:00
-#> $ ts_time_interval_end          <dttm> 2022-02-28 23:00:00, 2022-02-28 23:00:00
-#> $ ts_mrid                       <dbl> 1, 1
-#> $ ts_point_dt_start             <dttm> 2022-01-31 23:00:00, 2022-01-31 23:00:00
-#> $ financial_price_amount        <dbl> 1087522143, 32564550
-#> $ ts_currency_unit_name         <chr> "CZK", "CZK"
+}
 ```

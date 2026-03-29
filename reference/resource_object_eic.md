@@ -29,7 +29,7 @@ eic_resource_object <- entsoeapi::resource_object_eic()
 #> ℹ pulling W_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_resource_object)
-#> Rows: 34,544
+#> Rows: 34,563
 #> Columns: 11
 #> $ eic_code                            <chr> "26WAI-PONTE10003", "26WIMPI-00680951", "26WIMPI-0073522R", "26WIMPI-00771…
 #> $ eic_display_name                    <chr> "0_868", "IM-0068095", "IM-0073522", "IM-0077109", "IM-0080544", "IM-00834…

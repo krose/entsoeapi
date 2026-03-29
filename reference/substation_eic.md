@@ -33,7 +33,7 @@ eic_substation <- entsoeapi::substation_eic()
 #> ℹ pulling A_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_substation)
-#> Rows: 2,847
+#> Rows: 2,848
 #> Columns: 11
 #> $ eic_code                            <chr> "11A0-0000-0001-W", "11A0-0000-0002-T", "11A0-0000-0004-N", "11A0-0000-000…
 #> $ eic_display_name                    <chr> "USWKSDON00000000", "USWKLAGE00000000", "USWKHAND00000000", "USWKELWE00000…

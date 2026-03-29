@@ -79,6 +79,7 @@ Other transmission endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 if (FALSE) { # \dontrun{
 df <- entsoeapi::expansion_and_dismantling_project(
   eic_in = "10YSK-SEPS-----K",
@@ -92,4 +93,5 @@ df <- entsoeapi::expansion_and_dismantling_project(
 
 dplyr::glimpse(df)
 } # }
+}
 ```
