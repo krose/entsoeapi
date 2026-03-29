@@ -1,0 +1,164 @@
+name: Biweekly API Health Check
+
+on:
+  schedule:
+    # Every Monday at 08:00 UTC — the 'check-week' job skips odd ISO weeks
+    # so the effective cadence is every other week.
+    - cron: "0 8 * * 1"
+  workflow_dispatch: # allow manual triggers anytime
+
+permissions: read-all
+
+# ── Gate job: skip odd ISO weeks so we run biweekly ──────────────
+jobs:
+  check-week:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.week_check.outputs.should_run }}
+    steps:
+      - id: week_check
+        run: |
+          WEEK=$(date +%V)
+          if [ $((WEEK % 2)) -eq 0 ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ── Main test job ──────────────────────────────────────────────
+  api-health-check:
+    needs: check-week
+    if: >-
+      needs.check-week.outputs.should_run == 'true'
+      || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::devtools, any::rcmdcheck
+          needs: check
+
+      - name: Run examples
+        run: |
+          Rscript -e '
+            devtools::load_all(".")
+            tryCatch(
+              devtools::run_examples(".", run_donttest = FALSE, run_dontrun = FALSE),
+              error = function(e) {
+                cli::cli_alert_danger("Examples failed: {conditionMessage(e)}")
+                quit(status = 1L)
+              }
+            )
+          '
+
+      - name: Run unit tests
+        run: |
+          Rscript -e '
+            res <- devtools::test(".", reporter = "summary")
+            if (any(as.data.frame(res)$failed > 0)) quit(status = 1L)
+          '
+
+  # ── Retry job: waits 1 hour, then re-runs (handles 503s) ──────
+  retry-on-503:
+    needs: api-health-check
+    if: failure()
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      ENTSOE_PAT: ${{ secrets.ENTSOE_PAT }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - name: Wait 1 hour before retry
+        run: sleep 3600
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::devtools, any::rcmdcheck
+          needs: check
+
+      - name: Run examples (retry)
+        run: |
+          Rscript -e '
+            devtools::load_all(".")
+            tryCatch(
+              devtools::run_examples(".", run_donttest = FALSE, run_dontrun = FALSE),
+              error = function(e) {
+                cli::cli_alert_danger("Examples failed: {conditionMessage(e)}")
+                quit(status = 1L)
+              }
+            )
+          '
+
+      - name: Run unit tests (retry)
+        run: |
+          Rscript -e '
+            res <- devtools::test(".", reporter = "summary")
+            if (any(as.data.frame(res)$failed > 0)) quit(status = 1L)
+          '
+
+  # ── Notification: opens an issue when both attempts fail ───────
+  notify-failure:
+    needs: [api-health-check, retry-on-503]
+    if: failure()
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Create GitHub Issue on failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `API Health Check failed – ${new Date().toISOString().slice(0, 10)}`;
+            const body = [
+              '## Biweekly API Health Check Failed',
+              '',
+              'Both the initial run and the 1-hour retry have failed.',
+              '',
+              `**Workflow run:** ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              '',
+              'This may indicate:',
+              '- A breaking change in the ENTSO-E API',
+              '- Prolonged API downtime (HTTP 503)',
+              '- A regression in the `main` branch',
+              '',
+              'Please investigate the workflow logs for details.',
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['bug', 'api-health'],
+            });
