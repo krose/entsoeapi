@@ -26,7 +26,7 @@ One year range limit applies}
 can be checked from contract_types table;
 "A01" = Day ahead
 "A02" = Weekly
-"A032 = Monthly
+"A03" = Monthly
 "A04" = Yearly
 "A06" = Long Term
 "A07" = Intraday

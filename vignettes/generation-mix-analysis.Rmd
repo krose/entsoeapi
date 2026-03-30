@@ -1,0 +1,419 @@
+---
+title: "Generation Mix Analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Generation Mix Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include = FALSE}
+run_chunks <- identical(Sys.getenv("NOT_CRAN"), "true") &&
+  nchar(Sys.getenv("ENTSOE_PAT")) > 0L &&
+  entsoeapi::there_is_provider()
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = run_chunks,
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "98%",
+  out.height = "98%"
+)
+```
+
+```{r load-packages}
+library(entsoeapi)
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(lubridate))
+library(cli)
+suppressPackageStartupMessages(library(kableExtra))
+library(ggplot2)
+```
+
+## Introduction
+
+This vignette demonstrates how to analyze electricity generation mix data using
+the entsoeapi package. We'll fetch generation by production type for Germany and
+create visualizations to understand the composition of the power supply.
+
+This vignette covers:
+
+-   Fetching generation data by production type
+-   Understanding production type codes
+-   Visualizing the generation mix over time
+-   Calculating renewable penetration
+-   Comparing different time periods
+
+## Generation Data Overview
+
+The entsoeapi package provides several functions for generation data:
+
+| Function | Description | Typical Use |
+|----|----|----|
+| `gen_per_prod_type()` | Generation by production type | Main analysis function |
+| `gen_installed_capacity_per_pt()` | Installed capacity by type | Capacity analysis |
+| `gen_installed_capacity_per_pu()` | Capacity per production unit | Detailed analysis |
+| `gen_per_gen_unit()` | Generation per unit | Unit-level data |
+| `gen_day_ahead_forecast()` | Day-ahead forecasts | Forecasting |
+| `gen_wind_solar_forecasts()` | Wind/solar forecasts | Renewable forecasting |
+| `gen_storage_mean_filling_rate()` | Storage filling rates | Storage analysis |
+
+## Fetching Generation Data
+
+### Finding Germany's EIC Code
+
+First, let's get Germany's bidding zone EIC code:
+
+```{r find-german-eic}
+# Germany's bidding zone EIC
+de_zone <- area_eic() |>
+  filter(eic_long_name == "Germany") |>
+  pull(eic_code)
+
+cli_h1("Germany Bidding Zone")
+cli_text("EIC: {de_zone}")
+```
+
+### Production Type Codes
+
+ENTSO-E uses standard production type codes:
+
+```{r list-production-types}
+asset_types |>
+  filter(startsWith(x = code, prefix = "B")) |>
+  select(c(code, title)) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### Fetching Generation by Production Type
+
+Use `gen_per_prod_type()` to get generation data:
+
+```{r fetch-generation, warning = FALSE}
+cli_h1("Fetching Generation Data")
+
+# Define time range
+from_ts <- ymd(x = "2024-06-01", tz = "CET")
+till_ts <- from_ts + days(7)
+
+cli_inform("Period: {from_ts} to {till_ts}")
+
+# Fetch generation by production type
+de_generation <- gen_per_prod_type(
+  eic = de_zone,
+  period_start = from_ts,
+  period_end = till_ts,
+  tidy_output = TRUE
+)
+
+cli_alert_success("Retrieved {nrow(de_generation)} data points")
+```
+
+## Exploring the Data
+
+### Understanding Output Columns
+
+The output includes many columns with production type information:
+
+```{r explore-columns}
+glimpse(de_generation)
+```
+
+Key columns for generation mix analysis:
+
+| Column                | Description                               |
+|-----------------------|-------------------------------------------|
+| `ts_point_dt_start`   | Timestamp                                 |
+| `ts_point_quantity`   | Generation quantity                       |
+| `ts_mkt_psr_type`     | Power system resource type code (B01-B20) |
+| `ts_mkt_psr_type_def` | Human-readable power system resource type |
+
+### Production Types in the Data
+
+Check which production types are present:
+
+```{r production-types}
+cli_h1("Production Types in Dataset")
+
+de_generation |>
+  summarize(
+    n_points = n(),
+    total_mwh = sum(x = ts_point_quantity, na.rm = TRUE) |> round(),
+    .by = c(ts_mkt_psr_type, ts_mkt_psr_type_def)
+  ) |>
+  arrange(desc(total_mwh)) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+## Visualization
+
+### Stacked Area Chart of Generation Mix
+
+Visualize the composition of the generation mix over time:
+
+```{r stacked-area-chart}
+# Prepare data for visualization
+gen_plot_data <- de_generation |>
+  mutate(
+    ts_point_dt_start = with_tz(ts_point_dt_start, tzone = "CET"),
+    date = as_date(x = ts_point_dt_start, tz = "CET"),
+    hour = with_tz(time = ts_point_dt_start, tzone = "CET") |> hour()
+  ) |>
+  summarize(
+    total_mwh = sum(ts_point_quantity, na.rm = TRUE),
+    .by = c(date, hour, ts_mkt_psr_type_def)
+  ) |>
+  mutate(datetime = ymd_h(paste(date, hour), tz = "CET"))
+
+# Define colors for production types
+production_colors <- c(
+  "Biomass" = "#FF6347",
+  "Fossil Brown coal/Lignite" = "#8B4513",
+  "Fossil Coal-derived gas" = "#D93333",
+  "Fossil Gas" = "#4682B4",
+  "Fossil Hard coal" = "#2F4F4F",
+  "Fossil Oil" = "#256232",
+  "Geothermal" = "#00FFFF",
+  "Hydro Run-of-river head installation" = "#4169E1",
+  "Hydro-electric pure pumped storage head installation" = "#1E90FF",
+  "Hydro-electric storage head installation" = "#87CEEB",
+  "Other renewable" = "#90EE90",
+  "Other unspecified" = "#808080",
+  "Solar unspecified" = "#FFD700",
+  "Waste" = "#A9A9A9",
+  "Wind Offshore" = "#00CED1",
+  "Wind Onshore" = "#32CD32"
+)
+
+# Create stacked area plot
+ggplot(
+  data = gen_plot_data,
+  mapping = aes(
+    x = datetime,
+    y = total_mwh,
+    fill = ts_mkt_psr_type_def
+  )
+) +
+  geom_area(position = "stack") +
+  scale_fill_manual(
+    values = production_colors,
+    name = NULL
+  ) +
+  labs(
+    title = "Germany: Daily Generation Mix Over Time (Stacked Area)",
+    subtitle = "June 2024 - first 7 days",
+    x = "Date",
+    y = "Generation (MWh)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  scale_x_datetime(date_breaks = "1 day", date_labels = "%b %d") +
+  scale_y_continuous(labels = scales::comma)
+```
+
+### Daily Average Generation by Type
+
+Compare average daily generation by production type:
+
+```{r daily-average}
+# Calculate daily averages
+daily_avg <- de_generation |>
+  mutate(date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
+  summarize(
+    avg_mw = mean(ts_point_quantity, na.rm = TRUE),
+    .by = c(date, ts_mkt_psr_type_def)
+  ) |>
+  summarize(
+    avg_daily_mwh = mean(avg_mw) * 24,
+    .by = ts_mkt_psr_type_def
+  ) |>
+  arrange(desc(avg_daily_mwh))
+
+# Bar chart
+ggplot(
+  data = daily_avg,
+  mapping = aes(
+    x = reorder(ts_mkt_psr_type_def, avg_daily_mwh),
+    y = avg_daily_mwh
+  )
+) +
+  geom_col(fill = "steelblue") +
+  labs(
+    title = "Germany: Average Daily Generation by Production Type",
+    subtitle = "June 2024",
+    x = "Production Type",
+    y = "Average Daily Generation (MWh)"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal() +
+  coord_flip()
+```
+
+## Renewable Penetration Analysis
+
+Calculate the share of renewable generation:
+
+```{r renewable-penetration}
+# Define renewable types
+renewable_types <- c(
+  "Biomass",
+  "Solar unspecified",
+  "Wind Offshore",
+  "Wind Onshore",
+  "Hydro Run-of-river head installation",
+  "Hydro-electric pure pumped storage head installation",
+  "Hydro-electric storage head installation",
+  "Geothermal",
+  "Other renewable"
+)
+
+# Calculate penetration
+gen_summary <- de_generation |>
+  mutate(
+    is_renewable = ts_mkt_psr_type_def %in% renewable_types,
+    date = as.Date(x = ts_point_dt_start, tz = "CET")
+  ) |>
+  summarize(
+    total_gen = sum(ts_point_quantity, na.rm = TRUE),
+    renewable_gen = sum(ts_point_quantity[is_renewable], na.rm = TRUE),
+    renewable_pct = renewable_gen / total_gen * 100,
+    .by = date
+  )
+
+print(gen_summary)
+
+# Daily renewable share
+ggplot(
+  data = gen_summary,
+  mapping = aes(x = date, y = renewable_pct)
+) +
+  geom_col(fill = "forestgreen", alpha = 0.7) +
+  labs(
+    title = "Germany: Daily Renewable Penetration",
+    subtitle = "June 2024 - first 7 days",
+    x = "Date",
+    y = "Renewable Share (%)"
+  ) +
+  ylim(0, 100) +
+  scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+  theme_minimal()
+```
+
+## Capacity Factor Analysis
+
+Calculate capacity factors for renewable generation:
+
+```{r capacity-factor}
+# Get installed capacity (simplified - uses example values)
+cli_inform(
+  "Note: Full capacity analysis requires matching installed capacity data"
+)
+
+# Estimate capacity factors for solar and wind
+capacity_estimates <- de_generation |>
+  filter(
+    ts_mkt_psr_type_def %in% c(
+      "Solar unspecified", "Wind Onshore", "Wind Offshore"
+    )
+  ) |>
+  mutate(date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
+  summarize(
+    max_mw = max(ts_point_quantity, na.rm = TRUE),
+    avg_mw = mean(ts_point_quantity, na.rm = TRUE),
+    .by = c(date, ts_mkt_psr_type_def)
+  ) |>
+  mutate(capacity_factor = avg_mw / max_mw)
+
+ggplot(
+  data = capacity_estimates,
+  mapping = aes(
+    x = date,
+    y = capacity_factor,
+    color = ts_mkt_psr_type_def
+  )
+) +
+  geom_line() +
+  facet_wrap(~ts_mkt_psr_type_def, scales = "free_y") +
+  labs(
+    title = "Germany: Estimated Capacity Factors by Day",
+    subtitle = "Ratio of average to peak generation",
+    x = "Date",
+    y = "Capacity Factor"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank()
+  ) +
+  ylim(0, 1)
+```
+
+## Comparing Time Periods
+
+Compare generation mix between different time periods:
+
+```{r compare-periods, warning = FALSE}
+# Fetch data for two weeks
+week1 <- gen_per_prod_type(
+  eic = de_zone,
+  period_start = lubridate::ymd(x = "2024-06-01", tz = "CET"),
+  period_end = lubridate::ymd(x = "2024-06-08", tz = "CET"),
+  tidy_output = TRUE
+) |>
+  mutate(period = "Week 1")
+
+week2 <- gen_per_prod_type(
+  eic = de_zone,
+  period_start = lubridate::ymd(x = "2024-06-15", tz = "CET"),
+  period_end = lubridate::ymd(x = "2024-06-22", tz = "CET"),
+  tidy_output = TRUE
+) |>
+  mutate(period = "Week 3")
+
+# Combine and compare
+combined <- bind_rows(week1, week2) |>
+  summarize(
+    total_gen = sum(ts_point_quantity, na.rm = TRUE),
+    .by = c(period, ts_mkt_psr_type_def)
+  ) |>
+  mutate(
+    pct = total_gen / sum(total_gen) * 100,
+    .by = period
+  )
+
+# Plot comparison
+ggplot(
+  data = combined,
+  mapping = aes(x = ts_mkt_psr_type_def, y = pct, fill = period)
+) +
+  geom_col(position = "dodge") +
+  coord_flip() +
+  labs(
+    title = "Germany: Generation Mix Comparison",
+    subtitle = "Week 1st vs Week 3rd of June 2024",
+    x = "Production Type",
+    y = "Share of Generation (%)"
+  ) +
+  theme_minimal()
+```
+
+## Summary
+
+This vignette demonstrated:
+
+1.  **Fetching generation data** with `gen_per_prod_type()`
+2.  **Understanding production type codes** from B01 to B24
+3.  **Visualizing the generation mix** with stacked area charts
+4.  **Calculating renewable penetration** over time
+5.  **Capacity factor estimation** for renewable sources
+6.  **Comparing time periods** to identify trends
+
+The entsoeapi package makes it straightforward to analyse European electricity
+generation data for research, policy analysis, or business intelligence.

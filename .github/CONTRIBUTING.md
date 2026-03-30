@@ -40,7 +40,7 @@ Open a [feature request](https://github.com/krose/entsoeapi/issues/new?template=
     covr::package_coverage()
     ```
 
-6.  Open the pull request against `master` and describe what changed and why.
+6.  Open the pull request against `main` and describe what changed and why.
 
 ### Conventions
 

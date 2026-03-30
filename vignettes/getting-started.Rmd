@@ -1,0 +1,284 @@
+---
+title: "Getting Started with entsoeapi"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with entsoeapi}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include = FALSE}
+run_chunks <- identical(Sys.getenv("NOT_CRAN"), "true") &&
+  nchar(Sys.getenv("ENTSOE_PAT")) > 0L &&
+  entsoeapi::there_is_provider()
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = run_chunks,
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "98%",
+  out.height = "98%"
+)
+```
+
+## Introduction
+
+The `entsoeapi` package provides a standardized R interface to the ENTSO-E
+(European Network of Transmission System Operators for Electricity) Transparency
+Platform API. This platform publishes electricity market, generation, load,
+transmission, outage, and balancing data for European countries.
+
+This vignette will guide you through:
+
+-   Setting up the package and obtaining API access
+-   Checking connectivity and platform news
+-   Finding Energy Identification Codes (EICs) for areas of interest
+-   Making your first API call
+-   Understanding the output structure
+
+## Prerequisites
+
+### Obtaining an API Token
+
+To use the ENTSO-E Transparency Platform API, you need a security token:
+
+1.  Register at <https://transparency.entsoe.eu/>
+2.  After registration, your token should be available in your profile
+3.  Set the `ENTSOE_PAT` environment variable in your .Renviron file:
+
+```{r set-env-token, eval = FALSE}
+usethis::edit_r_environ()
+```
+
+For persistent access, add this line to your `.Renviron` file:
+
+```{bash, eval = FALSE}
+# In your ~/.Renviron file:
+ENTSOE_PAT=your_token_here
+```
+
+## Installation
+
+Install the development version from GitHub:
+
+```{r install-pkg, eval = FALSE}
+# Install from GitHub
+remotes::install_github("krose/entsoeapi")
+
+# Or install from CRAN (when available)
+install.packages("entsoeapi")
+```
+
+Load the packages:
+
+```{r load-packages}
+library(entsoeapi)
+suppressPackageStartupMessages(library(dplyr))
+library(cli)
+library(lubridate)
+library(kableExtra)
+```
+
+### Testing Connectivity
+
+The `there_is_provider()` function checks if the ENTSO-E API is reachable:
+
+```{r test-connectivity}
+# Check if the API is accessible
+there_is_provider()
+```
+
+### Checking Platform News
+
+The `get_news()` function fetches the latest announcements from the ENTSO-E
+Transparency Platform RSS feed. This is useful for checking planned maintenance
+windows or data publication delays before running a batch of queries:
+
+```{r check-news}
+# Show the latest 3 news items
+get_news(n = 3L)
+```
+
+The result is returned invisibly as a tibble, so you can also capture and filter
+it:
+
+```{r capture-news, eval = FALSE}
+news <- get_news(n = 10L)
+news |>
+  subset(subset = grepl(pattern = "maintenance", x = title, ignore.case = TRUE))
+```
+
+## Finding EIC Codes
+
+Energy Identification Codes (EICs) are 16-character codes that uniquely identify
+market participants, bidding zones, transmission lines, and other entities on
+the ENTSO-E platform.
+
+The `all_approved_eic()` function returns a comprehensive list of approved EIC
+codes:
+
+```{r find-germany-eic}
+# Find Germany's bidding zone EIC
+germany_eic <- all_approved_eic() |>
+  filter(eic_long_name == "Germany_Luxemburg") |>
+  pull(eic_code)
+
+cli_h1("Germany Bidding Zone EIC")
+cli_text(germany_eic)
+```
+
+The `area_eic()` function provides a focused lookup for bidding zones:
+
+```{r area-eic}
+# Get all bidding zones
+bidding_zones <- area_eic()
+cli_h1("Available Bidding Zones")
+cli_text("Total zones: {nrow(bidding_zones)}")
+bidding_zones |>
+  select(eic_code, eic_long_name) |>
+  head(10) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+## Your First API Call
+
+Let's fetch day-ahead energy prices for Germany. The `energy_prices()` function
+queries the market data endpoint:
+
+```{r first-api-call}
+# Define time range (one week of data)
+from_ts <- ymd("2026-01-01", tz = "CET")
+till_ts <- from_ts + weeks(1L)
+
+cli_h1("Querying Day-Ahead Energy Prices")
+cli_inform("Period: {from_ts} to {till_ts}")
+cli_inform("Area: {germany_eic}")
+
+# Fetch the data
+da_prices <- energy_prices(
+  eic = germany_eic,
+  period_start = from_ts,
+  period_end = till_ts,
+  contract_type = "A01",  # Day-ahead
+  tidy_output = TRUE,
+  security_token = Sys.getenv("ENTSOE_PAT")
+)
+
+cli_alert_success("Retrieved {nrow(da_prices)} rows")
+```
+
+### Understanding the Output
+
+The `tidy_output = TRUE` format returns one row per data point:
+
+```{r explore-output}
+# Examine the structure
+glimpse(da_prices)
+```
+
+Key columns in the output:
+
+| Column                     | Description                              |
+|----------------------------|------------------------------------------|
+| `ts_point_dt_start`        | Timestamp for each data point            |
+| `ts_point_price_amount`    | Price value                              |
+| `ts_resolution`            | Time resolution (e.g., PT60M for hourly) |
+| `ts_business_type`         | Type of price (Spot price = A62)         |
+| `ts_market_agreement_type` | Contract type (A01 = Daily contract)     |
+
+### The Nested Alternative
+
+With `tidy_output = FALSE`, the data is structured differently:
+
+```{r nested-output}
+# Same query with nested output
+da_prices_nested <- energy_prices(
+  eic = germany_eic,
+  period_start = from_ts,
+  period_end = till_ts,
+  contract_type = "A01",
+  tidy_output = FALSE
+)
+
+glimpse(da_prices_nested)
+```
+
+With nested output, each row represents a time period, and all data points are
+stored in the `ts_point` list-column. This format preserves the original API
+structure and can be more efficient for certain operations.
+
+## Common Patterns
+
+### Setting Date Ranges
+
+Use lubridate for robust date handling:
+
+```{r date-ranges}
+# Various date range examples
+last_week <- ymd(Sys.Date()) - days(7L)
+today <- ymd(Sys.Date())
+
+# Month of data
+month_start <- floor_date(Sys.Date(), "month") - months(1L)
+month_end <- floor_date(Sys.Date(), "month") - days(1L)
+```
+
+### The One-Year Limit
+
+Most ENTSO-E endpoints enforce a maximum query range of one year. The package
+handles this transparently through automatic pagination:
+
+```{r one-year-query, warning = FALSE}
+# Query close to the one-year limit
+year_start <- ymd("2024-01-01", tz = "CET")
+year_end <- ymd("2024-12-31", tz = "CET")
+
+# The package will handle pagination automatically if needed
+# This may take longer for large datasets
+cli_warn("Querying a full year - this may take a moment")
+
+da_prices_year <- energy_prices(
+  eic = germany_eic,
+  period_start = year_start,
+  period_end = year_end,
+  contract_type = "A01",
+  tidy_output = TRUE
+)
+
+cli_alert_success("Retrieved {nrow(da_prices_year)} rows for the year")
+```
+
+### Timezone Considerations
+
+All timestamps are returned in UTC. Use lubridate to convert:
+
+```{r timezones}
+# Convert timestamps to CET/CEST
+da_prices |>
+  mutate(
+    ts_point_dt_start_cet = with_tz(time = ts_point_dt_start, tzone = "CET")
+  ) |>
+  select(ts_point_dt_start, ts_point_dt_start_cet, ts_point_price_amount) |>
+  head(n = 5L) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+## What's Next?
+
+Now that you've made your first API call, explore these topics:
+
+-   **EIC Codes**: The `area_eic()`, `tie_line_eic()`, and other EIC functions
+    help you find codes for specific regions and entities
+-   **Time Series Restructuring**: Understanding the `tidy_output` parameter
+    helps you work with the data effectively
+-   **Generation Mix**: Analyze generation by production type with
+    `gen_per_prod_type()`
+-   **Architecture**: See the package architecture vignette for details on how
+    the package works internally

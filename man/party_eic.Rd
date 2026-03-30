@@ -20,7 +20,7 @@ https://www.entsoe.eu/data/energy-identification-codes-eic/eic-approved-codes
 It covers market participants.
 }
 \examples{
-\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
+\dontshow{if (there_is_provider()) withAutoprint(\{ # examplesIf}
 eic_party <- entsoeapi::party_eic()
 
 dplyr::glimpse(eic_party)

@@ -337,7 +337,8 @@ continuous_offered_transfer_capacity <- function( # nolint: object_length_linter
 implicit_offered_transfer_capacities <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 1L),
+  period_start = lubridate::ymd(
+    x = Sys.Date() - lubridate::days(x = 1L),
     tz = "CET"
   ),
   period_end = lubridate::ymd(Sys.Date(),
@@ -1160,7 +1161,7 @@ net_positions <- function(
 #'                      can be checked from contract_types table;
 #'                      "A01" = Day ahead
 #'                      "A02" = Weekly
-#'                      "A032 = Monthly
+#'                      "A03" = Monthly
 #'                      "A04" = Yearly
 #'                      "A06" = Long Term
 #'                      "A07" = Intraday

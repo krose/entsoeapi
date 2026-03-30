@@ -7,6 +7,7 @@
 .pd_domain <- "eepublicdownloads.blob.core.windows.net"
 .pd_alloc_eic <- "cio-lio/xml/allocated-eic-codes.xml"
 .pd_csv_eic <- "/cio-lio/csv/"
+.feed_url <- "https://external-api.tp.entsoe.eu/news/feed"
 possible_eic_chars <- stats::setNames(
   object = 0L:36L,
   nm     = c(as.character(0:9), LETTERS, "-")

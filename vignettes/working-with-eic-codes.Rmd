@@ -1,0 +1,489 @@
+---
+title: "Working with EIC Codes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with EIC Codes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include = FALSE}
+run_chunks <- identical(Sys.getenv("NOT_CRAN"), "true") &&
+  nchar(Sys.getenv("ENTSOE_PAT")) > 0L &&
+  entsoeapi::there_is_provider()
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = run_chunks,
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "98%",
+  out.height = "98%"
+)
+```
+
+```{r load-packages}
+library(entsoeapi)
+suppressPackageStartupMessages(library(dplyr))
+library(cli)
+library(lubridate)
+library(kableExtra)
+```
+
+## Introduction
+
+Energy Identification Codes (EICs) are 16-character alphanumeric codes that
+uniquely identify market participants, bidding zones, transmission lines, and
+other entities on the ENTSO-E platform. Understanding EICs is essential for
+querying data through the entsoeapi package.
+
+This vignette covers:
+
+-   EIC code structure and validation
+-   The eight EIC lookup functions
+-   Choosing between `all_approved_eic()` and `all_allocated_eic()`
+-   Practical examples for finding and using EIC codes
+
+## EIC Code Structure
+
+### The 16-Character Format
+
+EIC codes follow a specific format:
+
+```         
+10YDE-VE-------2
+^^^^ ^^ ^^^^^^^
+ ||  ||     ||
+ ||  ||     ++-- Checksum (weighted-modulo-37)
+ ||  ++-------- Country/area code
+ ++------------- Type code
+```
+
+Example: `10YDE-VE-------2`
+
+-   `10Y` - Type code for bidding zone (Y = area)
+-   `DE` - Country code (Germany)
+-   `VE` - Area code
+-   `-------` - Filler characters
+-   `2` - Checksum character
+
+### EIC Type Codes
+
+The first three characters indicate the EIC type:
+
+| Type Code | Description                   | Example                 |
+|-----------|-------------------------------|-------------------------|
+| `10Y`     | Bidding zones / control areas | `10YDE-VE-------2`      |
+| `10X`     | Market participants           | `10X1001A1001A42F`      |
+| `10Z`     | Interconnectors / tie lines   | `10Z-DE-AT---------W`   |
+| `10W`     | Power system resources        | `10WGRAR-10ZDE-ENBW--Q` |
+| `10V`     | Locations                     | `10V1001A1001A48H`      |
+| `10T`     | Substations                   | `10T-DE-VE-------Q`     |
+| `11Y`     | Accounting points             | `11YDE-1001A0001K`      |
+
+### Checksum Validation
+
+The package automatically validates EIC codes using the ENTSO-E
+weighted-modulo-37 algorithm. Invalid codes will produce an error:
+
+```{r checksum-validation}
+# EIC with not valid checksum - will fail
+try(
+  expr = energy_prices(
+    eic = "ABCDEF1234567890",
+    period_start = ymd("2026-01-01", tz = "CET"),
+    period_end = ymd("2026-01-02", tz = "CET"),
+    contract_type = "A07",
+    tidy_output = TRUE
+  )
+)
+```
+
+## The Eight EIC Lookup Functions
+
+The entsoeapi package provides eight functions to look up EIC codes, organized
+by entity type:
+
+### area_eic() - Bidding Zones
+
+Returns all bidding zones and control areas:
+
+```{r area-eic}
+# Get all bidding zones
+zones <- area_eic()
+
+cli_h1("Bidding Zones")
+cli_text("Total zones: {nrow(zones)}")
+
+# Find specific countries
+zones |>
+  filter(
+    grepl(
+      pattern = "Switzerland|Schweiz|Swiss",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### party_eic() - Market Participants
+
+Returns market participants (generators, traders, etc.):
+
+```{r party-eic}
+# Get market participants
+parties <- party_eic()
+
+cli_h1("Market Participants")
+cli_text("Total parties: {nrow(parties)}")
+
+# Find German TSOs
+parties |>
+  filter(
+    grepl(
+      pattern = "Switzerland|Schweiz|Swiss",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### accounting_point_eic() - Accounting Points
+
+Returns accounting point EICs:
+
+```{r accounting-point-eic}
+acc_points <- accounting_point_eic()
+
+cli_h1("Accounting Points")
+cli_text("Total accounting points: {nrow(acc_points)}")
+
+# Sample entries
+acc_points |>
+  filter(
+    grepl(
+      pattern = "Switzerland|Schweiz|Swiss",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### tie_line_eic() - Interconnectors
+
+Returns transmission lines between bidding zones:
+
+```{r tie-line-eic}
+tie_lines <- tie_line_eic()
+
+cli_h1("Tie Lines (Interconnectors)")
+cli_text("Total interconnectors: {nrow(tie_lines)}")
+
+# Find German interconnectors
+tie_lines |>
+  filter(
+    grepl(
+      pattern = "Switzerland|Schweiz|Swiss",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### location_eic() - Locations
+
+Returns location EICs (V codes):
+
+```{r location-eic}
+locations <- location_eic()
+
+cli_h1("Locations")
+cli_text("Total locations: {nrow(locations)}")
+
+locations |>
+  filter(
+    grepl(
+      pattern = "Switzerland|Schweiz|Swiss",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### resource_object_eic() - Power Resources
+
+Returns power system resources (generating units, loads):
+
+```{r resource-object-eic}
+resources <- resource_object_eic()
+
+cli_h1("Power Resources")
+cli_text("Total resources: {nrow(resources)}")
+
+# Find German power plants
+resources |>
+  filter(
+    grepl(
+      pattern = "KW-DE|DE-TU",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### substation_eic() - Substations
+
+Returns substation EICs (A codes):
+
+```{r substation-eic}
+substations <- substation_eic()
+
+cli_h1("Substations")
+cli_text("Total substations: {nrow(substations)}")
+
+# Sample entries
+substations |>
+  head(12L) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### all_approved_eic() - All Approved EICs
+
+Combines all approved EICs into a single tibble:
+
+```{r all-approved-eic}
+all_eic <- all_approved_eic()
+
+cli_h1("All Approved EICs")
+cli_text("Total EICs: {nrow(all_eic)}")
+
+# Count by type
+all_eic |>
+  count(type, sort = TRUE) |>
+  mutate(pct = round(x = n / sum(n) * 100, digits = 2L)) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+## all_approved_eic() vs all_allocated_eic()
+
+The package provides two comprehensive EIC functions with different
+characteristics:
+
+### Comparison Table
+
+| Feature          | all_approved_eic() | all_allocated_eic() |
+|------------------|--------------------|---------------------|
+| Data source      | CSV downloads      | XML download        |
+| Speed            | Fast (seconds)     | Slow (minutes)      |
+| Update frequency | Less frequent      | More current        |
+| Columns          | Standardized       | Extended details    |
+| Columns returned | 11 columns         | 18 columns          |
+
+### all_approved_eic()
+
+Fast and efficient for most use cases:
+
+```{r all-approved-detail}
+cli_h1("all_approved_eic() - Column Details")
+approved_eic <- all_approved_eic()
+glimpse(approved_eic)
+```
+
+Use this function when you need:
+
+-   Quick lookups
+-   Basic EIC information
+-   Standard column structure
+
+### all_allocated_eic()
+
+Provides more detailed information but is slower:
+
+```{r all-allocated-detail, warning = FALSE}
+cli_h1("all_allocated_eic() - Column Details")
+cli_inform("Note: This function is slow (downloads ~70MB XML)")
+
+allocated_eic <- all_allocated_eic()
+glimpse(allocated_eic)
+```
+
+Column comparison between `all_allocated_eic()` and `all_approced_eic`:
+
+```{r}
+cli_h1("all_allocated_eic()")
+allocated_eic |>
+  filter(eic_code == "50WG00000001997X") |>
+  t() |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+
+cli_h1("all_approved_eic()")
+
+approved_eic |>
+  filter(eic_code == "50WG00000001997X") |>
+  t() |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+Use `all_allocated_eic()` function when you need:
+
+-   More detailed participant information
+-   Current allocation status
+-   Extended metadata
+
+## Practical Examples
+
+### Finding Germany's EIC Codes
+
+```{r find-germany-codes}
+cli_h1("German bidding zones")
+all_eic |>
+  filter(
+    grepl(
+      pattern = "Germany.*bidding|area.*germany",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+
+cli_h1("German TSOs")
+party_eic() |>
+  filter(
+    grepl(
+      pattern = "50Hertz|Amprion|TenneT|TransnetBW",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  filter(
+    grepl(
+      pattern = "System Operator",
+      x = eic_type_function_list,
+      ignore.case = TRUE
+    )
+  ) |>
+  filter(
+    grepl(
+      pattern = "GmbH",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### Finding Nordic Bidding Zones
+
+```{r nordic-zones}
+cli_h1("Nordic Bidding Zones")
+
+nordic_countries <- c("Sweden", "Norway", "Denmark", "Finland")
+zones |>
+  filter(eic_long_name %in% nordic_countries) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### Finding Transmission Lines Between Countries
+
+```{r cross-border}
+cli_h1("Cross-Border Transmission Lines")
+
+# Find Germany-France interconnector
+tie_line_eic() |>
+  filter(
+    grepl(
+      pattern = "DE.*FR|FR.*DE|Germany.*France",
+      x = eic_long_name,
+      ignore.case = TRUE
+    )
+  ) |>
+  select(eic_code, eic_long_name, type) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+### Combining EIC Data with API Queries
+
+Use EIC lookups to construct queries:
+
+```{r combine-with-query, warning = FALSE}
+cli_h1("Using EICs in Queries")
+# Query intraday prices for Spain
+from_ts <- ymd("2026-01-01", tz = "CET")
+till_ts <- from_ts + days(3L)
+
+es_prices <- energy_prices(
+  eic = "10YES-REE------0",
+  period_start = from_ts,
+  period_end = till_ts,
+  contract_type = "A07",
+  tidy_output = TRUE
+)
+
+cli_alert_success("Retrieved {nrow(es_prices)} intraday price points for Spain")
+
+# Show sample data
+es_prices |>
+  filter(ts_classification_sequence_position == 1L) |>
+  select(
+    market_agreement_type_def,
+    ts_point_dt_start,
+    ts_point_price_amount,
+    ts_currency_unit_name
+  ) |>
+  head(12) |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+```
+
+## Summary
+
+The entsoeapi package provides eight EIC lookup functions to help you find the
+codes needed for your queries:
+
+| Function                 | Returns             | EIC Type  |
+|--------------------------|---------------------|-----------|
+| `area_eic()`             | Bidding zones       | Y codes   |
+| `party_eic()`            | Market participants | X codes   |
+| `accounting_point_eic()` | Accounting points   | Y codes   |
+| `tie_line_eic()`         | Interconnectors     | Z codes   |
+| `location_eic()`         | Locations           | V codes   |
+| `resource_object_eic()`  | Power resources     | W codes   |
+| `substation_eic()`       | Substations         | A codes   |
+| `all_approved_eic()`     | All approved EICs   | All types |
+
+For comprehensive lookups, use `all_approved_eic()` for speed or
+`all_allocated_eic()` for extended details.

@@ -1,3 +1,21 @@
+# entsoeapi v1.1.0 (2026-03-31)
+
+## New functionality
+
+-   4 new vignettes (Generation Mix Analysis, Getting Started with entsoeapi, Time Series Restructuring Explained, Working with EIC Codes) have been introduced.
+-   The `all_allocated_eic()` function has been exported.
+-   The `get_news()` function has been introduced.
+-   The ENTSO-E API is known for returning 503 (Service Unavailable) response when it's under heavy load or when a client sends too many requests. Hence we have built-in an automated backoff-and-retry mechanism.
+
+## Changes
+
+-   Typos fixed in the documentations.
+-   The package `DESCRIPTION` document slightly adjusted.
+
+## Miscellaneous
+
+-   An orphaned, not exported function and its related unit tests have been removed.
+
 # entsoeapi v1.0.0 (2026-03-25)
 
 ## New functionality
