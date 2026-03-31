@@ -68,7 +68,7 @@ df <- entsoeapi::load_year_ahead_forecast_margin(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A70&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201812312300&periodEnd=201912302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 06:58:20 GMT
+#> <- date: Tue, 31 Mar 2026 07:08:07 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1550
 #> <- content-disposition: inline; filename="Year Ahead Forecast Margin_201812312300-201912302300.xml"
@@ -94,7 +94,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area"
 #> $ ts_business_type                <chr> "A91"
 #> $ ts_business_type_def            <chr> "positive forecast margin"
-#> $ created_date_time               <dttm> 2026-03-31 06:58:20
+#> $ created_date_time               <dttm> 2026-03-31 07:08:07
 #> $ revision_number                 <dbl> 1
 #> $ time_period_time_interval_start <dttm> 2018-12-31 23:00:00
 #> $ time_period_time_interval_end   <dttm> 2019-12-31 23:00:00

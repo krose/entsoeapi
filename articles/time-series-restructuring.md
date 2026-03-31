@@ -5,7 +5,17 @@ library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
 library(lubridate)
+#> 
+#> Attaching package: 'lubridate'
+#> The following objects are masked from 'package:base':
+#> 
+#>     date, intersect, setdiff, union
 library(kableExtra)
+#> 
+#> Attaching package: 'kableExtra'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     group_rows
 library(tidyr)
 ```
 
@@ -78,6 +88,8 @@ from_ts <- ymd(x = "2024-01-01", tz = "CET")
 till_ts <- from_ts + days(1L)
 
 cli_h1("tidy_output = TRUE (Default)")
+#> 
+#> ── tidy_output = TRUE (Default) ────────────────────────────────────────────────────────────────────────────────────────
 
 # Fetch with tidy output
 da_prices_tidy <- energy_prices(
@@ -87,9 +99,30 @@ da_prices_tidy <- energy_prices(
   contract_type = "A01",
   tidy_output = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
+#> <- HTTP/2 200 
+#> <- date: Tue, 31 Mar 2026 07:11:08 GMT
+#> <- content-type: text/xml
+#> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- vary: accept-encoding
+#> <- content-encoding: gzip
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <-
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ downloading Y_eicCodes.csv file ...
+#> ✔ Additional eic names have been added!
 
 cli_text("Rows: {nrow(da_prices_tidy)}")
+#> Rows: 24
 cli_text("Columns: {ncol(da_prices_tidy)}")
+#> Columns: 22
 
 # Examine structure
 da_prices_tidy |>
@@ -103,6 +136,32 @@ da_prices_tidy |>
   ) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |ts_point_dt_start   | ts_point_price_amount|ts_resolution |
+#> |:-------------------|---------------------:|:-------------|
+#> |2024-01-01 00:00:00 |                 63.33|PT60M         |
+#> |2024-01-01 01:00:00 |                 50.09|PT60M         |
+#> |2024-01-01 02:00:00 |                 47.50|PT60M         |
+#> |2024-01-01 03:00:00 |                 43.50|PT60M         |
+#> |2024-01-01 04:00:00 |                 42.50|PT60M         |
+#> |2024-01-01 05:00:00 |                 42.09|PT60M         |
+#> |2024-01-01 06:00:00 |                 42.50|PT60M         |
+#> |2024-01-01 07:00:00 |                 42.59|PT60M         |
+#> |2024-01-01 08:00:00 |                 43.37|PT60M         |
+#> |2024-01-01 09:00:00 |                 42.29|PT60M         |
+#> |2024-01-01 10:00:00 |                 25.00|PT60M         |
+#> |2024-01-01 11:00:00 |                  3.90|PT60M         |
+#> |2024-01-01 12:00:00 |                  3.20|PT60M         |
+#> |2024-01-01 13:00:00 |                  2.06|PT60M         |
+#> |2024-01-01 14:00:00 |                  1.73|PT60M         |
+#> |2024-01-01 15:00:00 |                  5.72|PT60M         |
+#> |2024-01-01 16:00:00 |                 18.49|PT60M         |
+#> |2024-01-01 17:00:00 |                 37.00|PT60M         |
+#> |2024-01-01 18:00:00 |                 47.50|PT60M         |
+#> |2024-01-01 19:00:00 |                 54.97|PT60M         |
+#> |2024-01-01 20:00:00 |                 60.90|PT60M         |
+#> |2024-01-01 21:00:00 |                 60.00|PT60M         |
+#> |2024-01-01 22:00:00 |                 47.50|PT60M         |
+#> |2024-01-01 23:00:00 |                 42.09|PT60M         |
 ```
 
 Key columns in tidy output:
@@ -120,6 +179,8 @@ data points nested in a list-column:
 
 ``` r
 cli_h1("tidy_output = FALSE (Nested)")
+#> 
+#> ── tidy_output = FALSE (Nested) ────────────────────────────────────────────────────────────────────────────────────────
 
 # Fetch with nested output
 da_prices_nested <- energy_prices(
@@ -129,9 +190,27 @@ da_prices_nested <- energy_prices(
   contract_type = "A01",
   tidy_output = FALSE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
+#> <- HTTP/2 200 
+#> <- date: Tue, 31 Mar 2026 07:11:11 GMT
+#> <- content-type: text/xml
+#> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- vary: accept-encoding
+#> <- content-encoding: gzip
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <-
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
 
 cli_text("Rows: {nrow(da_prices_nested)}")
+#> Rows: 1
 cli_text("Columns: {ncol(da_prices_nested)}")
+#> Columns: 21
 
 # Examine structure
 da_prices_nested |>
@@ -148,6 +227,9 @@ da_prices_nested |>
   ) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |ts_time_interval_start |ts_resolution |ts_point                                                                                                                                                                                                                                                                                                                         |
+#> |:----------------------|:-------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+#> |2024-01-01             |PT60M         |1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 7.00, 8.00, 9.00, 10.00, 11.00, 12.00, 13.00, 14.00, 15.00, 16.00, 17.00, 18.00, 19.00, 20.00, 21.00, 22.00, 23.00, 24.00, 63.33, 50.09, 47.50, 43.50, 42.50, 42.09, 42.50, 42.59, 43.37, 42.29, 25.00, 3.90, 3.20, 2.06, 1.73, 5.72, 18.49, 37.00, 47.50, 54.97, 60.90, 60.00, 47.50, 42.09 |
 ```
 
 Each row contains a `ts_point` list-column with nested data:
@@ -157,6 +239,32 @@ Each row contains a `ts_point` list-column with nested data:
 da_prices_nested$ts_point[[1]] |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> | ts_point_position| ts_point_price_amount|
+#> |-----------------:|---------------------:|
+#> |                 1|                 63.33|
+#> |                 2|                 50.09|
+#> |                 3|                 47.50|
+#> |                 4|                 43.50|
+#> |                 5|                 42.50|
+#> |                 6|                 42.09|
+#> |                 7|                 42.50|
+#> |                 8|                 42.59|
+#> |                 9|                 43.37|
+#> |                10|                 42.29|
+#> |                11|                 25.00|
+#> |                12|                  3.90|
+#> |                13|                  3.20|
+#> |                14|                  2.06|
+#> |                15|                  1.73|
+#> |                16|                  5.72|
+#> |                17|                 18.49|
+#> |                18|                 37.00|
+#> |                19|                 47.50|
+#> |                20|                 54.97|
+#> |                21|                 60.90|
+#> |                22|                 60.00|
+#> |                23|                 47.50|
+#> |                24|                 42.09|
 ```
 
 ### When to Use Each Format
@@ -309,6 +417,8 @@ The package automatically calculates timestamps based on:
 
 ``` r
 cli_h1("Time Resolution Examples")
+#> 
+#> ── Time Resolution Examples ────────────────────────────────────────────────────────────────────────────────────────────
 
 # Show data grouped by resolution
 da_prices_tidy |>
@@ -320,6 +430,9 @@ da_prices_tidy |>
   ) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |ts_resolution | points|start               |end                 |
+#> |:-------------|------:|:-------------------|:-------------------|
+#> |PT60M         |     24|2023-12-31 23:00:00 |2024-01-01 22:00:00 |
 ```
 
 ## Practical Examples
@@ -330,6 +443,8 @@ With tidy output, aggregation is straightforward:
 
 ``` r
 cli_h1("Aggregating to Daily Values")
+#> 
+#> ── Aggregating to Daily Values ─────────────────────────────────────────────────────────────────────────────────────────
 
 da_prices_tidy |>
   mutate(date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
@@ -342,6 +457,9 @@ da_prices_tidy |>
   ) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |date       | min_price| max_price| mean_price| n_points|
+#> |:----------|---------:|---------:|----------:|--------:|
+#> |2024-01-01 |      1.73|     63.33|    36.2425|       24|
 ```
 
 ### Working with Nested Output
@@ -350,6 +468,8 @@ Extract and process nested points:
 
 ``` r
 cli_h1("Processing Nested Points")
+#> 
+#> ── Processing Nested Points ────────────────────────────────────────────────────────────────────────────────────────────
 
 # Get first period's points
 first_period_points <- da_prices_nested |>
@@ -362,6 +482,32 @@ first_period_points |>
   unnest(ts_point) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |ts_time_interval_start | n_points| ts_point_position| ts_point_price_amount|
+#> |:----------------------|--------:|-----------------:|---------------------:|
+#> |2023-12-31 23:00:00    |        2|                 1|                 63.33|
+#> |2023-12-31 23:00:00    |        2|                 2|                 50.09|
+#> |2023-12-31 23:00:00    |        2|                 3|                 47.50|
+#> |2023-12-31 23:00:00    |        2|                 4|                 43.50|
+#> |2023-12-31 23:00:00    |        2|                 5|                 42.50|
+#> |2023-12-31 23:00:00    |        2|                 6|                 42.09|
+#> |2023-12-31 23:00:00    |        2|                 7|                 42.50|
+#> |2023-12-31 23:00:00    |        2|                 8|                 42.59|
+#> |2023-12-31 23:00:00    |        2|                 9|                 43.37|
+#> |2023-12-31 23:00:00    |        2|                10|                 42.29|
+#> |2023-12-31 23:00:00    |        2|                11|                 25.00|
+#> |2023-12-31 23:00:00    |        2|                12|                  3.90|
+#> |2023-12-31 23:00:00    |        2|                13|                  3.20|
+#> |2023-12-31 23:00:00    |        2|                14|                  2.06|
+#> |2023-12-31 23:00:00    |        2|                15|                  1.73|
+#> |2023-12-31 23:00:00    |        2|                16|                  5.72|
+#> |2023-12-31 23:00:00    |        2|                17|                 18.49|
+#> |2023-12-31 23:00:00    |        2|                18|                 37.00|
+#> |2023-12-31 23:00:00    |        2|                19|                 47.50|
+#> |2023-12-31 23:00:00    |        2|                20|                 54.97|
+#> |2023-12-31 23:00:00    |        2|                21|                 60.90|
+#> |2023-12-31 23:00:00    |        2|                22|                 60.00|
+#> |2023-12-31 23:00:00    |        2|                23|                 47.50|
+#> |2023-12-31 23:00:00    |        2|                24|                 42.09|
 ```
 
 ### Timezone Conversions
@@ -372,6 +518,8 @@ All timestamps are returned in UTC. Convert to your timezone:
 library(lubridate)
 
 cli_h1("Timezone Conversions")
+#> 
+#> ── Timezone Conversions ────────────────────────────────────────────────────────────────────────────────────────────────
 
 da_prices_tidy |>
   mutate(
@@ -382,6 +530,32 @@ da_prices_tidy |>
   select(utc, cet, est, ts_point_price_amount) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |utc                 |cet                 |est                 | ts_point_price_amount|
+#> |:-------------------|:-------------------|:-------------------|---------------------:|
+#> |2023-12-31 23:00:00 |2024-01-01 00:00:00 |2023-12-31 18:00:00 |                 63.33|
+#> |2024-01-01 00:00:00 |2024-01-01 01:00:00 |2023-12-31 19:00:00 |                 50.09|
+#> |2024-01-01 01:00:00 |2024-01-01 02:00:00 |2023-12-31 20:00:00 |                 47.50|
+#> |2024-01-01 02:00:00 |2024-01-01 03:00:00 |2023-12-31 21:00:00 |                 43.50|
+#> |2024-01-01 03:00:00 |2024-01-01 04:00:00 |2023-12-31 22:00:00 |                 42.50|
+#> |2024-01-01 04:00:00 |2024-01-01 05:00:00 |2023-12-31 23:00:00 |                 42.09|
+#> |2024-01-01 05:00:00 |2024-01-01 06:00:00 |2024-01-01 00:00:00 |                 42.50|
+#> |2024-01-01 06:00:00 |2024-01-01 07:00:00 |2024-01-01 01:00:00 |                 42.59|
+#> |2024-01-01 07:00:00 |2024-01-01 08:00:00 |2024-01-01 02:00:00 |                 43.37|
+#> |2024-01-01 08:00:00 |2024-01-01 09:00:00 |2024-01-01 03:00:00 |                 42.29|
+#> |2024-01-01 09:00:00 |2024-01-01 10:00:00 |2024-01-01 04:00:00 |                 25.00|
+#> |2024-01-01 10:00:00 |2024-01-01 11:00:00 |2024-01-01 05:00:00 |                  3.90|
+#> |2024-01-01 11:00:00 |2024-01-01 12:00:00 |2024-01-01 06:00:00 |                  3.20|
+#> |2024-01-01 12:00:00 |2024-01-01 13:00:00 |2024-01-01 07:00:00 |                  2.06|
+#> |2024-01-01 13:00:00 |2024-01-01 14:00:00 |2024-01-01 08:00:00 |                  1.73|
+#> |2024-01-01 14:00:00 |2024-01-01 15:00:00 |2024-01-01 09:00:00 |                  5.72|
+#> |2024-01-01 15:00:00 |2024-01-01 16:00:00 |2024-01-01 10:00:00 |                 18.49|
+#> |2024-01-01 16:00:00 |2024-01-01 17:00:00 |2024-01-01 11:00:00 |                 37.00|
+#> |2024-01-01 17:00:00 |2024-01-01 18:00:00 |2024-01-01 12:00:00 |                 47.50|
+#> |2024-01-01 18:00:00 |2024-01-01 19:00:00 |2024-01-01 13:00:00 |                 54.97|
+#> |2024-01-01 19:00:00 |2024-01-01 20:00:00 |2024-01-01 14:00:00 |                 60.90|
+#> |2024-01-01 20:00:00 |2024-01-01 21:00:00 |2024-01-01 15:00:00 |                 60.00|
+#> |2024-01-01 21:00:00 |2024-01-01 22:00:00 |2024-01-01 16:00:00 |                 47.50|
+#> |2024-01-01 22:00:00 |2024-01-01 23:00:00 |2024-01-01 17:00:00 |                 42.09|
 ```
 
 ### Handling Missing Points
@@ -390,11 +564,14 @@ With tidy output, missing points are already handled:
 
 ``` r
 cli_h1("Checking for Missing Data")
+#> 
+#> ── Checking for Missing Data ───────────────────────────────────────────────────────────────────────────────────────────
 
 # Check for NA values
 na_count <- is.na(da_prices_tidy$ts_point_price_amount) |>
   sum()
 cli_text("NA values in price column: {na_count}")
+#> NA values in price column: 0
 
 # For A03 data, the package fills gaps with LOCF
 # Check if any positions had gaps filled

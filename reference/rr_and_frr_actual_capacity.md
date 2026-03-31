@@ -87,7 +87,7 @@ df1 <- entsoeapi::rr_and_frr_actual_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A46&businessType=C78&Area_Domain=10YFR-RTE------C&periodStart=202312312300&periodEnd=202403312200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 06:58:55 GMT
+#> <- date: Tue, 31 Mar 2026 07:09:16 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"
 #> <- x-content-type-options: nosniff
@@ -114,7 +114,7 @@ dplyr::glimpse(df1)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "UP", "DOWN", "UP", "UP"
 #> $ ts_business_type              <chr> "C77", "C79", "C78", "C78", "C77", "C79"
 #> $ ts_business_type_def          <chr> "Minimum available capacity", "Maximum available capacity", "Average available c…
-#> $ created_date_time             <dttm> 2026-03-31 06:58:55, 2026-03-31 06:58:55, 2026-03-31 06:58:55, 2026-03-31 06:58:…
+#> $ created_date_time             <dttm> 2026-03-31 07:09:16, 2026-03-31 07:09:16, 2026-03-31 07:09:16, 2026-03-31 07:09:…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P3M", "P3M", "P3M", "P3M", "P3M", "P3M"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…
@@ -135,7 +135,7 @@ df2 <- entsoeapi::rr_and_frr_actual_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A56&businessType=C78&Area_Domain=10YFR-RTE------C&periodStart=202312312300&periodEnd=202403312200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 06:58:55 GMT
+#> <- date: Tue, 31 Mar 2026 07:09:20 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"
 #> <- x-content-type-options: nosniff
@@ -162,7 +162,7 @@ dplyr::glimpse(df2)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "UP", "DOWN", "UP", "UP"
 #> $ ts_business_type              <chr> "C77", "C79", "C78", "C78", "C77", "C79"
 #> $ ts_business_type_def          <chr> "Minimum available capacity", "Maximum available capacity", "Average available c…
-#> $ created_date_time             <dttm> 2026-03-31 06:58:55, 2026-03-31 06:58:55, 2026-03-31 06:58:55, 2026-03-31 06:58:…
+#> $ created_date_time             <dttm> 2026-03-31 07:09:20, 2026-03-31 07:09:20, 2026-03-31 07:09:20, 2026-03-31 07:09:…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P3M", "P3M", "P3M", "P3M", "P3M", "P3M"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…
