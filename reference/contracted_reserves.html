@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,6 +22,10 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
     <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+    <li><a class="dropdown-item" href="../articles/generation-mix-analysis.html">Generation Mix Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with entsoeapi</a></li>
+    <li><a class="dropdown-item" href="../articles/time-series-restructuring.html">Time Series Restructuring Explained</a></li>
+    <li><a class="dropdown-item" href="../articles/working-with-eic-codes.html">Working with EIC Codes</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -149,7 +153,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A81&amp;businessType=B95&amp;type_MarketAgreement.Type=A01&amp;controlArea_Domain=10YCZ-CEPS-----N&amp;periodStart=202112312300&amp;periodEnd=202201012300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Sun, 29 Mar 2026 15:44:27 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 06:57:11 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 2917</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Amount and Prices Paid of Balancing Reserves Under Contract_202112312300-202201012300.zip"</span>
@@ -158,8 +162,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/001-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/002-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/001-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/002-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
@@ -184,7 +188,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_business_type_def          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Procured capacity"<span style="color: #949494;">, </span>"Procured capacity"<span style="color: #949494;">, </span>"Procured capacity"<span style="color: #949494;">, </span>"Procured capacit…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mkt_psr_type               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A04"<span style="color: #949494;">, </span>"A0…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_mkt_psr_type_def           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Generation"<span style="color: #949494;">, </span>"Generation"<span style="color: #949494;">, </span>"Generation"<span style="color: #949494;">, </span>"Generation"<span style="color: #949494;">, </span>"Generation"<span style="color: #949494;">, </span>"Generatio…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-29 15:44:27<span style="color: #949494;">, </span>2026-03-29 15:44:27<span style="color: #949494;">, </span>2026-03-29 15:44:27<span style="color: #949494;">, </span>2026-03-29 15:44…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ created_date_time             <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-31 06:57:11<span style="color: #949494;">, </span>2026-03-31 06:57:11<span style="color: #949494;">, </span>2026-03-31 06:57:11<span style="color: #949494;">, </span>2026-03-31 06:57…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ revision_number               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_resolution                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">, </span>"PT60M"<span style="color: #949494;">,</span>…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_time_interval_start        <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2021-12-31 23:00:00<span style="color: #949494;">, </span>2021-12-31 23:00:00<span style="color: #949494;">, </span>2021-12-31 23:00:00<span style="color: #949494;">, </span>2021-12-31 23:00…</span>

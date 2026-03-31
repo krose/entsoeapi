@@ -32,7 +32,8 @@ and a brief use case.
 
 1.  Fork the repository and create a branch from `main`.
 
-2.  Install development dependencies: `devtools::install_dev_deps()`.
+2.  Install development dependencies:
+    [`devtools::install_dev_deps()`](https://devtools.r-lib.org/reference/install_deps.html).
 
 3.  Make your changes. Keep each PR focused on a single concern.
 
@@ -48,7 +49,7 @@ and a brief use case.
     covr::package_coverage()
     ```
 
-6.  Open the pull request against `master` and describe what changed and
+6.  Open the pull request against `main` and describe what changed and
     why.
 
 ### Conventions

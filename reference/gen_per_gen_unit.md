@@ -74,7 +74,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202001302300&periodEnd=202001312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:21 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:53 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001302300-202001312300.xml"
 #> <- x-content-type-options: nosniff
@@ -94,7 +94,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202001302300&periodEnd=202001312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:22 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:54 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001302300-202001312300.xml"
 #> <- x-content-type-options: nosniff
@@ -114,7 +114,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202001312300&periodEnd=202002012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:24 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:54 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
 #> <- x-content-type-options: nosniff
@@ -134,7 +134,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202001312300&periodEnd=202002012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:26 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:55 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
 #> <- x-content-type-options: nosniff
@@ -154,7 +154,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002012300&periodEnd=202002022300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:30 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:55 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
 #> <- x-content-type-options: nosniff
@@ -174,7 +174,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002012300&periodEnd=202002022300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:35 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:56 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
 #> <- x-content-type-options: nosniff
@@ -194,7 +194,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002022300&periodEnd=202002032300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:41 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:56 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
 #> <- x-content-type-options: nosniff
@@ -214,7 +214,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002022300&periodEnd=202002032300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:47 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:57 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
 #> <- x-content-type-options: nosniff
@@ -234,7 +234,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002032300&periodEnd=202002042300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:53 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:58 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002032300-202002042300.xml"
 #> <- x-content-type-options: nosniff
@@ -254,7 +254,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002032300&periodEnd=202002042300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:46:59 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:58 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002032300-202002042300.xml"
 #> <- x-content-type-options: nosniff
@@ -274,7 +274,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:47:04 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:59 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002042300-202002052300.xml"
 #> <- x-content-type-options: nosniff
@@ -294,7 +294,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:47:11 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:59 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Generation Output per Generation Unit_202002042300-202002052300.xml"
 #> <- x-content-type-options: nosniff
@@ -330,7 +330,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
 #> $ ts_mkt_psr_type                 <chr> "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "…
 #> $ ts_mkt_psr_type_def             <chr> "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil …
-#> $ created_date_time               <dttm> 2026-03-29 15:46:21, 2026-03-29 15:46:21, 2026-03-29 15:46:21, 2026-03-29 15:…
+#> $ created_date_time               <dttm> 2026-03-31 06:57:53, 2026-03-31 06:57:53, 2026-03-31 06:57:53, 2026-03-31 06:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:…
 #> $ time_period_time_interval_end   <dttm> 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:…

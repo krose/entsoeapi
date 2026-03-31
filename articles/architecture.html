@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,6 +40,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
     <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+    <li><a class="dropdown-item" href="../articles/generation-mix-analysis.html">Generation Mix Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with entsoeapi</a></li>
+    <li><a class="dropdown-item" href="../articles/time-series-restructuring.html">Time Series Restructuring Explained</a></li>
+    <li><a class="dropdown-item" href="../articles/working-with-eic-codes.html">Working with EIC Codes</a></li>
   </ul>
 </li>
       </ul>
@@ -69,6 +73,11 @@
 
     
     
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'lubridate'</span></span></code></pre>
+<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     date, intersect, setdiff, union</span></span></code></pre>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -113,40 +122,48 @@ returning a tibble to the user.</p>
   v                                           |
 [api_req --&gt; GET request, 60s timeout]        |
   |                                           |
-  +-- HTTP 200 / zip --&gt; [read_zipped_xml] ---+-- [extract_response]
-  |                                           |         |
-  +-- HTTP 200 / xml --&gt; [resp_body_xml] ----+         v
-  |                                               [xml_to_table, per document]
-  +-- error 503       --&gt; [cli_abort]                   |
-  |                                                     v
-  +-- error HTML      --&gt; [cli_abort]            [extract_leaf/twig/branch]
-  |                                                     |
-  +-- code 999 / exceeds max                            v
-       --&gt; [calc_offset_urls / pagination]       [Type conversions]
-            |                                          |
-            +-&gt; [api_req] (loop)                       v
-                                               [my_snakecase / column rename]
-                                                       |
-                                                       v
-                                               [tidy_or_not: A01 / A03 curve]
-                                                       |
-                                                       v
-                                               [add_type_names / add_eic_names
-                                                add_definitions]
-                                                       |
-                                            +----------+----------+
-                                            |                     |
-                                     Cache hit?               Cache miss
-                                            |                     |
-                                     [return cached]    [download CSV / XML,
-                                      lookup table]      cache result]
-                                            |                     |
-                                            +----------+----------+
-                                                       |
-                                                       v
-                                               [Whitelist columns, sort rows]
-                                                       |
-                                                       v
+  |                                           |
+  +-- HTTP 200 / zip --&gt; [read_zipped_xml] ---+--&gt; [extract_response]
+  |                                           |          |
+  +-- HTTP 200 / xml --&gt; [resp_body_xml] -----+          v
+  |                                                [xml_to_table,
+  |                                                 per document]
+  +-- error 503 -------&gt; [req_retry, 3x / 10s]           |
+  |                            |                         v
+  |                            v                   [extract_leaf/twig/branch]
+  |                      [cli_abort if all fail]         |
+  |                                                      v
+  +-- error HTML ------&gt; [cli_abort]               [type conversions]
+  |                                                      |
+  +-- exceeds max -----&gt; [calc_offset_urls,              v
+                          pagination]              [my_snakecase
+                               |                    column rename]
+                               v                         |
+                         [api_req] (loop)]               v
+                                                   [tidy_or_not:
+                                                    A01 / A03 curve]
+                                                         |
+                                                         v
+                                                   [add_type_names /
+                                                    add_eic_names /
+                                                    add_definitions]
+                                                         |
+                                              +----------+----------+
+                                              |                     |
+                                         type/eic/def         type/eic/def
+                                         cache hit?           cache miss?
+                                              |                     |
+                                              v                     v
+                                         [return cached       [download CSV/XML,
+                                          lookup table]        cache result]
+                                              |                     |
+                                              +---------&gt;+&lt;---------+
+                                                         |
+                                                         v
+                                                   [Whitelist columns,
+                                                    sort rows]
+                                                         |
+                                                         v
                                                Tibble returned to user</code></pre>
 <hr>
 </div>
@@ -215,7 +232,7 @@ endpoint, then appends the user-supplied EIC code(s) and converted
 timestamps. Optional parameters (e.g., <code>business_type</code>) are
 appended conditionally with <code>if (!is.null(...))</code>.</p>
 <p><strong>Step 4 — Pipeline invocation.</strong></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">en_cont_list</span> <span class="op">&lt;-</span> <span class="fu">api_req_safe</span><span class="op">(</span><span class="va">query_string</span>, <span class="va">security_token</span><span class="op">)</span></span>
 <span><span class="fu">extract_response</span><span class="op">(</span>content <span class="op">=</span> <span class="va">en_cont_list</span>, tidy_output <span class="op">=</span> <span class="va">tidy_output</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -223,7 +240,7 @@ appended conditionally with <code>if (!is.null(...))</code>.</p>
 <h3 id="api_req_safe">1.2 <code>api_req_safe()</code><a class="anchor" aria-label="anchor" href="#api_req_safe"></a>
 </h3>
 <p><strong>Location:</strong> <code>R/utils.R</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">api_req_safe</span> <span class="op">&lt;-</span> <span class="fu">safely</span><span class="op">(</span><span class="va">api_req</span><span class="op">)</span></span></code></pre></div>
 <p>A one-liner that wraps <code>api_req()</code> with the package-local
 <code>safely()</code> helper (a lightweight <code>tryCatch</code>
@@ -262,6 +279,10 @@ package-level constants defined in <code>R/constants.R</code>:</p>
 (<code>req_verbose(header_req=FALSE, header_resp=TRUE)</code>)</li>
 <li>Timeout: <code>.req_timeout</code> seconds (60, defined in
 <code>R/constants.R</code>)</li>
+<li>Retry: up to 3 attempts with a 10-second backoff, triggered only by
+HTTP 503 (Service Unavailable) responses. Other HTTP errors are not
+retried. This guards against transient server-side overload on the
+ENTSO-E platform.</li>
 </ul>
 </li>
 <li><p><strong>Execution.</strong> Sent via
@@ -315,8 +336,8 @@ directly with
 <tr class="even">
 <td>503 Service Unavailable</td>
 <td>HTTP status 503</td>
-<td>Immediate <code>cli_abort()</code>
-</td>
+<td>Retried up to 3 times (10 s backoff) via <code>req_retry()</code>;
+<code>cli_abort()</code> if all attempts fail</td>
 </tr>
 <tr class="odd">
 <td>HTML error page</td>
@@ -362,8 +383,8 @@ message indicating the result set exceeds the allowed maximum,
 <code>api_req()</code> automatically splits the request into smaller
 chunks:</p>
 <ol style="list-style-type: decimal">
-<li>The error message is parsed with regex to extract both the
-<em>requested</em> and the <em>allowed</em> document counts.</li>
+<li>The error message is parsed with regular expression to extract both
+the <em>requested</em> and the <em>allowed</em> document counts.</li>
 <li>The number of offset requests needed is calculated:
 <code>ceiling(docs_requested / docs_allowed)</code>.</li>
 <li>Each offset query is built by stripping any existing
@@ -378,8 +399,8 @@ XML-to-table engine processes element by element.</li>
 </ol>
 <p>Pagination is suppressed (and the request is aborted instead) for
 endpoints known not to support offsets, identified by six hard-coded
-regex patterns covering document types A63, A65, B09, A91, A92, and A94
-with specific business or storage types.</p>
+regular expression patterns covering document types A63, A65, B09, A91,
+A92, and A94 with specific business or storage types.</p>
 </div>
 <div class="section level3">
 <h3 id="read_zipped_xml">1.6 <code>read_zipped_xml()</code><a class="anchor" aria-label="anchor" href="#read_zipped_xml"></a>
@@ -408,8 +429,8 @@ identically.</p>
 <li>If <code>$error</code> is not <code>NULL</code>: re-throws the error
 with <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code>.</li>
 <li>If <code>$result</code> is a list (paginated or zipped): iterates
-with <code><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">purrr::imap()</a></code>, calling <code>xml_to_table()</code> on
-each element, showing a progress bar, then combines all results with
+with <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code>, calling <code>xml_to_table()</code> on each
+element, showing a progress bar, then combines all results with
 <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">dplyr::bind_rows()</a></code> and converts to a tibble.</li>
 <li>If <code>$result</code> is a single <code>xml_document</code>: calls
 <code>xml_to_table()</code> directly.</li>
@@ -438,8 +459,7 @@ returns a tibble by running a fixed transformation sequence:</p>
 <h3 id="xml-parsing">2.3 XML parsing<a class="anchor" aria-label="anchor" href="#xml-parsing"></a>
 </h3>
 <p><strong>Location:</strong> <code>extract_leaf_twig_branch()</code>,
-<code>extract_nodesets()</code>,
-<code>grouping_by_common_strings()</code> in <code>R/utils.R</code></p>
+<code>extract_nodesets()</code> in <code>R/utils.R</code></p>
 <p>The ENTSO-E XML schema uses three nesting levels, which the engine
 labels:</p>
 <table class="table">
@@ -476,11 +496,6 @@ labels:</p>
 constructing dotted column names from the element hierarchy (e.g.,
 <code>TimeSeries.mRID</code>). <code>NULL</code> values become
 <code>NA_character_</code>.</p>
-<p><code>grouping_by_common_strings()</code> solves the
-connected-components problem: it groups sub-tables that share column
-names (using a union-find algorithm) so they can be bound horizontally
-with <code><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">dplyr::bind_cols()</a></code>. This handles the fact that
-different ENTSO-E endpoints nest related fields at different depths.</p>
 </div>
 <div class="section level3">
 <h3 id="column-name-normalization-my_snakecase">2.4 Column name normalization — <code>my_snakecase()</code><a class="anchor" aria-label="anchor" href="#column-name-normalization-my_snakecase"></a>
@@ -558,13 +573,13 @@ joining additional columns:</p>
 (<code>R/utils.R</code>) — joins human-readable definitions from
 built-in package data tables (e.g., <code>business_types</code>,
 <code>asset_types</code>, <code>process_types</code>) using
-<code>def_merge()</code>. Produces <code>_def</code> suffix columns
+<code>lookup_merge()</code>. Produces <code>_def</code> suffix columns
 alongside each code column (e.g., <code>ts_business_type</code> →
 <code>ts_business_type_def</code>).</p>
 <p><strong><code>add_eic_names()</code></strong>
 (<code>R/utils.R</code>) — joins EIC code long names from
 <code><a href="../reference/area_eic.html">area_eic()</a></code> and <code><a href="../reference/resource_object_eic.html">resource_object_eic()</a></code> (both
-cached; see section 3) using <code>eic_name_merge()</code>. Produces
+cached; see section 3) using <code>lookup_merge()</code>. Produces
 <code>_name</code> suffix columns alongside each <code>_mrid</code>
 column (e.g., <code>ts_in_domain_mrid</code> →
 <code>ts_in_domain_name</code>).</p>
@@ -634,9 +649,9 @@ is not user-configurable.</p>
 <p><strong>Via <code>mh</code></strong> (one key per EIC function):</p>
 <table class="table">
 <colgroup>
-<col width="33%">
-<col width="33%">
-<col width="33%">
+<col width="39%">
+<col width="27%">
+<col width="32%">
 </colgroup>
 <thead><tr class="header">
 <th>Cache key</th>
@@ -682,7 +697,7 @@ is not user-configurable.</p>
 <tr class="even">
 <td><code>all_allocated_eic_df_key</code></td>
 <td>XML download + parse</td>
-<td><code>all_allocated_eic()</code></td>
+<td><code><a href="../reference/all_allocated_eic.html">all_allocated_eic()</a></code></td>
 </tr>
 </tbody>
 </table>
@@ -719,14 +734,14 @@ registries, type definitions) is cached.</p>
 <h3 id="cache-hitmiss-pattern">3.3 Cache hit/miss pattern<a class="anchor" aria-label="anchor" href="#cache-hitmiss-pattern"></a>
 </h3>
 <p>All EIC functions use the same template:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cache_key</span> <span class="op">&lt;-</span> <span class="st">"unique_key_name"</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="va">mh</span><span class="op">$</span><span class="fu">exists</span><span class="op">(</span>key <span class="op">=</span> <span class="va">cache_key</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">res_df</span> <span class="op">&lt;-</span> <span class="va">mh</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span>key <span class="op">=</span> <span class="va">cache_key</span>, missing <span class="op">=</span> <span class="va">fallback_expr</span><span class="op">)</span></span>
-<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_info</a></span><span class="op">(</span><span class="st">"pulling {f} file from cache"</span><span class="op">)</span></span>
+<span>  <span class="fu">cli_alert_info</span><span class="op">(</span><span class="st">"pulling {f} file from cache"</span><span class="op">)</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_info</a></span><span class="op">(</span><span class="st">"downloading {f} file ..."</span><span class="op">)</span></span>
+<span>  <span class="fu">cli_alert_info</span><span class="op">(</span><span class="st">"downloading {f} file ..."</span><span class="op">)</span></span>
 <span>  <span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu">download_and_transform</span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="va">mh</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>key <span class="op">=</span> <span class="va">cache_key</span>, value <span class="op">=</span> <span class="va">res_df</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -736,12 +751,12 @@ visible to the user in the console.</p>
 <div class="section level3">
 <h3 id="double-caching-during-eic-name-enrichment">3.4 Double-caching during EIC name enrichment<a class="anchor" aria-label="anchor" href="#double-caching-during-eic-name-enrichment"></a>
 </h3>
-<p><code>add_eic_names()</code> calls <code>get_area_eic_name()</code>
-and <code>get_resource_object_eic()</code>, which use cache
-<code>m</code>. If <code>m</code> misses, those helpers call
-<code><a href="../reference/area_eic.html">area_eic()</a></code> / <code><a href="../reference/resource_object_eic.html">resource_object_eic()</a></code>, which use
-cache <code>mh</code>. This means the same underlying data may be stored
-at two levels simultaneously:</p>
+<p><code>add_eic_names()</code> calls
+<code>get_resource_object_eic()</code> (cache <code>m</code>), and
+fetches area EIC names inline (cache <code>m</code>, falling back to
+<code><a href="../reference/area_eic.html">area_eic()</a></code> on cache miss, which uses cache
+<code>mh</code>). This means the same underlying data may be stored at
+two levels simultaneously:</p>
 <ul>
 <li>
 <code>mh</code> holds the full EIC tibble (all columns).</li>
@@ -775,7 +790,7 @@ cache versioning. Restarting the R session clears both caches.</p>
   └─ api_req_safe(query_string, security_token)
        └─ api_req()
             ├─ Build URL: https://web-api.tp.entsoe.eu/api?{query}&amp;securityToken=&lt;...&gt;
-            ├─ GET, 60s timeout, log masked URL
+            ├─ GET, 60s timeout, retry 3× on 503 (10s backoff), log masked URL
             ├─ HTTP 200 / text/xml → resp_body_xml()  [or zip → read_zipped_xml()]
             └─ HTTP error → calc_offset_urls() + recurse  [or cli_abort()]
      │
@@ -789,13 +804,13 @@ cache versioning. Restarting the R session clears both caches.</p>
                ├─ Convert DateTime → POSIXct(UTC), numeric columns → numeric
                ├─ my_snakecase() → normalised column names
                ├─ tidy_or_not() → one row per data point (A01/A03 handled)
-               ├─ add_type_names()  → join built-in type tables (no network)
-               ├─ add_eic_names()   → get_area_eic_name() [cache m / mh]
+           ├─ add_type_names()  → join built-in type tables (no network)
+           ├─ add_eic_names()   → get_resource_object_eic() [cache m]
                ├─ add_definitions() → join built-in definition tables (no network)
                ├─ Filter to whitelist columns
                └─ Sort rows
           │
-          └─ rbindlist() + as_tibble() if multiple XML docs
+          └─ dplyr::bind_rows() + as_tbl() if multiple XML docs
      │
      └─ tibble returned to user  (or NULL)</code></pre>
 <hr>
@@ -838,18 +853,25 @@ cache versioning. Restarting the R session clears both caches.</p>
 </td>
 </tr>
 <tr class="even">
+<td>Retry on 503</td>
+<td>Up to 3 attempts, 10-second backoff</td>
+<td>
+<code>req_retry()</code> in <code>api_req()</code>
+</td>
+</tr>
+<tr class="odd">
 <td>Security token env var</td>
 <td><code>ENTSOE_PAT</code></td>
 <td>All user-facing functions</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Verbose logging</td>
 <td>Response headers only</td>
 <td>
 <code>api_req()</code> in <code>R/utils.R</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Cache max age</td>
 <td>3600 seconds / 1 hour (<code>.max_age</code>)</td>
 <td>
@@ -857,28 +879,28 @@ cache versioning. Restarting the R session clears both caches.</p>
 <code>R/en_helpers.R</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Pagination trigger phrase</td>
 <td><code>"exceeds the allowed maximum"</code></td>
 <td>
 <code>api_req()</code> in <code>R/utils.R</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Forbidden offset doc types</td>
 <td>A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02</td>
 <td>
 <code>api_req()</code> in <code>R/utils.R</code>
 </td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>XML encoding</td>
 <td>UTF-8</td>
 <td>
 <code>api_req()</code> and <code>xml_to_table()</code>
 </td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>ZIP content types</td>
 <td>
 <code>application/zip</code>,
@@ -975,8 +997,7 @@ cache versioning. Restarting the R session clears both caches.</p>
 <td><code>R/utils.R</code></td>
 <td>
 <code>extract_leaf_twig_branch()</code>,
-<code>extract_nodesets()</code>,
-<code>grouping_by_common_strings()</code>
+<code>extract_nodesets()</code>
 </td>
 </tr>
 <tr class="odd">
@@ -993,15 +1014,14 @@ cache versioning. Restarting the R session clears both caches.</p>
 <td>Type enrichment</td>
 <td><code>R/utils.R</code></td>
 <td>
-<code>add_type_names()</code>, <code>def_merge()</code>
+<code>add_type_names()</code>, <code>lookup_merge()</code>
 </td>
 </tr>
 <tr class="even">
 <td>EIC enrichment</td>
 <td><code>R/utils.R</code></td>
 <td>
-<code>add_eic_names()</code>, <code>eic_name_merge()</code>,
-<code>get_area_eic_name()</code>,
+<code>add_eic_names()</code>, <code>lookup_merge()</code>,
 <code>get_resource_object_eic()</code>
 </td>
 </tr>
@@ -1015,7 +1035,7 @@ cache versioning. Restarting the R session clears both caches.</p>
 <td><code>R/en_helpers.R</code></td>
 <td>
 <code><a href="../reference/party_eic.html">party_eic()</a></code>, <code><a href="../reference/area_eic.html">area_eic()</a></code>,
-<code><a href="../reference/resource_object_eic.html">resource_object_eic()</a></code>, <code>all_allocated_eic()</code>, et
+<code><a href="../reference/resource_object_eic.html">resource_object_eic()</a></code>, <code><a href="../reference/all_allocated_eic.html">all_allocated_eic()</a></code>, et
 al.</td>
 </tr>
 <tr class="odd">

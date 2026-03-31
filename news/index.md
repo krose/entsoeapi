@@ -1,5 +1,33 @@
 # Changelog
 
+## entsoeapi v1.1.0 (2026-03-31)
+
+### New functionality
+
+- 4 new vignettes (Generation Mix Analysis, Getting Started with
+  entsoeapi, Time Series Restructuring Explained, Working with EIC
+  Codes) have been introduced.
+- The
+  [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md)
+  function has been exported.
+- The
+  [`get_news()`](https://krose.github.io/entsoeapi/reference/get_news.md)
+  function has been introduced.
+- The ENTSO-E API is known for returning 503 (Service Unavailable)
+  response when it’s under heavy load or when a client sends too many
+  requests. Hence we have built-in an automated backoff-and-retry
+  mechanism.
+
+### Changes
+
+- Typos fixed in the documentations.
+- The package `DESCRIPTION` document slightly adjusted.
+
+### Miscellaneous
+
+- An orphaned, not exported function and its related unit tests have
+  been removed.
+
 ## entsoeapi v1.0.0 (2026-03-25)
 
 ### New functionality
@@ -20,8 +48,9 @@
   [`netted_volumes_per_border()`](https://krose.github.io/entsoeapi/reference/netted_volumes_per_border.md)
   function has been introduced (we incorrectly stated earlier that this
   function had been introduced)
-- The `eic_functions()` and `all_allocated_eic()` functions have been
-  introduced.
+- The `eic_functions()` and
+  [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md)
+  functions have been introduced.
 - The processing capability of `P3M` data resolution has been added to
   the engine.
 
@@ -37,7 +66,9 @@
   call got more columns to display.
 - The `deactivation_requested_date_and_or_time_date` and the
   `eic_code_market_participant_street_address` columns have been added
-  to `all_allocated_eic()` function’s resulting table.
+  to
+  [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md)
+  function’s resulting table.
 - The `gen_installed_capacity_per_pt` and the
   `gen_installed_capacity_per_pu` functions got a new `tidy_output`
   argument.

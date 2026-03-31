@@ -245,7 +245,7 @@ entsoeapi::load_actual_total(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&outBiddingZone_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 24 Mar 2026 18:52:37 GMT
+#> <- date: Mon, 30 Mar 2026 21:56:04 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Actual Total Load_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -273,7 +273,7 @@ entsoeapi::load_actual_total(
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_business_type_def            <chr> "Consumption", "Consumption", "Consump…
-#> $ created_date_time               <dttm> 2026-03-24 18:52:37, 2026-03-24 18:52…
+#> $ created_date_time               <dttm> 2026-03-30 21:56:04, 2026-03-30 21:56…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
@@ -303,7 +303,7 @@ entsoeapi::gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=201912312300&periodEnd=202001012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 24 Mar 2026 18:52:38 GMT
+#> <- date: Mon, 30 Mar 2026 21:56:06 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregated Generation per Type_201912312300-202001012300.xml"
 #> <- x-content-type-options: nosniff
@@ -332,7 +332,7 @@ entsoeapi::gen_per_prod_type(
 #> $ ts_business_type_def            <chr> "Production", "Production", "Productio…
 #> $ ts_mkt_psr_type                 <chr> "B10", "B10", "B10", "B10", "B10", "B1…
 #> $ ts_mkt_psr_type_def             <chr> "Hydro-electric pure pumped storage he…
-#> $ created_date_time               <dttm> 2026-03-24 18:52:38, 2026-03-24 18:52…
+#> $ created_date_time               <dttm> 2026-03-30 21:56:06, 2026-03-30 21:56…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00, 2019-12-31 23:00…
 #> $ time_period_time_interval_end   <dttm> 2020-01-01 23:00:00, 2020-01-01 23:00…
@@ -366,6 +366,8 @@ contributing to this project, you agree to abide by its terms.
   : Get Aggregated Balancing Energy Bids (GL EB 12.3.E)
 - [`aggregated_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_bids.md)
   : Get Aggregated Bids (12.3.D)
+- [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md)
+  : Get all Allocated Energy Identification Codes
 - [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md)
   : Get all Approved Energy Identification Codes
 - [`allocated_transfer_capacities_3rd_countries()`](https://krose.github.io/entsoeapi/reference/allocated_transfer_capacities_3rd_countries.md)
@@ -504,6 +506,8 @@ contributing to this project, you agree to abide by its terms.
   Storage Plants (16.1.D)
 - [`gen_wind_solar_forecasts()`](https://krose.github.io/entsoeapi/reference/gen_wind_solar_forecasts.md)
   : Get Generation Forecasts for Wind & Solar (14.1.D)
+- [`get_news()`](https://krose.github.io/entsoeapi/reference/get_news.md)
+  : Display the ENTSO-E Transparency Platform news feed
 - [`grid_agreement_types`](https://krose.github.io/entsoeapi/reference/grid_agreement_types.md)
   : List grid agreement types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'
@@ -662,3 +666,11 @@ contributing to this project, you agree to abide by its terms.
   Caching](https://krose.github.io/entsoeapi/articles/architecture.md):
 - [Day-Ahead Price Spread
   Vignette](https://krose.github.io/entsoeapi/articles/da-price-spread-vignette.md):
+- [Generation Mix
+  Analysis](https://krose.github.io/entsoeapi/articles/generation-mix-analysis.md):
+- [Getting Started with
+  entsoeapi](https://krose.github.io/entsoeapi/articles/getting-started.md):
+- [Time Series Restructuring
+  Explained](https://krose.github.io/entsoeapi/articles/time-series-restructuring.md):
+- [Working with EIC
+  Codes](https://krose.github.io/entsoeapi/articles/working-with-eic-codes.md):

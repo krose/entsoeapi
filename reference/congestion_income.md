@@ -34,7 +34,7 @@ congestion_income(
 - contract_type:
 
   Contract market agreement type, valid values can be checked from
-  contract_types table; "A01" = Day ahead "A02" = Weekly "A032 = Monthly
+  contract_types table; "A01" = Day ahead "A02" = Weekly "A03" = Monthly
   "A04" = Yearly "A06" = Long Term "A07" = Intraday "A08" = Quarterly
   Defaults to "A01" (Day ahead)
 
@@ -85,7 +85,7 @@ df <- entsoeapi::congestion_income(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A25&businessType=B10&contract_MarketAgreement.Type=A01&in_Domain=10YDOM-1001A083J&out_Domain=10YDOM-1001A083J&periodStart=201512312300&periodEnd=201601012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:43:59 GMT
+#> <- date: Tue, 31 Mar 2026 06:57:09 GMT
 #> <- content-type: text/xml
 #> <- content-length: 1674
 #> <- content-disposition: inline; filename="Implicit_Allocations_Congestion_income_201512312300-201601012300.xml"
@@ -112,7 +112,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_type_def        <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit",…
 #> $ ts_business_type           <chr> "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10",…
 #> $ ts_business_type_def       <chr> "Congestion income", "Congestion income", "Congestion income", "Congestion income",…
-#> $ created_date_time          <dttm> 2026-03-29 15:43:59, 2026-03-29 15:43:59, 2026-03-29 15:43:59, 2026-03-29 15:43:59…
+#> $ created_date_time          <dttm> 2026-03-31 06:57:09, 2026-03-31 06:57:09, 2026-03-31 06:57:09, 2026-03-31 06:57:09…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution              <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start     <dttm> 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 23:00:00,…

@@ -4,7 +4,11 @@ pkgdown_sha: ~
 articles:
   architecture: architecture.html
   da-price-spread-vignette: da-price-spread-vignette.html
-last_built: 2026-03-29T15:41Z
+  generation-mix-analysis: generation-mix-analysis.html
+  getting-started: getting-started.html
+  time-series-restructuring: time-series-restructuring.html
+  working-with-eic-codes: working-with-eic-codes.html
+last_built: 2026-03-31T06:56Z
 urls:
   reference: https://krose.github.io/entsoeapi/reference
   article: https://krose.github.io/entsoeapi/articles

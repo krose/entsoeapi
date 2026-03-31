@@ -7,7 +7,11 @@
 <url><loc>https://krose.github.io/entsoeapi/RELEASE_CHECKLIST.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/articles/architecture.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/articles/da-price-spread-vignette.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/articles/generation-mix-analysis.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/articles/getting-started.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/articles/index.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/articles/time-series-restructuring.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/articles/working-with-eic-codes.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/authors.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/index.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/news/index.html</loc></url>
@@ -15,6 +19,7 @@
 <url><loc>https://krose.github.io/entsoeapi/reference/activated_balancing_prices.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/aggregated_balancing_energy_bids.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/aggregated_bids.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/reference/all_allocated_eic.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/all_approved_eic.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/allocated_transfer_capacities_3rd_countries.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/allocation_mode_types.html</loc></url>
@@ -73,6 +78,7 @@
 <url><loc>https://krose.github.io/entsoeapi/reference/gen_per_prod_type.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/gen_storage_mean_filling_rate.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/gen_wind_solar_forecasts.html</loc></url>
+<url><loc>https://krose.github.io/entsoeapi/reference/get_news.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/grid_agreement_types.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/hvdc_link_constrains.html</loc></url>
 <url><loc>https://krose.github.io/entsoeapi/reference/hvdc_mode_types.html</loc></url>

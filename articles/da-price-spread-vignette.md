@@ -4,6 +4,12 @@
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
+library(kableExtra)
+#> 
+#> Attaching package: 'kableExtra'
+#> The following object is masked from 'package:dplyr':
+#> 
+#>     group_rows
 library(cli)
 library(ggplot2)
 ```
@@ -36,7 +42,7 @@ pl_eic <- all_approved_eic() |>
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ downloading A_eicCodes.csv file ...
 
-from_ts <- force_tz(time = as.Date("2026-01-01"), tzone = "CET")
+from_ts <- ymd(x = "2026-01-01", tz = "CET")
 till_ts <- from_ts + weeks(x = 1L)
 
 cli_inform("Polish EIC: '{pl_eic}'")
@@ -61,7 +67,7 @@ da_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YPL-AREA-----S&out_Domain=10YPL-AREA-----S&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Sun, 29 Mar 2026 15:53:46 GMT
+#> <- date: Tue, 31 Mar 2026 06:59:18 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
 #> <- x-content-type-options: nosniff
@@ -91,7 +97,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def        <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit",…
 #> $ ts_business_type           <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62",…
 #> $ ts_business_type_def       <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spot price",…
-#> $ created_date_time          <dttm> 2026-03-29 15:53:46, 2026-03-29 15:53:46, 2026-03-29 15:53:46, 2026-03-29 15:53:46…
+#> $ created_date_time          <dttm> 2026-03-31 06:59:18, 2026-03-31 06:59:18, 2026-03-31 06:59:18, 2026-03-31 06:59:18…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution              <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start     <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00…
@@ -107,18 +113,31 @@ glimpse(da_prices)
 
 ``` r
 da_spreads <- da_prices |>
-  select(c(ts_point_dt_start, ts_point_price_amount)) |>
   mutate(
     ts_point_dt_start = with_tz(time = ts_point_dt_start, tzone = "CET")
   ) |>
-  mutate(ts_point_date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
-  group_by(ts_point_date) |>
+  mutate(
+    ts_point_date = as.Date(x = ts_point_dt_start, tz = "CET")
+  ) |>
   summarise(
     min_price = min(ts_point_price_amount, na.rm = TRUE),
     max_price = max(ts_point_price_amount, na.rm = TRUE),
-    .groups = "drop"
+    .by = ts_point_date
   ) |>
   mutate(price_spread = max_price - min_price)
+
+da_spreads |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
+#> |ts_point_date | min_price| max_price| price_spread|
+#> |:-------------|---------:|---------:|------------:|
+#> |2026-01-01    |     -4.73|    109.53|       114.26|
+#> |2026-01-02    |     -8.31|    110.54|       118.85|
+#> |2026-01-03    |     51.15|    114.45|        63.30|
+#> |2026-01-04    |     81.85|    123.50|        41.65|
+#> |2026-01-05    |     82.58|    246.55|       163.97|
+#> |2026-01-06    |    107.75|    189.91|        82.16|
+#> |2026-01-07    |     80.55|    326.58|       246.03|
 ```
 
 ### Plot the daily minimum and maximum prices and the spread
@@ -161,4 +180,4 @@ print(
 )
 ```
 
-![](da-price-spread-vignette_files/figure-html/plot%20the%20daily%20spreads-1.png)
+![](da-price-spread-vignette_files/figure-html/plot-the-daily-spreads-1.png)

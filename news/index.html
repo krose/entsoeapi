@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,10 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
     <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+    <li><a class="dropdown-item" href="../articles/generation-mix-analysis.html">Generation Mix Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with entsoeapi</a></li>
+    <li><a class="dropdown-item" href="../articles/time-series-restructuring.html">Time Series Restructuring Explained</a></li>
+    <li><a class="dropdown-item" href="../articles/working-with-eic-codes.html">Working with EIC Codes</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -36,6 +40,25 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="entsoeapi-v110-2026-03-31">entsoeapi v1.1.0 (2026-03-31)<a class="anchor" aria-label="anchor" href="#entsoeapi-v110-2026-03-31"></a></h2>
+<div class="section level3">
+<h3 id="new-functionality-1-1-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-1-0"></a></h3>
+<ul><li>4 new vignettes (Generation Mix Analysis, Getting Started with entsoeapi, Time Series Restructuring Explained, Working with EIC Codes) have been introduced.</li>
+<li>The <code><a href="../reference/all_allocated_eic.html">all_allocated_eic()</a></code> function has been exported.</li>
+<li>The <code><a href="../reference/get_news.html">get_news()</a></code> function has been introduced.</li>
+<li>The ENTSO-E API is known for returning 503 (Service Unavailable) response when it’s under heavy load or when a client sends too many requests. Hence we have built-in an automated backoff-and-retry mechanism.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-1-1-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-1-0"></a></h3>
+<ul><li>Typos fixed in the documentations.</li>
+<li>The package <code>DESCRIPTION</code> document slightly adjusted.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-1-1-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-1-0"></a></h3>
+<ul><li>An orphaned, not exported function and its related unit tests have been removed.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="entsoeapi-v100-2026-03-25">entsoeapi v1.0.0 (2026-03-25)<a class="anchor" aria-label="anchor" href="#entsoeapi-v100-2026-03-25"></a></h2>
 <div class="section level3">
 <h3 id="new-functionality-1-0-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-0-0"></a></h3>
@@ -43,7 +66,7 @@
 <li>The <code><a href="../reference/explicit_offered_transfer_capacities.html">explicit_offered_transfer_capacities()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
 <li>The <code><a href="../reference/continuous_offered_transfer_capacities.html">continuous_offered_transfer_capacities()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
 <li>The <code><a href="../reference/netted_volumes_per_border.html">netted_volumes_per_border()</a></code> function has been introduced (we incorrectly stated earlier that this function had been introduced)</li>
-<li>The <code>eic_functions()</code> and <code>all_allocated_eic()</code> functions have been introduced.</li>
+<li>The <code>eic_functions()</code> and <code><a href="../reference/all_allocated_eic.html">all_allocated_eic()</a></code> functions have been introduced.</li>
 <li>The processing capability of <code>P3M</code> data resolution has been added to the engine.</li>
 </ul></div>
 <div class="section level3">
@@ -51,7 +74,7 @@
 <ul><li>The <code><a href="../reference/aggregated_balancing_energy_bids.html">aggregated_balancing_energy_bids()</a></code> function’s <code>process_type</code> argument additionally can be set as <code>A67</code> or <code>A68</code> from now on.</li>
 <li>The “See Also” blocks have been added to each help.</li>
 <li>The result table of <code><a href="../reference/imbalance_prices.html">imbalance_prices()</a></code> call got more columns to display.</li>
-<li>The <code>deactivation_requested_date_and_or_time_date</code> and the <code>eic_code_market_participant_street_address</code> columns have been added to <code>all_allocated_eic()</code> function’s resulting table.</li>
+<li>The <code>deactivation_requested_date_and_or_time_date</code> and the <code>eic_code_market_participant_street_address</code> columns have been added to <code><a href="../reference/all_allocated_eic.html">all_allocated_eic()</a></code> function’s resulting table.</li>
 <li>The <code>gen_installed_capacity_per_pt</code> and the <code>gen_installed_capacity_per_pu</code> functions got a new <code>tidy_output</code> argument.</li>
 <li>The XML extracting engine further improved by which the <code>flow_based_allocations</code> function’s resulting table composed properly from now on.</li>
 <li>The <code>tibble</code>, <code>purrr</code>, <code>tidyselect</code> package dependencies (Imports) removed from the code.</li>

@@ -15,7 +15,7 @@ used on the platform fails or does not find solution."><meta property="og:image"
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,10 @@ used on the platform fails or does not find solution."><meta property="og:image"
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
     <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+    <li><a class="dropdown-item" href="../articles/generation-mix-analysis.html">Generation Mix Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with entsoeapi</a></li>
+    <li><a class="dropdown-item" href="../articles/time-series-restructuring.html">Time Series Restructuring Explained</a></li>
+    <li><a class="dropdown-item" href="../articles/working-with-eic-codes.html">Working with EIC Codes</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -137,7 +141,7 @@ Defaults to "A53".</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A53&amp;biddingZone_Domain=10YBE----------2&amp;processType=A51&amp;businessType=C47&amp;periodStart=202212312300&amp;periodEnd=202312312300&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Sun, 29 Mar 2026 15:50:40 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 06:58:34 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 4696</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Fall-backs_202305222200-202309080130.zip"</span>
@@ -146,12 +150,12 @@ Defaults to "A53".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/001-FALL_BACKS_202305222200-202305232200.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/002-FALL_BACKS_202306262200-202306270900.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/003-FALL_BACKS_202307202200-202307211245.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/004-FALL_BACKS_202308232200-202308232230.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/005-FALL_BACKS_202308272200-202308280445.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/Rtmp8QGEwR/006-FALL_BACKS_202309072200-202309080130.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/001-FALL_BACKS_202305222200-202305232200.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/002-FALL_BACKS_202306262200-202306270900.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/003-FALL_BACKS_202307202200-202307211245.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/004-FALL_BACKS_202308232200-202308232230.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/005-FALL_BACKS_202308272200-202308280445.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOqoMiS/006-FALL_BACKS_202309072200-202309080130.xml has been read in</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,10 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
     <li><a class="dropdown-item" href="articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+    <li><a class="dropdown-item" href="articles/generation-mix-analysis.html">Generation Mix Analysis</a></li>
+    <li><a class="dropdown-item" href="articles/getting-started.html">Getting Started with entsoeapi</a></li>
+    <li><a class="dropdown-item" href="articles/time-series-restructuring.html">Time Series Restructuring Explained</a></li>
+    <li><a class="dropdown-item" href="articles/working-with-eic-codes.html">Working with EIC Codes</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
@@ -48,33 +52,31 @@
 </ul></div>
 <div class="section level2">
 <h2 id="id_2-documentation">2. Documentation<a class="anchor" aria-label="anchor" href="#id_2-documentation"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox">Run <code>devtools::spell_check()</code> — no spelling errors in docs</label></li>
-<li><label><input type="checkbox"><code>urlchecker::url_check()</code> — no broken URLs in docs</label></li>
-<li><label><input type="checkbox">Run <code>devtools::document()</code> — regenerate all <code>.Rd</code> files and <code>NAMESPACE</code></label></li>
-<li><label><input type="checkbox">Run <code>devtools::build_readme()</code> — locate README.Rmd and build it into a README.md</label></li>
+<ul class="task-list"><li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/spell_check.html" class="external-link">devtools::spell_check()</a></code> — no spelling errors in docs</label></li>
+<li><label><input type="checkbox"><code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code> — no broken URLs in docs</label></li>
+<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code> — regenerate all <code>.Rd</code> files and <code>NAMESPACE</code></label></li>
+<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/build_readme.html" class="external-link">devtools::build_readme()</a></code> — locate README.Rmd and build it into a README.md</label></li>
 <li><label><input type="checkbox">Check that all exported functions have <code>@examples</code> or <code>@examplesIf</code></label></li>
 <li><label><input type="checkbox">README examples still work (copy-paste test)</label></li>
-<li><label><input type="checkbox">Update vignettes if necessary and render without error: <code>devtools::build_vignettes()</code></label></li>
-<li><label><input type="checkbox">Run <code>devtools::build_site()</code> locally — build site locally, checking no errors</label></li>
+<li><label><input type="checkbox">Update vignettes if necessary and render without error: <code><a href="https://devtools.r-lib.org/reference/build_vignettes.html" class="external-link">devtools::build_vignettes()</a></code></label></li>
+<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/build_site.html" class="external-link">devtools::build_site()</a></code> locally — build site locally, checking no errors</label></li>
 </ul></div>
 <div class="section level2">
 <h2 id="id_3-tests">3. Tests<a class="anchor" aria-label="anchor" href="#id_3-tests"></a></h2>
 <ul class="task-list"><li><label><input type="checkbox">Run <code>devtools::run_examples(fresh = TRUE)</code> — all examples pass, no unexpected errors</label></li>
-<li><label><input type="checkbox">Run <code>devtools::test()</code> — all tests pass, no unexpected skips</label></li>
-<li><label><input type="checkbox"><code>devtools::test_coverage()</code> — no significant test coverage regression</label></li>
+<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code> — all tests pass, no unexpected skips</label></li>
+<li><label><input type="checkbox"><code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test_coverage()</a></code> — no significant test coverage regression</label></li>
 </ul></div>
 <div class="section level2">
 <h2 id="id_4-r-cmd-check">4. R CMD CHECK<a class="anchor" aria-label="anchor" href="#id_4-r-cmd-check"></a></h2>
-<ul class="task-list"><li>
-<label><input type="checkbox"><code>devtools::check(cran = TRUE)</code> — <strong>0 errors, 0 warnings, 0 notes</strong></label>
-<ul><li>Common notes to fix before CRAN: <code>LazyData</code> without <code>LazyDataCompression</code>, missing <code>\value</code> in <code>.Rd</code> files</li>
-</ul></li>
+<ul><li><label><input type="checkbox"><code>devtools::check(cran = TRUE)</code> — <strong>0 errors, 0 warnings, 0 notes</strong></label></li>
+<li>Common notes to fix before CRAN: <code>LazyData</code> without <code>LazyDataCompression</code>, missing <code>\value</code> in <code>.Rd</code> files</li>
 </ul></div>
 <div class="section level2">
 <h2 id="id_5-merge--tag">5. Merge &amp; Tag<a class="anchor" aria-label="anchor" href="#id_5-merge--tag"></a></h2>
 <ul class="task-list"><li><label><input type="checkbox">Push + merge / merge + push: <code>develop</code> → <code>main</code> (PR or direct)</label></li>
-<li><label><input type="checkbox">Create a git tag: <code>git tag v1.0.0 &amp;&amp; git push origin v1.0.0</code></label></li>
-<li><label><input type="checkbox">Create a GitHub Release with the <code>NEWS.md</code> entry as release notes: <code>gh release create v0.9.8 --title "v0.9.8" --notes "See NEWS.md for changes" --repo krose/entsoeapi</code></label></li>
+<li><label><input type="checkbox">Create a git tag: <code>git tag vX.Y.Z &amp;&amp; git push origin vX.Y.Z</code></label></li>
+<li><label><input type="checkbox">Create a GitHub Release with the <code>NEWS.md</code> entry as release notes: <code>gh release create vX.Y.Z --title "vX.Y.Z" --notes "See NEWS.md for changes" --repo krose/entsoeapi</code></label></li>
 </ul></div>
 <div class="section level2">
 <h2 id="id_6-pkgdown-site">6. Pkgdown Site<a class="anchor" aria-label="anchor" href="#id_6-pkgdown-site"></a></h2>
@@ -82,10 +84,10 @@
 </ul></div>
 <div class="section level2">
 <h2 id="id_7-when-ready-cran-submission">7. (When ready) CRAN Submission<a class="anchor" aria-label="anchor" href="#id_7-when-ready-cran-submission"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox">Run <code>devtools::install()</code> to install package locally</label></li>
-<li><label><input type="checkbox">Run <code>rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")</code>— triggers multi-platform check on GitHub</label></li>
+<ul class="task-list"><li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">devtools::install()</a></code> to install package locally</label></li>
+<li><label><input type="checkbox">Run <code>rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main", r_versions = "release")</code>— triggers multi-platform check on GitHub</label></li>
 <li><label><input type="checkbox">Review <a href="https://cran.r-project.org/web/packages/policies.html" class="external-link">CRAN policies</a></label></li>
-<li><label><input type="checkbox"><code>devtools::submit_cran()</code> or upload via <a href="https://cran.r-project.org/submit.html" class="external-link uri">https://cran.r-project.org/submit.html</a></label></li>
+<li><label><input type="checkbox"><code><a href="https://devtools.r-lib.org/reference/submit_cran.html" class="external-link">devtools::submit_cran()</a></code> or upload via <a href="https://cran.r-project.org/submit.html" class="external-link uri">https://cran.r-project.org/submit.html</a></label></li>
 <li><label><input type="checkbox">Reply promptly to CRAN maintainer emails (within 2 weeks)</label></li>
 </ul></div>
 <div class="section level2">

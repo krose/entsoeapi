@@ -96,12 +96,40 @@ df <- entsoeapi::outages_cons_units(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A76&biddingZone_Domain=10YFI-1--------U&periodStart=202404092200&periodEnd=202404102200&securityToken=<...>
-#> <- HTTP/2 503 
-#> <- date: Sun, 29 Mar 2026 15:50:34 GMT
-#> <- content-type: */*
+#> <- HTTP/2 200 
+#> <- date: Tue, 31 Mar 2026 06:58:32 GMT
+#> <- content-type: text/xml
+#> <- content-disposition: inline; filename="Unavailability_of_consumption_units_aggregated_202404100400-202404100900.xml"
+#> <- x-content-type-options: nosniff
+#> <- x-xss-protection: 0
+#> <- vary: accept-encoding
+#> <- content-encoding: gzip
+#> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
-#> Error in extract_response(content = en_cont_list, tidy_output = tidy_output): HTTP 503 Service Unavailable.
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> function (x, df1, df2, ncp, log = FALSE)  
+#> Rows: 1
+#> Columns: 18
+#> $ ts_bidding_zone_domain_mrid        <chr> "10YFI-1--------U"
+#> $ ts_bidding_zone_domain_name        <chr> "Finland"
+#> $ type                               <chr> "A76"
+#> $ type_def                           <chr> "Load unavailability"
+#> $ process_type                       <chr> "A26"
+#> $ process_type_def                   <chr> "Outage information"
+#> $ ts_business_type                   <chr> "A53"
+#> $ ts_business_type_def               <chr> "Planned maintenance"
+#> $ created_date_time                  <dttm> 2026-03-31 06:58:32
+#> $ reason_code                        <chr> "A95"
+#> $ reason_text                        <chr> "  - Complementary information"
+#> $ revision_number                    <dbl> 1
+#> $ unavailability_time_interval_start <dttm> 2024-04-10 04:00:00
+#> $ unavailability_time_interval_end   <dttm> 2024-04-10 09:00:00
+#> $ ts_available_period_resolution     <chr> "PT60M"
+#> $ ts_mrid                            <dbl> 1
+#> $ ts_available_period_point_quantity <dbl> 171
+#> $ ts_quantity_measure_unit_name      <chr> "MAW"
 ```

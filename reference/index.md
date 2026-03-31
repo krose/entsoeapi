@@ -10,6 +10,8 @@
   : Get Aggregated Balancing Energy Bids (GL EB 12.3.E)
 - [`aggregated_bids()`](https://krose.github.io/entsoeapi/reference/aggregated_bids.md)
   : Get Aggregated Bids (12.3.D)
+- [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md)
+  : Get all Allocated Energy Identification Codes
 - [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md)
   : Get all Approved Energy Identification Codes
 - [`allocated_transfer_capacities_3rd_countries()`](https://krose.github.io/entsoeapi/reference/allocated_transfer_capacities_3rd_countries.md)
@@ -148,6 +150,8 @@
   Storage Plants (16.1.D)
 - [`gen_wind_solar_forecasts()`](https://krose.github.io/entsoeapi/reference/gen_wind_solar_forecasts.md)
   : Get Generation Forecasts for Wind & Solar (14.1.D)
+- [`get_news()`](https://krose.github.io/entsoeapi/reference/get_news.md)
+  : Display the ENTSO-E Transparency Platform news feed
 - [`grid_agreement_types`](https://krose.github.io/entsoeapi/reference/grid_agreement_types.md)
   : List grid agreement types based on
   'https://www.entsoe.eu/Documents/EDI/Library/CodelistV94.zip'

@@ -13,7 +13,7 @@ It covers an endpoint, or an IT-system."><meta property="og:image" content="http
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,6 +26,10 @@ It covers an endpoint, or an IT-system."><meta property="og:image" content="http
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/architecture.html">Architecture: API Pipeline, XML Engine &amp; Caching</a></li>
     <li><a class="dropdown-item" href="../articles/da-price-spread-vignette.html">Day-Ahead Price Spread Vignette</a></li>
+    <li><a class="dropdown-item" href="../articles/generation-mix-analysis.html">Generation Mix Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with entsoeapi</a></li>
+    <li><a class="dropdown-item" href="../articles/time-series-restructuring.html">Time Series Restructuring Explained</a></li>
+    <li><a class="dropdown-item" href="../articles/working-with-eic-codes.html">Working with EIC Codes</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -71,7 +75,7 @@ It covers an endpoint, or an IT-system.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling V_eicCodes.csv file from cache</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">eic_location</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1,046</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1,048</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ eic_code                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10V1001C--002139"<span style="color: #949494;">, </span>"10V1001C--00212B"<span style="color: #949494;">, </span>"10V000000000001T"<span style="color: #949494;">, </span>"10V0000000000…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ eic_display_name                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "TSCNET_3_FB"<span style="color: #949494;">, </span>"TSCNET_4_OPC_STA"<span style="color: #949494;">, </span>"ECP_TP_TEST_EP"<span style="color: #949494;">, </span>"ECP_TP_PROD_EP"<span style="color: #949494;">, </span>"EC…</span>
