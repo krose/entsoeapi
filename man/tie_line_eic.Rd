@@ -21,7 +21,7 @@ It covers a transmission line that connects different areas
 excluding HVDC interconnectors.
 }
 \examples{
-\dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
+\dontshow{if (there_is_provider()) withAutoprint(\{ # examplesIf}
 eic_tie_line <- entsoeapi::tie_line_eic()
 
 dplyr::glimpse(eic_tie_line)

@@ -163,83 +163,6 @@ assert_eic <- function(eic, var_name = "eic", null_ok = FALSE) {
 
 
 #' @title
-#' Organize list of strings into group
-#'
-#' @description
-#' This function solves a connected components problem where vectors
-#' are connected if they share at least one common string.
-#' It returns with groups containing the indices of elements.
-#'
-#' @param vector_list A list of character vectors to group by shared strings.
-#'
-#' @return A list of integer vectors, each containing the indices of
-#'   `vector_list` elements that belong to the same connected component.
-#'
-#' @noRd
-grouping_by_common_strings <- function(vector_list) {
-  n <- length(vector_list)
-
-  if (n == 0L) {
-    return(list())
-  }
-  if (n == 1L) {
-    return(list(1L))
-  }
-
-  # Build an inverted index: string -> vector indices containing that string
-  string_to_indices <- new.env(hash = TRUE)
-
-  for (i in 1L:n) {
-    unique_strings <- unique(vector_list[[i]])
-    for (s in unique_strings) {
-      if (exists(x = s, envir = string_to_indices)) {
-        string_to_indices[[s]] <- c(string_to_indices[[s]], i)
-      } else {
-        string_to_indices[[s]] <- i
-      }
-    }
-  }
-
-  # Union-Find with path compression
-  parent <- list2env(x = list(data = 1L:n), parent = emptyenv())
-
-  find_root <- function(i) {
-    if (parent$data[i] != i) {
-      parent$data[i] <- find_root(i = parent$data[i])
-    }
-    parent$data[i]
-  }
-
-  union_sets <- function(i, j) {
-    root_i <- find_root(i)
-    root_j <- find_root(j)
-    if (root_i != root_j) {
-      parent$data[root_j] <- root_i
-    }
-  }
-
-  # For each string, union all vectors that contain it
-  for (s in ls(string_to_indices)) {
-    indices <- string_to_indices[[s]]
-    if (length(indices) > 1L) {
-      for (k in 2L:length(indices)) {
-        union_sets(i = indices[1L], j = indices[k])
-      }
-    }
-  }
-
-  # Normalize all parents
-  for (i in 1L:n) {
-    parent$data[i] <- find_root(i)
-  }
-
-  # Group indices by their root parent
-  split(x = 1L:n, f = parent$data) |>
-    unname()
-}
-
-
-#' @title
 #' Calculate the Number of Children for a Given Nodeset
 #'
 #' @description
@@ -1079,10 +1002,11 @@ read_zipped_xml <- function(temp_file_path) {
 #' @importFrom checkmate assert_string
 #' @importFrom cli cli_h1 cli_alert cli_alert_success cli_abort
 #' @importFrom httr2 request req_method req_user_agent req_verbose req_timeout
-#'   resp_status resp_content_type resp_body_raw resp_body_xml resp_body_html
-#'   resp_body_json resp_status_desc
+#'   req_retry resp_status resp_content_type resp_body_raw resp_body_xml
+#'   resp_body_html resp_body_json resp_status_desc req_headers
 #' @importFrom xmlconvert xml_to_list
 #' @importFrom stringr str_detect
+#' @importFrom stats setNames runif
 #'
 #' @noRd
 api_req <- function(
@@ -1094,24 +1018,28 @@ api_req <- function(
 ) {
   assert_string(query_string)
   assert_string(security_token)
-  url <- paste0(
-    api_scheme, api_domain, api_name, query_string, "&securityToken="
-  )
+  url <- paste0(api_scheme, api_domain, api_name, query_string)
   cli_h1("API call")
-  cli_alert("{url}<...>")
+  cli_alert("{url}&securityToken=<...>")
 
   # retrieve data from the API
-  req <- paste0(url, security_token) |>
+  req <- url |>
     request() |>
     req_method(method = "GET") |>
     req_user_agent(string = user_agent_string) |>
+    req_headers(SECURITY_TOKEN = security_token) |>
     req_verbose(
       header_req = FALSE,
       header_resp = TRUE,
       body_req = FALSE,
       body_resp = FALSE
     ) |>
-    req_timeout(seconds = .req_timeout) # nolint: object_usage_linter.
+    req_timeout(seconds = .req_timeout) |> # nolint: object_usage_linter.
+    req_retry(
+      max_tries = 3L,
+      is_transient = \(resp) resp_status(resp) == 503L,
+      backoff = \(x) runif(n = 1L, min = 5, max = 15)
+    )
   resp <- req_perform_safe(req = req)
 
   if (is.null(x = resp$error)) {
@@ -1346,7 +1274,7 @@ url_posixct_format <- function(x) {
 #'
 #' @importFrom stringr str_replace_all
 #' @importFrom utils read.table
-#' @importFrom cli cli_abort
+#' @importFrom cli cli_abort cli_alert_danger
 #'
 #' @noRd
 get_eiccodes <- function(
@@ -1400,7 +1328,9 @@ get_eiccodes <- function(
     # return
     eiccodes
   } else {
-    cli_abort(content$error$message)
+    cli_alert_danger(content$error$message)
+    # return
+    NULL
   }
 }
 
@@ -1418,7 +1348,7 @@ get_eiccodes <- function(
 #' @return A tibble of all allocated EIC codes with snake_case column names,
 #'   enriched with document-status definitions.
 #'
-#' @importFrom stats setNames
+#' @importFrom stats setNames runif
 #' @importFrom httr2 request req_url_path_append req_method req_user_agent
 #'   req_progress req_verbose req_timeout req_retry resp_body_raw
 #' @importFrom xml2 as_xml_document xml_contents xml_children xml_name xml_text
@@ -1455,7 +1385,10 @@ get_all_allocated_eic <- function(
       body_resp = FALSE
     ) |>
     req_timeout(seconds = 120) |>
-    req_retry(max_tries = 3L, backoff = \(resp) 10)
+    req_retry(
+      max_tries = 3L,
+      backoff = \(x) runif(n = 1L, min = 5, max = 15)
+    )
   resp <- req_perform_safe(req = req)
 
   if (is.null(resp$error)) {
@@ -2435,6 +2368,6 @@ there_is_provider <- function(
     req_user_agent(string = user_agent_string) |>
     req_timeout(seconds = 10L) |>
     req_retry(max_tries = 1L)
-  resp <- req_perform_safe(req)
+  resp <- req_perform_safe(req = req)
   !is.null(resp$error$resp) && resp_status(resp$error$resp) == 401L
 }

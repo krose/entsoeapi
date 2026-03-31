@@ -5,11 +5,15 @@ vignette: >
   %\VignetteIndexEntry{Day-Ahead Price Spread Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+editor_options: 
+  markdown: 
+    wrap: 80
 ---
 
 ```{r setup, include = FALSE}
 run_chunks <- identical(Sys.getenv("NOT_CRAN"), "true") &&
-  nchar(Sys.getenv("ENTSOE_PAT")) > 0L
+  nchar(Sys.getenv("ENTSOE_PAT")) > 0L &&
+  entsoeapi::there_is_provider()
 
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -22,22 +26,23 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r load packages}
+```{r load-packages}
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
+library(kableExtra)
 library(cli)
 library(ggplot2)
 ```
 
 ### Look for the Polish market EIC and set the start and the end of scope dates
 
-```{r preset constants}
+```{r preset-constants}
 pl_eic <- all_approved_eic() |>
   filter(eic_long_name == "Poland") |>
   pull(eic_code)
 
-from_ts <- force_tz(time = as.Date("2026-01-01"), tzone = "CET")
+from_ts <- ymd(x = "2026-01-01", tz = "CET")
 till_ts <- from_ts + weeks(x = 1L)
 
 cli_inform("Polish EIC: '{pl_eic}'")
@@ -47,7 +52,7 @@ cli_inform("till: {till_ts}")
 
 ### Query the Polish DA prices within the pre-set period
 
-```{r query da prices}
+```{r query-da-prices}
 da_prices <- energy_prices(
   eic = pl_eic,
   period_start = from_ts,
@@ -60,25 +65,29 @@ glimpse(da_prices)
 
 ### Calculate the daily minimum and maximum prices and the spread
 
-```{r calculate the daily spreads}
+```{r calculate-the-daily-spreads}
 da_spreads <- da_prices |>
-  select(c(ts_point_dt_start, ts_point_price_amount)) |>
   mutate(
     ts_point_dt_start = with_tz(time = ts_point_dt_start, tzone = "CET")
   ) |>
-  mutate(ts_point_date = as.Date(x = ts_point_dt_start, tz = "CET")) |>
-  group_by(ts_point_date) |>
+  mutate(
+    ts_point_date = as.Date(x = ts_point_dt_start, tz = "CET")
+  ) |>
   summarise(
     min_price = min(ts_point_price_amount, na.rm = TRUE),
     max_price = max(ts_point_price_amount, na.rm = TRUE),
-    .groups = "drop"
+    .by = ts_point_date
   ) |>
   mutate(price_spread = max_price - min_price)
+
+da_spreads |>
+  kbl(format = "pipe") |>
+  cat(sep = "\n")
 ```
 
 ### Plot the daily minimum and maximum prices and the spread
 
-```{r plot the daily spreads}
+```{r plot-the-daily-spreads}
 print(
   ggplot(data = da_spreads) +
     geom_segment(

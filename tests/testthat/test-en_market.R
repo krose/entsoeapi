@@ -1427,7 +1427,8 @@ testthat::test_that(
       ),
       info = "Unauthorized. Missing or invalid security token!"
     )
-  })
+  }
+)
 
 
 testthat::test_that(
@@ -2179,7 +2180,8 @@ testthat::test_that(
       ),
       regexp = "Missing or invalid security token"
     )
-  })
+  }
+)
 
 
 testthat::test_that(

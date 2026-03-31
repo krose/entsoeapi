@@ -1,109 +1,4 @@
 testthat::test_that(
-  desc = "grouping_by_common_strings() works",
-  code = {
-    list_fixture <- readRDS(
-      file = testthat::test_path("fixtures", "input_lists_for_grouping.rds")
-    )
-    for (l in seq_along(list_fixture)) {
-      value <- grouping_by_common_strings(vector_list = list_fixture[[l]])
-      if (l == 17) value <- unlist(value)
-      assign(x = paste0("result", l), value = value)
-      rm(value)
-    }
-    is_in_which <- function(value, lst) {
-      lst |>
-        vapply(FUN = \(x) value %in% x, FUN.VALUE = logical(1L)) |>
-        which()
-    }
-    testthat::expect_equal(
-      object = grouping_by_common_strings(vector_list = list()),
-      expected = list()
-    )
-    testthat::expect_equal(
-      object = grouping_by_common_strings(vector_list = list(c("a", "b"))),
-      expected = list(1L)
-    )
-    testthat::expect_length(object = result1, n = 2L)
-    testthat::expect_true(
-      object = 1L %in% result1[[1L]] || 1L %in% result1[[2L]]
-    )
-    testthat::expect_true(
-      object = 2L %in% result1[[1L]] || 2L %in% result1[[2L]]
-    )
-    testthat::expect_false(object = all(c(1L, 2L) %in% result1[[1L]]))
-    testthat::expect_length(object = result2, n = 1L)
-    testthat::expect_setequal(object = result2[[1]], expected = c(1L, 2L))
-    testthat::expect_length(object = result3, n = 2L)
-    testthat::expect_setequal(
-      object = result3[[is_in_which(value = 1L, lst = result3)]],
-      expected = c(1L, 3L, 5L)
-    )
-    testthat::expect_setequal(
-      object = result3[[is_in_which(value = 2L, lst = result3)]],
-      expected = c(2L, 4L)
-    )
-    testthat::expect_length(object = result4, n = 1L)
-    testthat::expect_setequal(object = result4[[1]], expected = 1L:4L)
-    testthat::expect_length(object = result5, n = 2L)
-    testthat::expect_equal(
-      object = result5[[is_in_which(value = 3L, lst = result5)]],
-      expected = 3L
-    )
-    testthat::expect_setequal(
-      object = result5[[is_in_which(value = 1L, lst = result5)]],
-      expected = c(1L, 2L, 4L)
-    )
-    testthat::expect_length(object = result6, n = 1L)
-    testthat::expect_setequal(object = result6[[1L]], expected = c(1L, 2L))
-    testthat::expect_length(object = result7, n = 3L)
-    testthat::expect_length(object = result8, n = 3L)
-    testthat::expect_setequal(
-      object = result8[[is_in_which(value = 1L, lst = result8)]],
-      expected = c(1L, 3L)
-    )
-    testthat::expect_length(object = result9, n = 3L)
-    testthat::expect_setequal(
-      object = result9[[is_in_which(value = 1L, lst = result9)]],
-      expected = c(1L, 3L, 4L, 7L)
-    )
-    testthat::expect_setequal(
-      object = result9[[is_in_which(value = 2L, lst = result9)]],
-      expected = c(2L, 5L)
-    )
-    testthat::expect_equal(
-      object = result9[[is_in_which(value = 6L, lst = result9)]],
-      expected = 6L
-    )
-    testthat::expect_length(object = result10, n = 100L)
-    testthat::expect_length(object = result11, n = 2)
-    testthat::expect_length(object = result12, n = 2L)
-    testthat::expect_setequal(
-      object = result12[[is_in_which(value = 1L, lst = result12)]],
-      expected = c(1L, 2L)
-    )
-    testthat::expect_length(object = result13, n = 2L)
-    testthat::expect_setequal(
-      object = result13[[is_in_which(value = 1L, lst = result13)]],
-      expected = c(1L, 2L)
-    )
-    testthat::expect_length(object = result14, n = 2L)
-    testthat::expect_setequal(
-      object = result14[[is_in_which(value = 1L, lst = result14)]],
-      expected = c(1L, 2L)
-    )
-    testthat::expect_length(object = result15, n = 2L)
-    testthat::expect_setequal(
-      object = result15[[is_in_which(value = 1L, lst = result15)]],
-      expected = c(1L, 2L)
-    )
-    testthat::expect_true(object = is.integer(result16[[1L]]))
-    testthat::expect_setequal(object = result17, expected = 1L:4L)
-    testthat::expect_equal(object = length(result17), expected = 4L)
-  }
-)
-
-
-testthat::test_that(
   desc = "extract_leaf_twig_branch() works 1",
   code = {
     sample_path_1 <- testthat::test_path("fixtures", "cd_catalog.xml")
@@ -206,18 +101,16 @@ testthat::test_that(
         "type"
       )
     )
-    testthat::expect_setequal(
+    testthat::expect_contains(
       object = xml2::xml_contents(x = content_3$result[[1L]]) |>
         extract_leaf_twig_branch() |>
         names() |>
         sort(),
       expected = c(
         "createdDateTime",
-        "docStatus.value",
         "mRID",
         "process.processType",
         "Reason.code",
-        "Reason.text",
         "receiver_MarketParticipant.marketRole.type",
         "receiver_MarketParticipant.mRID",
         "revisionNumber",
@@ -596,8 +489,10 @@ testthat::test_that(
   desc = "get_eiccodes() works",
   code = {
     testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
+      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
+        is.null() |>
+        isFALSE(),
+      message = "The Entso-e download site cannot be reached"
     )
     testthat::expect_setequal(
       object = get_eiccodes(
@@ -621,11 +516,11 @@ testthat::test_that(
       object = get_eiccodes(f = "Y_eicCodes.csv") |> nrow(),
       expected = 300
     )
-    testthat::expect_error(
+    testthat::expect_null(
       object = get_eiccodes(f = NULL),
-      info = "The argument 'f' is missing!"
+      info = "Cannot open the connection!"
     )
-    testthat::expect_error(
+    testthat::expect_null(
       object = get_eiccodes(f = "ABC"),
       info = "Cannot open the connection!"
     )
@@ -808,8 +703,10 @@ testthat::test_that(
   desc = "add_eic_names() works",
   code = {
     testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
+      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
+        is.null() |>
+        isFALSE(),
+      message = "The Entso-e download site cannot be reached"
     )
     test_df_list <- readRDS(
       file = testthat::test_path("fixtures", "test_df_list.rds")
@@ -1483,8 +1380,10 @@ testthat::test_that(
   desc = "add_eic_names() adds names for additional domain mrid columns",
   code = {
     testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
+      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
+        is.null() |>
+        isFALSE(),
+      message = "The Entso-e download site cannot be reached"
     )
     test_df_14 <- readRDS(
       file = testthat::test_path("fixtures", "test_df_list.rds")

@@ -29,13 +29,13 @@
 ## 4. R CMD CHECK
 
 -   [ ] `devtools::check(cran = TRUE)` — **0 errors, 0 warnings, 0 notes**
-    -   Common notes to fix before CRAN: `LazyData` without `LazyDataCompression`, missing `\value` in `.Rd` files
+-   Common notes to fix before CRAN: `LazyData` without `LazyDataCompression`, missing `\value` in `.Rd` files
 
 ## 5. Merge & Tag
 
 -   [ ] Push + merge / merge + push: `develop` → `main` (PR or direct)
--   [ ] Create a git tag: `git tag v1.0.0 && git push origin v1.0.0`
--   [ ] Create a GitHub Release with the `NEWS.md` entry as release notes: `gh release create v0.9.8 --title "v0.9.8" --notes "See NEWS.md for changes" --repo krose/entsoeapi`
+-   [ ] Create a git tag: `git tag vX.Y.Z && git push origin vX.Y.Z`
+-   [ ] Create a GitHub Release with the `NEWS.md` entry as release notes: `gh release create vX.Y.Z --title "vX.Y.Z" --notes "See NEWS.md for changes" --repo krose/entsoeapi`
 
 ## 6. Pkgdown Site
 
@@ -44,7 +44,7 @@
 ## 7. (When ready) CRAN Submission
 
 -   [ ] Run `devtools::install()` to install package locally
--   [ ] Run `rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main")`— triggers multi-platform check on GitHub
+-   [ ] Run `rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main", r_versions = "release")`— triggers multi-platform check on GitHub
 -   [ ] Review [CRAN policies](https://cran.r-project.org/web/packages/policies.html)
 -   [ ] `devtools::submit_cran()` or upload via <https://cran.r-project.org/submit.html>
 -   [ ] Reply promptly to CRAN maintainer emails (within 2 weeks)
