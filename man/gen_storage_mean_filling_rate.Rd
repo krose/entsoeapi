@@ -40,8 +40,8 @@ week value of the previous year.
 \dontshow{if (there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L) withAutoprint(\{ # examplesIf}
 df <- entsoeapi::gen_storage_mean_filling_rate(
   eic          = "10YFR-RTE------C",
-  period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
-  period_end   = lubridate::ymd(x = "2021-02-15", tz = "CET"),
+  period_start = lubridate::ymd(x = "2020-01-01", tz = "CET"),
+  period_end   = lubridate::ymd(x = "2020-01-31", tz = "CET"),
   tidy_output  = TRUE
 )
 

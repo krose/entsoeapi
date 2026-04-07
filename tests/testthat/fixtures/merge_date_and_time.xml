@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Unavailability_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-6:unavailabilitydocument:1:0">
+<mRID>FAKE1</mRID>
+<revisionNumber>1</revisionNumber>
+<type>A77</type>
+<process.processType>A16</process.processType>
+<createdDateTime>2024-01-01T00:00:00Z</createdDateTime>
+<time_Period.timeInterval>
+  <start>2024-01-01T23:00Z</start>
+  <end>2024-01-02T23:00Z</end>
+</time_Period.timeInterval>
+<TimeSeries>
+  <mRID>1</mRID>
+  <businessType>A53</businessType>
+  <start_DateAndOrTime>
+    <date>2024-01-01</date>
+    <time>00:00Z</time>
+    </start_DateAndOrTime>
+  <end_DateAndOrTime>
+    <date>2024-01-02</date>
+    <time>00:00Z</time>
+  </end_DateAndOrTime>
+  <MktPSRType><psrType>B02</psrType></MktPSRType>
+</TimeSeries>
+</Unavailability_MarketDocument>

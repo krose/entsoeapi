@@ -163,6 +163,40 @@ assert_eic <- function(eic, var_name = "eic", null_ok = FALSE) {
 
 
 #' @title
+#' Validate a security token
+#'
+#' @description
+#' Asserts that `security_token` is a non-empty string that does not contain
+#' URL-sensitive characters (`?` or `&`), which would corrupt the query string
+#' sent to the ENTSO-E API and generally complies with the UUID v4 format,
+#' which is a 32-character hexadecimal string in the format:
+#' xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.
+#'
+#' @param security_token A character scalar to validate.
+#'
+#' @return Invisibly returns `security_token`.
+#'   Called for its side-effect (assertion).
+#'
+#' @importFrom checkmate test_string
+#' @importFrom cli cli_abort
+#'
+#' @noRd
+check_sec_token <- function(security_token) {
+  uuid_v4_pattern <- paste(
+    "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}",
+    "[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+    sep = "-"
+  )
+  if (!test_string(x = security_token, pattern = uuid_v4_pattern)) {
+    cli_abort(
+      "The {.arg security_token} should comply with the UUID v4 format!"
+    )
+  }
+  invisible(security_token)
+}
+
+
+#' @title
 #' Calculate the Number of Children for a Given Nodeset
 #'
 #' @description
@@ -738,9 +772,9 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     )
 
   # if curve_type is 'A01' or absent, do nothing; otherwise branch by type
-  if (length(curve_type) == 0L || curve_type == "A01") {
+  if (length(curve_type) == 0L || identical(x = curve_type, y = "A01")) {
     # no adjustment needed
-  } else if (curve_type == "A03") {
+  } else if (identical(curve_type, "A03")) {
     ts_resolution_requ_length <- ts_resolution_real_length <- ts_mrid <- NULL
     ts_resolution_ok <- ts_time_interval_start <- ts_time_interval_end <- NULL
 
@@ -1001,7 +1035,7 @@ read_zipped_xml <- function(temp_file_path) {
 #'
 #' @importFrom checkmate assert_string
 #' @importFrom cli cli_h1 cli_alert cli_alert_success cli_abort
-#' @importFrom httr2 request req_method req_user_agent req_verbose req_timeout
+#' @importFrom httr2 request req_user_agent req_verbose req_timeout
 #'   req_retry resp_status resp_content_type resp_body_raw resp_body_xml
 #'   resp_body_html resp_body_json resp_status_desc req_headers
 #' @importFrom xmlconvert xml_to_list
@@ -1016,8 +1050,8 @@ api_req <- function(
   query_string = NULL,
   security_token = NULL
 ) {
-  assert_string(query_string)
-  assert_string(security_token)
+  assert_string(x = query_string)
+  assert_string(x = security_token)
   url <- paste0(api_scheme, api_domain, api_name, query_string)
   cli_h1("API call")
   cli_alert("{url}&securityToken=<...>")
@@ -1025,7 +1059,6 @@ api_req <- function(
   # retrieve data from the API
   req <- url |>
     request() |>
-    req_method(method = "GET") |>
     req_user_agent(string = user_agent_string) |>
     req_headers(SECURITY_TOKEN = security_token) |>
     req_verbose(
@@ -1069,19 +1102,23 @@ api_req <- function(
         )
 
         # read the xml content from each the decompressed files
-        en_cont_list <- read_zipped_xml(temp_file_path = temp_file_path)
-
-        # return with the xml content list
-        en_cont_list
+        # and return with it
+        temp_file_path |> read_zipped_xml()
       } else if (rhct %in% expt_xml) {
-        # read the xml content from the response and return
-        result_obj |>
-          resp_body_xml(encoding = "UTF-8")
+        # read the xml content from the response and return with it
+        result_obj |> resp_body_xml(encoding = "UTF-8")
       } else {
         cli_abort(
-          "Not known response content-type: {result_obj$headers$`content-type`}"
+          paste(
+            "Not known response content-type:",
+            "{result_obj$headers$`content-type`}"
+          )
         )
       }
+    } else {
+      cli_abort(
+        "Unexpected HTTP {resp_status(resp = result_obj)} response"
+      )
     }
   } else {
     error_obj <- resp$error
@@ -1166,7 +1203,7 @@ api_req <- function(
 
         cli_abort(paste(response_reason, collapse = "\n"))
       } else {
-        cli_abort("{response_reason$code}: {response_reason$text}")
+        cli_abort(paste(response_reason, collapse = "\n"))
       }
     }
 
@@ -1201,6 +1238,74 @@ api_req_safe <- safely(api_req)
 #'
 #' @noRd
 req_perform_safe <- safely(req_perform)
+
+
+#' @title
+#' Validate and format a period_start/period_end pair
+#'
+#' @param period_start POSIXct or character timestamp.
+#' @param period_end POSIXct or character timestamp.
+#' @param period_length n day(s) or n year(s) denoted as a text or NULL.
+#'   One can define the maximum allowed timespan between the period start date
+#'   and the end date. If NULL is provided, then it means no check.
+#'
+#' @return A named list with elements `start` and `end`, each a character
+#'   scalar in the format accepted by the ENTSO-E API.
+#'
+#' @importFrom lubridate years days
+#' @importFrom stringr str_to_lower str_remove str_detect
+#' @importFrom cli cli_abort
+#' @importFrom checkmate assert_character
+#'
+#' @noRd
+check_period <- function(period_start, period_end, period_length = NULL) {
+  if (sum(is.null(period_start), is.null(period_end)) > 0L) {
+    cli_abort("the period should have both start and end")
+  }
+  if (!is.null(period_length)) {
+    period_length <- str_to_lower(string = period_length) |>
+      trimws()
+    assert_character(
+      x = period_length,
+      pattern = "^[0-9]+\\s*(year|day)s?$"
+    )
+    period_nr <- str_remove(string = period_length, pattern = "(day|year)s?") |>
+      as.integer()
+    if (str_detect(string = period_length, pattern = "days?$")) {
+      if (period_end > period_start + days(x = period_nr)) {
+        cli_abort("{period_nr} day{?s} range limit should be applied!")
+      }
+    } else {
+      if (period_end > period_start + years(x = period_nr)) {
+        cli_abort("{period_nr} year{?s} range limit should be applied!")
+      }
+    }
+  }
+  list(
+    start = url_posixct_format(period_start),
+    end = url_posixct_format(period_end)
+  )
+}
+
+
+#' @title
+#' Perform an ENTSO-E API request and extract the response
+#'
+#' @param query_string Character scalar. The query string to append to the
+#'   base API URL.
+#' @param security_token Character scalar. The ENTSO-E security token.
+#' @param tidy_output Logical scalar. Passed to `extract_response`.
+#'
+#' @return A [tibble::tibble()] with the queried data.
+#'
+#' @noRd
+run_api_query <- function(query_string, security_token, tidy_output) {
+  en_cont_list <- api_req_safe(
+    query_string = query_string,
+    security_token = security_token
+  )
+  extract_response(content = en_cont_list, tidy_output = tidy_output)
+}
 
 
 #' @title
@@ -1272,7 +1377,7 @@ url_posixct_format <- function(x) {
 #'
 #' @return A tibble of EIC codes parsed from the downloaded CSV file.
 #'
-#' @importFrom stringr str_replace_all
+#' @importFrom stringr str_replace_all str_detect
 #' @importFrom utils read.table
 #' @importFrom cli cli_abort cli_alert_danger
 #'
@@ -1292,8 +1397,13 @@ get_eiccodes <- function(
   # unfortunately there is no general rule for that,
   # hence it must be set manually!!
   readlines_safe <- safely(readLines)
-  content <- suppressWarnings(
-    expr = readlines_safe(con = complete_url, encoding = "UTF-8")
+  content <- withCallingHandlers(
+    expr = readlines_safe(con = complete_url, encoding = "UTF-8"),
+    warning = \(w) {
+      is_ifl <- conditionMessage(w) |>
+        str_detect(pattern = "incomplete final line")
+      if (is_ifl) invokeRestart("muffleWarning")
+    }
   )
   if (is.null(content$error)) {
     lns <- content$result |>
@@ -1349,7 +1459,7 @@ get_eiccodes <- function(
 #'   enriched with document-status definitions.
 #'
 #' @importFrom stats setNames runif
-#' @importFrom httr2 request req_url_path_append req_method req_user_agent
+#' @importFrom httr2 request req_url_path_append req_user_agent
 #'   req_progress req_verbose req_timeout req_retry resp_body_raw
 #' @importFrom xml2 as_xml_document xml_contents xml_children xml_name xml_text
 #' @importFrom cli cli_alert_success cli_progress_bar cli_progress_update
@@ -1375,7 +1485,6 @@ get_all_allocated_eic <- function(
   req <- paste0(pd_scheme, pd_domain) |>
     request() |>
     req_url_path_append(pd_alloc_eic) |>
-    req_method(method = "GET") |>
     req_user_agent(string = user_agent_string) |>
     req_progress() |>
     req_verbose(
@@ -1783,7 +1892,7 @@ get_resource_object_eic <- function() {
 add_eic_names <- function(tbl) {
   if (is.null(tbl)) return(data.frame())
 
-  affected_cols <- c()
+  affected_cols <- character(0L)
 
   # special case: ts_registered_resource_mrid uses a different lookup table
   if ("ts_registered_resource_mrid" %in% names(tbl)) {
@@ -1920,7 +2029,7 @@ add_definitions <- function(tbl) {
   )
 
   tbl_names <- names(tbl)
-  affected_cols <- c()
+  affected_cols <- character(0L)
   specs_idx <- def_specs |>
     vapply(FUN = \(ds) pluck(ds, 1L) %in% tbl_names, FUN.VALUE = TRUE) |>
     which()
@@ -2018,7 +2127,7 @@ add_definitions <- function(tbl) {
 xml_to_table <- function(xml_content, tidy_output = FALSE) {
   is_xml_document <- inherits(x = xml_content, what = "xml_document")
   if (isFALSE(is_xml_document)) {
-    cli_abort("The 'xml_content' should be an xml document!")
+    cli_abort("The {.arg xml_content} should be an xml document!")
   }
 
   # extract nodesets from the XML document and process
@@ -2056,7 +2165,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
   result_tbl <- result_tbl |>
     mutate(
       across(
-        matches("[t|T]ime$|start$|end$"),
+        matches("[tT]ime$|start$|end$"),
         ~ as.POSIXct(
           x = .x,
           tryFormats = c(
@@ -2351,7 +2460,7 @@ extract_response <- function(
 #' @examples
 #' there_is_provider()
 #'
-#' @importFrom httr2 request req_method req_user_agent req_timeout req_retry
+#' @importFrom httr2 request req_user_agent req_timeout req_retry
 #'   resp_status
 #'
 #' @export
@@ -2364,7 +2473,6 @@ there_is_provider <- function(
     api_scheme, api_domain, api_name, "foo=bar&securityToken=baz"
   ) |>
     request() |>
-    req_method(method = "GET") |>
     req_user_agent(string = user_agent_string) |>
     req_timeout(seconds = 10L) |>
     req_retry(max_tries = 1L)

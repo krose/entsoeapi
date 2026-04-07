@@ -1,28 +1,4 @@
 testthat::test_that(
-  desc = "outages_both() validates inputs",
-  code = {
-    testthat::expect_error(
-      object = outages_both(
-        eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-24",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
-    ) |>
-      testthat::expect_error()
-  }
-)
-
-
-testthat::test_that(
   desc = "outages_both() works",
   code = {
     testthat::skip_if_not(
@@ -36,28 +12,16 @@ testthat::test_that(
     testthat::expect_no_error(
       object = outages_both(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE
       )
     )
     testthat::expect_no_error(
       object = outages_both(
         eic = "ABCDEFGHIJKLMNOP",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -73,16 +37,10 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "ABC",
         event_nature = "A54",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -91,16 +49,10 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A05",
         event_nature = "A33",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -109,79 +61,39 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A05",
         event_nature = "A54",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_gen_units(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-26",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
-    )
-    testthat::expect_error(
-      object = outages_gen_units(
-        eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_gen_units(
         eic = c("10YFR-RTE------C", "45Y000000000001C"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_gen_units(
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -205,14 +117,8 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A05",
         event_nature = "A54",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -221,14 +127,8 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A05",
         event_nature = "A54",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE
       )
     )
@@ -244,16 +144,10 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "ABC",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -262,16 +156,10 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A09",
         event_nature = "ABC",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -280,63 +168,29 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
-    )
-    testthat::expect_error(
-      object = outages_prod_units(
-        eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-26",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_prod_units(
         eic = c("10YFR-RTE------C", "45Y000000000001C"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_prod_units(
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -358,18 +212,12 @@ testthat::test_that(
     testthat::expect_error(
       object = outages_prod_units(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
-      regexp = "Missing or invalid security token"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -391,14 +239,8 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -407,14 +249,8 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE
       )
     )
@@ -429,16 +265,10 @@ testthat::test_that(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
         doc_status = "ABC",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -446,63 +276,29 @@ testthat::test_that(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
         doc_status = "A05",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
-    )
-    testthat::expect_error(
-      object = outages_offshore_grid(
-        eic = "10Y1001A1001A82H",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-26",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_offshore_grid(
         eic = c("10Y1001A1001A82H", "45Y000000000001C"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_offshore_grid(
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -524,14 +320,8 @@ testthat::test_that(
     testthat::expect_error(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
@@ -556,14 +346,8 @@ testthat::test_that(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
         doc_status = "A05",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -571,14 +355,8 @@ testthat::test_that(
       object = outages_offshore_grid(
         eic = "10Y1001A1001A82H",
         doc_status = "A05",
-        period_start = lubridate::ymd(
-          x = "2025-01-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-01-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2025-01-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-01-30", tz = "CET"),
         tidy_output = FALSE
       )
     )
@@ -594,24 +372,12 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         doc_status = "ABC",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -620,24 +386,12 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         doc_status = "A09",
         event_nature = "ABC",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -646,95 +400,35 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
-    )
-    testthat::expect_error(
-      object = outages_cons_units(
-        eic = "10YFI-1--------U",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-26",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_cons_units(
         eic = c("10YFI-1--------U", "45Y000000000001C"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_cons_units(
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -756,26 +450,14 @@ testthat::test_that(
     testthat::expect_error(
       object = outages_cons_units(
         eic = "10YFI-1--------U",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
-      regexp = "Missing or invalid security token"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -797,22 +479,10 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -821,22 +491,10 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE
       )
     )
@@ -853,24 +511,12 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         doc_status = "ABC",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -880,24 +526,12 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         doc_status = "A09",
         event_nature = "ABC",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -907,24 +541,12 @@ testthat::test_that(
         eic_out = NULL,
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -934,24 +556,12 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -961,74 +571,25 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
-    )
-    testthat::expect_error(
-      object = outages_transmission_grid(
-        eic_in = "10YFR-RTE------C",
-        eic_out = "10Y1001A1001A82H",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-26",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
         eic_in = c("10YFR-RTE------C", "45Y000000000001C"),
         eic_out = c("10Y1001A1001A82H"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
@@ -1036,47 +597,23 @@ testthat::test_that(
       object = outages_transmission_grid(
         eic_in = c("10Y1001A1001A82H"),
         eic_out = c("10YFR-RTE------C", "45Y000000000001C"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_transmission_grid(
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -1099,30 +636,17 @@ testthat::test_that(
       object = outages_transmission_grid(
         eic_in = "10YFR-RTE------C",
         eic_out = "10Y1001A1001A82H",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
-      regexp = "Missing or invalid security token"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
-
 
 
 testthat::test_that(
@@ -1142,22 +666,10 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         doc_status = "A09",
         event_nature = "A53",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
-        period_start_update = lubridate::ymd(
-          x = "2024-10-15",
-          tz = "CET"
-        ),
-        period_end_update = lubridate::ymd(
-          x = "2024-10-22",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
+        period_start_update = lubridate::ymd(x = "2024-10-15", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-10-22", tz = "CET"),
         tidy_output = FALSE
       )
     )
@@ -1173,34 +685,22 @@ testthat::test_that(
         eic = "10YBE----------2",
         process_type = "A63",
         event_nature = "C47",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE,
         security_token = ""
       ),
-      regexp = "All elements must have at least 1 characters"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = outages_fallbacks(
         eic = "10YBE----------2",
         process_type = "A01",
         event_nature = "C47",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
@@ -1209,63 +709,29 @@ testthat::test_that(
         eic = "10YBE----------2",
         process_type = "A63",
         event_nature = "C01",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be element of set"
     )
     testthat::expect_error(
       object = outages_fallbacks(
-        eic = "10YBE----------2",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-11-26",
-          tz = "CET"
-        ),
-        tidy_output = FALSE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
-    )
-    testthat::expect_error(
-      object = outages_fallbacks(
         eic = c("10YBE----------2", "45Y000000000001C"),
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = outages_fallbacks(
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Must be of type 'string', not 'NULL'"
     )
@@ -1287,18 +753,12 @@ testthat::test_that(
     testthat::expect_error(
       object = outages_fallbacks(
         eic = "10YBE----------2",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-24",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = FALSE,
         security_token = "ABC"
       ),
-      regexp = "Missing or invalid security token"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1320,15 +780,39 @@ testthat::test_that(
         eic = "10YBE----------2",
         process_type = "A63",
         event_nature = "C47",
-        period_start = lubridate::ymd(
-          x = "2024-10-23",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-10-30",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-10-30", tz = "CET"),
         tidy_output = FALSE
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "outages_both() covers happy path with mock",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_no_error(
+      object = outages_both(
+        eic = "10YFR-RTE------C",
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
+        security_token = .test_token
       )
     )
   }
@@ -1358,7 +842,7 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -1389,39 +873,9 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "outages_both() covers happy path with mock",
-  code = {
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 503L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = charToRaw(
-            paste0(
-              '<?xml version="1.0" encoding="utf-8"?>',
-              "<root><Reason>Service Unavailable</Reason></root>"
-            )
-          )
-        )
-      }
-    )
-    testthat::expect_no_error(
-      object = outages_both(
-        eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
-      )
     )
   }
 )
@@ -1450,7 +904,7 @@ testthat::test_that(
         eic = "10Y1001A1001A82H",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -1481,7 +935,9 @@ testthat::test_that(
         eic = "10YFI-1--------U",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        period_start_update = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-01-02", tz = "CET"),
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -1513,7 +969,9 @@ testthat::test_that(
         eic_out = "10Y1001A1001A82H",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        period_start_update = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end_update = lubridate::ymd(x = "2024-01-02", tz = "CET"),
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -1544,7 +1002,7 @@ testthat::test_that(
         eic = "10YBE----------2",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )

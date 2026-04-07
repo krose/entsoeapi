@@ -80,8 +80,8 @@ Load the packages:
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
-library(lubridate)
-library(kableExtra)
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(kableExtra))
 ```
 
 ### Testing Connectivity

@@ -3,13 +3,30 @@
 #'
 #' @param csv_file Character scalar. The CSV filename
 #'   (e.g. `"X_eicCodes.csv"`).
-#' @param cache_key Character scalar. The cache key
-#'   (e.g. `"party_eic_df_key"`).
 #'
 #' @return A tibble extracted from the source csv.
 #'
+#' @importFrom checkmate assert_choice
+#' @importFrom dplyr case_when
+#'
 #' @noRd
 fetch_eic_csv <- function(csv_file, cache_key) {
+  assert_choice(
+    csv_file,
+    choices = c(
+      "X_eicCodes.csv", "Y_eicCodes.csv", "Z_eicCodes.csv", "T_eicCodes.csv",
+      "V_eicCodes.csv", "W_eicCodes.csv", "A_eicCodes.csv"
+    )
+  )
+  cache_key <- case_when(
+    csv_file == "X_eicCodes.csv" ~ "party_eic_df_key",
+    csv_file == "Y_eicCodes.csv" ~ "area_eic_df_key",
+    csv_file == "Z_eicCodes.csv" ~ "accounting_point_eic_df_key",
+    csv_file == "T_eicCodes.csv" ~ "tie_line_eic_df_key",
+    csv_file == "V_eicCodes.csv" ~ "location_eic_df_key",
+    csv_file == "W_eicCodes.csv" ~ "resource_object_eic_df_key",
+    csv_file == "A_eicCodes.csv" ~ "substation_eic_df_key"
+  )
   cache_get_or_compute( # nolint: object_usage_linter
     key = cache_key,
     label = paste(csv_file, "file"),
@@ -29,10 +46,10 @@ fetch_eic_csv <- function(csv_file, cache_key) {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -42,10 +59,7 @@ fetch_eic_csv <- function(csv_file, cache_key) {
 #' dplyr::glimpse(eic_party)
 #'
 party_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "X_eicCodes.csv",
-    cache_key = "party_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "X_eicCodes.csv")
 }
 
 
@@ -59,10 +73,10 @@ party_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -72,10 +86,7 @@ party_eic <- function() {
 #' dplyr::glimpse(eic_area)
 #'
 area_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "Y_eicCodes.csv",
-    cache_key = "area_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "Y_eicCodes.csv")
 }
 
 
@@ -91,10 +102,10 @@ area_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -104,10 +115,7 @@ area_eic <- function() {
 #' dplyr::glimpse(eic_accounting_point)
 #'
 accounting_point_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "Z_eicCodes.csv",
-    cache_key = "accounting_point_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "Z_eicCodes.csv")
 }
 
 
@@ -123,10 +131,10 @@ accounting_point_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -136,10 +144,7 @@ accounting_point_eic <- function() {
 #' dplyr::glimpse(eic_tie_line)
 #'
 tie_line_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "T_eicCodes.csv",
-    cache_key = "tie_line_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "T_eicCodes.csv")
 }
 
 
@@ -154,10 +159,10 @@ tie_line_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -167,10 +172,7 @@ tie_line_eic <- function() {
 #' dplyr::glimpse(eic_location)
 #'
 location_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "V_eicCodes.csv",
-    cache_key = "location_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "V_eicCodes.csv")
 }
 
 
@@ -186,10 +188,10 @@ location_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -199,10 +201,7 @@ location_eic <- function() {
 #' dplyr::glimpse(eic_resource_object)
 #'
 resource_object_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "W_eicCodes.csv",
-    cache_key = "resource_object_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "W_eicCodes.csv")
 }
 
 
@@ -223,10 +222,10 @@ resource_object_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @export
 #'
@@ -236,10 +235,7 @@ resource_object_eic <- function() {
 #' dplyr::glimpse(eic_substation)
 #'
 substation_eic <- function() {
-  fetch_eic_csv(
-    csv_file = "A_eicCodes.csv",
-    cache_key = "substation_eic_df_key"
-  )
+  fetch_eic_csv(csv_file = "A_eicCodes.csv")
 }
 
 
@@ -255,10 +251,10 @@ substation_eic <- function() {
 #'
 #' @return
 #' A tibble of accordingly filtered EIC codes, which contains such columns as
-#' `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-#' `EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-#' `MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-#' `EicTypeFunctionList` and `type`.
+#' `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+#' `eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+#' `market_participant_iso_country_code`, `market_participant_vat_code`,
+#' `eic_type_function_list` and `type`.
 #'
 #' @importFrom dplyr bind_rows
 #'
@@ -344,7 +340,7 @@ all_allocated_eic <- function() {
 #'
 #' @export
 #'
-#' @importFrom httr2 request req_method req_user_agent req_timeout req_retry
+#' @importFrom httr2 request req_user_agent req_timeout req_retry
 #'   resp_body_xml
 #' @importFrom xml2 xml_find_all xml_find_first xml_text read_html
 #' @importFrom cli cli_h1 cli_h2 cli_text cli_alert_info
@@ -355,7 +351,6 @@ all_allocated_eic <- function() {
 get_news <- function(feed_url = .feed_url, n = 5L) {
   resp <- feed_url |>
     request() |>
-    req_method(method = "GET") |>
     req_user_agent(string = user_agent_string) |>
     req_timeout(seconds = 30L) |>
     req_retry(
@@ -390,7 +385,12 @@ get_news <- function(feed_url = .feed_url, n = 5L) {
           xml_text() |>
           trimws()
       },
-      error = \(e) trimws(raw_desc)
+      error = \(e) {
+        cli_alert_warning(
+          "Could not parse HTML description for item {i}, using raw text."
+        )
+        trimws(raw_desc)
+      }
     )
 
     cli_h2("{titles[[i]]}")

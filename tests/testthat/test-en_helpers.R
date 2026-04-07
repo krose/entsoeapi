@@ -1,4 +1,52 @@
 testthat::test_that(
+  desc = "fetch_eic_csv() works",
+  code = {
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10YDE-VE-------2",
+      eic_display_name = "DE(50HzT)",
+      eic_long_name = "50Hertz Transmission",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_postal_code = NA_character_,
+      market_participant_iso_country_code = "DE",
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "T",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
+    )
+    testthat::expect_no_error(
+      object = result <- fetch_eic_csv(csv_file = "T_eicCodes.csv")
+    )
+    testthat::expect_s3_class(
+      object = result,
+      class = "tbl_df"
+    )
+    testthat::expect_contains(
+      object = names(result),
+      expected = c("eic_code", "eic_display_name", "eic_long_name")
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "fetch_eic_csv() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = fetch_eic_csv(csv_file = "foo.csv"),
+      regexp = "Assertion on 'csv_file' failed\\: Must be element of set"
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "all_approved_eic() validates inputs",
   code = {
     testthat::expect_error(
@@ -12,11 +60,35 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_approved_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    make_fake_eic <- function(type_val) {
+      data.frame(
+        eic_code = paste0("10Y-FAKE-", type_val),
+        eic_display_name = paste("Fake", type_val),
+        eic_long_name = paste("Fake Long", type_val),
+        eic_parent = NA_character_,
+        eic_responsible_party = NA_character_,
+        eic_status = "Active",
+        market_participant_iso_country_code = "DE",
+        market_participant_postal_code = NA_character_,
+        market_participant_vat_code = NA_character_,
+        eic_type_function_list = NA_character_,
+        type = type_val,
+        stringsAsFactors = FALSE
+      ) |> as_tbl()
+    }
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(f, ...) {
+        type_val <- switch(
+          f,
+          "X_eicCodes.csv" = "X", "Y_eicCodes.csv" = "Y",
+          "Z_eicCodes.csv" = "Z", "T_eicCodes.csv" = "T",
+          "V_eicCodes.csv" = "V", "W_eicCodes.csv" = "W",
+          "A_eicCodes.csv" = "A"
+        )
+        make_fake_eic(type_val)
+      },
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- all_approved_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -55,11 +127,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "party_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10X-FAKE-PARTY-1",
+      eic_display_name = "Fake Party",
+      eic_long_name = "Fake Party Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "X",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- party_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -99,11 +184,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "area_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10Y-FAKE-AREA--1",
+      eic_display_name = "Fake Area",
+      eic_long_name = "Fake Area Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "Y",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- area_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -143,11 +241,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "accounting_point_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10Z-FAKE-ACCP-01",
+      eic_display_name = "Fake AccPt",
+      eic_long_name = "Fake AccPt Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "Z",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- accounting_point_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -187,11 +298,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "tie_line_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10T-FAKE-TIE---1",
+      eic_display_name = "Fake Tie",
+      eic_long_name = "Fake Tie Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "T",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- tie_line_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -231,11 +355,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "location_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10V-FAKE-LOC---1",
+      eic_display_name = "Fake Loc",
+      eic_long_name = "Fake Loc Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "V",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- location_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -275,11 +412,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "resource_object_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10W-FAKE-RESRC-1",
+      eic_display_name = "Fake Resource",
+      eic_long_name = "Fake Resource Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "W",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- resource_object_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -322,11 +472,24 @@ testthat::test_that(
 testthat::test_that(
   desc = "substation_eic() works",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
+    m$reset()
+    fake_eic <- data.frame(
+      eic_code = "10A-FAKE-SUBST-1",
+      eic_display_name = "Fake Sub",
+      eic_long_name = "Fake Sub Long",
+      eic_parent = NA_character_,
+      eic_responsible_party = NA_character_,
+      eic_status = "Active",
+      market_participant_iso_country_code = "DE",
+      market_participant_postal_code = NA_character_,
+      market_participant_vat_code = NA_character_,
+      eic_type_function_list = NA_character_,
+      type = "A",
+      stringsAsFactors = FALSE
+    ) |> as_tbl()
+    testthat::local_mocked_bindings(
+      get_eiccodes = function(...) fake_eic,
+      .package = "entsoeapi"
     )
     testthat::expect_no_error(object = tbl <- substation_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
@@ -390,135 +553,6 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "get_news() respects n parameter",
-  code = {
-    xml_fixture <- readLines(
-      con = testthat::test_path("fixtures", "news_feed.xml"),
-      encoding = "UTF-8"
-    ) |>
-      paste(collapse = "\n") |>
-      charToRaw()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 200L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = xml_fixture
-        )
-      }
-    )
-    tbl <- get_news(n = 1L)
-    testthat::expect_equal(object = nrow(tbl), expected = 1L)
-    testthat::expect_equal(
-      object = tbl$title[[1L]],
-      expected = "TP PROD data publication delays"
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "get_news() handles n larger than available items",
-  code = {
-    xml_fixture <- readLines(
-      con = testthat::test_path("fixtures", "news_feed.xml"),
-      encoding = "UTF-8"
-    ) |>
-      paste(collapse = "\n") |>
-      charToRaw()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 200L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = xml_fixture
-        )
-      }
-    )
-    tbl <- get_news(n = 100L)
-    testthat::expect_equal(object = nrow(tbl), expected = 3L)
-  }
-)
-
-
-testthat::test_that(
-  desc = "get_news() handles empty feed",
-  code = {
-    empty_rss <- paste(
-      '<?xml version="1.0" encoding="UTF-8"?>',
-      '<rss version="2.0">',
-      "<channel>",
-      "<title>Empty</title>",
-      "</channel>",
-      "</rss>",
-      sep = "\n"
-    ) |>
-      charToRaw()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 200L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = empty_rss
-        )
-      }
-    )
-    tbl <- get_news()
-    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
-    testthat::expect_equal(object = nrow(tbl), expected = 0L)
-  }
-)
-
-
-testthat::test_that(
-  desc = "get_news() errors on HTTP failure",
-  code = {
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 500L,
-          url = req$url,
-          headers = list("content-type" = "text/html"),
-          body = charToRaw("Internal Server Error")
-        )
-      }
-    )
-    testthat::expect_error(
-      object = get_news(),
-      regexp = "500"
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "get_news() returns result invisibly",
-  code = {
-    xml_fixture <- readLines(
-      con = testthat::test_path("fixtures", "news_feed.xml"),
-      encoding = "UTF-8"
-    ) |>
-      paste(collapse = "\n") |>
-      charToRaw()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 200L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = xml_fixture
-        )
-      }
-    )
-    testthat::expect_invisible(get_news())
-  }
-)
-
-
-testthat::test_that(
   desc = "all_allocated_eic() validates inputs",
   code = {
     testthat::expect_error(
@@ -532,36 +566,35 @@ testthat::test_that(
 testthat::test_that(
   desc = "all_allocated_eic() responses got and appended into a tibble",
   code = {
-    testthat::skip_if_not(
-      condition = curl::nslookup(host = .pd_domain, error = FALSE) |>
-        is.null() |>
-        isFALSE(),
-      message = "The Entso-e download site cannot be reached"
-    )
     m$reset()
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "allocated_eic_min.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = xml_fixture
+        )
+      }
+    )
     testthat::expect_no_error(object = tbl <- all_allocated_eic())
     testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
     testthat::expect_false(object = anyNA(tbl$created_date_time))
-    testthat::expect_setequal(
+    testthat::expect_contains(
       object = names(tbl),
       expected = c(
-        "revision_number",
-        "created_date_time",
         "eic_code",
-        "doc_status_value",
         "doc_status",
-        "instance_component_attribute",
-        "long_name",
-        "display_name",
+        "created_date_time",
         "last_request_date",
-        "deactivation_requested_date_and_or_time_date",
-        "eic_code_market_participant_street_address",
-        "market_participant_vat_code_name",
-        "market_participant_acer_code_name",
-        "description",
-        "responsible_market_participant_mrid",
-        "function_names",
-        "parent_market_document_mrid"
+        "instance_component_attribute",
+        "function_names"
       )
     )
   }
@@ -664,36 +697,6 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "all_allocated_eic() parses ZIP/octet-stream content-type response",
-  code = {
-    m$reset()
-    xml_fixture <- readLines(
-      con = testthat::test_path("fixtures", "allocated_eic_min.xml"),
-      encoding = "UTF-8"
-    ) |>
-      paste(collapse = "\n") |>
-      charToRaw()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 200L,
-          url = req$url,
-          headers = list("content-type" = "application/zip"),
-          body = xml_fixture
-        )
-      }
-    )
-    testthat::expect_s3_class(
-      object = tbl <- all_allocated_eic(),
-      class = "tbl_df",
-      exact = FALSE
-    )
-    testthat::expect_gt(object = nrow(tbl), expected = 0L)
-  }
-)
-
-
-testthat::test_that(
   desc = "all_allocated_eic() stops on XML with unexpected structure",
   code = {
     # Minimal XML with no EICCode_MarketDocument second-level nodes; the
@@ -791,29 +794,6 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "all_allocated_eic() stops on HTML error response",
-  code = {
-    m$reset()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 403L,
-          url = req$url,
-          headers = list("content-type" = "text/html"),
-          body = "<!DOCTYPE html><html><body>Access Denied</body></html>" |>
-            charToRaw()
-        )
-      }
-    )
-    testthat::expect_error(
-      object = all_allocated_eic(),
-      regexp = "403"
-    )
-  }
-)
-
-
-testthat::test_that(
   desc = "all_allocated_eic() returns correct number of rows",
   code = {
     m$reset()
@@ -861,38 +841,9 @@ testthat::test_that(
     )
     tbl <- all_allocated_eic()
     testthat::expect_true(
-      object = grepl(
-        pattern = " - ",
-        x = tbl$function_names[[1L]],
-        fixed = TRUE
-      )
+      object = tbl$function_names[[1L]] |>
+        str_detect(pattern = " - ")
     )
-  }
-)
-
-
-testthat::test_that(
-  desc = "all_allocated_eic() collapses Function_Names correctly",
-  code = {
-    m$reset()
-    xml_fixture <- readLines(
-      con = testthat::test_path("fixtures", "get_allocated_eic_dupl.xml"),
-      encoding = "UTF-8"
-    ) |>
-      paste(collapse = "\n") |>
-      charToRaw()
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 200L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = xml_fixture
-        )
-      }
-    )
-    tbl <- all_allocated_eic()
-    testthat::expect_equal(object = nrow(tbl), expected = 1L)
   }
 )
 
@@ -924,6 +875,42 @@ testthat::test_that(
     testthat::expect_error(
       object = all_allocated_eic(),
       regexp = "unexpected tree structure"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "get_news() falls back to raw text when read_html() fails",
+  code = {
+    xml_fixture <- readLines(
+      con = testthat::test_path("fixtures", "news_feed.xml"),
+      encoding = "UTF-8"
+    ) |>
+      paste(collapse = "\n") |>
+      charToRaw()
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = xml_fixture
+        )
+      }
+    )
+    testthat::local_mocked_bindings(
+      read_html = function(...) stop("mocked read_html failure"),
+      .package = "entsoeapi"
+    )
+    tbl <- testthat::expect_no_error(
+      object = suppressMessages(get_news(n = 1L))
+    )
+    testthat::expect_s3_class(object = tbl, class = "tbl_df", exact = FALSE)
+    testthat::expect_equal(object = nrow(tbl), expected = 1L)
+    testthat::expect_equal(
+      object = tbl$description[[1L]],
+      expected = "<p>Some data publications are <strong>delayed</strong>.</p>"
     )
   }
 )

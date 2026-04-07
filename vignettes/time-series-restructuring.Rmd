@@ -30,8 +30,8 @@ knitr::opts_chunk$set(
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
-library(lubridate)
-library(kableExtra)
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(kableExtra))
 library(tidyr)
 ```
 
