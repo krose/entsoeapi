@@ -80,16 +80,16 @@ df <- entsoeapi::imbalance_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A86&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:08:45 GMT
+#> <- date: Wed, 08 Apr 2026 13:14:43 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1095
+#> <- content-length: 1098
 #> <- content-disposition: attachment; filename="Total_Imbalance_Volumes_r3_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpnNDu8x/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -109,7 +109,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
 #> $ ts_business_type              <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A1…
 #> $ ts_business_type_def          <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy deviatio…
-#> $ created_date_time             <dttm> 2026-04-08 13:08:45, 2026-04-08 13:08:45, 2026-04-08 13:08:45, 2026-04-08 13:08…
+#> $ created_date_time             <dttm> 2026-04-08 13:14:43, 2026-04-08 13:14:43, 2026-04-08 13:14:43, 2026-04-08 13:14…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…

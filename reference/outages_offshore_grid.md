@@ -81,7 +81,7 @@ df <- entsoeapi::outages_offshore_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A79&biddingZone_Domain=10Y1001A1001A82H&periodStart=202603082300&periodEnd=202604072200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:09:12 GMT
+#> <- date: Wed, 08 Apr 2026 13:15:19 GMT
 #> <- content-type: application/zip
 #> <- content-length: 28811
 #> <- content-disposition: attachment; filename="Unavailability_of_offshore_grid_202602221637-202606012159.zip"
@@ -90,34 +90,34 @@ df <- entsoeapi::outages_offshore_grid(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpnNDu8x/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202603031122-202606012159.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202603111106-202603121730.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241229-202603241242.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/017-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241230-202603241242.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/018-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/019-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/020-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242201.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/021-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242230.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/022-UNAVAILABILITY_OF_OFFSHORE_GRID_202604010943-202604011358.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/023-UNAVAILABILITY_OF_OFFSHORE_GRID_202604062002-202604092159.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/024-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/025-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/026-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/027-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/028-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202603031122-202606012159.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202603111106-202603121730.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241229-202603241242.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/017-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241230-202603241242.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/018-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/019-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/020-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242201.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/021-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242230.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/022-UNAVAILABILITY_OF_OFFSHORE_GRID_202604010943-202604011358.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/023-UNAVAILABILITY_OF_OFFSHORE_GRID_202604062002-202604092159.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/024-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/025-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/026-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/027-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/028-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -127,151 +127,152 @@ df <- entsoeapi::outages_offshore_grid(
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■                             14% | ETA: 11s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■                             14% | ETA: 12s
+#> processing xml list ■■■■■■■■■■                        29% | ETA:  5s
 #> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!

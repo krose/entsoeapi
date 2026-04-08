@@ -83,7 +83,7 @@ df <- entsoeapi::outages_fallbacks(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A53&biddingZone_Domain=10YBE----------2&processType=A51&businessType=C47&periodStart=202212312300&periodEnd=202312312300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:09:05 GMT
+#> <- date: Wed, 08 Apr 2026 13:15:11 GMT
 #> <- content-type: application/zip
 #> <- content-length: 4696
 #> <- content-disposition: attachment; filename="Fall-backs_202305222200-202309080130.zip"
@@ -92,12 +92,12 @@ df <- entsoeapi::outages_fallbacks(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpnNDu8x/001-FALL_BACKS_202305222200-202305232200.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/002-FALL_BACKS_202306262200-202306270900.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/003-FALL_BACKS_202307202200-202307211245.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/004-FALL_BACKS_202308232200-202308232230.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/005-FALL_BACKS_202308272200-202308280445.xml has been read in
-#> ✔ /tmp/RtmpnNDu8x/006-FALL_BACKS_202309072200-202309080130.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/001-FALL_BACKS_202305222200-202305232200.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/002-FALL_BACKS_202306262200-202306270900.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/003-FALL_BACKS_202307202200-202307211245.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/004-FALL_BACKS_202308232200-202308232230.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/005-FALL_BACKS_202308272200-202308280445.xml has been read in
+#> ✔ /tmp/RtmpSXB21U/006-FALL_BACKS_202309072200-202309080130.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

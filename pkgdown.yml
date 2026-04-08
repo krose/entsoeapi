@@ -8,7 +8,7 @@ articles:
   getting-started: getting-started.html
   time-series-restructuring: time-series-restructuring.html
   working-with-eic-codes: working-with-eic-codes.html
-last_built: 2026-04-08T13:07Z
+last_built: 2026-04-08T13:13Z
 urls:
   reference: https://krose.github.io/entsoeapi/reference
   article: https://krose.github.io/entsoeapi/articles

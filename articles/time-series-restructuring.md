@@ -93,7 +93,7 @@ da_prices_tidy <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:10:39 GMT
+#> <- date: Wed, 08 Apr 2026 13:17:08 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff
@@ -184,7 +184,7 @@ da_prices_nested <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:10:40 GMT
+#> <- date: Wed, 08 Apr 2026 13:17:10 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff
