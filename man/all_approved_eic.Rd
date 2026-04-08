@@ -8,10 +8,10 @@ all_approved_eic()
 }
 \value{
 A tibble of accordingly filtered EIC codes, which contains such columns as
-\code{EicCode}, \code{EicDisplayName}, \code{EicLongName}, \code{EicParent},
-\code{EicResponsibleParty}, \code{EicStatus}, \code{MarketParticipantPostalCode},
-\code{MarketParticipantIsoCountryCode}, \code{MarketParticipantVatCode},
-\code{EicTypeFunctionList} and \code{type}.
+\code{eic_code}, \code{eic_display_name}, \code{eic_long_name}, \code{eic_parent},
+\code{eic_responsible_party}, \code{eic_status}, \code{market_participant_postal_code},
+\code{market_participant_iso_country_code}, \code{market_participant_vat_code},
+\code{eic_type_function_list} and \code{type}.
 }
 \description{
 This function downloads all approved

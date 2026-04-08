@@ -6,31 +6,35 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()) - 3.4,
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Must be of type 'integerish'"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
         eic = NULL,
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pt(
@@ -40,8 +44,9 @@ testthat::test_that(
           lubridate::year(x = Sys.Date()) - 1L
         ),
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Must have length 1"
     )
   }
 )
@@ -84,8 +89,9 @@ testthat::test_that(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()) + 1.4,
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Must be of type 'integerish'"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
@@ -95,39 +101,44 @@ testthat::test_that(
           lubridate::year(x = Sys.Date()) - 1L
         ),
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Must have length 1"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()) + 4L,
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Cannot be shown more than 3 years ahead"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = NULL,
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = "10YFR-RTE------C",
         year = lubridate::year(x = Sys.Date()),
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_installed_capacity_per_pu(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
         year = lubridate::year(x = Sys.Date()),
         psr_type = NULL,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
   }
 )
@@ -182,61 +193,41 @@ testthat::test_that(
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
         eic = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_storage_mean_filling_rate(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2022-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "380 days range limit should be applied"
     )
   }
 )
@@ -256,42 +247,24 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_storage_mean_filling_rate(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE
       )
     )
     testthat::expect_no_error(
       object = gen_storage_mean_filling_rate(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd_hms(
-          x = "2024-03-31 00:00:00",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd_hms(
-          x = "2024-03-31 16:00:00",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd_hm(x = "2024-03-31 00:00", tz = "CET"),
+        period_end = lubridate::ymd_hm(x = "2024-03-31 16:00", tz = "CET"),
         tidy_output = TRUE
       )
     )
     testthat::expect_no_error(
       object = gen_storage_mean_filling_rate(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = FALSE
       )
     )
@@ -305,64 +278,44 @@ testthat::test_that(
     testthat::expect_error(
       object = gen_per_prod_type(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = gen_per_prod_type(
         eic = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_per_prod_type(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_per_prod_type(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2022-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-03-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "1 year range limit should be applied"
     )
   }
 )
@@ -382,14 +335,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_per_prod_type(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE
       )
@@ -397,14 +344,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_per_prod_type(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         gen_type = "B01",
         tidy_output = TRUE
       )
@@ -419,66 +360,46 @@ testthat::test_that(
     testthat::expect_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
         eic = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
         eic = c("10YDE-VE-------2", "10YFR-RTE------C"),
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE,
         security_token = NULL
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -498,14 +419,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-01", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE
       )
@@ -513,14 +428,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_per_gen_unit(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd_hm(
-          x = "2020-01-31 02:00",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd_hm(
-          x = "2020-02-01 03:00",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd_hm(x = "2020-01-31 02:00", tz = "CET"),
+        period_end = lubridate::ymd_hm(x = "2020-02-01 03:00", tz = "CET"),
         gen_type = NULL,
         tidy_output = TRUE
       )
@@ -528,14 +437,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         gen_type = c("B04", "B05"),
         tidy_output = TRUE
       )
@@ -543,14 +446,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_per_gen_unit(
         eic = "10YDE-VE-------2",
-        period_start = lubridate::ymd(
-          x = "2020-01-31",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         gen_type = c("B03"),
         tidy_output = TRUE
       )
@@ -565,62 +462,42 @@ testthat::test_that(
     testthat::expect_error(
       object = gen_day_ahead_forecast(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_day_ahead_forecast(
         eic = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_day_ahead_forecast(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = gen_day_ahead_forecast(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2021-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2021-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "1 year range limit should be applied"
     )
   }
 )
@@ -640,14 +517,8 @@ testthat::test_that(
     testthat::expect_no_error(
       object = gen_day_ahead_forecast(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -661,62 +532,42 @@ testthat::test_that(
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
         eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
         eic = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
-      )
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = gen_wind_solar_forecasts(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2021-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2021-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "1 year range limit should be applied"
     )
   }
 )
@@ -736,14 +587,8 @@ testthat::test_that(
     testthat::expect_no_error(
       gen_wind_solar_forecasts(
         eic = "10YFR-RTE------C",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -773,7 +618,7 @@ testthat::test_that(
       object = gen_installed_capacity_per_pt(
         eic = "10YFR-RTE------C",
         year = 2020L,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -803,7 +648,7 @@ testthat::test_that(
       object = gen_installed_capacity_per_pu(
         eic = "10YDE-VE-------2",
         year = 2020L,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -835,7 +680,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -867,7 +712,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -899,7 +744,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -931,7 +776,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -963,7 +808,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )

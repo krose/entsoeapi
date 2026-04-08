@@ -33,12 +33,10 @@ in POSIXct or YYYY-MM-DD HH:MM:SS format
 One year range limit applies}
 
 \item{period_start_update}{notification submission/update starting date
-in POSIXct or YYYY-MM-DD HH:MM:SS format
-One year range limit applies}
+in POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{period_end_update}{notification submission/update ending date
-in POSIXct or YYYY-MM-DD HH:MM:SS format
-One year range limit applies}
+in POSIXct or YYYY-MM-DD HH:MM:SS format}
 
 \item{doc_status}{Notification document status. "A05" for active,
 "A09" for cancelled and "A13" for withdrawn.

@@ -1,7 +1,7 @@
 Package: entsoeapi
 Type: Package
 Title: Client for the 'ENTSO-E' Transparency Platform API
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: c(person("Kenneth", "Rose",  role=c("aut", "cph"), email="kennethrose82@gmail.com"),
              person("Sándor",  "Budai", role=c("aut", "cre", "cph"), email="sbudai.ga@gmail.com"))
 Description: Provides a standardized R client for the 'ENTSO-E' (European Network of

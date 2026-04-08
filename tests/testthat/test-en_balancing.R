@@ -5,84 +5,43 @@ testthat::test_that(
       object = elastic_demands(
         eic = NULL,
         process_type = "A47",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided!"
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = elastic_demands(
         eic = c("10YHU-MAVIR----U", "10Y1001A1001A83F"),
         process_type = "A47",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = elastic_demands(
         eic = "10YHU-MAVIR----U",
         process_type = "A47",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2021-03-01",
-          tz = "CET"
-        ),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
-    )
-    testthat::expect_error(
-      object = elastic_demands(
-        eic = "10YHU-MAVIR----U",
-        process_type = "A47",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided!"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = elastic_demands(
         eic = "10YHU-MAVIR----U",
         process_type = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'process_type' failed: ",
@@ -93,16 +52,10 @@ testthat::test_that(
       object = elastic_demands(
         eic = "10YHU-MAVIR----U",
         process_type = "INVALID",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'process_type' failed: ",
@@ -127,14 +80,8 @@ testthat::test_that(
     result_full <- tryCatch(
       elastic_demands(
         eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-12-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-12-01", tz = "CET"),
         process_type = "A47",
         tidy_output = TRUE
       ),
@@ -147,21 +94,17 @@ testthat::test_that(
       expected = c(
         "bid_ts_mrid",
         "bid_ts_auction_mrid",
-        "bid_ts_flow_direction"
+        "bid_ts_flow_direction",
+        "bid_ts_point_quantity",
+        "bid_ts_point_energy_price_amount"
       )
     )
     tryCatch(
       elastic_demands(
         eic = "10YCZ-CEPS-----N",
         process_type = "A47",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ),
       error = function(e) {
@@ -178,66 +121,42 @@ testthat::test_that(
     testthat::expect_error(
       object = netted_volumes(
         eic = NULL,
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided!"
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = netted_volumes(
         eic = c("10YHU-MAVIR----U", "10Y1001A1001A83F"),
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = netted_volumes(
         eic = "10YHU-MAVIR----U",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2021-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2021-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One day range limit should be applied!"
+      regexp = "1 day range limit should be applied"
     )
     testthat::expect_error(
       object = netted_volumes(
         eic = "10YHU-MAVIR----U",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided!"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -257,28 +176,16 @@ testthat::test_that(
     testthat::expect_no_error(
       object = netted_volumes(
         eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       )
     )
     testthat::expect_contains(
       object = netted_volumes(
         eic = "10YDE-VE-------2",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ) |>
         names(),
@@ -298,101 +205,67 @@ testthat::test_that(
     testthat::expect_error(
       object = exchanged_volumes(
         eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Must be a subset of \\{'A51','A60','A61'\\}"
     )
     testthat::expect_error(
       object = exchanged_volumes(
         eic = "10YCZ-CEPS-----N",
         process_type = "A264537254",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
+        security_token = .test_token
+      ),
+      regexp = "Must be element of set \\{'A51','A60','A61'\\}"
     )
     testthat::expect_error(
       object = exchanged_volumes(
         eic = NULL,
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided!"
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = exchanged_volumes(
         eic = c("10YHU-MAVIR----U", "10Y1001A1001A83F"),
         process_type = "A61",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = exchanged_volumes(
         eic = "10YHU-MAVIR----U",
         process_type = "A60",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2021-03-01",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2021-03-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One day range limit should be applied!"
+      regexp = "1 day range limit should be applied"
     )
     testthat::expect_error(
       object = exchanged_volumes(
         eic = "10YHU-MAVIR----U",
         process_type = "A60",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided!"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -413,14 +286,8 @@ testthat::test_that(
       object = exchanged_volumes(
         eic = "10YCZ-CEPS-----N",
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -428,14 +295,8 @@ testthat::test_that(
       object = exchanged_volumes(
         eic = "10YCZ-CEPS-----N",
         process_type = "A60",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -443,14 +304,8 @@ testthat::test_that(
       object = exchanged_volumes(
         eic = "10YCZ-CEPS-----N",
         process_type = "A60",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ) |>
         names(),
@@ -472,16 +327,14 @@ testthat::test_that(
         eic_in = "10YDE-RWENET---I",
         eic_out = "10YBE----------2",
         process_type = "A264537254",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
+      ),
+      regexp = paste(
+        "Assertion on 'process_type' failed:",
+        "Must be element of set \\{'A47','A51','A63'\\}"
       )
     )
     testthat::expect_error(
@@ -489,94 +342,48 @@ testthat::test_that(
         eic_in = c("10YDE-RWENET---I", "10Y1001A1001A83F"),
         eic_out = "10YBE----------2",
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one in and one out EIC per request."
+      regexp = "Assertion on 'eic_in' failed: Must have length 1"
     )
     testthat::expect_error(
       object = balancing_border_cap_limit(
         eic_in = "10YDE-RWENET---I",
         eic_out = c("10YBE----------2", "10Y1001A1001A83F"),
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2020-02-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2020-02-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2020-02-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2020-02-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one in and one out EIC per request."
-    )
-    testthat::expect_error(
-      object = balancing_border_cap_limit(
-        eic_in = "10YDE-RWENET---I",
-        eic_out = "10YBE----------2",
-        eic_interconnector = c("AAA", "BBB"),
-        process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = paste(
-        "None or one Transmission Asset (eic_interconnector)",
-        "should be provided."
-      )
+      regexp = "Assertion on 'eic_out' failed: Must have length 1"
     )
     testthat::expect_error(
       object = balancing_border_cap_limit(
         eic_in = "10YDE-RWENET---I",
         eic_out = "10YBE----------2",
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = "ABC"
+      ),
+      regexp = "should comply with the UUID v4 format"
+    )
+    testthat::expect_error(
+      object = balancing_border_cap_limit(
+        eic_in = "10YDE-RWENET---I",
+        eic_out = "10YBE----------2",
+        process_type = "A51",
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided!"
-    )
-    testthat::expect_error(
-      object = balancing_border_cap_limit(
-        eic_in = "10YDE-RWENET---I",
-        eic_out = "10YBE----------2",
-        process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-12-02",
-          tz = "CET"
-        ),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = balancing_border_cap_limit(
@@ -586,7 +393,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'eic_in' failed: ",
@@ -601,7 +408,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'eic_out' failed: ",
@@ -629,14 +436,8 @@ testthat::test_that(
           eic_in = "10YDE-RWENET---I",
           eic_out = "10YBE----------2",
           process_type = "A51",
-          period_start = lubridate::ymd(
-            x = "2024-01-01",
-            tz = "CET"
-          ),
-          period_end = lubridate::ymd(
-            x = "2024-01-02",
-            tz = "CET"
-          ),
+          period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+          period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
           tidy_output = TRUE
         )
       )
@@ -646,14 +447,8 @@ testthat::test_that(
         eic_in = "10YDE-RWENET---I",
         eic_out = "10YBE----------2",
         process_type = "A47",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -662,14 +457,8 @@ testthat::test_that(
         eic_in = "10YDE-RWENET---I",
         eic_out = "10YBE----------2",
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       )
     )
@@ -678,14 +467,8 @@ testthat::test_that(
         eic_in = "10YDE-RWENET---I",
         eic_out = "10YBE----------2",
         process_type = "A51",
-        period_start = lubridate::ymd(
-          x = "2024-01-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2024-01-02",
-          tz = "CET"
-        ),
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE
       ) |>
         names(),
@@ -710,7 +493,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'acquiring_eic' failed: ",
@@ -725,7 +508,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'acquiring_eic' failed: Must have length 1"
     )
@@ -737,9 +520,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "The 'process_type' should be 'A51', 'A60' or 'A61'."
+      regexp = paste(
+        "Assertion on 'process_type' failed:",
+        "Must be element of set \\{'A51','A60','A61'\\}"
+      )
     )
     testthat::expect_error(
       object = exchanged_volumes_per_border(
@@ -749,9 +535,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-05", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      regexp = "One day range limit should be applied"
+      regexp = "1 day range limit should be applied"
     )
     testthat::expect_error(
       object = exchanged_volumes_per_border(
@@ -763,7 +549,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = exchanged_volumes_per_border(
@@ -773,7 +559,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste(
         "Assertion on 'connecting_eic' failed:",
@@ -788,7 +574,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'connecting_eic' failed: Must have length 1"
     )
@@ -831,7 +617,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'eic_in' failed: ",
@@ -845,7 +631,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste0(
         "Assertion on 'eic_out' failed: ",
@@ -859,20 +645,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'eic_in' failed: Must have length 1"
-    )
-    testthat::expect_error(
-      object = hvdc_link_constrains(
-        eic_in = "10YAT-APG------L",
-        eic_out = "10YDE-RWENET---I",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -883,11 +658,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = paste(
-        "Assertion on 'security_token' failed:",
-        "All elements must have at least 1 characters,",
-        "but element 1 has 0 characters"
-      )
+      regexp = "should comply with the UUID v4 format"
     )
     testthat::expect_error(
       object = hvdc_link_constrains(
@@ -897,7 +668,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'eic_ic' failed: Must have length 1."
     )
@@ -909,7 +680,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste(
         "Assertion on 'process_type' failed:",
@@ -953,7 +724,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
@@ -963,7 +734,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'eic' failed: Must have length 1"
     )
@@ -974,7 +745,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = paste(
         "Assertion on 'business_type' failed: Must be element of set",
@@ -989,21 +760,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = paste(
-        "Assertion on 'security_token' failed:",
-        "All elements must have at least 1 characters,",
-        "but element 1 has 0 characters"
-      )
-    )
-    testthat::expect_error(
-      object = changes_to_bid_availability(
-        eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1053,9 +810,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = current_balancing_state(
@@ -1063,9 +820,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = current_balancing_state(
@@ -1073,9 +830,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-06-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "100 day range limit should be applied!"
+      regexp = "100 days range limit should be applied"
     )
     testthat::expect_error(
       object = current_balancing_state(
@@ -1085,7 +842,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1123,9 +880,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One connecting domain EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = balancing_energy_bids(
@@ -1133,9 +890,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one connecting domain EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = balancing_energy_bids(
@@ -1145,7 +902,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1184,9 +941,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = aggregated_balancing_energy_bids(
@@ -1195,9 +952,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = aggregated_balancing_energy_bids(
@@ -1206,20 +963,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "The 'process_type' should be 'A51', 'A46', 'A47', 'A60' or 'A61'."
-    )
-    testthat::expect_error(
-      object = aggregated_balancing_energy_bids(
-        eic = "10YCZ-CEPS-----N",
-        process_type = "A51",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = paste(
+        "Assertion on 'process_type' failed: Must be element of set",
+        "\\{'A51','A46','A47','A60','A61','A67','A68'\\}"
+      )
     )
     testthat::expect_error(
       object = aggregated_balancing_energy_bids(
@@ -1230,7 +979,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1270,9 +1019,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = procured_balancing_capacity(
@@ -1281,9 +1030,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = procured_balancing_capacity(
@@ -1292,9 +1041,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "The 'process_type' should be 'A51', 'A52' or 'A47'."
+      regexp = paste(
+        "Assertion on 'process_type' failed:",
+        "Must be element of set \\{'A51','A52','A47'\\}"
+      )
     )
     testthat::expect_error(
       object = procured_balancing_capacity(
@@ -1304,9 +1056,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "None or one 'market_agreement_type' should be provided."
+      regexp = paste(
+        "Assertion on 'market_agreement_type' failed: Must be element of set",
+        "\\{'A01','A02','A03','A04','A05','A06','A07','A13'\\}"
+      )
     )
     testthat::expect_error(
       object = procured_balancing_capacity(
@@ -1317,7 +1072,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1367,9 +1122,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One acquiring domain EIC should be provided."
+      regexp = paste(
+        "Assertion on 'eic_acquiring' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = allocation_of_cross_zonal_balancing_cap(
@@ -1378,9 +1136,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One connecting domain EIC should be provided."
+      regexp = paste(
+        "Assertion on 'eic_connecting' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = allocation_of_cross_zonal_balancing_cap(
@@ -1389,12 +1150,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = paste(
-        "This wrapper only supports one acquiring and",
-        "one connecting EIC per request."
-      )
+      regexp = "Assertion on 'eic_acquiring' failed: Must have length 1"
     )
     testthat::expect_error(
       object = allocation_of_cross_zonal_balancing_cap(
@@ -1404,9 +1162,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "None or one 'market_agreement_type' should be provided."
+      regexp = paste(
+        "Assertion on 'market_agreement_type' failed:",
+        "Must be element of set \\{'A01','A02','A06'\\}"
+      )
     )
     testthat::expect_error(
       object = allocation_of_cross_zonal_balancing_cap(
@@ -1417,7 +1178,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1467,9 +1228,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = contracted_reserves(
@@ -1478,9 +1239,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = contracted_reserves(
@@ -1489,9 +1250,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "A 'market_agreement_type' value should be provided."
+      regexp = paste(
+        "Assertion on 'market_agreement_type' failed: Must be a subset of",
+        "\\{'A01','A02','A03','A04','A06','A13'\\}"
+      )
     )
     testthat::expect_error(
       object = contracted_reserves(
@@ -1500,9 +1264,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "Only one 'market_agreement_type' value should be provided."
+      regexp = paste(
+        "Assertion on 'market_agreement_type' failed: Must be element of set",
+        "\\{'A01','A02','A03','A04','A06','A13'\\}"
+      )
     )
     testthat::expect_error(
       object = contracted_reserves(
@@ -1513,7 +1280,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1572,9 +1339,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = activated_balancing_prices(
@@ -1582,19 +1349,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
-    )
-    testthat::expect_error(
-      object = activated_balancing_prices(
-        eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = activated_balancing_prices(
@@ -1604,7 +1361,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1658,7 +1415,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -1675,9 +1432,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = imbalance_prices(
@@ -1685,19 +1442,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
-    )
-    testthat::expect_error(
-      object = imbalance_prices(
-        eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = imbalance_prices(
@@ -1707,7 +1454,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1745,9 +1492,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = imbalance_volumes(
@@ -1755,19 +1502,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
-    )
-    testthat::expect_error(
-      object = imbalance_volumes(
-        eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = imbalance_volumes(
@@ -1777,7 +1514,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1815,9 +1552,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One control area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = financial_expenses_and_income(
@@ -1825,19 +1562,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one control area EIC per request."
-    )
-    testthat::expect_error(
-      object = financial_expenses_and_income(
-        eic = "10YCZ-CEPS-----N",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = financial_expenses_and_income(
@@ -1847,7 +1574,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1885,7 +1612,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
@@ -1895,19 +1622,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "Assertion on 'eic' failed: Must have length 1"
-    )
-    testthat::expect_error(
-      object = fcr_total_capacity(
-        eic = "10YEU-CONT-SYNC0",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
     )
     testthat::expect_error(
       object = fcr_total_capacity(
@@ -1917,11 +1634,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      regexp = paste(
-        "Assertion on 'security_token' failed:",
-        "All elements must have at least 1 characters,",
-        "but element 1 has 0 characters."
-      )
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -1956,57 +1669,32 @@ testthat::test_that(
     testthat::expect_error(
       object = shares_of_fcr_capacity(
         eic = NULL,
-        business_type = "C23",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = shares_of_fcr_capacity(
         eic = c("10YDE-VE-------2", "10YDE-RWENET---I"),
-        business_type = "C23",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one area EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = shares_of_fcr_capacity(
         eic = "10YDE-VE-------2",
-        business_type = "INVALID",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "The 'business_type' should be 'C23' or 'B95'."
-    )
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = "10YDE-VE-------2",
-        business_type = "C23",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
-    )
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = "10YDE-VE-------2",
-        business_type = "C23",
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -2045,9 +1733,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One area EIC should be provided."
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
     )
     testthat::expect_error(
       object = rr_and_frr_actual_capacity(
@@ -2056,9 +1744,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "This wrapper only supports one area EIC per request."
+      regexp = "Assertion on 'eic' failed: Must have length 1"
     )
     testthat::expect_error(
       object = rr_and_frr_actual_capacity(
@@ -2067,9 +1755,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-04-01", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "The 'process_type' should be 'A56' (FRR) or 'A46' (RR)."
+      regexp = paste(
+        "Assertion on 'process_type' failed:",
+        "Must be element of set \\{'A56','A46'\\}"
+      )
     )
     testthat::expect_error(
       object = rr_and_frr_actual_capacity(
@@ -2080,7 +1771,7 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -2124,9 +1815,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One acquiring domain EIC should be provided."
+      regexp = paste(
+        "Assertion on 'eic_acquiring' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = sharing_of_rr_and_frr_capacity(
@@ -2136,9 +1830,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "One connecting domain EIC should be provided."
+      regexp = paste(
+        "Assertion on 'eic_connecting' failed:",
+        "Must be of type 'string', not 'NULL'"
+      )
     )
     testthat::expect_error(
       object = sharing_of_rr_and_frr_capacity(
@@ -2148,12 +1845,9 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = paste(
-        "This wrapper only supports one acquiring and",
-        "one connecting EIC per request."
-      )
+      regexp = "Assertion on 'eic_acquiring' failed: Must have length 1"
     )
     testthat::expect_error(
       object = sharing_of_rr_and_frr_capacity(
@@ -2163,21 +1857,12 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
-      info = "The 'process_type' should be 'A56' (FRR) or 'A46' (RR)."
-    )
-    testthat::expect_error(
-      object = sharing_of_rr_and_frr_capacity(
-        eic_acquiring = "10YCB-GERMANY--8",
-        eic_connecting = "10YAT-APG------L",
-        process_type = "A56",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "One year range limit should be applied!"
+      regexp = paste(
+        "Assertion on 'process_type' failed:",
+        "Must be element of set \\{'A56','A46'\\}"
+      )
     )
     testthat::expect_error(
       object = sharing_of_rr_and_frr_capacity(
@@ -2189,7 +1874,169 @@ testthat::test_that(
         tidy_output = TRUE,
         security_token = ""
       ),
-      info = "Valid security token should be provided."
+      regexp = "should comply with the UUID v4 format"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "netted_volumes_per_border() validates inputs",
+  code = {
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = NULL,
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = paste0(
+        "Assertion on 'acquiring_eic' failed: ",
+        "Must be of type 'string', not 'NULL'"
+      )
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = c("10YBE----------2", "10YDE-VE-------2"),
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'acquiring_eic' failed: Must have length 1"
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = NULL,
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = paste(
+        "Assertion on 'connecting_eic' failed:",
+        "Must be of type 'string', not 'NULL'."
+      )
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'connecting_eic' failed: Must have length 1"
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "INVALID",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = paste(
+        "Assertion on 'process_type' failed: Must be element of set",
+        "\\{'A51','A60','A61','A63'\\}"
+      )
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-05", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = "1 day range limit should be applied"
+    )
+    testthat::expect_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = ""
+      ),
+      regexp = "should comply with the UUID v4 format"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "netted_volumes_per_border() works",
+  code = {
+    testthat::skip_if_not(
+      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
+      message = "No ENTSOE_PAT environment variable set"
+    )
+    testthat::skip_if_not(
+      condition = there_is_provider(),
+      message = "The Entso-e API cannot be reached"
+    )
+    testthat::expect_no_error(
+      object = netted_volumes_per_border(
+        acquiring_eic = "10YBE----------2",
+        connecting_eic = "10YFR-RTE------C",
+        process_type = "A63",
+        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
+        tidy_output = TRUE
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "shares_of_fcr_capacity() validates inputs (corrected)",
+  code = {
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = NULL,
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must be of type 'string', not 'NULL'"
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = c("10YCB-GERMANY--8", "10YDE-VE-------2"),
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = .test_token
+      ),
+      regexp = "Assertion on 'eic' failed: Must have length 1"
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = "10YCB-GERMANY--8",
+        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
+        tidy_output = TRUE,
+        security_token = ""
+      ),
+      regexp = "should comply with the UUID v4 format"
     )
   }
 )
@@ -2221,7 +2068,7 @@ testthat::test_that(
         period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
         tidy_output = TRUE,
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2253,7 +2100,7 @@ testthat::test_that(
         process_type = "A47",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2284,7 +2131,7 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2316,7 +2163,7 @@ testthat::test_that(
         process_type = "A51",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2349,7 +2196,7 @@ testthat::test_that(
         process_type = "A51",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2382,7 +2229,7 @@ testthat::test_that(
         process_type = "A60",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2415,7 +2262,7 @@ testthat::test_that(
         process_type = "A63",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2447,7 +2294,7 @@ testthat::test_that(
         business_type = "C46",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2478,7 +2325,7 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2510,7 +2357,7 @@ testthat::test_that(
         process_type = "A47",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2542,7 +2389,7 @@ testthat::test_that(
         process_type = "A47",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2572,9 +2419,10 @@ testthat::test_that(
       object = procured_balancing_capacity(
         eic = "10YCZ-CEPS-----N",
         process_type = "A51",
+        market_agreement_type = "A13",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2604,9 +2452,10 @@ testthat::test_that(
       object = allocation_of_cross_zonal_balancing_cap(
         eic_acquiring = "10YCB-GERMANY--8",
         eic_connecting = "10YAT-APG------L",
+        market_agreement_type = "A01",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2638,7 +2487,7 @@ testthat::test_that(
         market_agreement_type = "A01",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "503"
     )
@@ -2669,7 +2518,7 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2700,7 +2549,7 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2734,7 +2583,7 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2765,7 +2614,7 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2796,7 +2645,38 @@ testthat::test_that(
         eic = "10YCZ-CEPS-----N",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
+      ),
+      regexp = "HTTP 503"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "shares_of_fcr_capacity() covers happy path with mock (corrected)",
+  code = {
+    httr2::local_mocked_responses(
+      mock = function(req) {
+        httr2::response(
+          status_code = 503L,
+          url = req$url,
+          headers = list("content-type" = "application/xml"),
+          body = charToRaw(
+            paste0(
+              '<?xml version="1.0" encoding="utf-8"?>',
+              "<root><Reason>Service Unavailable</Reason></root>"
+            )
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = shares_of_fcr_capacity(
+        eic = "10YCZ-CEPS-----N",
+        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
+        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )
@@ -2828,139 +2708,9 @@ testthat::test_that(
         process_type = "A56",
         period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
-    )
-  }
-)
-
-
-# ---- netted_volumes_per_border ----
-
-testthat::test_that(
-  desc = "netted_volumes_per_border() validates inputs",
-  code = {
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = NULL,
-        connecting_eic = "10YFR-RTE------C",
-        process_type = "A63",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = paste0(
-        "Assertion on 'acquiring_eic' failed: ",
-        "Must be of type 'string', not 'NULL'"
-      )
-    )
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = c("10YBE----------2", "10YDE-VE-------2"),
-        connecting_eic = "10YFR-RTE------C",
-        process_type = "A63",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "Assertion on 'acquiring_eic' failed: Must have length 1"
-    )
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = "10YBE----------2",
-        connecting_eic = NULL,
-        process_type = "A63",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = paste(
-        "Assertion on 'connecting_eic' failed:",
-        "Must be of type 'string', not 'NULL'."
-      )
-    )
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = "10YBE----------2",
-        connecting_eic = c("10YFR-RTE------C", "10YDE-VE-------2"),
-        process_type = "A63",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "Assertion on 'connecting_eic' failed: Must have length 1"
-    )
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = "10YBE----------2",
-        connecting_eic = "10YFR-RTE------C",
-        process_type = "INVALID",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      info = "The 'process_type' should be 'A51', 'A60', 'A61' or 'A63'."
-    )
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = "10YBE----------2",
-        connecting_eic = "10YFR-RTE------C",
-        process_type = "A63",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-05", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One day range limit should be applied"
-    )
-    testthat::expect_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = "10YBE----------2",
-        connecting_eic = "10YFR-RTE------C",
-        process_type = "A63",
-        period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = ""
-      ),
-      info = "Valid security token should be provided."
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "netted_volumes_per_border() works",
-  code = {
-    testthat::skip_if_not(
-      condition = nchar(Sys.getenv("ENTSOE_PAT")) > 0L,
-      message = "No ENTSOE_PAT environment variable set"
-    )
-    testthat::skip_if_not(
-      condition = there_is_provider(),
-      message = "The Entso-e API cannot be reached"
-    )
-    testthat::expect_no_error(
-      object = netted_volumes_per_border(
-        acquiring_eic = "10YBE----------2",
-        connecting_eic = "10YFR-RTE------C",
-        process_type = "A63",
-        period_start = lubridate::ymd(
-          x = "2025-03-01",
-          tz = "CET"
-        ),
-        period_end = lubridate::ymd(
-          x = "2025-03-02",
-          tz = "CET"
-        ),
-        tidy_output = TRUE
-      )
     )
   }
 )
@@ -2991,82 +2741,7 @@ testthat::test_that(
         process_type = "A63",
         period_start = lubridate::ymd(x = "2025-03-01", tz = "CET"),
         period_end = lubridate::ymd(x = "2025-03-02", tz = "CET"),
-        security_token = "dummy_token"
-      ),
-      regexp = "HTTP 503"
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "shares_of_fcr_capacity() validates inputs (corrected)",
-  code = {
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = NULL,
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = c("10YCB-GERMANY--8", "10YDE-VE-------2"),
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      )
-    )
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = "10YCB-GERMANY--8",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2022-01-02", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = ""
-      )
-    )
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = "10YCB-GERMANY--8",
-        period_start = lubridate::ymd(x = "2022-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2023-05-01", tz = "CET"),
-        tidy_output = TRUE,
-        security_token = "dummy_token"
-      ),
-      regexp = "One year range limit should be applied"
-    )
-  }
-)
-
-
-testthat::test_that(
-  desc = "shares_of_fcr_capacity() covers happy path with mock (corrected)",
-  code = {
-    httr2::local_mocked_responses(
-      mock = function(req) {
-        httr2::response(
-          status_code = 503L,
-          url = req$url,
-          headers = list("content-type" = "application/xml"),
-          body = charToRaw(
-            paste0(
-              '<?xml version="1.0" encoding="utf-8"?>',
-              "<root><Reason>Service Unavailable</Reason></root>"
-            )
-          )
-        )
-      }
-    )
-    testthat::expect_error(
-      object = shares_of_fcr_capacity(
-        eic = "10YCB-GERMANY--8",
-        period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
-        period_end = lubridate::ymd(x = "2024-01-02", tz = "CET"),
-        security_token = "dummy_token"
+        security_token = .test_token
       ),
       regexp = "HTTP 503"
     )

@@ -29,8 +29,7 @@
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string assert_choice
-#' @importFrom cli cli_abort
+#' @importFrom checkmate assert_choice
 #'
 #' @export
 #'
@@ -52,12 +51,8 @@
 expansion_and_dismantling_project <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   business_type = NULL,
   doc_status = NULL,
   tidy_output = TRUE,
@@ -65,7 +60,7 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
+  check_sec_token(security_token = security_token)
   assert_choice(
     business_type,
     choices = c("B01", "B02"), null.ok = TRUE
@@ -75,30 +70,25 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
     choices = c("A01", "A02", "A05", "A09", "A13", "X01"),
     null.ok = TRUE
   )
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A90",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end,
-    "&businessType=", business_type,
-    "&DocStatus=", doc_status
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A90",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end,
+      "&businessType=", business_type,
+      "&DocStatus=", doc_status
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -124,8 +114,6 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -143,45 +131,32 @@ expansion_and_dismantling_project <- function( # nolint: object_length_linter
 intraday_cross_border_transfer_limits <- function( # nolint: object_length_linter
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A93",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A93",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -210,8 +185,7 @@ intraday_cross_border_transfer_limits <- function( # nolint: object_length_linte
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string assert_choice
-#' @importFrom cli cli_abort
+#' @importFrom checkmate assert_choice
 #'
 #' @export
 #'
@@ -253,35 +227,26 @@ forecasted_transfer_capacities <- function(
     x = market_agreement_type,
     choices = c("A01", "A02", "A03", "A04")
   )
-  assert_string(security_token, min.chars = 1L)
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A61",
-    "&contract_MarketAgreement.Type=", market_agreement_type,
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A61",
+      "&contract_MarketAgreement.Type=", market_agreement_type,
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -306,8 +271,6 @@ forecasted_transfer_capacities <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -333,46 +296,33 @@ forecasted_transfer_capacities <- function(
 day_ahead_commercial_sched <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A09",
-    "&contract_MarketAgreement.Type=A01",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A09",
+      "&contract_MarketAgreement.Type=A01",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -398,8 +348,6 @@ day_ahead_commercial_sched <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -427,44 +375,33 @@ day_ahead_commercial_sched <- function(
 total_commercial_sched <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
   period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A09",
-    "&contract_MarketAgreement.Type=A05",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A09",
+      "&contract_MarketAgreement.Type=A05",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -490,8 +427,6 @@ total_commercial_sched <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -519,45 +454,32 @@ total_commercial_sched <- function(
 cross_border_physical_flows <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A11",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A11",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -581,8 +503,6 @@ cross_border_physical_flows <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -601,41 +521,32 @@ cross_border_physical_flows <- function(
 redispatching_cross_border <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url
-  query_string <- paste0(
-    "documentType=A63",
-    "&businessType=A46",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A63",
+      "&businessType=A46",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -658,8 +569,6 @@ redispatching_cross_border <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -676,40 +585,31 @@ redispatching_cross_border <- function(
 #'
 redispatching_internal <- function(
   eic = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  assert_string(security_token, min.chars = 1L)
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url
-  query_string <- paste0(
-    "documentType=A63",
-    "&businessType=A85",
-    "&in_Domain=", eic,
-    "&out_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A63",
+      "&businessType=A85",
+      "&in_Domain=", eic,
+      "&out_Domain=", eic,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -735,8 +635,6 @@ redispatching_internal <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string
-#' @importFrom cli cli_abort
 #'
 #' @export
 #'
@@ -755,40 +653,31 @@ redispatching_internal <- function(
 countertrading <- function(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
-  assert_string(security_token, min.chars = 1L)
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url
-  query_string <- paste0(
-    "documentType=A91",
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A91",
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
 
 
@@ -817,8 +706,7 @@ countertrading <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string assert_choice
-#' @importFrom cli cli_abort
+#' @importFrom checkmate assert_choice
 #'
 #' @export
 #'
@@ -835,52 +723,37 @@ countertrading <- function(
 #'
 costs_of_congestion_management <- function(
   eic = NULL,
-  period_start = ymd(Sys.Date() - days(x = 31L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 31L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   event_nature = NULL,
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic)
-  assert_string(security_token, min.chars = 1L)
+  check_sec_token(security_token = security_token)
   assert_choice(
     event_nature,
     choices = c("A46", "B03", "B04"), null.ok = TRUE
   )
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url
-  query_string <- paste0(
-    "documentType=A92",
-    "&in_Domain=", eic,
-    "&out_Domain=", eic,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
-  )
-  if (!is.null(event_nature)) {
-    query_string <- paste0(query_string, "&businessType=", event_nature)
-  }
-
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A92",
+      "&in_Domain=", eic,
+      "&out_Domain=", eic,
+      if (!is.null(event_nature)) paste0("&businessType=", event_nature),
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
+  )
 }
 
 
@@ -911,8 +784,7 @@ costs_of_congestion_management <- function(
 #' @return A [tibble::tibble()] with the queried data.
 #'
 #' @importFrom lubridate ymd days
-#' @importFrom checkmate assert_string assert_choice
-#' @importFrom cli cli_abort
+#' @importFrom checkmate assert_choice
 #'
 #' @export
 #'
@@ -932,45 +804,32 @@ net_transfer_capacities <- function(
   eic_in = NULL,
   eic_out = NULL,
   contract_type = "A02",
-  period_start = ymd(Sys.Date() - days(x = 1L),
-    tz = "CET"
-  ),
-  period_end = ymd(Sys.Date(),
-    tz = "CET"
-  ),
+  period_start = ymd(Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
   assert_eic(eic = eic_in, var_name = "eic_in")
   assert_eic(eic = eic_out, var_name = "eic_out")
   assert_choice(x = contract_type, choices = c("A02", "A03", "A04"))
-  assert_string(security_token, min.chars = 1L)
-
-  # check if the requested period is not longer than one year
-  if (difftime(period_end, period_start, units = "day") > 365L) {
-    cli_abort("One year range limit should be applied!")
-  }
-
-  # convert timestamps into accepted format
-  period_start <- url_posixct_format(period_start)
-  period_end <- url_posixct_format(period_end)
-
-  # compose GET request url for the denoted period
-  query_string <- paste0(
-    "documentType=A61",
-    "&contract_MarketAgreement.Type=", contract_type,
-    "&in_Domain=", eic_in,
-    "&out_Domain=", eic_out,
-    "&periodStart=", period_start,
-    "&periodEnd=", period_end
+  check_sec_token(security_token = security_token)
+  period <- check_period(
+    period_start = period_start,
+    period_end = period_end,
+    period_length = "1 year"
   )
 
-  # send GET request
-  en_cont_list <- api_req_safe(
-    query_string = query_string,
-    security_token = security_token
+  # send GET request and return with the extracted response
+  run_api_query(
+    query_string = paste0(
+      "documentType=A61",
+      "&contract_MarketAgreement.Type=", contract_type,
+      "&in_Domain=", eic_in,
+      "&out_Domain=", eic_out,
+      "&periodStart=", period$start,
+      "&periodEnd=", period$end
+    ),
+    security_token = security_token,
+    tidy_output = tidy_output
   )
-
-  # return with the extracted response
-  extract_response(content = en_cont_list, tidy_output = tidy_output)
 }

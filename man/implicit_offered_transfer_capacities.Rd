@@ -7,8 +7,8 @@
 implicit_offered_transfer_capacities(
   eic_in = NULL,
   eic_out = NULL,
-  period_start = lubridate::ymd(x = Sys.Date() - lubridate::days(x = 1L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(x = Sys.Date() - days(x = 1L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   contract_type = "A01",
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")

@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
-library(kableExtra)
+suppressPackageStartupMessages(library(kableExtra))
 library(cli)
 library(ggplot2)
 ```
