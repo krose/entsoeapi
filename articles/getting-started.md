@@ -55,18 +55,8 @@ Load the packages:
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
-library(lubridate)
-#> 
-#> Attaching package: 'lubridate'
-#> The following objects are masked from 'package:base':
-#> 
-#>     date, intersect, setdiff, union
-library(kableExtra)
-#> 
-#> Attaching package: 'kableExtra'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     group_rows
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(kableExtra))
 ```
 
 ### Testing Connectivity
@@ -95,29 +85,39 @@ get_news(n = 3L)
 #> 
 #> ── ENTSO-E Transparency Platform News ──────────────────────────────────────────────────────────────────────────────────
 #> 
-#> ── Issues with the Transparency Platform API, subscriptions and File Library ──
+#> ── Transparency Platform Quarterly Newsletter subscription  ──
 #> 
-#> ℹ Mon, 30 Mar 2026 13:47:39 GMT
-#> Dear Transparency Platform users,We are currently experiencing issues affecting the availability of the API service. In
-#> addition, delays have been detected in Subscriptions and in the publication of new data in the File Library extracts.
-#> Our IT provider is actively investigating these disruptions as a priority, and working on a fix for them. Thank you for
-#> your understanding and apologies for the inconvenience caused.Kind regards,Transparency Platform team
-#> 
-#> ── TP PROD data publication delays ──
-#> 
-#> ℹ Thu, 26 Mar 2026 13:31:47 GMT
-#> Dear Transparency Platform users,The Transparency Platform is experiencing performance issues since 24th March 2026.
-#> These issues are affecting data processing, which is causing delays in data publication. Hence, please expect delays up
-#> to 10 hours for receiving the updates via all the download channels (API, FMS, Subscriptions and Website downloads).Our
-#> service provider is working on the issue with the highest priority.We sincerely apologize for the inconvenience and
-#> thank you for your patience and understanding.Best regards,Transparency Platform team
-#> 
-#> ── Reminder: Transparency Platform Quarterly Newsletter subscription  ──
-#> 
-#> ℹ Tue, 24 Mar 2026 12:18:19 GMT
+#> ℹ Tue, 07 Apr 2026 12:45:33 GMT
 #> Dear Transparency Platform users,We are pleased to introduce the Transparency Platform Quarterly Newsletter. This
 #> newsletter will cover topics such as feature releases, user group meeting announcements, planned events, and any
 #> service interruptions.To subscribe, please use the following LINK.Kind regards,Transparency Platform team
+#> 
+#> ── PSE: Republication of data under Article 12.1.f  ──
+#> 
+#> ℹ Fri, 03 Apr 2026 11:59:36 GMT
+#> Dear Transparency Platform users,Polskie Sieci Elektroenergetyczne (PSE) hereby informs stakeholders of the
+#> republication of data released pursuant to Article 12.1.f. The updated dataset now covers the period commencing on 19
+#> March 2025. The data have been republished for both directions, and no netting has been applied.We extend our sincere
+#> apologies for any inconvenience this republication may have caused.Kind regards,Transparency Platform team on behalf of
+#> PSE
+#> 
+#> ── R3.19.0.3 on Thursday 02.04.2026 at 15:00 - 16:30 CEST ──
+#> 
+#> ℹ Wed, 01 Apr 2026 14:56:52 GMT
+#> Dear Transparency Platform Users,The deployment of TP Release R3.19.0.3 on the PROD environment is scheduled to begin
+#> on Thursday, 2nd April 2026 at 15:00 CEST.Please note that the platform will be unavailable for up to 90 minutes during
+#> this deployment window.Scope of Release R3.19.0.3:Publications & Filtering:Wrong resolution published in 11.1. Flow
+#> based processed (PT15M→PT60M)Time Horizon & Source published as codes for 17.1.B&C Volumes and Prices of the Contracted
+#> Balancing ReservesForecasted Transfer Capacities [11.1] data published with incorrect time zone10.1.A&B Unavailability
+#> Transmission Grid - Improvements to filters and sortingGUI Exports improvements:10.1.A&B Unavailability in Transmission
+#> Grid - Unexpected error while downloading data12.3.E - Aggregated Balancing Energy Bids – XML export results in
+#> errorGUI Performance Improvements:15.1.ABCD - Unavailability of Production & Generation Units chart doesn't
+#> load"Published Network Elements" data view errorsOther Marker Information[OMI] - unexpected error12.1.D Energy Prices
+#> for DE‑LU Data view errorREST API improvements:Use of the Transfer Capacity [12.1.A] returns wrong periodsAll Outages 4
+#> parameters (periodStart, periodEnd, PeriodStartUpdate, PeriodEndUpdate) are ignored when MRID is included11.1
+#> Continuous Evolution - Contract_MarketAgreement.Type should remain an optional parameter13.1.A - Redispatches
+#> [Internal, Cross Border] , 13.1.B - Contertrading - Corrections to attributes in XML downloads and API responseBest
+#> regards,Transparency Platform Team
 ```
 
 The result is returned invisibly as a tibble, so you can also capture
@@ -239,7 +239,7 @@ da_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:10:45 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:24 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
 #> <- x-content-type-options: nosniff
@@ -280,7 +280,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def                 <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "I…
 #> $ ts_business_type                    <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62…
 #> $ ts_business_type_def                <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spo…
-#> $ created_date_time                   <dttm> 2026-03-31 07:10:45, 2026-03-31 07:10:45, 2026-03-31 07:10:45, 2026-03-31…
+#> $ created_date_time                   <dttm> 2026-04-08 13:10:24, 2026-04-08 13:10:24, 2026-04-08 13:10:24, 2026-04-08…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                       <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start              <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31…
@@ -320,7 +320,7 @@ da_prices_nested <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:10:48 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:25 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
 #> <- x-content-type-options: nosniff
@@ -348,7 +348,7 @@ glimpse(da_prices_nested)
 #> $ ts_auction_type_def                 <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "I…
 #> $ ts_business_type                    <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62…
 #> $ ts_business_type_def                <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spo…
-#> $ created_date_time                   <dttm> 2026-03-31 07:10:48, 2026-03-31 07:10:48, 2026-03-31 07:10:48, 2026-03-31…
+#> $ created_date_time                   <dttm> 2026-04-08 13:10:25, 2026-04-08 13:10:25, 2026-04-08 13:10:25, 2026-04-08…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                       <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start              <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2026-01-01 23:00:00, 2026-01-01 …
@@ -357,7 +357,7 @@ glimpse(da_prices_nested)
 #> $ ts_point                            <list> [<tbl_df[96 x 2]>], [<tbl_df[96 x 2]>], [<tbl_df[96 x 2]>], [<tbl_df[96 x…
 #> $ ts_currency_unit_name               <chr> "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR…
 #> $ ts_price_measure_unit_name          <chr> "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MWH", "MW…
-#> $ ts_classification_sequence_position <dbl> 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2
+#> $ ts_classification_sequence_position <dbl> 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1
 ```
 
 With nested output, each row represents a time period, and all data
@@ -406,7 +406,7 @@ da_prices_year <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202312312300&periodEnd=202412302300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:10:52 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:26 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202312312300-202412302300.xml"
 #> <- x-content-type-options: nosniff

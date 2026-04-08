@@ -13,7 +13,7 @@ It covers an endpoint, or an IT-system."><meta property="og:image" content="http
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ It covers an endpoint, or an IT-system."><meta property="og:image" content="http
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Location V Energy Identification Codes</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.1.0/R/en_helpers.R" class="external-link"><code>R/en_helpers.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_helpers.R" class="external-link"><code>R/en_helpers.R</code></a></small>
       <div class="d-none name"><code>location_eic.Rd</code></div>
     </div>
 
@@ -61,10 +61,10 @@ It covers an endpoint, or an IT-system.</p>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A tibble of accordingly filtered EIC codes, which contains such columns as
-<code>EicCode</code>, <code>EicDisplayName</code>, <code>EicLongName</code>, <code>EicParent</code>,
-<code>EicResponsibleParty</code>, <code>EicStatus</code>, <code>MarketParticipantPostalCode</code>,
-<code>MarketParticipantIsoCountryCode</code>, <code>MarketParticipantVatCode</code>,
-<code>EicTypeFunctionList</code> and <code>type</code>.</p>
+<code>eic_code</code>, <code>eic_display_name</code>, <code>eic_long_name</code>, <code>eic_parent</code>,
+<code>eic_responsible_party</code>, <code>eic_status</code>, <code>market_participant_postal_code</code>,
+<code>market_participant_iso_country_code</code>, <code>market_participant_vat_code</code>,
+<code>eic_type_function_list</code> and <code>type</code>.</p>
     </div>
 
     <div class="section level2">
@@ -75,7 +75,7 @@ It covers an endpoint, or an IT-system.</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> pulling V_eicCodes.csv file from cache</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">eic_location</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1,048</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 1,051</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ eic_code                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10V1001C--002139"<span style="color: #949494;">, </span>"10V1001C--00212B"<span style="color: #949494;">, </span>"10V000000000001T"<span style="color: #949494;">, </span>"10V0000000000…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ eic_display_name                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "TSCNET_3_FB"<span style="color: #949494;">, </span>"TSCNET_4_OPC_STA"<span style="color: #949494;">, </span>"ECP_TP_TEST_EP"<span style="color: #949494;">, </span>"ECP_TP_PROD_EP"<span style="color: #949494;">, </span>"EC…</span>

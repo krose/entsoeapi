@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Time Series Restructuring Explained</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.1.0/vignettes/time-series-restructuring.Rmd" class="external-link"><code>vignettes/time-series-restructuring.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/vignettes/time-series-restructuring.Rmd" class="external-link"><code>vignettes/time-series-restructuring.Rmd</code></a></small>
       <div class="d-none name"><code>time-series-restructuring.Rmd</code></div>
     </div>
 
@@ -77,18 +77,8 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/krose/entsoeapi/" class="external-link">entsoeapi</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cli.r-lib.org" class="external-link">cli</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'lubridate'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     date, intersect, setdiff, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'kableExtra'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     group_rows</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -195,7 +185,7 @@ data point:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10YES-REE------0&amp;out_Domain=10YES-REE------0&amp;periodStart=202312312300&amp;periodEnd=202401012300&amp;contract_MarketAgreement.type=A01&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 07:11:08 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Wed, 08 Apr 2026 13:10:39 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202312312300-202401012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>
@@ -298,7 +288,7 @@ period with all data points nested in a list-column:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10YES-REE------0&amp;out_Domain=10YES-REE------0&amp;periodStart=202312312300&amp;periodEnd=202401012300&amp;contract_MarketAgreement.type=A01&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 07:11:11 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Wed, 08 Apr 2026 13:10:40 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202312312300-202401012300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>

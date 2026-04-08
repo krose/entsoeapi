@@ -1,11 +1,10 @@
 # Architecture: API Pipeline, XML Engine & Caching
 
-    ## 
-    ## Attaching package: 'lubridate'
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     date, intersect, setdiff, union
+``` r
+library(entsoeapi)
+library(cli)
+suppressPackageStartupMessages(library(lubridate))
+```
 
 ## Overview
 
@@ -223,15 +222,15 @@ The core HTTP function. Steps:
 
 ### 1.4 Error handling
 
-| Error type                        | Condition                                                                    | Action                                                                                     |
-|-----------------------------------|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
-| Network / R exception             | `req_perform_safe()` returns `$error`                                        | Propagated via `api_req_safe()`                                                            |
-| 503 Service Unavailable           | HTTP status 503                                                              | Retried up to 3 times (10 s backoff) via `req_retry()`; `cli_abort()` if all attempts fail |
-| HTML error page                   | Response body is HTML                                                        | Extract status + body, `cli_abort()`                                                       |
-| XML error — code 999, exceeds max | Body is XML, reason code 999, message contains “exceeds the allowed maximum” | Trigger pagination (see 1.5)                                                               |
-| XML error — code 999, forbidden   | Same as above but query matches a forbidden pattern                          | `cli_abort()` with reason text                                                             |
-| XML error — other codes           | Body is XML, other reason codes                                              | `cli_abort()` with reason text                                                             |
-| JSON error                        | Body is JSON                                                                 | Extract `uuAppErrorMap.URI_FORMAT_ERROR`, `cli_abort()`                                    |
+| Error type                        | Condition                                                                    | Action                                                                                                                                       |
+|-----------------------------------|------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| Network / R exception             | `req_perform_safe()` returns `$error`                                        | Propagated via `api_req_safe()`                                                                                                              |
+| 503 Service Unavailable           | HTTP status 503                                                              | Retried up to 3 times (10 s backoff) via `req_retry()`; [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) if all attempts fail |
+| HTML error page                   | Response body is HTML                                                        | Extract status + body, [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html)                                                       |
+| XML error — code 999, exceeds max | Body is XML, reason code 999, message contains “exceeds the allowed maximum” | Trigger pagination (see 1.5)                                                                                                                 |
+| XML error — code 999, forbidden   | Same as above but query matches a forbidden pattern                          | [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) with reason text                                                             |
+| XML error — other codes           | Body is XML, other reason codes                                              | [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) with reason text                                                             |
+| JSON error                        | Body is JSON                                                                 | Extract `uuAppErrorMap.URI_FORMAT_ERROR`, [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html)                                    |
 
 ### 1.5 Automatic pagination
 

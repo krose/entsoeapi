@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.svg" class="logo" alt=""><h1>Release Checklist — entsoeapi</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.1.0/RELEASE_CHECKLIST.md" class="external-link"><code>RELEASE_CHECKLIST.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/RELEASE_CHECKLIST.md" class="external-link"><code>RELEASE_CHECKLIST.md</code></a></small>
     </div>
 
 <div id="release-checklist--entsoeapi" class="section level1">
@@ -52,20 +52,20 @@
 </ul></div>
 <div class="section level2">
 <h2 id="id_2-documentation">2. Documentation<a class="anchor" aria-label="anchor" href="#id_2-documentation"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/spell_check.html" class="external-link">devtools::spell_check()</a></code> — no spelling errors in docs</label></li>
-<li><label><input type="checkbox"><code><a href="https://rdrr.io/pkg/urlchecker/man/url_check.html" class="external-link">urlchecker::url_check()</a></code> — no broken URLs in docs</label></li>
-<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code> — regenerate all <code>.Rd</code> files and <code>NAMESPACE</code></label></li>
-<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/build_readme.html" class="external-link">devtools::build_readme()</a></code> — locate README.Rmd and build it into a README.md</label></li>
+<ul class="task-list"><li><label><input type="checkbox">Run <code>devtools::spell_check()</code> — no spelling errors in docs</label></li>
+<li><label><input type="checkbox"><code>urlchecker::url_check()</code> — no broken URLs in docs</label></li>
+<li><label><input type="checkbox">Run <code>devtools::document()</code> — regenerate all <code>.Rd</code> files and <code>NAMESPACE</code></label></li>
+<li><label><input type="checkbox">Run <code>devtools::build_readme()</code> — locate README.Rmd and build it into a README.md</label></li>
 <li><label><input type="checkbox">Check that all exported functions have <code>@examples</code> or <code>@examplesIf</code></label></li>
 <li><label><input type="checkbox">README examples still work (copy-paste test)</label></li>
-<li><label><input type="checkbox">Update vignettes if necessary and render without error: <code><a href="https://devtools.r-lib.org/reference/build_vignettes.html" class="external-link">devtools::build_vignettes()</a></code></label></li>
-<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/build_site.html" class="external-link">devtools::build_site()</a></code> locally — build site locally, checking no errors</label></li>
+<li><label><input type="checkbox">Update vignettes if necessary and render without error: <code>devtools::build_vignettes()</code></label></li>
+<li><label><input type="checkbox">Run <code>devtools::build_site()</code> locally — build site locally, checking no errors</label></li>
 </ul></div>
 <div class="section level2">
 <h2 id="id_3-tests">3. Tests<a class="anchor" aria-label="anchor" href="#id_3-tests"></a></h2>
 <ul class="task-list"><li><label><input type="checkbox">Run <code>devtools::run_examples(fresh = TRUE)</code> — all examples pass, no unexpected errors</label></li>
-<li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code> — all tests pass, no unexpected skips</label></li>
-<li><label><input type="checkbox"><code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test_coverage()</a></code> — no significant test coverage regression</label></li>
+<li><label><input type="checkbox">Run <code>devtools::test()</code> — all tests pass, no unexpected skips</label></li>
+<li><label><input type="checkbox"><code>devtools::test_coverage()</code> — no significant test coverage regression</label></li>
 </ul></div>
 <div class="section level2">
 <h2 id="id_4-r-cmd-check">4. R CMD CHECK<a class="anchor" aria-label="anchor" href="#id_4-r-cmd-check"></a></h2>
@@ -84,10 +84,10 @@
 </ul></div>
 <div class="section level2">
 <h2 id="id_7-when-ready-cran-submission">7. (When ready) CRAN Submission<a class="anchor" aria-label="anchor" href="#id_7-when-ready-cran-submission"></a></h2>
-<ul class="task-list"><li><label><input type="checkbox">Run <code><a href="https://devtools.r-lib.org/reference/install.html" class="external-link">devtools::install()</a></code> to install package locally</label></li>
+<ul class="task-list"><li><label><input type="checkbox">Run <code>devtools::install()</code> to install package locally</label></li>
 <li><label><input type="checkbox">Run <code>rhub::rhub_check(gh_url = "https://github.com/krose/entsoeapi", platforms = c("windows", "macos-arm64", "linux"), branch = "main", r_versions = "release")</code>— triggers multi-platform check on GitHub</label></li>
 <li><label><input type="checkbox">Review <a href="https://cran.r-project.org/web/packages/policies.html" class="external-link">CRAN policies</a></label></li>
-<li><label><input type="checkbox"><code><a href="https://devtools.r-lib.org/reference/submit_cran.html" class="external-link">devtools::submit_cran()</a></code> or upload via <a href="https://cran.r-project.org/submit.html" class="external-link uri">https://cran.r-project.org/submit.html</a></label></li>
+<li><label><input type="checkbox"><code>devtools::submit_cran()</code> or upload via <a href="https://cran.r-project.org/submit.html" class="external-link uri">https://cran.r-project.org/submit.html</a></label></li>
 <li><label><input type="checkbox">Reply promptly to CRAN maintainer emails (within 2 weeks)</label></li>
 </ul></div>
 <div class="section level2">

@@ -70,7 +70,7 @@ df <- entsoeapi::load_week_ahead_total_forecast(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A31&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201910312300&periodEnd=201911292300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:08:04 GMT
+#> <- date: Wed, 08 Apr 2026 13:08:52 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Total Load Forecast 201910312300-201911292300.xml"
 #> <- x-content-type-options: nosniff
@@ -97,7 +97,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area"
 #> $ ts_business_type                <chr> "A60", "A60", "A60", "A61", "A61", "A61"
 #> $ ts_business_type_def            <chr> "Minimum possible", "Minimum possible", "Minimum possible", "Maximum available…
-#> $ created_date_time               <dttm> 2026-03-31 07:08:04, 2026-03-31 07:08:04, 2026-03-31 07:08:04, 2026-03-31 07:0…
+#> $ created_date_time               <dttm> 2026-04-08 13:08:52, 2026-04-08 13:08:52, 2026-04-08 13:08:52, 2026-04-08 13:0…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1
 #> $ time_period_time_interval_start <dttm> 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:0…
 #> $ time_period_time_interval_end   <dttm> 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:0…

@@ -32,8 +32,7 @@ and a brief use case.
 
 1.  Fork the repository and create a branch from `main`.
 
-2.  Install development dependencies:
-    [`devtools::install_dev_deps()`](https://devtools.r-lib.org/reference/install_deps.html).
+2.  Install development dependencies: `devtools::install_dev_deps()`.
 
 3.  Make your changes. Keep each PR focused on a single concern.
 

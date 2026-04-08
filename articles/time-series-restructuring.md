@@ -4,18 +4,8 @@
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
-library(lubridate)
-#> 
-#> Attaching package: 'lubridate'
-#> The following objects are masked from 'package:base':
-#> 
-#>     date, intersect, setdiff, union
-library(kableExtra)
-#> 
-#> Attaching package: 'kableExtra'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     group_rows
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(kableExtra))
 library(tidyr)
 ```
 
@@ -103,7 +93,7 @@ da_prices_tidy <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:11:08 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:39 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff
@@ -194,7 +184,7 @@ da_prices_nested <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:11:11 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:40 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
 #> <- x-content-type-options: nosniff

@@ -109,27 +109,19 @@ df <- entsoeapi::outages_transmission_grid(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStart=202603312200&periodEnd=202604012200&periodStartUpdate=202603232300&periodEndUpdate=202603302200&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStartUpdate=202603312200&periodEndUpdate=202604072200&periodStart=202604082200&periodEnd=202604092200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:08:50 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:18 GMT
 #> <- content-type: application/zip
-#> <- content-length: 4173
+#> <- content-length: 2144
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202603090630-202604171500.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOM3dmL/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
-#> ✔ /tmp/RtmpOM3dmL/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603260630-202604171500.xml has been read in
-#> ✔ /tmp/RtmpOM3dmL/003-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603300530-202604031500.xml has been read in
-#> ✔ /tmp/RtmpOM3dmL/004-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603310530-202604021200.xml has been read in
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
+#> ✔ /tmp/RtmpnNDu8x/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmpnNDu8x/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603260630-202604171500.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -155,14 +147,14 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
 #> $ ts_asset_psr_type                  <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21"
 #> $ ts_asset_psr_type_def              <chr> "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link"…
-#> $ created_date_time                  <dttm> 2026-03-26 10:06:42, 2026-03-26 10:06:42, 2026-03-26 10:06:42, 2026-03-26 1…
+#> $ created_date_time                  <dttm> 2026-04-01 16:06:25, 2026-04-01 16:06:25, 2026-04-01 16:06:25, 2026-04-01 1…
 #> $ reason_code                        <chr> "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19"
 #> $ reason_text                        <chr> " - Foreseen maintenance", " - Foreseen maintenance", " - Foreseen maintena…
-#> $ revision_number                    <dbl> 10, 10, 10, 10, 10, 10, 10, 10, 6, 8
+#> $ revision_number                    <dbl> 11, 11, 11, 11, 11, 11, 11, 11, 11, 11
 #> $ unavailability_time_interval_start <dttm> 2026-03-09 06:30:00, 2026-03-09 06:30:00, 2026-03-09 06:30:00, 2026-03-09 0…
 #> $ unavailability_time_interval_end   <dttm> 2026-04-15 15:00:00, 2026-04-15 15:00:00, 2026-04-15 15:00:00, 2026-04-15 1…
 #> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "P…
 #> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-#> $ ts_available_period_point_quantity <dbl> 3700, 1700, 3000, 3500, 1200, 3000, 3500, 1200, 3500, 3500
+#> $ ts_available_period_point_quantity <dbl> 3700, 1700, 3000, 3500, 1500, 1200, 3000, 3500, 1500, 1200
 #> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
 ```

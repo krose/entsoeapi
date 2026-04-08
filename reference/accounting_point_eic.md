@@ -15,10 +15,10 @@ accounting_point_eic()
 ## Value
 
 A tibble of accordingly filtered EIC codes, which contains such columns
-as `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-`EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-`MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-`EicTypeFunctionList` and `type`.
+as `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+`eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+`market_participant_iso_country_code`, `market_participant_vat_code`,
+`eic_type_function_list` and `type`.
 
 ## Examples
 
@@ -29,7 +29,7 @@ eic_accounting_point <- entsoeapi::accounting_point_eic()
 #> ℹ downloading Z_eicCodes.csv file ...
 
 dplyr::glimpse(eic_accounting_point)
-#> Rows: 2,517
+#> Rows: 2,519
 #> Columns: 11
 #> $ eic_code                            <chr> "10Z-1001-10010AI", "10Z1001A1001A01T", "10Z1001A1001A02R", "10Z1001A1001A…
 #> $ eic_display_name                    <chr> "M_KOM-KOSB", "M_UROSEV_SKOPJE", "M_PRIZRE_FIERZA", "M_PEC_RIBAREVIN", "M_…

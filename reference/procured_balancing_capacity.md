@@ -94,7 +94,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/2 400 
-#> <- date: Tue, 31 Mar 2026 07:08:53 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:19 GMT
 #> <- content-type: text/xml
 #> <- content-length: 920
 #> <- content-disposition: inline; filename="acknowledgement.xml"
@@ -107,58 +107,58 @@ df <- entsoeapi::procured_balancing_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=0&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:08:55 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:20 GMT
 #> <- content-type: application/zip
-#> <- content-length: 2589
+#> <- content-length: 2541
 #> <- content-disposition: attachment; filename="Procured Balancing Capacity_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOM3dmL/001-PROCURED_BALANCING_CAPACITY_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpnNDu8x/001-PROCURED_BALANCING_CAPACITY_R3_202312312300-202401012300.xml has been read in
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=100&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:08:56 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:20 GMT
 #> <- content-type: application/zip
-#> <- content-length: 2501
+#> <- content-length: 2485
 #> <- content-disposition: attachment; filename="Procured Balancing Capacity_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOM3dmL/001-PROCURED_BALANCING_CAPACITY_R3_202401010500-202401011800.xml has been read in
+#> ✔ /tmp/RtmpnNDu8x/001-PROCURED_BALANCING_CAPACITY_R3_202401010500-202401011800.xml has been read in
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:08:58 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:20 GMT
 #> <- content-type: application/zip
-#> <- content-length: 2491
+#> <- content-length: 2460
 #> <- content-disposition: attachment; filename="Procured Balancing Capacity_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOM3dmL/001-PROCURED_BALANCING_CAPACITY_R3_202401011400-202401011800.xml has been read in
+#> ✔ /tmp/RtmpnNDu8x/001-PROCURED_BALANCING_CAPACITY_R3_202401011400-202401011800.xml has been read in
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:09:00 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:21 GMT
 #> <- content-type: application/zip
-#> <- content-length: 2008
+#> <- content-length: 1985
 #> <- content-disposition: attachment; filename="Procured Balancing Capacity_202312312300-202401012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOM3dmL/001-PROCURED_BALANCING_CAPACITY_R3_202401011600-202401012300.xml has been read in
+#> ✔ /tmp/RtmpnNDu8x/001-PROCURED_BALANCING_CAPACITY_R3_202401011600-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -183,21 +183,21 @@ dplyr::glimpse(df)
 #> $ process_type_def              <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration rese…
 #> $ market_agreement_type         <chr> "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ market_agreement_type_def     <chr> "Yearly contract", "Yearly contract", "Yearly contract", "Yearly contract", "Yea…
-#> $ ts_flow_direction             <chr> "A02", "A02", "A02", "A02", "A02", "A02", "A01", "A01", "A01", "A01", "A01", "A0…
-#> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "UP", "UP", "UP", "UP", "UP", "U…
+#> $ ts_flow_direction             <chr> "A02", "A02", "A02", "A02", "A02", "A02", "A02", "A02", "A02", "A02", "A02", "A0…
+#> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", …
 #> $ ts_business_type              <chr> "B95", "B95", "B95", "B95", "B95", "B95", "B95", "B95", "B95", "B95", "B95", "B9…
 #> $ ts_business_type_def          <chr> "Procured capacity", "Procured capacity", "Procured capacity", "Procured capacit…
 #> $ ts_mkt_psr_type               <chr> "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Resource Object", "Resource Object", "Resource Object", "Resource Object", "Res…
-#> $ created_date_time             <dttm> 2026-03-31 07:08:55, 2026-03-31 07:08:55, 2026-03-31 07:08:55, 2026-03-31 07:08…
+#> $ created_date_time             <dttm> 2026-04-08 13:09:20, 2026-04-08 13:09:20, 2026-04-08 13:09:20, 2026-04-08 13:09…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00…
 #> $ ts_time_interval_end          <dttm> 2024-01-01 05:00:00, 2024-01-01 05:00:00, 2024-01-01 05:00:00, 2024-01-01 05:00…
 #> $ ts_mrid                       <dbl> 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5,…
 #> $ ts_point_dt_start             <dttm> 2023-12-31 23:00:00, 2024-01-01 00:00:00, 2024-01-01 01:00:00, 2024-01-01 02:00…
-#> $ ts_point_quantity             <dbl> 4, 4, 4, 4, 4, 4, 13, 13, 13, 13, 13, 13, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 5,…
-#> $ procurement_price_amount      <dbl> 13.8, 13.8, 13.8, 13.8, 13.8, 13.8, 27.0, 27.0, 27.0, 27.0, 27.0, 27.0, 12.0, 12…
+#> $ ts_point_quantity             <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 15, 15, 15, 15, 15, 15, 16…
+#> $ procurement_price_amount      <dbl> 9.00, 9.00, 9.00, 9.00, 9.00, 9.00, 26.00, 26.00, 26.00, 26.00, 26.00, 26.00, 15…
 #> $ ts_currency_unit_name         <chr> "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EUR", "EU…
 #> $ ts_price_measure_unit_name    <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MA…
 #> $ ts_quantity_measure_unit_name <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MA…

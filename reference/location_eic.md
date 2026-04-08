@@ -14,10 +14,10 @@ location_eic()
 ## Value
 
 A tibble of accordingly filtered EIC codes, which contains such columns
-as `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-`EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-`MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-`EicTypeFunctionList` and `type`.
+as `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+`eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+`market_participant_iso_country_code`, `market_participant_vat_code`,
+`eic_type_function_list` and `type`.
 
 ## Examples
 
@@ -28,7 +28,7 @@ eic_location <- entsoeapi::location_eic()
 #> ℹ pulling V_eicCodes.csv file from cache
 
 dplyr::glimpse(eic_location)
-#> Rows: 1,048
+#> Rows: 1,051
 #> Columns: 11
 #> $ eic_code                            <chr> "10V1001C--002139", "10V1001C--00212B", "10V000000000001T", "10V0000000000…
 #> $ eic_display_name                    <chr> "TSCNET_3_FB", "TSCNET_4_OPC_STA", "ECP_TP_TEST_EP", "ECP_TP_PROD_EP", "EC…

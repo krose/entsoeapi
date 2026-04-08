@@ -1,5 +1,26 @@
 # Changelog
 
+## entsoeapi v1.1.1 (2026-04-08)
+
+### New functionality
+
+- None.
+
+### Changes
+
+- Some queries are allowed to capture 1 year of the data as a maximum
+  time span. But the leap year handling had not been elaborated yet.
+  From this version the leap year cases are going to be handled nicely.
+- Typos have fixed in the documentations.
+- The `ENTSOE_PAT` is going to be checked to be in UUID v4 format from
+  now on.
+- The vignettes have been slightly adjusted.
+
+### Miscellaneous
+
+- The code base and the unit tests have been adjusted in such a way
+  which makes the whole project more maintainable.
+
 ## entsoeapi v1.1.0 (2026-03-31)
 
 ### New functionality

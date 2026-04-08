@@ -179,7 +179,7 @@ de_generation <- gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202405312200&periodEnd=202406072200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:10:11 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:55 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregated Generation per Type_202405312200-202406072200.xml"
 #> <- x-content-type-options: nosniff
@@ -224,7 +224,7 @@ glimpse(de_generation)
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
 #> $ ts_mkt_psr_type                 <chr> "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "…
 #> $ ts_mkt_psr_type_def             <chr> "Hydro-electric pure pumped storage head installation", "Hydro-electric pure p…
-#> $ created_date_time               <dttm> 2026-03-31 07:10:10, 2026-03-31 07:10:10, 2026-03-31 07:10:10, 2026-03-31 07:…
+#> $ created_date_time               <dttm> 2026-04-08 13:09:55, 2026-04-08 13:09:55, 2026-04-08 13:09:55, 2026-04-08 13:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:…
 #> $ time_period_time_interval_end   <dttm> 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:…
@@ -523,7 +523,7 @@ week1 <- gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202405312200&periodEnd=202406072200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:10:16 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:01 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregated Generation per Type_202405312200-202406072200.xml"
 #> <- x-content-type-options: nosniff
@@ -548,7 +548,7 @@ week2 <- gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202406142200&periodEnd=202406212200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:10:21 GMT
+#> <- date: Wed, 08 Apr 2026 13:10:05 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregated Generation per Type_202406142200-202406212200.xml"
 #> <- x-content-type-options: nosniff

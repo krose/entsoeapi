@@ -15,10 +15,10 @@ all_approved_eic()
 ## Value
 
 A tibble of accordingly filtered EIC codes, which contains such columns
-as `EicCode`, `EicDisplayName`, `EicLongName`, `EicParent`,
-`EicResponsibleParty`, `EicStatus`, `MarketParticipantPostalCode`,
-`MarketParticipantIsoCountryCode`, `MarketParticipantVatCode`,
-`EicTypeFunctionList` and `type`.
+as `eic_code`, `eic_display_name`, `eic_long_name`, `eic_parent`,
+`eic_responsible_party`, `eic_status`, `market_participant_postal_code`,
+`market_participant_iso_country_code`, `market_participant_vat_code`,
+`eic_type_function_list` and `type`.
 
 ## Examples
 
@@ -47,7 +47,7 @@ eic_all <- entsoeapi::all_approved_eic()
 #> ℹ downloading A_eicCodes.csv file ...
 
 dplyr::glimpse(eic_all)
-#> Rows: 70,628
+#> Rows: 70,766
 #> Columns: 11
 #> $ eic_code                            <chr> "26X00000001515-Y", "26X00000105734-O", "26X00000105740-W", "10X1001A1001A…
 #> $ eic_display_name                    <chr> "LA_220", "IT-GEO____SPA", "IT-BETA_ENERGYS", "ELIA", "ENERGINET-DK", "FIN…

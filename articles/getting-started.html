@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Getting Started with entsoeapi</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.1.0/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/vignettes/getting-started.Rmd" class="external-link"><code>vignettes/getting-started.Rmd</code></a></small>
       <div class="d-none name"><code>getting-started.Rmd</code></div>
     </div>
 
@@ -108,7 +108,7 @@ profile</li>
 .Renviron file:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/edit.html" class="external-link">edit_r_environ</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">edit_r_environ</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>For persistent access, add this line to your <code>.Renviron</code>
 file:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># In your ~/.Renviron file:</span></span>
@@ -130,18 +130,8 @@ file:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/krose/entsoeapi/" class="external-link">entsoeapi</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cli.r-lib.org" class="external-link">cli</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'lubridate'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     date, intersect, setdiff, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'kableExtra'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:dplyr':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     group_rows</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="testing-connectivity">Testing Connectivity<a class="anchor" aria-label="anchor" href="#testing-connectivity"></a>
 </h3>
@@ -165,29 +155,39 @@ running a batch of queries:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">ENTSO-E Transparency Platform News</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Issues with the Transparency Platform API, subscriptions and File Library</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Transparency Platform Quarterly Newsletter subscription </span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Mon, 30 Mar 2026 13:47:39 GMT</span></span>
-<span><span class="co">#&gt; Dear Transparency Platform users,We are currently experiencing issues affecting the availability of the API service. In</span></span>
-<span><span class="co">#&gt; addition, delays have been detected in Subscriptions and in the publication of new data in the File Library extracts.</span></span>
-<span><span class="co">#&gt; Our IT provider is actively investigating these disruptions as a priority, and working on a fix for them. Thank you for</span></span>
-<span><span class="co">#&gt; your understanding and apologies for the inconvenience caused.Kind regards,Transparency Platform team</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">TP PROD data publication delays</span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Thu, 26 Mar 2026 13:31:47 GMT</span></span>
-<span><span class="co">#&gt; Dear Transparency Platform users,The Transparency Platform is experiencing performance issues since 24th March 2026.</span></span>
-<span><span class="co">#&gt; These issues are affecting data processing, which is causing delays in data publication. Hence, please expect delays up</span></span>
-<span><span class="co">#&gt; to 10 hours for receiving the updates via all the download channels (API, FMS, Subscriptions and Website downloads).Our</span></span>
-<span><span class="co">#&gt; service provider is working on the issue with the highest priority.We sincerely apologize for the inconvenience and</span></span>
-<span><span class="co">#&gt; thank you for your patience and understanding.Best regards,Transparency Platform team</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Reminder: Transparency Platform Quarterly Newsletter subscription </span> ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Tue, 24 Mar 2026 12:18:19 GMT</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Tue, 07 Apr 2026 12:45:33 GMT</span></span>
 <span><span class="co">#&gt; Dear Transparency Platform users,We are pleased to introduce the Transparency Platform Quarterly Newsletter. This</span></span>
 <span><span class="co">#&gt; newsletter will cover topics such as feature releases, user group meeting announcements, planned events, and any</span></span>
-<span><span class="co">#&gt; service interruptions.To subscribe, please use the following LINK.Kind regards,Transparency Platform team</span></span></code></pre></div>
+<span><span class="co">#&gt; service interruptions.To subscribe, please use the following LINK.Kind regards,Transparency Platform team</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">PSE: Republication of data under Article 12.1.f </span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Fri, 03 Apr 2026 11:59:36 GMT</span></span>
+<span><span class="co">#&gt; Dear Transparency Platform users,Polskie Sieci Elektroenergetyczne (PSE) hereby informs stakeholders of the</span></span>
+<span><span class="co">#&gt; republication of data released pursuant to Article 12.1.f. The updated dataset now covers the period commencing on 19</span></span>
+<span><span class="co">#&gt; March 2025. The data have been republished for both directions, and no netting has been applied.We extend our sincere</span></span>
+<span><span class="co">#&gt; apologies for any inconvenience this republication may have caused.Kind regards,Transparency Platform team on behalf of</span></span>
+<span><span class="co">#&gt; PSE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">R3.19.0.3 on Thursday 02.04.2026 at 15:00 - 16:30 CEST</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Wed, 01 Apr 2026 14:56:52 GMT</span></span>
+<span><span class="co">#&gt; Dear Transparency Platform Users,The deployment of TP Release R3.19.0.3 on the PROD environment is scheduled to begin</span></span>
+<span><span class="co">#&gt; on Thursday, 2nd April 2026 at 15:00 CEST.Please note that the platform will be unavailable for up to 90 minutes during</span></span>
+<span><span class="co">#&gt; this deployment window.Scope of Release R3.19.0.3:Publications &amp; Filtering:Wrong resolution published in 11.1. Flow</span></span>
+<span><span class="co">#&gt; based processed (PT15M→PT60M)Time Horizon &amp; Source published as codes for 17.1.B&amp;C Volumes and Prices of the Contracted</span></span>
+<span><span class="co">#&gt; Balancing ReservesForecasted Transfer Capacities [11.1] data published with incorrect time zone10.1.A&amp;B Unavailability</span></span>
+<span><span class="co">#&gt; Transmission Grid - Improvements to filters and sortingGUI Exports improvements:10.1.A&amp;B Unavailability in Transmission</span></span>
+<span><span class="co">#&gt; Grid - Unexpected error while downloading data12.3.E - Aggregated Balancing Energy Bids – XML export results in</span></span>
+<span><span class="co">#&gt; errorGUI Performance Improvements:15.1.ABCD - Unavailability of Production &amp; Generation Units chart doesn't</span></span>
+<span><span class="co">#&gt; load"Published Network Elements" data view errorsOther Marker Information[OMI] - unexpected error12.1.D Energy Prices</span></span>
+<span><span class="co">#&gt; for DE‑LU Data view errorREST API improvements:Use of the Transfer Capacity [12.1.A] returns wrong periodsAll Outages 4</span></span>
+<span><span class="co">#&gt; parameters (periodStart, periodEnd, PeriodStartUpdate, PeriodEndUpdate) are ignored when MRID is included11.1</span></span>
+<span><span class="co">#&gt; Continuous Evolution - Contract_MarketAgreement.Type should remain an optional parameter13.1.A - Redispatches</span></span>
+<span><span class="co">#&gt; [Internal, Cross Border] , 13.1.B - Contertrading - Corrections to attributes in XML downloads and API responseBest</span></span>
+<span><span class="co">#&gt; regards,Transparency Platform Team</span></span></code></pre></div>
 <p>The result is returned invisibly as a tibble, so you can also capture
 and filter it:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -299,7 +299,7 @@ endpoint:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10Y1001A1001A82H&amp;out_Domain=10Y1001A1001A82H&amp;periodStart=202512312300&amp;periodEnd=202601072300&amp;contract_MarketAgreement.type=A01&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 07:10:45 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Wed, 08 Apr 2026 13:10:24 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202512312300-202601072300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>
@@ -339,7 +339,7 @@ point:</p>
 <span><span class="co">#&gt; $ ts_auction_type_def                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"I…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spo…</span></span>
-<span><span class="co">#&gt; $ created_date_time                   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-31 07:10:45<span style="color: #949494;">, </span>2026-03-31 07:10:45<span style="color: #949494;">, </span>2026-03-31 07:10:45<span style="color: #949494;">, </span>2026-03-31…</span></span>
+<span><span class="co">#&gt; $ created_date_time                   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-04-08 13:10:24<span style="color: #949494;">, </span>2026-04-08 13:10:24<span style="color: #949494;">, </span>2026-04-08 13:10:24<span style="color: #949494;">, </span>2026-04-08…</span></span>
 <span><span class="co">#&gt; $ revision_number                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">,</span>…</span></span>
 <span><span class="co">#&gt; $ ts_resolution                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"P…</span></span>
 <span><span class="co">#&gt; $ ts_time_interval_start              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-31…</span></span>
@@ -402,7 +402,7 @@ differently:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10Y1001A1001A82H&amp;out_Domain=10Y1001A1001A82H&amp;periodStart=202512312300&amp;periodEnd=202601072300&amp;contract_MarketAgreement.type=A01&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 07:10:48 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Wed, 08 Apr 2026 13:10:25 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202512312300-202601072300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>
@@ -430,7 +430,7 @@ differently:</p>
 <span><span class="co">#&gt; $ ts_auction_type_def                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"Implicit"<span style="color: #949494;">, </span>"I…</span></span>
 <span><span class="co">#&gt; $ ts_business_type                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62"<span style="color: #949494;">, </span>"A62…</span></span>
 <span><span class="co">#&gt; $ ts_business_type_def                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spot price"<span style="color: #949494;">, </span>"Spo…</span></span>
-<span><span class="co">#&gt; $ created_date_time                   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-03-31 07:10:48<span style="color: #949494;">, </span>2026-03-31 07:10:48<span style="color: #949494;">, </span>2026-03-31 07:10:48<span style="color: #949494;">, </span>2026-03-31…</span></span>
+<span><span class="co">#&gt; $ created_date_time                   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-04-08 13:10:25<span style="color: #949494;">, </span>2026-04-08 13:10:25<span style="color: #949494;">, </span>2026-04-08 13:10:25<span style="color: #949494;">, </span>2026-04-08…</span></span>
 <span><span class="co">#&gt; $ revision_number                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1</span></span>
 <span><span class="co">#&gt; $ ts_resolution                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"P…</span></span>
 <span><span class="co">#&gt; $ ts_time_interval_start              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2025-12-31 23:00:00<span style="color: #949494;">, </span>2025-12-31 23:00:00<span style="color: #949494;">, </span>2026-01-01 23:00:00<span style="color: #949494;">, </span>2026-01-01 …</span></span>
@@ -439,7 +439,7 @@ differently:</p>
 <span><span class="co">#&gt; $ ts_point                            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span> [&lt;tbl_df[96 x 2]&gt;]<span style="color: #949494;">, </span>[&lt;tbl_df[96 x 2]&gt;]<span style="color: #949494;">, </span>[&lt;tbl_df[96 x 2]&gt;]<span style="color: #949494;">, </span>[&lt;tbl_df[96 x…</span></span>
 <span><span class="co">#&gt; $ ts_currency_unit_name               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR"<span style="color: #949494;">, </span>"EUR…</span></span>
 <span><span class="co">#&gt; $ ts_price_measure_unit_name          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MWH"<span style="color: #949494;">, </span>"MW…</span></span>
-<span><span class="co">#&gt; $ ts_classification_sequence_position <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2</span></span></code></pre></div>
+<span><span class="co">#&gt; $ ts_classification_sequence_position <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>2<span style="color: #949494;">, </span>1</span></span></code></pre></div>
 <p>With nested output, each row represents a time period, and all data
 points are stored in the <code>ts_point</code> list-column. This format
 preserves the original API structure and can be more efficient for
@@ -487,7 +487,7 @@ package handles this transparently through automatic pagination:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10Y1001A1001A82H&amp;out_Domain=10Y1001A1001A82H&amp;periodStart=202312312300&amp;periodEnd=202412302300&amp;contract_MarketAgreement.type=A01&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 07:10:52 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Wed, 08 Apr 2026 13:10:26 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202312312300-202412302300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>

@@ -4,12 +4,7 @@
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
-library(kableExtra)
-#> 
-#> Attaching package: 'kableExtra'
-#> The following object is masked from 'package:dplyr':
-#> 
-#>     group_rows
+suppressPackageStartupMessages(library(kableExtra))
 library(cli)
 library(ggplot2)
 ```
@@ -67,7 +62,7 @@ da_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YPL-AREA-----S&out_Domain=10YPL-AREA-----S&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:09:56 GMT
+#> <- date: Wed, 08 Apr 2026 13:09:48 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
 #> <- x-content-type-options: nosniff
@@ -97,7 +92,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def        <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit",…
 #> $ ts_business_type           <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62",…
 #> $ ts_business_type_def       <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spot price",…
-#> $ created_date_time          <dttm> 2026-03-31 07:09:56, 2026-03-31 07:09:56, 2026-03-31 07:09:56, 2026-03-31 07:09:56…
+#> $ created_date_time          <dttm> 2026-04-08 13:09:48, 2026-04-08 13:09:48, 2026-04-08 13:09:48, 2026-04-08 13:09:48…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution              <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start     <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00…

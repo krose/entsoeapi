@@ -11,8 +11,8 @@ netted_volumes_per_border(
   acquiring_eic = NULL,
   connecting_eic = NULL,
   process_type = NULL,
-  period_start = lubridate::ymd(Sys.Date() - lubridate::days(x = 7L), tz = "CET"),
-  period_end = lubridate::ymd(Sys.Date(), tz = "CET"),
+  period_start = ymd(Sys.Date() - days(x = 7L), tz = "CET"),
+  period_end = ymd(Sys.Date(), tz = "CET"),
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 )

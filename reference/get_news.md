@@ -34,46 +34,52 @@ entsoeapi::get_news()
 #> 
 #> ── ENTSO-E Transparency Platform News ──────────────────────────────────────────────────────────────────────────────────
 #> 
-#> ── Issues with the Transparency Platform API, subscriptions and File Library ──
+#> ── Transparency Platform Quarterly Newsletter subscription  ──
 #> 
-#> ℹ Mon, 30 Mar 2026 13:47:39 GMT
-#> Dear Transparency Platform users,We are currently experiencing issues affecting the availability of the API service. In
-#> addition, delays have been detected in Subscriptions and in the publication of new data in the File Library extracts.
-#> Our IT provider is actively investigating these disruptions as a priority, and working on a fix for them. Thank you for
-#> your understanding and apologies for the inconvenience caused.Kind regards,Transparency Platform team
-#> 
-#> ── TP PROD data publication delays ──
-#> 
-#> ℹ Thu, 26 Mar 2026 13:31:47 GMT
-#> Dear Transparency Platform users,The Transparency Platform is experiencing performance issues since 24th March 2026.
-#> These issues are affecting data processing, which is causing delays in data publication. Hence, please expect delays up
-#> to 10 hours for receiving the updates via all the download channels (API, FMS, Subscriptions and Website downloads).Our
-#> service provider is working on the issue with the highest priority.We sincerely apologize for the inconvenience and
-#> thank you for your patience and understanding.Best regards,Transparency Platform team
-#> 
-#> ── Reminder: Transparency Platform Quarterly Newsletter subscription  ──
-#> 
-#> ℹ Tue, 24 Mar 2026 12:18:19 GMT
+#> ℹ Tue, 07 Apr 2026 12:45:33 GMT
 #> Dear Transparency Platform users,We are pleased to introduce the Transparency Platform Quarterly Newsletter. This
 #> newsletter will cover topics such as feature releases, user group meeting announcements, planned events, and any
 #> service interruptions.To subscribe, please use the following LINK.Kind regards,Transparency Platform team 
 #> 
-#> ── Missing Energy Prices [12.1.D] on 11/03/2026 for Multiple Bidding Zones ──
+#> ── PSE: Republication of data under Article 12.1.f  ──
 #> 
-#> ℹ Wed, 11 Mar 2026 10:35:00 GMT
-#> Dear Transparency Platform users,Please be informed that Energy Prices [12.1.D] for multiple bidding zones provided by
-#> data provider JAO - [DE_LU Sequence 1, GR, HR, HU, NL, RO, SK] - are currently missing on the Transparency Platform
-#> starting from 11/03/2026 because of no submissions. The data provider has been notified.Data for Energy Prices [12.1.D]
-#> bidding zone DE_LU Sequence 2 provided by Tennet DE, is also missing starting from 11/03/2026. The data provider has
-#> been notified.We sincerely apologize for the inconvenience and thank you for your patience and understanding.Best
+#> ℹ Fri, 03 Apr 2026 11:59:36 GMT
+#> Dear Transparency Platform users,Polskie Sieci Elektroenergetyczne (PSE) hereby informs stakeholders of the
+#> republication of data released pursuant to Article 12.1.f. The updated dataset now covers the period commencing on 19
+#> March 2025. The data have been republished for both directions, and no netting has been applied.We extend our sincere
+#> apologies for any inconvenience this republication may have caused.Kind regards,Transparency Platform team on behalf of
+#> PSE
+#> 
+#> ── R3.19.0.3 on Thursday 02.04.2026 at 15:00 - 16:30 CEST ──
+#> 
+#> ℹ Wed, 01 Apr 2026 14:56:52 GMT
+#> Dear Transparency Platform Users,The deployment of TP Release R3.19.0.3 on the PROD environment is scheduled to begin
+#> on Thursday, 2nd April 2026 at 15:00 CEST.Please note that the platform will be unavailable for up to 90 minutes during
+#> this deployment window.Scope of Release R3.19.0.3:Publications & Filtering:Wrong resolution published in 11.1. Flow
+#> based processed (PT15M→PT60M)Time Horizon & Source published as codes for 17.1.B&C Volumes and Prices of the Contracted
+#> Balancing ReservesForecasted Transfer Capacities [11.1] data published with incorrect time zone10.1.A&B Unavailability
+#> Transmission Grid - Improvements to filters and sortingGUI Exports improvements:10.1.A&B Unavailability in Transmission
+#> Grid - Unexpected error while downloading data12.3.E - Aggregated Balancing Energy Bids – XML export results in
+#> errorGUI Performance Improvements:15.1.ABCD - Unavailability of Production & Generation Units chart doesn't
+#> load"Published Network Elements" data view errorsOther Marker Information[OMI] - unexpected error12.1.D Energy Prices
+#> for DE‑LU Data view errorREST API improvements:Use of the Transfer Capacity [12.1.A] returns wrong periodsAll Outages 4
+#> parameters (periodStart, periodEnd, PeriodStartUpdate, PeriodEndUpdate) are ignored when MRID is included11.1
+#> Continuous Evolution - Contract_MarketAgreement.Type should remain an optional parameter13.1.A - Redispatches
+#> [Internal, Cross Border] , 13.1.B - Contertrading - Corrections to attributes in XML downloads and API responseBest
 #> regards,Transparency Platform Team
 #> 
-#> ── HOPS: Planned maintenance of the IT infrastructure on 11th of March 2026 ──
+#> ── TP PROD Maintenance on 26.03.2026 at 15:00 CET up to 2 hrs ──
 #> 
-#> ℹ Tue, 10 Mar 2026 09:48:07 GMT
-#> Dear Transparency Platform users,Please be informed that maintenance works on HOPS’s systems will take place on 11
-#> March 2026 from 15:00 to 20:00 CET.During this period, there may be potential interruptions in the publication of data
-#> on the ENTSO-E Transparency Platform, where certain data may be temporarily unavailable or published with a delay.After
-#> the maintenance HOPS will re-upload all missing data to PRO TP.Kind regards,Transparency Platform team on behalf of
-#> HOPS
+#> ℹ Wed, 01 Apr 2026 09:58:16 GMT
+#> Dear Transparency Platform users,Transparency Platform Service Provider will be performing a planned maintenance on
+#> 26.03.2026 at 15:00 CET with up to 2 hours outage of the TP PROD environment. During outage period, the Transparency
+#> Platform will not be available.Thank you in advance for your understanding.Best regards,Transparency Platform team
+#> 
+#> ── TP PROD Emergency Maintenance on 04.03.2026 at 17:00 CET up to 1hr ──
+#> 
+#> ℹ Wed, 01 Apr 2026 09:58:10 GMT
+#> Dear Transparency Platform users,Due to the performance issue Service Provider will be perform an emergency outage of
+#> the TP PROD environment.During outage period, the Transparency Platform will not be fully available.The outage will
+#> take place today at 17:00 CET and is expected to last approximately 60 minutes.Thank you in advance for your
+#> understanding.Best regards,Transparency Platform team
 ```

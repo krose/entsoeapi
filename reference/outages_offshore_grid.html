@@ -13,7 +13,7 @@ is provided."><meta property="og:image" content="https://krose.github.io/entsoea
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ is provided."><meta property="og:image" content="https://krose.github.io/entsoea
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Unavailability of Offshore Grid Infrastructure. (10.1.C)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.1.0/R/en_outages.R" class="external-link"><code>R/en_outages.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_outages.R" class="external-link"><code>R/en_outages.R</code></a></small>
       <div class="d-none name"><code>outages_offshore_grid.Rd</code></div>
     </div>
 
@@ -131,38 +131,45 @@ Defaults to NULL.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A79&amp;biddingZone_Domain=10Y1001A1001A82H&amp;periodStart=202602282300&amp;periodEnd=202603302200&amp;securityToken=&lt;...&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=A79&amp;biddingZone_Domain=10Y1001A1001A82H&amp;periodStart=202603082300&amp;periodEnd=202604072200&amp;securityToken=&lt;...&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/2 200 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Tue, 31 Mar 2026 07:08:41 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">date</span>: Wed, 08 Apr 2026 13:09:12 GMT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-type</span>: application/zip</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 21607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-length</span>: 28811</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">content-disposition</span>: attachment; filename="Unavailability_of_offshore_grid_202602221637-202606012159.zip"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> response has arrived</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202603031122-202606012159.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202603111106-202603121730.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241229-202603241242.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/017-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241230-202603241242.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/018-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/019-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/020-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242201.xml has been read in</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpOM3dmL/021-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242230.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202602221637-202603101912.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202603031122-202606012159.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202603111106-202603121730.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121828.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202603121559-202603121840.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603152208.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202603151834-202603240917.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241229-202603241242.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/017-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241230-202603241242.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/018-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/019-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603241439.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/020-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242201.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/021-UNAVAILABILITY_OF_OFFSHORE_GRID_202603241401-202603242230.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/022-UNAVAILABILITY_OF_OFFSHORE_GRID_202604010943-202604011358.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/023-UNAVAILABILITY_OF_OFFSHORE_GRID_202604062002-202604092159.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/024-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/025-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/026-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/027-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> /tmp/RtmpnNDu8x/028-UNAVAILABILITY_OF_OFFSHORE_GRID_202604071351-202604071541.xml has been read in</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
@@ -172,117 +179,158 @@ Defaults to NULL.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■                         </span>  19% | ETA:  8s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  48% | ETA:  3s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA: 12s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> processing xml list <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional type names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 205,865</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Rows: 211,107</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Columns: 27</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_bidding_zone_domain_mrid        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10Y1001A1001A82H"<span style="color: #949494;">, </span>"10Y1001A1001A82H"<span style="color: #949494;">, </span>"10Y1001A1001A82H"<span style="color: #949494;">, </span>"10Y1001A1001A8…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ ts_bidding_zone_domain_name        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Germany_Luxemburg"<span style="color: #949494;">, </span>"Germany_Luxemburg"<span style="color: #949494;">, </span>"Germany_Luxemburg"<span style="color: #949494;">, </span>"Germany_Lux…</span>

@@ -94,16 +94,16 @@ df <- entsoeapi::exchanged_volumes_per_border(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A30&processType=A60&Acquiring_domain=10YBE----------2&Connecting_Domain=10YFR-RTE------C&periodStart=202502282300&periodEnd=202503012300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Tue, 31 Mar 2026 07:05:23 GMT
+#> <- date: Wed, 08 Apr 2026 13:08:19 GMT
 #> <- content-type: application/zip
-#> <- content-length: 1179
+#> <- content-length: 1180
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes per Border_202502282300-202503012300.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpOM3dmL/001-NETTED_AND_EXCHANGED_VOLUMES_PER_BORDER_202502282300-202503012300.xml has been read in
+#> ✔ /tmp/RtmpnNDu8x/001-NETTED_AND_EXCHANGED_VOLUMES_PER_BORDER_202502282300-202503012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 
@@ -122,7 +122,7 @@ dplyr::glimpse(df)
 #> $ process_type_def              <chr> "Scheduled activation mFRR", "Scheduled activation mFRR", "Scheduled activation …
 #> $ ts_business_type              <chr> "A45", "A45", "A45", "A45", "A45", "A45", "A45", "A45", "A45", "A45", "A45", "A4…
 #> $ ts_business_type_def          <chr> "Schedule activated reserves", "Schedule activated reserves", "Schedule activate…
-#> $ created_date_time             <dttm> 2026-03-31 07:05:23, 2026-03-31 07:05:23, 2026-03-31 07:05:23, 2026-03-31 07:05…
+#> $ created_date_time             <dttm> 2026-04-08 13:08:19, 2026-04-08 13:08:19, 2026-04-08 13:08:19, 2026-04-08 13:08…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M",…
 #> $ ts_time_interval_start        <dttm> 2025-02-28 23:00:00, 2025-02-28 23:00:00, 2025-02-28 23:00:00, 2025-02-28 23:00…
