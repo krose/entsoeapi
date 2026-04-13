@@ -111,7 +111,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStartUpdate=202604052200&periodEndUpdate=202604122200&periodStart=202604132200&periodEnd=202604142200&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:12:58 GMT
+#> <- date: Mon, 13 Apr 2026 08:52:25 GMT
 #> <- content-type: application/zip
 #> <- content-length: 2141
 #> <- content-disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202603090630-202604171500.zip"
@@ -120,8 +120,8 @@ df <- entsoeapi::outages_transmission_grid(
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpptwzjC/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
-#> ✔ /tmp/RtmpptwzjC/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603260630-202604171500.xml has been read in
+#> ✔ /tmp/RtmpB1aCB1/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603090630-202604151500.xml has been read in
+#> ✔ /tmp/RtmpB1aCB1/002-UNAVAILABILITY_IN_TRANSMISSION_GRID_202603260630-202604171500.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

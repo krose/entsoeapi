@@ -429,7 +429,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Power Resources</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total resources: {nrow(resources)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total resources: 34671</span></span>
+<span><span class="co">#&gt; Total resources: 34672</span></span>
 <span></span>
 <span><span class="co"># Find German power plants</span></span>
 <span><span class="va">resources</span> <span class="op">|&gt;</span></span>
@@ -531,7 +531,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">All Approved EICs</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total EICs: {nrow(all_eic)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total EICs: 70782</span></span>
+<span><span class="co">#&gt; Total EICs: 70783</span></span>
 <span></span>
 <span><span class="co"># Count by type</span></span>
 <span><span class="va">all_eic</span> <span class="op">|&gt;</span></span>
@@ -541,9 +541,9 @@ organized by entity type:</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; |type |     n|   pct|</span></span>
 <span><span class="co">#&gt; |:----|-----:|-----:|</span></span>
-<span><span class="co">#&gt; |W    | 34671| 48.98|</span></span>
+<span><span class="co">#&gt; |W    | 34672| 48.98|</span></span>
 <span><span class="co">#&gt; |X    | 14917| 21.07|</span></span>
-<span><span class="co">#&gt; |T    | 12985| 18.35|</span></span>
+<span><span class="co">#&gt; |T    | 12985| 18.34|</span></span>
 <span><span class="co">#&gt; |A    |  2848|  4.02|</span></span>
 <span><span class="co">#&gt; |Z    |  2519|  3.56|</span></span>
 <span><span class="co">#&gt; |Y    |  1791|  2.53|</span></span>
@@ -624,7 +624,7 @@ characteristics:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">public download</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> pulling A_eicCodes.csv file from cache</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">approved_eic</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 70,782</span></span>
+<span><span class="co">#&gt; Rows: 70,783</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
 <span><span class="co">#&gt; $ eic_code                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "26X00000001515-Y"<span style="color: #949494;">, </span>"26X00000105734-O"<span style="color: #949494;">, </span>"26X00000105740-W"<span style="color: #949494;">, </span>"10X1001A1001A…</span></span>
 <span><span class="co">#&gt; $ eic_display_name                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "LA_220"<span style="color: #949494;">, </span>"IT-GEO____SPA"<span style="color: #949494;">, </span>"IT-BETA_ENERGYS"<span style="color: #949494;">, </span>"ELIA"<span style="color: #949494;">, </span>"ENERGINET-DK"<span style="color: #949494;">, </span>"FIN…</span></span>
@@ -668,17 +668,17 @@ characteristics:</p>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">ETag</span>: "0x8DE98FA1CEB6EF9"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Vary</span>: Origin</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Server</span>: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-request-id</span>: a66c332d-301e-0092-341d-cbef3c000000</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-request-id</span>: b2ff9275-b01e-00b3-6c23-cbcb47000000</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-version</span>: 2014-02-14</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-lease-status</span>: unlocked</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-lease-state</span>: available</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-blob-type</span>: BlockBlob</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 13 Apr 2026 08:14:47 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 13 Apr 2026 08:54:20 GMT</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> response has arrived</span></span>
-<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■                          </span>  15% | ETA:  6s</span></span>
-<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  46% | ETA:  4s</span></span>
-<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  93% | ETA:  0s</span></span>
+<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA:  6s</span></span>
+<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% | ETA:  5s</span></span>
+<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  75% | ETA:  2s</span></span>
 <span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">allocated_eic</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Rows: 74,187</span></span>
@@ -922,7 +922,7 @@ characteristics:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10YES-REE------0&amp;out_Domain=10YES-REE------0&amp;periodStart=202512312300&amp;periodEnd=202601032300&amp;contract_MarketAgreement.type=A07&amp;securityToken=&lt;...&gt;</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Mon, 13 Apr 2026 08:15:09 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Mon, 13 Apr 2026 08:54:43 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202512312300-202601032300.xml"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>

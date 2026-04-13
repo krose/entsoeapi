@@ -321,7 +321,7 @@ cli_h1("Power Resources")
 #> 
 #> ── Power Resources ─────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total resources: {nrow(resources)}")
-#> Total resources: 34671
+#> Total resources: 34672
 
 # Find German power plants
 resources |>
@@ -425,7 +425,7 @@ cli_h1("All Approved EICs")
 #> 
 #> ── All Approved EICs ───────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total EICs: {nrow(all_eic)}")
-#> Total EICs: 70782
+#> Total EICs: 70783
 
 # Count by type
 all_eic |>
@@ -435,9 +435,9 @@ all_eic |>
   cat(sep = "\n")
 #> |type |     n|   pct|
 #> |:----|-----:|-----:|
-#> |W    | 34671| 48.98|
+#> |W    | 34672| 48.98|
 #> |X    | 14917| 21.07|
-#> |T    | 12985| 18.35|
+#> |T    | 12985| 18.34|
 #> |A    |  2848|  4.02|
 #> |Z    |  2519|  3.56|
 #> |Y    |  1791|  2.53|
@@ -490,7 +490,7 @@ approved_eic <- all_approved_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling A_eicCodes.csv file from cache
 glimpse(approved_eic)
-#> Rows: 70,782
+#> Rows: 70,783
 #> Columns: 11
 #> $ eic_code                            <chr> "26X00000001515-Y", "26X00000105734-O", "26X00000105740-W", "10X1001A1001A…
 #> $ eic_display_name                    <chr> "LA_220", "IT-GEO____SPA", "IT-BETA_ENERGYS", "ELIA", "ENERGINET-DK", "FIN…
@@ -535,17 +535,17 @@ allocated_eic <- all_allocated_eic()
 #> <- ETag: "0x8DE98FA1CEB6EF9"
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: a66c332d-301e-0092-341d-cbef3c000000
+#> <- x-ms-request-id: b2ff9275-b01e-00b3-6c23-cbcb47000000
 #> <- x-ms-version: 2014-02-14
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-lease-state: available
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Mon, 13 Apr 2026 08:14:47 GMT
+#> <- Date: Mon, 13 Apr 2026 08:54:20 GMT
 #> <-
 #> ✔ response has arrived
-#> converting ■■■■■■                            15% | ETA:  6s
-#> converting ■■■■■■■■■■■■■■■                   46% | ETA:  4s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% | ETA:  0s
+#> converting ■■■■■                             14% | ETA:  6s
+#> converting ■■■■■■■■■■■■                      36% | ETA:  5s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■           75% | ETA:  2s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 glimpse(allocated_eic)
 #> Rows: 74,187
@@ -794,7 +794,7 @@ es_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202512312300&periodEnd=202601032300&contract_MarketAgreement.type=A07&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:15:09 GMT
+#> <- date: Mon, 13 Apr 2026 08:54:43 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601032300.xml"
 #> <- x-content-type-options: nosniff

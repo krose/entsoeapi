@@ -70,7 +70,7 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A72&processType=A16&in_Domain=10YFR-RTE------C&periodStart=201912312300&periodEnd=202001302300&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:12:24 GMT
+#> <- date: Mon, 13 Apr 2026 08:51:45 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Aggregate Filling Rate of Water Reservoirs_201912312300-202001302300.xml"
 #> <- x-content-type-options: nosniff
@@ -97,7 +97,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area"
 #> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01"
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production"
-#> $ created_date_time               <dttm> 2026-04-13 08:12:24, 2026-04-13 08:12:24, 2026-04-13 08:12:24, 2026-04-13 08:1…
+#> $ created_date_time               <dttm> 2026-04-13 08:51:45, 2026-04-13 08:51:45, 2026-04-13 08:51:45, 2026-04-13 08:5…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1
 #> $ time_period_time_interval_start <dttm> 2019-12-29 23:00:00, 2019-12-29 23:00:00, 2019-12-29 23:00:00, 2019-12-29 23:0…
 #> $ time_period_time_interval_end   <dttm> 2020-02-02 23:00:00, 2020-02-02 23:00:00, 2020-02-02 23:00:00, 2020-02-02 23:0…
