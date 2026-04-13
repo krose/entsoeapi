@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   issues: write
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Check if biweek (only run on even weeks)
         run: |
-          week=${{ steps.week.outputs.week }}
+          week="${{ steps.week.outputs.week }}"
           if [ $((10#$week % 2)) -ne 0 ]; then
             echo "Skipping - odd week ($week)"
             exit 0
@@ -40,8 +40,7 @@ jobs:
           # Get the full line containing the highest version, then extract the date
           # Format: "*   Mar 2, 2026 - Version 94 of the ENTSO-E Code list is published."
           line=$(echo "$response" | grep "Version $version " | head -1)
-          date=$(echo "$line" | grep -oP '[A-Z][a-z]{2}\s+\d{1,2},\s+\d{4} | head -1')
-          date=$(echo $date | head -1)
+          date=$(echo "$line" | grep -oP '[A-Z][a-z]{2}\s+\d{1,2},\s+\d{4}' | head -1)
 
           if [ -z "$version" ]; then
             echo "Failed to extract version number"
@@ -68,7 +67,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          version=${{ steps.fetch.outputs.version }}
+          version="${{ steps.fetch.outputs.version }}"
 
           # Search for existing issues about this version
           existing=$(gh issue list --state open --search "Code List Version $version" --json number --jq '.[0].number')
@@ -85,9 +84,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          version=${{ steps.fetch.outputs.version }}
-          date=${{ steps.fetch.outputs.date }}
-          stored_version=${{ steps.stored.outputs.stored_version }}
+          version="${{ steps.fetch.outputs.version }}"
+          date="${{ steps.fetch.outputs.date }}"
+          stored_version="${{ steps.stored.outputs.stored_version }}"
 
           if [ "$version" -gt "$stored_version" ]; then
             gh issue create \
@@ -111,7 +110,7 @@ jobs:
       - name: Update stored version
         if: steps.check.outputs.exists == 'false'
         run: |
-          version=${{ steps.fetch.outputs.version }}
+          version="${{ steps.fetch.outputs.version }}"
           echo "$version" > .github/CODELIST_VERSION
 
       - name: Commit updated version file
