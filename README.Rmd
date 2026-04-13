@@ -193,6 +193,4 @@ entsoeapi::gen_per_prod_type(
 
 ## Code of Conduct
 
-## Code of Conduct
-
 Please note that the entsoeapi project is released with a [Contributor Code of Conduct](https://krose.github.io/entsoeapi/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

@@ -1,0 +1,130 @@
+# Workflow to check for ENTSO-E Code List version updates
+# Runs biweekly on Monday at 8:00 AM UTC
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-codelist-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get current week number
+        id: week
+        run: echo "week=$(date +%V)" >> $GITHUB_OUTPUT
+
+      - name: Check if biweek (only run on even weeks)
+        run: |
+          week=${{ steps.week.outputs.week }}
+          if [ $((10#$week % 2)) -ne 0 ]; then
+            echo "Skipping - odd week ($week)"
+            exit 0
+          fi
+          echo "Running - even week ($week)"
+
+      - name: Fetch ENTSO-E Code List page
+        id: fetch
+        run: |
+          response=$(curl -s "https://www.entsoe.eu/publications/electronic-data-interchange-edi-library/")
+
+          # Extract all version numbers and find the highest one
+          version=$(echo "$response" | grep -oP 'Version\s+\K\d+' | sort -n | tail -1)
+
+          # Get the full line containing the highest version, then extract the date
+          # Format: "*   Mar 2, 2026 - Version 94 of the ENTSO-E Code list is published."
+          line=$(echo "$response" | grep "Version $version " | head -1)
+          date=$(echo "$line" | grep -oP '[A-Z][a-z]{2}\s+\d{1,2},\s+\d{4} | head -1')
+          date=$(echo $date | head -1)
+
+          if [ -z "$version" ]; then
+            echo "Failed to extract version number"
+            exit 1
+          fi
+
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "date=$date" >> $GITHUB_OUTPUT
+          echo "Latest version: $version (published: $date)"
+
+      - name: Read stored version
+        id: stored
+        run: |
+          if [ -f .github/CODELIST_VERSION ]; then
+            stored_version=$(cat .github/CODELIST_VERSION)
+          else
+            stored_version="0"
+          fi
+          echo "stored_version=$stored_version" >> $GITHUB_OUTPUT
+          echo "Stored version: $stored_version"
+
+      - name: Check existing issues for version
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=${{ steps.fetch.outputs.version }}
+
+          # Search for existing issues about this version
+          existing=$(gh issue list --state open --search "Code List Version $version" --json number --jq '.[0].number')
+
+          if [ -n "$existing" ]; then
+            echo "Issue already exists: #$existing"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create issue if new version found
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=${{ steps.fetch.outputs.version }}
+          date=${{ steps.fetch.outputs.date }}
+          stored_version=${{ steps.stored.outputs.stored_version }}
+
+          if [ "$version" -gt "$stored_version" ]; then
+            gh issue create \
+              --title "ENTSO-E Code List Version $version available" \
+              --body "A new version of the ENTSO-E Code List has been published.
+
+          **Version:** $version
+          **Published:** $date
+          **Previous version:** $stored_version
+
+          **Action required:**
+          - [ ] Review the changelog/release notes at ENTSO-E
+          - [ ] Update package documentation if needed
+          - [ ] Verify compatibility with current implementation
+
+          ---
+          *This issue was automatically created by the Code List version checker.*" \
+              --label "enhancement"
+          fi
+
+      - name: Update stored version
+        if: steps.check.outputs.exists == 'false'
+        run: |
+          version=${{ steps.fetch.outputs.version }}
+          echo "$version" > .github/CODELIST_VERSION
+
+      - name: Commit updated version file
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/CODELIST_VERSION
+          if ! git diff --staged --quiet; then
+            git commit -m "Update Code List version to ${{ steps.fetch.outputs.version }}"
+            git push
+          else
+            echo "No changes to commit"
+          fi
