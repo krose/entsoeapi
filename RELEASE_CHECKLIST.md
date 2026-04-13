@@ -44,7 +44,10 @@ unexpected errors
 
 Run `devtools::test()` — all tests pass, no unexpected skips
 
-`devtools::test_coverage()` — no significant test coverage regression
+Run `devtools::test_coverage()` — no significant test coverage
+regression
+
+Run `semgrep ci` in CLI — to check security vulnerabilities
 
 ## 4. R CMD CHECK
 

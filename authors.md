@@ -9,7 +9,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/krose/entsoeapi/blob/v1.1.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/krose/entsoeapi/blob/main/DESCRIPTION)
 
 Rose K, Budai S (2026). *entsoeapi: Client for the 'ENTSO-E'
 Transparency Platform API*. R package version 1.1.1,

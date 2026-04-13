@@ -91,16 +91,16 @@ df <- entsoeapi::exchanged_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A51&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208160000&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:14:19 GMT
+#> <- date: Mon, 13 Apr 2026 08:11:59 GMT
 #> <- content-type: application/zip
-#> <- content-length: 17785
+#> <- content-length: 17788
 #> <- content-disposition: attachment; filename="Netted and Exchanged Volumes [IFs IN 3.10, mFRR 3.17, aFRR 3.16]_202208152200-202208160000.zip"
 #> <- x-content-type-options: nosniff
 #> <- x-xss-protection: 0
 #> <- strict-transport-security: max-age=15724800; includeSubDomains
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpSXB21U/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208160000.xml has been read in
+#> ✔ /tmp/RtmpptwzjC/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208160000.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -122,7 +122,7 @@ dplyr::glimpse(df)
 #> $ process_type_def              <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration rese…
 #> $ ts_business_type              <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B0…
 #> $ ts_business_type_def          <chr> "Net position", "Net position", "Net position", "Net position", "Net position", …
-#> $ created_date_time             <dttm> 2026-04-08 13:14:19, 2026-04-08 13:14:19, 2026-04-08 13:14:19, 2026-04-08 13:14…
+#> $ created_date_time             <dttm> 2026-04-13 08:11:59, 2026-04-13 08:11:59, 2026-04-13 08:11:59, 2026-04-13 08:11…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", …
 #> $ ts_time_interval_start        <dttm> 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00…

@@ -147,7 +147,7 @@ cli_h1("Market Participants")
 #> 
 #> ── Market Participants ─────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total parties: {nrow(parties)}")
-#> Total parties: 14911
+#> Total parties: 14917
 
 # Find German TSOs
 parties |>
@@ -255,7 +255,7 @@ cli_h1("Tie Lines (Interconnectors)")
 #> 
 #> ── Tie Lines (Interconnectors) ─────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total interconnectors: {nrow(tie_lines)}")
-#> Total interconnectors: 12987
+#> Total interconnectors: 12985
 
 # Find German interconnectors
 tie_lines |>
@@ -321,7 +321,7 @@ cli_h1("Power Resources")
 #> 
 #> ── Power Resources ─────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total resources: {nrow(resources)}")
-#> Total resources: 34659
+#> Total resources: 34671
 
 # Find German power plants
 resources |>
@@ -425,7 +425,7 @@ cli_h1("All Approved EICs")
 #> 
 #> ── All Approved EICs ───────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total EICs: {nrow(all_eic)}")
-#> Total EICs: 70766
+#> Total EICs: 70782
 
 # Count by type
 all_eic |>
@@ -435,13 +435,13 @@ all_eic |>
   cat(sep = "\n")
 #> |type |     n|   pct|
 #> |:----|-----:|-----:|
-#> |W    | 34659| 48.98|
-#> |X    | 14911| 21.07|
-#> |T    | 12987| 18.35|
+#> |W    | 34671| 48.98|
+#> |X    | 14917| 21.07|
+#> |T    | 12985| 18.35|
 #> |A    |  2848|  4.02|
 #> |Z    |  2519|  3.56|
 #> |Y    |  1791|  2.53|
-#> |V    |  1051|  1.49|
+#> |V    |  1051|  1.48|
 ```
 
 ## all_approved_eic() vs all_allocated_eic()
@@ -490,7 +490,7 @@ approved_eic <- all_approved_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling A_eicCodes.csv file from cache
 glimpse(approved_eic)
-#> Rows: 70,766
+#> Rows: 70,782
 #> Columns: 11
 #> $ eic_code                            <chr> "26X00000001515-Y", "26X00000105734-O", "26X00000105740-W", "10X1001A1001A…
 #> $ eic_display_name                    <chr> "LA_220", "IT-GEO____SPA", "IT-BETA_ENERGYS", "ELIA", "ENERGINET-DK", "FIN…
@@ -527,31 +527,31 @@ allocated_eic <- all_allocated_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ downloading all_allocated_eic table ...
 #> <- HTTP/1.1 200 OK
-#> <- Content-Length: 67280758
+#> <- Content-Length: 67295664
 #> <- Content-Type: application/octet-stream
-#> <- Content-MD5: +pkG6/+kJwvu08Ww4zeXmw==
-#> <- Last-Modified: Wed, 08 Apr 2026 01:15:11 GMT
+#> <- Content-MD5: JsBSS8Yq6SiYAT1SZT5MOA==
+#> <- Last-Modified: Mon, 13 Apr 2026 01:15:12 GMT
 #> <- Accept-Ranges: bytes
-#> <- ETag: "0x8DE950C4828B1DB"
+#> <- ETag: "0x8DE98FA1CEB6EF9"
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: 1e44d6d5-601e-006b-415a-c7ec1e000000
+#> <- x-ms-request-id: a66c332d-301e-0092-341d-cbef3c000000
 #> <- x-ms-version: 2014-02-14
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-lease-state: available
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Wed, 08 Apr 2026 13:17:27 GMT
+#> <- Date: Mon, 13 Apr 2026 08:14:47 GMT
 #> <-
 #> ✔ response has arrived
-#> converting ■■■■■                             14% | ETA:  6s
-#> converting ■■■■■■■■■■■■                      37% | ETA:  5s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■■          77% | ETA:  2s
+#> converting ■■■■■■                            15% | ETA:  6s
+#> converting ■■■■■■■■■■■■■■■                   46% | ETA:  4s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% | ETA:  0s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 glimpse(allocated_eic)
-#> Rows: 74,169
+#> Rows: 74,187
 #> Columns: 17
 #> $ revision_number                              <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", …
-#> $ created_date_time                            <chr> "2026-04-08T01:15:10Z", "2026-04-08T01:15:10Z", "2026-04-08T01:15…
+#> $ created_date_time                            <chr> "2026-04-13T01:15:10Z", "2026-04-13T01:15:10Z", "2026-04-13T01:15…
 #> $ eic_code                                     <chr> "10T-1001-10010AS", "10T1001A1001A012", "10T1001A1001A020", "10T1…
 #> $ doc_status_value                             <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A…
 #> $ doc_status                                   <chr> "Control block area schedule", "Control block area schedule", "Co…
@@ -585,7 +585,7 @@ allocated_eic |>
 #> |                                             |                            |
 #> |:--------------------------------------------|:---------------------------|
 #> |revision_number                              |1                           |
-#> |created_date_time                            |2026-04-08T01:15:10Z        |
+#> |created_date_time                            |2026-04-13T01:15:10Z        |
 #> |eic_code                                     |50WG00000001997X            |
 #> |doc_status_value                             |A05                         |
 #> |doc_status                                   |Control block area schedule |
@@ -794,7 +794,7 @@ es_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202512312300&periodEnd=202601032300&contract_MarketAgreement.type=A07&securityToken=<...>
 #> <- HTTP/2 200 
-#> <- date: Wed, 08 Apr 2026 13:17:48 GMT
+#> <- date: Mon, 13 Apr 2026 08:15:09 GMT
 #> <- content-type: text/xml
 #> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601032300.xml"
 #> <- x-content-type-options: nosniff
