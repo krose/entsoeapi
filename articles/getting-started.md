@@ -27,6 +27,7 @@ To use the ENTSO-E Transparency Platform API, you need a security token:
 3.  Set the `ENTSOE_PAT` environment variable in your .Renviron file:
 
 ``` r
+
 usethis::edit_r_environ()
 ```
 
@@ -42,6 +43,7 @@ ENTSOE_PAT=your_token_here
 Install the development version from GitHub:
 
 ``` r
+
 # Install from GitHub
 remotes::install_github("krose/entsoeapi")
 
@@ -52,6 +54,7 @@ install.packages("entsoeapi")
 Load the packages:
 
 ``` r
+
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
@@ -66,6 +69,7 @@ The
 function checks if the ENTSO-E API is reachable:
 
 ``` r
+
 # Check if the API is accessible
 there_is_provider()
 #> [1] TRUE
@@ -80,50 +84,46 @@ Platform RSS feed. This is useful for checking planned maintenance
 windows or data publication delays before running a batch of queries:
 
 ``` r
+
 # Show the latest 3 news items
 get_news(n = 3L)
 #> 
 #> ── ENTSO-E Transparency Platform News ──────────────────────────────────────────────────────────────────────────────────
 #> 
-#> ── Transparency Platform Quarterly Newsletter subscription  ──
+#> ── Incorrect values for Belgian Day-Ahead generation forecast - 14.1.C ──
 #> 
-#> ℹ Tue, 07 Apr 2026 12:45:33 GMT
-#> Dear Transparency Platform users,We are pleased to introduce the Transparency Platform Quarterly Newsletter. This
-#> newsletter will cover topics such as feature releases, user group meeting announcements, planned events, and any
-#> service interruptions.To subscribe, please use the following LINK.Kind regards,Transparency Platform team
+#> ℹ Wed, 23 Sep 2026 09:06:36 GMT
+#> Dear Transparency Platform users,Since 1 September, there have been issues affecting the Belgium Day-Ahead Generation
+#> Forecast (14.1.C), causing the published values to be incorrect and unusable. Elia is actively working to resolve the
+#> issue as quickly as possible and apologizes for any inconvenience caused.Thanks for your understanding. Kind
+#> regards,Transparency Platform team on behalf of Elia
 #> 
-#> ── PSE: Republication of data under Article 12.1.f  ──
+#> ── Transparency Platform Web API and Subscriptions Service Disruption ──
 #> 
-#> ℹ Fri, 03 Apr 2026 11:59:36 GMT
-#> Dear Transparency Platform users,Polskie Sieci Elektroenergetyczne (PSE) hereby informs stakeholders of the
-#> republication of data released pursuant to Article 12.1.f. The updated dataset now covers the period commencing on 19
-#> March 2025. The data have been republished for both directions, and no netting has been applied.We extend our sincere
-#> apologies for any inconvenience this republication may have caused.Kind regards,Transparency Platform team on behalf of
-#> PSE
+#> ℹ Tue, 22 Sep 2026 15:39:58 GMT
+#> Dear Transparency Platform users,We would like to inform you about the Transparency Platform delays from the Web API
+#> and Subscriptions since 14:05 CEST, due to an Azure infrastructure incident impacting several TP services. We are
+#> waiting for a resolution before full service can be restored.We understand the impact that this disruption may have on
+#> automated processes and data retrieval activities, and we apologize for the inconvenience caused.We will provide
+#> further updates as soon as more information becomes available or the service can be restored.In the meantime, the
+#> Transparency Platform File Library (including FMS API) remain functional (link to the guide).Thank you for your
+#> patience and understanding.Kind regards,Transparency Platform team
 #> 
-#> ── R3.19.0.3 on Thursday 02.04.2026 at 15:00 - 16:30 CEST ──
+#> ── HOPS: Delays of Balancing publications for Croatia ──
 #> 
-#> ℹ Wed, 01 Apr 2026 14:56:52 GMT
-#> Dear Transparency Platform Users,The deployment of TP Release R3.19.0.3 on the PROD environment is scheduled to begin
-#> on Thursday, 2nd April 2026 at 15:00 CEST.Please note that the platform will be unavailable for up to 90 minutes during
-#> this deployment window.Scope of Release R3.19.0.3:Publications & Filtering:Wrong resolution published in 11.1. Flow
-#> based processed (PT15M→PT60M)Time Horizon & Source published as codes for 17.1.B&C Volumes and Prices of the Contracted
-#> Balancing ReservesForecasted Transfer Capacities [11.1] data published with incorrect time zone10.1.A&B Unavailability
-#> Transmission Grid - Improvements to filters and sortingGUI Exports improvements:10.1.A&B Unavailability in Transmission
-#> Grid - Unexpected error while downloading data12.3.E - Aggregated Balancing Energy Bids – XML export results in
-#> errorGUI Performance Improvements:15.1.ABCD - Unavailability of Production & Generation Units chart doesn't
-#> load"Published Network Elements" data view errorsOther Marker Information[OMI] - unexpected error12.1.D Energy Prices
-#> for DE‑LU Data view errorREST API improvements:Use of the Transfer Capacity [12.1.A] returns wrong periodsAll Outages 4
-#> parameters (periodStart, periodEnd, PeriodStartUpdate, PeriodEndUpdate) are ignored when MRID is included11.1
-#> Continuous Evolution - Contract_MarketAgreement.Type should remain an optional parameter13.1.A - Redispatches
-#> [Internal, Cross Border] , 13.1.B - Contertrading - Corrections to attributes in XML downloads and API responseBest
-#> regards,Transparency Platform Team
+#> ℹ Mon, 21 Sep 2026 14:36:47 GMT
+#> Dear Transparency Platform users,Please be informed that Balancing publication (Prices of Activated Balancing Energy
+#> and Aggregated Balancing Energy Bids for mFRR) are currently delayed due to technical issues.HOPS is working on
+#> resolving unexpected issues and restoring the regular publication of the data as soon as possible.Please accept HOPS
+#> apologies for any inconvenience and thank you for your understanding.Kind regards,Transparency Platform team on behalf
+#> of HOPS
 ```
 
 The result is returned invisibly as a tibble, so you can also capture
 and filter it:
 
 ``` r
+
 news <- get_news(n = 10L)
 news |>
   subset(subset = grepl(pattern = "maintenance", x = title, ignore.case = TRUE))
@@ -140,6 +140,7 @@ The
 function returns a comprehensive list of approved EIC codes:
 
 ``` r
+
 # Find Germany's bidding zone EIC
 germany_eic <- all_approved_eic() |>
   filter(eic_long_name == "Germany_Luxemburg") |>
@@ -178,6 +179,7 @@ The
 function provides a focused lookup for bidding zones:
 
 ``` r
+
 # Get all bidding zones
 bidding_zones <- area_eic()
 #> 
@@ -187,7 +189,7 @@ cli_h1("Available Bidding Zones")
 #> 
 #> ── Available Bidding Zones ─────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total zones: {nrow(bidding_zones)}")
-#> Total zones: 1791
+#> Total zones: 1825
 bidding_zones |>
   select(eic_code, eic_long_name) |>
   head(10) |>
@@ -214,6 +216,7 @@ Let’s fetch day-ahead energy prices for Germany. The
 function queries the market data endpoint:
 
 ``` r
+
 # Define time range (one week of data)
 from_ts <- ymd("2026-01-01", tz = "CET")
 till_ts <- from_ts + weeks(1L)
@@ -238,15 +241,17 @@ da_prices <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:53:42 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:50:32 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -264,6 +269,7 @@ cli_alert_success("Retrieved {nrow(da_prices)} rows")
 The `tidy_output = TRUE` format returns one row per data point:
 
 ``` r
+
 # Examine the structure
 glimpse(da_prices)
 #> Rows: 1,344
@@ -280,7 +286,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def                 <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "I…
 #> $ ts_business_type                    <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62…
 #> $ ts_business_type_def                <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spo…
-#> $ created_date_time                   <dttm> 2026-04-13 08:53:42, 2026-04-13 08:53:42, 2026-04-13 08:53:42, 2026-04-13…
+#> $ created_date_time                   <dttm> 2026-10-05 12:50:32, 2026-10-05 12:50:32, 2026-10-05 12:50:32, 2026-10-05…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                       <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start              <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31…
@@ -308,6 +314,7 @@ Key columns in the output:
 With `tidy_output = FALSE`, the data is structured differently:
 
 ``` r
+
 # Same query with nested output
 da_prices_nested <- energy_prices(
   eic = germany_eic,
@@ -319,15 +326,17 @@ da_prices_nested <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:53:42 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:50:35 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -348,7 +357,7 @@ glimpse(da_prices_nested)
 #> $ ts_auction_type_def                 <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "I…
 #> $ ts_business_type                    <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62…
 #> $ ts_business_type_def                <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spo…
-#> $ created_date_time                   <dttm> 2026-04-13 08:53:42, 2026-04-13 08:53:42, 2026-04-13 08:53:42, 2026-04-13…
+#> $ created_date_time                   <dttm> 2026-10-05 12:50:35, 2026-10-05 12:50:35, 2026-10-05 12:50:35, 2026-10-05…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                       <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start              <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2026-01-01 23:00:00, 2026-01-01 …
@@ -372,6 +381,7 @@ operations.
 Use lubridate for robust date handling:
 
 ``` r
+
 # Various date range examples
 last_week <- ymd(Sys.Date()) - days(7L)
 today <- ymd(Sys.Date())
@@ -387,6 +397,7 @@ Most ENTSO-E endpoints enforce a maximum query range of one year. The
 package handles this transparently through automatic pagination:
 
 ``` r
+
 # Query close to the one-year limit
 year_start <- ymd("2024-01-01", tz = "CET")
 year_end <- ymd("2024-12-31", tz = "CET")
@@ -405,15 +416,17 @@ da_prices_year <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202312312300&periodEnd=202412302300&contract_MarketAgreement.type=A01&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:53:44 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202312312300-202412302300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:50:46 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202312312300-202412302300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -428,6 +441,7 @@ cli_alert_success("Retrieved {nrow(da_prices_year)} rows for the year")
 All timestamps are returned in UTC. Use lubridate to convert:
 
 ``` r
+
 # Convert timestamps to CET/CEST
 da_prices |>
   mutate(

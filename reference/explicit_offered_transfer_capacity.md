@@ -88,15 +88,17 @@ df <- entsoeapi::explicit_offered_transfer_capacity(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A31&auction.Type=A02&contract_MarketAgreement.Type=A01&in_Domain=10YBE----------2&out_Domain=10YGB----------A&periodStart=202308152200&periodEnd=202308162200&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:26 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="OFFERED_TRANSFER_CAPACITIES_EXPLICIT_202308152200-202308162200.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:37:31 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="OFFERED_TRANSFER_CAPACITIES_EXPLICIT_202308152200-202308162200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -120,14 +122,14 @@ dplyr::glimpse(df)
 #> $ ts_auction_category_def             <chr> "Hourly", "Hourly", "Hourly", "Hourly", "Hourly", "Hourly", "Hourly", "Hou…
 #> $ ts_business_type                    <chr> "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31…
 #> $ ts_business_type_def                <chr> "Offered Capacity", "Offered Capacity", "Offered Capacity", "Offered Capac…
-#> $ created_date_time                   <dttm> 2026-04-13 08:51:26, 2026-04-13 08:51:26, 2026-04-13 08:51:26, 2026-04-13…
+#> $ created_date_time                   <dttm> 2026-10-05 12:37:31, 2026-10-05 12:37:31, 2026-10-05 12:37:31, 2026-10-05…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                       <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start              <dttm> 2023-08-15 22:00:00, 2023-08-15 22:00:00, 2023-08-15 22:00:00, 2023-08-15 …
 #> $ ts_time_interval_end                <dttm> 2023-08-16 22:00:00, 2023-08-16 22:00:00, 2023-08-16 22:00:00, 2023-08-16…
 #> $ ts_mrid                             <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_point_dt_start                   <dttm> 2023-08-15 22:00:00, 2023-08-15 23:00:00, 2023-08-16 00:00:00, 2023-08-16…
-#> $ ts_point_quantity                   <dbl> 1012, 1012, 1012, 1012, 1012, 1012, 1037, 1071, 1096, 1012, 1012, 1062, 10…
+#> $ ts_point_quantity                   <dbl> 1012, 1012, 1012, 1012, 1012, 1012, 1037, 1071, 1096, 1096, 1096, 1062, 10…
 #> $ ts_quantity_measure_unit_name       <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MA…
 #> $ ts_classification_sequence_position <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 ```

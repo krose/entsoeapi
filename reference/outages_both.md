@@ -90,120 +90,143 @@ df <- entsoeapi::outages_both(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202604132200&periodEnd=202604142200&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:05 GMT
-#> <- content-type: application/zip
-#> <- content-length: 113207
-#> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_201803250000-209912310100.zip"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> → https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202610052200&periodEnd=202610062200&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:44:07 GMT
+#> <- Content-Type: application/zip
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: attachment; filename="Unavailability_of_production_and_generation_units_201803250000-209912310100.zip"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpB1aCB1/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_201803250000-203408312200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202002220100-209912310100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202006292130-209912310100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202103312200-202712312300.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504251500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202508260500-202605221500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202510312125-202606172030.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202511240600-202606301500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512120600-202608141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601022200-202609112100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302000-202604172100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302300-202606102100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602132100-202605142000.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602132300-202605052100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230500-202610021500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230700-202611071500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272200-202606042100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202604302100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602272300-202612312300.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603020600-202610091500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202610211400.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603132100-202604252000.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603271600-202604161500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/024-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603272300-202606242200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/025-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603282300-202607072200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/026-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/027-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/028-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/029-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/030-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/031-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202605221500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/032-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202605221500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/033-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202611201600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/034-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202712311600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/035-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603312200-202607212200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/036-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603312200-202610312300.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/037-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603312200-202610312300.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/038-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010500-202604171600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/039-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010500-202604171600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/040-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010500-202604171600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/041-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010500-202604171600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/042-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010500-202604171600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/043-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010545-202707021500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/044-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604011133-202605012000.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/045-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604032200-202605192200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/046-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604032200-202605242200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/047-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604032200-202606142200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/048-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604032230-202606232230.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/049-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604042200-202605290645.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/050-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202605110600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/051-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202707021500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/052-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/053-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/054-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/055-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/056-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/057-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/058-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/059-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/060-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/061-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202604301500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/062-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202610190500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/063-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202611201600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/064-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070545-202605110600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/065-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070545-202605131500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/066-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070545-202710311600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/067-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604092100-202604152100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/068-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604102130-202605212100.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/069-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604102200-202604151430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/070-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604102200-202606302200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/071-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604102200-202607022200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/072-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604111615-202604142200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/073-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604112100-202604132330.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/074-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604112115-202604132330.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/075-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604112200-202604290645.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/076-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604112201-202604161200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/077-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130400-202604142200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/078-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130500-202604151430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/079-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130500-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/080-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130500-202605291501.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/081-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130530-202604141430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/082-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130600-202604151500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/083-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130600-202604161500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/084-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130700-202604141300.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/085-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604131100-202604172000.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/086-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604131700-202604151700.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/087-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140500-202604141600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/088-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140530-202604141430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/089-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140530-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/090-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140530-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/091-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140600-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/092-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140600-202604151500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/093-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604141430-202604141515.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/094-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512120655-202604301500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/095-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512312300-202612312300.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/096-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601240700-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/097-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603060700-202606261430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/098-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603250630-202604221430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/099-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604011600-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/100-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604030930-202606261430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/101-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604040820-202604171430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/102-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604091432-202604171400.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/103-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604101434-202604171500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_201803250000-203408312200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202002220100-209912310100.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202006292130-209912310100.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202103312200-202712312300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302300-202610062100.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230500-202611121600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230700-202611071500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603020600-202610091500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202610211400.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202712171600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603312200-202611022300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010545-202707021500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202707021500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202610190500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070545-202710311600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604200500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604241500-202703261600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605180500-202611271600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605290500-202705111500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/024-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606122200-202611242300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/025-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/026-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606152200-202702122300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/027-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606192100-202701252200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/028-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202611131600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/029-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202611131600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/030-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202804251500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/031-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607102145-202610152200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/032-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607152200-202701042300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/033-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607242215-202611012300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/034-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607312000-202610192000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/035-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608011930-202610152200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/036-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608030500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/037-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608072200-202611122300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/038-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608081038-202702122300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/039-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608082200-202610220645.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/040-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608152200-202610090645.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/041-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608170500-202610091500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/042-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608170530-202610091430.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/043-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608202200-202610061800.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/044-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608212200-202611152300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/045-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608240500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/046-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608282200-202611262300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/047-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608282200-202612032300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/048-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/049-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/050-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310600-202610301600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/051-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608312200-209912302300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/052-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609022200-202610090700.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/053-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609040500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/054-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609040500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/055-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609070500-202611041600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/056-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609070530-202611131530.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/057-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609111500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/058-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609111500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/059-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609112200-202610172200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/060-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609140530-202712311600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/061-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609171500-202612191600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/062-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202611102200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/063-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202612172200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/064-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202612172300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/065-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182200-202701062300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/066-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609202200-202610122200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/067-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609210500-202610091500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/068-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609210500-202704161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/069-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609210530-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/070-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609251600-202610161600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/071-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609251600-202610161600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/072-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252100-202611072230.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/073-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252200-202610160600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/074-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252200-202709102200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/075-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280500-202610091500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/076-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/077-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280500-202611031600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/078-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280545-202610161000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/079-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280545-202610161000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/080-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280600-202610161600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/081-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610022200-202610312300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/082-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610030700-202610082200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/083-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610040056-202610070600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/084-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610041200-202610142200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/085-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610041200-202610142200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/086-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610042200-202610062200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/087-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050400-202611031600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/088-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610091500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/089-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610101600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/090-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/091-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/092-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/093-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/094-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/095-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/096-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610191500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/097-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/098-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/099-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060400-202610060800.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/100-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060400-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/101-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060400-202610061100.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/102-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060500-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/103-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060500-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/104-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060500-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/105-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060530-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/106-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060530-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/107-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060530-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/108-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060530-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/109-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060600-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/110-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060600-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/111-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060600-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/112-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060930-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/113-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610061100-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/114-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610061200-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/115-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512312300-202612312300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/116-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604230700-202612181530.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/117-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605040530-202610301530.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/118-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606241300-202711011400.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/119-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608160401-202701282300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/120-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609241356-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/121-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609290948-202610152200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/122-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609290948-202610152200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/123-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609300608-202610092100.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac93c48a97c/124-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609301830-202610312300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -258,579 +281,647 @@ df <- entsoeapi::outages_both(
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■                           18% | ETA:  5s
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■                          22% | ETA:  4s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■             66% | ETA:  2s
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■                58% | ETA:  2s
 #> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202604132200&periodEnd=202604142200&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:11 GMT
-#> <- content-type: application/zip
-#> <- content-length: 24736
-#> <- content-disposition: attachment; filename="Unavailability_of_production_and_generation_units_202504090830-202607311500.zip"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202610052200&periodEnd=202610062200&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:44:18 GMT
+#> <- Content-Type: application/zip
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: attachment; filename="Unavailability_of_production_and_generation_units_202606150600-202611131600.zip"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpB1aCB1/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202604241500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070430-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202605071500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604071800-202604171500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130600-202604141800.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604131000-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140500-202604151500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140600-202604141400.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140600-202604141600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604141130-202604141400.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202504090830-202607311500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603230700-202605110600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202605221500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130600-202606010600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604130600-202606010600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140300-202604141900.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140530-202604141430.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140530-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140530-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140600-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604140600-202604141500.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604141500-202604150600.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604141900-202604150530.xml has been read in
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607142200-202610202159.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607220500-202611131600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610020800-202610071500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610021500-202610260600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060400-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060500-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060500-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060500-202610161500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060600-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060600-202610061000.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610060600-202610061600.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610061200-202610061500.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac973c792c7/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610061200-202610061600.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -875,34 +966,34 @@ df <- entsoeapi::outages_both(
 #> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 126
+#> Rows: 138
 #> Columns: 28
 #> $ ts_bidding_zone_domain_mrid        <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
 #> $ ts_bidding_zone_domain_name        <chr> "France", "France", "France", "France", "France", "France", "France", "Fran…
 #> $ ts_production_mrid                 <chr> "17W100P100P0352E", "17W100P100P0207N", "17W100P100P0208L", "17W100P100P023…
-#> $ ts_production_name                 <chr> "CYCOFOS TV2", "FESSENHEIM 1", "FESSENHEIM 2", "HAVRE 4", "VILLARODIN", "CH…
+#> $ ts_production_name                 <chr> "CYCOFOS TV2", "FESSENHEIM 1", "FESSENHEIM 2", "HAVRE 4", "CATTENOM 4", "BE…
 #> $ ts_production_psr_mrid             <chr> "17W100P100P03396", "17W100P100P0124R", "17W100P100P0125P", "17W100P100P002…
-#> $ ts_production_psr_name             <chr> "CYCOFOS PL2", "FESSENHEIM 1", "FESSENHEIM 2", "HAVRE 4", "VILLARODIN 1", "…
-#> $ doc_status_value                   <chr> "A09", "A09", "A09", "A09", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+#> $ ts_production_psr_name             <chr> "CYCOFOS PL2", "FESSENHEIM 1", "FESSENHEIM 2", "HAVRE 4", "CATTENOM 4", "BE…
+#> $ doc_status_value                   <chr> "A09", "A09", "A09", "A09", NA, NA, NA, NA, "A09", NA, NA, NA, "A09", "A09"…
 #> $ doc_status                         <chr> "Finalised schedule", "Finalised schedule", "Finalised schedule", "Finalise…
-#> $ ts_production_location_name        <chr> "France", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "France", "FRANCE", "Fran…
+#> $ ts_production_location_name        <chr> "France", "FRANCE", "FRANCE", "FRANCE", "FRANCE", "France", "FRANCE", "FRAN…
 #> $ type                               <chr> "A80", "A80", "A80", "A80", "A80", "A80", "A80", "A80", "A80", "A80", "A80"…
 #> $ type_def                           <chr> "Generation unavailability", "Generation unavailability", "Generation unava…
 #> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"…
 #> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information", "Outage i…
 #> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53"…
 #> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
-#> $ ts_production_psr_type             <chr> "B20", "B14", "B14", "B05", "B12", "B11", "B14", "B11", "B11", "B14", "B14"…
+#> $ ts_production_psr_type             <chr> "B20", "B14", "B14", "B05", "B14", "B11", "B11", "B12", "B11", "B11", "B11"…
 #> $ ts_production_psr_type_def         <chr> "Other unspecified", "Nuclear unspecified", "Nuclear unspecified", "Fossil …
 #> $ created_date_time                  <dttm> 2025-10-08 01:24:29, 2025-10-07 03:23:00, 2025-10-07 03:23:01, 2025-10-07 …
-#> $ reason_code                        <chr> "A95", "A95", "A95", "B20", "B19", "B19", "A95", "B19", "B19", "A95", "A95"…
+#> $ reason_code                        <chr> "A95", "A95", "A95", "B20", "A95", "B19", "B19", "B19", "B19", "B19", "B19"…
 #> $ reason_text                        <chr> "Awaiting information - Complementary information", "For more information p…
-#> $ revision_number                    <dbl> 256, 26, 10, 2, 5, 10, 26, 5, 5, 8, 9, 11, 12, 11, 2, 5, 9, 5, 3, 3, 5, 11,…
+#> $ revision_number                    <dbl> 256, 26, 10, 2, 28, 4, 5, 3, 5, 2, 2, 4, 2, 3, 2, 1, 4, 2, 3, 1, 9, 1, 5, 4…
 #> $ unavailability_time_interval_start <dttm> 2018-03-25 00:00:00, 2020-02-22 01:00:00, 2020-06-29 21:30:00, 2021-03-31 …
 #> $ unavailability_time_interval_end   <dttm> 2034-08-31 22:00:00, 2099-12-31 01:00:00, 2099-12-31 01:00:00, 2027-12-31 …
 #> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT…
 #> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ ts_production_psr_nominal_p        <dbl> 62.0, 880.0, 880.0, 580.0, 182.0, 45.0, 1330.0, 30.9, 13.5, 1330.0, 915.0, …
-#> $ ts_available_period_point_quantity <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+#> $ ts_production_psr_nominal_p        <dbl> 62.0, 880.0, 880.0, 580.0, 1300.0, 35.0, 106.0, 240.0, 106.0, 20.0, 69.8, 5…
+#> $ ts_available_period_point_quantity <dbl> 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.0…
 #> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"…
 ```

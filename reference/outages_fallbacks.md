@@ -82,22 +82,24 @@ df <- entsoeapi::outages_fallbacks(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A53&biddingZone_Domain=10YBE----------2&processType=A51&businessType=C47&periodStart=202212312300&periodEnd=202312312300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:13 GMT
-#> <- content-type: application/zip
-#> <- content-length: 4696
-#> <- content-disposition: attachment; filename="Fall-backs_202305222200-202309080130.zip"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:44:45 GMT
+#> <- Content-Type: application/zip
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: attachment; filename="Fall-backs_202305222200-202309080130.zip"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpB1aCB1/001-FALL_BACKS_202305222200-202305232200.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/002-FALL_BACKS_202306262200-202306270900.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/003-FALL_BACKS_202307202200-202307211245.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/004-FALL_BACKS_202308232200-202308232230.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/005-FALL_BACKS_202308272200-202308280445.xml has been read in
-#> ✔ /tmp/RtmpB1aCB1/006-FALL_BACKS_202309072200-202309080130.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/001-FALL_BACKS_202305222200-202305232200.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/002-FALL_BACKS_202306262200-202306270900.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/003-FALL_BACKS_202307202200-202307211245.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/004-FALL_BACKS_202308232200-202308232230.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/005-FALL_BACKS_202308272200-202308280445.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/006-FALL_BACKS_202309072200-202309080130.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

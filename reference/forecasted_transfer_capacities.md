@@ -81,14 +81,16 @@ df1 <- entsoeapi::forecasted_transfer_capacities(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A61&contract_MarketAgreement.Type=A01&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=201910312300&periodEnd=201911302300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:32 GMT
-#> <- content-type: text/xml
-#> <- content-length: 1580
-#> <- content-disposition: inline; filename="Forecasted Transfer Capacities_201910312300-201911302300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:38:17 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 1580
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Forecasted Transfer Capacities_201910312300-201911302300.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -105,7 +107,7 @@ dplyr::glimpse(df1)
 #> $ type_def                      <chr> "Estimated Net Transfer Capacity", "Estimated Net Transfer Capacity", "Estimated…
 #> $ ts_business_type              <chr> "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A2…
 #> $ ts_business_type_def          <chr> "Net transfer capacity (NTC)", "Net transfer capacity (NTC)", "Net transfer capa…
-#> $ created_date_time             <dttm> 2026-04-13 08:51:32, 2026-04-13 08:51:32, 2026-04-13 08:51:32, 2026-04-13 08:51…
+#> $ created_date_time             <dttm> 2026-10-05 12:38:17, 2026-10-05 12:38:17, 2026-10-05 12:38:17, 2026-10-05 12:38…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00…
@@ -126,14 +128,16 @@ df2 <- entsoeapi::forecasted_transfer_capacities(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A61&contract_MarketAgreement.Type=A02&in_Domain=10YDK-1--------W&out_Domain=10Y1001A1001A82H&periodStart=201910312300&periodEnd=201911302300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:32 GMT
-#> <- content-type: text/xml
-#> <- content-length: 1718
-#> <- content-disposition: inline; filename="Forecasted Transfer Capacities_201910312300-201911302300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:38:23 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 1718
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Forecasted Transfer Capacities_201910312300-201911302300.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -150,13 +154,13 @@ dplyr::glimpse(df2)
 #> $ type_def                      <chr> "Estimated Net Transfer Capacity", "Estimated Net Transfer Capacity", "Estimated…
 #> $ ts_business_type              <chr> "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A27", "A2…
 #> $ ts_business_type_def          <chr> "Net transfer capacity (NTC)", "Net transfer capacity (NTC)", "Net transfer capa…
-#> $ created_date_time             <dttm> 2026-04-13 08:51:32, 2026-04-13 08:51:32, 2026-04-13 08:51:32, 2026-04-13 08:51…
+#> $ created_date_time             <dttm> 2026-10-05 12:38:19, 2026-10-05 12:38:19, 2026-10-05 12:38:19, 2026-10-05 12:38…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P1D", "P1D", "P1D", "P1D", "P1D", "P1D", "P1D", "P1D", "P1D", "P1D", "P1D", "P1…
 #> $ ts_time_interval_start        <dttm> 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:…
 #> $ ts_time_interval_end          <dttm> 2019-11-30 23:00:00, 2019-11-30 23:00:00, 2019-11-30 23:00:00, 2019-11-30 23:00…
 #> $ ts_mrid                       <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_point_dt_start             <dttm> 2019-10-31 23:00:00, 2019-11-01 23:00:00, 2019-11-02 23:00:00, 2019-11-03 23:00…
-#> $ ts_point_quantity             <dbl> 600, 700, 700, 700, 700, 700, 700, 700, 700, 700, 700, 700, 700, 700
+#> $ ts_point_quantity             <dbl> 600, 600, 600, 600, 600, 600, 600, 600, 700, 700, 700, 700, 700, 700
 #> $ ts_quantity_measure_unit_name <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MA…
 ```

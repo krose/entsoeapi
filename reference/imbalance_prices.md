@@ -79,17 +79,19 @@ df <- entsoeapi::imbalance_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A85&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:48 GMT
-#> <- content-type: application/zip
-#> <- content-length: 1564
-#> <- content-disposition: attachment; filename="Imbalance Prices_202312312300-202401012300.zip"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:40:07 GMT
+#> <- Content-Type: application/zip
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: attachment; filename="Imbalance Prices_202312312300-202401012300.zip"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpB1aCB1/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac9e6508e3/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -107,7 +109,7 @@ dplyr::glimpse(df)
 #> $ process_type_def                    <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "R…
 #> $ ts_business_type                    <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19…
 #> $ ts_business_type_def                <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy de…
-#> $ created_date_time                   <dttm> 2026-04-13 08:51:48, 2026-04-13 08:51:48, 2026-04-13 08:51:48, 2026-04-13…
+#> $ created_date_time                   <dttm> 2026-10-05 12:40:07, 2026-10-05 12:40:07, 2026-10-05 12:40:07, 2026-10-05…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                       <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start              <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31…

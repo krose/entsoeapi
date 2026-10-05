@@ -81,6 +81,7 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 if (FALSE) { # \dontrun{
 df1 <- entsoeapi::sharing_of_rr_and_frr_capacity(
   eic_acquiring = "10YCB-GERMANY--8",
@@ -104,4 +105,5 @@ df2 <- entsoeapi::sharing_of_rr_and_frr_capacity(
 
 dplyr::glimpse(df2)
 } # }
+}
 ```

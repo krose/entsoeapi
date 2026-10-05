@@ -65,31 +65,14 @@ Other market endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::intraday_prices(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2024-02-01", tz = "CET"),
   tidy_output = TRUE
 )
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A44&contract_MarketAgreement.Type=A07&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401312300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:52 GMT
-#> <- content-type: text/xml
-#> <- content-length: 963
-#> <- content-disposition: inline; filename="acknowledgement.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
-#> <- 
-#> ✔ response has arrived
-#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 1
-#> Columns: 3
-#> $ created_date_time <dttm> 2026-04-13 08:51:52
-#> $ reason_code       <chr> "999"
-#> $ reason_text       <chr> "No matching data found for Data item ENERGY_PRICES [12.1.D] (10YCZ-CEPS-----N, 10YCZ-CEPS-…
+}
 ```

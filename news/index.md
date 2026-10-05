@@ -1,5 +1,31 @@
 # Changelog
 
+## entsoeapi v1.2.1 (2026-10-05)
+
+### New functionality
+
+- None.
+
+### Changes
+
+- The `flow_based_allocations` function call response displays 3 further
+  column entries `constraint_ts_mrid`, `constraint_ts_business_type`,
+  `constraint_ts_business_type_def`
+- Fixed the A03 curve type expansion: the omitted positions are now
+  filled with the preceding position’s value within the same period,
+  instead of the last value of the curve or a value of an adjacent
+  period. ([\#76](https://github.com/krose/entsoeapi/issues/76), thanks
+  [@lb5676](https://github.com/lb5676))
+- Typos have fixed in the documentations.
+
+### Miscellaneous
+
+- The ByteCompile has set to true, so the packages is going to be
+  byte-compiled during installation.
+- The extracted files of the zip compressed API responses are cleaned up
+  right after reading, so they are not left behind in the temporary
+  directory anymore.
+
 ## entsoeapi v1.1.1 (2026-04-08)
 
 ### New functionality

@@ -1,6 +1,7 @@
 # Working with EIC Codes
 
 ``` r
+
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
@@ -66,6 +67,7 @@ The package automatically validates EIC codes using the ENTSO-E
 weighted-modulo-37 algorithm. Invalid codes will produce an error:
 
 ``` r
+
 # EIC with not valid checksum - will fail
 try(
   expr = energy_prices(
@@ -91,6 +93,7 @@ organized by entity type:
 Returns all bidding zones and control areas:
 
 ``` r
+
 # Get all bidding zones
 zones <- area_eic()
 #> 
@@ -101,7 +104,7 @@ cli_h1("Bidding Zones")
 #> 
 #> ── Bidding Zones ───────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total zones: {nrow(zones)}")
-#> Total zones: 1791
+#> Total zones: 1825
 
 # Find specific countries
 zones |>
@@ -137,6 +140,7 @@ zones |>
 Returns market participants (generators, traders, etc.):
 
 ``` r
+
 # Get market participants
 parties <- party_eic()
 #> 
@@ -147,7 +151,7 @@ cli_h1("Market Participants")
 #> 
 #> ── Market Participants ─────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total parties: {nrow(parties)}")
-#> Total parties: 14917
+#> Total parties: 15423
 
 # Find German TSOs
 parties |>
@@ -211,6 +215,7 @@ parties |>
 Returns accounting point EICs:
 
 ``` r
+
 acc_points <- accounting_point_eic()
 #> 
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -220,7 +225,7 @@ cli_h1("Accounting Points")
 #> 
 #> ── Accounting Points ───────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total accounting points: {nrow(acc_points)}")
-#> Total accounting points: 2519
+#> Total accounting points: 2542
 
 # Sample entries
 acc_points |>
@@ -246,6 +251,7 @@ acc_points |>
 Returns transmission lines between bidding zones:
 
 ``` r
+
 tie_lines <- tie_line_eic()
 #> 
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -255,7 +261,7 @@ cli_h1("Tie Lines (Interconnectors)")
 #> 
 #> ── Tie Lines (Interconnectors) ─────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total interconnectors: {nrow(tie_lines)}")
-#> Total interconnectors: 12985
+#> Total interconnectors: 13238
 
 # Find German interconnectors
 tie_lines |>
@@ -280,6 +286,7 @@ tie_lines |>
 Returns location EICs (V codes):
 
 ``` r
+
 locations <- location_eic()
 #> 
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -289,7 +296,7 @@ cli_h1("Locations")
 #> 
 #> ── Locations ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total locations: {nrow(locations)}")
-#> Total locations: 1051
+#> Total locations: 1112
 
 locations |>
   filter(
@@ -312,6 +319,7 @@ locations |>
 Returns power system resources (generating units, loads):
 
 ``` r
+
 resources <- resource_object_eic()
 #> 
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -321,7 +329,7 @@ cli_h1("Power Resources")
 #> 
 #> ── Power Resources ─────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total resources: {nrow(resources)}")
-#> Total resources: 34672
+#> Total resources: 36812
 
 # Find German power plants
 resources |>
@@ -360,6 +368,7 @@ resources |>
 Returns substation EICs (A codes):
 
 ``` r
+
 substations <- substation_eic()
 #> 
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -369,7 +378,7 @@ cli_h1("Substations")
 #> 
 #> ── Substations ─────────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total substations: {nrow(substations)}")
-#> Total substations: 2848
+#> Total substations: 2927
 
 # Sample entries
 substations |>
@@ -398,6 +407,7 @@ substations |>
 Combines all approved EICs into a single tibble:
 
 ``` r
+
 all_eic <- all_approved_eic()
 #> 
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -425,7 +435,7 @@ cli_h1("All Approved EICs")
 #> 
 #> ── All Approved EICs ───────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total EICs: {nrow(all_eic)}")
-#> Total EICs: 70783
+#> Total EICs: 73879
 
 # Count by type
 all_eic |>
@@ -435,13 +445,13 @@ all_eic |>
   cat(sep = "\n")
 #> |type |     n|   pct|
 #> |:----|-----:|-----:|
-#> |W    | 34672| 48.98|
-#> |X    | 14917| 21.07|
-#> |T    | 12985| 18.34|
-#> |A    |  2848|  4.02|
-#> |Z    |  2519|  3.56|
-#> |Y    |  1791|  2.53|
-#> |V    |  1051|  1.48|
+#> |W    | 36812| 49.83|
+#> |X    | 15423| 20.88|
+#> |T    | 13238| 17.92|
+#> |A    |  2927|  3.96|
+#> |Z    |  2542|  3.44|
+#> |Y    |  1825|  2.47|
+#> |V    |  1112|  1.51|
 ```
 
 ## all_approved_eic() vs all_allocated_eic()
@@ -464,6 +474,7 @@ characteristics:
 Fast and efficient for most use cases:
 
 ``` r
+
 cli_h1("all_approved_eic() - Column Details")
 #> 
 #> ── all_approved_eic() - Column Details ─────────────────────────────────────────────────────────────────────────────────
@@ -490,7 +501,7 @@ approved_eic <- all_approved_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling A_eicCodes.csv file from cache
 glimpse(approved_eic)
-#> Rows: 70,783
+#> Rows: 73,879
 #> Columns: 11
 #> $ eic_code                            <chr> "26X00000001515-Y", "26X00000105734-O", "26X00000105740-W", "10X1001A1001A…
 #> $ eic_display_name                    <chr> "LA_220", "IT-GEO____SPA", "IT-BETA_ENERGYS", "ELIA", "ENERGINET-DK", "FIN…
@@ -516,6 +527,7 @@ Use this function when you need:
 Provides more detailed information but is slower:
 
 ``` r
+
 cli_h1("all_allocated_eic() - Column Details")
 #> 
 #> ── all_allocated_eic() - Column Details ────────────────────────────────────────────────────────────────────────────────
@@ -527,31 +539,31 @@ allocated_eic <- all_allocated_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ downloading all_allocated_eic table ...
 #> <- HTTP/1.1 200 OK
-#> <- Content-Length: 67295664
+#> <- Content-Length: 70083917
 #> <- Content-Type: application/octet-stream
-#> <- Content-MD5: JsBSS8Yq6SiYAT1SZT5MOA==
-#> <- Last-Modified: Mon, 13 Apr 2026 01:15:12 GMT
+#> <- Content-MD5: sBey+85c9P0TZ9gTgvMpXg==
+#> <- Last-Modified: Mon, 05 Oct 2026 01:15:16 GMT
 #> <- Accept-Ranges: bytes
-#> <- ETag: "0x8DE98FA1CEB6EF9"
+#> <- ETag: "0x8DF227E1D81E740"
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: b2ff9275-b01e-00b3-6c23-cbcb47000000
+#> <- x-ms-request-id: cade7c34-d01e-0033-65c8-543441000000
 #> <- x-ms-version: 2014-02-14
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-lease-state: available
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Mon, 13 Apr 2026 08:54:20 GMT
+#> <- Date: Mon, 05 Oct 2026 12:51:27 GMT
 #> <-
 #> ✔ response has arrived
 #> converting ■■■■■                             14% | ETA:  6s
-#> converting ■■■■■■■■■■■■                      36% | ETA:  5s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■           75% | ETA:  2s
+#> converting ■■■■■■■■■■■■■■■■■                 54% | ETA:  3s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% | ETA:  1s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 glimpse(allocated_eic)
-#> Rows: 74,187
+#> Rows: 77,243
 #> Columns: 17
 #> $ revision_number                              <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", …
-#> $ created_date_time                            <chr> "2026-04-13T01:15:10Z", "2026-04-13T01:15:10Z", "2026-04-13T01:15…
+#> $ created_date_time                            <chr> "2026-10-05T01:15:13Z", "2026-10-05T01:15:13Z", "2026-10-05T01:15…
 #> $ eic_code                                     <chr> "10T-1001-10010AS", "10T1001A1001A012", "10T1001A1001A020", "10T1…
 #> $ doc_status_value                             <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A…
 #> $ doc_status                                   <chr> "Control block area schedule", "Control block area schedule", "Co…
@@ -574,6 +586,7 @@ Column comparison between
 and `all_approced_eic`:
 
 ``` r
+
 cli_h1("all_allocated_eic()")
 #> 
 #> ── all_allocated_eic() ─────────────────────────────────────────────────────────────────────────────────────────────────
@@ -585,7 +598,7 @@ allocated_eic |>
 #> |                                             |                            |
 #> |:--------------------------------------------|:---------------------------|
 #> |revision_number                              |1                           |
-#> |created_date_time                            |2026-04-13T01:15:10Z        |
+#> |created_date_time                            |2026-10-05T01:15:13Z        |
 #> |eic_code                                     |50WG00000001997X            |
 #> |doc_status_value                             |A05                         |
 #> |doc_status                                   |Control block area schedule |
@@ -639,6 +652,7 @@ function when you need:
 ### Finding Germany’s EIC Codes
 
 ``` r
+
 cli_h1("German bidding zones")
 #> 
 #> ── German bidding zones ────────────────────────────────────────────────────────────────────────────────────────────────
@@ -708,6 +722,7 @@ party_eic() |>
 ### Finding Nordic Bidding Zones
 
 ``` r
+
 cli_h1("Nordic Bidding Zones")
 #> 
 #> ── Nordic Bidding Zones ────────────────────────────────────────────────────────────────────────────────────────────────
@@ -729,6 +744,7 @@ zones |>
 ### Finding Transmission Lines Between Countries
 
 ``` r
+
 cli_h1("Cross-Border Transmission Lines")
 #> 
 #> ── Cross-Border Transmission Lines ─────────────────────────────────────────────────────────────────────────────────────
@@ -776,6 +792,7 @@ tie_line_eic() |>
 Use EIC lookups to construct queries:
 
 ``` r
+
 cli_h1("Using EICs in Queries")
 #> 
 #> ── Using EICs in Queries ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -793,15 +810,17 @@ es_prices <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202512312300&periodEnd=202601032300&contract_MarketAgreement.type=A07&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:54:43 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601032300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:51:52 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202512312300-202601032300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -831,7 +850,7 @@ es_prices |>
 #> |Intraday contract         |2025-12-31 23:15:00 |                 92.83|EUR                   |
 #> |Intraday contract         |2025-12-31 23:30:00 |                 91.71|EUR                   |
 #> |Intraday contract         |2025-12-31 23:45:00 |                 91.25|EUR                   |
-#> |Intraday contract         |2026-01-01 00:00:00 |                 89.37|EUR                   |
+#> |Intraday contract         |2026-01-01 00:00:00 |                 91.25|EUR                   |
 #> |Intraday contract         |2026-01-01 00:15:00 |                 90.64|EUR                   |
 #> |Intraday contract         |2026-01-01 00:30:00 |                 88.99|EUR                   |
 #> |Intraday contract         |2026-01-01 00:45:00 |                 87.08|EUR                   |
@@ -846,16 +865,16 @@ es_prices |>
 The entsoeapi package provides eight EIC lookup functions to help you
 find the codes needed for your queries:
 
-| Function                                                                                        | Returns             | EIC Type  |
-|-------------------------------------------------------------------------------------------------|---------------------|-----------|
-| [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md)                         | Bidding zones       | Y codes   |
-| [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md)                       | Market participants | X codes   |
-| [`accounting_point_eic()`](https://krose.github.io/entsoeapi/reference/accounting_point_eic.md) | Accounting points   | Y codes   |
-| [`tie_line_eic()`](https://krose.github.io/entsoeapi/reference/tie_line_eic.md)                 | Interconnectors     | Z codes   |
-| [`location_eic()`](https://krose.github.io/entsoeapi/reference/location_eic.md)                 | Locations           | V codes   |
-| [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md)   | Power resources     | W codes   |
-| [`substation_eic()`](https://krose.github.io/entsoeapi/reference/substation_eic.md)             | Substations         | A codes   |
-| [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md)         | All approved EICs   | All types |
+| Function | Returns | EIC Type |
+|----|----|----|
+| [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md) | Bidding zones | Y codes |
+| [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md) | Market participants | X codes |
+| [`accounting_point_eic()`](https://krose.github.io/entsoeapi/reference/accounting_point_eic.md) | Accounting points | Y codes |
+| [`tie_line_eic()`](https://krose.github.io/entsoeapi/reference/tie_line_eic.md) | Interconnectors | Z codes |
+| [`location_eic()`](https://krose.github.io/entsoeapi/reference/location_eic.md) | Locations | V codes |
+| [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md) | Power resources | W codes |
+| [`substation_eic()`](https://krose.github.io/entsoeapi/reference/substation_eic.md) | Substations | A codes |
+| [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md) | All approved EICs | All types |
 
 For comprehensive lookups, use
 [`all_approved_eic()`](https://krose.github.io/entsoeapi/reference/all_approved_eic.md)

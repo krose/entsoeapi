@@ -1,5 +1,5 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   architecture: architecture.html
@@ -8,7 +8,7 @@ articles:
   getting-started: getting-started.html
   time-series-restructuring: time-series-restructuring.html
   working-with-eic-codes: working-with-eic-codes.html
-last_built: 2026-04-13T08:50Z
+last_built: 2026-10-05T12:31Z
 urls:
   reference: https://krose.github.io/entsoeapi/reference
   article: https://krose.github.io/entsoeapi/articles

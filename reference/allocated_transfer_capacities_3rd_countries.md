@@ -105,14 +105,16 @@ df <- entsoeapi::allocated_transfer_capacities_3rd_countries(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A94&auction.Type=A02&contract_MarketAgreement.Type=A01&in_Domain=10YSK-SEPS-----K&out_Domain=10YUA-WEPS-----0&auction.Category=A04&classificationSequence_AttributeInstanceComponent.Position=1&periodStart=201512312300&periodEnd=201601012300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:01 GMT
-#> <- content-type: text/xml
-#> <- content-length: 1852
-#> <- content-disposition: inline; filename="Transfer_capacities_allocated_with_third_countries_201512312300-201601012300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:33:39 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 1852
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Transfer_capacities_allocated_with_third_countries_201512312300-201601012300.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -137,7 +139,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_category_def             <chr> "Hourly", "Hourly", "Hourly", "Hourly", "Hourly", "Hourly", "Hourly", "Hou…
 #> $ ts_business_type                    <chr> "A34", "A34", "A34", "A34", "A34", "A34", "A34", "A34", "A34", "A34", "A34…
 #> $ ts_business_type_def                <chr> "Capacity rights", "Capacity rights", "Capacity rights", "Capacity rights"…
-#> $ created_date_time                   <dttm> 2026-04-13 08:51:01, 2026-04-13 08:51:01, 2026-04-13 08:51:01, 2026-04-13…
+#> $ created_date_time                   <dttm> 2026-10-05 12:33:39, 2026-10-05 12:33:39, 2026-10-05 12:33:39, 2026-10-05…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                       <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start              <dttm> 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 23:00:00, 2015-12-31 …

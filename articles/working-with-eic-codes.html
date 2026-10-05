@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Working with EIC Codes">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cli.r-lib.org" class="external-link">cli</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lubridate.tidyverse.org" class="external-link">lubridate</a></span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -214,7 +214,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Bidding Zones</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total zones: {nrow(zones)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total zones: 1791</span></span>
+<span><span class="co">#&gt; Total zones: 1825</span></span>
 <span></span>
 <span><span class="co"># Find specific countries</span></span>
 <span><span class="va">zones</span> <span class="op">|&gt;</span></span>
@@ -259,7 +259,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Market Participants</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total parties: {nrow(parties)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total parties: 14917</span></span>
+<span><span class="co">#&gt; Total parties: 15423</span></span>
 <span></span>
 <span><span class="co"># Find German TSOs</span></span>
 <span><span class="va">parties</span> <span class="op">|&gt;</span></span>
@@ -331,7 +331,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Accounting Points</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total accounting points: {nrow(acc_points)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total accounting points: 2519</span></span>
+<span><span class="co">#&gt; Total accounting points: 2542</span></span>
 <span></span>
 <span><span class="co"># Sample entries</span></span>
 <span><span class="va">acc_points</span> <span class="op">|&gt;</span></span>
@@ -365,7 +365,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Tie Lines (Interconnectors)</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total interconnectors: {nrow(tie_lines)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total interconnectors: 12985</span></span>
+<span><span class="co">#&gt; Total interconnectors: 13238</span></span>
 <span></span>
 <span><span class="co"># Find German interconnectors</span></span>
 <span><span class="va">tie_lines</span> <span class="op">|&gt;</span></span>
@@ -398,7 +398,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Locations</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total locations: {nrow(locations)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total locations: 1051</span></span>
+<span><span class="co">#&gt; Total locations: 1112</span></span>
 <span></span>
 <span><span class="va">locations</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
@@ -429,7 +429,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Power Resources</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total resources: {nrow(resources)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total resources: 34672</span></span>
+<span><span class="co">#&gt; Total resources: 36812</span></span>
 <span></span>
 <span><span class="co"># Find German power plants</span></span>
 <span><span class="va">resources</span> <span class="op">|&gt;</span></span>
@@ -476,7 +476,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Substations</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total substations: {nrow(substations)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total substations: 2848</span></span>
+<span><span class="co">#&gt; Total substations: 2927</span></span>
 <span></span>
 <span><span class="co"># Sample entries</span></span>
 <span><span class="va">substations</span> <span class="op">|&gt;</span></span>
@@ -531,7 +531,7 @@ organized by entity type:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">All Approved EICs</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"Total EICs: {nrow(all_eic)}"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Total EICs: 70783</span></span>
+<span><span class="co">#&gt; Total EICs: 73879</span></span>
 <span></span>
 <span><span class="co"># Count by type</span></span>
 <span><span class="va">all_eic</span> <span class="op">|&gt;</span></span>
@@ -541,13 +541,13 @@ organized by entity type:</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; |type |     n|   pct|</span></span>
 <span><span class="co">#&gt; |:----|-----:|-----:|</span></span>
-<span><span class="co">#&gt; |W    | 34672| 48.98|</span></span>
-<span><span class="co">#&gt; |X    | 14917| 21.07|</span></span>
-<span><span class="co">#&gt; |T    | 12985| 18.34|</span></span>
-<span><span class="co">#&gt; |A    |  2848|  4.02|</span></span>
-<span><span class="co">#&gt; |Z    |  2519|  3.56|</span></span>
-<span><span class="co">#&gt; |Y    |  1791|  2.53|</span></span>
-<span><span class="co">#&gt; |V    |  1051|  1.48|</span></span></code></pre></div>
+<span><span class="co">#&gt; |W    | 36812| 49.83|</span></span>
+<span><span class="co">#&gt; |X    | 15423| 20.88|</span></span>
+<span><span class="co">#&gt; |T    | 13238| 17.92|</span></span>
+<span><span class="co">#&gt; |A    |  2927|  3.96|</span></span>
+<span><span class="co">#&gt; |Z    |  2542|  3.44|</span></span>
+<span><span class="co">#&gt; |Y    |  1825|  2.47|</span></span>
+<span><span class="co">#&gt; |V    |  1112|  1.51|</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -624,7 +624,7 @@ characteristics:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">public download</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> pulling A_eicCodes.csv file from cache</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">approved_eic</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 70,783</span></span>
+<span><span class="co">#&gt; Rows: 73,879</span></span>
 <span><span class="co">#&gt; Columns: 11</span></span>
 <span><span class="co">#&gt; $ eic_code                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "26X00000001515-Y"<span style="color: #949494;">, </span>"26X00000105734-O"<span style="color: #949494;">, </span>"26X00000105740-W"<span style="color: #949494;">, </span>"10X1001A1001A…</span></span>
 <span><span class="co">#&gt; $ eic_display_name                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "LA_220"<span style="color: #949494;">, </span>"IT-GEO____SPA"<span style="color: #949494;">, </span>"IT-BETA_ENERGYS"<span style="color: #949494;">, </span>"ELIA"<span style="color: #949494;">, </span>"ENERGINET-DK"<span style="color: #949494;">, </span>"FIN…</span></span>
@@ -660,31 +660,31 @@ characteristics:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">public download</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> downloading all_allocated_eic table ...</span></span>
 <span><span class="co">#&gt; &lt;- HTTP/1.1 200 OK</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Length</span>: 67295664</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Length</span>: 70083917</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Type</span>: application/octet-stream</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-MD5</span>: JsBSS8Yq6SiYAT1SZT5MOA==</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Last-Modified</span>: Mon, 13 Apr 2026 01:15:12 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-MD5</span>: sBey+85c9P0TZ9gTgvMpXg==</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Last-Modified</span>: Mon, 05 Oct 2026 01:15:16 GMT</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Accept-Ranges</span>: bytes</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">ETag</span>: "0x8DE98FA1CEB6EF9"</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">ETag</span>: "0x8DF227E1D81E740"</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Vary</span>: Origin</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Server</span>: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-request-id</span>: b2ff9275-b01e-00b3-6c23-cbcb47000000</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-request-id</span>: cade7c34-d01e-0033-65c8-543441000000</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-version</span>: 2014-02-14</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-lease-status</span>: unlocked</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-lease-state</span>: available</span></span>
 <span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-ms-blob-type</span>: BlockBlob</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 13 Apr 2026 08:54:20 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 05 Oct 2026 12:51:27 GMT</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> response has arrived</span></span>
 <span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■                           </span>  14% | ETA:  6s</span></span>
-<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■                    </span>  36% | ETA:  5s</span></span>
-<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■         </span>  75% | ETA:  2s</span></span>
+<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% | ETA:  3s</span></span>
+<span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   </span>  93% | ETA:  1s</span></span>
 <span><span class="co">#&gt; converting <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span>
 <span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">allocated_eic</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 74,187</span></span>
+<span><span class="co">#&gt; Rows: 77,243</span></span>
 <span><span class="co">#&gt; Columns: 17</span></span>
 <span><span class="co">#&gt; $ revision_number                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>"1"<span style="color: #949494;">, </span>…</span></span>
-<span><span class="co">#&gt; $ created_date_time                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2026-04-13T01:15:10Z"<span style="color: #949494;">, </span>"2026-04-13T01:15:10Z"<span style="color: #949494;">, </span>"2026-04-13T01:15…</span></span>
+<span><span class="co">#&gt; $ created_date_time                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "2026-10-05T01:15:13Z"<span style="color: #949494;">, </span>"2026-10-05T01:15:13Z"<span style="color: #949494;">, </span>"2026-10-05T01:15…</span></span>
 <span><span class="co">#&gt; $ eic_code                                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10T-1001-10010AS"<span style="color: #949494;">, </span>"10T1001A1001A012"<span style="color: #949494;">, </span>"10T1001A1001A020"<span style="color: #949494;">, </span>"10T1…</span></span>
 <span><span class="co">#&gt; $ doc_status_value                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A05"<span style="color: #949494;">, </span>"A…</span></span>
 <span><span class="co">#&gt; $ doc_status                                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Control block area schedule"<span style="color: #949494;">, </span>"Control block area schedule"<span style="color: #949494;">, </span>"Co…</span></span>
@@ -714,7 +714,7 @@ characteristics:</p>
 <span><span class="co">#&gt; |                                             |                            |</span></span>
 <span><span class="co">#&gt; |:--------------------------------------------|:---------------------------|</span></span>
 <span><span class="co">#&gt; |revision_number                              |1                           |</span></span>
-<span><span class="co">#&gt; |created_date_time                            |2026-04-13T01:15:10Z        |</span></span>
+<span><span class="co">#&gt; |created_date_time                            |2026-10-05T01:15:13Z        |</span></span>
 <span><span class="co">#&gt; |eic_code                                     |50WG00000001997X            |</span></span>
 <span><span class="co">#&gt; |doc_status_value                             |A05                         |</span></span>
 <span><span class="co">#&gt; |doc_status                                   |Control block area schedule |</span></span>
@@ -921,15 +921,17 @@ characteristics:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A44&amp;in_Domain=10YES-REE------0&amp;out_Domain=10YES-REE------0&amp;periodStart=202512312300&amp;periodEnd=202601032300&amp;contract_MarketAgreement.type=A07&amp;securityToken=&lt;...&gt;</span></span>
-<span><span class="co">#&gt; &lt;- HTTP/2 200 </span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">date</span>: Mon, 13 Apr 2026 08:54:43 GMT</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-type</span>: text/xml</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-disposition</span>: inline; filename="Energy_Prices_202512312300-202601032300.xml"</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-content-type-options</span>: nosniff</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">x-xss-protection</span>: 0</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">vary</span>: accept-encoding</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">content-encoding</span>: gzip</span></span>
-<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">strict-transport-security</span>: max-age=15724800; includeSubDomains</span></span>
+<span><span class="co">#&gt; &lt;- HTTP/1.1 200 OK</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 05 Oct 2026 12:51:52 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Type</span>: text/xml</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Transfer-Encoding</span>: chunked</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Connection</span>: keep-alive</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Disposition</span>: inline; filename="Energy_Prices_202512312300-202601032300.xml"</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Encoding</span>: gzip</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Strict-Transport-Security</span>: max-age=15724800</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Vary</span>: accept-encoding</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Content-Type-Options</span>: nosniff</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Xss-Protection</span>: 0</span></span>
 <span><span class="co">#&gt; &lt;-</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> response has arrived</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional type names have been added!</span></span>
@@ -959,7 +961,7 @@ characteristics:</p>
 <span><span class="co">#&gt; |Intraday contract         |2025-12-31 23:15:00 |                 92.83|EUR                   |</span></span>
 <span><span class="co">#&gt; |Intraday contract         |2025-12-31 23:30:00 |                 91.71|EUR                   |</span></span>
 <span><span class="co">#&gt; |Intraday contract         |2025-12-31 23:45:00 |                 91.25|EUR                   |</span></span>
-<span><span class="co">#&gt; |Intraday contract         |2026-01-01 00:00:00 |                 89.37|EUR                   |</span></span>
+<span><span class="co">#&gt; |Intraday contract         |2026-01-01 00:00:00 |                 91.25|EUR                   |</span></span>
 <span><span class="co">#&gt; |Intraday contract         |2026-01-01 00:15:00 |                 90.64|EUR                   |</span></span>
 <span><span class="co">#&gt; |Intraday contract         |2026-01-01 00:30:00 |                 88.99|EUR                   |</span></span>
 <span><span class="co">#&gt; |Intraday contract         |2026-01-01 00:45:00 |                 87.08|EUR                   |</span></span>
@@ -1037,7 +1039,7 @@ speed or <code><a href="../reference/all_allocated_eic.html">all_allocated_eic()
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

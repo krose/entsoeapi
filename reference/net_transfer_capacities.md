@@ -73,6 +73,7 @@ Other transmission endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::net_transfer_capacities(
   eic_in = "10YCZ-CEPS-----N",
   eic_out = "10YSK-SEPS-----K",
@@ -81,25 +82,7 @@ df <- entsoeapi::net_transfer_capacities(
   period_end = lubridate::ymd(x = "2024-02-01", tz = "CET"),
   tidy_output = TRUE
 )
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A61&contract_MarketAgreement.Type=A02&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=202312312300&periodEnd=202401312300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:03 GMT
-#> <- content-type: text/xml
-#> <- content-length: 987
-#> <- content-disposition: inline; filename="acknowledgement.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
-#> <- 
-#> ✔ response has arrived
-#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 1
-#> Columns: 3
-#> $ created_date_time <dttm> 2026-04-13 08:52:03
-#> $ reason_code       <chr> "999"
-#> $ reason_text       <chr> "No matching data found for Data item FORECASTED_TRANSFER_CAPACITIES_EXPLICIT [11.1] (10YCZ…
+}
 ```

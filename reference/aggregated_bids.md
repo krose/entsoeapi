@@ -83,15 +83,17 @@ df <- entsoeapi::aggregated_bids(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A24&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:50:19 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="AGGREGATED_BALANCING_ENERGY_BIDS_R3_202312312300-202401012300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:32:51 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="AGGREGATED_BALANCING_ENERGY_BIDS_R3_202312312300-202401012300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -111,7 +113,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN", …
 #> $ ts_business_type              <chr> "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A14", "A1…
 #> $ ts_business_type_def          <chr> "Aggregated energy data", "Aggregated energy data", "Aggregated energy data", "A…
-#> $ created_date_time             <dttm> 2026-04-13 08:50:19, 2026-04-13 08:50:19, 2026-04-13 08:50:19, 2026-04-13 08:50…
+#> $ created_date_time             <dttm> 2026-10-05 12:32:51, 2026-10-05 12:32:51, 2026-10-05 12:32:51, 2026-10-05 12:32…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00…

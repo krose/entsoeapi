@@ -41,6 +41,7 @@ and a brief use case.
 5.  Run the full check suite locally before pushing:
 
     ``` r
+
     lintr::lint_package()
     devtools::document()
     devtools::test()

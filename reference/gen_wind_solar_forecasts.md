@@ -73,15 +73,17 @@ df <- entsoeapi::gen_wind_solar_forecasts(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A69&processType=A01&in_Domain=10YFR-RTE------C&periodStart=202001312300&periodEnd=202002292300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:46 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Generation Forecasts Wind Solar_202001312300-202002292300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:39:24 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Generation Forecasts Wind Solar_202001312300-202002292300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -103,7 +105,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def            <chr> "Solar generation", "Solar generation", "Solar generation", "Solar generation"…
 #> $ ts_mkt_psr_type                 <chr> "B16", "B16", "B16", "B16", "B16", "B16", "B16", "B16", "B16", "B16", "B16", "…
 #> $ ts_mkt_psr_type_def             <chr> "Solar unspecified", "Solar unspecified", "Solar unspecified", "Solar unspecif…
-#> $ created_date_time               <dttm> 2026-04-13 08:51:46, 2026-04-13 08:51:46, 2026-04-13 08:51:46, 2026-04-13 08:…
+#> $ created_date_time               <dttm> 2026-10-05 12:39:24, 2026-10-05 12:39:24, 2026-10-05 12:39:24, 2026-10-05 12:…
 #> $ revision_number                 <dbl> 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
 #> $ time_period_time_interval_start <dttm> 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:…
 #> $ time_period_time_interval_end   <dttm> 2020-02-29 23:00:00, 2020-02-29 23:00:00, 2020-02-29 23:00:00, 2020-02-29 23:…

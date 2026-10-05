@@ -1,6 +1,7 @@
 # Architecture: API Pipeline, XML Engine & Caching
 
 ``` r
+
 library(entsoeapi)
 library(cli)
 suppressPackageStartupMessages(library(lubridate))
@@ -156,6 +157,7 @@ user-supplied EIC code(s) and converted timestamps. Optional parameters
 **Step 4 — Pipeline invocation.**
 
 ``` r
+
 en_cont_list <- api_req_safe(query_string, security_token)
 extract_response(content = en_cont_list, tidy_output = tidy_output)
 ```
@@ -165,6 +167,7 @@ extract_response(content = en_cont_list, tidy_output = tidy_output)
 **Location:** `R/utils.R`
 
 ``` r
+
 api_req_safe <- safely(api_req)
 ```
 
@@ -222,15 +225,15 @@ The core HTTP function. Steps:
 
 ### 1.4 Error handling
 
-| Error type                        | Condition                                                                    | Action                                                                                                                                       |
-|-----------------------------------|------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| Network / R exception             | `req_perform_safe()` returns `$error`                                        | Propagated via `api_req_safe()`                                                                                                              |
-| 503 Service Unavailable           | HTTP status 503                                                              | Retried up to 3 times (10 s backoff) via `req_retry()`; [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) if all attempts fail |
-| HTML error page                   | Response body is HTML                                                        | Extract status + body, [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html)                                                       |
-| XML error — code 999, exceeds max | Body is XML, reason code 999, message contains “exceeds the allowed maximum” | Trigger pagination (see 1.5)                                                                                                                 |
-| XML error — code 999, forbidden   | Same as above but query matches a forbidden pattern                          | [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) with reason text                                                             |
-| XML error — other codes           | Body is XML, other reason codes                                              | [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) with reason text                                                             |
-| JSON error                        | Body is JSON                                                                 | Extract `uuAppErrorMap.URI_FORMAT_ERROR`, [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html)                                    |
+| Error type | Condition | Action |
+|----|----|----|
+| Network / R exception | `req_perform_safe()` returns `$error` | Propagated via `api_req_safe()` |
+| 503 Service Unavailable | HTTP status 503 | Retried up to 3 times (10 s backoff) via `req_retry()`; [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) if all attempts fail |
+| HTML error page | Response body is HTML | Extract status + body, [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) |
+| XML error — code 999, exceeds max | Body is XML, reason code 999, message contains “exceeds the allowed maximum” | Trigger pagination (see 1.5) |
+| XML error — code 999, forbidden | Same as above but query matches a forbidden pattern | [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) with reason text |
+| XML error — other codes | Body is XML, other reason codes | [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) with reason text |
+| JSON error | Body is JSON | Extract `uuAppErrorMap.URI_FORMAT_ERROR`, [`cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html) |
 
 ### 1.5 Automatic pagination
 
@@ -314,11 +317,11 @@ by running a fixed transformation sequence:
 The ENTSO-E XML schema uses three nesting levels, which the engine
 labels:
 
-| Level  | Definition               | Example element                                              |
-|--------|--------------------------|--------------------------------------------------------------|
-| Leaf   | No children              | `<quantity>100</quantity>`                                   |
-| Twig   | Has direct children only | `<Period><resolution>…</resolution></Period>`                |
-| Branch | Has grandchild nodes     | `<TimeSeries><Period><Point>…</Point></Period></TimeSeries>` |
+| Level | Definition | Example element |
+|----|----|----|
+| Leaf | No children | `<quantity>100</quantity>` |
+| Twig | Has direct children only | `<Period><resolution>…</resolution></Period>` |
+| Branch | Has grandchild nodes | `<TimeSeries><Period><Point>…</Point></Period></TimeSeries>` |
 
 `extract_nodesets()` converts XML nodesets to `data.table` objects using
 `xml2::as_list()`, constructing dotted column names from the element
@@ -420,10 +423,10 @@ Rows are then sorted by: `created_date_time`, `ts_mrid`,
 The package maintains two independent in-memory caches, both with a
 1-hour maximum age:
 
-| Object | Initialised in                 | Caches                                                  |
-|--------|--------------------------------|---------------------------------------------------------|
-| `m`    | `R/utils.R` (top of file)      | EIC name lookup tables used during XML enrichment       |
-| `mh`   | `R/en_helpers.R` (top of file) | Full EIC code tibbles downloaded by `*_eic()` functions |
+| Object | Initialised in | Caches |
+|----|----|----|
+| `m` | `R/utils.R` (top of file) | EIC name lookup tables used during XML enrichment |
+| `mh` | `R/en_helpers.R` (top of file) | Full EIC code tibbles downloaded by `*_eic()` functions |
 
 Both are `cachem::cache_mem(max_age = .max_age)` objects, where
 `.max_age` is the package-level constant `3600` (defined in
@@ -433,22 +436,22 @@ Both are `cachem::cache_mem(max_age = .max_age)` objects, where
 
 **Via `mh`** (one key per EIC function):
 
-| Cache key                     | Source               | Function                                                                                        |
-|-------------------------------|----------------------|-------------------------------------------------------------------------------------------------|
-| `party_eic_df_key`            | CSV download         | [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md)                       |
-| `area_eic_df_key`             | CSV download         | [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md)                         |
-| `accounting_point_eic_df_key` | CSV download         | [`accounting_point_eic()`](https://krose.github.io/entsoeapi/reference/accounting_point_eic.md) |
-| `tie_line_eic_df_key`         | CSV download         | [`tie_line_eic()`](https://krose.github.io/entsoeapi/reference/tie_line_eic.md)                 |
-| `location_eic_df_key`         | CSV download         | [`location_eic()`](https://krose.github.io/entsoeapi/reference/location_eic.md)                 |
-| `resource_object_eic_df_key`  | CSV download         | [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md)   |
-| `substation_eic_df_key`       | CSV download         | [`substation_eic()`](https://krose.github.io/entsoeapi/reference/substation_eic.md)             |
-| `all_allocated_eic_df_key`    | XML download + parse | [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md)       |
+| Cache key | Source | Function |
+|----|----|----|
+| `party_eic_df_key` | CSV download | [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md) |
+| `area_eic_df_key` | CSV download | [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md) |
+| `accounting_point_eic_df_key` | CSV download | [`accounting_point_eic()`](https://krose.github.io/entsoeapi/reference/accounting_point_eic.md) |
+| `tie_line_eic_df_key` | CSV download | [`tie_line_eic()`](https://krose.github.io/entsoeapi/reference/tie_line_eic.md) |
+| `location_eic_df_key` | CSV download | [`location_eic()`](https://krose.github.io/entsoeapi/reference/location_eic.md) |
+| `resource_object_eic_df_key` | CSV download | [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md) |
+| `substation_eic_df_key` | CSV download | [`substation_eic()`](https://krose.github.io/entsoeapi/reference/substation_eic.md) |
+| `all_allocated_eic_df_key` | XML download + parse | [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md) |
 
 **Via `m`** (used inside the XML-to-table engine):
 
-| Cache key                      | Content                                                                                                                                |
-|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| `area_eic_name_key`            | Subset of [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md): EicCode + EicLongName columns                       |
+| Cache key | Content |
+|----|----|
+| `area_eic_name_key` | Subset of [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md): EicCode + EicLongName columns |
 | `resource_object_eic_name_key` | Subset of [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md): EicCode + EicLongName columns |
 
 **Not cached:** API responses. Every call to
@@ -462,6 +465,7 @@ registries, type definitions) is cached.
 All EIC functions use the same template:
 
 ``` r
+
 cache_key <- "unique_key_name"
 
 if (mh$exists(key = cache_key)) {
@@ -544,60 +548,60 @@ The following traces a call to
 
 ## 5. Configuration Reference
 
-| Setting                    | Value                                                | Location                                                     |
-|----------------------------|------------------------------------------------------|--------------------------------------------------------------|
-| API base URL               | `https://web-api.tp.entsoe.eu/api?`                  | `.api_scheme`, `.api_domain`, `.api_name` in `R/constants.R` |
-| HTTP method                | GET                                                  | `api_req()` in `R/utils.R`                                   |
-| HTTP timeout               | 60 seconds (`.req_timeout`)                          | `R/constants.R`, applied in `api_req()`                      |
-| Retry on 503               | Up to 3 attempts, 10-second backoff                  | `req_retry()` in `api_req()`                                 |
-| Security token env var     | `ENTSOE_PAT`                                         | All user-facing functions                                    |
-| Verbose logging            | Response headers only                                | `api_req()` in `R/utils.R`                                   |
-| Cache max age              | 3600 seconds / 1 hour (`.max_age`)                   | `R/constants.R`, applied in `R/utils.R` and `R/en_helpers.R` |
-| Pagination trigger phrase  | `"exceeds the allowed maximum"`                      | `api_req()` in `R/utils.R`                                   |
-| Forbidden offset doc types | A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02 | `api_req()` in `R/utils.R`                                   |
-| XML encoding               | UTF-8                                                | `api_req()` and `xml_to_table()`                             |
-| ZIP content types          | `application/zip`, `application/octet-stream`        | `api_req()` in `R/utils.R`                                   |
+| Setting | Value | Location |
+|----|----|----|
+| API base URL | `https://web-api.tp.entsoe.eu/api?` | `.api_scheme`, `.api_domain`, `.api_name` in `R/constants.R` |
+| HTTP method | GET | `api_req()` in `R/utils.R` |
+| HTTP timeout | 60 seconds (`.req_timeout`) | `R/constants.R`, applied in `api_req()` |
+| Retry on 503 | Up to 3 attempts, 10-second backoff | `req_retry()` in `api_req()` |
+| Security token env var | `ENTSOE_PAT` | All user-facing functions |
+| Verbose logging | Response headers only | `api_req()` in `R/utils.R` |
+| Cache max age | 3600 seconds / 1 hour (`.max_age`) | `R/constants.R`, applied in `R/utils.R` and `R/en_helpers.R` |
+| Pagination trigger phrase | `"exceeds the allowed maximum"` | `api_req()` in `R/utils.R` |
+| Forbidden offset doc types | A63+A46/A85, A65+A85, B09+archive, A91, A92, A94+A02 | `api_req()` in `R/utils.R` |
+| XML encoding | UTF-8 | `api_req()` and `xml_to_table()` |
+| ZIP content types | `application/zip`, `application/octet-stream` | `api_req()` in `R/utils.R` |
 
 ------------------------------------------------------------------------
 
 ## 6. Code References
 
-| Component               | File             | Key Symbols                                                                                                                                                                                                                                                                                                                                          |
-|-------------------------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Package constants       | `R/constants.R`  | `.api_scheme`, `.api_domain`, `.api_name`, `.req_timeout`, `.max_age`                                                                                                                                                                                                                                                                                |
-| EIC checksum validation | `R/utils.R`      | `assert_eic()`, `possible_eic_chars`                                                                                                                                                                                                                                                                                                                 |
-| Provider check          | `R/utils.R`      | [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md)                                                                                                                                                                                                                                                            |
-| Cache (general)         | `R/utils.R`      | `m`                                                                                                                                                                                                                                                                                                                                                  |
-| Cache (EIC helpers)     | `R/en_helpers.R` | `mh`                                                                                                                                                                                                                                                                                                                                                 |
-| HTTP request            | `R/utils.R`      | `api_req()`, `api_req_safe()`                                                                                                                                                                                                                                                                                                                        |
-| Timestamp formatting    | `R/utils.R`      | `url_posixct_format()`                                                                                                                                                                                                                                                                                                                               |
-| Zip decompression       | `R/utils.R`      | `read_zipped_xml()`                                                                                                                                                                                                                                                                                                                                  |
-| Pagination              | `R/utils.R`      | `calc_offset_urls()`                                                                                                                                                                                                                                                                                                                                 |
-| XML engine entry        | `R/utils.R`      | `extract_response()`                                                                                                                                                                                                                                                                                                                                 |
-| XML engine core         | `R/utils.R`      | `xml_to_table()`                                                                                                                                                                                                                                                                                                                                     |
-| XML parsing             | `R/utils.R`      | `extract_leaf_twig_branch()`, `extract_nodesets()`                                                                                                                                                                                                                                                                                                   |
-| Column naming           | `R/utils.R`      | `my_snakecase()`                                                                                                                                                                                                                                                                                                                                     |
-| Time series             | `R/utils.R`      | `tidy_or_not()`                                                                                                                                                                                                                                                                                                                                      |
-| Type enrichment         | `R/utils.R`      | `add_type_names()`, `lookup_merge()`                                                                                                                                                                                                                                                                                                                 |
-| EIC enrichment          | `R/utils.R`      | `add_eic_names()`, `lookup_merge()`, `get_resource_object_eic()`                                                                                                                                                                                                                                                                                     |
-| Definition enrichment   | `R/utils.R`      | `add_definitions()`                                                                                                                                                                                                                                                                                                                                  |
-| EIC download functions  | `R/en_helpers.R` | [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md), [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md), [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md), [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md), et al. |
-| Built-in type tables    | `R/data.R`       | `asset_types`, `business_types`, `process_types`, `message_types`, et al.                                                                                                                                                                                                                                                                            |
+| Component | File | Key Symbols |
+|----|----|----|
+| Package constants | `R/constants.R` | `.api_scheme`, `.api_domain`, `.api_name`, `.req_timeout`, `.max_age` |
+| EIC checksum validation | `R/utils.R` | `assert_eic()`, `possible_eic_chars` |
+| Provider check | `R/utils.R` | [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md) |
+| Cache (general) | `R/utils.R` | `m` |
+| Cache (EIC helpers) | `R/en_helpers.R` | `mh` |
+| HTTP request | `R/utils.R` | `api_req()`, `api_req_safe()` |
+| Timestamp formatting | `R/utils.R` | `url_posixct_format()` |
+| Zip decompression | `R/utils.R` | `read_zipped_xml()` |
+| Pagination | `R/utils.R` | `calc_offset_urls()` |
+| XML engine entry | `R/utils.R` | `extract_response()` |
+| XML engine core | `R/utils.R` | `xml_to_table()` |
+| XML parsing | `R/utils.R` | `extract_leaf_twig_branch()`, `extract_nodesets()` |
+| Column naming | `R/utils.R` | `my_snakecase()` |
+| Time series | `R/utils.R` | `tidy_or_not()` |
+| Type enrichment | `R/utils.R` | `add_type_names()`, `lookup_merge()` |
+| EIC enrichment | `R/utils.R` | `add_eic_names()`, `lookup_merge()`, `get_resource_object_eic()` |
+| Definition enrichment | `R/utils.R` | `add_definitions()` |
+| EIC download functions | `R/en_helpers.R` | [`party_eic()`](https://krose.github.io/entsoeapi/reference/party_eic.md), [`area_eic()`](https://krose.github.io/entsoeapi/reference/area_eic.md), [`resource_object_eic()`](https://krose.github.io/entsoeapi/reference/resource_object_eic.md), [`all_allocated_eic()`](https://krose.github.io/entsoeapi/reference/all_allocated_eic.md), et al. |
+| Built-in type tables | `R/data.R` | `asset_types`, `business_types`, `process_types`, `message_types`, et al. |
 
 ------------------------------------------------------------------------
 
 ## 7. Glossary
 
-| Term                                                                                      | Definition                                                                                                                                                                                                                                                           |
-|-------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| EIC                                                                                       | Energy Identification Code — a 16-character alphanumeric code (digits, uppercase letters, `-`) identifying market participants, bidding zones, transmission lines, etc. on the ENTSO-E platform; the 16th character is a weighted-modulo-37 checksum of the first 15 |
-| Document type                                                                             | A 3-character ENTSO-E code (e.g., A65) identifying the category of data being requested                                                                                                                                                                              |
-| Process type                                                                              | A 3-character ENTSO-E code (e.g., A16) qualifying the sub-type of a document type                                                                                                                                                                                    |
-| Curve type A01                                                                            | Regular time series: data points are evenly spaced at the given resolution                                                                                                                                                                                           |
-| Curve type A03                                                                            | Broken / irregular time series: some positional slots may be absent; gaps are filled during tidy conversion                                                                                                                                                          |
-| Tidy output                                                                               | One row per data point, with an explicit `ts_point_dt_start` timestamp column (`tidy_output = TRUE`)                                                                                                                                                                 |
-| Nested output                                                                             | One row per time period, with all data points collected into a `ts_point` list-column (`tidy_output = FALSE`)                                                                                                                                                        |
-| Offset pagination                                                                         | Mechanism by which `api_req()` splits an oversized query into multiple requests using `&offset=N` parameters, transparent to the caller                                                                                                                              |
-| `ENTSOE_PAT`                                                                              | R environment variable holding the user’s ENTSO-E security token                                                                                                                                                                                                     |
-| [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md) | Exported helper that returns `TRUE` when the ENTSO-E API endpoint is reachable; used as an `@examplesIf` guard throughout the package                                                                                                                                |
-| `cachem`                                                                                  | R package providing in-memory and disk caches with automatic expiry, used by both `m` and `mh` cache objects                                                                                                                                                         |
+| Term | Definition |
+|----|----|
+| EIC | Energy Identification Code — a 16-character alphanumeric code (digits, uppercase letters, `-`) identifying market participants, bidding zones, transmission lines, etc. on the ENTSO-E platform; the 16th character is a weighted-modulo-37 checksum of the first 15 |
+| Document type | A 3-character ENTSO-E code (e.g., A65) identifying the category of data being requested |
+| Process type | A 3-character ENTSO-E code (e.g., A16) qualifying the sub-type of a document type |
+| Curve type A01 | Regular time series: data points are evenly spaced at the given resolution |
+| Curve type A03 | Broken / irregular time series: some positional slots may be absent; gaps are filled during tidy conversion |
+| Tidy output | One row per data point, with an explicit `ts_point_dt_start` timestamp column (`tidy_output = TRUE`) |
+| Nested output | One row per time period, with all data points collected into a `ts_point` list-column (`tidy_output = FALSE`) |
+| Offset pagination | Mechanism by which `api_req()` splits an oversized query into multiple requests using `&offset=N` parameters, transparent to the caller |
+| `ENTSOE_PAT` | R environment variable holding the user’s ENTSO-E security token |
+| [`there_is_provider()`](https://krose.github.io/entsoeapi/reference/there_is_provider.md) | Exported helper that returns `TRUE` when the ENTSO-E API endpoint is reachable; used as an `@examplesIf` guard throughout the package |
+| `cachem` | R package providing in-memory and disk caches with automatic expiry, used by both `m` and `mh` cache objects |

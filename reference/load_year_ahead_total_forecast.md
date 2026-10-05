@@ -69,15 +69,17 @@ df <- entsoeapi::load_year_ahead_total_forecast(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A33&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=202112312300&periodEnd=202212302300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:01 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Total Load Forecast 202112312300-202212302300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:43:00 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Total Load Forecast 202112312300-202212302300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -97,7 +99,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area", "Area"…
 #> $ ts_business_type                <chr> "A60", "A60", "A60", "A60", "A60", "A60", "A60", "A60", "A60", "A60", "A60", "…
 #> $ ts_business_type_def            <chr> "Minimum possible", "Minimum possible", "Minimum possible", "Minimum possible"…
-#> $ created_date_time               <dttm> 2026-04-13 08:52:01, 2026-04-13 08:52:01, 2026-04-13 08:52:01, 2026-04-13 08:…
+#> $ created_date_time               <dttm> 2026-10-05 12:43:00, 2026-10-05 12:43:00, 2026-10-05 12:43:00, 2026-10-05 12:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2021-12-26 23:00:00, 2021-12-26 23:00:00, 2021-12-26 23:00:00, 2021-12-26 23:…
 #> $ time_period_time_interval_end   <dttm> 2023-01-01 23:00:00, 2023-01-01 23:00:00, 2023-01-01 23:00:00, 2023-01-01 23:…

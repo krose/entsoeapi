@@ -67,14 +67,16 @@ df <- entsoeapi::gen_installed_capacity_per_pt(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A68&processType=A33&in_Domain=10YFR-RTE------C&psrType=B05&periodStart=202001010000&periodEnd=202101010000&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:34 GMT
-#> <- content-type: text/xml
-#> <- content-length: 1692
-#> <- content-disposition: inline; filename="Installed Generation Capacity Aggregated_202001010000-202101010000.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:38:37 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 1692
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Installed Generation Capacity Aggregated_202001010000-202101010000.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -96,7 +98,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def            <chr> "Installed generation"
 #> $ ts_mkt_psr_type                 <chr> "B05"
 #> $ ts_mkt_psr_type_def             <chr> "Fossil Hard coal"
-#> $ created_date_time               <dttm> 2026-04-13 08:51:34
+#> $ created_date_time               <dttm> 2026-10-05 12:38:36
 #> $ revision_number                 <dbl> 1
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00
 #> $ time_period_time_interval_end   <dttm> 2020-12-31 23:00:00

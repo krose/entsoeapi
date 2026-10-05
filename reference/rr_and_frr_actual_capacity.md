@@ -86,15 +86,17 @@ df1 <- entsoeapi::rr_and_frr_actual_capacity(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A46&businessType=C78&Area_Domain=10YFR-RTE------C&periodStart=202312312300&periodEnd=202403312200&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:32 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:47:48 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -114,7 +116,7 @@ dplyr::glimpse(df1)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "UP", "DOWN", "UP", "UP"
 #> $ ts_business_type              <chr> "C77", "C79", "C78", "C78", "C77", "C79"
 #> $ ts_business_type_def          <chr> "Minimum available capacity", "Maximum available capacity", "Average available c…
-#> $ created_date_time             <dttm> 2026-04-13 08:52:32, 2026-04-13 08:52:32, 2026-04-13 08:52:32, 2026-04-13 08:52:…
+#> $ created_date_time             <dttm> 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P3M", "P3M", "P3M", "P3M", "P3M", "P3M"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…
@@ -134,15 +136,17 @@ df2 <- entsoeapi::rr_and_frr_actual_capacity(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A56&businessType=C78&Area_Domain=10YFR-RTE------C&periodStart=202312312300&periodEnd=202403312200&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:52:32 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:47:48 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="FRR and RR Actual Capacity_202312312300-202403312200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -162,7 +166,7 @@ dplyr::glimpse(df2)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "UP", "DOWN", "UP", "UP"
 #> $ ts_business_type              <chr> "C77", "C79", "C78", "C78", "C77", "C79"
 #> $ ts_business_type_def          <chr> "Minimum available capacity", "Maximum available capacity", "Average available c…
-#> $ created_date_time             <dttm> 2026-04-13 08:52:32, 2026-04-13 08:52:32, 2026-04-13 08:52:32, 2026-04-13 08:52:…
+#> $ created_date_time             <dttm> 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P3M", "P3M", "P3M", "P3M", "P3M", "P3M"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…

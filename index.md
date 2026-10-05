@@ -134,6 +134,7 @@ You can install the development version of entsoeapi from
 [GitHub](https://github.com/krose/entsoeapi) with:
 
 ``` r
+
 if (!require("devtools", quietly = TRUE)) install.packages("devtools", quiet = TRUE)
 devtools::install_github(repo = "krose/entsoeapi", ref = "main")
 ```
@@ -147,6 +148,7 @@ file in your working directory with a security token and call it
 `ENTSOE_PAT`.
 
 ``` r
+
 if (!require("usethis", quietly = TRUE)) install.packages("usethis", quiet = TRUE)
 usethis::edit_r_environ()
 ```
@@ -159,6 +161,7 @@ You use the eic codes to get the data. Let’s try to find the eic code
 for Germany.
 
 ``` r
+
 if (!require("dplyr", quietly = TRUE)) install.packages("dplyr", quiet = TRUE)
 #> 
 #> Attaching package: 'dplyr'
@@ -210,30 +213,32 @@ entsoeapi::all_approved_eic() |>
 For some of the data you need to translate the generation codes.
 
 ``` r
+
 if (!require("knitr", quietly = TRUE)) install.packages("knitr", quiet = TRUE)
 entsoeapi::asset_types |>
   head(n = 12L) |>
   knitr::kable(format = "html")
 ```
 
-| code | title                   | description                                                                                                                 |
-|:-----|:------------------------|:----------------------------------------------------------------------------------------------------------------------------|
-| A01  | Tie line                | A high voltage line used for cross border energy interconnections.                                                          |
-| A02  | Line                    | A specific electric line within a country.                                                                                  |
-| A03  | Resource Object         | A resource that can either produce or consume energy.                                                                       |
-| A04  | Generation              | A resource that can produce energy.                                                                                         |
-| A05  | Load                    | A resource that can consume energy.                                                                                         |
-| A06  | Phase Shift Transformer | An electrical device for controlling the power flow through specific lines in a power transmission network.                 |
-| A07  | Circuit Breaker         | An electrical switch designed to protect an electrical circuit from damage caused by overcurrent/overload or short circuit. |
-| A08  | Busbar                  | A specific element within a substation to connect grid elements for energy distribution purposes.                           |
-| A09  | Capacitor               | A transmission element designed to inject reactive power into the transmission network.                                     |
-| A10  | Inductor                | A transmission element designed to compensate reactive power in the transmission network.                                   |
-| A11  | Power plant connection  | All the network equipment that link the generating unit to the grid.                                                        |
-| A12  | FACTS                   | Flexible Alternating Current Transmission System                                                                            |
+| code | title | description |
+|:---|:---|:---|
+| A01 | Tie line | A high voltage line used for cross border energy interconnections. |
+| A02 | Line | A specific electric line within a country. |
+| A03 | Resource Object | A resource that can either produce or consume energy. |
+| A04 | Generation | A resource that can produce energy. |
+| A05 | Load | A resource that can consume energy. |
+| A06 | Phase Shift Transformer | An electrical device for controlling the power flow through specific lines in a power transmission network. |
+| A07 | Circuit Breaker | An electrical switch designed to protect an electrical circuit from damage caused by overcurrent/overload or short circuit. |
+| A08 | Busbar | A specific element within a substation to connect grid elements for energy distribution purposes. |
+| A09 | Capacitor | A transmission element designed to inject reactive power into the transmission network. |
+| A10 | Inductor | A transmission element designed to compensate reactive power in the transmission network. |
+| A11 | Power plant connection | All the network equipment that link the generating unit to the grid. |
+| A12 | FACTS | Flexible Alternating Current Transmission System |
 
 Let’s get the demand of 2020-01-01 in Germany.
 
 ``` r
+
 if (!require("dplyr", quietly = TRUE)) install.packages("dplyr")
 entsoeapi::load_actual_total(
   eic = "10Y1001A1001A83F",
@@ -290,6 +295,7 @@ This is basically how all the functions work, so let’s try to get the
 production data too.
 
 ``` r
+
 if (!require("dplyr", quietly = TRUE)) install.packages("dplyr")
 entsoeapi::gen_per_prod_type(
   eic = "10Y1001A1001A83F",

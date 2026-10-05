@@ -60,52 +60,14 @@ Other load endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::load_week_ahead_total_forecast(
   eic = "10Y1001A1001A82H",
   period_start = lubridate::ymd(x = "2019-11-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2019-11-30", tz = "CET"),
   tidy_output = TRUE
 )
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A31&outBiddingZone_Domain=10Y1001A1001A82H&periodStart=201910312300&periodEnd=201911292300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:59 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Total Load Forecast 201910312300-201911292300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
-#> <- 
-#> ✔ response has arrived
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 6
-#> Columns: 21
-#> $ ts_out_bidding_zone_domain_mrid <chr> "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A82H"…
-#> $ ts_out_bidding_zone_domain_name <chr> "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Luxemb…
-#> $ type                            <chr> "A65", "A65", "A65", "A65", "A65", "A65"
-#> $ type_def                        <chr> "System total load", "System total load", "System total load", "System total l…
-#> $ process_type                    <chr> "A31", "A31", "A31", "A31", "A31", "A31"
-#> $ process_type_def                <chr> "Week ahead", "Week ahead", "Week ahead", "Week ahead", "Week ahead", "Week ah…
-#> $ ts_object_aggregation           <chr> "A01", "A01", "A01", "A01", "A01", "A01"
-#> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area", "Area"
-#> $ ts_business_type                <chr> "A60", "A60", "A60", "A61", "A61", "A61"
-#> $ ts_business_type_def            <chr> "Minimum possible", "Minimum possible", "Minimum possible", "Maximum available…
-#> $ created_date_time               <dttm> 2026-04-13 08:51:59, 2026-04-13 08:51:59, 2026-04-13 08:51:59, 2026-04-13 08:5…
-#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1
-#> $ time_period_time_interval_start <dttm> 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:0…
-#> $ time_period_time_interval_end   <dttm> 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:0…
-#> $ ts_resolution                   <chr> "P1D", "P1D", "P1D", "P1D", "P1D", "P1D"
-#> $ ts_time_interval_start          <dttm> 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:00:00, 2019-10-31 23:0…
-#> $ ts_time_interval_end            <dttm> 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:00:00, 2019-11-03 23:0…
-#> $ ts_mrid                         <dbl> 1, 1, 1, 2, 2, 2
-#> $ ts_point_dt_start               <dttm> 2019-10-31 23:00:00, 2019-11-01 23:00:00, 2019-11-02 23:00:00, 2019-10-31 23:…
-#> $ ts_point_quantity               <dbl> 42649.86, 41409.10, 38675.24, 58898.64, 57070.23, 53537.92
-#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
+}
 ```

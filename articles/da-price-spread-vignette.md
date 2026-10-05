@@ -1,6 +1,7 @@
 # Day-Ahead Price Spread Vignette
 
 ``` r
+
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(lubridate))
@@ -12,6 +13,7 @@ library(ggplot2)
 ### Look for the Polish market EIC and set the start and the end of scope dates
 
 ``` r
+
 pl_eic <- all_approved_eic() |>
   filter(eic_long_name == "Poland") |>
   pull(eic_code)
@@ -51,6 +53,7 @@ cli_inform("till: {till_ts}")
 ### Query the Polish DA prices within the pre-set period
 
 ``` r
+
 da_prices <- energy_prices(
   eic = pl_eic,
   period_start = from_ts,
@@ -61,15 +64,17 @@ da_prices <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YPL-AREA-----S&out_Domain=10YPL-AREA-----S&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:53:01 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:49:49 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202512312300-202601072300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -92,7 +97,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def        <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit",…
 #> $ ts_business_type           <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62",…
 #> $ ts_business_type_def       <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spot price",…
-#> $ created_date_time          <dttm> 2026-04-13 08:53:01, 2026-04-13 08:53:01, 2026-04-13 08:53:01, 2026-04-13 08:53:01…
+#> $ created_date_time          <dttm> 2026-10-05 12:49:49, 2026-10-05 12:49:49, 2026-10-05 12:49:49, 2026-10-05 12:49:49…
 #> $ revision_number            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution              <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start     <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00…
@@ -107,6 +112,7 @@ glimpse(da_prices)
 ### Calculate the daily minimum and maximum prices and the spread
 
 ``` r
+
 da_spreads <- da_prices |>
   mutate(
     ts_point_dt_start = with_tz(time = ts_point_dt_start, tzone = "CET")
@@ -138,6 +144,7 @@ da_spreads |>
 ### Plot the daily minimum and maximum prices and the spread
 
 ``` r
+
 print(
   ggplot(data = da_spreads) +
     geom_segment(

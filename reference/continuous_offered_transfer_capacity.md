@@ -79,15 +79,17 @@ df <- entsoeapi::continuous_offered_transfer_capacity(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A31&auction.Type=A08&contract_MarketAgreement.Type=A07&in_Domain=10YNL----------L&out_Domain=10YBE----------2&periodStart=202405152200&periodEnd=202405162200&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:10 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Offered Transfer Capacities Continuous_202405152200-202405162200.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:35:28 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Offered Transfer Capacities Continuous_202405152200-202405162200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -108,7 +110,7 @@ dplyr::glimpse(df)
 #> $ ts_auction_type_def           <chr> "Continuous", "Continuous", "Continuous", "Continuous", "Continuous", "Continuou…
 #> $ ts_business_type              <chr> "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A31", "A3…
 #> $ ts_business_type_def          <chr> "Offered Capacity", "Offered Capacity", "Offered Capacity", "Offered Capacity", …
-#> $ created_date_time             <dttm> 2026-04-13 08:51:10, 2026-04-13 08:51:10, 2026-04-13 08:51:10, 2026-04-13 08:51…
+#> $ created_date_time             <dttm> 2026-10-05 12:35:28, 2026-10-05 12:35:28, 2026-10-05 12:35:28, 2026-10-05 12:35…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M",…
 #> $ ts_time_interval_start        <dttm> 2024-05-15 22:00:00, 2024-05-15 22:00:00, 2024-05-15 22:00:00, 2024-05-15 22:00…

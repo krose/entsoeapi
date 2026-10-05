@@ -1,6 +1,7 @@
 # Time Series Restructuring Explained
 
 ``` r
+
 library(entsoeapi)
 suppressPackageStartupMessages(library(dplyr))
 library(cli)
@@ -62,16 +63,17 @@ reconstruction for analysis in R.
 
 Most functions in entsoeapi accept a `tidy_output` parameter:
 
-| Setting                        | Output Format                     | Best For                             |
-|--------------------------------|-----------------------------------|--------------------------------------|
-| `tidy_output = TRUE` (default) | One row per data point            | Analysis, plotting, aggregation      |
-| `tidy_output = FALSE`          | One row per period, nested points | Large datasets, preserving structure |
+| Setting | Output Format | Best For |
+|----|----|----|
+| `tidy_output = TRUE` (default) | One row per data point | Analysis, plotting, aggregation |
+| `tidy_output = FALSE` | One row per period, nested points | Large datasets, preserving structure |
 
 ### tidy_output = TRUE: One Row Per Point
 
 With `tidy_output = TRUE`, each row represents a single data point:
 
 ``` r
+
 # Define parameters
 es_zone <- "10YES-REE------0"
 from_ts <- ymd(x = "2024-01-01", tz = "CET")
@@ -92,15 +94,17 @@ da_prices_tidy <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:53:57 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:51:06 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -168,6 +172,7 @@ With `tidy_output = FALSE`, each row represents a time period with all
 data points nested in a list-column:
 
 ``` r
+
 cli_h1("tidy_output = FALSE (Nested)")
 #> 
 #> ── tidy_output = FALSE (Nested) ────────────────────────────────────────────────────────────────────────────────────────
@@ -183,15 +188,17 @@ da_prices_nested <- energy_prices(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:53:59 GMT
-#> <- content-type: text/xml
-#> <- content-disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- vary: accept-encoding
-#> <- content-encoding: gzip
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:51:07 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Energy_Prices_202312312300-202401012300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <-
 #> ✔ response has arrived
 #> ✔ Additional type names have been added!
@@ -225,6 +232,7 @@ da_prices_nested |>
 Each row contains a `ts_point` list-column with nested data:
 
 ``` r
+
 # Extract first period's points
 da_prices_nested$ts_point[[1]] |>
   kbl(format = "pipe") |>
@@ -406,6 +414,7 @@ The package automatically calculates timestamps based on:
 ### Resolution Examples
 
 ``` r
+
 cli_h1("Time Resolution Examples")
 #> 
 #> ── Time Resolution Examples ────────────────────────────────────────────────────────────────────────────────────────────
@@ -432,6 +441,7 @@ da_prices_tidy |>
 With tidy output, aggregation is straightforward:
 
 ``` r
+
 cli_h1("Aggregating to Daily Values")
 #> 
 #> ── Aggregating to Daily Values ─────────────────────────────────────────────────────────────────────────────────────────
@@ -457,6 +467,7 @@ da_prices_tidy |>
 Extract and process nested points:
 
 ``` r
+
 cli_h1("Processing Nested Points")
 #> 
 #> ── Processing Nested Points ────────────────────────────────────────────────────────────────────────────────────────────
@@ -505,6 +516,7 @@ first_period_points |>
 All timestamps are returned in UTC. Convert to your timezone:
 
 ``` r
+
 library(lubridate)
 
 cli_h1("Timezone Conversions")
@@ -553,6 +565,7 @@ da_prices_tidy |>
 With tidy output, missing points are already handled:
 
 ``` r
+
 cli_h1("Checking for Missing Data")
 #> 
 #> ── Checking for Missing Data ───────────────────────────────────────────────────────────────────────────────────────────

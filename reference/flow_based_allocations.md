@@ -87,22 +87,25 @@ df <- entsoeapi::flow_based_allocations(
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A32&StorageType=archive&in_Domain=10YDOM-REGION-1V&out_Domain=10YDOM-REGION-1V&periodStart=201812302300&periodEnd=201812312300&securityToken=<...>
-#> <- HTTP/2 200 
-#> <- date: Mon, 13 Apr 2026 08:51:28 GMT
-#> <- content-type: application/zip
-#> <- content-disposition: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"
-#> <- x-content-type-options: nosniff
-#> <- x-xss-protection: 0
-#> <- strict-transport-security: max-age=15724800; includeSubDomains
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:38:01 GMT
+#> <- Content-Type: application/zip
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: attachment; filename="DayAhead_CWE_20181230T2300Z_20181231T2300Z.zip"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpB1aCB1/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
+#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97fa89f67/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 
 dplyr::glimpse(df)
 #> Rows: 9,440
-#> Columns: 21
+#> Columns: 24
 #> $ domain_mrid                                                     <chr> "10YDOM-REGION-1V", "10YDOM-REGION-1V", "10YDO…
 #> $ domain_name                                                     <chr> "CWE Region", "CWE Region", "CWE Region", "CWE…
 #> $ type                                                            <chr> "B11", "B11", "B11", "B11", "B11", "B11", "B11…
@@ -120,6 +123,9 @@ dplyr::glimpse(df)
 #> $ ts_time_interval_end                                            <dttm> 2018-12-31 23:00:00, 2018-12-31 23:00:00, 201…
 #> $ ts_mrid                                                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 #> $ ts_point_dt_start                                               <dttm> 2018-12-30 23:00:00, 2018-12-30 23:00:00, 201…
+#> $ constraint_ts_mrid                                              <chr> "15565440000", "15565440000", "15565440000", "…
+#> $ constraint_ts_business_type                                     <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09…
+#> $ constraint_ts_business_type_def                                 <chr> "Net position", "Net position", "Net position"…
 #> $ constraint_ts_monitored_ptdf_domain_mrid                        <chr> "10YAT-APG------L", "10YBE----------2", "10Y10…
 #> $ constraint_ts_monitored_ptdf_domain_name                        <chr> "Austria", "Belgium", "Germany_Luxemburg", "Fr…
 #> $ constraint_ts_monitored_ptdf_domain_quantity                    <dbl> 0.12228, -0.04419, -0.02456, -0.05096, -0.0400…
