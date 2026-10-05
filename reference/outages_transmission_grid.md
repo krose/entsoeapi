@@ -111,7 +111,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStartUpdate=202609272200&periodEndUpdate=202610042200&periodStart=202610052200&periodEnd=202610062200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:45:55 GMT
+#> <- Date: Mon, 05 Oct 2026 13:01:39 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -122,7 +122,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac9794346b9/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202609280530-202611061600.xml has been read in
+#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd408070e7/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202609280530-202611061600.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

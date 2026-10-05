@@ -94,7 +94,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/1.1 400 Bad Request
-#> <- Date: Mon, 05 Oct 2026 12:45:57 GMT
+#> <- Date: Mon, 05 Oct 2026 13:02:03 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 920
 #> <- Connection: keep-alive
@@ -109,7 +109,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=0&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:46:34 GMT
+#> <- Date: Mon, 05 Oct 2026 13:02:13 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -120,12 +120,12 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac94537955f/001-PROCURED_BALANCING_CAPACITY_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd4583e6d9/001-PROCURED_BALANCING_CAPACITY_R3_202312312300-202401012300.xml has been read in
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=100&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:46:50 GMT
+#> <- Date: Mon, 05 Oct 2026 13:02:26 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -136,12 +136,12 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97f879183/001-PROCURED_BALANCING_CAPACITY_R3_202401010500-202401011800.xml has been read in
+#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd478337d/001-PROCURED_BALANCING_CAPACITY_R3_202401010500-202401011800.xml has been read in
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:47:04 GMT
+#> <- Date: Mon, 05 Oct 2026 13:03:11 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -152,12 +152,12 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac94c209797/001-PROCURED_BALANCING_CAPACITY_R3_202401011400-202401011800.xml has been read in
+#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd23155fa5/001-PROCURED_BALANCING_CAPACITY_R3_202401011400-202401011800.xml has been read in
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:47:06 GMT
+#> <- Date: Mon, 05 Oct 2026 13:03:18 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -168,7 +168,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac9a2c3a34/001-PROCURED_BALANCING_CAPACITY_R3_202401011600-202401012300.xml has been read in
+#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd77aaaa24/001-PROCURED_BALANCING_CAPACITY_R3_202401011600-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -199,7 +199,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "Procured capacity", "Procured capacity", "Procured capacity", "Procured capacit…
 #> $ ts_mkt_psr_type               <chr> "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Resource Object", "Resource Object", "Resource Object", "Resource Object", "Res…
-#> $ created_date_time             <dttm> 2026-10-05 12:46:34, 2026-10-05 12:46:34, 2026-10-05 12:46:34, 2026-10-05 12:46…
+#> $ created_date_time             <dttm> 2026-10-05 13:02:12, 2026-10-05 13:02:12, 2026-10-05 13:02:12, 2026-10-05 13:02…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00…

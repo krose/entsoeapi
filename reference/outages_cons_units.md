@@ -88,50 +88,13 @@ Other outage endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::outages_cons_units(
   eic = "10YFI-1--------U",
   period_start = lubridate::ymd(x = "2024-04-10", tz = "CET"),
   period_end = lubridate::ymd(x = "2024-04-11", tz = "CET")
 )
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A76&biddingZone_Domain=10YFI-1--------U&periodStart=202404092200&periodEnd=202404102200&securityToken=<...>
-#> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:44:30 GMT
-#> <- Content-Type: text/xml
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Unavailability_of_consumption_units_aggregated_202404100400-202404100900.xml"
-#> <- Content-Encoding: gzip
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> ✔ response has arrived
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 1
-#> Columns: 18
-#> $ ts_bidding_zone_domain_mrid        <chr> "10YFI-1--------U"
-#> $ ts_bidding_zone_domain_name        <chr> "Finland"
-#> $ type                               <chr> "A76"
-#> $ type_def                           <chr> "Load unavailability"
-#> $ process_type                       <chr> "A26"
-#> $ process_type_def                   <chr> "Outage information"
-#> $ ts_business_type                   <chr> "A53"
-#> $ ts_business_type_def               <chr> "Planned maintenance"
-#> $ created_date_time                  <dttm> 2026-10-05 12:44:30
-#> $ reason_code                        <chr> "A95"
-#> $ reason_text                        <chr> "  - Complementary information"
-#> $ revision_number                    <dbl> 1
-#> $ unavailability_time_interval_start <dttm> 2024-04-10 04:00:00
-#> $ unavailability_time_interval_end   <dttm> 2024-04-10 09:00:00
-#> $ ts_available_period_resolution     <chr> "PT60M"
-#> $ ts_mrid                            <dbl> 1
-#> $ ts_available_period_point_quantity <dbl> 171
-#> $ ts_quantity_measure_unit_name      <chr> "MAW"
+}
 ```

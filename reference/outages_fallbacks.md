@@ -73,71 +73,14 @@ Other outage endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::outages_fallbacks(
   eic = "10YBE----------2",
   period_start = lubridate::ymd(x = "2023-01-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2024-01-01", tz = "CET"),
   process_type = "A51",
   event_nature = "C47")
-#> 
-#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A53&biddingZone_Domain=10YBE----------2&processType=A51&businessType=C47&periodStart=202212312300&periodEnd=202312312300&securityToken=<...>
-#> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:44:45 GMT
-#> <- Content-Type: application/zip
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: attachment; filename="Fall-backs_202305222200-202309080130.zip"
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/001-FALL_BACKS_202305222200-202305232200.xml has been read in
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/002-FALL_BACKS_202306262200-202306270900.xml has been read in
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/003-FALL_BACKS_202307202200-202307211245.xml has been read in
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/004-FALL_BACKS_202308232200-202308232230.xml has been read in
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/005-FALL_BACKS_202308272200-202308280445.xml has been read in
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac97d745812/006-FALL_BACKS_202309072200-202309080130.xml has been read in
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 6
-#> Columns: 18
-#> $ ts_bidding_zone_domain_mrid        <chr> "10YBE----------2", "10YBE----------2", "10YBE----------2", "10YBE---------…
-#> $ ts_bidding_zone_domain_name        <chr> "Belgium", "Belgium", "Belgium", "Belgium", "Belgium", "Belgium"
-#> $ doc_status_value                   <chr> "A02", "A02", "A02", "A02", "A02", "A02"
-#> $ doc_status                         <chr> "Allocated capacity schedule", "Allocated capacity schedule", "Allocated ca…
-#> $ type                               <chr> "A53", "A53", "A53", "A53", "A53", "A53"
-#> $ type_def                           <chr> "Outage publication Document", "Outage publication Document", "Outage publi…
-#> $ process_type                       <chr> "A51", "A51", "A51", "A51", "A51", "A51"
-#> $ process_type_def                   <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration…
-#> $ ts_business_type                   <chr> "C47", "C47", "C47", "C47", "C47", "C47"
-#> $ ts_business_type_def               <chr> "Disconnection", "Disconnection", "Disconnection", "Disconnection", "Discon…
-#> $ created_date_time                  <dttm> 2025-04-15 12:57:36, 2025-04-15 12:34:15, 2025-04-15 12:20:12, 2025-04-15 1…
-#> $ ts_reason_code                     <chr> "B13", "B13", "B13", "B13", "B13", "B13"
-#> $ ts_reason_text                     <chr> "Real time connection lost - Communication status currently inactive", "Rea…
-#> $ revision_number                    <dbl> 1, 1, 1, 1, 1, 1
-#> $ unavailability_time_interval_start <dttm> 2023-05-22 22:00:00, 2023-06-26 22:00:00, 2023-07-20 22:00:00, 2023-08-23 2…
-#> $ unavailability_time_interval_end   <dttm> 2023-05-23 22:00:00, 2023-06-27 09:00:00, 2023-07-21 12:45:00, 2023-08-23 2…
-#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1
-#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
+}
 ```

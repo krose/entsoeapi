@@ -63,7 +63,6 @@ Other generation endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::gen_per_gen_unit(
   eic          = "10YDE-VE-------2",
   period_start = lubridate::ymd(x = "2020-01-31", tz = "CET"),
@@ -71,7 +70,299 @@ df <- entsoeapi::gen_per_gen_unit(
   gen_type     = c("B04", "B05"),
   tidy_output  = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202001302300&periodEnd=202001312300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:45 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001302300-202001312300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202001302300&periodEnd=202001312300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:46 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001302300-202001312300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202001312300&periodEnd=202002012300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:47 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202001312300&periodEnd=202002012300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:49 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002012300&periodEnd=202002022300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:51 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002012300&periodEnd=202002022300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:53 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002022300&periodEnd=202002032300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:55 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002022300&periodEnd=202002032300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:58 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002032300&periodEnd=202002042300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:59 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002032300-202002042300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002032300&periodEnd=202002042300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:59:03 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002032300-202002042300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:59:03 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002042300-202002052300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:59:04 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002042300-202002052300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling resource_object_eic table from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-}
+#> Rows: 2,039
+#> Columns: 27
+#> $ ts_in_bidding_zone_domain_mrid  <chr> "10YDE-VE-------2", "10YDE-VE-------2", "10YDE-VE-------2", "10YDE-VE-------2"…
+#> $ ts_in_bidding_zone_domain_name  <chr> "Germany 50Hertz", "Germany 50Hertz", "Germany 50Hertz", "Germany 50Hertz", "G…
+#> $ ts_mkt_psr_type_psr_mrid        <chr> "11W0-0000-0103-9", "11W0-0000-0103-9", "11W0-0000-0103-9", "11W0-0000-0103-9"…
+#> $ ts_mkt_psr_type_psr_name        <chr> "Lichterfelde GUD", "Lichterfelde GUD", "Lichterfelde GUD", "Lichterfelde GUD"…
+#> $ ts_registered_resource_mrid     <chr> "11WD8LICH5G----1", "11WD8LICH5G----1", "11WD8LICH5G----1", "11WD8LICH5G----1"…
+#> $ ts_registered_resource_name     <chr> "Lichterfelde", "Lichterfelde", "Lichterfelde", "Lichterfelde", "Lichterfelde"…
+#> $ type                            <chr> "A73", "A73", "A73", "A73", "A73", "A73", "A73", "A73", "A73", "A73", "A73", "…
+#> $ type_def                        <chr> "Actual generation", "Actual generation", "Actual generation", "Actual generat…
+#> $ process_type                    <chr> "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "…
+#> $ process_type_def                <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "Reali…
+#> $ ts_object_aggregation           <chr> "A06", "A06", "A06", "A06", "A06", "A06", "A06", "A06", "A06", "A06", "A06", "…
+#> $ ts_object_aggregation_def       <chr> "Resource Object", "Resource Object", "Resource Object", "Resource Object", "R…
+#> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "…
+#> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
+#> $ ts_mkt_psr_type                 <chr> "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "…
+#> $ ts_mkt_psr_type_def             <chr> "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil …
+#> $ created_date_time               <dttm> 2026-10-05 12:58:45, 2026-10-05 12:58:45, 2026-10-05 12:58:45, 2026-10-05 12:…
+#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ time_period_time_interval_start <dttm> 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:…
+#> $ time_period_time_interval_end   <dttm> 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:…
+#> $ ts_resolution                   <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M…
+#> $ ts_time_interval_start          <dttm> 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:…
+#> $ ts_time_interval_end            <dttm> 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:…
+#> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, …
+#> $ ts_point_dt_start               <dttm> 2020-01-30 23:00:00, 2020-01-31 00:00:00, 2020-01-31 01:00:00, 2020-01-31 02:…
+#> $ ts_point_quantity               <dbl> 200.750, 201.000, 200.500, 200.500, 200.750, 200.750, 200.500, 201.000, 200.75…
+#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "…
 ```

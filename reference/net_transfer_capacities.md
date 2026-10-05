@@ -73,7 +73,6 @@ Other transmission endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::net_transfer_capacities(
   eic_in = "10YCZ-CEPS-----N",
   eic_out = "10YSK-SEPS-----K",
@@ -82,7 +81,27 @@ df <- entsoeapi::net_transfer_capacities(
   period_end = lubridate::ymd(x = "2024-02-01", tz = "CET"),
   tidy_output = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A61&contract_MarketAgreement.Type=A02&in_Domain=10YCZ-CEPS-----N&out_Domain=10YSK-SEPS-----K&periodStart=202312312300&periodEnd=202401312300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:59:55 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 987
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="acknowledgement.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-}
+#> Rows: 1
+#> Columns: 3
+#> $ created_date_time <dttm> 2026-10-05 12:59:55
+#> $ reason_code       <chr> "999"
+#> $ reason_text       <chr> "No matching data found for Data item FORECASTED_TRANSFER_CAPACITIES_EXPLICIT [11.1] (10YCZ…
 ```

@@ -65,14 +65,33 @@ Other market endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::intraday_prices(
   eic = "10YCZ-CEPS-----N",
   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2024-02-01", tz = "CET"),
   tidy_output = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A44&contract_MarketAgreement.Type=A07&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401312300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:59:36 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 963
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="acknowledgement.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-}
+#> Rows: 1
+#> Columns: 3
+#> $ created_date_time <dttm> 2026-10-05 12:59:36
+#> $ reason_code       <chr> "999"
+#> $ reason_text       <chr> "No matching data found for Data item ENERGY_PRICES [12.1.D] (10YCZ-CEPS-----N, 10YCZ-CEPS-…
 ```

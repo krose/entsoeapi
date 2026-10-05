@@ -87,7 +87,6 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 if (FALSE) { # \dontrun{
 df <- entsoeapi::hvdc_link_constrains(
   eic_in = "10YAT-APG------L",
@@ -100,5 +99,4 @@ df <- entsoeapi::hvdc_link_constrains(
 
 dplyr::glimpse(df)
 } # }
-}
 ```

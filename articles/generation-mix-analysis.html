@@ -67,7 +67,7 @@
       <img src="../logo.svg" class="logo" alt=""><h1>Generation Mix Analysis</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/vignettes/generation-mix-analysis.Rmd" class="external-link"><code>vignettes/generation-mix-analysis.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.2.1/vignettes/generation-mix-analysis.Rmd" class="external-link"><code>vignettes/generation-mix-analysis.Rmd</code></a></small>
       <div class="d-none name"><code>generation-mix-analysis.Rmd</code></div>
     </div>
 
@@ -163,9 +163,15 @@ data:</p>
 <span><span class="va">de_zone</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/area_eic.html">area_eic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">eic_long_name</span> <span class="op">==</span> <span class="st">"Germany"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">eic_code</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">public download</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> downloading Y_eicCodes.csv file ...</span></span>
 <span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_h1.html" class="external-link">cli_h1</a></span><span class="op">(</span><span class="st">"Germany Bidding Zone"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"EIC: {de_zone}"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Germany Bidding Zone</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_text.html" class="external-link">cli_text</a></span><span class="op">(</span><span class="st">"EIC: {de_zone}"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; EIC: 10Y1001A1001A83F</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="production-type-codes">Production Type Codes<a class="anchor" aria-label="anchor" href="#production-type-codes"></a>
@@ -176,7 +182,85 @@ data:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/startsWith.html" class="external-link">startsWith</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">code</span>, prefix <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">code</span>, <span class="va">title</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"pipe"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; |code |title                                                          |</span></span>
+<span><span class="co">#&gt; |:----|:--------------------------------------------------------------|</span></span>
+<span><span class="co">#&gt; |B01  |Biomass                                                        |</span></span>
+<span><span class="co">#&gt; |B02  |Fossil Brown coal/Lignite                                      |</span></span>
+<span><span class="co">#&gt; |B03  |Fossil Coal-derived gas                                        |</span></span>
+<span><span class="co">#&gt; |B04  |Fossil Gas                                                     |</span></span>
+<span><span class="co">#&gt; |B05  |Fossil Hard coal                                               |</span></span>
+<span><span class="co">#&gt; |B06  |Fossil Oil                                                     |</span></span>
+<span><span class="co">#&gt; |B07  |Fossil Oil shale                                               |</span></span>
+<span><span class="co">#&gt; |B08  |Fossil Peat                                                    |</span></span>
+<span><span class="co">#&gt; |B09  |Geothermal                                                     |</span></span>
+<span><span class="co">#&gt; |B10  |Hydro-electric pure pumped storage head installation           |</span></span>
+<span><span class="co">#&gt; |B11  |Hydro Run-of-river head installation                           |</span></span>
+<span><span class="co">#&gt; |B12  |Hydro-electric storage head installation                       |</span></span>
+<span><span class="co">#&gt; |B13  |Marine unspecified                                             |</span></span>
+<span><span class="co">#&gt; |B14  |Nuclear unspecified                                            |</span></span>
+<span><span class="co">#&gt; |B15  |Other renewable                                                |</span></span>
+<span><span class="co">#&gt; |B16  |Solar unspecified                                              |</span></span>
+<span><span class="co">#&gt; |B17  |Waste                                                          |</span></span>
+<span><span class="co">#&gt; |B18  |Wind Offshore                                                  |</span></span>
+<span><span class="co">#&gt; |B19  |Wind Onshore                                                   |</span></span>
+<span><span class="co">#&gt; |B20  |Other unspecified                                              |</span></span>
+<span><span class="co">#&gt; |B21  |AC Link                                                        |</span></span>
+<span><span class="co">#&gt; |B22  |DC Link                                                        |</span></span>
+<span><span class="co">#&gt; |B23  |Substation                                                     |</span></span>
+<span><span class="co">#&gt; |B24  |Transformer                                                    |</span></span>
+<span><span class="co">#&gt; |B25  |Energy storage                                                 |</span></span>
+<span><span class="co">#&gt; |B26  |Demand Side Response                                           |</span></span>
+<span><span class="co">#&gt; |B27  |Dispatchable hydro resource                                    |</span></span>
+<span><span class="co">#&gt; |B28  |Solar photovoltaic                                             |</span></span>
+<span><span class="co">#&gt; |B29  |Solar concentration                                            |</span></span>
+<span><span class="co">#&gt; |B30  |Wind unspecified                                               |</span></span>
+<span><span class="co">#&gt; |B31  |Hydro-electric unspecified                                     |</span></span>
+<span><span class="co">#&gt; |B32  |Hydro-electric mixed pumped storage head installation          |</span></span>
+<span><span class="co">#&gt; |B33  |Marine tidal                                                   |</span></span>
+<span><span class="co">#&gt; |B34  |Marine wave                                                    |</span></span>
+<span><span class="co">#&gt; |B35  |Marine currents                                                |</span></span>
+<span><span class="co">#&gt; |B36  |Marine pressure                                                |</span></span>
+<span><span class="co">#&gt; |B37  |Thermal unspecified                                            |</span></span>
+<span><span class="co">#&gt; |B38  |Thermal combined cycle gas turbine with heat recovery          |</span></span>
+<span><span class="co">#&gt; |B39  |Thermal steam turbine with back-pressure turbine (open cycle)  |</span></span>
+<span><span class="co">#&gt; |B40  |Thermal steam turbine with condensation turbine (closed cycle) |</span></span>
+<span><span class="co">#&gt; |B41  |Thermal gas turbine with heat recovery                         |</span></span>
+<span><span class="co">#&gt; |B42  |Thermal internal combustion engine                             |</span></span>
+<span><span class="co">#&gt; |B43  |Thermal micro-turbine                                          |</span></span>
+<span><span class="co">#&gt; |B44  |Thermal Stirling engine                                        |</span></span>
+<span><span class="co">#&gt; |B45  |Thermal fuel cell                                              |</span></span>
+<span><span class="co">#&gt; |B46  |Thermal steam engine                                           |</span></span>
+<span><span class="co">#&gt; |B47  |Thermal organic Rankine cycle                                  |</span></span>
+<span><span class="co">#&gt; |B48  |Thermal gas turbine without heat recovery                      |</span></span>
+<span><span class="co">#&gt; |B49  |Nuclear heavy water reactor                                    |</span></span>
+<span><span class="co">#&gt; |B50  |Nuclear light water reactor                                    |</span></span>
+<span><span class="co">#&gt; |B51  |Nuclear breeder                                                |</span></span>
+<span><span class="co">#&gt; |B52  |Nuclear graphite reactor                                       |</span></span>
+<span><span class="co">#&gt; |B53  |Temporary energy storage                                       |</span></span>
+<span><span class="co">#&gt; |B54  |Permanent energy storage                                       |</span></span>
+<span><span class="co">#&gt; |B55  |Electric vehicle battery                                       |</span></span>
+<span><span class="co">#&gt; |B56  |Heat pump specified                                            |</span></span>
+<span><span class="co">#&gt; |B57  |Heat pump electrical                                           |</span></span>
+<span><span class="co">#&gt; |B58  |Heat pump absorption                                           |</span></span>
+<span><span class="co">#&gt; |B59  |Auxiliary power unit                                           |</span></span>
+<span><span class="co">#&gt; |B60  |Water electrolysis unspecified                                 |</span></span>
+<span><span class="co">#&gt; |B61  |Water electrolysis low temperature unspecified                 |</span></span>
+<span><span class="co">#&gt; |B62  |Water electrolysis low temperature main product                |</span></span>
+<span><span class="co">#&gt; |B63  |Water electrolysis high temperature unspecified                |</span></span>
+<span><span class="co">#&gt; |B64  |Steam methane reforming unspecified                            |</span></span>
+<span><span class="co">#&gt; |B65  |Steam methane reforming without CCS/CCU  unspecified           |</span></span>
+<span><span class="co">#&gt; |B66  |Steam methane reforming with CCS/CCU  unspecified              |</span></span>
+<span><span class="co">#&gt; |B67  |Steam methane reforming with CCS/CCU  main product             |</span></span>
+<span><span class="co">#&gt; |B68  |Partial oxidation unspecified                                  |</span></span>
+<span><span class="co">#&gt; |B69  |Autothermal reforming unspecified                              |</span></span>
+<span><span class="co">#&gt; |B70  |Methanol reforming unspecified                                 |</span></span>
+<span><span class="co">#&gt; |B71  |Ammonia reforming unspecified                                  |</span></span>
+<span><span class="co">#&gt; |B72  |Ammonia gasification                                           |</span></span>
+<span><span class="co">#&gt; |B73  |Chlor-alkali electrolysis unspecified                          |</span></span>
+<span><span class="co">#&gt; |B74  |Chlor-alkali electrolysis by-product                           |</span></span>
+<span><span class="co">#&gt; |B75  |ACDC converter                                                 |</span></span>
+<span><span class="co">#&gt; |B76  |Converter                                                      |</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fetching-generation-by-production-type">Fetching Generation by Production Type<a class="anchor" aria-label="anchor" href="#fetching-generation-by-production-type"></a>
@@ -184,12 +268,15 @@ data:</p>
 <p>Use <code><a href="../reference/gen_per_prod_type.html">gen_per_prod_type()</a></code> to get generation data:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_h1.html" class="external-link">cli_h1</a></span><span class="op">(</span><span class="st">"Fetching Generation Data"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Fetching Generation Data</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span></span>
 <span><span class="co"># Define time range</span></span>
 <span><span class="va">from_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2024-06-01"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span></span>
 <span><span class="va">till_ts</span> <span class="op">&lt;-</span> <span class="va">from_ts</span> <span class="op">+</span> <span class="fu"><a href="https://lubridate.tidyverse.org/reference/period.html" class="external-link">days</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli_inform</a></span><span class="op">(</span><span class="st">"Period: {from_ts} to {till_ts}"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Period: 2024-06-01 to 2024-06-08</span></span>
 <span></span>
 <span><span class="co"># Fetch generation by production type</span></span>
 <span><span class="va">de_generation</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gen_per_prod_type.html">gen_per_prod_type</a></span><span class="op">(</span></span>
@@ -198,8 +285,31 @@ data:</p>
 <span>  period_end <span class="op">=</span> <span class="va">till_ts</span>,</span>
 <span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A75&amp;processType=A16&amp;in_Domain=10Y1001A1001A83F&amp;periodStart=202405312200&amp;periodEnd=202406072200&amp;securityToken=&lt;...&gt;</span></span>
+<span><span class="co">#&gt; &lt;- HTTP/1.1 200 OK</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 05 Oct 2026 13:06:10 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Type</span>: text/xml</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Transfer-Encoding</span>: chunked</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Connection</span>: keep-alive</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Disposition</span>: inline; filename="Aggregated Generation per Type_202405312200-202406072200.xml"</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Encoding</span>: gzip</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Strict-Transport-Security</span>: max-age=15724800</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Vary</span>: accept-encoding</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Content-Type-Options</span>: nosniff</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Xss-Protection</span>: 0</span></span>
+<span><span class="co">#&gt; &lt;-</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> response has arrived</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional type names have been added!</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">public download</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> pulling Y_eicCodes.csv file from cache</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span></span>
 <span></span>
-<span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_success</a></span><span class="op">(</span><span class="st">"Retrieved {nrow(de_generation)} data points"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_success</a></span><span class="op">(</span><span class="st">"Retrieved {nrow(de_generation)} data points"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Retrieved 12768 data points</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -211,7 +321,34 @@ data:</p>
 <p>The output includes many columns with production type
 information:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">de_generation</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">de_generation</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 12,768</span></span>
+<span><span class="co">#&gt; Columns: 25</span></span>
+<span><span class="co">#&gt; $ ts_in_bidding_zone_domain_mrid  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "10Y1001A1001A83F"<span style="color: #949494;">, </span>"10Y1001A1001A83F"<span style="color: #949494;">, </span>"10Y1001A1001A83F"<span style="color: #949494;">, </span>"10Y1001A1001A83F"…</span></span>
+<span><span class="co">#&gt; $ ts_in_bidding_zone_domain_name  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Germany"<span style="color: #949494;">, </span>"Germany"<span style="color: #949494;">, </span>"Germany"<span style="color: #949494;">, </span>"Germany"<span style="color: #949494;">, </span>"Germany"<span style="color: #949494;">, </span>"Germany"<span style="color: #949494;">, </span>"Germany"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ ts_out_bidding_zone_domain_mrid <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span>…</span></span>
+<span><span class="co">#&gt; $ ts_out_bidding_zone_domain_name <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span><span style="color: #949494;">, </span><span style="color: #BB0000;">NA</span>…</span></span>
+<span><span class="co">#&gt; $ type                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"A75"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ type_def                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Actual generation per type"<span style="color: #949494;">, </span>"Actual generation per type"<span style="color: #949494;">, </span>"Actual generation…</span></span>
+<span><span class="co">#&gt; $ process_type                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"A16"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ process_type_def                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Realised"<span style="color: #949494;">, </span>"Realised"<span style="color: #949494;">, </span>"Realised"<span style="color: #949494;">, </span>"Realised"<span style="color: #949494;">, </span>"Realised"<span style="color: #949494;">, </span>"Realised"<span style="color: #949494;">, </span>"Reali…</span></span>
+<span><span class="co">#&gt; $ ts_object_aggregation           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"A08"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ ts_object_aggregation_def       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Resource type"<span style="color: #949494;">, </span>"Resource type"<span style="color: #949494;">, </span>"Resource type"<span style="color: #949494;">, </span>"Resource type"<span style="color: #949494;">, </span>"Resource …</span></span>
+<span><span class="co">#&gt; $ ts_business_type                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"A01"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ ts_business_type_def            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Production"<span style="color: #949494;">, </span>"Production"<span style="color: #949494;">, </span>"Production"<span style="color: #949494;">, </span>"Production"<span style="color: #949494;">, </span>"Production"<span style="color: #949494;">, </span>"Product…</span></span>
+<span><span class="co">#&gt; $ ts_mkt_psr_type                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"B01"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ ts_mkt_psr_type_def             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "Biomass"<span style="color: #949494;">, </span>"Biomass"<span style="color: #949494;">, </span>"Biomass"<span style="color: #949494;">, </span>"Biomass"<span style="color: #949494;">, </span>"Biomass"<span style="color: #949494;">, </span>"Biomass"<span style="color: #949494;">, </span>"Biomass"<span style="color: #949494;">, </span>"…</span></span>
+<span><span class="co">#&gt; $ created_date_time               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2026-10-05 13:06:10<span style="color: #949494;">, </span>2026-10-05 13:06:10<span style="color: #949494;">, </span>2026-10-05 13:06:10<span style="color: #949494;">, </span>2026-10-05 13:…</span></span>
+<span><span class="co">#&gt; $ revision_number                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ time_period_time_interval_start <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:…</span></span>
+<span><span class="co">#&gt; $ time_period_time_interval_end   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-06-07 22:00:00<span style="color: #949494;">, </span>2024-06-07 22:00:00<span style="color: #949494;">, </span>2024-06-07 22:00:00<span style="color: #949494;">, </span>2024-06-07 22:…</span></span>
+<span><span class="co">#&gt; $ ts_resolution                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M"<span style="color: #949494;">, </span>"PT15M…</span></span>
+<span><span class="co">#&gt; $ ts_time_interval_start          <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:…</span></span>
+<span><span class="co">#&gt; $ ts_time_interval_end            <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-06-07 22:00:00<span style="color: #949494;">, </span>2024-06-07 22:00:00<span style="color: #949494;">, </span>2024-06-07 22:00:00<span style="color: #949494;">, </span>2024-06-07 22:…</span></span>
+<span><span class="co">#&gt; $ ts_mrid                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>1<span style="color: #949494;">, </span>…</span></span>
+<span><span class="co">#&gt; $ ts_point_dt_start               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span> 2024-05-31 22:00:00<span style="color: #949494;">, </span>2024-05-31 22:15:00<span style="color: #949494;">, </span>2024-05-31 22:30:00<span style="color: #949494;">, </span>2024-05-31 22:…</span></span>
+<span><span class="co">#&gt; $ ts_point_quantity               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> 4029.89<span style="color: #949494;">, </span>3996.77<span style="color: #949494;">, </span>3991.14<span style="color: #949494;">, </span>3998.05<span style="color: #949494;">, </span>3955.48<span style="color: #949494;">, </span>3950.86<span style="color: #949494;">, </span>3956.12<span style="color: #949494;">, </span>3945.12<span style="color: #949494;">, </span>3928.9…</span></span>
+<span><span class="co">#&gt; $ ts_quantity_measure_unit_name   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> "MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"MAW"<span style="color: #949494;">, </span>"…</span></span></code></pre></div>
 <p>Key columns for generation mix analysis:</p>
 <table class="table">
 <thead><tr class="header">
@@ -244,6 +381,8 @@ information:</p>
 <p>Check which production types are present:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_h1.html" class="external-link">cli_h1</a></span><span class="op">(</span><span class="st">"Production Types in Dataset"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Production Types in Dataset</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
 <span></span>
 <span><span class="va">de_generation</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
@@ -253,7 +392,25 @@ information:</p>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">total_mwh</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html" class="external-link">kbl</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"pipe"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span>sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; |ts_mkt_psr_type |ts_mkt_psr_type_def                                  | n_points| total_mwh|</span></span>
+<span><span class="co">#&gt; |:---------------|:----------------------------------------------------|--------:|---------:|</span></span>
+<span><span class="co">#&gt; |B16             |Solar unspecified                                    |     1344|   7420742|</span></span>
+<span><span class="co">#&gt; |B02             |Fossil Brown coal/Lignite                            |      672|   5183776|</span></span>
+<span><span class="co">#&gt; |B19             |Wind Onshore                                         |     1344|   5021838|</span></span>
+<span><span class="co">#&gt; |B04             |Fossil Gas                                           |      672|   3696285|</span></span>
+<span><span class="co">#&gt; |B01             |Biomass                                              |      672|   2680415|</span></span>
+<span><span class="co">#&gt; |B18             |Wind Offshore                                        |      672|   2029048|</span></span>
+<span><span class="co">#&gt; |B10             |Hydro-electric pure pumped storage head installation |     1344|   1984530|</span></span>
+<span><span class="co">#&gt; |B11             |Hydro Run-of-river head installation                 |      672|   1160276|</span></span>
+<span><span class="co">#&gt; |B05             |Fossil Hard coal                                     |      672|    679515|</span></span>
+<span><span class="co">#&gt; |B17             |Waste                                                |      672|    422853|</span></span>
+<span><span class="co">#&gt; |B03             |Fossil Coal-derived gas                              |      672|    367227|</span></span>
+<span><span class="co">#&gt; |B06             |Fossil Oil                                           |      672|    242519|</span></span>
+<span><span class="co">#&gt; |B12             |Hydro-electric storage head installation             |      672|    209068|</span></span>
+<span><span class="co">#&gt; |B20             |Other unspecified                                    |      672|     75638|</span></span>
+<span><span class="co">#&gt; |B15             |Other renewable                                      |      672|     55552|</span></span>
+<span><span class="co">#&gt; |B09             |Geothermal                                           |      672|     11280|</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -321,6 +478,7 @@ information:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_datetime</a></span><span class="op">(</span>date_breaks <span class="op">=</span> <span class="st">"1 day"</span>, date_labels <span class="op">=</span> <span class="st">"%b %d"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">)</span></span></code></pre></div>
+<p><img src="generation-mix-analysis_files/figure-html/stacked-area-chart-1.png" class="r-plt" alt="" width="98%" height="98%"></p>
 </div>
 <div class="section level3">
 <h3 id="daily-average-generation-by-type">Daily Average Generation by Type<a class="anchor" aria-label="anchor" href="#daily-average-generation-by-type"></a>
@@ -358,6 +516,7 @@ information:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="generation-mix-analysis_files/figure-html/daily-average-1.png" class="r-plt" alt="" width="98%" height="98%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -392,6 +551,16 @@ information:</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">gen_summary</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 4</span></span></span>
+<span><span class="co">#&gt;   date       total_gen renewable_gen renewable_pct</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2024-06-01  3<span style="text-decoration: underline;">867</span>111       2<span style="text-decoration: underline;">910</span>092.          75.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2024-06-02  4<span style="text-decoration: underline;">222</span>224.      3<span style="text-decoration: underline;">328</span>263.          78.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2024-06-03  4<span style="text-decoration: underline;">417</span>861.      2<span style="text-decoration: underline;">417</span>447.          54.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2024-06-04  4<span style="text-decoration: underline;">457</span>765.      2<span style="text-decoration: underline;">580</span>887.          57.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2024-06-05  4<span style="text-decoration: underline;">958</span>956.      3<span style="text-decoration: underline;">467</span>299.          69.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2024-06-06  4<span style="text-decoration: underline;">791</span>195.      3<span style="text-decoration: underline;">000</span>489.          62.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> 2024-06-07  4<span style="text-decoration: underline;">525</span>449.      2<span style="text-decoration: underline;">868</span>271.          63.4</span></span>
 <span></span>
 <span><span class="co"># Daily renewable share</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
@@ -408,6 +577,7 @@ information:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>date_breaks <span class="op">=</span> <span class="st">"1 day"</span>, date_labels <span class="op">=</span> <span class="st">"%b %d"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="generation-mix-analysis_files/figure-html/renewable-penetration-1.png" class="r-plt" alt="" width="98%" height="98%"></p>
 </div>
 <div class="section level2">
 <h2 id="capacity-factor-analysis">Capacity Factor Analysis<a class="anchor" aria-label="anchor" href="#capacity-factor-analysis"></a>
@@ -418,6 +588,7 @@ information:</p>
 <span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli_inform</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Note: Full capacity analysis requires matching installed capacity data"</span></span>
 <span><span class="op">)</span></span>
+<span><span class="co">#&gt; Note: Full capacity analysis requires matching installed capacity data</span></span>
 <span></span>
 <span><span class="co"># Estimate capacity factors for solar and wind</span></span>
 <span><span class="va">capacity_estimates</span> <span class="op">&lt;-</span> <span class="va">de_generation</span> <span class="op">|&gt;</span></span>
@@ -456,6 +627,7 @@ information:</p>
 <span>    legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html" class="external-link">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="generation-mix-analysis_files/figure-html/capacity-factor-1.png" class="r-plt" alt="" width="98%" height="98%"></p>
 </div>
 <div class="section level2">
 <h2 id="comparing-time-periods">Comparing Time Periods<a class="anchor" aria-label="anchor" href="#comparing-time-periods"></a>
@@ -470,6 +642,25 @@ information:</p>
 <span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>period <span class="op">=</span> <span class="st">"Week 1"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A75&amp;processType=A16&amp;in_Domain=10Y1001A1001A83F&amp;periodStart=202405312200&amp;periodEnd=202406072200&amp;securityToken=&lt;...&gt;</span></span>
+<span><span class="co">#&gt; &lt;- HTTP/1.1 200 OK</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 05 Oct 2026 13:06:23 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Type</span>: text/xml</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Transfer-Encoding</span>: chunked</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Connection</span>: keep-alive</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Disposition</span>: inline; filename="Aggregated Generation per Type_202405312200-202406072200.xml"</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Encoding</span>: gzip</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Strict-Transport-Security</span>: max-age=15724800</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Vary</span>: accept-encoding</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Content-Type-Options</span>: nosniff</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Xss-Protection</span>: 0</span></span>
+<span><span class="co">#&gt; &lt;-</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> response has arrived</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional type names have been added!</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span></span>
 <span></span>
 <span><span class="va">week2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gen_per_prod_type.html">gen_per_prod_type</a></span><span class="op">(</span></span>
 <span>  eic <span class="op">=</span> <span class="va">de_zone</span>,</span>
@@ -478,6 +669,25 @@ information:</p>
 <span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>period <span class="op">=</span> <span class="st">"Week 3"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; → https://web-api.tp.entsoe.eu/api?documentType=A75&amp;processType=A16&amp;in_Domain=10Y1001A1001A83F&amp;periodStart=202406142200&amp;periodEnd=202406212200&amp;securityToken=&lt;...&gt;</span></span>
+<span><span class="co">#&gt; &lt;- HTTP/1.1 200 OK</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Date</span>: Mon, 05 Oct 2026 13:06:28 GMT</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Type</span>: text/xml</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Transfer-Encoding</span>: chunked</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Connection</span>: keep-alive</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Disposition</span>: inline; filename="Aggregated Generation per Type_202406142200-202406212200.xml"</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Content-Encoding</span>: gzip</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Strict-Transport-Security</span>: max-age=15724800</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">Vary</span>: accept-encoding</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Content-Type-Options</span>: nosniff</span></span>
+<span><span class="co">#&gt; &lt;- <span style="font-weight: bold;">X-Xss-Protection</span>: 0</span></span>
+<span><span class="co">#&gt; &lt;-</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> response has arrived</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional type names have been added!</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional eic names have been added!</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Additional definitions have been added!</span></span>
 <span></span>
 <span><span class="co"># Combine and compare</span></span>
 <span><span class="va">combined</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">week1</span>, <span class="va">week2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -504,6 +714,7 @@ information:</p>
 <span>    y <span class="op">=</span> <span class="st">"Share of Generation (%)"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="generation-mix-analysis_files/figure-html/compare-periods-1.png" class="r-plt" alt="" width="98%" height="98%"></p>
 </div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>

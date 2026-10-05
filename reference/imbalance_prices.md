@@ -80,7 +80,7 @@ df <- entsoeapi::imbalance_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A85&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:40:07 GMT
+#> <- Date: Mon, 05 Oct 2026 12:59:23 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -91,7 +91,7 @@ df <- entsoeapi::imbalance_prices(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpJhTgYk/unzipped_1ac9e6508e3/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd58b0356e/001-IMBALANCE_PRICES_R3_202312312300-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -109,7 +109,7 @@ dplyr::glimpse(df)
 #> $ process_type_def                    <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "R…
 #> $ ts_business_type                    <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19…
 #> $ ts_business_type_def                <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy de…
-#> $ created_date_time                   <dttm> 2026-10-05 12:40:07, 2026-10-05 12:40:07, 2026-10-05 12:40:07, 2026-10-05…
+#> $ created_date_time                   <dttm> 2026-10-05 12:59:23, 2026-10-05 12:59:23, 2026-10-05 12:59:23, 2026-10-05…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                       <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "P…
 #> $ ts_time_interval_start              <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31…

@@ -51,9 +51,15 @@ First, let’s get Germany’s bidding zone EIC code:
 de_zone <- area_eic() |>
   filter(eic_long_name == "Germany") |>
   pull(eic_code)
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ downloading Y_eicCodes.csv file ...
 
 cli_h1("Germany Bidding Zone")
+#> 
+#> ── Germany Bidding Zone ────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("EIC: {de_zone}")
+#> EIC: 10Y1001A1001A83F
 ```
 
 ### Production Type Codes
@@ -67,6 +73,84 @@ asset_types |>
   select(c(code, title)) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |code |title                                                          |
+#> |:----|:--------------------------------------------------------------|
+#> |B01  |Biomass                                                        |
+#> |B02  |Fossil Brown coal/Lignite                                      |
+#> |B03  |Fossil Coal-derived gas                                        |
+#> |B04  |Fossil Gas                                                     |
+#> |B05  |Fossil Hard coal                                               |
+#> |B06  |Fossil Oil                                                     |
+#> |B07  |Fossil Oil shale                                               |
+#> |B08  |Fossil Peat                                                    |
+#> |B09  |Geothermal                                                     |
+#> |B10  |Hydro-electric pure pumped storage head installation           |
+#> |B11  |Hydro Run-of-river head installation                           |
+#> |B12  |Hydro-electric storage head installation                       |
+#> |B13  |Marine unspecified                                             |
+#> |B14  |Nuclear unspecified                                            |
+#> |B15  |Other renewable                                                |
+#> |B16  |Solar unspecified                                              |
+#> |B17  |Waste                                                          |
+#> |B18  |Wind Offshore                                                  |
+#> |B19  |Wind Onshore                                                   |
+#> |B20  |Other unspecified                                              |
+#> |B21  |AC Link                                                        |
+#> |B22  |DC Link                                                        |
+#> |B23  |Substation                                                     |
+#> |B24  |Transformer                                                    |
+#> |B25  |Energy storage                                                 |
+#> |B26  |Demand Side Response                                           |
+#> |B27  |Dispatchable hydro resource                                    |
+#> |B28  |Solar photovoltaic                                             |
+#> |B29  |Solar concentration                                            |
+#> |B30  |Wind unspecified                                               |
+#> |B31  |Hydro-electric unspecified                                     |
+#> |B32  |Hydro-electric mixed pumped storage head installation          |
+#> |B33  |Marine tidal                                                   |
+#> |B34  |Marine wave                                                    |
+#> |B35  |Marine currents                                                |
+#> |B36  |Marine pressure                                                |
+#> |B37  |Thermal unspecified                                            |
+#> |B38  |Thermal combined cycle gas turbine with heat recovery          |
+#> |B39  |Thermal steam turbine with back-pressure turbine (open cycle)  |
+#> |B40  |Thermal steam turbine with condensation turbine (closed cycle) |
+#> |B41  |Thermal gas turbine with heat recovery                         |
+#> |B42  |Thermal internal combustion engine                             |
+#> |B43  |Thermal micro-turbine                                          |
+#> |B44  |Thermal Stirling engine                                        |
+#> |B45  |Thermal fuel cell                                              |
+#> |B46  |Thermal steam engine                                           |
+#> |B47  |Thermal organic Rankine cycle                                  |
+#> |B48  |Thermal gas turbine without heat recovery                      |
+#> |B49  |Nuclear heavy water reactor                                    |
+#> |B50  |Nuclear light water reactor                                    |
+#> |B51  |Nuclear breeder                                                |
+#> |B52  |Nuclear graphite reactor                                       |
+#> |B53  |Temporary energy storage                                       |
+#> |B54  |Permanent energy storage                                       |
+#> |B55  |Electric vehicle battery                                       |
+#> |B56  |Heat pump specified                                            |
+#> |B57  |Heat pump electrical                                           |
+#> |B58  |Heat pump absorption                                           |
+#> |B59  |Auxiliary power unit                                           |
+#> |B60  |Water electrolysis unspecified                                 |
+#> |B61  |Water electrolysis low temperature unspecified                 |
+#> |B62  |Water electrolysis low temperature main product                |
+#> |B63  |Water electrolysis high temperature unspecified                |
+#> |B64  |Steam methane reforming unspecified                            |
+#> |B65  |Steam methane reforming without CCS/CCU  unspecified           |
+#> |B66  |Steam methane reforming with CCS/CCU  unspecified              |
+#> |B67  |Steam methane reforming with CCS/CCU  main product             |
+#> |B68  |Partial oxidation unspecified                                  |
+#> |B69  |Autothermal reforming unspecified                              |
+#> |B70  |Methanol reforming unspecified                                 |
+#> |B71  |Ammonia reforming unspecified                                  |
+#> |B72  |Ammonia gasification                                           |
+#> |B73  |Chlor-alkali electrolysis unspecified                          |
+#> |B74  |Chlor-alkali electrolysis by-product                           |
+#> |B75  |ACDC converter                                                 |
+#> |B76  |Converter                                                      |
 ```
 
 ### Fetching Generation by Production Type
@@ -78,12 +162,15 @@ to get generation data:
 ``` r
 
 cli_h1("Fetching Generation Data")
+#> 
+#> ── Fetching Generation Data ────────────────────────────────────────────────────────────────────────────────────────────
 
 # Define time range
 from_ts <- ymd(x = "2024-06-01", tz = "CET")
 till_ts <- from_ts + days(7)
 
 cli_inform("Period: {from_ts} to {till_ts}")
+#> Period: 2024-06-01 to 2024-06-08
 
 # Fetch generation by production type
 de_generation <- gen_per_prod_type(
@@ -92,8 +179,31 @@ de_generation <- gen_per_prod_type(
   period_end = till_ts,
   tidy_output = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202405312200&periodEnd=202406072200&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 13:06:10 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Aggregated Generation per Type_202405312200-202406072200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <-
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> 
+#> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ℹ pulling Y_eicCodes.csv file from cache
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 cli_alert_success("Retrieved {nrow(de_generation)} data points")
+#> ✔ Retrieved 12768 data points
 ```
 
 ## Exploring the Data
@@ -105,6 +215,33 @@ The output includes many columns with production type information:
 ``` r
 
 glimpse(de_generation)
+#> Rows: 12,768
+#> Columns: 25
+#> $ ts_in_bidding_zone_domain_mrid  <chr> "10Y1001A1001A83F", "10Y1001A1001A83F", "10Y1001A1001A83F", "10Y1001A1001A83F"…
+#> $ ts_in_bidding_zone_domain_name  <chr> "Germany", "Germany", "Germany", "Germany", "Germany", "Germany", "Germany", "…
+#> $ ts_out_bidding_zone_domain_mrid <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+#> $ ts_out_bidding_zone_domain_name <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+#> $ type                            <chr> "A75", "A75", "A75", "A75", "A75", "A75", "A75", "A75", "A75", "A75", "A75", "…
+#> $ type_def                        <chr> "Actual generation per type", "Actual generation per type", "Actual generation…
+#> $ process_type                    <chr> "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "A16", "…
+#> $ process_type_def                <chr> "Realised", "Realised", "Realised", "Realised", "Realised", "Realised", "Reali…
+#> $ ts_object_aggregation           <chr> "A08", "A08", "A08", "A08", "A08", "A08", "A08", "A08", "A08", "A08", "A08", "…
+#> $ ts_object_aggregation_def       <chr> "Resource type", "Resource type", "Resource type", "Resource type", "Resource …
+#> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "…
+#> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
+#> $ ts_mkt_psr_type                 <chr> "B01", "B01", "B01", "B01", "B01", "B01", "B01", "B01", "B01", "B01", "B01", "…
+#> $ ts_mkt_psr_type_def             <chr> "Biomass", "Biomass", "Biomass", "Biomass", "Biomass", "Biomass", "Biomass", "…
+#> $ created_date_time               <dttm> 2026-10-05 13:06:10, 2026-10-05 13:06:10, 2026-10-05 13:06:10, 2026-10-05 13:…
+#> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ time_period_time_interval_start <dttm> 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:…
+#> $ time_period_time_interval_end   <dttm> 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:…
+#> $ ts_resolution                   <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M…
+#> $ ts_time_interval_start          <dttm> 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:…
+#> $ ts_time_interval_end            <dttm> 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:…
+#> $ ts_mrid                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ ts_point_dt_start               <dttm> 2024-05-31 22:00:00, 2024-05-31 22:15:00, 2024-05-31 22:30:00, 2024-05-31 22:…
+#> $ ts_point_quantity               <dbl> 4029.89, 3996.77, 3991.14, 3998.05, 3955.48, 3950.86, 3956.12, 3945.12, 3928.9…
+#> $ ts_quantity_measure_unit_name   <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "…
 ```
 
 Key columns for generation mix analysis:
@@ -123,6 +260,8 @@ Check which production types are present:
 ``` r
 
 cli_h1("Production Types in Dataset")
+#> 
+#> ── Production Types in Dataset ─────────────────────────────────────────────────────────────────────────────────────────
 
 de_generation |>
   summarize(
@@ -133,6 +272,24 @@ de_generation |>
   arrange(desc(total_mwh)) |>
   kbl(format = "pipe") |>
   cat(sep = "\n")
+#> |ts_mkt_psr_type |ts_mkt_psr_type_def                                  | n_points| total_mwh|
+#> |:---------------|:----------------------------------------------------|--------:|---------:|
+#> |B16             |Solar unspecified                                    |     1344|   7420742|
+#> |B02             |Fossil Brown coal/Lignite                            |      672|   5183776|
+#> |B19             |Wind Onshore                                         |     1344|   5021838|
+#> |B04             |Fossil Gas                                           |      672|   3696285|
+#> |B01             |Biomass                                              |      672|   2680415|
+#> |B18             |Wind Offshore                                        |      672|   2029048|
+#> |B10             |Hydro-electric pure pumped storage head installation |     1344|   1984530|
+#> |B11             |Hydro Run-of-river head installation                 |      672|   1160276|
+#> |B05             |Fossil Hard coal                                     |      672|    679515|
+#> |B17             |Waste                                                |      672|    422853|
+#> |B03             |Fossil Coal-derived gas                              |      672|    367227|
+#> |B06             |Fossil Oil                                           |      672|    242519|
+#> |B12             |Hydro-electric storage head installation             |      672|    209068|
+#> |B20             |Other unspecified                                    |      672|     75638|
+#> |B15             |Other renewable                                      |      672|     55552|
+#> |B09             |Geothermal                                           |      672|     11280|
 ```
 
 ## Visualization
@@ -202,6 +359,8 @@ ggplot(
   scale_y_continuous(labels = scales::comma)
 ```
 
+![](generation-mix-analysis_files/figure-html/stacked-area-chart-1.png)
+
 ### Daily Average Generation by Type
 
 Compare average daily generation by production type:
@@ -241,6 +400,8 @@ ggplot(
   coord_flip()
 ```
 
+![](generation-mix-analysis_files/figure-html/daily-average-1.png)
+
 ## Renewable Penetration Analysis
 
 Calculate the share of renewable generation:
@@ -274,6 +435,16 @@ gen_summary <- de_generation |>
   )
 
 print(gen_summary)
+#> # A tibble: 7 × 4
+#>   date       total_gen renewable_gen renewable_pct
+#>   <date>         <dbl>         <dbl>         <dbl>
+#> 1 2024-06-01  3867111       2910092.          75.3
+#> 2 2024-06-02  4222224.      3328263.          78.8
+#> 3 2024-06-03  4417861.      2417447.          54.7
+#> 4 2024-06-04  4457765.      2580887.          57.9
+#> 5 2024-06-05  4958956.      3467299.          69.9
+#> 6 2024-06-06  4791195.      3000489.          62.6
+#> 7 2024-06-07  4525449.      2868271.          63.4
 
 # Daily renewable share
 ggplot(
@@ -292,6 +463,8 @@ ggplot(
   theme_minimal()
 ```
 
+![](generation-mix-analysis_files/figure-html/renewable-penetration-1.png)
+
 ## Capacity Factor Analysis
 
 Calculate capacity factors for renewable generation:
@@ -302,6 +475,7 @@ Calculate capacity factors for renewable generation:
 cli_inform(
   "Note: Full capacity analysis requires matching installed capacity data"
 )
+#> Note: Full capacity analysis requires matching installed capacity data
 
 # Estimate capacity factors for solar and wind
 capacity_estimates <- de_generation |>
@@ -342,6 +516,8 @@ ggplot(
   ylim(0, 1)
 ```
 
+![](generation-mix-analysis_files/figure-html/capacity-factor-1.png)
+
 ## Comparing Time Periods
 
 Compare generation mix between different time periods:
@@ -356,6 +532,25 @@ week1 <- gen_per_prod_type(
   tidy_output = TRUE
 ) |>
   mutate(period = "Week 1")
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202405312200&periodEnd=202406072200&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 13:06:23 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Aggregated Generation per Type_202405312200-202406072200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <-
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 week2 <- gen_per_prod_type(
   eic = de_zone,
@@ -364,6 +559,25 @@ week2 <- gen_per_prod_type(
   tidy_output = TRUE
 ) |>
   mutate(period = "Week 3")
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202406142200&periodEnd=202406212200&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 13:06:28 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Aggregated Generation per Type_202406142200-202406212200.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <-
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 # Combine and compare
 combined <- bind_rows(week1, week2) |>
@@ -391,6 +605,8 @@ ggplot(
   ) +
   theme_minimal()
 ```
+
+![](generation-mix-analysis_files/figure-html/compare-periods-1.png)
 
 ## Summary
 

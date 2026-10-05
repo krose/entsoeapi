@@ -68,7 +68,7 @@ df <- entsoeapi::gen_installed_capacity_per_pt(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A68&processType=A33&in_Domain=10YFR-RTE------C&psrType=B05&periodStart=202001010000&periodEnd=202101010000&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:38:37 GMT
+#> <- Date: Mon, 05 Oct 2026 12:58:36 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 1692
 #> <- Connection: keep-alive
@@ -98,7 +98,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def            <chr> "Installed generation"
 #> $ ts_mkt_psr_type                 <chr> "B05"
 #> $ ts_mkt_psr_type_def             <chr> "Fossil Hard coal"
-#> $ created_date_time               <dttm> 2026-10-05 12:38:36
+#> $ created_date_time               <dttm> 2026-10-05 12:58:36
 #> $ revision_number                 <dbl> 1
 #> $ time_period_time_interval_start <dttm> 2019-12-31 23:00:00
 #> $ time_period_time_interval_end   <dttm> 2020-12-31 23:00:00

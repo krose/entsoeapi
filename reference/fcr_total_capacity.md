@@ -70,14 +70,51 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::fcr_total_capacity(
   eic = "10YEU-CONT-SYNC0",
   period_start = lubridate::ymd(x = "2024-01-01", tz = "CET"),
   period_end = lubridate::ymd(x = "2024-12-31", tz = "CET"),
   tidy_output = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=A26&businessType=A25&area_Domain=10YEU-CONT-SYNC0&periodStart=202312312300&periodEnd=202412302300&securityToken=<...>
+#> <- HTTP/1.1 200 OK
+#> <- Date: Mon, 05 Oct 2026 12:58:07 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 1679
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="FCR Total Capacity_202312312300-202412302300.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> ✔ response has arrived
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-}
+#> Rows: 1
+#> Columns: 19
+#> $ area_domain_mrid              <chr> "10YEU-CONT-SYNC0"
+#> $ area_domain_name              <chr> "Synchronous Zone of Continental Europe"
+#> $ type                          <chr> "A26"
+#> $ type_def                      <chr> "Capacity document"
+#> $ process_type                  <chr> "A52"
+#> $ process_type_def              <chr> "Frequency containment reserve"
+#> $ ts_flow_direction             <chr> "A03"
+#> $ ts_flow_direction_def         <chr> "UP and DOWN"
+#> $ ts_business_type              <chr> "A25"
+#> $ ts_business_type_def          <chr> "General Capacity Information"
+#> $ created_date_time             <dttm> 2026-10-05 12:58:07
+#> $ revision_number               <dbl> 1
+#> $ ts_resolution                 <chr> "P1Y"
+#> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00
+#> $ ts_time_interval_end          <dttm> 2024-12-31 23:00:00
+#> $ ts_mrid                       <dbl> 1
+#> $ ts_point_dt_start             <dttm> 2023-12-31 23:00:00
+#> $ ts_point_quantity             <dbl> 3000
+#> $ ts_quantity_measure_unit_name <chr> "MAW"
 ```

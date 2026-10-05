@@ -87,7 +87,7 @@ df1 <- entsoeapi::rr_and_frr_actual_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A46&businessType=C78&Area_Domain=10YFR-RTE------C&periodStart=202312312300&periodEnd=202403312200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:47:48 GMT
+#> <- Date: Mon, 05 Oct 2026 13:04:14 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -116,7 +116,7 @@ dplyr::glimpse(df1)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "UP", "DOWN", "UP", "UP"
 #> $ ts_business_type              <chr> "C77", "C79", "C78", "C78", "C77", "C79"
 #> $ ts_business_type_def          <chr> "Minimum available capacity", "Maximum available capacity", "Average available c…
-#> $ created_date_time             <dttm> 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:…
+#> $ created_date_time             <dttm> 2026-10-05 13:04:14, 2026-10-05 13:04:14, 2026-10-05 13:04:14, 2026-10-05 13:04:…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P3M", "P3M", "P3M", "P3M", "P3M", "P3M"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…
@@ -137,7 +137,7 @@ df2 <- entsoeapi::rr_and_frr_actual_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&processType=A56&businessType=C78&Area_Domain=10YFR-RTE------C&periodStart=202312312300&periodEnd=202403312200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:47:48 GMT
+#> <- Date: Mon, 05 Oct 2026 13:04:16 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -166,7 +166,7 @@ dplyr::glimpse(df2)
 #> $ ts_flow_direction_def         <chr> "DOWN", "DOWN", "UP", "DOWN", "UP", "UP"
 #> $ ts_business_type              <chr> "C77", "C79", "C78", "C78", "C77", "C79"
 #> $ ts_business_type_def          <chr> "Minimum available capacity", "Maximum available capacity", "Average available c…
-#> $ created_date_time             <dttm> 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:48, 2026-10-05 12:47:…
+#> $ created_date_time             <dttm> 2026-10-05 13:04:16, 2026-10-05 13:04:16, 2026-10-05 13:04:16, 2026-10-05 13:04:…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "P3M", "P3M", "P3M", "P3M", "P3M", "P3M"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…
