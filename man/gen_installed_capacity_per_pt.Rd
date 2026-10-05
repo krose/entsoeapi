@@ -46,12 +46,12 @@ dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other generation endpoints: 
-\code{\link{gen_day_ahead_forecast}()},
-\code{\link{gen_installed_capacity_per_pu}()},
-\code{\link{gen_per_gen_unit}()},
-\code{\link{gen_per_prod_type}()},
-\code{\link{gen_storage_mean_filling_rate}()},
-\code{\link{gen_wind_solar_forecasts}()}
+Other generation endpoints:
+\code{\link[=gen_day_ahead_forecast]{gen_day_ahead_forecast()}},
+\code{\link[=gen_installed_capacity_per_pu]{gen_installed_capacity_per_pu()}},
+\code{\link[=gen_per_gen_unit]{gen_per_gen_unit()}},
+\code{\link[=gen_per_prod_type]{gen_per_prod_type()}},
+\code{\link[=gen_storage_mean_filling_rate]{gen_storage_mean_filling_rate()}},
+\code{\link[=gen_wind_solar_forecasts]{gen_wind_solar_forecasts()}}
 }
 \concept{generation endpoints}

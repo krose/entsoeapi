@@ -65,12 +65,12 @@ dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other outage endpoints: 
-\code{\link{outages_both}()},
-\code{\link{outages_cons_units}()},
-\code{\link{outages_gen_units}()},
-\code{\link{outages_offshore_grid}()},
-\code{\link{outages_prod_units}()},
-\code{\link{outages_transmission_grid}()}
+Other outage endpoints:
+\code{\link[=outages_both]{outages_both()}},
+\code{\link[=outages_cons_units]{outages_cons_units()}},
+\code{\link[=outages_gen_units]{outages_gen_units()}},
+\code{\link[=outages_offshore_grid]{outages_offshore_grid()}},
+\code{\link[=outages_prod_units]{outages_prod_units()}},
+\code{\link[=outages_transmission_grid]{outages_transmission_grid()}}
 }
 \concept{outage endpoints}

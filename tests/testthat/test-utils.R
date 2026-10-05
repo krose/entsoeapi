@@ -120,6 +120,35 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "read_zipped_xml() leaves no extracted file behind",
+  code = {
+    zip_dir <- tempfile(pattern = "zip_dir_")
+    dir.create(path = zip_dir)
+    on.exit(unlink(x = zip_dir, recursive = TRUE), add = TRUE)
+    zip_path <- file.path(zip_dir, "cd_catalog_xml.zip")
+    file.copy(
+      from = testthat::test_path("fixtures", "cd_catalog_xml.zip"),
+      to = zip_path
+    )
+    tmp_before <- list.files(path = tempdir(), pattern = "^unzipped_")
+
+    result <- read_zipped_xml(temp_file_path = zip_path)
+
+    testthat::expect_length(object = result, n = 1L)
+    testthat::expect_s3_class(object = result[[1L]], class = "xml_document")
+    testthat::expect_identical(
+      object = list.files(path = zip_dir, recursive = TRUE),
+      expected = "cd_catalog_xml.zip"
+    )
+    testthat::expect_identical(
+      object = list.files(path = tempdir(), pattern = "^unzipped_"),
+      expected = tmp_before
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "read_zipped_xml() aborts when unzip throws an error",
   code = {
     testthat::local_mocked_bindings(
@@ -435,6 +464,63 @@ testthat::test_that(
       object = tidy_or_not(tbl = test_df_list[[5L]], tidy_output = TRUE) |>
         dim(),
       expected = c(6L, 7L)
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "tidy_or_not() fills A03 gaps with the preceding value (issue #76)",
+  code = {
+    make_a03 <- function(mrid, pos, qty, start) {
+      start <- as.POSIXct(x = start, tz = "UTC")
+      data.frame(
+        ts_mrid = mrid,
+        ts_curve_type = "A03",
+        ts_resolution = "PT60M",
+        ts_time_interval_start = start,
+        ts_time_interval_end = start + 86400,
+        ts_point_position = pos,
+        ts_point_quantity = qty
+      )
+    }
+    pos_1 <- c(1:9, 13:24)
+    tbl <- rbind(
+      # gap in the middle of the curve
+      make_a03(
+        mrid = 1,
+        pos = pos_1,
+        qty = ifelse(test = pos_1 == 24, yes = 396.824, no = pos_1),
+        start = "2026-09-09 22:00"
+      ),
+      # two periods of the same time series, each with a trailing gap
+      make_a03(
+        mrid = 2, pos = 1:20, qty = 200 + 1:20, start = "2026-09-09 22:00"
+      ),
+      make_a03(
+        mrid = 2, pos = c(1, 5), qty = c(301, 305), start = "2026-09-10 22:00"
+      )
+    )
+    result <- tidy_or_not(tbl = tbl, tidy_output = TRUE)
+    get_qty <- function(mrid, start) {
+      result$ts_point_quantity[
+        result$ts_mrid == mrid &
+          result$ts_time_interval_start == as.POSIXct(x = start, tz = "UTC")
+      ]
+    }
+
+    testthat::expect_equal(object = nrow(result), expected = 72L)
+    testthat::expect_equal(
+      object = get_qty(mrid = 1, start = "2026-09-09 22:00"),
+      expected = c(1:9, 9, 9, 9, 13:23, 396.824)
+    )
+    testthat::expect_equal(
+      object = get_qty(mrid = 2, start = "2026-09-09 22:00"),
+      expected = c(200 + 1:20, rep(x = 220, times = 4L))
+    )
+    testthat::expect_equal(
+      object = get_qty(mrid = 2, start = "2026-09-10 22:00"),
+      expected = c(rep(x = 301, times = 4L), rep(x = 305, times = 20L))
     )
   }
 )

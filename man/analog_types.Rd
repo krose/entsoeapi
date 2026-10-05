@@ -20,7 +20,7 @@ head(entsoeapi::analog_types)
 
 }
 \seealso{
-Other types: 
+Other types:
 \code{\link{allocation_mode_types}},
 \code{\link{area_types}},
 \code{\link{asset_types}},

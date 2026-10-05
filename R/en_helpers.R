@@ -341,7 +341,7 @@ all_allocated_eic <- function() {
 #' @export
 #'
 #' @importFrom httr2 request req_user_agent req_timeout req_retry
-#'   resp_body_xml
+#' @importFrom httr2 resp_body_xml
 #' @importFrom xml2 xml_find_all xml_find_first xml_text read_html
 #' @importFrom cli cli_h1 cli_h2 cli_text cli_alert_info
 #'

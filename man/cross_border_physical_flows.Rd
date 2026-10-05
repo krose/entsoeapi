@@ -60,16 +60,16 @@ dplyr::glimpse(df2)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other transmission endpoints: 
-\code{\link{costs_of_congestion_management}()},
-\code{\link{countertrading}()},
-\code{\link{day_ahead_commercial_sched}()},
-\code{\link{expansion_and_dismantling_project}()},
-\code{\link{forecasted_transfer_capacities}()},
-\code{\link{intraday_cross_border_transfer_limits}()},
-\code{\link{net_transfer_capacities}()},
-\code{\link{redispatching_cross_border}()},
-\code{\link{redispatching_internal}()},
-\code{\link{total_commercial_sched}()}
+Other transmission endpoints:
+\code{\link[=costs_of_congestion_management]{costs_of_congestion_management()}},
+\code{\link[=countertrading]{countertrading()}},
+\code{\link[=day_ahead_commercial_sched]{day_ahead_commercial_sched()}},
+\code{\link[=expansion_and_dismantling_project]{expansion_and_dismantling_project()}},
+\code{\link[=forecasted_transfer_capacities]{forecasted_transfer_capacities()}},
+\code{\link[=intraday_cross_border_transfer_limits]{intraday_cross_border_transfer_limits()}},
+\code{\link[=net_transfer_capacities]{net_transfer_capacities()}},
+\code{\link[=redispatching_cross_border]{redispatching_cross_border()}},
+\code{\link[=redispatching_internal]{redispatching_internal()}},
+\code{\link[=total_commercial_sched]{total_commercial_sched()}}
 }
 \concept{transmission endpoints}

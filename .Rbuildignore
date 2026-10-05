@@ -16,3 +16,8 @@ devel/
 ^RELEASE_CHECKLIST\.md$
 ^cran-comments\.md$
 ^\.urlchecker$
+^\.positai$
+^\.claude$
+.gitnexus/
+CLAUDE.md
+AGENTS.md
