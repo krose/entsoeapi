@@ -1,4 +1,4 @@
-# entsoeapi v1.2.1 (2026-XX-YY)
+# entsoeapi v1.2.1 (2026-10-05)
 
 ## New functionality
 
