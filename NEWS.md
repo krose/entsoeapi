@@ -13,6 +13,7 @@
 ## Miscellaneous
 
 - The ByteCompile has set to true, so the packages is going to be byte-compiled during installation.
+- The extracted files of the zip compressed API responses are cleaned up right after reading, so they are not left behind in the temporary directory anymore.
 
 # entsoeapi v1.1.1 (2026-04-08)
 

@@ -1009,12 +1009,17 @@ calc_offset_urls <- function(reason, query_string) {
 #'
 #' @noRd
 read_zipped_xml <- function(temp_file_path) {
+  # decompress into a dedicated temporary directory, which is removed on exit,
+  # so no extracted file is left behind next to the zip file
+  exdir <- tempfile(pattern = "unzipped_")
+  on.exit(unlink(x = exdir, recursive = TRUE), add = TRUE)
+
   # safely decompress zip file into several files on disk
   unzip_safe <- safely(unzip)
   unzipped_files <- unzip_safe(
     zipfile = temp_file_path,
     overwrite = TRUE,
-    exdir = dirname(temp_file_path)
+    exdir = exdir
   )
 
   # read the xml content from each the decompressed files

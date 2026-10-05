@@ -120,6 +120,35 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "read_zipped_xml() leaves no extracted file behind",
+  code = {
+    zip_dir <- tempfile(pattern = "zip_dir_")
+    dir.create(path = zip_dir)
+    on.exit(unlink(x = zip_dir, recursive = TRUE), add = TRUE)
+    zip_path <- file.path(zip_dir, "cd_catalog_xml.zip")
+    file.copy(
+      from = testthat::test_path("fixtures", "cd_catalog_xml.zip"),
+      to = zip_path
+    )
+    tmp_before <- list.files(path = tempdir(), pattern = "^unzipped_")
+
+    result <- read_zipped_xml(temp_file_path = zip_path)
+
+    testthat::expect_length(object = result, n = 1L)
+    testthat::expect_s3_class(object = result[[1L]], class = "xml_document")
+    testthat::expect_identical(
+      object = list.files(path = zip_dir, recursive = TRUE),
+      expected = "cd_catalog_xml.zip"
+    )
+    testthat::expect_identical(
+      object = list.files(path = tempdir(), pattern = "^unzipped_"),
+      expected = tmp_before
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "read_zipped_xml() aborts when unzip throws an error",
   code = {
     testthat::local_mocked_bindings(
