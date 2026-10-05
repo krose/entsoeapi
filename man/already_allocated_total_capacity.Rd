@@ -72,21 +72,21 @@ dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other market endpoints: 
-\code{\link{aggregated_bids}()},
-\code{\link{allocated_transfer_capacities_3rd_countries}()},
-\code{\link{auction_revenue}()},
-\code{\link{congestion_income}()},
-\code{\link{continuous_offered_transfer_capacities}()},
-\code{\link{continuous_offered_transfer_capacity}()},
-\code{\link{energy_prices}()},
-\code{\link{explicit_offered_transfer_capacities}()},
-\code{\link{explicit_offered_transfer_capacity}()},
-\code{\link{flow_based_allocations}()},
-\code{\link{implicit_offered_transfer_capacities}()},
-\code{\link{implicit_offered_transfer_capacity}()},
-\code{\link{intraday_prices}()},
-\code{\link{net_positions}()},
-\code{\link{total_nominated_capacity}()}
+Other market endpoints:
+\code{\link[=aggregated_bids]{aggregated_bids()}},
+\code{\link[=allocated_transfer_capacities_3rd_countries]{allocated_transfer_capacities_3rd_countries()}},
+\code{\link[=auction_revenue]{auction_revenue()}},
+\code{\link[=congestion_income]{congestion_income()}},
+\code{\link[=continuous_offered_transfer_capacities]{continuous_offered_transfer_capacities()}},
+\code{\link[=continuous_offered_transfer_capacity]{continuous_offered_transfer_capacity()}},
+\code{\link[=energy_prices]{energy_prices()}},
+\code{\link[=explicit_offered_transfer_capacities]{explicit_offered_transfer_capacities()}},
+\code{\link[=explicit_offered_transfer_capacity]{explicit_offered_transfer_capacity()}},
+\code{\link[=flow_based_allocations]{flow_based_allocations()}},
+\code{\link[=implicit_offered_transfer_capacities]{implicit_offered_transfer_capacities()}},
+\code{\link[=implicit_offered_transfer_capacity]{implicit_offered_transfer_capacity()}},
+\code{\link[=intraday_prices]{intraday_prices()}},
+\code{\link[=net_positions]{net_positions()}},
+\code{\link[=total_nominated_capacity]{total_nominated_capacity()}}
 }
 \concept{market endpoints}

@@ -685,9 +685,9 @@ extract_leaf_twig_branch <- function(nodesets) {
 #' @return A tibble in either tidy (flat) or nested format.
 #'
 #' @importFrom stringr str_detect str_replace_all str_subset str_match_all
-#'             str_replace
+#' @importFrom stringr str_replace
 #' @importFrom dplyr mutate case_when group_by across all_of n ungroup
-#'    full_join arrange everything distinct
+#' @importFrom dplyr full_join arrange everything distinct
 #' @importFrom lubridate duration
 #' @importFrom tidyr fill nest
 #' @importFrom cli cli_abort
@@ -842,8 +842,21 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
       )
 
       # fill the missing values with the last observation carry forward method
-      group_cols_adj <- c("ts_resolution", "ts_mrid")
+      # full_join() appends the unmatched frame rows at the end, so the rows
+      # must be sorted by position before filling; the fill is limited to
+      # one period, so no value can leak over from an adjacent period
+      group_cols_adj <- c(
+        "ts_resolution",
+        "ts_mrid",
+        "ts_time_interval_start",
+        "ts_time_interval_end"
+      )
       tbl_adj <- tbl_adj |>
+        arrange(
+          ts_time_interval_start,
+          ts_time_interval_end,
+          ts_point_position
+        ) |>
         group_by(across(all_of(group_cols_adj))) |>
         fill(everything()) |>
         ungroup()
@@ -1036,8 +1049,9 @@ read_zipped_xml <- function(temp_file_path) {
 #' @importFrom checkmate assert_string
 #' @importFrom cli cli_h1 cli_alert cli_alert_success cli_abort
 #' @importFrom httr2 request req_user_agent req_verbose req_timeout
-#'   req_retry resp_status resp_content_type resp_body_raw resp_body_xml
-#'   resp_body_html resp_body_json resp_status_desc req_headers
+#' @importFrom httr2 req_retry resp_status resp_content_type resp_body_raw
+#' @importFrom httr2 resp_body_xml resp_body_html resp_body_json
+#' @importFrom httr2 resp_status_desc req_headers
 #' @importFrom xmlconvert xml_to_list
 #' @importFrom stringr str_detect
 #' @importFrom stats setNames runif
@@ -1109,10 +1123,8 @@ api_req <- function(
         result_obj |> resp_body_xml(encoding = "UTF-8")
       } else {
         cli_abort(
-          paste(
-            "Not known response content-type:",
-            "{result_obj$headers$`content-type`}"
-          )
+          "Not known response content-type: \\
+          {result_obj$headers$`content-type`}"
         )
       }
     } else {
@@ -1153,10 +1165,8 @@ api_req <- function(
       if (!inherits(x = response_reason, what = "list") ||
             !identical(names(response_reason), c("code", "text"))) {
         cli_abort(
-          paste(
-            "{resp_status(error_obj$resp)}:",
-            "{resp_status_desc(error_obj$resp)}"
-          )
+          "{resp_status(error_obj$resp)}: \\
+          {resp_status_desc(error_obj$resp)}"
         )
       }
 
@@ -1348,10 +1358,8 @@ url_posixct_format <- function(x) {
       strftime(format = "%Y%m%d%H%M", tz = "UTC", usetz = FALSE)
     if (is.na(y)) {
       cli_abort(
-        paste(
-          "Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text",
-          "are supported by the converter."
-        )
+        "Only the class POSIXct or '%Y-%m-%d %H:%M:%S' formatted text \\
+        are supported by the converter."
       )
     }
     cli_alert_warning("The {x} value has been interpreted as UTC!")
@@ -1459,13 +1467,13 @@ get_eiccodes <- function(
 #'   enriched with document-status definitions.
 #'
 #' @importFrom stats setNames runif
-#' @importFrom httr2 request req_url_path_append req_user_agent
-#'   req_progress req_verbose req_timeout req_retry resp_body_raw
+#' @importFrom httr2 request req_url_path_append req_user_agent resp_body_raw
+#' @importFrom httr2 req_progress req_verbose req_timeout req_retry
 #' @importFrom xml2 as_xml_document xml_contents xml_children xml_name xml_text
 #' @importFrom cli cli_alert_success cli_progress_bar cli_progress_update
-#'   cli_abort
+#' @importFrom cli cli_abort
 #' @importFrom dplyr bind_cols select matches bind_rows rename any_of left_join
-#'   relocate
+#' @importFrom dplyr relocate
 #'
 #' @noRd
 get_all_allocated_eic <- function(
@@ -1817,6 +1825,11 @@ add_type_names <- function(tbl) {
       col = "financial_price_descriptor_type",
       lookup = price_component_types,
       def = "financial_price_descriptor_type_def"
+    ),
+    list(
+      col = "constraint_ts_business_type",
+      lookup = business_types,
+      def = "constraint_ts_business_type_def"
     )
   )
 
@@ -2314,6 +2327,9 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     "financial_price_descriptor_type",
     "financial_price_descriptor_type_def",
     "ts_classification_sequence_position",
+    "constraint_ts_mrid",
+    "constraint_ts_business_type",
+    "constraint_ts_business_type_def",
     "constraint_ts_monitored_ptdf_domain_mrid",
     "constraint_ts_monitored_ptdf_domain_name",
     "constraint_ts_monitored_ptdf_domain_quantity",
@@ -2367,7 +2383,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
 #' @return A tibble constructed from the XML content in `content$result`.
 #'
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
-#'             cli_abort
+#' @importFrom cli cli_abort
 #' @importFrom dplyr bind_rows
 #'
 #' @noRd
@@ -2461,7 +2477,7 @@ extract_response <- function(
 #' there_is_provider()
 #'
 #' @importFrom httr2 request req_user_agent req_timeout req_retry
-#'   resp_status
+#' @importFrom httr2 resp_status
 #'
 #' @export
 there_is_provider <- function(

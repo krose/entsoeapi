@@ -10,3 +10,7 @@ inst/doc
 /Meta/
 docs
 devel/
+.positai
+.gitnexus
+CLAUDE.md
+AGENTS.md

@@ -53,11 +53,11 @@ dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other load endpoints: 
-\code{\link{load_actual_total}()},
-\code{\link{load_day_ahead_total_forecast}()},
-\code{\link{load_month_ahead_total_forecast}()},
-\code{\link{load_week_ahead_total_forecast}()},
-\code{\link{load_year_ahead_forecast_margin}()}
+Other load endpoints:
+\code{\link[=load_actual_total]{load_actual_total()}},
+\code{\link[=load_day_ahead_total_forecast]{load_day_ahead_total_forecast()}},
+\code{\link[=load_month_ahead_total_forecast]{load_month_ahead_total_forecast()}},
+\code{\link[=load_week_ahead_total_forecast]{load_week_ahead_total_forecast()}},
+\code{\link[=load_year_ahead_forecast_margin]{load_year_ahead_forecast_margin()}}
 }
 \concept{load endpoints}

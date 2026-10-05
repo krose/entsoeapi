@@ -56,27 +56,27 @@ dplyr::glimpse(df)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other balancing endpoints: 
-\code{\link{activated_balancing_prices}()},
-\code{\link{aggregated_balancing_energy_bids}()},
-\code{\link{allocation_of_cross_zonal_balancing_cap}()},
-\code{\link{balancing_border_cap_limit}()},
-\code{\link{balancing_energy_bids}()},
-\code{\link{changes_to_bid_availability}()},
-\code{\link{contracted_reserves}()},
-\code{\link{current_balancing_state}()},
-\code{\link{elastic_demands}()},
-\code{\link{exchanged_volumes}()},
-\code{\link{fcr_total_capacity}()},
-\code{\link{financial_expenses_and_income}()},
-\code{\link{hvdc_link_constrains}()},
-\code{\link{imbalance_prices}()},
-\code{\link{imbalance_volumes}()},
-\code{\link{netted_volumes}()},
-\code{\link{netted_volumes_per_border}()},
-\code{\link{procured_balancing_capacity}()},
-\code{\link{rr_and_frr_actual_capacity}()},
-\code{\link{shares_of_fcr_capacity}()},
-\code{\link{sharing_of_rr_and_frr_capacity}()}
+Other balancing endpoints:
+\code{\link[=activated_balancing_prices]{activated_balancing_prices()}},
+\code{\link[=aggregated_balancing_energy_bids]{aggregated_balancing_energy_bids()}},
+\code{\link[=allocation_of_cross_zonal_balancing_cap]{allocation_of_cross_zonal_balancing_cap()}},
+\code{\link[=balancing_border_cap_limit]{balancing_border_cap_limit()}},
+\code{\link[=balancing_energy_bids]{balancing_energy_bids()}},
+\code{\link[=changes_to_bid_availability]{changes_to_bid_availability()}},
+\code{\link[=contracted_reserves]{contracted_reserves()}},
+\code{\link[=current_balancing_state]{current_balancing_state()}},
+\code{\link[=elastic_demands]{elastic_demands()}},
+\code{\link[=exchanged_volumes]{exchanged_volumes()}},
+\code{\link[=fcr_total_capacity]{fcr_total_capacity()}},
+\code{\link[=financial_expenses_and_income]{financial_expenses_and_income()}},
+\code{\link[=hvdc_link_constrains]{hvdc_link_constrains()}},
+\code{\link[=imbalance_prices]{imbalance_prices()}},
+\code{\link[=imbalance_volumes]{imbalance_volumes()}},
+\code{\link[=netted_volumes]{netted_volumes()}},
+\code{\link[=netted_volumes_per_border]{netted_volumes_per_border()}},
+\code{\link[=procured_balancing_capacity]{procured_balancing_capacity()}},
+\code{\link[=rr_and_frr_actual_capacity]{rr_and_frr_actual_capacity()}},
+\code{\link[=shares_of_fcr_capacity]{shares_of_fcr_capacity()}},
+\code{\link[=sharing_of_rr_and_frr_capacity]{sharing_of_rr_and_frr_capacity()}}
 }
 \concept{balancing endpoints}
