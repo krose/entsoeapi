@@ -23,8 +23,7 @@ Imports:
     stringr,
     tidyr,
     utils,
-    xml2,
-    xmlconvert
+    xml2
 Encoding: UTF-8
 Language: en-US
 LazyData: true

@@ -1018,6 +1018,54 @@ read_zipped_xml <- function(temp_file_path) {
 
 
 #' @title
+#' Extract the readable text of an HTML error page
+#'
+#' @param resp An `httr2_response` with an HTML body.
+#'
+#' @return A character scalar: the non-blank text nodes of the page body,
+#'   separated by single spaces (`""` when there is no body text).
+#'
+#' @importFrom httr2 resp_body_html
+#' @importFrom xml2 xml_find_all xml_text
+#'
+#' @noRd
+html_error_text <- function(resp) {
+  texts <- resp |>
+    resp_body_html(encoding = "utf-8") |>
+    xml_find_all(xpath = "//body//text()") |>
+    xml_text() |>
+    trimws()
+  paste(texts[nzchar(texts)], collapse = " ")
+}
+
+
+#' @title
+#' Extract the Reason of an ENTSO-E acknowledgement document
+#'
+#' @param resp An `httr2_response` with an XML body.
+#'
+#' @return A named list of the `Reason` fields (normally `code` and `text`),
+#'   or `NULL` when the root has no `Reason` child with element fields.
+#'
+#' @importFrom httr2 resp_body_xml
+#' @importFrom xml2 xml_find_first xml_children xml_name xml_text
+#'
+#' @noRd
+xml_error_reason <- function(resp) {
+  # local-name() keeps the query independent of the document namespace
+  reason <- resp |>
+    resp_body_xml(encoding = "utf-8") |>
+    xml_find_first(xpath = "/*/*[local-name()='Reason']")
+  if (inherits(reason, "xml_missing")) return(NULL)
+  fields <- xml_children(reason)
+  if (length(fields) == 0L) return(NULL)
+  vals <- as.list(xml_text(fields))
+  names(vals) <- xml_name(fields)
+  vals
+}
+
+
+#' @title
 #' call request against the ENTSO-E API and converts the response into xml
 #'
 #' @param api_scheme Character scalar. URL scheme (default: `"https://"`).
@@ -1038,7 +1086,6 @@ read_zipped_xml <- function(temp_file_path) {
 #' @importFrom httr2 req_retry resp_status resp_content_type resp_body_raw
 #' @importFrom httr2 resp_body_xml resp_body_html resp_body_json
 #' @importFrom httr2 resp_status_desc req_headers
-#' @importFrom xmlconvert xml_to_list
 #' @importFrom stringr str_detect
 #' @importFrom stats setNames runif
 #'
@@ -1132,10 +1179,7 @@ api_req <- function(
     if (rhct %in% expt_html) {
       # extract reason code and text
       response_reason_code <- resp_status(error_obj$resp)
-      response_reason_text <- error_obj$resp |>
-        resp_body_html(encoding = "utf-8") |>
-        xml_to_list() |>
-        pluck("body")
+      response_reason_text <- html_error_text(resp = error_obj$resp)
 
       sprintf("%s: %s", response_reason_code, response_reason_text) |>
         cli_abort()
@@ -1143,10 +1187,7 @@ api_req <- function(
 
     if (rhct %in% expt_xml) {
       # extract reason from reason text
-      response_reason <- error_obj$resp |>
-        resp_body_xml(encoding = "utf-8") |>
-        xml_to_list() |>
-        pluck("Reason")
+      response_reason <- xml_error_reason(resp = error_obj$resp)
 
       if (!inherits(x = response_reason, what = "list") ||
             !identical(names(response_reason), c("code", "text"))) {

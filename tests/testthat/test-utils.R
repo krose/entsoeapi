@@ -1113,15 +1113,12 @@ testthat::test_that(
         )
       }
     )
-    # The stop() message may be empty when xmlconvert::xml_to_list() |> pluck()
-    # returns NULL for the HTML body; what matters is that the HTML error branch
-    # is reached and an error is thrown.
     testthat::expect_error(
       object = api_req(
         query_string = "documentType=A73",
         security_token = .test_token
       ),
-      regexp = "subscript out of bounds"
+      regexp = "403: Access Denied"
     )
   }
 )
@@ -2248,6 +2245,53 @@ testthat::test_that(
     testthat::expect_identical(
       object = result$cols,
       expected = list(p.position = c("1", "2"))
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "html_error_text() joins the non-blank text nodes of the body",
+  code = {
+    resp <- httr2::response(
+      status_code = 500L,
+      headers = list("content-type" = "text/html"),
+      body = charToRaw(
+        "<html><head><title>x</title></head><body><h1>Oops</h1>\n<p>Try later</p></body></html>"
+      )
+    )
+    testthat::expect_identical(
+      object = entsoeapi:::html_error_text(resp = resp),
+      expected = "Oops Try later"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "xml_error_reason() returns the Reason fields or NULL",
+  code = {
+    mk <- \(x) httr2::response(
+      status_code = 400L,
+      headers = list("content-type" = "text/xml"),
+      body = charToRaw(x)
+    )
+    testthat::expect_identical(
+      object = entsoeapi:::xml_error_reason(
+        resp = mk(paste0(
+          "<A xmlns='urn:x'><Reason><code>999</code>",
+          "<text>t</text></Reason></A>"
+        ))
+      ),
+      expected = list(code = "999", text = "t")
+    )
+    testthat::expect_null(
+      object = entsoeapi:::xml_error_reason(
+        resp = mk("<root><Reason>Service Unavailable</Reason></root>")
+      )
+    )
+    testthat::expect_null(
+      object = entsoeapi:::xml_error_reason(resp = mk("<root><a>1</a></root>"))
     )
   }
 )
