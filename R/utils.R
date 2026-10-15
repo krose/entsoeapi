@@ -295,262 +295,263 @@ prefixed_names <- function(prefix, nms) {
 
 
 #' @title
-#' Convert a Group of Flat XML Records into Row Vectors
+#' Create a column block
 #'
 #' @description
-#' Fast path of node_to_rows() for a group of same-named sibling nodes
-#' whose children are all leaves (e.g. the `Point` elements of a `Period`).
-#' Names and texts of all grandchildren are fetched with one vectorised
-#' xml2 call each, then split into one named row vector per member.
+#' A block is the columnar intermediate of the XML parser: a named list of
+#' equal-length character vectors (`cols`) plus its row count (`n`).
+#' Building blocks instead of one named vector per output row keeps the
+#' stacking and cross-joining of XML subtrees vectorised.
 #'
-#' @param members An `xml_nodeset` of same-named sibling nodes.
-#' @param prefix Character scalar. Column name prefix of the group.
+#' @param cols A named list of equal-length character vectors.
+#' @param n Integer scalar. The number of rows.
 #'
-#' @return A list of named character vectors (one per member), or `NULL`
-#'   when the group is not flat or a member repeats a leaf name; the caller
-#'   then falls back to the generic recursion.
-#'
-#' @importFrom xml2 xml_children xml_length xml_name xml_text
+#' @return A list with elements `n` and `cols`.
 #'
 #' @noRd
-flat_records_to_rows <- function(members, prefix) {
-  grandchildren <- xml_children(members)
-  if (any(xml_length(grandchildren) > 0L)) return(NULL)
-
-  member_id <- rep.int(seq_along(members), xml_length(members))
-  vals <- xml_text(grandchildren)
-  names(vals) <- prefixed_names(prefix, xml_name(grandchildren))
-
-  # duplicated leaf names within one record need the generic handling
-  if (anyDuplicated(paste(member_id, names(vals), sep = "\r")) > 0L) {
-    return(NULL)
-  }
-  unname(split(x = vals, f = member_id))
+new_block <- function(cols = list(), n = 0L) {
+  list(n = n, cols = cols)
 }
 
 
 #' @title
-#' Recursively Convert an XML Node into Row Vectors
+#' Stack column blocks on top of each other
+#'
+#' @description
+#' Same-named XML siblings become additional rows. Columns are united in
+#' order of first appearance; a column missing from a block is filled with
+#' `NA_character_` for that block's rows.
+#'
+#' @param blocks A list of blocks as created by new_block().
+#'
+#' @return A single block.
+#'
+#' @noRd
+stack_blocks <- function(blocks) {
+  blocks <- Filter(f = \(b) b$n > 0L, x = blocks)
+  if (length(blocks) == 0L) return(new_block())
+  if (length(blocks) == 1L) return(blocks[[1L]])
+
+  ns <- vapply(blocks, \(b) b$n, integer(1L))
+  all_names <- blocks |>
+    lapply(\(b) names(b$cols)) |>
+    unlist(use.names = FALSE) |>
+    unique()
+  cols <- lapply(all_names, \(nm) {
+    blocks |>
+      seq_along() |>
+      lapply(\(k) {
+        col <- blocks[[k]]$cols[[nm]]
+        if (is.null(col)) rep(NA_character_, ns[k]) else col
+      }) |>
+      unlist(use.names = FALSE)
+  })
+  names(cols) <- all_names
+  new_block(cols = cols, n = sum(ns))
+}
+
+
+#' @title
+#' Cross-join two column blocks
+#'
+#' @description
+#' Different-named XML siblings are combined with each other: every row of
+#' `a` is paired with every row of `b`, in `a`-major order. Prepending leaf
+#' columns to nested rows is the special case of a one-row `a`.
+#'
+#' @param a,b Blocks as created by new_block().
+#'
+#' @return A block with `a$n * b$n` rows and the columns of `a` then `b`.
+#'
+#' @noRd
+cross_blocks <- function(a, b) {
+  n <- a$n * b$n
+  if (n == 0L) return(new_block())
+  idx_a <- rep(seq_len(a$n), each = b$n)
+  idx_b <- rep.int(seq_len(b$n), a$n)
+  new_block(
+    cols = c(
+      lapply(a$cols, \(col) col[idx_a]),
+      lapply(b$cols, \(col) col[idx_b])
+    ),
+    n = n
+  )
+}
+
+
+#' @title
+#' Convert a column block into a tibble
+#'
+#' @param block A block as created by new_block().
+#'
+#' @return A tibble, or an empty tibble for a zero-row block.
+#'
+#' @noRd
+block_to_tbl <- function(block) {
+  if (block$n == 0L) return(as_tbl(list()))
+  as_tbl(block$cols)
+}
+
+
+#' @title
+#' Convert a Group of Flat XML Records into a Column Block
+#'
+#' @description
+#' Fast path of node_to_block() for a group of same-named sibling nodes
+#' whose children are all leaves (e.g. the `Point` elements of a `Period`).
+#' The fields of all members are fetched with one XPath query from the
+#' parent (evaluated inside libxml2, much cheaper than xml_children() over
+#' a large nodeset), then scattered into columns by member index.
+#'
+#' @param parent The `xml_node` holding the members.
+#' @param name Character scalar. The (local) element name of the members.
+#' @param members An `xml_nodeset` of the `name` children of `parent` that
+#'   have element children themselves.
+#' @param prefix Character scalar. Column name prefix of the group.
+#'
+#' @return A block with one row per member, or `NULL` when the group is not
+#'   flat or a member repeats a leaf name; the caller then falls back to
+#'   the generic recursion.
+#'
+#' @importFrom xml2 xml_find_all xml_find_first xml_length xml_name xml_text
+#'
+#' @noRd
+flat_records_to_block <- function(parent, name, members, prefix) {
+  # local-name() keeps the query independent of the document namespace
+  member_path <- sprintf("./*[local-name()='%s']", name)
+
+  # a member with a grandchild of its own is not a flat record
+  deeper <- xml_find_first(parent, paste0(member_path, "/*/*"))
+  if (!inherits(deeper, "xml_missing")) return(NULL)
+
+  grandchildren <- xml_find_all(parent, paste0(member_path, "/*"))
+  member_id <- rep.int(seq_along(members), xml_length(members))
+  if (length(grandchildren) != length(member_id)) return(NULL)
+  nms <- xml_name(grandchildren)
+
+  # duplicated leaf names within one record need the generic handling
+  if (anyDuplicated(paste(member_id, nms, sep = "\r")) > 0L) return(NULL)
+
+  vals <- xml_text(grandchildren)
+  n <- length(members)
+  unique_nms <- unique(nms)
+  cols <- lapply(unique_nms, \(nm) {
+    hit <- nms == nm
+    col <- rep(NA_character_, n)
+    col[member_id[hit]] <- vals[hit]
+    col
+  })
+  names(cols) <- prefixed_names(prefix, unique_nms)
+  new_block(cols = cols, n = n)
+}
+
+
+#' @title
+#' Recursively Convert an XML Node into a Column Block
 #'
 #' @description
 #' Walks the XML tree depth-first, collecting leaf text values directly
-#' via xml_text() / xml_name() instead of as_list() + unlist().
-#' Returns a list of named character vectors — one per output row.
-#' Same-named siblings produce multiple rows (stacked); different-named
-#' siblings produce columns (cross-joined). Duplicate leaf names within
-#' a single row are collapsed with a "|" separator.
-#'
-#' This avoids per-node tibble creation entirely; a single tibble is
-#' built at the end by rows_to_tbl().
+#' via xml_text() / xml_name(). Same-named siblings produce multiple rows
+#' (stacked); different-named siblings produce columns (cross-joined).
+#' Duplicate leaf names within a single row are collapsed with a "|"
+#' separator.
 #'
 #' @param node An xml_node or length-1 xml_nodeset.
 #' @param prefix Character scalar or NULL. Dot-separated path prefix
 #'   prepended to all column names produced by this node's subtree.
 #'
-#' @return A list of named character vectors, each representing one row.
+#' @return A block as created by new_block().
 #'
 #' @importFrom xml2 xml_children xml_length xml_name xml_text
 #'
 #' @noRd
-node_to_rows <- function(node, prefix = NULL) {
+node_to_block <- function(node, prefix = NULL) {
   children <- xml_children(node)
-  n_ch <- length(children)
 
-  if (n_ch == 0L) {
-    # terminal node: return its text as a single-element named vector
+  if (length(children) == 0L) {
+    # terminal node: its text becomes a single one-row column
     nm <- if (is.null(prefix)) xml_name(node) else prefix
     val <- xml_text(node)
     if (length(val) == 0L || is.na(val)) val <- NA_character_
-    row <- val
-    names(row) <- nm
-    return(list(row))
+    cols <- list(val)
+    names(cols) <- nm
+    return(new_block(cols = cols, n = 1L))
   }
 
   # classify children as leaf (no grandchildren) vs nested
   # (xml_name/xml_length/xml_text are vectorised over nodesets)
   ch_names <- xml_name(children)
   ch_has_gc <- xml_length(children) > 0L
-
   leaf_idx <- which(!ch_has_gc)
   nested_idx <- which(ch_has_gc)
 
-  # --- Build the leaf part as a single named character vector ---
-  leaf_row <- character(0L)
+  # --- leaf part: a one-row block (or several rows, see below) ---
+  leaf_block <- NULL
   if (length(leaf_idx) > 0L) {
     # a leaf has no element children by definition, so its text is its value
     leaf_names <- prefixed_names(prefix, ch_names[leaf_idx])
     leaf_vals <- xml_text(children[leaf_idx])
-    names(leaf_vals) <- leaf_names
 
-    # handle same-named leaves: group by name
-    unique_leaf_names <- unique(leaf_names)
-    if (length(unique_leaf_names) < length(leaf_names)) {
-      # some leaves share a name — need to determine if they stack or collapse
-      name_counts <- tabulate(match(leaf_names, unique_leaf_names))
-      has_nested <- length(nested_idx) > 0L
-
-      if (!has_nested && max(name_counts) > 1L) {
-        # no nested siblings: same-named leaves produce multiple rows
-        # group by name; each group becomes a column, rows = max group size
-        groups <- split(leaf_vals, leaf_names)[unique_leaf_names]
-        max_len <- lengths(groups) |> max()
-        stacked_rows <- vector("list", max_len)
-        for (r in seq_len(max_len)) {
-          row <- groups |>
-            vapply(
-              FUN = \(g) if (r <= length(g)) g[[r]] else NA_character_,
-              FUN.VALUE = character(1L)
-            )
-          names(row) <- unique_leaf_names
-          stacked_rows[[r]] <- row
-        }
-        return(stacked_rows)
-      } else {
-        # nested siblings present or single-row collapse:
-        # collapse duplicate names with "|"
-        collapsed <- length(unique_leaf_names) |> character()
-        names(collapsed) <- unique_leaf_names
-        for (nm in unique_leaf_names) {
-          collapsed[nm] <- paste(leaf_vals[leaf_names == nm], collapse = "|")
-        }
-        leaf_row <- collapsed
+    if (anyDuplicated(leaf_names) > 0L) {
+      unique_leaf_names <- unique(leaf_names)
+      groups <- split(
+        x = leaf_vals,
+        f = factor(leaf_names, levels = unique_leaf_names)
+      )
+      if (length(nested_idx) == 0L) {
+        # no nested siblings: same-named leaves produce multiple rows,
+        # shorter groups are padded with NA
+        max_len <- max(lengths(groups))
+        cols <- lapply(groups, \(g) {
+          length(g) <- max_len
+          unname(g)
+        })
+        names(cols) <- unique_leaf_names
+        return(new_block(cols = cols, n = max_len))
       }
-    } else {
-      leaf_row <- leaf_vals
+      # nested siblings present: collapse duplicate names with "|"
+      leaf_vals <- vapply(
+        X = groups,
+        FUN = paste,
+        FUN.VALUE = character(1L),
+        collapse = "|",
+        USE.NAMES = FALSE
+      )
+      leaf_names <- unique_leaf_names
     }
+    cols <- as.list(leaf_vals)
+    names(cols) <- leaf_names
+    leaf_block <- new_block(cols = cols, n = 1L)
   }
 
-  # --- Recurse into nested children ---
-  nested_rows <- list()
+  # --- nested part: stack same-named groups, cross-join different ones ---
+  nested_block <- new_block()
   if (length(nested_idx) > 0L) {
-    # group nested children by name
     nested_names <- ch_names[nested_idx]
-    unique_nested <- unique(nested_names)
-
-    group_row_lists <- vector("list", length(unique_nested))
-    for (g in seq_along(unique_nested)) {
-      gname <- unique_nested[g]
+    group_blocks <- lapply(unique(nested_names), \(gname) {
       members <- children[nested_idx[nested_names == gname]]
       new_prefix <- paste(c(prefix, gname), collapse = ".")
-
-      # fast path: every member is a flat record of leaves (e.g. Period/Point)
-      # -> one row per member, extracted with a single vectorised pass
-      group_rows <- flat_records_to_rows(members, prefix = new_prefix)
-      if (is.null(group_rows)) {
-        # generic path: recurse into each member, stack their rows
-        group_rows <- members |>
-          lapply(\(member) node_to_rows(node = member, prefix = new_prefix)) |>
-          unlist(recursive = FALSE)
+      # fast path: every member is a flat record of leaves (e.g. Point)
+      block <- flat_records_to_block(
+        parent = node,
+        name = gname,
+        members = members,
+        prefix = new_prefix
+      )
+      if (is.null(block)) {
+        block <- members |>
+          lapply(\(member) node_to_block(node = member, prefix = new_prefix)) |>
+          stack_blocks()
       }
-      group_row_lists[[g]] <- group_rows
-    }
-
-    if (length(unique_nested) == 1L) {
-      nested_rows <- group_row_lists[[1L]]
-    } else {
-      # different-named nested groups: cross-join
-      # start with first group, then cross with each subsequent group
-      nested_rows <- group_row_lists[[1L]]
-      for (g in 2L:length(group_row_lists)) {
-        next_group <- group_row_lists[[g]]
-        crossed <- vector("list", length(nested_rows) * length(next_group))
-        k <- 1L
-        for (i in seq_along(nested_rows)) {
-          for (j in seq_along(next_group)) {
-            crossed[[k]] <- c(nested_rows[[i]], next_group[[j]])
-            k <- k + 1L
-          }
-        }
-        nested_rows <- crossed
-      }
-    }
+      block
+    })
+    nested_block <- Reduce(f = cross_blocks, x = group_blocks)
   }
 
-  # --- Combine leaf + nested ---
-  if (length(leaf_row) == 0L && length(nested_rows) == 0L) {
-    return(list())
-  }
-  if (length(nested_rows) == 0L) {
-    return(list(leaf_row))
-  }
-  if (length(leaf_row) == 0L) {
-    return(nested_rows)
-  }
-
-  # prepend leaf columns to every nested row
-  lapply(nested_rows, \(nr) c(leaf_row, nr))
-}
-
-
-#' @title
-#' Convert a List of Named Character Vectors into a Tibble
-#'
-#' @description
-#' Efficiently converts the row-vector output of node_to_rows() into
-#' a single tibble. Uses a fast path (matrix construction) when all
-#' rows have identical column names, and a slower fallback (column
-#' accumulation with NA fill) when rows are heterogeneous.
-#'
-#' @param rows A list of named character vectors, as returned by
-#'   node_to_rows().
-#'
-#' @return A tibble with one row per input vector and one column per
-#'   unique name found across all vectors.
-#'
-#' @noRd
-rows_to_tbl <- function(rows) {
-  n <- length(rows)
-  if (n == 0L) return(as_tbl(list()))
-  if (n == 1L) {
-    row <- rows[[1L]]
-    df <- as.list(row)
-    return(as_tbl(df))
-  }
-
-  # check if all rows have the same column set (fast path)
-  col_names_first <- names(rows[[1L]])
-  uniform <- TRUE
-  for (i in 2L:n) {
-    if (!identical(names(rows[[i]]), col_names_first)) {
-      uniform <- FALSE
-      break
-    }
-  }
-
-  if (uniform) {
-    # fast path: build a character matrix, then split into columns
-    ncols <- length(col_names_first)
-    mat <- matrix(
-      data = unlist(rows, use.names = FALSE),
-      nrow = n,
-      ncol = ncols,
-      byrow = TRUE
-    )
-    df <- vector("list", ncols)
-    names(df) <- col_names_first
-    for (j in seq_len(ncols)) {
-      df[[j]] <- mat[, j]
-    }
-    return(as_tbl(df))
-  }
-
-  # slow path: collect all unique column names, fill with NA
-
-  # flatten once, remember which row each value came from,
-  # then fill every column with a single vectorised assignment
-  vals <- unlist(rows, use.names = TRUE)
-  val_names <- names(vals)
-  names(vals) <- NULL
-  row_id <- rep.int(seq_len(n), lengths(rows))
-  all_names <- unique(val_names)
-  cols <- lapply(all_names, \(nm) {
-    col <- rep(NA_character_, n)
-    hit <- val_names == nm
-    col[row_id[hit]] <- vals[hit]
-    col
-  })
-  names(cols) <- all_names
-  as_tbl(cols)
+  # --- combine leaf + nested ---
+  if (is.null(leaf_block)) return(nested_block)
+  if (nested_block$n == 0L) return(leaf_block)
+  cross_blocks(a = leaf_block, b = nested_block)
 }
 
 
@@ -560,11 +561,9 @@ rows_to_tbl <- function(rows) {
 #' @description
 #' Mine data from all levels (leaf, twig, branch)
 #' of an XML document and convert them to a tibble.
-#' Uses node_to_rows() to recursively collect named character
-#' vectors (one per output row) and rows_to_tbl() to efficiently
-#' construct a single tibble at the end — avoiding per-node tibble
-#' creation, as_list() + unlist() overhead, and thousands of
-#' intermediate bind_rows()/bind_cols() calls.
+#' Uses node_to_block() to recursively collect column blocks and
+#' block_to_tbl() to construct a single tibble at the end — avoiding
+#' per-node tibble creation and per-row vector handling.
 #'
 #' @param nodesets A list of `xml_node` objects representing the top-level
 #'   children of an XML document.
@@ -573,7 +572,6 @@ rows_to_tbl <- function(rows) {
 #'   `nodesets`.
 #'
 #' @importFrom xml2 xml_children xml_length xml_name xml_text
-#' @importFrom dplyr bind_cols
 #'
 #' @noRd
 extract_leaf_twig_branch <- function(nodesets) {
@@ -581,8 +579,8 @@ extract_leaf_twig_branch <- function(nodesets) {
   children_of_nodes <- nodesets |>
     vapply(FUN = number_of_children, FUN.VALUE = integer(1L))
 
-  # --- first level: leaf nodesets (no children) ---
-  leaf_rows <- character(0L)
+  # --- first level: leaf nodesets (no grandchildren) -> one row ---
+  leaf_block <- NULL
   if (any(children_of_nodes == 0L)) {
     leaf_ns <- nodesets[children_of_nodes == 0L]
 
@@ -605,77 +603,49 @@ extract_leaf_twig_branch <- function(nodesets) {
     leaf_vec <- unlist(leaf_parts, use.names = TRUE)
 
     # handle duplicate names by collapsing with "|"
-    if (anyDuplicated(names(leaf_vec)) > 0L) {
-      unique_names <- names(leaf_vec) |> unique()
-      collapsed <- length(unique_names) |> character()
-      names(collapsed) <- unique_names
-      for (nm in unique_names) {
-        collapsed[nm] <- paste(leaf_vec[names(leaf_vec) == nm], collapse = "|")
-      }
-      leaf_rows <- collapsed
-    } else {
-      leaf_rows <- leaf_vec
+    leaf_names <- names(leaf_vec)
+    if (anyDuplicated(leaf_names) > 0L) {
+      unique_names <- unique(leaf_names)
+      leaf_vec <- vapply(
+        X = split(
+          x = unname(leaf_vec),
+          f = factor(leaf_names, levels = unique_names)
+        ),
+        FUN = paste,
+        FUN.VALUE = character(1L),
+        collapse = "|",
+        USE.NAMES = FALSE
+      )
+      leaf_names <- unique_names
+    }
+    if (length(leaf_vec) > 0L) {
+      cols <- as.list(unname(leaf_vec))
+      names(cols) <- leaf_names
+      leaf_block <- new_block(cols = cols, n = 1L)
     }
   }
 
-  # --- second level: nested nodesets (have children) ---
-  nested_all_rows <- list()
+  # --- second level: nested nodesets (have grandchildren) ---
+  # same-named nested nodesets stack; different-named cross-join
+  nested_block <- new_block()
   if (any(children_of_nodes > 0L)) {
     nested_ns <- nodesets[children_of_nodes > 0L]
-    all_rows <- vector("list", length(nested_ns))
-    for (i in seq_along(nested_ns)) {
-      ns <- nested_ns[[i]]
-      all_rows[[i]] <- node_to_rows(
-        node = ns,
-        prefix = xml_name(ns)
-      )
-    }
-    # same-named nested nodesets stack; different-named cross-join
     nested_names <- xml_name(nested_ns)
-    unique_nested <- unique(nested_names)
-
-    if (length(unique_nested) == 1L) {
-      nested_all_rows <- unlist(all_rows, recursive = FALSE)
-    } else {
-      group_row_lists <- vector("list", length(unique_nested))
-      for (g in seq_along(unique_nested)) {
-        g_idx <- which(nested_names == unique_nested[g])
-        group_row_lists[[g]] <- unlist(all_rows[g_idx], recursive = FALSE)
-      }
-      # cross-join groups
-      nested_all_rows <- group_row_lists[[1L]]
-      for (g in 2L:length(group_row_lists)) {
-        next_group <- group_row_lists[[g]]
-        crossed <- vector(
-          "list",
-          length(nested_all_rows) * length(next_group)
-        )
-        k <- 1L
-        for (ii in seq_along(nested_all_rows)) {
-          for (jj in seq_along(next_group)) {
-            crossed[[k]] <- c(nested_all_rows[[ii]], next_group[[jj]])
-            k <- k + 1L
-          }
-        }
-        nested_all_rows <- crossed
-      }
-    }
+    nested_blocks <- lapply(
+      seq_along(nested_ns),
+      \(i) node_to_block(node = nested_ns[[i]], prefix = nested_names[i])
+    )
+    group_blocks <- lapply(
+      unique(nested_names),
+      \(gname) stack_blocks(nested_blocks[nested_names == gname])
+    )
+    nested_block <- Reduce(f = cross_blocks, x = group_blocks)
   }
 
   # --- combine leaf + nested into final tibble ---
-  if (length(leaf_rows) == 0L && length(nested_all_rows) == 0L) {
-    return(as_tbl(list()))
-  }
-  if (length(nested_all_rows) == 0L) {
-    return(rows_to_tbl(list(leaf_rows)))
-  }
-  if (length(leaf_rows) == 0L) {
-    return(rows_to_tbl(nested_all_rows))
-  }
-
-  # prepend leaf columns to every nested row, then build tibble
-  combined <- lapply(nested_all_rows, \(nr) c(leaf_rows, nr))
-  rows_to_tbl(combined)
+  if (is.null(leaf_block)) return(block_to_tbl(nested_block))
+  if (nested_block$n == 0L) return(block_to_tbl(leaf_block))
+  block_to_tbl(cross_blocks(a = leaf_block, b = nested_block))
 }
 
 
