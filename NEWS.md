@@ -1,4 +1,4 @@
-# entsoeapi v1.3.0 (development version)
+# entsoeapi v1.3.0 (2026-10-16)
 
 ## New functionality
 
@@ -7,7 +7,7 @@
 
 ## Changes
 
-- Converting API responses to tables is much faster. The XML parser now builds column blocks instead of one vector per output row, reads flat records such as the time series points with a single XPath query, and parses each distinct timestamp only once. A 57,600-point response converts about 10x faster (10.5 s -> 1.0 s), and a replay of 154 real responses is about 1.8x faster overall. The output is unchanged.
+- Converting API responses to tables is much faster. The XML parser now builds column blocks instead of one vector per output row, reads flat records such as the time series points with a single XPath query, and parses each distinct timestamp only once. A 57,600-point response converts about 10x faster (10.5 s -\> 1.0 s), and a replay of 154 real responses is about 1.8x faster overall. The output is unchanged.
 - Code lookups (`*_def`, `*_name` columns) use `match()` instead of joins, and column-name conversion is cached per session.
 - HTML error pages from the API now report their text, e.g. "403: Access Denied". Previously the message could be empty and end in "subscript out of bounds".
 

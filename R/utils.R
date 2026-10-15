@@ -50,11 +50,15 @@ disk_caches <- new.env(parent = emptyenv())
 eic_cache <- function() {
   cache_dir <- getOption("entsoeapi.cache_dir")
   if (is.null(cache_dir)) return(m)
-  assert_string(x = cache_dir, min.chars = 1L, .var.name = "entsoeapi.cache_dir")
+  assert_string(
+    x = cache_dir,
+    min.chars = 1L,
+    .var.name = "entsoeapi.cache_dir"
+  )
   max_age <- getOption("entsoeapi.cache_max_age", 86400)
   assert_number(x = max_age, lower = 0, .var.name = "entsoeapi.cache_max_age")
 
-  key <- paste(normalizePath(cache_dir, mustWork = FALSE), max_age)
+  key <- paste(normalizePath(path = cache_dir, mustWork = FALSE), max_age)
   if (is.null(disk_caches[[key]])) {
     disk_caches[[key]] <- cache_disk(dir = cache_dir, max_age = max_age)
   }
@@ -279,7 +283,7 @@ number_of_children <- function(nodeset) {
 extract_nodesets <- function(nodesets, prefix = NULL) {
   nodesets |>
     lapply(
-      \(nodeset) {
+      FUN = \(nodeset) {
         # convert the branches into a named vector
         named_vect <- nodeset |>
           as_list() |>
@@ -302,7 +306,7 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
 
         # compose a table from the elements
         vals <- split(x = named_vect, f = names(named_vect))[unique_names]
-        max_len <- max(lengths(vals))
+        max_len <- lengths(vals) |> max()
         non_conformable <- vals[
           lengths(vals) != max_len & max_len %% lengths(vals) != 0L
         ]
@@ -313,7 +317,7 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
           )
         }
         vals |>
-          lapply(\(x) rep_len(x = x, length.out = max_len)) |>
+          lapply(FUN = \(x) rep_len(x = x, length.out = max_len)) |>
           as_tbl()
       }
     )
@@ -372,20 +376,21 @@ stack_blocks <- function(blocks) {
   if (length(blocks) == 0L) return(new_block())
   if (length(blocks) == 1L) return(blocks[[1L]])
 
-  ns <- vapply(blocks, \(b) b$n, integer(1L))
+  ns <- vapply(X = blocks, FUN = \(b) b$n, FUN.VALUE = integer(1L))
   all_names <- blocks |>
-    lapply(\(b) names(b$cols)) |>
+    lapply(FUN = \(b) names(b$cols)) |>
     unlist(use.names = FALSE) |>
     unique()
-  cols <- lapply(all_names, \(nm) {
-    blocks |>
-      seq_along() |>
-      lapply(\(k) {
-        col <- blocks[[k]]$cols[[nm]]
-        if (is.null(col)) rep(NA_character_, ns[k]) else col
-      }) |>
-      unlist(use.names = FALSE)
-  })
+  cols <- all_names |>
+    lapply(FUN = \(nm) {
+      blocks |>
+        seq_along() |>
+        lapply(FUN = \(k) {
+          col <- blocks[[k]]$cols[[nm]]
+          if (is.null(col)) rep(x = NA_character_, ns[k]) else col
+        }) |>
+        unlist(use.names = FALSE)
+    })
   names(cols) <- all_names
   new_block(cols = cols, n = sum(ns))
 }
@@ -407,12 +412,12 @@ stack_blocks <- function(blocks) {
 cross_blocks <- function(a, b) {
   n <- a$n * b$n
   if (n == 0L) return(new_block())
-  idx_a <- rep(seq_len(a$n), each = b$n)
-  idx_b <- rep.int(seq_len(b$n), a$n)
+  idx_a <- seq_len(length.out = a$n) |> rep(each = b$n)
+  idx_b <- seq_len(length.out = b$n) |> rep.int(times = a$n)
   new_block(
     cols = c(
-      lapply(a$cols, \(col) col[idx_a]),
-      lapply(b$cols, \(col) col[idx_b])
+      lapply(X = a$cols, FUN = \(col) col[idx_a]),
+      lapply(X = b$cols, FUN = \(col) col[idx_b])
     ),
     n = n
   )
@@ -468,14 +473,14 @@ flat_records_to_block <- function(parent, name, members, prefix) {
     xpath = paste0(member_path, "/*/*"),
     ns = character()
   )
-  if (!inherits(deeper, "xml_missing")) return(NULL)
+  if (!inherits(x = deeper, what = "xml_missing")) return(NULL)
 
   grandchildren <- xml_find_all(
     x = parent,
     xpath = paste0(member_path, "/*"),
     ns = character()
   )
-  member_id <- rep.int(seq_along(members), xml_length(members))
+  member_id <- seq_along(members) |> rep.int(times = xml_length(members))
   if (length(grandchildren) != length(member_id)) return(NULL)
   nms <- xml_name(grandchildren)
 
@@ -485,13 +490,14 @@ flat_records_to_block <- function(parent, name, members, prefix) {
   vals <- xml_text(grandchildren)
   n <- length(members)
   unique_nms <- unique(nms)
-  cols <- lapply(unique_nms, \(nm) {
-    hit <- nms == nm
-    col <- rep(NA_character_, n)
-    col[member_id[hit]] <- vals[hit]
-    col
-  })
-  names(cols) <- prefixed_names(prefix, unique_nms)
+  cols <- unique_nms |>
+    lapply(FUN = \(nm) {
+      hit <- nms == nm
+      col <- rep(x = NA_character_, n)
+      col[member_id[hit]] <- vals[hit]
+      col
+    })
+  names(cols) <- prefixed_names(prefix = prefix, nms = unique_nms)
   new_block(cols = cols, n = n)
 }
 
@@ -539,20 +545,20 @@ node_to_block <- function(node, prefix = NULL) {
   leaf_block <- NULL
   if (length(leaf_idx) > 0L) {
     # a leaf has no element children by definition, so its text is its value
-    leaf_names <- prefixed_names(prefix, ch_names[leaf_idx])
+    leaf_names <- prefixed_names(prefix = prefix, nms = ch_names[leaf_idx])
     leaf_vals <- xml_text(children[leaf_idx])
 
     if (anyDuplicated(leaf_names) > 0L) {
       unique_leaf_names <- unique(leaf_names)
       groups <- split(
         x = leaf_vals,
-        f = factor(leaf_names, levels = unique_leaf_names)
+        f = factor(x = leaf_names, levels = unique_leaf_names)
       )
       if (length(nested_idx) == 0L) {
         # no nested siblings: same-named leaves produce multiple rows,
         # shorter groups are padded with NA
-        max_len <- max(lengths(groups))
-        cols <- lapply(groups, \(g) {
+        max_len <- lengths(groups) |> max()
+        cols <- lapply(X = groups, FUN = \(g) {
           length(g) <- max_len
           unname(g)
         })
@@ -578,7 +584,7 @@ node_to_block <- function(node, prefix = NULL) {
   nested_block <- new_block()
   if (length(nested_idx) > 0L) {
     nested_names <- ch_names[nested_idx]
-    group_blocks <- lapply(unique(nested_names), \(gname) {
+    group_blocks <- lapply(X = unique(nested_names), FUN = \(gname) {
       members <- children[nested_idx[nested_names == gname]]
       new_prefix <- paste(c(prefix, gname), collapse = ".")
       # fast path: every member is a flat record of leaves (e.g. Point)
@@ -590,7 +596,9 @@ node_to_block <- function(node, prefix = NULL) {
       )
       if (is.null(block)) {
         block <- members |>
-          lapply(\(member) node_to_block(node = member, prefix = new_prefix)) |>
+          lapply(
+            FUN = \(member) node_to_block(node = member, prefix = new_prefix)
+          ) |>
           stack_blocks()
       }
       block
@@ -637,7 +645,7 @@ extract_leaf_twig_branch <- function(nodesets) {
     # expand each leaf nodeset into named character entries;
     # nodes with sub-elements (e.g. timeInterval with start/end)
     # become multiple named entries (one per sub-element)
-    leaf_parts <- lapply(leaf_ns, \(ns) {
+    leaf_parts <- lapply(X = leaf_ns, FUN = \(ns) {
       nm <- xml_name(ns)
       ch <- xml_children(ns)
       if (length(ch) == 0L) {
@@ -682,12 +690,12 @@ extract_leaf_twig_branch <- function(nodesets) {
     nested_ns <- nodesets[children_of_nodes > 0L]
     nested_names <- xml_name(nested_ns)
     nested_blocks <- lapply(
-      seq_along(nested_ns),
-      \(i) node_to_block(node = nested_ns[[i]], prefix = nested_names[i])
+      X = seq_along(nested_ns),
+      FUN = \(i) node_to_block(node = nested_ns[[i]], prefix = nested_names[i])
     )
     group_blocks <- lapply(
-      unique(nested_names),
-      \(gname) stack_blocks(nested_blocks[nested_names == gname])
+      X = unique(nested_names),
+      FUN = \(gname) stack_blocks(blocks = nested_blocks[nested_names == gname])
     )
     nested_block <- Reduce(f = cross_blocks, x = group_blocks)
   }
@@ -718,11 +726,11 @@ extract_leaf_twig_branch <- function(nodesets) {
 #'
 #' @noRd
 nest_cols <- function(tbl, cols, key) {
-  outer <- setdiff(names(tbl), cols)
+  outer <- base::setdiff(x = names(tbl), y = cols)
   groups <- vec_group_loc(tbl[outer])
   inner <- tbl[cols]
   out <- groups$key
-  out[[key]] <- lapply(groups$loc, \(loc) vec_slice(inner, loc))
+  out[[key]] <- groups$loc |> lapply(FUN = \(loc) vec_slice(inner, loc))
   as_tbl(out)
 }
 
@@ -744,20 +752,20 @@ nest_cols <- function(tbl, cols, key) {
 #'
 #' @noRd
 unite_cols <- function(tbl, col, cols, sep = " - ") {
-  vals <- lapply(tbl[cols], as.character)
+  vals <- lapply(X = tbl[cols], FUN = as.character)
   united <- vapply(
     X = seq_len(nrow(tbl)),
     FUN = \(i) {
-      row <- vapply(vals, \(v) v[[i]], character(1L))
+      row <- vapply(X = vals, FUN = \(v) v[[i]], FUN.VALUE = character(1L))
       paste(row[!is.na(row)], collapse = sep)
     },
     FUN.VALUE = character(1L)
   )
-  first_pos <- min(match(cols, names(tbl)))
-  keep <- setdiff(names(tbl), cols)
+  first_pos <- min(match(x = cols, table = names(tbl)))
+  keep <- base::setdiff(x = names(tbl), y = cols)
   tbl <- tbl[keep]
   tbl[[col]] <- united
-  tbl[append(keep, col, after = first_pos - 1L)]
+  tbl[append(x = keep, values = col, after = first_pos - 1L)]
 }
 
 
@@ -840,7 +848,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     unique()
 
   # select the group by columns
-  group_cols <- setdiff(
+  group_cols <- base::setdiff(
     x = names(tbl),
     y = c(ts_point_cols, ts_reason_cols)
   )
@@ -951,7 +959,8 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           ts_point_position
         ) |>
         mutate(
-          across(everything(), \(x) vec_fill_missing(x, direction = "down")),
+          across(everything(),
+                 \(x) vec_fill_missing(x = x, direction = "down")),
           .by = all_of(group_cols_adj)
         )
 
@@ -995,7 +1004,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     )
 
     # remove the not needed columns
-    not_needed_cols <- intersect(
+    not_needed_cols <- base::intersect(
       x = not_needed_cols,
       y = names(tbl)
     )
@@ -1008,7 +1017,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     )
 
     # remove the not needed columns
-    not_needed_cols <- intersect(
+    not_needed_cols <- base::intersect(
       x = not_needed_cols,
       y = names(tbl)
     )
@@ -1116,7 +1125,7 @@ read_zipped_xml <- function(temp_file_path) {
   # read the xml content from each the decompressed files
   if (is.null(unzipped_files$error)) {
     unzipped_files$result |>
-      lapply(\(x) {
+      lapply(FUN = \(x) {
         xml_content <- read_xml(x)
         cli_alert_success("{x} has been read in")
         xml_content
@@ -1295,7 +1304,7 @@ api_req_multi <- function(query_strings, security_token) {
   for (url in urls) cli_alert("{url}&securityToken=<...>")
 
   resps <- urls |>
-    lapply(build_api_req, security_token = security_token) |>
+    lapply(FUN = build_api_req, security_token = security_token) |>
     req_perform_parallel(
       on_error = "continue",
       progress = FALSE,
@@ -1306,7 +1315,7 @@ api_req_multi <- function(query_strings, security_token) {
   lapply(
     X = seq_along(resps),
     FUN = \(i) {
-      resp <- if (inherits(resps[[i]], "httr2_response")) {
+      resp <- if (inherits(x = resps[[i]], what = "httr2_response")) {
         list(result = resps[[i]], error = NULL)
       } else {
         list(result = NULL, error = resps[[i]])
@@ -1412,7 +1421,7 @@ handle_api_resp <- function(resp, query_string, security_token) {
       response_reason <- xml_error_reason(resp = error_obj$resp)
 
       if (!inherits(x = response_reason, what = "list") ||
-            !identical(names(response_reason), c("code", "text"))) {
+            !identical(x = names(response_reason), y = c("code", "text"))) {
         cli_abort(
           "{resp_status(error_obj$resp)}: \\
           {resp_status_desc(error_obj$resp)}"
@@ -1725,7 +1734,7 @@ get_eiccodes <- function(
 
     # trim character columns and replace empty fields with NA_character_
     eiccodes <- eiccodes |>
-      lapply(\(x) {
+      lapply(FUN = \(x) {
         x <- trimws(x = enc2utf8(x = x), which = "both")
         x[x %in% ""] <- NA_character_
         x
@@ -1843,7 +1852,7 @@ get_all_allocated_eic <- function(
         )
         second_level_tbl <- nodesets[children_of_nodes > 0L] |>
           lapply(
-            \(x) {
+            FUN = \(x) {
               cli_progress_update(.envir = prb_envir2)
               # extract names and values directly via xml2 (C-level)
               children <- xml_children(x)
@@ -1889,7 +1898,7 @@ get_all_allocated_eic <- function(
     names(result_tbl) <- my_snakecase(result_tbl)
 
     # replace empty character fields with NA_character_
-    result_tbl[] <- lapply(result_tbl, \(x) {
+    result_tbl[] <- lapply(X = result_tbl, FUN = \(x) {
       x[x %in% ""] <- NA_character_
       x
     })
@@ -2052,7 +2061,10 @@ snakecase_names <- function(nms) {
 lookup_merge <- function(x, y, from_cols, to_cols) {
   key_col <- to_cols[[1L]]
   val_col <- to_cols[[2L]]
-  vals <- y[[from_cols[[2L]]]][match(x[[key_col]], y[[from_cols[[1L]]]])]
+  vals <- y[[from_cols[[2L]]]][match(
+    x = x[[key_col]],
+    table = y[[from_cols[[1L]]]]
+  )]
   if (val_col %in% names(x)) {
     names(x)[names(x) == val_col] <- paste0(val_col, "_x")
     val_col <- paste0(val_col, "_y")
@@ -2464,7 +2476,7 @@ parse_utc_ts <- function(x) {
       "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
     ),
     tz = "UTC"
-  )[match(x, ux)]
+  )[match(x = x, table = ux)]
 }
 
 
@@ -2677,7 +2689,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     "constraint_ts_monitored_ptdf_domain_quantity",
     "constraint_ts_monitored_flow_based_study_domain_margin_quantity"
   )
-  needed_cols <- intersect(
+  needed_cols <- base::intersect(
     x = needed_cols,
     y = names(result_tbl)
   )
@@ -2689,7 +2701,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
       select(all_of(needed_cols))
 
     # reorder the rows
-    sort_cols <- intersect(
+    sort_cols <- base::intersect(
       x = c(
         "created_date_time", "ts_mrid",
         "ts_business_type", "ts_mkt_psr_type",
@@ -2768,7 +2780,7 @@ extract_response <- function(
   # list of xml results — convert each element and bind
   result_tbl <- content$result |>
     lapply(
-      \(x) {
+      FUN = \(x) {
         if (response_length >= progress_bar_limit) {
           cli_progress_update(.envir = prb_envir)
         }
@@ -2779,7 +2791,7 @@ extract_response <- function(
             all()
           if (!all_doc) return(NULL)
           x |>
-            lapply(xml_to_table, tidy_output = tidy_output) |>
+            lapply(FUN = xml_to_table, tidy_output = tidy_output) |>
             Filter(f = length) |>
             bind_rows()
         } else {

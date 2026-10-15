@@ -2183,7 +2183,9 @@ testthat::test_that(
       blocks = list(
         entsoeapi:::new_block(cols = list(a = "1", b = "2"), n = 1L),
         entsoeapi:::new_block(),
-        entsoeapi:::new_block(cols = list(b = c("3", "4"), c = c("5", "6")), n = 2L)
+        entsoeapi:::new_block(
+          cols = list(b = c("3", "4"), c = c("5", "6")), n = 2L
+        )
       )
     )
     testthat::expect_identical(
@@ -2257,7 +2259,10 @@ testthat::test_that(
       status_code = 500L,
       headers = list("content-type" = "text/html"),
       body = charToRaw(
-        "<html><head><title>x</title></head><body><h1>Oops</h1>\n<p>Try later</p></body></html>"
+        paste0(
+          "<html><head><title>x</title></head><body><h1>Oops</h1>\n<p>",
+          "Try later</p></body></html>"
+        )
       )
     )
     testthat::expect_identical(
@@ -2271,11 +2276,13 @@ testthat::test_that(
 testthat::test_that(
   desc = "xml_error_reason() returns the Reason fields or NULL",
   code = {
-    mk <- \(x) httr2::response(
-      status_code = 400L,
-      headers = list("content-type" = "text/xml"),
-      body = charToRaw(x)
-    )
+    mk <- \(x) {
+      httr2::response(
+        status_code = 400L,
+        headers = list("content-type" = "text/xml"),
+        body = charToRaw(x)
+      )
+    }
     testthat::expect_identical(
       object = entsoeapi:::xml_error_reason(
         resp = mk(paste0(
@@ -2326,8 +2333,12 @@ testthat::test_that(
       t2 = c("y", "z", NA)
     ))
     result <- entsoeapi:::unite_cols(tbl = tbl, col = "t", cols = c("t1", "t2"))
-    testthat::expect_identical(object = names(result), expected = c("a", "t", "b"))
-    testthat::expect_identical(object = result$t, expected = c("x - y", "z", ""))
+    testthat::expect_identical(
+      object = names(result), expected = c("a", "t", "b")
+    )
+    testthat::expect_identical(
+      object = result$t, expected = c("x - y", "z", "")
+    )
   }
 )
 
@@ -2343,8 +2354,12 @@ testthat::test_that(
       from_cols = c("code", "title"),
       to_cols = c("k", "k_def")
     )
-    testthat::expect_identical(object = names(result), expected = c("k", "k_def"))
-    testthat::expect_identical(object = result$k_def, expected = c("B1", "A", NA, NA))
+    testthat::expect_identical(
+      object = names(result), expected = c("k", "k_def")
+    )
+    testthat::expect_identical(
+      object = result$k_def, expected = c("B1", "A", NA, NA)
+    )
   }
 )
 
@@ -2372,7 +2387,11 @@ testthat::test_that(
 testthat::test_that(
   desc = "my_snakecase() gives the same names from its session cache",
   code = {
-    tbl <- data.frame(TimeSeries.mRID = 1, `process.processType` = 2, check.names = FALSE)
+    tbl <- data.frame(
+      TimeSeries.mRID = 1,
+      `process.processType` = 2,
+      check.names = FALSE
+    )
     first <- entsoeapi:::my_snakecase(tbl)
     second <- entsoeapi:::my_snakecase(tbl)
     testthat::expect_identical(
