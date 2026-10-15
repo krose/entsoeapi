@@ -1529,13 +1529,14 @@ get_eiccodes <- function(
       comment.char = ""
     )
 
-    # trimming character columns
+    # trim character columns and replace empty fields with NA_character_
     eiccodes <- eiccodes |>
-      lapply(\(x) trimws(x = enc2utf8(x = x), which = "both")) |>
+      lapply(\(x) {
+        x <- trimws(x = enc2utf8(x = x), which = "both")
+        x[x %in% ""] <- NA_character_
+        x
+      }) |>
       as_tbl()
-
-    # replace empty character fields with NA_character_
-    eiccodes[eiccodes == ""] <- NA_character_
 
     # rename columns to snakecase
     names(eiccodes) <- my_snakecase(eiccodes)
@@ -1694,7 +1695,10 @@ get_all_allocated_eic <- function(
     names(result_tbl) <- my_snakecase(result_tbl)
 
     # replace empty character fields with NA_character_
-    result_tbl[result_tbl == ""] <- NA_character_
+    result_tbl[] <- lapply(result_tbl, \(x) {
+      x[x %in% ""] <- NA_character_
+      x
+    })
 
     # add eic_code_doc_status definitions to codes
     result_tbl <- left_join(
@@ -1733,7 +1737,43 @@ get_all_allocated_eic <- function(
 #' @noRd
 my_snakecase <- function(tbl) {
   assert_data_frame(x = tbl)
-  names(tbl) |>
+
+  # the conversion is element-wise and column names repeat across
+  # responses, so only names not seen before in this session are converted
+  nms <- names(tbl)
+  known <- snakecase_memo$map
+  new_nms <- unique(nms[!nms %in% names(known)])
+  if (length(new_nms) > 0L) {
+    converted <- snakecase_names(new_nms)
+    names(converted) <- new_nms
+    known <- c(known, converted)
+    snakecase_memo$map <- known
+  }
+  unname(known[nms])
+}
+
+
+#' @title
+#' Session cache of my_snakecase() conversions
+#'
+#' @noRd
+snakecase_memo <- new.env(parent = emptyenv())
+snakecase_memo$map <- character(0L)
+
+
+#' @title
+#' Convert raw XML column names into the package's snake_case names
+#'
+#' @param nms A character vector of raw column names.
+#'
+#' @return A character vector of converted names, the same length as `nms`.
+#'
+#' @importFrom stringr str_replace_all
+#' @importFrom snakecase to_snake_case
+#'
+#' @noRd
+snakecase_names <- function(nms) {
+  nms |>
     str_replace_all(
       c(
         "mRID" = "mrid",
@@ -1798,6 +1838,13 @@ my_snakecase <- function(tbl) {
 #' @title
 #' Merge a lookup table onto a table by key column
 #'
+#' @description
+#' A `match()`-based left join for code -> definition lookups. It adds a
+#' single column, keeps the row order and count of `x` (the first match wins
+#' if `y` repeats a key), and mirrors `dplyr::left_join(suffix = c("_x",
+#' "_y"))` naming: when `x` already has the value column, that one is
+#' renamed to `*_x` and the looked-up one is appended as `*_y`.
+#'
 #' @param x A data.frame to enrich.
 #' @param y A lookup data.frame containing source columns.
 #' @param from_cols Character vector of length 2: the source column names in `y`
@@ -1805,21 +1852,19 @@ my_snakecase <- function(tbl) {
 #' @param to_cols Character vector of length 2: the target column names to use
 #'   after renaming (key column first, value column second).
 #'
-#' @return A data.frame: `x` left-joined with the renamed subset of `y`.
-#'
-#' @importFrom dplyr left_join
+#' @return `x` with the looked-up value column appended.
 #'
 #' @noRd
 lookup_merge <- function(x, y, from_cols, to_cols) {
-  y <- y |>
-    subset(select = from_cols)
-  names(y) <- to_cols
-  left_join(
-    x = x,
-    y = y,
-    by = to_cols[[1L]],
-    suffix = c("_x", "_y")
-  )
+  key_col <- to_cols[[1L]]
+  val_col <- to_cols[[2L]]
+  vals <- y[[from_cols[[2L]]]][match(x[[key_col]], y[[from_cols[[1L]]]])]
+  if (val_col %in% names(x)) {
+    names(x)[names(x) == val_col] <- paste0(val_col, "_x")
+    val_col <- paste0(val_col, "_y")
+  }
+  x[[val_col]] <- vals
+  x
 }
 
 

@@ -2330,3 +2330,60 @@ testthat::test_that(
     testthat::expect_identical(object = result$t, expected = c("x - y", "z", ""))
   }
 )
+
+
+testthat::test_that(
+  desc = "lookup_merge() appends the looked-up column keeping rows intact",
+  code = {
+    x <- entsoeapi:::as_tbl(list(k = c("b", "a", "z", NA)))
+    y <- data.frame(code = c("a", "b", "b"), title = c("A", "B1", "B2"))
+    result <- entsoeapi:::lookup_merge(
+      x = x,
+      y = y,
+      from_cols = c("code", "title"),
+      to_cols = c("k", "k_def")
+    )
+    testthat::expect_identical(object = names(result), expected = c("k", "k_def"))
+    testthat::expect_identical(object = result$k_def, expected = c("B1", "A", NA, NA))
+  }
+)
+
+
+testthat::test_that(
+  desc = "lookup_merge() suffixes an already existing value column",
+  code = {
+    x <- entsoeapi:::as_tbl(list(k = "a", k_def = "old", z = 1))
+    y <- data.frame(code = "a", title = "A")
+    result <- entsoeapi:::lookup_merge(
+      x = x,
+      y = y,
+      from_cols = c("code", "title"),
+      to_cols = c("k", "k_def")
+    )
+    testthat::expect_identical(
+      object = names(result),
+      expected = c("k", "k_def_x", "z", "k_def_y")
+    )
+    testthat::expect_identical(object = result$k_def_y, expected = "A")
+  }
+)
+
+
+testthat::test_that(
+  desc = "my_snakecase() gives the same names from its session cache",
+  code = {
+    tbl <- data.frame(TimeSeries.mRID = 1, `process.processType` = 2, check.names = FALSE)
+    first <- entsoeapi:::my_snakecase(tbl)
+    second <- entsoeapi:::my_snakecase(tbl)
+    testthat::expect_identical(
+      object = first,
+      expected = entsoeapi:::snakecase_names(names(tbl))
+    )
+    testthat::expect_identical(object = first[[1L]], expected = "ts_mrid")
+    testthat::expect_identical(object = second, expected = first)
+    testthat::expect_identical(
+      object = entsoeapi:::my_snakecase(data.frame()),
+      expected = character(0L)
+    )
+  }
+)
