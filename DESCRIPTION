@@ -21,8 +21,8 @@ Imports:
     lubridate,
     snakecase,
     stringr,
-    tidyr,
     utils,
+    vctrs,
     xml2
 Encoding: UTF-8
 Language: en-US
@@ -38,6 +38,7 @@ Suggests:
     testthat (>= 3.0.0),
     curl,
     tibble,
+    tidyr,
     tidyselect,
     ggplot2,
     kableExtra,

@@ -650,6 +650,68 @@ extract_leaf_twig_branch <- function(nodesets) {
 
 
 #' @title
+#' Nest columns into a list-column of tibbles
+#'
+#' @description
+#' Equivalent of `tidyr::nest(tbl, {key} = all_of(cols))`: rows are grouped
+#' by all the other columns (in order of first appearance) and the `cols`
+#' of each group become one tibble in the `key` list-column.
+#'
+#' @param tbl A tibble.
+#' @param cols Character vector. The columns to nest.
+#' @param key Character scalar. Name of the new list-column.
+#'
+#' @return A tibble with one row per distinct combination of the other
+#'   columns, followed by the `key` list-column.
+#'
+#' @importFrom vctrs vec_group_loc vec_slice
+#'
+#' @noRd
+nest_cols <- function(tbl, cols, key) {
+  outer <- setdiff(names(tbl), cols)
+  groups <- vec_group_loc(tbl[outer])
+  inner <- tbl[cols]
+  out <- groups$key
+  out[[key]] <- lapply(groups$loc, \(loc) vec_slice(inner, loc))
+  as_tbl(out)
+}
+
+
+#' @title
+#' Unite columns into one, pasting the non-missing values
+#'
+#' @description
+#' Equivalent of `tidyr::unite(tbl, col, all_of(cols), sep = sep,
+#' remove = TRUE, na.rm = TRUE)`: the new column takes the position of the
+#' first united column; rows where every value is missing become `""`.
+#'
+#' @param tbl A tibble.
+#' @param col Character scalar. Name of the new column.
+#' @param cols Character vector. The columns to unite (and remove).
+#' @param sep Character scalar. Separator between the values.
+#'
+#' @return The tibble with `cols` replaced by `col`.
+#'
+#' @noRd
+unite_cols <- function(tbl, col, cols, sep = " - ") {
+  vals <- lapply(tbl[cols], as.character)
+  united <- vapply(
+    X = seq_len(nrow(tbl)),
+    FUN = \(i) {
+      row <- vapply(vals, \(v) v[[i]], character(1L))
+      paste(row[!is.na(row)], collapse = sep)
+    },
+    FUN.VALUE = character(1L)
+  )
+  first_pos <- min(match(cols, names(tbl)))
+  keep <- setdiff(names(tbl), cols)
+  tbl <- tbl[keep]
+  tbl[[col]] <- united
+  tbl[append(keep, col, after = first_pos - 1L)]
+}
+
+
+#' @title
 #' Converts Extracted Data into a Tidy or a Nested format
 #'
 #' @description
@@ -667,10 +729,10 @@ extract_leaf_twig_branch <- function(nodesets) {
 #'
 #' @importFrom stringr str_detect str_replace_all str_subset str_match_all
 #' @importFrom stringr str_replace
-#' @importFrom dplyr mutate case_when group_by across all_of n ungroup
+#' @importFrom dplyr mutate case_when across all_of n
 #' @importFrom dplyr full_join arrange everything distinct
 #' @importFrom lubridate duration
-#' @importFrom tidyr fill nest
+#' @importFrom vctrs vec_fill_missing
 #' @importFrom cli cli_abort
 #'
 #' @noRd
@@ -838,9 +900,10 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           ts_time_interval_end,
           ts_point_position
         ) |>
-        group_by(across(all_of(group_cols_adj))) |>
-        fill(everything()) |>
-        ungroup()
+        mutate(
+          across(everything(), \(x) vec_fill_missing(x, direction = "down")),
+          .by = all_of(group_cols_adj)
+        )
 
       # append the adjusted timeseries data points to the 'ok' timeseries data
       tbl <- bind_rows(tbl, tbl_adj) |>
@@ -902,10 +965,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     tbl[not_needed_cols] <- list(NULL)
 
     # nest the timeseries data points
-    tbl <- nest(
-      tbl,
-      ts_point = all_of(ts_point_cols)
-    )
+    tbl <- nest_cols(tbl = tbl, cols = ts_point_cols, key = "ts_point")
   }
 
   # convert the original 'bid_ts_' column names back
@@ -2029,7 +2089,6 @@ add_eic_names <- function(tbl) {
 #'   each matched code column, or an empty `data.frame` when `tbl` is `NULL`.
 #'
 #' @importFrom stringr str_subset str_replace
-#' @importFrom tidyr unite
 #' @importFrom dplyr all_of
 #' @importFrom cli cli_alert_success
 #'
@@ -2111,20 +2170,8 @@ add_definitions <- function(tbl) {
     )
     if (length(text_cols) > 1L) {
       tbl <- tbl |>
-        unite(
-          col = !!paste0(prefix, "reason_text"),
-          all_of(text_cols),
-          sep = " - ",
-          remove = TRUE,
-          na.rm = TRUE
-        ) |>
-        unite(
-          col = !!paste0(prefix, "reason_code"),
-          all_of(code_cols),
-          sep = " - ",
-          remove = TRUE,
-          na.rm = TRUE
-        )
+        unite_cols(col = paste0(prefix, "reason_text"), cols = text_cols) |>
+        unite_cols(col = paste0(prefix, "reason_code"), cols = code_cols)
     }
     list(tbl = tbl, cols = affected_cols)
   }

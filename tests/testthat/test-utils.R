@@ -2295,3 +2295,38 @@ testthat::test_that(
     )
   }
 )
+
+
+testthat::test_that(
+  desc = "nest_cols() groups by the other columns in order of appearance",
+  code = {
+    tbl <- entsoeapi:::as_tbl(list(
+      g = c("b", "a", "b", NA, NA),
+      x = c(1, 2, 3, 4, 5)
+    ))
+    result <- entsoeapi:::nest_cols(tbl = tbl, cols = "x", key = "pts")
+    testthat::expect_s3_class(object = result, class = "tbl_df")
+    testthat::expect_identical(object = names(result), expected = c("g", "pts"))
+    testthat::expect_identical(object = result$g, expected = c("b", "a", NA))
+    testthat::expect_identical(object = class(result$pts), expected = "list")
+    testthat::expect_identical(object = result$pts[[1L]]$x, expected = c(1, 3))
+    testthat::expect_identical(object = result$pts[[3L]]$x, expected = c(4, 5))
+    testthat::expect_s3_class(object = result$pts[[1L]], class = "tbl_df")
+  }
+)
+
+
+testthat::test_that(
+  desc = "unite_cols() pastes non-missing values at the first column's place",
+  code = {
+    tbl <- entsoeapi:::as_tbl(list(
+      a = c("1", "2", "3"),
+      t1 = c("x", NA, NA),
+      b = c("p", "q", "r"),
+      t2 = c("y", "z", NA)
+    ))
+    result <- entsoeapi:::unite_cols(tbl = tbl, col = "t", cols = c("t1", "t2"))
+    testthat::expect_identical(object = names(result), expected = c("a", "t", "b"))
+    testthat::expect_identical(object = result$t, expected = c("x - y", "z", ""))
+  }
+)
