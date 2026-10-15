@@ -281,6 +281,55 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
 
 
 #' @title
+#' Prepend a dot-separated prefix to element names
+#'
+#' @param prefix Character scalar or `NULL`.
+#' @param nms Character vector of element names.
+#'
+#' @return `nms` unchanged when `prefix` is `NULL`, else `"prefix.nms"`.
+#'
+#' @noRd
+prefixed_names <- function(prefix, nms) {
+  if (is.null(prefix)) nms else paste(prefix, nms, sep = ".")
+}
+
+
+#' @title
+#' Convert a Group of Flat XML Records into Row Vectors
+#'
+#' @description
+#' Fast path of node_to_rows() for a group of same-named sibling nodes
+#' whose children are all leaves (e.g. the `Point` elements of a `Period`).
+#' Names and texts of all grandchildren are fetched with one vectorised
+#' xml2 call each, then split into one named row vector per member.
+#'
+#' @param members An `xml_nodeset` of same-named sibling nodes.
+#' @param prefix Character scalar. Column name prefix of the group.
+#'
+#' @return A list of named character vectors (one per member), or `NULL`
+#'   when the group is not flat or a member repeats a leaf name; the caller
+#'   then falls back to the generic recursion.
+#'
+#' @importFrom xml2 xml_children xml_length xml_name xml_text
+#'
+#' @noRd
+flat_records_to_rows <- function(members, prefix) {
+  grandchildren <- xml_children(members)
+  if (any(xml_length(grandchildren) > 0L)) return(NULL)
+
+  member_id <- rep.int(seq_along(members), xml_length(members))
+  vals <- xml_text(grandchildren)
+  names(vals) <- prefixed_names(prefix, xml_name(grandchildren))
+
+  # duplicated leaf names within one record need the generic handling
+  if (anyDuplicated(paste(member_id, names(vals), sep = "\r")) > 0L) {
+    return(NULL)
+  }
+  unname(split(x = vals, f = member_id))
+}
+
+
+#' @title
 #' Recursively Convert an XML Node into Row Vectors
 #'
 #' @description
@@ -318,8 +367,8 @@ node_to_rows <- function(node, prefix = NULL) {
   }
 
   # classify children as leaf (no grandchildren) vs nested
-  ch_names <- children |>
-    vapply(FUN = xml_name, FUN.VALUE = character(1L))
+  # (xml_name/xml_length/xml_text are vectorised over nodesets)
+  ch_names <- xml_name(children)
   ch_has_gc <- xml_length(children) > 0L
 
   leaf_idx <- which(!ch_has_gc)
@@ -328,41 +377,9 @@ node_to_rows <- function(node, prefix = NULL) {
   # --- Build the leaf part as a single named character vector ---
   leaf_row <- character(0L)
   if (length(leaf_idx) > 0L) {
-    leaf_names <- leaf_idx |>
-      vapply(
-        FUN = \(i) {
-          sub_children <- xml_children(children[[i]])
-          if (length(sub_children) == 0L) {
-            # simple text node
-            paste(c(prefix, ch_names[i]), collapse = ".")
-          } else {
-            # leaf with internal structure (multiple text children)
-            sub_nms <- sub_children |>
-              vapply(FUN = xml_name, FUN.VALUE = character(1L))
-            paste(c(prefix, ch_names[i]), collapse = ".") |>
-              paste(sub_nms, sep = ".")
-          }
-        },
-        FUN.VALUE = character(1L),
-        USE.NAMES = FALSE
-      )
-    leaf_vals <- leaf_idx |>
-      vapply(
-        FUN = \(i) {
-          sub_children <- xml_children(children[[i]])
-          if (length(sub_children) == 0L) {
-            xml_text(children[[i]])
-          } else {
-            paste(
-              sub_children |>
-                vapply(FUN = xml_text, FUN.VALUE = character(1L)),
-              collapse = "|"
-            )
-          }
-        },
-        FUN.VALUE = character(1L),
-        USE.NAMES = FALSE
-      )
+    # a leaf has no element children by definition, so its text is its value
+    leaf_names <- prefixed_names(prefix, ch_names[leaf_idx])
+    leaf_vals <- xml_text(children[leaf_idx])
     names(leaf_vals) <- leaf_names
 
     # handle same-named leaves: group by name
@@ -413,19 +430,19 @@ node_to_rows <- function(node, prefix = NULL) {
     group_row_lists <- vector("list", length(unique_nested))
     for (g in seq_along(unique_nested)) {
       gname <- unique_nested[g]
-      g_idx <- nested_idx[nested_names == gname]
+      members <- children[nested_idx[nested_names == gname]]
+      new_prefix <- paste(c(prefix, gname), collapse = ".")
 
-      # recurse into each member and collect rows
-      member_rows <- vector("list", length(g_idx))
-      for (m in seq_along(g_idx)) {
-        new_prefix <- paste(c(prefix, gname), collapse = ".")
-        member_rows[[m]] <- node_to_rows(
-          node = children[[g_idx[m]]],
-          prefix = new_prefix
-        )
+      # fast path: every member is a flat record of leaves (e.g. Period/Point)
+      # -> one row per member, extracted with a single vectorised pass
+      group_rows <- flat_records_to_rows(members, prefix = new_prefix)
+      if (is.null(group_rows)) {
+        # generic path: recurse into each member, stack their rows
+        group_rows <- members |>
+          lapply(\(member) node_to_rows(node = member, prefix = new_prefix)) |>
+          unlist(recursive = FALSE)
       }
-      # same-named nested siblings: stack their rows
-      group_row_lists[[g]] <- unlist(member_rows, recursive = FALSE)
+      group_row_lists[[g]] <- group_rows
     }
 
     if (length(unique_nested) == 1L) {
@@ -519,22 +536,20 @@ rows_to_tbl <- function(rows) {
 
   # slow path: collect all unique column names, fill with NA
 
-  all_names <- lapply(rows, names) |> unlist(use.names = FALSE) |> unique()
-  ncols <- length(all_names)
-  # pre-allocate column vectors
-  cols <- vector("list", ncols)
+  # flatten once, remember which row each value came from,
+  # then fill every column with a single vectorised assignment
+  vals <- unlist(rows, use.names = TRUE)
+  val_names <- names(vals)
+  names(vals) <- NULL
+  row_id <- rep.int(seq_len(n), lengths(rows))
+  all_names <- unique(val_names)
+  cols <- lapply(all_names, \(nm) {
+    col <- rep(NA_character_, n)
+    hit <- val_names == nm
+    col[row_id[hit]] <- vals[hit]
+    col
+  })
   names(cols) <- all_names
-  for (j in seq_len(ncols)) {
-    cols[[j]] <- rep(NA_character_, n)
-  }
-  # fill in values row by row
-  for (i in seq_len(n)) {
-    row <- rows[[i]]
-    rnames <- names(row)
-    for (k in seq_along(rnames)) {
-      cols[[rnames[k]]][i] <- row[k]
-    }
-  }
   as_tbl(cols)
 }
 
@@ -582,11 +597,8 @@ extract_leaf_twig_branch <- function(nodesets) {
         names(val) <- nm
         val
       } else {
-        sub_nms <- ch |>
-          vapply(FUN = xml_name, FUN.VALUE = character(1L))
-        sub_vals <- ch |>
-          vapply(FUN = xml_text, FUN.VALUE = character(1L))
-        names(sub_vals) <- paste(nm, sub_nms, sep = ".")
+        sub_vals <- xml_text(ch)
+        names(sub_vals) <- paste(nm, xml_name(ch), sep = ".")
         sub_vals
       }
     })
@@ -619,8 +631,7 @@ extract_leaf_twig_branch <- function(nodesets) {
       )
     }
     # same-named nested nodesets stack; different-named cross-join
-    nested_names <- nested_ns |>
-      vapply(FUN = xml_name, FUN.VALUE = character(1L))
+    nested_names <- xml_name(nested_ns)
     unique_nested <- unique(nested_names)
 
     if (length(unique_nested) == 1L) {
@@ -2126,6 +2137,31 @@ add_definitions <- function(tbl) {
 
 
 #' @title
+#' Parse ENTSO-E ISO 8601 timestamps into UTC POSIXct
+#'
+#' @description
+#' Timestamp columns are highly repetitive (e.g. one interval start per
+#' time series repeated on every point row), so only the distinct values
+#' are parsed and the result is expanded back with match().
+#'
+#' @param x Character vector of timestamps like `"2024-01-01T23:00Z"`.
+#'
+#' @return A POSIXct vector in UTC, the same length as `x`.
+#'
+#' @noRd
+parse_utc_ts <- function(x) {
+  ux <- unique(x)
+  as.POSIXct(
+    x = ux,
+    tryFormats = c(
+      "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
+    ),
+    tz = "UTC"
+  )[match(x, ux)]
+}
+
+
+#' @title
 #' convert xml content to table new version
 #'
 #' @param xml_content An `xml_document` to convert.
@@ -2184,13 +2220,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     mutate(
       across(
         matches("[tT]ime$|start$|end$"),
-        ~ as.POSIXct(
-          x = .x,
-          tryFormats = c(
-            "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
-          ),
-          tz = "UTC"
-        )
+        parse_utc_ts
       )
     ) |>
     mutate(

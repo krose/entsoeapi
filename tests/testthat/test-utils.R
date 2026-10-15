@@ -1665,44 +1665,6 @@ testthat::test_that(
 
 
 testthat::test_that(
-  desc = "node_to_rows() handles leaf with sub-children text nodes",
-  code = {
-    # The L380-383 / L396-400 branches fire when a child is classified as a
-    # leaf (xml_length == 0) yet xml_children() on that child returns
-    # sub-elements. In standard XML this cannot happen, so we mock
-    # xml_children in the entsoeapi namespace to inject sub-elements for
-    # the leaf child only.
-    # Use a single sub-child to stay within vapply's FUN.VALUE=character(1L).
-    compound_doc <- xml2::read_xml(x = "<compound><a>X</a></compound>")
-    compound_children <- xml2::xml_children(x = compound_doc)
-    real_xml_children <- xml2::xml_children
-    testthat::local_mocked_bindings(
-      xml_children = \(x, ...) {
-        ch <- real_xml_children(x, ...)
-        # When the real result is empty (leaf node named "compound"),
-        # inject a fake sub-child to exercise the branch.
-        if (length(ch) == 0L && xml2::xml_name(x = x) == "compound") {
-          return(compound_children)
-        }
-        ch
-      },
-      .package = "entsoeapi"
-    )
-    result <- xml2::read_xml(
-      x = "<parent><compound>text</compound></parent>"
-    ) |>
-      xml2::xml_find_first(xpath = "//parent") |>
-      entsoeapi:::node_to_rows(prefix = NULL)
-    testthat::expect_length(object = result, n = 1L)
-    row <- result[[1L]]
-    # The name should be "compound.a" and the value "X".
-    testthat::expect_equal(object = names(row), expected = "compound.a")
-    testthat::expect_equal(object = unname(row), expected = "X")
-  }
-)
-
-
-testthat::test_that(
   desc = paste(
     "node_to_rows() uses stacked_rows[[1L]] as leaf_row",
     "when duplicate leaves and nested children exist"
@@ -1738,6 +1700,8 @@ testthat::test_that(
     real_node_to_rows <- entsoeapi:::node_to_rows
     first_call <- TRUE
     testthat::local_mocked_bindings(
+      # disable the flat-record fast path so the recursion is used
+      flat_records_to_rows = \(members, prefix) NULL,
       node_to_rows = \(node, prefix = NULL) {
         if (first_call) {
           first_call <<- FALSE
@@ -2081,5 +2045,118 @@ testthat::test_that(
       progress_bar_limit = 0L
     )
     testthat::expect_s3_class(object = result, class = "tbl_df")
+  }
+)
+
+
+testthat::test_that(
+  desc = "prefixed_names() prepends a dot-separated prefix only if given",
+  code = {
+    testthat::expect_identical(
+      object = entsoeapi:::prefixed_names(prefix = NULL, nms = c("a", "b")),
+      expected = c("a", "b")
+    )
+    testthat::expect_identical(
+      object = entsoeapi:::prefixed_names(prefix = "p.q", nms = c("a", "b")),
+      expected = c("p.q.a", "p.q.b")
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "flat_records_to_rows() returns one named row per flat record",
+  code = {
+    members <- xml2::read_xml(
+      x = paste0(
+        "<Period><Point><position>1</position><quantity>10</quantity></Point>",
+        "<Point><position>2</position></Point></Period>"
+      )
+    ) |>
+      xml2::xml_children()
+    result <- entsoeapi:::flat_records_to_rows(members = members, prefix = "p")
+    testthat::expect_identical(
+      object = result,
+      expected = list(
+        c(p.position = "1", p.quantity = "10"),
+        c(p.position = "2")
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "flat_records_to_rows() declines nested or duplicated records",
+  code = {
+    nested <- xml2::read_xml(
+      x = "<P><Point><a><b>1</b></a></Point></P>"
+    ) |>
+      xml2::xml_children()
+    testthat::expect_null(
+      object = entsoeapi:::flat_records_to_rows(members = nested, prefix = "p")
+    )
+    dupl <- xml2::read_xml(
+      x = "<P><Point><a>1</a><a>2</a></Point></P>"
+    ) |>
+      xml2::xml_children()
+    testthat::expect_null(
+      object = entsoeapi:::flat_records_to_rows(members = dupl, prefix = "p")
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "flat-record fast path gives the same rows as the generic recursion",
+  code = {
+    node <- xml2::read_xml(
+      x = paste0(
+        "<TimeSeries><mRID>1</mRID><Period><resolution>PT60M</resolution>",
+        "<Point><position>1</position><quantity>10</quantity></Point>",
+        "<Point><position>2</position><quantity>11</quantity></Point>",
+        "</Period></TimeSeries>"
+      )
+    )
+    fast <- entsoeapi:::node_to_rows(node = node, prefix = "ts")
+    testthat::local_mocked_bindings(
+      flat_records_to_rows = \(members, prefix) NULL,
+      .package = "entsoeapi"
+    )
+    generic <- entsoeapi:::node_to_rows(node = node, prefix = "ts")
+    testthat::expect_identical(object = fast, expected = generic)
+    testthat::expect_length(object = fast, n = 2L)
+  }
+)
+
+
+testthat::test_that(
+  desc = "parse_utc_ts() parses the distinct values and keeps NA and order",
+  code = {
+    x <- c("2024-01-01T23:00Z", NA, "2024-01-02T00:00Z", "2024-01-01T23:00Z")
+    result <- entsoeapi:::parse_utc_ts(x)
+    testthat::expect_identical(
+      object = result,
+      expected = as.POSIXct(
+        x = x,
+        tryFormats = "%Y-%m-%dT%H:%MZ",
+        tz = "UTC"
+      )
+    )
+    testthat::expect_identical(object = attr(result, "tzone"), expected = "UTC")
+  }
+)
+
+
+testthat::test_that(
+  desc = "rows_to_tbl() fills heterogeneous rows with NA",
+  code = {
+    result <- entsoeapi:::rows_to_tbl(
+      rows = list(c(a = "1", b = "2"), c(b = "3", c = "4"), c(a = "5"))
+    )
+    testthat::expect_identical(object = names(result), expected = c("a", "b", "c"))
+    testthat::expect_identical(object = result$a, expected = c("1", NA, "5"))
+    testthat::expect_identical(object = result$b, expected = c("2", "3", NA))
+    testthat::expect_identical(object = result$c, expected = c(NA, "4", NA))
   }
 )
