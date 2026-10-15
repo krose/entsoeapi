@@ -420,11 +420,21 @@ flat_records_to_block <- function(parent, name, members, prefix) {
   # local-name() keeps the query independent of the document namespace
   member_path <- sprintf("./*[local-name()='%s']", name)
 
-  # a member with a grandchild of its own is not a flat record
-  deeper <- xml_find_first(parent, paste0(member_path, "/*/*"))
+  # a member with a grandchild of its own is not a flat record;
+  # ns = character() skips xml2's default xml_ns() scan of the whole
+  # document on every call (the queries need no namespace prefixes)
+  deeper <- xml_find_first(
+    x = parent,
+    xpath = paste0(member_path, "/*/*"),
+    ns = character()
+  )
   if (!inherits(deeper, "xml_missing")) return(NULL)
 
-  grandchildren <- xml_find_all(parent, paste0(member_path, "/*"))
+  grandchildren <- xml_find_all(
+    x = parent,
+    xpath = paste0(member_path, "/*"),
+    ns = character()
+  )
   member_id <- rep.int(seq_along(members), xml_length(members))
   if (length(grandchildren) != length(member_id)) return(NULL)
   nms <- xml_name(grandchildren)
