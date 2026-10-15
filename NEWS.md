@@ -1,3 +1,20 @@
+# entsoeapi v1.3.0 (development version)
+
+## New functionality
+
+- Queries that the API splits into several requests (offset pagination of large responses, and the day-by-day requests of `gen_per_gen_unit()`) are now sent in parallel. The `entsoeapi.max_parallel` option sets the concurrency (default `4`; `1` restores sequential requests). All API requests are throttled to 300 per minute, which keeps them under the platform's rate limit. For example, a 10-day `gen_per_gen_unit()` query for France went from 340 s to 79 s.
+- The downloaded EIC code tables can now be cached on disk across R sessions with `options(entsoeapi.cache_dir = tools::R_user_dir("entsoeapi", "cache"))`. Entries expire after `getOption("entsoeapi.cache_max_age", 86400)` seconds. Without the option, the tables are cached in memory as before. See `?entsoeapi` for all options.
+
+## Changes
+
+- Converting API responses to tables is much faster. The XML parser now builds column blocks instead of one vector per output row, reads flat records such as the time series points with a single XPath query, and parses each distinct timestamp only once. A 57,600-point response converts about 10x faster (10.5 s -> 1.0 s), and a replay of 154 real responses is about 1.8x faster overall. The output is unchanged.
+- Code lookups (`*_def`, `*_name` columns) use `match()` instead of joins, and column-name conversion is cached per session.
+- HTML error pages from the API now report their text, e.g. "403: Access Denied". Previously the message could be empty and end in "subscript out of bounds".
+
+## Miscellaneous
+
+- Lighter dependency tree: `xmlconvert` and `tidyr` have been removed from Imports, which takes the recursive hard dependencies from 47 to 31 packages (no more readr, vroom, httr, hms, purrr, ...). `tidyr` is now only suggested, for a vignette. `vctrs`, already a dependency of `dplyr`, is now imported directly, and `httr2 (>= 1.1.0)` is required.
+
 # entsoeapi v1.2.1 (2026-10-05)
 
 ## New functionality
