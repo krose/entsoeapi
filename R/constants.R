@@ -2,6 +2,7 @@
 .api_domain <- "web-api.tp.entsoe.eu/"
 .api_name <- "api?"
 .req_timeout <- 60
+.req_per_minute <- 300
 .max_age <- 3600
 .pd_scheme <- "https://"
 .pd_domain <- "eepublicdownloads.blob.core.windows.net"

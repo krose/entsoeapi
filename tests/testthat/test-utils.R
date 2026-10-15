@@ -2387,3 +2387,167 @@ testthat::test_that(
     )
   }
 )
+
+
+testthat::test_that(
+  desc = "api_req_multi() returns one parsed result per query, in order",
+  code = {
+    httr2::local_mocked_responses(
+      mock = \(req) {
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "text/xml"),
+          body = charToRaw(
+            sprintf("<doc><q>%s</q></doc>", sub(".*q=", "", req$url))
+          )
+        )
+      }
+    )
+    result <- entsoeapi:::api_req_multi(
+      query_strings = paste0("q=", 1:5),
+      security_token = .test_token
+    )
+    testthat::expect_length(object = result, n = 5L)
+    testthat::expect_identical(
+      object = vapply(result, xml2::xml_text, character(1L)),
+      expected = as.character(1:5)
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "api_req_multi() raises the error of the first failing query",
+  code = {
+    httr2::local_mocked_responses(
+      mock = \(req) {
+        bad <- grepl("q=(2|4)$", req$url)
+        httr2::response(
+          status_code = if (bad) 400L else 200L,
+          url = req$url,
+          headers = list("content-type" = "text/xml"),
+          body = charToRaw(
+            if (bad) {
+              sprintf(
+                "<A><Reason><code>999</code><text>bad %s</text></Reason></A>",
+                sub(".*q=", "", req$url)
+              )
+            } else {
+              "<doc/>"
+            }
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = entsoeapi:::api_req_multi(
+        query_strings = paste0("q=", 1:5),
+        security_token = .test_token
+      ),
+      regexp = "bad 2"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "api_req_multi() runs sequentially with entsoeapi.max_parallel = 1",
+  code = {
+    withr::local_options(entsoeapi.max_parallel = 1L)
+    seen <- character(0L)
+    httr2::local_mocked_responses(
+      mock = \(req) {
+        seen <<- c(seen, req$url)
+        httr2::response(
+          status_code = 200L,
+          url = req$url,
+          headers = list("content-type" = "text/xml"),
+          body = charToRaw("<doc/>")
+        )
+      }
+    )
+    result <- entsoeapi:::api_req_multi(
+      query_strings = paste0("q=", 1:3),
+      security_token = .test_token
+    )
+    testthat::expect_length(object = result, n = 3L)
+    testthat::expect_length(object = seen, n = 3L)
+    withr::local_options(entsoeapi.max_parallel = 0L)
+    testthat::expect_error(
+      object = entsoeapi:::api_req_multi(
+        query_strings = paste0("q=", 1:2),
+        security_token = .test_token
+      )
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "run_api_queries() aborts like run_api_query() on failure",
+  code = {
+    httr2::local_mocked_responses(
+      mock = \(req) {
+        httr2::response(
+          status_code = 400L,
+          url = req$url,
+          headers = list("content-type" = "text/xml"),
+          body = charToRaw(
+            "<A><Reason><code>B11</code><text>nope</text></Reason></A>"
+          )
+        )
+      }
+    )
+    testthat::expect_error(
+      object = entsoeapi:::run_api_queries(
+        query_strings = c("q=1", "q=2"),
+        security_token = .test_token,
+        tidy_output = TRUE
+      ),
+      regexp = "B11"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "eic_cache() uses memory by default and a disk cache when configured",
+  code = {
+    withr::local_options(entsoeapi.cache_dir = NULL)
+    testthat::expect_identical(object = entsoeapi:::eic_cache(), expected = m)
+
+    cache_dir <- withr::local_tempdir()
+    withr::local_options(entsoeapi.cache_dir = cache_dir)
+    calls <- 0L
+    compute <- \() {
+      calls <<- calls + 1L
+      data.frame(a = 1)
+    }
+    first <- entsoeapi:::cache_get_or_compute(
+      key = "disk_test_key", compute_fn = compute, label = "x", loud = FALSE
+    )
+    # a fresh session would reopen the directory: drop the in-session handle
+    rm(list = ls(entsoeapi:::disk_caches), envir = entsoeapi:::disk_caches)
+    second <- entsoeapi:::cache_get_or_compute(
+      key = "disk_test_key", compute_fn = compute, label = "x", loud = FALSE
+    )
+    testthat::expect_identical(object = calls, expected = 1L)
+    testthat::expect_identical(object = second, expected = first)
+    testthat::expect_true(object = length(list.files(cache_dir)) > 0L)
+  }
+)
+
+
+testthat::test_that(
+  desc = "eic_cache() validates the cache options",
+  code = {
+    withr::local_options(entsoeapi.cache_dir = 42)
+    testthat::expect_error(object = entsoeapi:::eic_cache())
+    withr::local_options(
+      entsoeapi.cache_dir = withr::local_tempdir(),
+      entsoeapi.cache_max_age = -1
+    )
+    testthat::expect_error(object = entsoeapi:::eic_cache())
+  }
+)

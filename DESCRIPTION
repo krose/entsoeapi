@@ -17,7 +17,7 @@ Imports:
     cli,
     checkmate,
     dplyr (>= 1.1.0),
-    httr2,
+    httr2 (>= 1.1.0),
     lubridate,
     snakecase,
     stringr,
@@ -40,6 +40,7 @@ Suggests:
     tibble,
     tidyr,
     tidyselect,
+    withr,
     ggplot2,
     kableExtra,
     scales

@@ -392,18 +392,12 @@ gen_per_gen_unit <- function(
     par_part
   )
 
-  # iterate (maximum) 24 hours long periods thru
+  # request the (maximum) 24 hours long periods in parallel
   # and append them into one tibble
-  lapply(
-    query_string_list,
-    \(query_string) {
-      # send GET request and return with the extracted response
-      run_api_query(
-        query_string = query_string,
-        security_token = security_token,
-        tidy_output = tidy_output
-      )
-    }
+  run_api_queries(
+    query_strings = query_string_list,
+    security_token = security_token,
+    tidy_output = tidy_output
   ) |>
     Filter(f = length) |>
     bind_rows()

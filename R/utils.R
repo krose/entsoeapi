@@ -24,6 +24,45 @@ m <- cache_mem(max_age = .max_age)
 
 
 #' @title
+#' Disk caches opened in this session, keyed by directory
+#'
+#' @noRd
+disk_caches <- new.env(parent = emptyenv())
+
+
+#' @title
+#' Select the cache used for downloaded reference tables
+#'
+#' @description
+#' By default the in-memory cache `m` is used, so EIC tables are downloaded
+#' again in every new R session. Setting
+#' `options(entsoeapi.cache_dir = tools::R_user_dir("entsoeapi", "cache"))`
+#' (or any other directory) switches to a persistent disk cache whose
+#' entries expire after `getOption("entsoeapi.cache_max_age", 86400)`
+#' seconds.
+#'
+#' @return A cachem cache object.
+#'
+#' @importFrom cachem cache_disk
+#' @importFrom checkmate assert_string assert_number
+#'
+#' @noRd
+eic_cache <- function() {
+  cache_dir <- getOption("entsoeapi.cache_dir")
+  if (is.null(cache_dir)) return(m)
+  assert_string(x = cache_dir, min.chars = 1L, .var.name = "entsoeapi.cache_dir")
+  max_age <- getOption("entsoeapi.cache_max_age", 86400)
+  assert_number(x = max_age, lower = 0, .var.name = "entsoeapi.cache_max_age")
+
+  key <- paste(normalizePath(cache_dir, mustWork = FALSE), max_age)
+  if (is.null(disk_caches[[key]])) {
+    disk_caches[[key]] <- cache_disk(dir = cache_dir, max_age = max_age)
+  }
+  disk_caches[[key]]
+}
+
+
+#' @title
 #' Extract a deeply nested element from a list by a sequence of keys
 #'
 #' @param .x A list or environment to index into.
@@ -96,13 +135,14 @@ as_tbl <- function(df) {
 #' @noRd
 cache_get_or_compute <- function(key, compute_fn, label, loud = TRUE) {
   if (loud) cli_h1("public download")
-  if (m$exists(key = key)) {
+  cache <- eic_cache()
+  if (cache$exists(key = key)) {
     if (loud) cli_alert_info("pulling {label} from cache")
-    m$get(key = key)
+    cache$get(key = key)
   } else {
     if (loud) cli_alert_info("downloading {label} ...")
     val <- compute_fn()
-    m$set(key = key, value = val)
+    cache$set(key = key, value = val)
     val
   }
 }
@@ -1136,6 +1176,46 @@ xml_error_reason <- function(resp) {
 
 
 #' @title
+#' Build an ENTSO-E API request
+#'
+#' @param url Character scalar. The complete request URL (without token).
+#' @param security_token Character scalar. The ENTSO-E API security token.
+#'
+#' @return An `httr2_request` with user agent, token header, timeout,
+#'   retry on HTTP 503 and a client-side rate limit.
+#'
+#' @importFrom httr2 request req_user_agent req_verbose req_timeout
+#' @importFrom httr2 req_retry req_headers req_throttle resp_status
+#' @importFrom stats runif
+#'
+#' @noRd
+build_api_req <- function(url, security_token) {
+  url |>
+    request() |>
+    req_user_agent(string = user_agent_string) |>
+    req_headers(SECURITY_TOKEN = security_token) |>
+    req_verbose(
+      header_req = FALSE,
+      header_resp = TRUE,
+      body_req = FALSE,
+      body_resp = FALSE
+    ) |>
+    req_timeout(seconds = .req_timeout) |> # nolint: object_usage_linter.
+    # stay under the platform limit of 400 requests / minute / user,
+    # also when several requests run in parallel
+    req_throttle(
+      capacity = .req_per_minute, # nolint: object_usage_linter.
+      fill_time_s = 60
+    ) |>
+    req_retry(
+      max_tries = 3L,
+      is_transient = \(resp) resp_status(resp) == 503L,
+      backoff = \(x) runif(n = 1L, min = 5, max = 15)
+    )
+}
+
+
+#' @title
 #' call request against the ENTSO-E API and converts the response into xml
 #'
 #' @param api_scheme Character scalar. URL scheme (default: `"https://"`).
@@ -1151,13 +1231,7 @@ xml_error_reason <- function(resp) {
 #'   Throws an error on failure.
 #'
 #' @importFrom checkmate assert_string
-#' @importFrom cli cli_h1 cli_alert cli_alert_success cli_abort
-#' @importFrom httr2 request req_user_agent req_verbose req_timeout
-#' @importFrom httr2 req_retry resp_status resp_content_type resp_body_raw
-#' @importFrom httr2 resp_body_xml resp_body_html resp_body_json
-#' @importFrom httr2 resp_status_desc req_headers
-#' @importFrom stringr str_detect
-#' @importFrom stats setNames runif
+#' @importFrom cli cli_h1 cli_alert
 #'
 #' @noRd
 api_req <- function(
@@ -1174,24 +1248,102 @@ api_req <- function(
   cli_alert("{url}&securityToken=<...>")
 
   # retrieve data from the API
-  req <- url |>
-    request() |>
-    req_user_agent(string = user_agent_string) |>
-    req_headers(SECURITY_TOKEN = security_token) |>
-    req_verbose(
-      header_req = FALSE,
-      header_resp = TRUE,
-      body_req = FALSE,
-      body_resp = FALSE
-    ) |>
-    req_timeout(seconds = .req_timeout) |> # nolint: object_usage_linter.
-    req_retry(
-      max_tries = 3L,
-      is_transient = \(resp) resp_status(resp) == 503L,
-      backoff = \(x) runif(n = 1L, min = 5, max = 15)
-    )
-  resp <- req_perform_safe(req = req)
+  resp <- build_api_req(url = url, security_token = security_token) |>
+    req_perform_safe()
+  handle_api_resp(
+    resp = resp,
+    query_string = query_string,
+    security_token = security_token
+  )
+}
 
+
+#' @title
+#' Call several ENTSO-E API requests in parallel
+#'
+#' @description
+#' Performs the requests concurrently (at most
+#' `getOption("entsoeapi.max_parallel", 4L)` at a time; set the option to 1
+#' for strictly sequential calls) and processes each response like
+#' api_req(). The first failing request, in the order of `query_strings`,
+#' raises its error, as a sequential loop would.
+#'
+#' @param query_strings Character vector. Query portions of the URLs.
+#' @param security_token Character scalar. The ENTSO-E API security token.
+#'
+#' @return A list with one element per query string, each what api_req()
+#'   would return for it.
+#'
+#' @importFrom checkmate assert_character assert_string assert_count
+#' @importFrom cli cli_h1 cli_alert
+#' @importFrom httr2 req_perform_parallel
+#'
+#' @noRd
+api_req_multi <- function(query_strings, security_token) {
+  assert_character(x = query_strings, min.len = 1L, any.missing = FALSE)
+  assert_string(x = security_token)
+  if (length(query_strings) == 1L) {
+    return(list(
+      api_req(query_string = query_strings, security_token = security_token)
+    ))
+  }
+  max_parallel <- getOption("entsoeapi.max_parallel", 4L)
+  assert_count(x = max_parallel, positive = TRUE)
+
+  urls <- paste0(.api_scheme, .api_domain, .api_name, query_strings) # nolint
+  cli_h1("API calls ({length(urls)}, max. {max_parallel} in parallel)")
+  for (url in urls) cli_alert("{url}&securityToken=<...>")
+
+  resps <- urls |>
+    lapply(build_api_req, security_token = security_token) |>
+    req_perform_parallel(
+      on_error = "continue",
+      progress = FALSE,
+      max_active = max_parallel
+    )
+
+  # failed requests come back as condition objects
+  lapply(
+    X = seq_along(resps),
+    FUN = \(i) {
+      resp <- if (inherits(resps[[i]], "httr2_response")) {
+        list(result = resps[[i]], error = NULL)
+      } else {
+        list(result = NULL, error = resps[[i]])
+      }
+      handle_api_resp(
+        resp = resp,
+        query_string = query_strings[[i]],
+        security_token = security_token
+      )
+    }
+  )
+}
+
+
+#' @title
+#' Process an ENTSO-E API response
+#'
+#' @description
+#' Converts a successful response into XML (unzipping archives), turns API
+#' error responses into informative errors, and requests the remaining
+#' pages when the API asks for offset pagination.
+#'
+#' @param resp A list with elements `result` (an `httr2_response`) and
+#'   `error` (a condition), as returned by req_perform_safe().
+#' @param query_string Character scalar. The query string of the request.
+#' @param security_token Character scalar. The ENTSO-E API security token.
+#'
+#' @return An `xml_document`, or a list of them (ZIP archive or offset
+#'   pagination). Throws an error on failure.
+#'
+#' @importFrom cli cli_alert_success cli_abort
+#' @importFrom httr2 resp_status resp_content_type resp_body_raw
+#' @importFrom httr2 resp_body_xml resp_body_json resp_status_desc
+#' @importFrom stringr str_detect
+#'
+#' @noRd
+handle_api_resp <- function(resp, query_string, security_token) {
   if (is.null(x = resp$error)) {
     result_obj <- resp$result
     cli_alert_success("response has arrived")
@@ -1298,11 +1450,11 @@ api_req <- function(
               query_string = query_string
             )
 
-            # recursively call the api_req() function itself
-            en_cont_list <- offset_query_strings |>
-              lapply(
-                \(x) api_req(query_string = x, security_token = security_token)
-              )
+            # request all the offset pages (in parallel)
+            en_cont_list <- api_req_multi(
+              query_strings = offset_query_strings,
+              security_token = security_token
+            )
 
             return(en_cont_list)
           }
@@ -1413,6 +1565,48 @@ run_api_query <- function(query_string, security_token, tidy_output) {
   )
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
+
+
+#' @title
+#' Perform several ENTSO-E API requests in parallel and extract the responses
+#'
+#' @param query_strings Character vector. The query strings to append to the
+#'   base API URL.
+#' @param security_token Character scalar. The ENTSO-E security token.
+#' @param tidy_output Logical scalar. Passed to `extract_response`.
+#'
+#' @return A list of tibbles, one per query string.
+#'
+#' @noRd
+run_api_queries <- function(query_strings, security_token, tidy_output) {
+  en_cont_list <- api_req_multi_safe(
+    query_strings = query_strings,
+    security_token = security_token
+  )
+  # a failed request aborts with the same message as run_api_query() does
+  if (!is.null(en_cont_list$error)) {
+    return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  }
+  lapply(
+    X = en_cont_list$result,
+    FUN = \(result) {
+      extract_response(
+        content = list(result = result, error = NULL),
+        tidy_output = tidy_output
+      )
+    }
+  )
+}
+
+
+#' @title
+#' safely call api_req_multi() function
+#'
+#' @return A function wrapping `api_req_multi()` via `safely()`, returning
+#'   a list with `result` and `error` elements.
+#'
+#' @noRd
+api_req_multi_safe <- safely(api_req_multi)
 
 
 #' @title
