@@ -86,7 +86,7 @@ df <- entsoeapi::elastic_demands(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202407312200&securityToken=<...>
 #> <- HTTP/1.1 400 Bad Request
-#> <- Date: Fri, 16 Oct 2026 07:24:06 GMT
+#> <- Date: Fri, 16 Oct 2026 07:41:36 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 905
 #> <- Connection: keep-alive
@@ -106,7 +106,7 @@ df <- entsoeapi::elastic_demands(
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202407312200&offset=400&securityToken=<...>
 #> → https://web-api.tp.entsoe.eu/api?documentType=A37&processType=A47&businessType=B75&Acquiring_domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202407312200&offset=500&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:08 GMT
+#> <- Date: Fri, 16 Oct 2026 07:41:37 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -118,19 +118,7 @@ df <- entsoeapi::elastic_demands(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:08 GMT
-#> <- Content-Type: text/xml
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403300815-202404300500.xml"
-#> <- Content-Encoding: gzip
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:08 GMT
+#> <- Date: Fri, 16 Oct 2026 07:41:37 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -142,19 +130,7 @@ df <- entsoeapi::elastic_demands(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:08 GMT
-#> <- Content-Type: text/xml
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405310445-202406270400.xml"
-#> <- Content-Encoding: gzip
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:09 GMT
+#> <- Date: Fri, 16 Oct 2026 07:41:42 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -166,7 +142,31 @@ df <- entsoeapi::elastic_demands(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:10 GMT
+#> <- Date: Fri, 16 Oct 2026 07:41:42 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202405310445-202406270400.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> <- HTTP/1.1 200 OK
+#> <- Date: Fri, 16 Oct 2026 07:41:42 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202403300815-202404300500.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> <- HTTP/1.1 200 OK
+#> <- Date: Fri, 16 Oct 2026 07:41:42 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -215,7 +215,7 @@ dplyr::glimpse(df)
 #> $ process_type_def                                <chr> "Manual frequency restoration reserve", "Manual frequency rest…
 #> $ bid_ts_flow_direction                           <chr> "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01", "A01",…
 #> $ bid_ts_flow_direction_def                       <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "DOWN", …
-#> $ created_date_time                               <dttm> 2026-10-16 07:24:08, 2026-10-16 07:24:08, 2026-10-16 07:24:08…
+#> $ created_date_time                               <dttm> 2026-10-16 07:41:37, 2026-10-16 07:41:37, 2026-10-16 07:41:37…
 #> $ revision_number                                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ reserve_bid_period_time_interval_start          <dttm> 2024-01-09 09:30:00, 2024-01-09 09:30:00, 2024-01-09 09:30:00…
 #> $ reserve_bid_period_time_interval_end            <dttm> 2024-03-14 10:00:00, 2024-03-14 10:00:00, 2024-03-14 10:00:00…

@@ -81,7 +81,7 @@ df <- entsoeapi::outages_offshore_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A79&biddingZone_Domain=10Y1001A1001A82H&periodStart=202609152200&periodEnd=202610152200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:27:21 GMT
+#> <- Date: Fri, 16 Oct 2026 07:46:17 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -92,22 +92,22 @@ df <- entsoeapi::outages_offshore_grid(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171817.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171817.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171819.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171823.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171824.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171830.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161716.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161716.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161717.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161731.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161731.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f910805bba/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171817.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171817.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171819.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171823.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171824.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171830.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161716.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161716.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161717.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161731.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161731.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

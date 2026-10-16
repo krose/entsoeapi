@@ -94,7 +94,7 @@ df <- entsoeapi::outages_prod_units(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202610162200&periodEnd=202610172200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:27:23 GMT
+#> <- Date: Fri, 16 Oct 2026 07:46:26 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -105,12 +105,12 @@ df <- entsoeapi::outages_prod_units(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f91757907a/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607142200-202610240959.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f91757907a/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607220500-202611131600.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f91757907a/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610021500-202610260600.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f91757907a/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202610231500.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f91757907a/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610051350-202610201200.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f91757907a/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939209235fd/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607142200-202610240959.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939209235fd/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607220500-202611131600.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939209235fd/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610021500-202610260600.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939209235fd/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202610231500.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939209235fd/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610051350-202610201200.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939209235fd/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

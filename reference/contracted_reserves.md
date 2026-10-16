@@ -100,7 +100,7 @@ df <- entsoeapi::contracted_reserves(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A81&businessType=B95&type_MarketAgreement.Type=A01&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202112312300&periodEnd=202201012300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:23:33 GMT
+#> <- Date: Fri, 16 Oct 2026 07:40:36 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -111,8 +111,8 @@ df <- entsoeapi::contracted_reserves(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f95969d562/001-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f95969d562/002-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939d73dce1/001-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_1939d73dce1/002-AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3_202112312300-202201012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -137,7 +137,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "Procured capacity", "Procured capacity", "Procured capacity", "Procured capacit…
 #> $ ts_mkt_psr_type               <chr> "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A04", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Generation", "Generation", "Generation", "Generation", "Generation", "Generatio…
-#> $ created_date_time             <dttm> 2026-10-16 07:23:33, 2026-10-16 07:23:33, 2026-10-16 07:23:33, 2026-10-16 07:23…
+#> $ created_date_time             <dttm> 2026-10-16 07:40:36, 2026-10-16 07:40:36, 2026-10-16 07:40:36, 2026-10-16 07:40…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2021-12-31 23:00:00, 2021-12-31 23:00:00, 2021-12-31 23:00:00, 2021-12-31 23:00…

@@ -83,7 +83,7 @@ df <- entsoeapi::outages_fallbacks(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A53&biddingZone_Domain=10YBE----------2&processType=A51&businessType=C47&periodStart=202212312300&periodEnd=202312312300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:27:10 GMT
+#> <- Date: Fri, 16 Oct 2026 07:45:58 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -94,12 +94,12 @@ df <- entsoeapi::outages_fallbacks(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f97e341912/001-FALL_BACKS_202305222200-202305232200.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f97e341912/002-FALL_BACKS_202306262200-202306270900.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f97e341912/003-FALL_BACKS_202307202200-202307211245.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f97e341912/004-FALL_BACKS_202308232200-202308232230.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f97e341912/005-FALL_BACKS_202308272200-202308280445.xml has been read in
-#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f97e341912/006-FALL_BACKS_202309072200-202309080130.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19392004a038/001-FALL_BACKS_202305222200-202305232200.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19392004a038/002-FALL_BACKS_202306262200-202306270900.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19392004a038/003-FALL_BACKS_202307202200-202307211245.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19392004a038/004-FALL_BACKS_202308232200-202308232230.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19392004a038/005-FALL_BACKS_202308272200-202308280445.xml has been read in
+#> ✔ /tmp/RtmpPrwxUI/unzipped_19392004a038/006-FALL_BACKS_202309072200-202309080130.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

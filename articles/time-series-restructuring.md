@@ -95,7 +95,7 @@ da_prices_tidy <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:29:18 GMT
+#> <- Date: Fri, 16 Oct 2026 07:49:52 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -189,7 +189,7 @@ da_prices_nested <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202312312300&periodEnd=202401012300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:29:20 GMT
+#> <- Date: Fri, 16 Oct 2026 07:49:54 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive

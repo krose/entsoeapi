@@ -80,7 +80,7 @@ df <- entsoeapi::fcr_total_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A26&businessType=A25&area_Domain=10YEU-CONT-SYNC0&periodStart=202312312300&periodEnd=202412302300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:24:38 GMT
+#> <- Date: Fri, 16 Oct 2026 07:42:28 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 1679
 #> <- Connection: keep-alive
@@ -108,7 +108,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP and DOWN"
 #> $ ts_business_type              <chr> "A25"
 #> $ ts_business_type_def          <chr> "General Capacity Information"
-#> $ created_date_time             <dttm> 2026-10-16 07:24:38
+#> $ created_date_time             <dttm> 2026-10-16 07:42:28
 #> $ revision_number               <dbl> 1
 #> $ ts_resolution                 <chr> "P1Y"
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00

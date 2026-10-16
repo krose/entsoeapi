@@ -42,16 +42,16 @@ eic_all <- entsoeapi::all_allocated_eic()
 #> <- ETag: 0x8DF2B22EE4C4D72
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: 1cb54ac4-501e-00f6-523f-5d1ea4000000
+#> <- x-ms-request-id: 98d59a7e-d01e-0041-2641-5d330e000000
 #> <- x-ms-version: 2009-09-19
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Fri, 16 Oct 2026 07:21:57 GMT
+#> <- Date: Fri, 16 Oct 2026 07:38:41 GMT
 #> <- 
 #> ✔ response has arrived
-#> converting ■■■■■                             13% | ETA:  7s
-#> converting ■■■■■■■■■■                        29% | ETA:  6s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■            69% | ETA:  2s
+#> converting ■■■■■                             12% | ETA:  8s
+#> converting ■■■■■■■■■■■■■■                    45% | ETA:  5s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■         78% | ETA:  2s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 
 dplyr::glimpse(eic_all)
