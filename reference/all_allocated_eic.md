@@ -35,33 +35,30 @@ eic_all <- entsoeapi::all_allocated_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ downloading all_allocated_eic table ...
 #> <- HTTP/1.1 200 OK
-#> <- Content-Length: 70083917
+#> <- Content-Length: 70338163
 #> <- Content-Type: application/octet-stream
-#> <- Content-MD5: sBey+85c9P0TZ9gTgvMpXg==
-#> <- Last-Modified: Mon, 05 Oct 2026 01:15:16 GMT
-#> <- Accept-Ranges: bytes
-#> <- ETag: "0x8DF227E1D81E740"
+#> <- Content-MD5: mzK0y06ZJ+pj3hmgOxl5gQ==
+#> <- Last-Modified: Fri, 16 Oct 2026 01:15:13 GMT
+#> <- ETag: 0x8DF2B22EE4C4D72
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: da86c416-001e-0030-18c8-54d525000000
-#> <- x-ms-version: 2014-02-14
+#> <- x-ms-request-id: 1cb54ac4-501e-00f6-523f-5d1ea4000000
+#> <- x-ms-version: 2009-09-19
 #> <- x-ms-lease-status: unlocked
-#> <- x-ms-lease-state: available
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Mon, 05 Oct 2026 12:54:16 GMT
+#> <- Date: Fri, 16 Oct 2026 07:21:57 GMT
 #> <- 
 #> ✔ response has arrived
-#> converting ■■■■■                             12% | ETA:  8s
-#> converting ■■■■■■■■                          22% | ETA:  7s
-#> converting ■■■■■■■■■■■■■■■■■■                57% | ETA:  4s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■      90% | ETA:  1s
+#> converting ■■■■■                             13% | ETA:  7s
+#> converting ■■■■■■■■■■                        29% | ETA:  6s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■            69% | ETA:  2s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 
 dplyr::glimpse(eic_all)
-#> Rows: 77,243
+#> Rows: 77,520
 #> Columns: 17
 #> $ revision_number                              <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", …
-#> $ created_date_time                            <chr> "2026-10-05T01:15:13Z", "2026-10-05T01:15:13Z", "2026-10-05T01:15…
+#> $ created_date_time                            <chr> "2026-10-16T01:15:12Z", "2026-10-16T01:15:12Z", "2026-10-16T01:15…
 #> $ eic_code                                     <chr> "10T-1001-10010AS", "10T1001A1001A012", "10T1001A1001A020", "10T1…
 #> $ doc_status_value                             <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A…
 #> $ doc_status                                   <chr> "Control block area schedule", "Control block area schedule", "Co…

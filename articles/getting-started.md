@@ -90,33 +90,34 @@ get_news(n = 3L)
 #> 
 #> ── ENTSO-E Transparency Platform News ──────────────────────────────────────────────────────────────────────────────────
 #> 
-#> ── Incorrect values for Belgian Day-Ahead generation forecast - 14.1.C ──
+#> ── TP scheduled maintenance on Thursday, 15 October, between 18:00 and 20:00 CEST ──
 #> 
-#> ℹ Wed, 23 Sep 2026 09:06:36 GMT
-#> Dear Transparency Platform users,Since 1 September, there have been issues affecting the Belgium Day-Ahead Generation
-#> Forecast (14.1.C), causing the published values to be incorrect and unusable. Elia is actively working to resolve the
-#> issue as quickly as possible and apologizes for any inconvenience caused.Thanks for your understanding. Kind
-#> regards,Transparency Platform team on behalf of Elia
+#> ℹ Thu, 15 Oct 2026 12:25:33 GMT
+#> Dear Transparency Platform users,The Transparency Platform Production environment will be under scheduled maintenance
+#> on Thursday, 15 October, between 18:00 and 20:00 CEST.During this maintenance, you may experience brief service
+#> interruptions or short connectivity issues.We apologize for any inconvenience and appreciate your understanding.Best
+#> regards,Transparency Platform team
 #> 
-#> ── Transparency Platform Web API and Subscriptions Service Disruption ──
+#> ── TP ECP maintenance 13.10.2026 between 13:00 and 13:30 CEST ──
 #> 
-#> ℹ Tue, 22 Sep 2026 15:39:58 GMT
-#> Dear Transparency Platform users,We would like to inform you about the Transparency Platform delays from the Web API
-#> and Subscriptions since 14:05 CEST, due to an Azure infrastructure incident impacting several TP services. We are
-#> waiting for a resolution before full service can be restored.We understand the impact that this disruption may have on
-#> automated processes and data retrieval activities, and we apologize for the inconvenience caused.We will provide
-#> further updates as soon as more information becomes available or the service can be restored.In the meantime, the
-#> Transparency Platform File Library (including FMS API) remain functional (link to the guide).Thank you for your
-#> patience and understanding.Kind regards,Transparency Platform team
+#> ℹ Mon, 12 Oct 2026 10:03:36 GMT
+#> Dear Transparency Platform users,The Transparency Platform Service Provider will perform  ECP  maintenance on
+#> 13/10/2026 at 13:00 CEST in the Production environment, which is expected to last up to 30 minutes.During this period,
+#> the Transparency Platform will not be able to send or receive messages via ECP up to 15 min.Best regards,Transparency
+#> Platform team
 #> 
-#> ── HOPS: Delays of Balancing publications for Croatia ──
+#> ── RTE – IT issue impacting publication of GL EB 12.3.E and TR 17.1.F for “mFRR Specific” and “RR Specific” products ──
 #> 
-#> ℹ Mon, 21 Sep 2026 14:36:47 GMT
-#> Dear Transparency Platform users,Please be informed that Balancing publication (Prices of Activated Balancing Energy
-#> and Aggregated Balancing Energy Bids for mFRR) are currently delayed due to technical issues.HOPS is working on
-#> resolving unexpected issues and restoring the regular publication of the data as soon as possible.Please accept HOPS
-#> apologies for any inconvenience and thank you for your understanding.Kind regards,Transparency Platform team on behalf
-#> of HOPS
+#> ℹ Thu, 08 Oct 2026 10:33:03 GMT
+#> Dear Transparency Platform users,Please be informed that since Monday, 05 October 2026, at approximately 10:00 CET, RTE
+#> has been experiencing an internal IT issue affecting some data delivery to the Transparency Platform.As a result, two
+#> Data Items scheduled for publication since that time has not been successfully submitted and is therefore unavailable
+#> on the platform:[GL EB 12.3.E] Aggregated Balancing Energy Bids for “mFRR Specific” and “RR Specific” products[TR
+#> 17.1.F] Prices of Activated Balancing Energy for “mFRR Specific” and “RR Specific” productsThe other types of products
+#> (aFRR LS Standard, aFRR CS Standard, mFRR Standard and mFRR SA Standard) are not impacted by this IT issue and are well
+#> published on the Transparency Platform.Our teams are actively working to resolve the issue and restore normal data
+#> delivery as quickly as possible.We sincerely apologize for any inconvenience caused.Kind regards,Transparency Platform
+#> team on behalf of RTE
 ```
 
 The result is returned invisibly as a tibble, so you can also capture
@@ -189,7 +190,7 @@ cli_h1("Available Bidding Zones")
 #> 
 #> ── Available Bidding Zones ─────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total zones: {nrow(bidding_zones)}")
-#> Total zones: 1825
+#> Total zones: 1829
 bidding_zones |>
   select(eic_code, eic_long_name) |>
   head(10) |>
@@ -242,7 +243,7 @@ da_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 13:06:55 GMT
+#> <- Date: Fri, 16 Oct 2026 07:29:09 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -286,7 +287,7 @@ glimpse(da_prices)
 #> $ ts_auction_type_def                 <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "I…
 #> $ ts_business_type                    <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62…
 #> $ ts_business_type_def                <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spo…
-#> $ created_date_time                   <dttm> 2026-10-05 13:06:55, 2026-10-05 13:06:55, 2026-10-05 13:06:55, 2026-10-05…
+#> $ created_date_time                   <dttm> 2026-10-16 07:29:09, 2026-10-16 07:29:09, 2026-10-16 07:29:09, 2026-10-16…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                       <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start              <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2025-12-31…
@@ -327,7 +328,7 @@ da_prices_nested <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202512312300&periodEnd=202601072300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 13:06:59 GMT
+#> <- Date: Fri, 16 Oct 2026 07:29:10 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -357,7 +358,7 @@ glimpse(da_prices_nested)
 #> $ ts_auction_type_def                 <chr> "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "Implicit", "I…
 #> $ ts_business_type                    <chr> "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62", "A62…
 #> $ ts_business_type_def                <chr> "Spot price", "Spot price", "Spot price", "Spot price", "Spot price", "Spo…
-#> $ created_date_time                   <dttm> 2026-10-05 13:06:59, 2026-10-05 13:06:59, 2026-10-05 13:06:59, 2026-10-05…
+#> $ created_date_time                   <dttm> 2026-10-16 07:29:10, 2026-10-16 07:29:10, 2026-10-16 07:29:10, 2026-10-16…
 #> $ revision_number                     <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                       <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "P…
 #> $ ts_time_interval_start              <dttm> 2025-12-31 23:00:00, 2025-12-31 23:00:00, 2026-01-01 23:00:00, 2026-01-01 …
@@ -417,7 +418,7 @@ da_prices_year <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10Y1001A1001A82H&out_Domain=10Y1001A1001A82H&periodStart=202312312300&periodEnd=202412302300&contract_MarketAgreement.type=A01&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 13:07:10 GMT
+#> <- Date: Fri, 16 Oct 2026 07:29:12 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive

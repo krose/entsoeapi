@@ -11,7 +11,7 @@ transform them to tabular format without effort."><meta property="og:image" cont
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ transform them to tabular format without effort."><meta property="og:image" cont
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>An R Interface to the ENTSO-E Transparency Platform API</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.2.1/R/entsoeapi-package.R" class="external-link"><code>R/entsoeapi-package.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/entsoeapi-package.R" class="external-link"><code>R/entsoeapi-package.R</code></a></small>
       <div class="d-none name"><code>entsoeapi.Rd</code></div>
     </div>
 
@@ -51,6 +51,30 @@ transform them to tabular format without effort.</p>
     </div>
 
 
+    <div class="section level2">
+    <h2 id="options">Options<a class="anchor" aria-label="anchor" href="#options"></a></h2>
+
+
+<dl><dt><code>entsoeapi.max_parallel</code></dt>
+<dd><p>Maximum number of API requests run
+concurrently when a query is split into several requests (offset
+pagination, day-by-day queries). Default <code>4</code>; set it to <code>1</code> for
+strictly sequential requests. Requests are additionally throttled to
+300 per minute to stay under the platform's rate limit.</p></dd>
+
+<dt><code>entsoeapi.cache_dir</code></dt>
+<dd><p>Directory of a persistent cache for the
+downloaded EIC code tables, e.g.
+<code>tools::R_user_dir("entsoeapi", "cache")</code>. Default <code>NULL</code>: the tables
+are cached in memory for one hour and downloaded again in every new
+R session.</p></dd>
+
+<dt><code>entsoeapi.cache_max_age</code></dt>
+<dd><p>Lifetime of the disk cache entries in
+seconds. Default <code>86400</code> (one day).</p></dd>
+
+
+</dl></div>
 
   </main></div>
 

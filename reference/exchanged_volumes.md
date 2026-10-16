@@ -91,7 +91,7 @@ df <- entsoeapi::exchanged_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A51&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208160000&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Mon, 05 Oct 2026 12:57:52 GMT
+#> <- Date: Fri, 16 Oct 2026 07:24:22 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -102,7 +102,7 @@ df <- entsoeapi::exchanged_volumes(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/Rtmpso7PyT/unzipped_19fd20059949/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208160000.xml has been read in
+#> ✔ /tmp/RtmpuZRLiZ/unzipped_19f92230aa5c/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208160000.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -124,7 +124,7 @@ dplyr::glimpse(df)
 #> $ process_type_def              <chr> "Automatic frequency restoration reserve", "Automatic frequency restoration rese…
 #> $ ts_business_type              <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B0…
 #> $ ts_business_type_def          <chr> "Net position", "Net position", "Net position", "Net position", "Net position", …
-#> $ created_date_time             <dttm> 2026-10-05 12:57:51, 2026-10-05 12:57:51, 2026-10-05 12:57:51, 2026-10-05 12:57…
+#> $ created_date_time             <dttm> 2026-10-16 07:24:22, 2026-10-16 07:24:22, 2026-10-16 07:24:22, 2026-10-16 07:24…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", "PT4S", …
 #> $ ts_time_interval_start        <dttm> 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00…

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">entsoeapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,9 +36,27 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/krose/entsoeapi/blob/v1.2.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/krose/entsoeapi/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="entsoeapi-v130-2026-10-16">entsoeapi v1.3.0 (2026-10-16)<a class="anchor" aria-label="anchor" href="#entsoeapi-v130-2026-10-16"></a></h2>
+<div class="section level3">
+<h3 id="new-functionality-1-3-0">New functionality<a class="anchor" aria-label="anchor" href="#new-functionality-1-3-0"></a></h3>
+<ul><li>Queries that the API splits into several requests (offset pagination of large responses, and the day-by-day requests of <code><a href="../reference/gen_per_gen_unit.html">gen_per_gen_unit()</a></code>) are now sent in parallel. The <code>entsoeapi.max_parallel</code> option sets the concurrency (default <code>4</code>; <code>1</code> restores sequential requests). All API requests are throttled to 300 per minute, which keeps them under the platform’s rate limit. For example, a 10-day <code><a href="../reference/gen_per_gen_unit.html">gen_per_gen_unit()</a></code> query for France went from 340 s to 79 s.</li>
+<li>The downloaded EIC code tables can now be cached on disk across R sessions with <code>options(entsoeapi.cache_dir = tools::R_user_dir("entsoeapi", "cache"))</code>. Entries expire after <code>getOption("entsoeapi.cache_max_age", 86400)</code> seconds. Without the option, the tables are cached in memory as before. See <code><a href="../reference/entsoeapi.html">?entsoeapi</a></code> for all options.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="changes-1-3-0">Changes<a class="anchor" aria-label="anchor" href="#changes-1-3-0"></a></h3>
+<ul><li>Converting API responses to tables is much faster. The XML parser now builds column blocks instead of one vector per output row, reads flat records such as the time series points with a single XPath query, and parses each distinct timestamp only once. A 57,600-point response converts about 10x faster (10.5 s -&gt; 1.0 s), and a replay of 154 real responses is about 1.8x faster overall. The output is unchanged.</li>
+<li>Code lookups (<code>*_def</code>, <code>*_name</code> columns) use <code><a href="https://rdrr.io/r/base/match.html" class="external-link">match()</a></code> instead of joins, and column-name conversion is cached per session.</li>
+<li>HTML error pages from the API now report their text, e.g. “403: Access Denied”. Previously the message could be empty and end in “subscript out of bounds”.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="miscellaneous-1-3-0">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous-1-3-0"></a></h3>
+<ul><li>Lighter dependency tree: <code>xmlconvert</code> and <code>tidyr</code> have been removed from Imports, which takes the recursive hard dependencies from 47 to 31 packages (no more readr, vroom, httr, hms, purrr, …). <code>tidyr</code> is now only suggested, for a vignette. <code>vctrs</code>, already a dependency of <code>dplyr</code>, is now imported directly, and <code>httr2 (&gt;= 1.1.0)</code> is required.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.1" id="entsoeapi-v121-2026-10-05">entsoeapi v1.2.1 (2026-10-05)<a class="anchor" aria-label="anchor" href="#entsoeapi-v121-2026-10-05"></a></h2>
 <div class="section level3">

@@ -34,61 +34,52 @@ entsoeapi::get_news()
 #> 
 #> ── ENTSO-E Transparency Platform News ──────────────────────────────────────────────────────────────────────────────────
 #> 
-#> ── Incorrect values for Belgian Day-Ahead generation forecast - 14.1.C ──
+#> ── TP scheduled maintenance on Thursday, 15 October, between 18:00 and 20:00 CEST ──
 #> 
-#> ℹ Wed, 23 Sep 2026 09:06:36 GMT
-#> Dear Transparency Platform users,Since 1 September, there have been issues affecting the Belgium Day-Ahead Generation
-#> Forecast (14.1.C), causing the published values to be incorrect and unusable. Elia is actively working to resolve the
-#> issue as quickly as possible and apologizes for any inconvenience caused.Thanks for your understanding. Kind
-#> regards,Transparency Platform team on behalf of Elia
+#> ℹ Thu, 15 Oct 2026 12:25:33 GMT
+#> Dear Transparency Platform users,The Transparency Platform Production environment will be under scheduled maintenance
+#> on Thursday, 15 October, between 18:00 and 20:00 CEST.During this maintenance, you may experience brief service
+#> interruptions or short connectivity issues.We apologize for any inconvenience and appreciate your understanding.Best
+#> regards,Transparency Platform team
 #> 
-#> ── Transparency Platform Web API and Subscriptions Service Disruption ──
+#> ── TP ECP maintenance 13.10.2026 between 13:00 and 13:30 CEST ──
 #> 
-#> ℹ Tue, 22 Sep 2026 15:39:58 GMT
-#> Dear Transparency Platform users,We would like to inform you about the Transparency Platform delays from the Web API
-#> and Subscriptions since 14:05 CEST, due to an Azure infrastructure incident impacting several TP services. We are
-#> waiting for a resolution before full service can be restored.We understand the impact that this disruption may have on
-#> automated processes and data retrieval activities, and we apologize for the inconvenience caused.We will provide
-#> further updates as soon as more information becomes available or the service can be restored.In the meantime, the
-#> Transparency Platform File Library (including FMS API) remain functional (link to the guide).Thank you for your
-#> patience and understanding.Kind regards,Transparency Platform team 
+#> ℹ Mon, 12 Oct 2026 10:03:36 GMT
+#> Dear Transparency Platform users,The Transparency Platform Service Provider will perform  ECP  maintenance on
+#> 13/10/2026 at 13:00 CEST in the Production environment, which is expected to last up to 30 minutes.During this period,
+#> the Transparency Platform will not be able to send or receive messages via ECP up to 15 min.Best regards,Transparency
+#> Platform team
 #> 
-#> ── HOPS: Delays of Balancing publications for Croatia ──
+#> ── RTE – IT issue impacting publication of GL EB 12.3.E and TR 17.1.F for “mFRR Specific” and “RR Specific” products ──
 #> 
-#> ℹ Mon, 21 Sep 2026 14:36:47 GMT
-#> Dear Transparency Platform users,Please be informed that Balancing publication (Prices of Activated Balancing Energy
-#> and Aggregated Balancing Energy Bids for mFRR) are currently delayed due to technical issues.HOPS is working on
-#> resolving unexpected issues and restoring the regular publication of the data as soon as possible.Please accept HOPS
-#> apologies for any inconvenience and thank you for your understanding.Kind regards,Transparency Platform team on behalf
-#> of HOPS
+#> ℹ Thu, 08 Oct 2026 10:33:03 GMT
+#> Dear Transparency Platform users,Please be informed that since Monday, 05 October 2026, at approximately 10:00 CET, RTE
+#> has been experiencing an internal IT issue affecting some data delivery to the Transparency Platform.As a result, two
+#> Data Items scheduled for publication since that time has not been successfully submitted and is therefore unavailable
+#> on the platform:[GL EB 12.3.E] Aggregated Balancing Energy Bids for “mFRR Specific” and “RR Specific” products[TR
+#> 17.1.F] Prices of Activated Balancing Energy for “mFRR Specific” and “RR Specific” productsThe other types of products
+#> (aFRR LS Standard, aFRR CS Standard, mFRR Standard and mFRR SA Standard) are not impacted by this IT issue and are well
+#> published on the Transparency Platform.Our teams are actively working to resolve the issue and restore normal data
+#> delivery as quickly as possible.We sincerely apologize for any inconvenience caused.Kind regards,Transparency Platform
+#> team on behalf of RTE
 #> 
-#> ── Transparency Platform stabilized following the infrastructure migration ──
+#> ── Communication Issue between Transelectrica and the Transparency Platform ──
 #> 
-#> ℹ Mon, 14 Sep 2026 14:14:38 GMT
-#> Dear Transparency Platform users,We would like to provide an update regarding the stabilization of the Transparency
-#> Platform following the migration to the new infrastructure.The platform has now been stabilized, and the previously
-#> observed API performance issues and publication backlog have been resolved. Platform services are operating normally,
-#> and we continue to monitor the environment to ensure sustained performance and reliability.As part of the final
-#> recovery activities:The temporary API request limits are planned be lifted on 15 September 2026 and it will be possible
-#> to download 1 year of data with a single request.The temporary website export limits are expected to be lifted on 16
-#> September 2026.Subscribers may still experience slight delays in the processing and distribution of subscription
-#> messages due to the higher volume of data that has been published in the past days. Our IT providers continue to
-#> monitor this area closely and expect the remaining delays to be progressively eliminated.We would like to thank all
-#> users for their patience and understanding throughout the migration and stabilization period. We sincerely apologise
-#> for the disruption and inconvenience caused.Kind regards,Transparency Platform team
+#> ℹ Tue, 06 Oct 2026 13:32:34 GMT
+#> Dear Transparency Platform users,Transelectrica is currently experiencing a communication issue with the Transparency
+#> Platform, which affects the publication process on TP.We are working on resolving the unexpected issues and restoring
+#> the regular publication of the data as soon as possible.Best regards,Transparency Platform Team on behalf of TEL
 #> 
-#> ── Update: Progress on restoring Transparency Platform service following the infrastructure migration ──
+#> ── MAVIR is scheduled to introduce standard aFRR and mFRR products from 01.10.2026 (00h00 local time). ──
 #> 
-#> ℹ Wed, 09 Sep 2026 06:55:16 GMT
-#> Dear Transparency Platform users,We would like to provide an update regarding the ongoing stabilization of the
-#> Transparency Platform following the migration to the new infrastructure.The Web API service is now available again.
-#> However, we are observing a gradual degradation in API performance, which is being actively monitored and investigated
-#> by our service provider.In addition, data processing and publication delays continue to affect certain platform
-#> services. As a result, some information may be published later than expected, and subscription deliveries may also be
-#> impacted.Our IT providers are continuing their investigation into the underlying causes of both the publication delays
-#> and the API performance issues and are working to restore normal service levels as quickly as possible.The Transparency
-#> Platform File Library remains available and can be used to download published data in bulk.We sincerely apologise for
-#> the inconvenience caused by these ongoing issues and understand the impact they may have on your operations. We
-#> appreciate your patience and understanding while we work to fully restore platform stability and performance.Further
-#> updates will be provided as significant progress is made.Kind regards,Transparency Platform team
+#> ℹ Tue, 06 Oct 2026 13:09:51 GMT
+#> Dear Transparency Platform users,MAVIR is scheduled to introduce standard aFRR and mFRR products from 01.10.2026 (00h00
+#> local time).A preparatory test with standard aFRR products will be performed on 10.09.2026. 14:00-16:00 local time,
+#> related activities ranging between 13:00-17:00. Further information can be found on MAVIR's webpage (only in
+#> Hungarian): BSP munkacsoport (MARI-PICASSO) - MAVIR - Site (https://mavir.hu/web/mavir/bsp-munkacsoport)During the test
+#> period, some near real-time BALANCING publications will not be available or will only be partially available.Affected
+#> dataAggregated Balancing Energy Bids GL EB 12.3.EBalancing Energy bids GL EB 12.3.B&CPrices of Activated Balancing
+#> Energy & aFRR CBMPs TR 17.1.F, IF aFRR 3.16Imbalance TR 17.1.G&HVolumes and Prices of the Contracted Balancing Reserves
+#> TR 17.1.B&CProcured Capacity GL EB 12.3.FCurrent Balancing State GL EB 12.3.AKind regards,Transparency Platform team on
+#> behalf of Mavir
 ```
