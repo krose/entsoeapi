@@ -61,40 +61,37 @@ outages_both <- function(
   tidy_output = TRUE,
   security_token = Sys.getenv("ENTSOE_PAT")
 ) {
-  tbl_gu <- try(outages_gen_units(
-    eic = eic,
-    period_start = period_start,
-    period_end = period_end,
-    doc_status = doc_status,
-    event_nature = event_nature,
-    tidy_output = tidy_output,
-    security_token = security_token
-  ))
-  tbl_pu <- try(outages_prod_units(
-    eic = eic,
-    period_start = period_start,
-    period_end = period_end,
-    doc_status = doc_status,
-    event_nature = event_nature,
-    tidy_output = tidy_output,
-    security_token = security_token
-  ))
-
-  if (inherits(tbl_gu, "try-error")) {
-    message(
-      "Get unavailability of generation units error. ",
-      "Try calling the function outages_gen_units() to see the error message."
+  # a failing part is reported as a message and skipped, so the other
+  # part is still returned (tryCatch() keeps the error itself quiet,
+  # unlike try(), which prints it to stderr as well)
+  fetch_part <- function(fetch_fn, part_name) {
+    tryCatch(
+      expr = fetch_fn(
+        eic = eic,
+        period_start = period_start,
+        period_end = period_end,
+        doc_status = doc_status,
+        event_nature = event_nature,
+        tidy_output = tidy_output,
+        security_token = security_token
+      ),
+      error = \(e) {
+        message(
+          "Get unavailability of ", part_name, " error: ",
+          conditionMessage(e)
+        )
+        NULL
+      }
     )
-    tbl_gu <- NULL
   }
-
-  if (inherits(tbl_pu, "try-error")) {
-    message(
-      "Get unavailability of production units error. ",
-      "Try calling the function outages_prod_units() to see the error message."
-    )
-    tbl_pu <- NULL
-  }
+  tbl_gu <- fetch_part(
+    fetch_fn = outages_gen_units,
+    part_name = "generation units"
+  )
+  tbl_pu <- fetch_part(
+    fetch_fn = outages_prod_units,
+    part_name = "production units"
+  )
 
   # append the results and return
   list(tbl_gu, tbl_pu) |>
