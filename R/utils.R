@@ -24,6 +24,49 @@ m <- cache_mem(max_age = .max_age)
 
 
 #' @title
+#' Disk caches opened in this session, keyed by directory
+#'
+#' @noRd
+disk_caches <- new.env(parent = emptyenv())
+
+
+#' @title
+#' Select the cache used for downloaded reference tables
+#'
+#' @description
+#' By default the in-memory cache `m` is used, so EIC tables are downloaded
+#' again in every new R session. Setting
+#' `options(entsoeapi.cache_dir = tools::R_user_dir("entsoeapi", "cache"))`
+#' (or any other directory) switches to a persistent disk cache whose
+#' entries expire after `getOption("entsoeapi.cache_max_age", 86400)`
+#' seconds.
+#'
+#' @return A cachem cache object.
+#'
+#' @importFrom cachem cache_disk
+#' @importFrom checkmate assert_string assert_number
+#'
+#' @noRd
+eic_cache <- function() {
+  cache_dir <- getOption("entsoeapi.cache_dir")
+  if (is.null(cache_dir)) return(m)
+  assert_string(
+    x = cache_dir,
+    min.chars = 1L,
+    .var.name = "entsoeapi.cache_dir"
+  )
+  max_age <- getOption("entsoeapi.cache_max_age", 86400)
+  assert_number(x = max_age, lower = 0, .var.name = "entsoeapi.cache_max_age")
+
+  key <- paste(normalizePath(path = cache_dir, mustWork = FALSE), max_age)
+  if (is.null(disk_caches[[key]])) {
+    disk_caches[[key]] <- cache_disk(dir = cache_dir, max_age = max_age)
+  }
+  disk_caches[[key]]
+}
+
+
+#' @title
 #' Extract a deeply nested element from a list by a sequence of keys
 #'
 #' @param .x A list or environment to index into.
@@ -96,13 +139,14 @@ as_tbl <- function(df) {
 #' @noRd
 cache_get_or_compute <- function(key, compute_fn, label, loud = TRUE) {
   if (loud) cli_h1("public download")
-  if (m$exists(key = key)) {
+  cache <- eic_cache()
+  if (cache$exists(key = key)) {
     if (loud) cli_alert_info("pulling {label} from cache")
-    m$get(key = key)
+    cache$get(key = key)
   } else {
     if (loud) cli_alert_info("downloading {label} ...")
     val <- compute_fn()
-    m$set(key = key, value = val)
+    cache$set(key = key, value = val)
     val
   }
 }
@@ -239,7 +283,7 @@ number_of_children <- function(nodeset) {
 extract_nodesets <- function(nodesets, prefix = NULL) {
   nodesets |>
     lapply(
-      \(nodeset) {
+      FUN = \(nodeset) {
         # convert the branches into a named vector
         named_vect <- nodeset |>
           as_list() |>
@@ -262,7 +306,7 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
 
         # compose a table from the elements
         vals <- split(x = named_vect, f = names(named_vect))[unique_names]
-        max_len <- max(lengths(vals))
+        max_len <- lengths(vals) |> max()
         non_conformable <- vals[
           lengths(vals) != max_len & max_len %% lengths(vals) != 0L
         ]
@@ -273,7 +317,7 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
           )
         }
         vals |>
-          lapply(\(x) rep_len(x = x, length.out = max_len)) |>
+          lapply(FUN = \(x) rep_len(x = x, length.out = max_len)) |>
           as_tbl()
       }
     )
@@ -281,261 +325,291 @@ extract_nodesets <- function(nodesets, prefix = NULL) {
 
 
 #' @title
-#' Recursively Convert an XML Node into Row Vectors
+#' Prepend a dot-separated prefix to element names
+#'
+#' @param prefix Character scalar or `NULL`.
+#' @param nms Character vector of element names.
+#'
+#' @return `nms` unchanged when `prefix` is `NULL`, else `"prefix.nms"`.
+#'
+#' @noRd
+prefixed_names <- function(prefix, nms) {
+  if (is.null(prefix)) nms else paste(prefix, nms, sep = ".")
+}
+
+
+#' @title
+#' Create a column block
+#'
+#' @description
+#' A block is the columnar intermediate of the XML parser: a named list of
+#' equal-length character vectors (`cols`) plus its row count (`n`).
+#' Building blocks instead of one named vector per output row keeps the
+#' stacking and cross-joining of XML subtrees vectorised.
+#'
+#' @param cols A named list of equal-length character vectors.
+#' @param n Integer scalar. The number of rows.
+#'
+#' @return A list with elements `n` and `cols`.
+#'
+#' @noRd
+new_block <- function(cols = list(), n = 0L) {
+  list(n = n, cols = cols)
+}
+
+
+#' @title
+#' Stack column blocks on top of each other
+#'
+#' @description
+#' Same-named XML siblings become additional rows. Columns are united in
+#' order of first appearance; a column missing from a block is filled with
+#' `NA_character_` for that block's rows.
+#'
+#' @param blocks A list of blocks as created by new_block().
+#'
+#' @return A single block.
+#'
+#' @noRd
+stack_blocks <- function(blocks) {
+  blocks <- Filter(f = \(b) b$n > 0L, x = blocks)
+  if (length(blocks) == 0L) return(new_block())
+  if (length(blocks) == 1L) return(blocks[[1L]])
+
+  ns <- vapply(X = blocks, FUN = \(b) b$n, FUN.VALUE = integer(1L))
+  all_names <- blocks |>
+    lapply(FUN = \(b) names(b$cols)) |>
+    unlist(use.names = FALSE) |>
+    unique()
+  cols <- all_names |>
+    lapply(FUN = \(nm) {
+      blocks |>
+        seq_along() |>
+        lapply(FUN = \(k) {
+          col <- blocks[[k]]$cols[[nm]]
+          if (is.null(col)) rep(x = NA_character_, ns[k]) else col
+        }) |>
+        unlist(use.names = FALSE)
+    })
+  names(cols) <- all_names
+  new_block(cols = cols, n = sum(ns))
+}
+
+
+#' @title
+#' Cross-join two column blocks
+#'
+#' @description
+#' Different-named XML siblings are combined with each other: every row of
+#' `a` is paired with every row of `b`, in `a`-major order. Prepending leaf
+#' columns to nested rows is the special case of a one-row `a`.
+#'
+#' @param a,b Blocks as created by new_block().
+#'
+#' @return A block with `a$n * b$n` rows and the columns of `a` then `b`.
+#'
+#' @noRd
+cross_blocks <- function(a, b) {
+  n <- a$n * b$n
+  if (n == 0L) return(new_block())
+  idx_a <- seq_len(length.out = a$n) |> rep(each = b$n)
+  idx_b <- seq_len(length.out = b$n) |> rep.int(times = a$n)
+  new_block(
+    cols = c(
+      lapply(X = a$cols, FUN = \(col) col[idx_a]),
+      lapply(X = b$cols, FUN = \(col) col[idx_b])
+    ),
+    n = n
+  )
+}
+
+
+#' @title
+#' Convert a column block into a tibble
+#'
+#' @param block A block as created by new_block().
+#'
+#' @return A tibble, or an empty tibble for a zero-row block.
+#'
+#' @noRd
+block_to_tbl <- function(block) {
+  if (block$n == 0L) return(as_tbl(list()))
+  as_tbl(block$cols)
+}
+
+
+#' @title
+#' Convert a Group of Flat XML Records into a Column Block
+#'
+#' @description
+#' Fast path of node_to_block() for a group of same-named sibling nodes
+#' whose children are all leaves (e.g. the `Point` elements of a `Period`).
+#' The fields of all members are fetched with one XPath query from the
+#' parent (evaluated inside libxml2, much cheaper than xml_children() over
+#' a large nodeset), then scattered into columns by member index.
+#'
+#' @param parent The `xml_node` holding the members.
+#' @param name Character scalar. The (local) element name of the members.
+#' @param members An `xml_nodeset` of the `name` children of `parent` that
+#'   have element children themselves.
+#' @param prefix Character scalar. Column name prefix of the group.
+#'
+#' @return A block with one row per member, or `NULL` when the group is not
+#'   flat or a member repeats a leaf name; the caller then falls back to
+#'   the generic recursion.
+#'
+#' @importFrom xml2 xml_find_all xml_find_first xml_length xml_name xml_text
+#'
+#' @noRd
+flat_records_to_block <- function(parent, name, members, prefix) {
+  # local-name() keeps the query independent of the document namespace
+  member_path <- sprintf("./*[local-name()='%s']", name)
+
+  # a member with a grandchild of its own is not a flat record;
+  # ns = character() skips xml2's default xml_ns() scan of the whole
+  # document on every call (the queries need no namespace prefixes)
+  deeper <- xml_find_first(
+    x = parent,
+    xpath = paste0(member_path, "/*/*"),
+    ns = character()
+  )
+  if (!inherits(x = deeper, what = "xml_missing")) return(NULL)
+
+  grandchildren <- xml_find_all(
+    x = parent,
+    xpath = paste0(member_path, "/*"),
+    ns = character()
+  )
+  member_id <- seq_along(members) |> rep.int(times = xml_length(members))
+  if (length(grandchildren) != length(member_id)) return(NULL)
+  nms <- xml_name(grandchildren)
+
+  # duplicated leaf names within one record need the generic handling
+  if (anyDuplicated(paste(member_id, nms, sep = "\r")) > 0L) return(NULL)
+
+  vals <- xml_text(grandchildren)
+  n <- length(members)
+  unique_nms <- unique(nms)
+  cols <- unique_nms |>
+    lapply(FUN = \(nm) {
+      hit <- nms == nm
+      col <- rep(x = NA_character_, n)
+      col[member_id[hit]] <- vals[hit]
+      col
+    })
+  names(cols) <- prefixed_names(prefix = prefix, nms = unique_nms)
+  new_block(cols = cols, n = n)
+}
+
+
+#' @title
+#' Recursively Convert an XML Node into a Column Block
 #'
 #' @description
 #' Walks the XML tree depth-first, collecting leaf text values directly
-#' via xml_text() / xml_name() instead of as_list() + unlist().
-#' Returns a list of named character vectors — one per output row.
-#' Same-named siblings produce multiple rows (stacked); different-named
-#' siblings produce columns (cross-joined). Duplicate leaf names within
-#' a single row are collapsed with a "|" separator.
-#'
-#' This avoids per-node tibble creation entirely; a single tibble is
-#' built at the end by rows_to_tbl().
+#' via xml_text() / xml_name(). Same-named siblings produce multiple rows
+#' (stacked); different-named siblings produce columns (cross-joined).
+#' Duplicate leaf names within a single row are collapsed with a "|"
+#' separator.
 #'
 #' @param node An xml_node or length-1 xml_nodeset.
 #' @param prefix Character scalar or NULL. Dot-separated path prefix
 #'   prepended to all column names produced by this node's subtree.
 #'
-#' @return A list of named character vectors, each representing one row.
+#' @return A block as created by new_block().
 #'
 #' @importFrom xml2 xml_children xml_length xml_name xml_text
 #'
 #' @noRd
-node_to_rows <- function(node, prefix = NULL) {
+node_to_block <- function(node, prefix = NULL) {
   children <- xml_children(node)
-  n_ch <- length(children)
 
-  if (n_ch == 0L) {
-    # terminal node: return its text as a single-element named vector
+  if (length(children) == 0L) {
+    # terminal node: its text becomes a single one-row column
     nm <- if (is.null(prefix)) xml_name(node) else prefix
     val <- xml_text(node)
     if (length(val) == 0L || is.na(val)) val <- NA_character_
-    row <- val
-    names(row) <- nm
-    return(list(row))
+    cols <- list(val)
+    names(cols) <- nm
+    return(new_block(cols = cols, n = 1L))
   }
 
   # classify children as leaf (no grandchildren) vs nested
-  ch_names <- children |>
-    vapply(FUN = xml_name, FUN.VALUE = character(1L))
+  # (xml_name/xml_length/xml_text are vectorised over nodesets)
+  ch_names <- xml_name(children)
   ch_has_gc <- xml_length(children) > 0L
-
   leaf_idx <- which(!ch_has_gc)
   nested_idx <- which(ch_has_gc)
 
-  # --- Build the leaf part as a single named character vector ---
-  leaf_row <- character(0L)
+  # --- leaf part: a one-row block (or several rows, see below) ---
+  leaf_block <- NULL
   if (length(leaf_idx) > 0L) {
-    leaf_names <- leaf_idx |>
-      vapply(
-        FUN = \(i) {
-          sub_children <- xml_children(children[[i]])
-          if (length(sub_children) == 0L) {
-            # simple text node
-            paste(c(prefix, ch_names[i]), collapse = ".")
-          } else {
-            # leaf with internal structure (multiple text children)
-            sub_nms <- sub_children |>
-              vapply(FUN = xml_name, FUN.VALUE = character(1L))
-            paste(c(prefix, ch_names[i]), collapse = ".") |>
-              paste(sub_nms, sep = ".")
-          }
-        },
-        FUN.VALUE = character(1L),
-        USE.NAMES = FALSE
-      )
-    leaf_vals <- leaf_idx |>
-      vapply(
-        FUN = \(i) {
-          sub_children <- xml_children(children[[i]])
-          if (length(sub_children) == 0L) {
-            xml_text(children[[i]])
-          } else {
-            paste(
-              sub_children |>
-                vapply(FUN = xml_text, FUN.VALUE = character(1L)),
-              collapse = "|"
-            )
-          }
-        },
-        FUN.VALUE = character(1L),
-        USE.NAMES = FALSE
-      )
-    names(leaf_vals) <- leaf_names
+    # a leaf has no element children by definition, so its text is its value
+    leaf_names <- prefixed_names(prefix = prefix, nms = ch_names[leaf_idx])
+    leaf_vals <- xml_text(children[leaf_idx])
 
-    # handle same-named leaves: group by name
-    unique_leaf_names <- unique(leaf_names)
-    if (length(unique_leaf_names) < length(leaf_names)) {
-      # some leaves share a name — need to determine if they stack or collapse
-      name_counts <- tabulate(match(leaf_names, unique_leaf_names))
-      has_nested <- length(nested_idx) > 0L
-
-      if (!has_nested && max(name_counts) > 1L) {
-        # no nested siblings: same-named leaves produce multiple rows
-        # group by name; each group becomes a column, rows = max group size
-        groups <- split(leaf_vals, leaf_names)[unique_leaf_names]
+    if (anyDuplicated(leaf_names) > 0L) {
+      unique_leaf_names <- unique(leaf_names)
+      groups <- split(
+        x = leaf_vals,
+        f = factor(x = leaf_names, levels = unique_leaf_names)
+      )
+      if (length(nested_idx) == 0L) {
+        # no nested siblings: same-named leaves produce multiple rows,
+        # shorter groups are padded with NA
         max_len <- lengths(groups) |> max()
-        stacked_rows <- vector("list", max_len)
-        for (r in seq_len(max_len)) {
-          row <- groups |>
-            vapply(
-              FUN = \(g) if (r <= length(g)) g[[r]] else NA_character_,
-              FUN.VALUE = character(1L)
-            )
-          names(row) <- unique_leaf_names
-          stacked_rows[[r]] <- row
-        }
-        return(stacked_rows)
-      } else {
-        # nested siblings present or single-row collapse:
-        # collapse duplicate names with "|"
-        collapsed <- length(unique_leaf_names) |> character()
-        names(collapsed) <- unique_leaf_names
-        for (nm in unique_leaf_names) {
-          collapsed[nm] <- paste(leaf_vals[leaf_names == nm], collapse = "|")
-        }
-        leaf_row <- collapsed
+        cols <- lapply(X = groups, FUN = \(g) {
+          length(g) <- max_len
+          unname(g)
+        })
+        names(cols) <- unique_leaf_names
+        return(new_block(cols = cols, n = max_len))
       }
-    } else {
-      leaf_row <- leaf_vals
+      # nested siblings present: collapse duplicate names with "|"
+      leaf_vals <- vapply(
+        X = groups,
+        FUN = paste,
+        FUN.VALUE = character(1L),
+        collapse = "|",
+        USE.NAMES = FALSE
+      )
+      leaf_names <- unique_leaf_names
     }
+    cols <- as.list(leaf_vals)
+    names(cols) <- leaf_names
+    leaf_block <- new_block(cols = cols, n = 1L)
   }
 
-  # --- Recurse into nested children ---
-  nested_rows <- list()
+  # --- nested part: stack same-named groups, cross-join different ones ---
+  nested_block <- new_block()
   if (length(nested_idx) > 0L) {
-    # group nested children by name
     nested_names <- ch_names[nested_idx]
-    unique_nested <- unique(nested_names)
-
-    group_row_lists <- vector("list", length(unique_nested))
-    for (g in seq_along(unique_nested)) {
-      gname <- unique_nested[g]
-      g_idx <- nested_idx[nested_names == gname]
-
-      # recurse into each member and collect rows
-      member_rows <- vector("list", length(g_idx))
-      for (m in seq_along(g_idx)) {
-        new_prefix <- paste(c(prefix, gname), collapse = ".")
-        member_rows[[m]] <- node_to_rows(
-          node = children[[g_idx[m]]],
-          prefix = new_prefix
-        )
+    group_blocks <- lapply(X = unique(nested_names), FUN = \(gname) {
+      members <- children[nested_idx[nested_names == gname]]
+      new_prefix <- paste(c(prefix, gname), collapse = ".")
+      # fast path: every member is a flat record of leaves (e.g. Point)
+      block <- flat_records_to_block(
+        parent = node,
+        name = gname,
+        members = members,
+        prefix = new_prefix
+      )
+      if (is.null(block)) {
+        block <- members |>
+          lapply(
+            FUN = \(member) node_to_block(node = member, prefix = new_prefix)
+          ) |>
+          stack_blocks()
       }
-      # same-named nested siblings: stack their rows
-      group_row_lists[[g]] <- unlist(member_rows, recursive = FALSE)
-    }
-
-    if (length(unique_nested) == 1L) {
-      nested_rows <- group_row_lists[[1L]]
-    } else {
-      # different-named nested groups: cross-join
-      # start with first group, then cross with each subsequent group
-      nested_rows <- group_row_lists[[1L]]
-      for (g in 2L:length(group_row_lists)) {
-        next_group <- group_row_lists[[g]]
-        crossed <- vector("list", length(nested_rows) * length(next_group))
-        k <- 1L
-        for (i in seq_along(nested_rows)) {
-          for (j in seq_along(next_group)) {
-            crossed[[k]] <- c(nested_rows[[i]], next_group[[j]])
-            k <- k + 1L
-          }
-        }
-        nested_rows <- crossed
-      }
-    }
+      block
+    })
+    nested_block <- Reduce(f = cross_blocks, x = group_blocks)
   }
 
-  # --- Combine leaf + nested ---
-  if (length(leaf_row) == 0L && length(nested_rows) == 0L) {
-    return(list())
-  }
-  if (length(nested_rows) == 0L) {
-    return(list(leaf_row))
-  }
-  if (length(leaf_row) == 0L) {
-    return(nested_rows)
-  }
-
-  # prepend leaf columns to every nested row
-  lapply(nested_rows, \(nr) c(leaf_row, nr))
-}
-
-
-#' @title
-#' Convert a List of Named Character Vectors into a Tibble
-#'
-#' @description
-#' Efficiently converts the row-vector output of node_to_rows() into
-#' a single tibble. Uses a fast path (matrix construction) when all
-#' rows have identical column names, and a slower fallback (column
-#' accumulation with NA fill) when rows are heterogeneous.
-#'
-#' @param rows A list of named character vectors, as returned by
-#'   node_to_rows().
-#'
-#' @return A tibble with one row per input vector and one column per
-#'   unique name found across all vectors.
-#'
-#' @noRd
-rows_to_tbl <- function(rows) {
-  n <- length(rows)
-  if (n == 0L) return(as_tbl(list()))
-  if (n == 1L) {
-    row <- rows[[1L]]
-    df <- as.list(row)
-    return(as_tbl(df))
-  }
-
-  # check if all rows have the same column set (fast path)
-  col_names_first <- names(rows[[1L]])
-  uniform <- TRUE
-  for (i in 2L:n) {
-    if (!identical(names(rows[[i]]), col_names_first)) {
-      uniform <- FALSE
-      break
-    }
-  }
-
-  if (uniform) {
-    # fast path: build a character matrix, then split into columns
-    ncols <- length(col_names_first)
-    mat <- matrix(
-      data = unlist(rows, use.names = FALSE),
-      nrow = n,
-      ncol = ncols,
-      byrow = TRUE
-    )
-    df <- vector("list", ncols)
-    names(df) <- col_names_first
-    for (j in seq_len(ncols)) {
-      df[[j]] <- mat[, j]
-    }
-    return(as_tbl(df))
-  }
-
-  # slow path: collect all unique column names, fill with NA
-
-  all_names <- lapply(rows, names) |> unlist(use.names = FALSE) |> unique()
-  ncols <- length(all_names)
-  # pre-allocate column vectors
-  cols <- vector("list", ncols)
-  names(cols) <- all_names
-  for (j in seq_len(ncols)) {
-    cols[[j]] <- rep(NA_character_, n)
-  }
-  # fill in values row by row
-  for (i in seq_len(n)) {
-    row <- rows[[i]]
-    rnames <- names(row)
-    for (k in seq_along(rnames)) {
-      cols[[rnames[k]]][i] <- row[k]
-    }
-  }
-  as_tbl(cols)
+  # --- combine leaf + nested ---
+  if (is.null(leaf_block)) return(nested_block)
+  if (nested_block$n == 0L) return(leaf_block)
+  cross_blocks(a = leaf_block, b = nested_block)
 }
 
 
@@ -545,11 +619,9 @@ rows_to_tbl <- function(rows) {
 #' @description
 #' Mine data from all levels (leaf, twig, branch)
 #' of an XML document and convert them to a tibble.
-#' Uses node_to_rows() to recursively collect named character
-#' vectors (one per output row) and rows_to_tbl() to efficiently
-#' construct a single tibble at the end — avoiding per-node tibble
-#' creation, as_list() + unlist() overhead, and thousands of
-#' intermediate bind_rows()/bind_cols() calls.
+#' Uses node_to_block() to recursively collect column blocks and
+#' block_to_tbl() to construct a single tibble at the end — avoiding
+#' per-node tibble creation and per-row vector handling.
 #'
 #' @param nodesets A list of `xml_node` objects representing the top-level
 #'   children of an XML document.
@@ -558,7 +630,6 @@ rows_to_tbl <- function(rows) {
 #'   `nodesets`.
 #'
 #' @importFrom xml2 xml_children xml_length xml_name xml_text
-#' @importFrom dplyr bind_cols
 #'
 #' @noRd
 extract_leaf_twig_branch <- function(nodesets) {
@@ -566,15 +637,15 @@ extract_leaf_twig_branch <- function(nodesets) {
   children_of_nodes <- nodesets |>
     vapply(FUN = number_of_children, FUN.VALUE = integer(1L))
 
-  # --- first level: leaf nodesets (no children) ---
-  leaf_rows <- character(0L)
+  # --- first level: leaf nodesets (no grandchildren) -> one row ---
+  leaf_block <- NULL
   if (any(children_of_nodes == 0L)) {
     leaf_ns <- nodesets[children_of_nodes == 0L]
 
     # expand each leaf nodeset into named character entries;
     # nodes with sub-elements (e.g. timeInterval with start/end)
     # become multiple named entries (one per sub-element)
-    leaf_parts <- lapply(leaf_ns, \(ns) {
+    leaf_parts <- lapply(X = leaf_ns, FUN = \(ns) {
       nm <- xml_name(ns)
       ch <- xml_children(ns)
       if (length(ch) == 0L) {
@@ -582,89 +653,119 @@ extract_leaf_twig_branch <- function(nodesets) {
         names(val) <- nm
         val
       } else {
-        sub_nms <- ch |>
-          vapply(FUN = xml_name, FUN.VALUE = character(1L))
-        sub_vals <- ch |>
-          vapply(FUN = xml_text, FUN.VALUE = character(1L))
-        names(sub_vals) <- paste(nm, sub_nms, sep = ".")
+        sub_vals <- xml_text(ch)
+        names(sub_vals) <- paste(nm, xml_name(ch), sep = ".")
         sub_vals
       }
     })
     leaf_vec <- unlist(leaf_parts, use.names = TRUE)
 
     # handle duplicate names by collapsing with "|"
-    if (anyDuplicated(names(leaf_vec)) > 0L) {
-      unique_names <- names(leaf_vec) |> unique()
-      collapsed <- length(unique_names) |> character()
-      names(collapsed) <- unique_names
-      for (nm in unique_names) {
-        collapsed[nm] <- paste(leaf_vec[names(leaf_vec) == nm], collapse = "|")
-      }
-      leaf_rows <- collapsed
-    } else {
-      leaf_rows <- leaf_vec
+    leaf_names <- names(leaf_vec)
+    if (anyDuplicated(leaf_names) > 0L) {
+      unique_names <- unique(leaf_names)
+      leaf_vec <- vapply(
+        X = split(
+          x = unname(leaf_vec),
+          f = factor(leaf_names, levels = unique_names)
+        ),
+        FUN = paste,
+        FUN.VALUE = character(1L),
+        collapse = "|",
+        USE.NAMES = FALSE
+      )
+      leaf_names <- unique_names
+    }
+    if (length(leaf_vec) > 0L) {
+      cols <- as.list(unname(leaf_vec))
+      names(cols) <- leaf_names
+      leaf_block <- new_block(cols = cols, n = 1L)
     }
   }
 
-  # --- second level: nested nodesets (have children) ---
-  nested_all_rows <- list()
+  # --- second level: nested nodesets (have grandchildren) ---
+  # same-named nested nodesets stack; different-named cross-join
+  nested_block <- new_block()
   if (any(children_of_nodes > 0L)) {
     nested_ns <- nodesets[children_of_nodes > 0L]
-    all_rows <- vector("list", length(nested_ns))
-    for (i in seq_along(nested_ns)) {
-      ns <- nested_ns[[i]]
-      all_rows[[i]] <- node_to_rows(
-        node = ns,
-        prefix = xml_name(ns)
-      )
-    }
-    # same-named nested nodesets stack; different-named cross-join
-    nested_names <- nested_ns |>
-      vapply(FUN = xml_name, FUN.VALUE = character(1L))
-    unique_nested <- unique(nested_names)
-
-    if (length(unique_nested) == 1L) {
-      nested_all_rows <- unlist(all_rows, recursive = FALSE)
-    } else {
-      group_row_lists <- vector("list", length(unique_nested))
-      for (g in seq_along(unique_nested)) {
-        g_idx <- which(nested_names == unique_nested[g])
-        group_row_lists[[g]] <- unlist(all_rows[g_idx], recursive = FALSE)
-      }
-      # cross-join groups
-      nested_all_rows <- group_row_lists[[1L]]
-      for (g in 2L:length(group_row_lists)) {
-        next_group <- group_row_lists[[g]]
-        crossed <- vector(
-          "list",
-          length(nested_all_rows) * length(next_group)
-        )
-        k <- 1L
-        for (ii in seq_along(nested_all_rows)) {
-          for (jj in seq_along(next_group)) {
-            crossed[[k]] <- c(nested_all_rows[[ii]], next_group[[jj]])
-            k <- k + 1L
-          }
-        }
-        nested_all_rows <- crossed
-      }
-    }
+    nested_names <- xml_name(nested_ns)
+    nested_blocks <- lapply(
+      X = seq_along(nested_ns),
+      FUN = \(i) node_to_block(node = nested_ns[[i]], prefix = nested_names[i])
+    )
+    group_blocks <- lapply(
+      X = unique(nested_names),
+      FUN = \(gname) stack_blocks(blocks = nested_blocks[nested_names == gname])
+    )
+    nested_block <- Reduce(f = cross_blocks, x = group_blocks)
   }
 
   # --- combine leaf + nested into final tibble ---
-  if (length(leaf_rows) == 0L && length(nested_all_rows) == 0L) {
-    return(as_tbl(list()))
-  }
-  if (length(nested_all_rows) == 0L) {
-    return(rows_to_tbl(list(leaf_rows)))
-  }
-  if (length(leaf_rows) == 0L) {
-    return(rows_to_tbl(nested_all_rows))
-  }
+  if (is.null(leaf_block)) return(block_to_tbl(nested_block))
+  if (nested_block$n == 0L) return(block_to_tbl(leaf_block))
+  block_to_tbl(cross_blocks(a = leaf_block, b = nested_block))
+}
 
-  # prepend leaf columns to every nested row, then build tibble
-  combined <- lapply(nested_all_rows, \(nr) c(leaf_rows, nr))
-  rows_to_tbl(combined)
+
+#' @title
+#' Nest columns into a list-column of tibbles
+#'
+#' @description
+#' Equivalent of `tidyr::nest(tbl, {key} = all_of(cols))`: rows are grouped
+#' by all the other columns (in order of first appearance) and the `cols`
+#' of each group become one tibble in the `key` list-column.
+#'
+#' @param tbl A tibble.
+#' @param cols Character vector. The columns to nest.
+#' @param key Character scalar. Name of the new list-column.
+#'
+#' @return A tibble with one row per distinct combination of the other
+#'   columns, followed by the `key` list-column.
+#'
+#' @importFrom vctrs vec_group_loc vec_slice
+#'
+#' @noRd
+nest_cols <- function(tbl, cols, key) {
+  outer <- base::setdiff(x = names(tbl), y = cols)
+  groups <- vec_group_loc(tbl[outer])
+  inner <- tbl[cols]
+  out <- groups$key
+  out[[key]] <- groups$loc |> lapply(FUN = \(loc) vec_slice(inner, loc))
+  as_tbl(out)
+}
+
+
+#' @title
+#' Unite columns into one, pasting the non-missing values
+#'
+#' @description
+#' Equivalent of `tidyr::unite(tbl, col, all_of(cols), sep = sep,
+#' remove = TRUE, na.rm = TRUE)`: the new column takes the position of the
+#' first united column; rows where every value is missing become `""`.
+#'
+#' @param tbl A tibble.
+#' @param col Character scalar. Name of the new column.
+#' @param cols Character vector. The columns to unite (and remove).
+#' @param sep Character scalar. Separator between the values.
+#'
+#' @return The tibble with `cols` replaced by `col`.
+#'
+#' @noRd
+unite_cols <- function(tbl, col, cols, sep = " - ") {
+  vals <- lapply(X = tbl[cols], FUN = as.character)
+  united <- vapply(
+    X = seq_len(nrow(tbl)),
+    FUN = \(i) {
+      row <- vapply(X = vals, FUN = \(v) v[[i]], FUN.VALUE = character(1L))
+      paste(row[!is.na(row)], collapse = sep)
+    },
+    FUN.VALUE = character(1L)
+  )
+  first_pos <- min(match(x = cols, table = names(tbl)))
+  keep <- base::setdiff(x = names(tbl), y = cols)
+  tbl <- tbl[keep]
+  tbl[[col]] <- united
+  tbl[append(x = keep, values = col, after = first_pos - 1L)]
 }
 
 
@@ -686,10 +787,10 @@ extract_leaf_twig_branch <- function(nodesets) {
 #'
 #' @importFrom stringr str_detect str_replace_all str_subset str_match_all
 #' @importFrom stringr str_replace
-#' @importFrom dplyr mutate case_when group_by across all_of n ungroup
+#' @importFrom dplyr mutate case_when across all_of n
 #' @importFrom dplyr full_join arrange everything distinct
 #' @importFrom lubridate duration
-#' @importFrom tidyr fill nest
+#' @importFrom vctrs vec_fill_missing
 #' @importFrom cli cli_abort
 #'
 #' @noRd
@@ -747,7 +848,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     unique()
 
   # select the group by columns
-  group_cols <- setdiff(
+  group_cols <- base::setdiff(
     x = names(tbl),
     y = c(ts_point_cols, ts_reason_cols)
   )
@@ -857,9 +958,11 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
           ts_time_interval_end,
           ts_point_position
         ) |>
-        group_by(across(all_of(group_cols_adj))) |>
-        fill(everything()) |>
-        ungroup()
+        mutate(
+          across(everything(),
+                 \(x) vec_fill_missing(x = x, direction = "down")),
+          .by = all_of(group_cols_adj)
+        )
 
       # append the adjusted timeseries data points to the 'ok' timeseries data
       tbl <- bind_rows(tbl, tbl_adj) |>
@@ -901,7 +1004,7 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     )
 
     # remove the not needed columns
-    not_needed_cols <- intersect(
+    not_needed_cols <- base::intersect(
       x = not_needed_cols,
       y = names(tbl)
     )
@@ -914,17 +1017,14 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     )
 
     # remove the not needed columns
-    not_needed_cols <- intersect(
+    not_needed_cols <- base::intersect(
       x = not_needed_cols,
       y = names(tbl)
     )
     tbl[not_needed_cols] <- list(NULL)
 
     # nest the timeseries data points
-    tbl <- nest(
-      tbl,
-      ts_point = all_of(ts_point_cols)
-    )
+    tbl <- nest_cols(tbl = tbl, cols = ts_point_cols, key = "ts_point")
   }
 
   # convert the original 'bid_ts_' column names back
@@ -1025,7 +1125,7 @@ read_zipped_xml <- function(temp_file_path) {
   # read the xml content from each the decompressed files
   if (is.null(unzipped_files$error)) {
     unzipped_files$result |>
-      lapply(\(x) {
+      lapply(FUN = \(x) {
         xml_content <- read_xml(x)
         cli_alert_success("{x} has been read in")
         xml_content
@@ -1033,6 +1133,94 @@ read_zipped_xml <- function(temp_file_path) {
   } else {
     cli_abort(conditionMessage(unzipped_files$error))
   }
+}
+
+
+#' @title
+#' Extract the readable text of an HTML error page
+#'
+#' @param resp An `httr2_response` with an HTML body.
+#'
+#' @return A character scalar: the non-blank text nodes of the page body,
+#'   separated by single spaces (`""` when there is no body text).
+#'
+#' @importFrom httr2 resp_body_html
+#' @importFrom xml2 xml_find_all xml_text
+#'
+#' @noRd
+html_error_text <- function(resp) {
+  texts <- resp |>
+    resp_body_html(encoding = "utf-8") |>
+    xml_find_all(xpath = "//body//text()") |>
+    xml_text() |>
+    trimws()
+  paste(texts[nzchar(texts)], collapse = " ")
+}
+
+
+#' @title
+#' Extract the Reason of an ENTSO-E acknowledgement document
+#'
+#' @param resp An `httr2_response` with an XML body.
+#'
+#' @return A named list of the `Reason` fields (normally `code` and `text`),
+#'   or `NULL` when the root has no `Reason` child with element fields.
+#'
+#' @importFrom httr2 resp_body_xml
+#' @importFrom xml2 xml_find_first xml_children xml_name xml_text
+#'
+#' @noRd
+xml_error_reason <- function(resp) {
+  # local-name() keeps the query independent of the document namespace
+  reason <- resp |>
+    resp_body_xml(encoding = "utf-8") |>
+    xml_find_first(xpath = "/*/*[local-name()='Reason']")
+  if (inherits(reason, "xml_missing")) return(NULL)
+  fields <- xml_children(reason)
+  if (length(fields) == 0L) return(NULL)
+  vals <- as.list(xml_text(fields))
+  names(vals) <- xml_name(fields)
+  vals
+}
+
+
+#' @title
+#' Build an ENTSO-E API request
+#'
+#' @param url Character scalar. The complete request URL (without token).
+#' @param security_token Character scalar. The ENTSO-E API security token.
+#'
+#' @return An `httr2_request` with user agent, token header, timeout,
+#'   retry on HTTP 503 and a client-side rate limit.
+#'
+#' @importFrom httr2 request req_user_agent req_verbose req_timeout
+#' @importFrom httr2 req_retry req_headers req_throttle resp_status
+#' @importFrom stats runif
+#'
+#' @noRd
+build_api_req <- function(url, security_token) {
+  url |>
+    request() |>
+    req_user_agent(string = user_agent_string) |>
+    req_headers(SECURITY_TOKEN = security_token) |>
+    req_verbose(
+      header_req = FALSE,
+      header_resp = TRUE,
+      body_req = FALSE,
+      body_resp = FALSE
+    ) |>
+    req_timeout(seconds = .req_timeout) |> # nolint: object_usage_linter.
+    # stay under the platform limit of 400 requests / minute / user,
+    # also when several requests run in parallel
+    req_throttle(
+      capacity = .req_per_minute, # nolint: object_usage_linter.
+      fill_time_s = 60
+    ) |>
+    req_retry(
+      max_tries = 3L,
+      is_transient = \(resp) resp_status(resp) == 503L,
+      backoff = \(x) runif(n = 1L, min = 5, max = 15)
+    )
 }
 
 
@@ -1052,14 +1240,7 @@ read_zipped_xml <- function(temp_file_path) {
 #'   Throws an error on failure.
 #'
 #' @importFrom checkmate assert_string
-#' @importFrom cli cli_h1 cli_alert cli_alert_success cli_abort
-#' @importFrom httr2 request req_user_agent req_verbose req_timeout
-#' @importFrom httr2 req_retry resp_status resp_content_type resp_body_raw
-#' @importFrom httr2 resp_body_xml resp_body_html resp_body_json
-#' @importFrom httr2 resp_status_desc req_headers
-#' @importFrom xmlconvert xml_to_list
-#' @importFrom stringr str_detect
-#' @importFrom stats setNames runif
+#' @importFrom cli cli_h1 cli_alert
 #'
 #' @noRd
 api_req <- function(
@@ -1076,24 +1257,102 @@ api_req <- function(
   cli_alert("{url}&securityToken=<...>")
 
   # retrieve data from the API
-  req <- url |>
-    request() |>
-    req_user_agent(string = user_agent_string) |>
-    req_headers(SECURITY_TOKEN = security_token) |>
-    req_verbose(
-      header_req = FALSE,
-      header_resp = TRUE,
-      body_req = FALSE,
-      body_resp = FALSE
-    ) |>
-    req_timeout(seconds = .req_timeout) |> # nolint: object_usage_linter.
-    req_retry(
-      max_tries = 3L,
-      is_transient = \(resp) resp_status(resp) == 503L,
-      backoff = \(x) runif(n = 1L, min = 5, max = 15)
-    )
-  resp <- req_perform_safe(req = req)
+  resp <- build_api_req(url = url, security_token = security_token) |>
+    req_perform_safe()
+  handle_api_resp(
+    resp = resp,
+    query_string = query_string,
+    security_token = security_token
+  )
+}
 
+
+#' @title
+#' Call several ENTSO-E API requests in parallel
+#'
+#' @description
+#' Performs the requests concurrently (at most
+#' `getOption("entsoeapi.max_parallel", 4L)` at a time; set the option to 1
+#' for strictly sequential calls) and processes each response like
+#' api_req(). The first failing request, in the order of `query_strings`,
+#' raises its error, as a sequential loop would.
+#'
+#' @param query_strings Character vector. Query portions of the URLs.
+#' @param security_token Character scalar. The ENTSO-E API security token.
+#'
+#' @return A list with one element per query string, each what api_req()
+#'   would return for it.
+#'
+#' @importFrom checkmate assert_character assert_string assert_count
+#' @importFrom cli cli_h1 cli_alert
+#' @importFrom httr2 req_perform_parallel
+#'
+#' @noRd
+api_req_multi <- function(query_strings, security_token) {
+  assert_character(x = query_strings, min.len = 1L, any.missing = FALSE)
+  assert_string(x = security_token)
+  if (length(query_strings) == 1L) {
+    return(list(
+      api_req(query_string = query_strings, security_token = security_token)
+    ))
+  }
+  max_parallel <- getOption("entsoeapi.max_parallel", 4L)
+  assert_count(x = max_parallel, positive = TRUE)
+
+  urls <- paste0(.api_scheme, .api_domain, .api_name, query_strings) # nolint
+  cli_h1("API calls ({length(urls)}, max. {max_parallel} in parallel)")
+  for (url in urls) cli_alert("{url}&securityToken=<...>")
+
+  resps <- urls |>
+    lapply(FUN = build_api_req, security_token = security_token) |>
+    req_perform_parallel(
+      on_error = "continue",
+      progress = FALSE,
+      max_active = max_parallel
+    )
+
+  # failed requests come back as condition objects
+  lapply(
+    X = seq_along(resps),
+    FUN = \(i) {
+      resp <- if (inherits(x = resps[[i]], what = "httr2_response")) {
+        list(result = resps[[i]], error = NULL)
+      } else {
+        list(result = NULL, error = resps[[i]])
+      }
+      handle_api_resp(
+        resp = resp,
+        query_string = query_strings[[i]],
+        security_token = security_token
+      )
+    }
+  )
+}
+
+
+#' @title
+#' Process an ENTSO-E API response
+#'
+#' @description
+#' Converts a successful response into XML (unzipping archives), turns API
+#' error responses into informative errors, and requests the remaining
+#' pages when the API asks for offset pagination.
+#'
+#' @param resp A list with elements `result` (an `httr2_response`) and
+#'   `error` (a condition), as returned by req_perform_safe().
+#' @param query_string Character scalar. The query string of the request.
+#' @param security_token Character scalar. The ENTSO-E API security token.
+#'
+#' @return An `xml_document`, or a list of them (ZIP archive or offset
+#'   pagination). Throws an error on failure.
+#'
+#' @importFrom cli cli_alert_success cli_abort
+#' @importFrom httr2 resp_status resp_content_type resp_body_raw
+#' @importFrom httr2 resp_body_xml resp_body_json resp_status_desc
+#' @importFrom stringr str_detect
+#'
+#' @noRd
+handle_api_resp <- function(resp, query_string, security_token) {
   if (is.null(x = resp$error)) {
     result_obj <- resp$result
     cli_alert_success("response has arrived")
@@ -1151,10 +1410,7 @@ api_req <- function(
     if (rhct %in% expt_html) {
       # extract reason code and text
       response_reason_code <- resp_status(error_obj$resp)
-      response_reason_text <- error_obj$resp |>
-        resp_body_html(encoding = "utf-8") |>
-        xml_to_list() |>
-        pluck("body")
+      response_reason_text <- html_error_text(resp = error_obj$resp)
 
       sprintf("%s: %s", response_reason_code, response_reason_text) |>
         cli_abort()
@@ -1162,13 +1418,10 @@ api_req <- function(
 
     if (rhct %in% expt_xml) {
       # extract reason from reason text
-      response_reason <- error_obj$resp |>
-        resp_body_xml(encoding = "utf-8") |>
-        xml_to_list() |>
-        pluck("Reason")
+      response_reason <- xml_error_reason(resp = error_obj$resp)
 
       if (!inherits(x = response_reason, what = "list") ||
-            !identical(names(response_reason), c("code", "text"))) {
+            !identical(x = names(response_reason), y = c("code", "text"))) {
         cli_abort(
           "{resp_status(error_obj$resp)}: \\
           {resp_status_desc(error_obj$resp)}"
@@ -1206,11 +1459,11 @@ api_req <- function(
               query_string = query_string
             )
 
-            # recursively call the api_req() function itself
-            en_cont_list <- offset_query_strings |>
-              lapply(
-                \(x) api_req(query_string = x, security_token = security_token)
-              )
+            # request all the offset pages (in parallel)
+            en_cont_list <- api_req_multi(
+              query_strings = offset_query_strings,
+              security_token = security_token
+            )
 
             return(en_cont_list)
           }
@@ -1321,6 +1574,48 @@ run_api_query <- function(query_string, security_token, tidy_output) {
   )
   extract_response(content = en_cont_list, tidy_output = tidy_output)
 }
+
+
+#' @title
+#' Perform several ENTSO-E API requests in parallel and extract the responses
+#'
+#' @param query_strings Character vector. The query strings to append to the
+#'   base API URL.
+#' @param security_token Character scalar. The ENTSO-E security token.
+#' @param tidy_output Logical scalar. Passed to `extract_response`.
+#'
+#' @return A list of tibbles, one per query string.
+#'
+#' @noRd
+run_api_queries <- function(query_strings, security_token, tidy_output) {
+  en_cont_list <- api_req_multi_safe(
+    query_strings = query_strings,
+    security_token = security_token
+  )
+  # a failed request aborts with the same message as run_api_query() does
+  if (!is.null(en_cont_list$error)) {
+    return(extract_response(content = en_cont_list, tidy_output = tidy_output))
+  }
+  lapply(
+    X = en_cont_list$result,
+    FUN = \(result) {
+      extract_response(
+        content = list(result = result, error = NULL),
+        tidy_output = tidy_output
+      )
+    }
+  )
+}
+
+
+#' @title
+#' safely call api_req_multi() function
+#'
+#' @return A function wrapping `api_req_multi()` via `safely()`, returning
+#'   a list with `result` and `error` elements.
+#'
+#' @noRd
+api_req_multi_safe <- safely(api_req_multi)
 
 
 #' @title
@@ -1437,13 +1732,14 @@ get_eiccodes <- function(
       comment.char = ""
     )
 
-    # trimming character columns
+    # trim character columns and replace empty fields with NA_character_
     eiccodes <- eiccodes |>
-      lapply(\(x) trimws(x = enc2utf8(x = x), which = "both")) |>
+      lapply(FUN = \(x) {
+        x <- trimws(x = enc2utf8(x = x), which = "both")
+        x[x %in% ""] <- NA_character_
+        x
+      }) |>
       as_tbl()
-
-    # replace empty character fields with NA_character_
-    eiccodes[eiccodes == ""] <- NA_character_
 
     # rename columns to snakecase
     names(eiccodes) <- my_snakecase(eiccodes)
@@ -1556,7 +1852,7 @@ get_all_allocated_eic <- function(
         )
         second_level_tbl <- nodesets[children_of_nodes > 0L] |>
           lapply(
-            \(x) {
+            FUN = \(x) {
               cli_progress_update(.envir = prb_envir2)
               # extract names and values directly via xml2 (C-level)
               children <- xml_children(x)
@@ -1602,7 +1898,10 @@ get_all_allocated_eic <- function(
     names(result_tbl) <- my_snakecase(result_tbl)
 
     # replace empty character fields with NA_character_
-    result_tbl[result_tbl == ""] <- NA_character_
+    result_tbl[] <- lapply(X = result_tbl, FUN = \(x) {
+      x[x %in% ""] <- NA_character_
+      x
+    })
 
     # add eic_code_doc_status definitions to codes
     result_tbl <- left_join(
@@ -1641,7 +1940,43 @@ get_all_allocated_eic <- function(
 #' @noRd
 my_snakecase <- function(tbl) {
   assert_data_frame(x = tbl)
-  names(tbl) |>
+
+  # the conversion is element-wise and column names repeat across
+  # responses, so only names not seen before in this session are converted
+  nms <- names(tbl)
+  known <- snakecase_memo$map
+  new_nms <- unique(nms[!nms %in% names(known)])
+  if (length(new_nms) > 0L) {
+    converted <- snakecase_names(new_nms)
+    names(converted) <- new_nms
+    known <- c(known, converted)
+    snakecase_memo$map <- known
+  }
+  unname(known[nms])
+}
+
+
+#' @title
+#' Session cache of my_snakecase() conversions
+#'
+#' @noRd
+snakecase_memo <- new.env(parent = emptyenv())
+snakecase_memo$map <- character(0L)
+
+
+#' @title
+#' Convert raw XML column names into the package's snake_case names
+#'
+#' @param nms A character vector of raw column names.
+#'
+#' @return A character vector of converted names, the same length as `nms`.
+#'
+#' @importFrom stringr str_replace_all
+#' @importFrom snakecase to_snake_case
+#'
+#' @noRd
+snakecase_names <- function(nms) {
+  nms |>
     str_replace_all(
       c(
         "mRID" = "mrid",
@@ -1706,6 +2041,13 @@ my_snakecase <- function(tbl) {
 #' @title
 #' Merge a lookup table onto a table by key column
 #'
+#' @description
+#' A `match()`-based left join for code -> definition lookups. It adds a
+#' single column, keeps the row order and count of `x` (the first match wins
+#' if `y` repeats a key), and mirrors `dplyr::left_join(suffix = c("_x",
+#' "_y"))` naming: when `x` already has the value column, that one is
+#' renamed to `*_x` and the looked-up one is appended as `*_y`.
+#'
 #' @param x A data.frame to enrich.
 #' @param y A lookup data.frame containing source columns.
 #' @param from_cols Character vector of length 2: the source column names in `y`
@@ -1713,21 +2055,22 @@ my_snakecase <- function(tbl) {
 #' @param to_cols Character vector of length 2: the target column names to use
 #'   after renaming (key column first, value column second).
 #'
-#' @return A data.frame: `x` left-joined with the renamed subset of `y`.
-#'
-#' @importFrom dplyr left_join
+#' @return `x` with the looked-up value column appended.
 #'
 #' @noRd
 lookup_merge <- function(x, y, from_cols, to_cols) {
-  y <- y |>
-    subset(select = from_cols)
-  names(y) <- to_cols
-  left_join(
-    x = x,
-    y = y,
-    by = to_cols[[1L]],
-    suffix = c("_x", "_y")
-  )
+  key_col <- to_cols[[1L]]
+  val_col <- to_cols[[2L]]
+  vals <- y[[from_cols[[2L]]]][match(
+    x = x[[key_col]],
+    table = y[[from_cols[[1L]]]]
+  )]
+  if (val_col %in% names(x)) {
+    names(x)[names(x) == val_col] <- paste0(val_col, "_x")
+    val_col <- paste0(val_col, "_y")
+  }
+  x[[val_col]] <- vals
+  x
 }
 
 
@@ -2007,7 +2350,6 @@ add_eic_names <- function(tbl) {
 #'   each matched code column, or an empty `data.frame` when `tbl` is `NULL`.
 #'
 #' @importFrom stringr str_subset str_replace
-#' @importFrom tidyr unite
 #' @importFrom dplyr all_of
 #' @importFrom cli cli_alert_success
 #'
@@ -2089,20 +2431,8 @@ add_definitions <- function(tbl) {
     )
     if (length(text_cols) > 1L) {
       tbl <- tbl |>
-        unite(
-          col = !!paste0(prefix, "reason_text"),
-          all_of(text_cols),
-          sep = " - ",
-          remove = TRUE,
-          na.rm = TRUE
-        ) |>
-        unite(
-          col = !!paste0(prefix, "reason_code"),
-          all_of(code_cols),
-          sep = " - ",
-          remove = TRUE,
-          na.rm = TRUE
-        )
+        unite_cols(col = paste0(prefix, "reason_text"), cols = text_cols) |>
+        unite_cols(col = paste0(prefix, "reason_code"), cols = code_cols)
     }
     list(tbl = tbl, cols = affected_cols)
   }
@@ -2122,6 +2452,31 @@ add_definitions <- function(tbl) {
   }
 
   tbl
+}
+
+
+#' @title
+#' Parse ENTSO-E ISO 8601 timestamps into UTC POSIXct
+#'
+#' @description
+#' Timestamp columns are highly repetitive (e.g. one interval start per
+#' time series repeated on every point row), so only the distinct values
+#' are parsed and the result is expanded back with match().
+#'
+#' @param x Character vector of timestamps like `"2024-01-01T23:00Z"`.
+#'
+#' @return A POSIXct vector in UTC, the same length as `x`.
+#'
+#' @noRd
+parse_utc_ts <- function(x) {
+  ux <- unique(x)
+  as.POSIXct(
+    x = ux,
+    tryFormats = c(
+      "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
+    ),
+    tz = "UTC"
+  )[match(x = x, table = ux)]
 }
 
 
@@ -2184,13 +2539,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     mutate(
       across(
         matches("[tT]ime$|start$|end$"),
-        ~ as.POSIXct(
-          x = .x,
-          tryFormats = c(
-            "%Y-%m-%dT%H:%MZ", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%OSZ"
-          ),
-          tz = "UTC"
-        )
+        parse_utc_ts
       )
     ) |>
     mutate(
@@ -2340,7 +2689,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     "constraint_ts_monitored_ptdf_domain_quantity",
     "constraint_ts_monitored_flow_based_study_domain_margin_quantity"
   )
-  needed_cols <- intersect(
+  needed_cols <- base::intersect(
     x = needed_cols,
     y = names(result_tbl)
   )
@@ -2352,7 +2701,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
       select(all_of(needed_cols))
 
     # reorder the rows
-    sort_cols <- intersect(
+    sort_cols <- base::intersect(
       x = c(
         "created_date_time", "ts_mrid",
         "ts_business_type", "ts_mkt_psr_type",
@@ -2431,7 +2780,7 @@ extract_response <- function(
   # list of xml results — convert each element and bind
   result_tbl <- content$result |>
     lapply(
-      \(x) {
+      FUN = \(x) {
         if (response_length >= progress_bar_limit) {
           cli_progress_update(.envir = prb_envir)
         }
@@ -2442,7 +2791,7 @@ extract_response <- function(
             all()
           if (!all_doc) return(NULL)
           x |>
-            lapply(xml_to_table, tidy_output = tidy_output) |>
+            lapply(FUN = xml_to_table, tidy_output = tidy_output) |>
             Filter(f = length) |>
             bind_rows()
         } else {

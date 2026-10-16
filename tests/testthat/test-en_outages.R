@@ -17,13 +17,39 @@ testthat::test_that(
         tidy_output = FALSE
       )
     )
-    testthat::expect_no_error(
-      object = outages_both(
+  }
+)
+
+
+testthat::test_that(
+  desc = "outages_both() reports a failing part as a message, not an error",
+  code = {
+    messages <- character(0L)
+    result <- withCallingHandlers(
+      expr = outages_both(
         eic = "ABCDEFGHIJKLMNOP",
         period_start = lubridate::ymd(x = "2024-10-23", tz = "CET"),
         period_end = lubridate::ymd(x = "2024-10-24", tz = "CET"),
         tidy_output = TRUE
-      )
+      ),
+      message = \(m) {
+        messages <<- c(messages, conditionMessage(m))
+        invokeRestart("muffleMessage")
+      }
+    )
+    testthat::expect_s3_class(object = result, class = "tbl_df")
+    testthat::expect_identical(object = nrow(result), expected = 0L)
+    testthat::expect_true(
+      object = any(grepl(
+        pattern = "generation units error: Invalid EIC checksum",
+        x = messages
+      ))
+    )
+    testthat::expect_true(
+      object = any(grepl(
+        pattern = "production units error: Invalid EIC checksum",
+        x = messages
+      ))
     )
   }
 )
