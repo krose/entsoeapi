@@ -770,6 +770,124 @@ unite_cols <- function(tbl, col, cols, sep = " - ") {
 
 
 #' @title
+#' Calculate the Start Timestamps of Time Series Points
+#'
+#' @description
+#' Fixed-length resolutions (PT4S ... PT60M) are stepped in seconds. The
+#' calendar resolutions (P1D, P7D, P1M, P3M, P1Y) are stepped in the local
+#' time zone of the period, so that every point starts at local midnight
+#' even across DST changes and months of different lengths. The local zone
+#' is not sent by the API, so it is inferred from the period boundaries:
+#' the first candidate zone in which both of them fall on local midnight.
+#'
+#' @param start A single POSIXct, the start of the period.
+#' @param end A single POSIXct, the end of the period.
+#' @param resolution A single ENTSO-E resolution code, e.g. `"P1M"`.
+#' @param position An integer vector of 1-based point positions.
+#'
+#' @return A POSIXct vector in UTC, one element per `position`.
+#'
+#' @importFrom lubridate period with_tz %m+%
+#' @importFrom stats setNames
+#' @importFrom cli cli_abort
+#'
+#' @noRd
+ts_point_starts <- function(start, end, resolution, position) {
+  fixed_secs <- c(
+    PT4S = 4, PT1M = 60, PT15M = 900, PT30M = 1800, PT60M = 3600
+  )
+  calendar_steps <- list(
+    P1D = c(1, "day"), P7D = c(7, "day"), P1M = c(1, "month"),
+    P3M = c(3, "month"), P1Y = c(1, "year")
+  )
+
+  if (resolution %in% names(fixed_secs)) {
+    return(
+      as.POSIXct(x = start, tz = "UTC") +
+        (position - 1L) * fixed_secs[[resolution]]
+    )
+  }
+  if (!resolution %in% names(calendar_steps)) {
+    cli_abort("The resolution is not supported, but {resolution}!")
+  }
+
+  # period(num = <vector>, units = "month") would sum the vector into one
+  # period; the named-argument form, e.g. period(month = 0:2), is vectorised
+  step <- calendar_steps[[resolution]]
+  offsets <- do.call(
+    what = period,
+    args = setNames(
+      object = list(as.numeric(step[[1L]]) * (position - 1L)),
+      nm = step[[2L]]
+    )
+  )
+  local_start <- with_tz(time = start, tzone = period_tz(start, end))
+  with_tz(time = local_start %m+% offsets, tzone = "UTC")
+}
+
+
+#' @title
+#' Infer the Local Time Zone of a Period
+#'
+#' @description
+#' ENTSO-E periods of daily or longer resolution begin and end at local
+#' midnight of the market area. The first candidate zone in which both
+#' boundaries are local midnight wins; failing that, the first one in which
+#' the start is; failing that, UTC.
+#'
+#' @param start A single POSIXct, the start of the period.
+#' @param end A single POSIXct, the end of the period.
+#'
+#' @return A time zone name.
+#'
+#' @noRd
+period_tz <- function(start, end) {
+  candidates <- c(
+    "Europe/Brussels", "Europe/Helsinki", "Europe/London", "Europe/Istanbul"
+  )
+  is_midnight <- function(x, tz) {
+    lt <- as.POSIXlt(x = x, tz = tz)
+    isTRUE(lt$hour == 0L && lt$min == 0L)
+  }
+  for (tz in candidates) {
+    if (is_midnight(start, tz) && is_midnight(end, tz)) return(tz)
+  }
+  for (tz in candidates) {
+    if (is_midnight(start, tz)) return(tz)
+  }
+  "UTC"
+}
+
+
+#' @title
+#' Count the Points a Period Should Have
+#'
+#' @param start A single POSIXct, the start of the period.
+#' @param end A single POSIXct, the end of the period.
+#' @param resolution A single ENTSO-E resolution code, e.g. `"P1M"`.
+#'
+#' @return An integer, the number of point starts in `[start, end)`.
+#'
+#' @noRd
+ts_point_count <- function(start, end, resolution) {
+  # the length of the first step bounds the count for fixed resolutions;
+  # for the calendar ones a 23-hour DST day is the shortest possible step
+  first_step <- diff(
+    ts_point_starts(
+      start = start, end = end, resolution = resolution, position = 1:2
+    )
+  )
+  min_secs <- min(as.numeric(first_step, units = "secs"), 23 * 3600)
+  upper <- ceiling(as.numeric(difftime(end, start, units = "secs")) / min_secs)
+  starts <- ts_point_starts(
+    start = start, end = end, resolution = resolution,
+    position = seq_len(upper + 1L)
+  )
+  sum(starts < end)
+}
+
+
+#' @title
 #' Converts Extracted Data into a Tidy or a Nested format
 #'
 #' @description
@@ -787,9 +905,8 @@ unite_cols <- function(tbl, col, cols, sep = " - ") {
 #'
 #' @importFrom stringr str_detect str_replace_all str_subset str_match_all
 #' @importFrom stringr str_replace
-#' @importFrom dplyr mutate case_when across all_of n
+#' @importFrom dplyr mutate across all_of n
 #' @importFrom dplyr full_join arrange everything distinct
-#' @importFrom lubridate duration
 #' @importFrom vctrs vec_fill_missing
 #' @importFrom cli cli_abort
 #'
@@ -853,25 +970,6 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     y = c(ts_point_cols, ts_reason_cols)
   )
 
-  # calculate 'by' values which will be used to calculate
-  # the 'ts_point_dt_start' values
-  tbl <- tbl |>
-    mutate(
-      by = case_when(
-        ts_resolution == "PT4S"  ~ "4 sec",
-        ts_resolution == "PT1M"  ~ "1 min",
-        ts_resolution == "PT15M" ~ "15 mins",
-        ts_resolution == "PT30M" ~ "30 mins",
-        ts_resolution == "PT60M" ~ "1 hour",
-        ts_resolution == "P1D"   ~ "1 DSTday",
-        ts_resolution == "P7D"   ~ "7 DSTdays",
-        ts_resolution == "P1M"   ~ "1 month",
-        ts_resolution == "P3M"   ~ "3 months",
-        ts_resolution == "P1Y"   ~ "1 year",
-        .default = "n/a"
-      )
-    )
-
   # if curve_type is 'A01' or absent, do nothing; otherwise branch by type
   if (length(curve_type) == 0L || identical(x = curve_type, y = "A01")) {
     # no adjustment needed
@@ -883,9 +981,11 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     # and 'ts_resolution_ok' values
     tbl <- tbl |>
       mutate(
-        ts_resolution_requ_length =
-          (max(ts_time_interval_end) - min(ts_time_interval_start)) /
-          duration(by),
+        ts_resolution_requ_length = ts_point_count(
+          start = min(ts_time_interval_start),
+          end = max(ts_time_interval_end),
+          resolution = unique(ts_resolution)
+        ),
         ts_resolution_real_length = n(),
         ts_resolution_ok =
           ts_resolution_real_length == ts_resolution_requ_length,
@@ -980,18 +1080,20 @@ tidy_or_not <- function(tbl, tidy_output = FALSE) {
     cli_abort("The curve type is not defined, but {curve_type}!")
   }
 
-  # calculate the 'ts_point_dt_start' values accordingly
+  # calculate the 'ts_point_dt_start' values accordingly;
+  # without a period end the local time zone is inferred from the start only
+  has_end <- "ts_time_interval_end" %in% names(tbl)
   tbl <- tbl |>
     subset(
       subset = !is.na(ts_time_interval_start) & !is.na(ts_point_position)
     ) |>
     mutate(
-      ts_point_dt_start = seq.POSIXt(
-        from = min(ts_time_interval_start),
-        length.out = max(ts_point_position),
-        by = unique(by),
-      )[ts_point_position] |> # handle the unusual case of any missing period
-        as.POSIXct(tz = "UTC"),
+      ts_point_dt_start = ts_point_starts(
+        start = min(ts_time_interval_start),
+        end = if (has_end) max(ts_time_interval_end) else NA,
+        resolution = unique(ts_resolution),
+        position = ts_point_position
+      ),
       .by = all_of(group_cols)
     )
 
@@ -2668,7 +2770,7 @@ xml_to_table <- function(xml_content, tidy_output = FALSE) {
     "imbalance_price_amount",
     "procurement_price_amount",
     "financial_price_amount",
-    "ts_point_congestion_cost",
+    "ts_point_congestion_cost_price_amount",
     "ts_currency_unit_name",
     "bid_ts_currency_unit_name",
     "ts_price_measure_unit_name",

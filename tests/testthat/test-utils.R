@@ -527,6 +527,131 @@ testthat::test_that(
 
 
 testthat::test_that(
+  desc = "ts_point_starts() steps calendar resolutions at local midnight",
+  code = {
+    utc <- \(x) as.POSIXct(x = x, tz = "UTC")
+    # P1M in CET/CEST: no 'Feb 31' roll-over, summer months in CEST
+    testthat::expect_equal(
+      object = ts_point_starts(
+        start = utc("2024-12-31 23:00"), end = utc("2025-12-31 23:00"),
+        resolution = "P1M", position = 1:4
+      ),
+      expected = utc(
+        c(
+          "2024-12-31 23:00", "2025-01-31 23:00",
+          "2025-02-28 23:00", "2025-03-31 22:00"
+        )
+      )
+    )
+    # P1M in EET/EEST
+    testthat::expect_equal(
+      object = ts_point_starts(
+        start = utc("2024-12-31 22:00"), end = utc("2025-12-31 22:00"),
+        resolution = "P1M", position = c(3, 4)
+      ),
+      expected = utc(c("2025-02-28 22:00", "2025-03-31 21:00"))
+    )
+    # P1D across the spring DST switch
+    testthat::expect_equal(
+      object = ts_point_starts(
+        start = utc("2025-03-28 23:00"), end = utc("2025-03-31 22:00"),
+        resolution = "P1D", position = 1:3
+      ),
+      expected = utc(
+        c("2025-03-28 23:00", "2025-03-29 23:00", "2025-03-30 22:00")
+      )
+    )
+    # fixed resolutions are unaffected, and work without a period end
+    testthat::expect_equal(
+      object = ts_point_starts(
+        start = utc("2025-03-30 00:00"), end = NA,
+        resolution = "PT60M", position = 1:3
+      ),
+      expected = utc(
+        c("2025-03-30 00:00", "2025-03-30 01:00", "2025-03-30 02:00")
+      )
+    )
+    testthat::expect_error(
+      object = ts_point_starts(
+        start = utc("2025-01-01 00:00"), end = NA,
+        resolution = "PT5M", position = 1L
+      ),
+      regexp = "The resolution is not supported, but PT5M!"
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "ts_point_count() counts calendar months exactly (issue #79)",
+  code = {
+    utc <- \(x) as.POSIXct(x = x, tz = "UTC")
+    testthat::expect_identical(
+      object = ts_point_count(
+        start = utc("2024-12-31 23:00"), end = utc("2025-12-31 23:00"),
+        resolution = "P1M"
+      ),
+      expected = 12L
+    )
+    testthat::expect_identical(
+      object = ts_point_count(
+        start = utc("2024-12-31 23:00"), end = utc("2025-03-31 22:00"),
+        resolution = "P1M"
+      ),
+      expected = 3L
+    )
+    testthat::expect_identical(
+      object = ts_point_count(
+        start = utc("2026-09-09 22:00"), end = utc("2026-09-10 22:00"),
+        resolution = "PT15M"
+      ),
+      expected = 96L
+    )
+  }
+)
+
+
+testthat::test_that(
+  desc = "xml_to_table() tidies congestion management costs (issue #79)",
+  code = {
+    # the EIC names are not under test; keep the test offline
+    testthat::local_mocked_bindings(
+      add_eic_names = \(tbl) tbl,
+      .package = "entsoeapi"
+    )
+    result <- testthat::test_path(
+      "fixtures", "costs_of_congestion_management.xml"
+    ) |>
+      xml2::read_xml() |>
+      xml_to_table(tidy_output = TRUE) |>
+      suppressMessages()
+
+    # the amount column is kept
+    testthat::expect_true(
+      object = "ts_point_congestion_cost_price_amount" %in% names(result)
+    )
+    # the A03 fill keeps the last month of the sparse B03 series
+    testthat::expect_identical(
+      object = as.vector(table(result$ts_business_type)),
+      expected = c(12L, 12L, 12L)
+    )
+    b03 <- result[result$ts_business_type == "B03", ]
+    testthat::expect_equal(
+      object = b03$ts_point_congestion_cost_price_amount,
+      expected = c(0, 0, 0, 310341, rep(x = 0, times = 8L))
+    )
+    # every month starts at local midnight on the 1st
+    testthat::expect_identical(
+      object = format(
+        x = b03$ts_point_dt_start, format = "%d %H:%M", tz = "CET"
+      ),
+      expected = rep(x = "01 00:00", times = 12L)
+    )
+  }
+)
+
+
+testthat::test_that(
   desc = "tidy_or_not() stops on unknown curve_type",
   code = {
     testthat::expect_error(
