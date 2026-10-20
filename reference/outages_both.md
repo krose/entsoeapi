@@ -90,9 +90,9 @@ df <- entsoeapi::outages_both(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202610162200&periodEnd=202610172200&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A80&biddingZone_Domain=10YFR-RTE------C&periodStart=202610202200&periodEnd=202610212200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:45:31 GMT
+#> <- Date: Tue, 20 Oct 2026 10:11:03 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -103,101 +103,121 @@ df <- entsoeapi::outages_both(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_201803250000-203408312200.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202002220100-209912310100.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202006292130-209912310100.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202103312200-202712312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302300-202610172100.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230500-202611161600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230700-202611071500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202610211400.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202611201600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202712171600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603312200-202611022300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010545-202707021500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202707021500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202610190500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202611201600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070545-202710311600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604200500-202611201600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604241500-202703261600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605180500-202611271600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605290500-202705111500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606122200-202611242300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/024-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/025-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606152200-202702122300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/026-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606192100-202701252200.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/027-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202611181600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/028-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202611181600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/029-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202804251500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/030-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607102145-202610292300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/031-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607152200-202701042300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/032-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607242215-202611012300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/033-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607312000-202610232100.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/034-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608011930-202610292300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/035-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608030500-202612041600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/036-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608072200-202611122300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/037-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608082200-202610220645.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/038-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608212200-202611152300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/039-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608240500-202610301600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/040-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608282200-202611262300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/041-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608282200-202612032300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/042-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310500-202610190500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/043-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310500-202610301600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/044-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310600-202611131600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/045-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608312200-209912302300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/046-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609070500-202611041600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/047-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609070530-202611181530.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/048-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609112200-202610312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/049-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609140530-202712311600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/050-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609171500-202612191600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/051-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202611102200.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/052-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202612172200.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/053-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202612172300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/054-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182200-202701062300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/055-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609210500-202704161500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/056-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252100-202611072230.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/057-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252200-202612030800.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/058-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252200-202709102200.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/059-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280500-202611031600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/060-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610022200-202610312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/061-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050400-202611031600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/062-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610221500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/063-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610301600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/064-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610301600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/065-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610091500-202610301600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/066-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202610231500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/067-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202611161600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/068-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610121000-202612312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/069-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610121000-202612312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/070-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610140230-202610221330.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/071-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610142200-202612312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/072-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610142200-202612312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/073-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161300-202610202100.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/074-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161500-202610231500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/075-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161500-202611031700.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/076-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161600-202611061700.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/077-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610162130-202611252230.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/078-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170000-202612010100.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/079-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170100-202610170200.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/080-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170100-202610170230.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/081-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170730-202610170930.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/082-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170730-202610171630.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/083-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170800-202610171545.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/084-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170800-202610171545.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/085-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512312300-202612312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/086-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604230700-202612011530.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/087-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605040530-202611021530.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/088-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606241300-202711011400.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/089-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608160401-202701282300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/090-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609241356-202610201500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/091-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609301830-202610312300.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/092-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610111319-202610171800.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/093-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610132305-202610170000.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/094-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610150654-202610271600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19397819322e/095-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610160740-202610170740.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_201803250000-203408312200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202002220100-209912310100.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202006292130-209912310100.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202103312200-202712312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202601302300-202610212100.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230500-202611271600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202602230700-202611300700.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603100600-202610211400.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603300500-202712171600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202603312200-202611022300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604010545-202707021500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202707021500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604060545-202710011500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604070545-202710311600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604200500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/019-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604241500-202703261600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/020-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605180500-202611271600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/021-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605290500-202705111500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/022-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606122200-202611242300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/023-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/024-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606152200-202702122300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/025-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606192100-202701252200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/026-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202611181600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/027-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202611181600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/028-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606290500-202804251500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/029-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607102145-202610292300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/030-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607152200-202701042300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/031-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607242215-202611012300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/032-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607312000-202610232100.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/033-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608011930-202610292300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/034-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608030500-202612041600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/035-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608072200-202611122300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/036-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608082200-202610220645.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/037-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608212200-202611152300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/038-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608240500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/039-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608282200-202611262300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/040-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608282200-202612032300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/041-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/042-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608310600-202611131600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/043-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608312200-209912302300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/044-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609070500-202611041600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/045-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609070530-202611181530.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/046-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609111500-202610221500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/047-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609111500-202610221500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/048-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609112200-202610312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/049-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609140530-202712311600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/050-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609171500-202612191600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/051-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202611102200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/052-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202612172200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/053-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182100-202612172300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/054-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609182200-202701062300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/055-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609210500-202704161500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/056-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252100-202611072230.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/057-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252200-202612030800.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/058-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609252200-202709102200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/059-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609280500-202611031600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/060-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610022200-202610312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/061-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050400-202611031600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/062-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610221500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/063-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/064-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610050500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/065-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610091500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/066-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/067-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202611161600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/068-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610121000-202612312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/069-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610121000-202612312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/070-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610140230-202610221330.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/071-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610142200-202612312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/072-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610142200-202612312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/073-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161500-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/074-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161500-202611031700.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/075-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610161600-202611061700.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/076-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610162055-202611252230.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/077-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610170000-202612010100.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/078-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610171530-202610202300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/079-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610172200-202610300745.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/080-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190500-202610231600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/081-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190500-202610231600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/082-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190500-202610301600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/083-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190500-202611201600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/084-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190530-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/085-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190530-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/086-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190530-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/087-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190530-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/088-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190530-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/089-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610190530-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/090-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610191500-202611021400.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/091-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610202200-202610212200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/092-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610202300-202610222300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/093-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210130-202610210200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/094-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210500-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/095-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210530-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/096-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/097-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211530.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/098-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/099-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610231100.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/100-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210630-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/101-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210800-202610211545.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/102-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210800-202610211545.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/103-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610211000-202610212030.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/104-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610211100-202610211530.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/105-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610211300-202610211600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/106-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610211400-202612011600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/107-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202512312300-202612312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/108-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202604230700-202612011530.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/109-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202605040530-202611021530.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/110-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606241300-202711011400.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/111-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202608160401-202701282300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/112-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609241356-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/113-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202609301830-202610312300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/114-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610132305-202610211000.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b39a84078/115-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610150654-202610271600.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -345,154 +365,407 @@ df <- entsoeapi::outages_both(
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:  0s
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional type names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:  0s
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional eic names have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:  0s
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
 #> ✔ Additional definitions have been added!
-#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■   99% | ETA:  0s
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■                    43% | ETA:  1s
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional type names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional eic names have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
+#> ✔ Additional definitions have been added!
+#> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% | ETA:  0s
 #> processing xml list ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202610162200&periodEnd=202610172200&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A77&biddingZone_Domain=10YFR-RTE------C&periodStart=202610202200&periodEnd=202610212200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:45:41 GMT
+#> <- Date: Tue, 20 Oct 2026 10:11:14 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -503,12 +776,60 @@ df <- entsoeapi::outages_both(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939334d9024/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939334d9024/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607142200-202610240959.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939334d9024/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607220500-202611131600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939334d9024/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610021500-202610260600.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939334d9024/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202610231500.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939334d9024/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610051350-202610201200.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/001-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607142200-202610240959.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/002-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202607220500-202611131600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/003-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610021500-202610260600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/004-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610120500-202610231500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/005-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610191200-202611131600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/006-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210500-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/007-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210500-202610211600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/008-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211430.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/009-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/010-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211600.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/011-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210700-202610211000.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/012-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610211200-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/013-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610051350-202610270500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/014-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610191435-202610230500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/015-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610200359-202610210959.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/016-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202606150600-202610260700.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/017-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210500-202610211500.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b1d5e921e/018-UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS_202610210600-202610211430.xml has been read in
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
+#> ✔ Additional type names have been added!
+#> ✔ Additional eic names have been added!
+#> ✔ Additional definitions have been added!
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -529,7 +850,7 @@ df <- entsoeapi::outages_both(
 #> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 101
+#> Rows: 133
 #> Columns: 28
 #> $ ts_bidding_zone_domain_mrid        <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
 #> $ ts_bidding_zone_domain_name        <chr> "France", "France", "France", "France", "France", "France", "France", "Fran…
@@ -551,7 +872,7 @@ dplyr::glimpse(df)
 #> $ created_date_time                  <dttm> 2025-04-10 07:45:20, 2023-11-21 15:05:05, 2023-11-21 15:10:12, 2023-11-21 …
 #> $ reason_code                        <chr> "A95", "A95", "A95", "B20", "A95", "B19", "B19", "B19", "B19", "B19", "A95"…
 #> $ reason_text                        <chr> "Awaiting information - Complementary information", "For more information p…
-#> $ revision_number                    <dbl> 256, 26, 10, 2, 34, 5, 5, 5, 2, 2, 4, 2, 3, 2, 1, 4, 2, 3, 1, 9, 1, 5, 4, 5…
+#> $ revision_number                    <dbl> 256, 26, 10, 2, 37, 6, 6, 5, 2, 2, 4, 2, 3, 2, 1, 2, 3, 1, 9, 1, 5, 4, 5, 2…
 #> $ unavailability_time_interval_start <dttm> 2018-03-25 00:00:00, 2020-02-22 01:00:00, 2020-06-29 21:30:00, 2021-03-31 …
 #> $ unavailability_time_interval_end   <dttm> 2034-08-31 22:00:00, 2099-12-31 01:00:00, 2099-12-31 01:00:00, 2027-12-31 …
 #> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT…

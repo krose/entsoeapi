@@ -82,6 +82,7 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
+if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 if (FALSE) { # \dontrun{
 df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
   eic_acquiring = "10YAT-APG------L",
@@ -93,4 +94,5 @@ df <- entsoeapi::allocation_of_cross_zonal_balancing_cap(
 
 dplyr::glimpse(df)
 } # }
+}
 ```

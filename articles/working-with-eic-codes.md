@@ -151,7 +151,7 @@ cli_h1("Market Participants")
 #> 
 #> ── Market Participants ─────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total parties: {nrow(parties)}")
-#> Total parties: 15459
+#> Total parties: 15446
 
 # Find German TSOs
 parties |>
@@ -225,7 +225,7 @@ cli_h1("Accounting Points")
 #> 
 #> ── Accounting Points ───────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total accounting points: {nrow(acc_points)}")
-#> Total accounting points: 2543
+#> Total accounting points: 2544
 
 # Sample entries
 acc_points |>
@@ -261,7 +261,7 @@ cli_h1("Tie Lines (Interconnectors)")
 #> 
 #> ── Tie Lines (Interconnectors) ─────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total interconnectors: {nrow(tie_lines)}")
-#> Total interconnectors: 13252
+#> Total interconnectors: 13256
 
 # Find German interconnectors
 tie_lines |>
@@ -296,7 +296,7 @@ cli_h1("Locations")
 #> 
 #> ── Locations ───────────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total locations: {nrow(locations)}")
-#> Total locations: 1118
+#> Total locations: 1120
 
 locations |>
   filter(
@@ -329,7 +329,7 @@ cli_h1("Power Resources")
 #> 
 #> ── Power Resources ─────────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total resources: {nrow(resources)}")
-#> Total resources: 37025
+#> Total resources: 37030
 
 # Find German power plants
 resources |>
@@ -435,7 +435,7 @@ cli_h1("All Approved EICs")
 #> 
 #> ── All Approved EICs ───────────────────────────────────────────────────────────────────────────────────────────────────
 cli_text("Total EICs: {nrow(all_eic)}")
-#> Total EICs: 74153
+#> Total EICs: 74152
 
 # Count by type
 all_eic |>
@@ -445,13 +445,13 @@ all_eic |>
   cat(sep = "\n")
 #> |type |     n|   pct|
 #> |:----|-----:|-----:|
-#> |W    | 37025| 49.93|
-#> |X    | 15459| 20.85|
-#> |T    | 13252| 17.87|
+#> |W    | 37030| 49.94|
+#> |X    | 15446| 20.83|
+#> |T    | 13256| 17.88|
 #> |A    |  2927|  3.95|
-#> |Z    |  2543|  3.43|
+#> |Z    |  2544|  3.43|
 #> |Y    |  1829|  2.47|
-#> |V    |  1118|  1.51|
+#> |V    |  1120|  1.51|
 ```
 
 ## all_approved_eic() vs all_allocated_eic()
@@ -501,7 +501,7 @@ approved_eic <- all_approved_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ pulling A_eicCodes.csv file from cache
 glimpse(approved_eic)
-#> Rows: 74,153
+#> Rows: 74,152
 #> Columns: 11
 #> $ eic_code                            <chr> "26X00000001515-Y", "26X00000105734-O", "26X00000105740-W", "10X1001A1001A…
 #> $ eic_display_name                    <chr> "LA_220", "IT-GEO____SPA", "IT-BETA_ENERGYS", "ELIA", "ENERGINET-DK", "FIN…
@@ -539,29 +539,29 @@ allocated_eic <- all_allocated_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ downloading all_allocated_eic table ...
 #> <- HTTP/1.1 200 OK
-#> <- Content-Length: 70338163
+#> <- Content-Length: 70354084
 #> <- Content-Type: application/octet-stream
-#> <- Content-MD5: mzK0y06ZJ+pj3hmgOxl5gQ==
-#> <- Last-Modified: Fri, 16 Oct 2026 01:15:13 GMT
-#> <- ETag: 0x8DF2B22EE4C4D72
+#> <- Content-MD5: 0en5Q17M/jEIvWMyOQSzUA==
+#> <- Last-Modified: Tue, 20 Oct 2026 01:15:14 GMT
+#> <- ETag: 0x8DF2E47987C866C
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: 410e2f2c-501e-0060-1842-5d1775000000
+#> <- x-ms-request-id: 82c07bf8-101e-00aa-737c-604bfc000000
 #> <- x-ms-version: 2009-09-19
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Fri, 16 Oct 2026 07:50:15 GMT
+#> <- Date: Tue, 20 Oct 2026 10:16:13 GMT
 #> <-
 #> ✔ response has arrived
-#> converting ■■■■■                             13% | ETA:  7s
-#> converting ■■■■■■■■■■■■                      36% | ETA:  5s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■           73% | ETA:  2s
+#> converting ■■■■■■■                           19% | ETA:  4s
+#> converting ■■■■■■■■■■■■■■                    44% | ETA:  3s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:  0s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 glimpse(allocated_eic)
-#> Rows: 77,520
+#> Rows: 77,538
 #> Columns: 17
 #> $ revision_number                              <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", …
-#> $ created_date_time                            <chr> "2026-10-16T01:15:12Z", "2026-10-16T01:15:12Z", "2026-10-16T01:15…
+#> $ created_date_time                            <chr> "2026-10-20T01:15:13Z", "2026-10-20T01:15:13Z", "2026-10-20T01:15…
 #> $ eic_code                                     <chr> "10T-1001-10010AS", "10T1001A1001A012", "10T1001A1001A020", "10T1…
 #> $ doc_status_value                             <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A…
 #> $ doc_status                                   <chr> "Control block area schedule", "Control block area schedule", "Co…
@@ -596,7 +596,7 @@ allocated_eic |>
 #> |                                             |                            |
 #> |:--------------------------------------------|:---------------------------|
 #> |revision_number                              |1                           |
-#> |created_date_time                            |2026-10-16T01:15:12Z        |
+#> |created_date_time                            |2026-10-20T01:15:13Z        |
 #> |eic_code                                     |50WG00000001997X            |
 #> |doc_status_value                             |A05                         |
 #> |doc_status                                   |Control block area schedule |
@@ -809,7 +809,7 @@ es_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202512312300&periodEnd=202601032300&contract_MarketAgreement.type=A07&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:50:46 GMT
+#> <- Date: Tue, 20 Oct 2026 10:16:42 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive

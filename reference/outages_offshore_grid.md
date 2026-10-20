@@ -79,68 +79,24 @@ df <- entsoeapi::outages_offshore_grid(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A79&biddingZone_Domain=10Y1001A1001A82H&periodStart=202609152200&periodEnd=202610152200&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A79&biddingZone_Domain=10Y1001A1001A82H&periodStart=202609192200&periodEnd=202610192200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:46:17 GMT
+#> <- Date: Tue, 20 Oct 2026 10:11:57 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
-#> <- Content-Disposition: attachment; filename="Unavailability_of_offshore_grid_202609160027-202610141820.zip"
+#> <- Content-Disposition: attachment; filename="Unavailability_of_offshore_grid_202610141629-202610141820.zip"
 #> <- Strict-Transport-Security: max-age=15724800
 #> <- Vary: accept-encoding
 #> <- X-Content-Type-Options: nosniff
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171817.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171817.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171819.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171823.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171824.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/006-UNAVAILABILITY_OF_OFFSHORE_GRID_202609160027-202609171830.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/007-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161716.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/008-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161716.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/009-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161717.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/010-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161731.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/011-UNAVAILABILITY_OF_OFFSHORE_GRID_202609161313-202609161731.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/012-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/013-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/014-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/015-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19391ccc31c6/016-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
-#> ✔ Additional definitions have been added!
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -158,13 +114,13 @@ df <- entsoeapi::outages_offshore_grid(
 #> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 16,887
+#> Rows: 553
 #> Columns: 27
 #> $ ts_bidding_zone_domain_mrid        <chr> "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A8…
 #> $ ts_bidding_zone_domain_name        <chr> "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Lux…
-#> $ ts_asset_location_name             <chr> "BORWIN BETA-DIELE", "BORWIN BETA-DIELE", "BORWIN BETA-DIELE", "BORWIN BETA…
-#> $ ts_asset_mrid                      <chr> "11TD2L000000266Q", "11TD2L000000266Q", "11TD2L000000266Q", "11TD2L00000026…
-#> $ ts_asset_name                      <chr> "TTG/600/BORWIN BETA-DIELE/DC601", "TTG/600/BORWIN BETA-DIELE/DC601", "TTG/…
+#> $ ts_asset_location_name             <chr> "DOERPEN W-DOLWIN ALPHA", "DOERPEN W-DOLWIN ALPHA", "DOERPEN W-DOLWIN ALPHA…
+#> $ ts_asset_mrid                      <chr> "11TD2L0000003071", "11TD2L0000003071", "11TD2L0000003071", "11TD2L00000030…
+#> $ ts_asset_name                      <chr> "TTG/600/DOERPEN W-DOLWIN ALPHA/DC602", "TTG/600/DOERPEN W-DOLWIN ALPHA/DC6…
 #> $ type                               <chr> "A79", "A79", "A79", "A79", "A79", "A79", "A79", "A79", "A79", "A79", "A79"…
 #> $ type_def                           <chr> "Offshore grid infrastructure unavailability", "Offshore grid infrastructur…
 #> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"…
@@ -173,18 +129,18 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def               <chr> "Unplanned outage", "Unplanned outage", "Unplanned outage", "Unplanned outa…
 #> $ ts_asset_psr_type                  <chr> "B22", "B22", "B22", "B22", "B22", "B22", "B22", "B22", "B22", "B22", "B22"…
 #> $ ts_asset_psr_type_def              <chr> "DC Link", "DC Link", "DC Link", "DC Link", "DC Link", "DC Link", "DC Link"…
-#> $ created_date_time                  <dttm> 2026-09-18 05:13:44, 2026-09-18 05:13:44, 2026-09-18 05:13:44, 2026-09-18 …
+#> $ created_date_time                  <dttm> 2026-10-14 23:28:12, 2026-10-14 23:28:12, 2026-10-14 23:28:12, 2026-10-14 …
 #> $ reason_code                        <chr> "B18", "B18", "B18", "B18", "B18", "B18", "B18", "B18", "B18", "B18", "B18"…
 #> $ reason_text                        <chr> " - Failure", " - Failure", " - Failure", " - Failure", " - Failure", " - F…
-#> $ revision_number                    <dbl> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
-#> $ unavailability_time_interval_start <dttm> 2026-09-16 00:27:00, 2026-09-16 00:27:00, 2026-09-16 00:27:00, 2026-09-16 …
-#> $ unavailability_time_interval_end   <dttm> 2026-09-17 18:17:00, 2026-09-17 18:17:00, 2026-09-17 18:17:00, 2026-09-17 …
+#> $ revision_number                    <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+#> $ unavailability_time_interval_start <dttm> 2026-10-14 16:29:00, 2026-10-14 16:29:00, 2026-10-14 16:29:00, 2026-10-14 …
+#> $ unavailability_time_interval_end   <dttm> 2026-10-14 18:20:00, 2026-10-14 18:20:00, 2026-10-14 18:20:00, 2026-10-14 …
 #> $ ts_resolution                      <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT…
-#> $ ts_time_interval_start             <dttm> 2026-09-16 00:27:00, 2026-09-16 00:27:00, 2026-09-16 00:27:00, 2026-09-16 …
-#> $ ts_time_interval_end               <dttm> 2026-09-17 18:17:00, 2026-09-17 18:17:00, 2026-09-17 18:17:00, 2026-09-17 …
+#> $ ts_time_interval_start             <dttm> 2026-10-14 16:29:00, 2026-10-14 16:29:00, 2026-10-14 16:29:00, 2026-10-14 …
+#> $ ts_time_interval_end               <dttm> 2026-10-14 18:20:00, 2026-10-14 18:20:00, 2026-10-14 18:20:00, 2026-10-14 …
 #> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-#> $ ts_point_dt_start                  <dttm> 2026-09-16 00:27:00, 2026-09-16 00:28:00, 2026-09-16 00:29:00, 2026-09-16 …
+#> $ ts_point_dt_start                  <dttm> 2026-10-14 16:29:00, 2026-10-14 16:30:00, 2026-10-14 16:31:00, 2026-10-14 …
 #> $ ts_production_psr_nominal_p        <dbl> 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, …
-#> $ ts_point_quantity                  <dbl> 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, 168, …
+#> $ ts_point_quantity                  <dbl> 214.27, 214.27, 214.27, 214.27, 214.27, 214.27, 214.27, 214.27, 214.27, 214…
 #> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"…
 ```

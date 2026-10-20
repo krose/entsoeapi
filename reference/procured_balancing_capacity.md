@@ -94,7 +94,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/1.1 400 Bad Request
-#> <- Date: Fri, 16 Oct 2026 07:46:39 GMT
+#> <- Date: Tue, 20 Oct 2026 10:12:27 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 920
 #> <- Connection: keep-alive
@@ -112,7 +112,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=200&securityToken=<...>
 #> → https://web-api.tp.entsoe.eu/api?documentType=A15&processType=A51&area_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&offset=300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:46:41 GMT
+#> <- Date: Tue, 20 Oct 2026 10:12:30 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -123,7 +123,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:46:41 GMT
+#> <- Date: Tue, 20 Oct 2026 10:12:30 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -134,7 +134,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:46:43 GMT
+#> <- Date: Tue, 20 Oct 2026 10:12:30 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -145,7 +145,7 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:46:44 GMT
+#> <- Date: Tue, 20 Oct 2026 10:12:35 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -156,13 +156,13 @@ df <- entsoeapi::procured_balancing_capacity(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939784c91b4/001-PROCURED_BALANCING_CAPACITY_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b22c81c43/001-PROCURED_BALANCING_CAPACITY_R3_202312312300-202401012300.xml has been read in
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_1939459abb61/001-PROCURED_BALANCING_CAPACITY_R3_202401010500-202401011800.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b6dbd1bf8/001-PROCURED_BALANCING_CAPACITY_R3_202401010500-202401011800.xml has been read in
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19394a7707f6/001-PROCURED_BALANCING_CAPACITY_R3_202401011400-202401011800.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193bc916ed8/001-PROCURED_BALANCING_CAPACITY_R3_202401011400-202401011800.xml has been read in
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19392989b84e/001-PROCURED_BALANCING_CAPACITY_R3_202401011600-202401012300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b560844d8/001-PROCURED_BALANCING_CAPACITY_R3_202401011600-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -193,7 +193,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def          <chr> "Procured capacity", "Procured capacity", "Procured capacity", "Procured capacit…
 #> $ ts_mkt_psr_type               <chr> "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A03", "A0…
 #> $ ts_mkt_psr_type_def           <chr> "Resource Object", "Resource Object", "Resource Object", "Resource Object", "Res…
-#> $ created_date_time             <dttm> 2026-10-16 07:46:41, 2026-10-16 07:46:41, 2026-10-16 07:46:41, 2026-10-16 07:46…
+#> $ created_date_time             <dttm> 2026-10-20 10:12:30, 2026-10-20 10:12:30, 2026-10-20 10:12:30, 2026-10-20 10:12…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00…

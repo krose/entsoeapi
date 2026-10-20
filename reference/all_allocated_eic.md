@@ -35,30 +35,30 @@ eic_all <- entsoeapi::all_allocated_eic()
 #> ── public download ─────────────────────────────────────────────────────────────────────────────────────────────────────
 #> ℹ downloading all_allocated_eic table ...
 #> <- HTTP/1.1 200 OK
-#> <- Content-Length: 70338163
+#> <- Content-Length: 70354084
 #> <- Content-Type: application/octet-stream
-#> <- Content-MD5: mzK0y06ZJ+pj3hmgOxl5gQ==
-#> <- Last-Modified: Fri, 16 Oct 2026 01:15:13 GMT
-#> <- ETag: 0x8DF2B22EE4C4D72
+#> <- Content-MD5: 0en5Q17M/jEIvWMyOQSzUA==
+#> <- Last-Modified: Tue, 20 Oct 2026 01:15:14 GMT
+#> <- ETag: 0x8DF2E47987C866C
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: 98d59a7e-d01e-0041-2641-5d330e000000
+#> <- x-ms-request-id: 6b666596-a01e-004b-0f79-6097b9000000
 #> <- x-ms-version: 2009-09-19
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Fri, 16 Oct 2026 07:38:41 GMT
+#> <- Date: Tue, 20 Oct 2026 09:59:34 GMT
 #> <- 
 #> ✔ response has arrived
-#> converting ■■■■■                             12% | ETA:  8s
-#> converting ■■■■■■■■■■■■■■                    45% | ETA:  5s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■         78% | ETA:  2s
+#> converting ■■■■■■                            15% | ETA:  6s
+#> converting ■■■■■■■■■■■■■■■■■                 55% | ETA:  3s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:  0s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 
 dplyr::glimpse(eic_all)
-#> Rows: 77,520
+#> Rows: 77,538
 #> Columns: 17
 #> $ revision_number                              <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", …
-#> $ created_date_time                            <chr> "2026-10-16T01:15:12Z", "2026-10-16T01:15:12Z", "2026-10-16T01:15…
+#> $ created_date_time                            <chr> "2026-10-20T01:15:13Z", "2026-10-20T01:15:13Z", "2026-10-20T01:15…
 #> $ eic_code                                     <chr> "10T-1001-10010AS", "10T1001A1001A012", "10T1001A1001A020", "10T1…
 #> $ doc_status_value                             <chr> "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A05", "A…
 #> $ doc_status                                   <chr> "Control block area schedule", "Control block area schedule", "Co…

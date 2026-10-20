@@ -70,7 +70,7 @@ df <- entsoeapi::gen_storage_mean_filling_rate(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A72&processType=A16&in_Domain=10YFR-RTE------C&periodStart=201912312300&periodEnd=202001302300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:43:53 GMT
+#> <- Date: Tue, 20 Oct 2026 10:07:40 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -99,7 +99,7 @@ dplyr::glimpse(df)
 #> $ ts_object_aggregation_def       <chr> "Area", "Area", "Area", "Area", "Area"
 #> $ ts_business_type                <chr> "A01", "A01", "A01", "A01", "A01"
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production"
-#> $ created_date_time               <dttm> 2026-10-16 07:43:53, 2026-10-16 07:43:53, 2026-10-16 07:43:53, 2026-10-16 07:4…
+#> $ created_date_time               <dttm> 2026-10-20 10:07:40, 2026-10-20 10:07:40, 2026-10-20 10:07:40, 2026-10-20 10:0…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1
 #> $ time_period_time_interval_start <dttm> 2019-12-29 23:00:00, 2019-12-29 23:00:00, 2019-12-29 23:00:00, 2019-12-29 23:0…
 #> $ time_period_time_interval_end   <dttm> 2020-02-02 23:00:00, 2020-02-02 23:00:00, 2020-02-02 23:00:00, 2020-02-02 23:0…

@@ -80,7 +80,7 @@ df <- entsoeapi::imbalance_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A86&controlArea_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401012300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:44:09 GMT
+#> <- Date: Tue, 20 Oct 2026 10:08:25 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -91,7 +91,7 @@ df <- entsoeapi::imbalance_volumes(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_193975328b3a/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
+#> ✔ /tmp/RtmpQnqe6f/unzipped_193b18e8c9cb/001-TOTAL_IMBALANCE_VOLUMES_R3_202312312300-202401012300.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -111,7 +111,7 @@ dplyr::glimpse(df)
 #> $ ts_flow_direction_def         <chr> "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "U…
 #> $ ts_business_type              <chr> "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A19", "A1…
 #> $ ts_business_type_def          <chr> "Balance energy deviation", "Balance energy deviation", "Balance energy deviatio…
-#> $ created_date_time             <dttm> 2026-10-16 07:44:09, 2026-10-16 07:44:09, 2026-10-16 07:44:09, 2026-10-16 07:44…
+#> $ created_date_time             <dttm> 2026-10-20 10:08:25, 2026-10-20 10:08:25, 2026-10-20 10:08:25, 2026-10-20 10:08…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 #> $ ts_resolution                 <chr> "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M", "PT60M",…
 #> $ ts_time_interval_start        <dttm> 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:00, 2023-12-31 23:00:…

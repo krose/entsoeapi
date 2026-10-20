@@ -109,50 +109,25 @@ df <- entsoeapi::outages_transmission_grid(
 )
 #> 
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStartUpdate=202610082200&periodEndUpdate=202610152200&periodStart=202610162200&periodEnd=202610172200&securityToken=<...>
+#> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStartUpdate=202610122200&periodEndUpdate=202610192200&periodStart=202610202200&periodEnd=202610212200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Fri, 16 Oct 2026 07:46:31 GMT
-#> <- Content-Type: application/zip
-#> <- Transfer-Encoding: chunked
+#> <- Date: Tue, 20 Oct 2026 10:12:18 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 993
 #> <- Connection: keep-alive
-#> <- Content-Disposition: attachment; filename="Unavailability_in_the_Transmission_Grid_202609070530-202611191600.zip"
+#> <- Content-Disposition: inline; filename="acknowledgement.xml"
 #> <- Strict-Transport-Security: max-age=15724800
 #> <- Vary: accept-encoding
 #> <- X-Content-Type-Options: nosniff
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpPrwxUI/unzipped_19392bcdb955/001-UNAVAILABILITY_IN_TRANSMISSION_GRID_202609070530-202611191600.xml has been read in
-#> ✔ Additional type names have been added!
-#> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
 
 dplyr::glimpse(df)
-#> Rows: 11
-#> Columns: 25
-#> $ ts_in_domain_mrid                  <chr> "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE------C", "10YFR-RTE-----…
-#> $ ts_in_domain_name                  <chr> "France", "France", "France", "France", "France", "France", "France", "Fran…
-#> $ ts_out_domain_mrid                 <chr> "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A82H", "10Y1001A1001A8…
-#> $ ts_out_domain_name                 <chr> "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Luxemburg", "Germany_Lux…
-#> $ ts_asset_location_name             <chr> "cross-zonal", "cross-zonal", "cross-zonal", "cross-zonal", "cross-zonal", …
-#> $ ts_asset_mrid                      <chr> "10T-DE-FR-00002G", "10T-DE-FR-00002G", "10T-DE-FR-00002G", "10T-DE-FR-0000…
-#> $ ts_asset_name                      <chr> "Eichstetten-Muhlbach", "Eichstetten-Muhlbach", "Eichstetten-Muhlbach", "Ei…
-#> $ type                               <chr> "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78", "A78"
-#> $ type_def                           <chr> "Transmission unavailability", "Transmission unavailability", "Transmission…
-#> $ process_type                       <chr> "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26", "A26"
-#> $ process_type_def                   <chr> "Outage information", "Outage information", "Outage information", "Outage i…
-#> $ ts_business_type                   <chr> "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53", "A53"
-#> $ ts_business_type_def               <chr> "Planned maintenance", "Planned maintenance", "Planned maintenance", "Plann…
-#> $ ts_asset_psr_type                  <chr> "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21", "B21"
-#> $ ts_asset_psr_type_def              <chr> "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link", "AC Link"…
-#> $ created_date_time                  <dttm> 2026-10-09 15:24:44, 2026-10-09 15:24:44, 2026-10-09 15:24:44, 2026-10-09 1…
-#> $ reason_code                        <chr> "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19", "B19"
-#> $ reason_text                        <chr> " - Foreseen maintenance", " - Foreseen maintenance", " - Foreseen maintena…
-#> $ revision_number                    <dbl> 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13
-#> $ unavailability_time_interval_start <dttm> 2026-09-07 05:30:00, 2026-09-07 05:30:00, 2026-09-07 05:30:00, 2026-09-07 0…
-#> $ unavailability_time_interval_end   <dttm> 2026-11-19 16:00:00, 2026-11-19 16:00:00, 2026-11-19 16:00:00, 2026-11-19 1…
-#> $ ts_available_period_resolution     <chr> "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "PT1M", "P…
-#> $ ts_mrid                            <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-#> $ ts_available_period_point_quantity <dbl> 1200, 3600, 3000, 1200, 2900, 1200, 3500, 1200, 1800, 3300, 4200
-#> $ ts_quantity_measure_unit_name      <chr> "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW", "MAW"
+#> Rows: 1
+#> Columns: 3
+#> $ created_date_time <dttm> 2026-10-20 10:12:18
+#> $ reason_code       <chr> "999"
+#> $ reason_text       <chr> "No matching data found for Data item UNAVAILABILITY_IN_TRANSMISSION_GRID [10.1.A, 10.1.B] …
 ```
