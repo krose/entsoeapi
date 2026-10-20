@@ -84,7 +84,7 @@ df <- entsoeapi::netted_volumes(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A63&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208162200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:10:47 GMT
+#> <- Date: Tue, 20 Oct 2026 10:25:47 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -95,7 +95,7 @@ df <- entsoeapi::netted_volumes(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b72211060/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_18814803f50b/001-NETTED_AND_EXCHANGED_VOLUMES_202208152200-202208162200.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!
@@ -117,7 +117,7 @@ dplyr::glimpse(df)
 #> $ process_type_def              <chr> "Imbalance Netting", "Imbalance Netting", "Imbalance Netting", "Imbalance Nettin…
 #> $ ts_business_type              <chr> "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B09", "B0…
 #> $ ts_business_type_def          <chr> "Net position", "Net position", "Net position", "Net position", "Net position", …
-#> $ created_date_time             <dttm> 2026-10-20 10:10:47, 2026-10-20 10:10:47, 2026-10-20 10:10:47, 2026-10-20 10:10…
+#> $ created_date_time             <dttm> 2026-10-20 10:25:47, 2026-10-20 10:25:47, 2026-10-20 10:25:47, 2026-10-20 10:25…
 #> $ revision_number               <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
 #> $ ts_resolution                 <chr> "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M", "PT15M",…
 #> $ ts_time_interval_start        <dttm> 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00:00, 2022-08-15 22:00…

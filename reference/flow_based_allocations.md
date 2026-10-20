@@ -88,7 +88,7 @@ df <- entsoeapi::flow_based_allocations(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=B09&processType=A32&StorageType=archive&in_Domain=10YDOM-REGION-1V&out_Domain=10YDOM-REGION-1V&periodStart=201812302300&periodEnd=201812312300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:05:38 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:10 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -99,7 +99,7 @@ df <- entsoeapi::flow_based_allocations(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b2a70a5a0/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_1881344989ba/DayAhead_CWE_20181230T2300Z_20181231T2300Z.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 

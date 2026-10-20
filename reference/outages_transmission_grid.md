@@ -111,7 +111,7 @@ df <- entsoeapi::outages_transmission_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A78&in_Domain=10YFR-RTE------C&out_domain=10Y1001A1001A82H&periodStartUpdate=202610122200&periodEndUpdate=202610192200&periodStart=202610202200&periodEnd=202610212200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:12:18 GMT
+#> <- Date: Tue, 20 Oct 2026 10:26:40 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 993
 #> <- Connection: keep-alive
@@ -127,7 +127,7 @@ df <- entsoeapi::outages_transmission_grid(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-10-20 10:12:18
+#> $ created_date_time <dttm> 2026-10-20 10:26:40
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item UNAVAILABILITY_IN_TRANSMISSION_GRID [10.1.A, 10.1.B] …
 ```

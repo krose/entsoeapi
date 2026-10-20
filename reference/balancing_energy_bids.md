@@ -76,7 +76,6 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 if (FALSE) { # \dontrun{
 df <- entsoeapi::balancing_energy_bids(
   eic = "10YCZ-CEPS-----N",
@@ -88,5 +87,4 @@ df <- entsoeapi::balancing_energy_bids(
 
 dplyr::glimpse(df)
 } # }
-}
 ```

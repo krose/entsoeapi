@@ -50,7 +50,7 @@ show the import value."><meta property="og:image" content="https://krose.github.
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get Exchanged Volumes (aFRR 3.16, mFRR 3.17)</h1>
-      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/main/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/krose/entsoeapi/blob/v1.3.1/R/en_balancing.R" class="external-link"><code>R/en_balancing.R</code></a></small>
       <div class="d-none name"><code>exchanged_volumes.Rd</code></div>
     </div>
 
@@ -142,17 +142,33 @@ One day range limit applies</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># there_is_provider() &amp;&amp; nchar(Sys.getenv("ENTSOE_PAT")) &gt; 0L</span></span></span>
-<span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">exchanged_volumes</span><span class="op">(</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">entsoeapi</span><span class="fu">::</span><span class="fu">exchanged_volumes</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  eic <span class="op">=</span> <span class="st">"10YCZ-CEPS-----N"</span>,</span></span>
 <span class="r-in"><span>  process_type <span class="op">=</span> <span class="st">"A51"</span>,</span></span>
 <span class="r-in"><span>  period_start <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html" class="external-link">ymd</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2022-08-16"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  period_end <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd_hms.html" class="external-link">ymd_hm</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"2022-08-16 02:00"</span>, tz <span class="op">=</span> <span class="st">"CET"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  tidy_output <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">API call</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → https://web-api.tp.entsoe.eu/api?documentType=B17&amp;processType=A51&amp;Acquiring_domain=10YCZ-CEPS-----N&amp;Connecting_Domain=10YCZ-CEPS-----N&amp;periodStart=202208152200&amp;periodEnd=202208160000&amp;securityToken=&lt;...&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- HTTP/1.1 400 Bad Request</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Date</span>: Tue, 20 Oct 2026 10:22:15 GMT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Content-Type</span>: text/xml</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Content-Length</span>: 1115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Connection</span>: keep-alive</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Content-Disposition</span>: inline; filename="acknowledgement.xml"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Strict-Transport-Security</span>: max-age=15724800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">Vary</span>: accept-encoding</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">X-Content-Type-Options</span>: nosniff</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- <span style="font-weight: bold;">X-Xss-Protection</span>: 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;- </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in extract_response(content = en_cont_list, tidy_output = tidy_output):</span> 999 An unexpected error occurred: I/O error on POST request for</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> "http://usy-tp-dipublicationg01-6a5735c98696d2beccfe3acb.uni-bt-tap.svc.cluster.local:8080/usy-tp-dipublicationg01/e0d6734b9e5f58c4b050df6fa88832c9/dataItemInstance/list":</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> Timeout deadline: 5000 MILLISECONDS, actual: 5000 MILLISECONDS</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> function (x, df1, df2, ncp, log = FALSE)  </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

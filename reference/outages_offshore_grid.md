@@ -81,7 +81,7 @@ df <- entsoeapi::outages_offshore_grid(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A79&biddingZone_Domain=10Y1001A1001A82H&periodStart=202609192200&periodEnd=202610192200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:11:57 GMT
+#> <- Date: Tue, 20 Oct 2026 10:26:31 GMT
 #> <- Content-Type: application/zip
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -92,11 +92,11 @@ df <- entsoeapi::outages_offshore_grid(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> ✔ response has arrived
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
-#> ✔ /tmp/RtmpQnqe6f/unzipped_193b46bbd545/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_18816847061f/001-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_18816847061f/002-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_18816847061f/003-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141629-202610141820.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_18816847061f/004-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
+#> ✔ /tmp/RtmpAUwD2J/unzipped_18816847061f/005-UNAVAILABILITY_OF_OFFSHORE_GRID_202610141630-202610141820.xml has been read in
 #> ✔ Additional type names have been added!
 #> ✔ Additional eic names have been added!
 #> ✔ Additional definitions have been added!

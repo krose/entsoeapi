@@ -75,7 +75,7 @@ df <- entsoeapi::intraday_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&contract_MarketAgreement.Type=A07&in_Domain=10YCZ-CEPS-----N&out_Domain=10YCZ-CEPS-----N&periodStart=202312312300&periodEnd=202401312300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:09:23 GMT
+#> <- Date: Tue, 20 Oct 2026 10:24:54 GMT
 #> <- Content-Type: text/xml
 #> <- Content-Length: 963
 #> <- Connection: keep-alive
@@ -91,7 +91,7 @@ df <- entsoeapi::intraday_prices(
 dplyr::glimpse(df)
 #> Rows: 1
 #> Columns: 3
-#> $ created_date_time <dttm> 2026-10-20 10:09:23
+#> $ created_date_time <dttm> 2026-10-20 10:24:54
 #> $ reason_code       <chr> "999"
 #> $ reason_text       <chr> "No matching data found for Data item ENERGY_PRICES [12.1.D] (10YCZ-CEPS-----N, 10YCZ-CEPS-…
 ```

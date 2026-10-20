@@ -546,16 +546,16 @@ allocated_eic <- all_allocated_eic()
 #> <- ETag: 0x8DF2E47987C866C
 #> <- Vary: Origin
 #> <- Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
-#> <- x-ms-request-id: 82c07bf8-101e-00aa-737c-604bfc000000
+#> <- x-ms-request-id: 05592597-b01e-008c-617d-6003e4000000
 #> <- x-ms-version: 2009-09-19
 #> <- x-ms-lease-status: unlocked
 #> <- x-ms-blob-type: BlockBlob
-#> <- Date: Tue, 20 Oct 2026 10:16:13 GMT
+#> <- Date: Tue, 20 Oct 2026 10:29:48 GMT
 #> <-
 #> ✔ response has arrived
-#> converting ■■■■■■■                           19% | ETA:  4s
-#> converting ■■■■■■■■■■■■■■                    44% | ETA:  3s
-#> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    98% | ETA:  0s
+#> converting ■■■■■■■                           20% | ETA:  4s
+#> converting ■■■■■■■                           20% | ETA:  4s
+#> converting ■■■■■■■■■■■■■■■■■■■■■■■■          76% | ETA:  1s
 #> converting ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
 glimpse(allocated_eic)
 #> Rows: 77,538
@@ -809,7 +809,7 @@ es_prices <- energy_prices(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A44&in_Domain=10YES-REE------0&out_Domain=10YES-REE------0&periodStart=202512312300&periodEnd=202601032300&contract_MarketAgreement.type=A07&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:16:42 GMT
+#> <- Date: Tue, 20 Oct 2026 10:30:14 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive

@@ -183,7 +183,7 @@ de_generation <- gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202405312200&periodEnd=202406072200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:14:33 GMT
+#> <- Date: Tue, 20 Oct 2026 10:28:36 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -231,7 +231,7 @@ glimpse(de_generation)
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
 #> $ ts_mkt_psr_type                 <chr> "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "B10", "…
 #> $ ts_mkt_psr_type_def             <chr> "Hydro-electric pure pumped storage head installation", "Hydro-electric pure p…
-#> $ created_date_time               <dttm> 2026-10-20 10:14:33, 2026-10-20 10:14:33, 2026-10-20 10:14:33, 2026-10-20 10:…
+#> $ created_date_time               <dttm> 2026-10-20 10:28:36, 2026-10-20 10:28:36, 2026-10-20 10:28:36, 2026-10-20 10:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:00:00, 2024-05-31 22:…
 #> $ time_period_time_interval_end   <dttm> 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:00:00, 2024-06-07 22:…
@@ -536,7 +536,7 @@ week1 <- gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202405312200&periodEnd=202406072200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:14:40 GMT
+#> <- Date: Tue, 20 Oct 2026 10:28:41 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -563,7 +563,7 @@ week2 <- gen_per_prod_type(
 #> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> → https://web-api.tp.entsoe.eu/api?documentType=A75&processType=A16&in_Domain=10Y1001A1001A83F&periodStart=202406142200&periodEnd=202406212200&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:14:43 GMT
+#> <- Date: Tue, 20 Oct 2026 10:28:45 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive

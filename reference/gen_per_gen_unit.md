@@ -85,31 +85,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B04&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
 #> → https://web-api.tp.entsoe.eu/api?In_Domain=10YDE-VE-------2&documentType=A73&processType=A16&psrType=B05&periodStart=202002042300&periodEnd=202002052300&securityToken=<...>
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:06:51 GMT
-#> <- Content-Type: text/xml
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
-#> <- Content-Encoding: gzip
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:06:51 GMT
-#> <- Content-Type: text/xml
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
-#> <- Content-Encoding: gzip
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:06:51 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:25 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -121,7 +97,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:06:53 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:26 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -133,7 +109,31 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:06:56 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:26 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> <- HTTP/1.1 200 OK
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> <- HTTP/1.1 200 OK
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -145,11 +145,11 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:06:59 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002012300-202002022300.xml"
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202001312300-202002012300.xml"
 #> <- Content-Encoding: gzip
 #> <- Strict-Transport-Security: max-age=15724800
 #> <- Vary: accept-encoding
@@ -157,19 +157,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:07:00 GMT
-#> <- Content-Type: text/xml
-#> <- Transfer-Encoding: chunked
-#> <- Connection: keep-alive
-#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
-#> <- Content-Encoding: gzip
-#> <- Strict-Transport-Security: max-age=15724800
-#> <- Vary: accept-encoding
-#> <- X-Content-Type-Options: nosniff
-#> <- X-Xss-Protection: 0
-#> <- 
-#> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:07:00 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -181,7 +169,19 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:07:03 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
+#> <- Content-Type: text/xml
+#> <- Transfer-Encoding: chunked
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="Actual Generation Output per Generation Unit_202002022300-202002032300.xml"
+#> <- Content-Encoding: gzip
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> <- HTTP/1.1 200 OK
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -193,7 +193,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:07:06 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:30 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -205,7 +205,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:07:09 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:35 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -217,7 +217,7 @@ df <- entsoeapi::gen_per_gen_unit(
 #> <- X-Xss-Protection: 0
 #> <- 
 #> <- HTTP/1.1 200 OK
-#> <- Date: Tue, 20 Oct 2026 10:07:10 GMT
+#> <- Date: Tue, 20 Oct 2026 10:23:35 GMT
 #> <- Content-Type: text/xml
 #> <- Transfer-Encoding: chunked
 #> <- Connection: keep-alive
@@ -332,7 +332,7 @@ dplyr::glimpse(df)
 #> $ ts_business_type_def            <chr> "Production", "Production", "Production", "Production", "Production", "Product…
 #> $ ts_mkt_psr_type                 <chr> "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "B04", "…
 #> $ ts_mkt_psr_type_def             <chr> "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil Gas", "Fossil …
-#> $ created_date_time               <dttm> 2026-10-20 10:06:56, 2026-10-20 10:06:56, 2026-10-20 10:06:56, 2026-10-20 10:…
+#> $ created_date_time               <dttm> 2026-10-20 10:23:25, 2026-10-20 10:23:25, 2026-10-20 10:23:25, 2026-10-20 10:…
 #> $ revision_number                 <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
 #> $ time_period_time_interval_start <dttm> 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:00:00, 2020-01-30 23:…
 #> $ time_period_time_interval_end   <dttm> 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:00:00, 2020-01-31 23:…

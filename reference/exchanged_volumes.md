@@ -80,7 +80,6 @@ Other balancing endpoints:
 ## Examples
 
 ``` r
-if (FALSE) { # there_is_provider() && nchar(Sys.getenv("ENTSOE_PAT")) > 0L
 df <- entsoeapi::exchanged_volumes(
   eic = "10YCZ-CEPS-----N",
   process_type = "A51",
@@ -88,7 +87,24 @@ df <- entsoeapi::exchanged_volumes(
   period_end = lubridate::ymd_hm(x = "2022-08-16 02:00", tz = "CET"),
   tidy_output = TRUE
 )
+#> 
+#> ── API call ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> → https://web-api.tp.entsoe.eu/api?documentType=B17&processType=A51&Acquiring_domain=10YCZ-CEPS-----N&Connecting_Domain=10YCZ-CEPS-----N&periodStart=202208152200&periodEnd=202208160000&securityToken=<...>
+#> <- HTTP/1.1 400 Bad Request
+#> <- Date: Tue, 20 Oct 2026 10:22:15 GMT
+#> <- Content-Type: text/xml
+#> <- Content-Length: 1115
+#> <- Connection: keep-alive
+#> <- Content-Disposition: inline; filename="acknowledgement.xml"
+#> <- Strict-Transport-Security: max-age=15724800
+#> <- Vary: accept-encoding
+#> <- X-Content-Type-Options: nosniff
+#> <- X-Xss-Protection: 0
+#> <- 
+#> Error in extract_response(content = en_cont_list, tidy_output = tidy_output): 999 An unexpected error occurred: I/O error on POST request for
+#> "http://usy-tp-dipublicationg01-6a5735c98696d2beccfe3acb.uni-bt-tap.svc.cluster.local:8080/usy-tp-dipublicationg01/e0d6734b9e5f58c4b050df6fa88832c9/dataItemInstance/list":
+#> Timeout deadline: 5000 MILLISECONDS, actual: 5000 MILLISECONDS
 
 dplyr::glimpse(df)
-}
+#> function (x, df1, df2, ncp, log = FALSE)  
 ```
