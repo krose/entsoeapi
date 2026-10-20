@@ -1,3 +1,19 @@
+# entsoeapi v1.3.1 (2026-10-20)
+
+## New functionality
+
+- None.
+
+## Changes
+
+- `costs_of_congestion_management()` keeps the cost amount (`ts_point_congestion_cost_price_amount`) in the tidy output. (#79)
+- Point timestamps of the daily, weekly, monthly, quarterly and yearly resolutions (P1D, P7D, P1M, P3M, P1Y) are stepped in the local time zone of the market area, so each point starts at local midnight. Previously monthly steps drifted (31 Jan + 1 month gave 3 March) and DST was ignored. The local zone is inferred from the period boundaries (CET, EET, GMT or TRT). (#79)
+- The A03 curve type expansion counts calendar steps exactly, so a sparse monthly series no longer loses its last month, and a sparse daily one (e.g. `forecasted_transfer_capacities()`) no longer loses half of its days. (#79)
+
+## Miscellaneous
+
+- None.
+
 # entsoeapi v1.3.0 (2026-10-16)
 
 ## New functionality
